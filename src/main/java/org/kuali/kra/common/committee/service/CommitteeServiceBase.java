@@ -71,9 +71,26 @@ public interface CommitteeServiceBase<CMT extends CommitteeBase<CMT, ?, CS>,
     
     /**
      * 
-     * This method to merge existing meeting data to the new approved committee.
+     * This method to merge existing meeting data to the new approved committee to create a new list of
+     * master schedules. It will also delete from the db all the other schedules for that committee, 
+     * that are not in the master list.
      * @param committeeId
      * @return
      */
     List<CS>  mergeCommitteeSchedule(String committeeId);
+    
+    /**
+     * This method will return a light-weight version of the committee instance returned by 
+     * getCommitteeById(committeeId) above. Each of the schedules of this light-weight committee version
+     * will preserve the 'light' reference links like location, deadline etc, from the original commitee schedule,
+     * but the 'heavy' links like submissions, review comments etc will be nullified.
+     * 
+     * Typically this method should be invoked when allowing edits to be made only to the light-weight portion 
+     * of the committee and schedule data.
+     * 
+     * @param committeeId
+     * @return
+     * @throws Exception 
+     */
+    public CMT getLightVersion(String committeeId) throws Exception;
 }

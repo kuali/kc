@@ -34,9 +34,6 @@ import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.ResearchArea;
-import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -59,13 +56,10 @@ public abstract class CommitteeCommitteeActionBase extends CommitteeActionBase {
         CommitteeFormBase committeeForm = ((CommitteeFormBase)form);
         String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate") && StringUtils.isNotBlank(request.getParameter(COMMITTEE_ID))) {
-            CommitteeBase committee = getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID));
-            /* don't need the original committeeDocument saved in xml content */
-            committee.setCommitteeDocument(null);
-            committeeForm.getCommitteeDocument().setCommittee(committee);
-            VersioningService versionService = new VersioningServiceImpl();
-            committeeForm.getCommitteeDocument().setCommittee((CommitteeBase) versionService.createNewVersion(committee));
-            committeeForm.getCommitteeDocument().getCommittee().setCommitteeDocument(committeeForm.getCommitteeDocument());
+            CommitteeBase committee = getCommitteeService().getLightVersion(request.getParameter(COMMITTEE_ID));
+            CommitteeDocumentBase committeeDocument = committeeForm.getCommitteeDocument(); 
+            committeeDocument.setCommittee(committee);
+            committee.setCommitteeDocument(committeeDocument);
         }
        
         committeeForm.getCommitteeHelper().prepareView();
