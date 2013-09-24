@@ -300,7 +300,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return returnValue;
     }
 
-    public String getDataOverrideLookupDisplayDisplayValue(String lookupClassName, String value, String displayAttributeName) {
+    protected String getDataOverrideLookupDisplayDisplayValue(String lookupClassName, String value, String displayAttributeName) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         List<String> lookupClassPkFields = null;
         Class lookupClass = null;

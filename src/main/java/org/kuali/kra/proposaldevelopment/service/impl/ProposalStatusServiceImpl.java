@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -29,7 +23,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProposalStatusServiceImpl implements ProposalStatusService {
     
@@ -50,43 +46,6 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
             proposalStatus.setBudgetStatusCode(pdDocument.getDevelopmentProposal().getBudgetStatus());
             businessObjectService.save(proposalStatus);
         } // else there is no change - do nothing.
-    }
-    
-    public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
-        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
-        ProposalBudgetStatus proposalStatus = getProposalStatus(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
-        
-        if (proposalStatus == null) {
-            if (proposalDevelopmentDocument != null && proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber() != null) {
-                proposalStatus = new ProposalBudgetStatus();
-                proposalStatus.setProposalNumber(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
-                proposalStatus.setBudgetStatusCode(proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus());
-                businessObjectService.save(proposalStatus);
-            }
-        } else if (!ObjectUtils.isNull(budgetDocument.getParentDocument())) {
-            if (proposalStatus.getBudgetStatusCode() == null && proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus() != null) {
-                proposalStatus.setBudgetStatusCode(proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus());
-                businessObjectService.save(proposalStatus);
-            } else if (proposalStatus.getBudgetStatusCode() != null 
-                    && !proposalStatus.getBudgetStatusCode().equals(proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus())) {
-                proposalStatus.setBudgetStatusCode(proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus());
-                businessObjectService.save(proposalStatus);
-            }
-        } // else no change or brand-new document; do nothing
-        
-        // Also save other budget versions. Can't map this in ORM because we don't want to save this version.
-        if (!ObjectUtils.isNull(budgetDocument.getParentDocument())) {
-            List<BudgetDocumentVersion> budgetDocumentVersions = budgetDocument.getParentDocument().getBudgetDocumentVersions();
-            for (BudgetDocumentVersion documentVersion: budgetDocumentVersions) {
-                BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
-                if (!version.getBudgetVersionNumber().equals(budgetDocument.getBudget().getBudgetVersionNumber())) {
-                    BudgetVersionOverview dbVersion = getBudgetVersion(version);
-                    if (dbVersion == null || dbVersion.isFinalVersionFlag() != version.isFinalVersionFlag()) {
-                        businessObjectService.save(version);
-                    }
-                }
-            }
-        }
     }
     
     public void loadBudgetStatus(DevelopmentProposal proposal) {
@@ -127,13 +86,6 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    public void loadBudgetStatus(String proposalNumber) {
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put(Constants.PROPOSAL_NUMBER, proposalNumber);
-        DevelopmentProposal proposal = (DevelopmentProposal)businessObjectService.findByPrimaryKey(DevelopmentProposal.class, keyMap);
-        loadBudgetStatus(proposal);
     }
 
     public void loadBudgetStatusByProposalDocumentNumber(String documentNumber) {

@@ -157,18 +157,6 @@ public interface KeyPersonnelService {
      */
     public boolean isCreditSplitEnabled();
     
-        
-    /**
-     * Compares the given <code>roleId</code> against the <code>personrole.readonly.roles</code> to see if it is 
-     * read only or not.
-     * 
-     * @param roleId to check
-     * @return true if the <code>roleId</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
-     *         if the <coderoleId</code> is null
-     * @see #isRoleReadOnly(ProposalPersonRole)
-     */
-    public boolean isRoleReadOnly(String roleId);
-    
     /**
      * Compares the <code>roleId</code> of the given {@link ProposalPersonRole} against the <code>personrole.readonly.roles</code> to see if it is 
      * read only or not.
@@ -176,7 +164,6 @@ public interface KeyPersonnelService {
      * @param role to check
      * @return true if the <code>role</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
      *         if the <code>role</code> is null
-     * @see #isRoleReadOnly(String)
      */
     public boolean isRoleReadOnly(ProposalPersonRole role);
 

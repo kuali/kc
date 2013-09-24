@@ -30,7 +30,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentCopyRule extends ResearchDocumentRuleBase implements CopyProposalRule {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
 
     /**
      * TODO: fill this in

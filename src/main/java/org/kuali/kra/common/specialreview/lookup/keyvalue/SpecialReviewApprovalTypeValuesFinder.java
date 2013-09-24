@@ -33,7 +33,7 @@ public class SpecialReviewApprovalTypeValuesFinder extends KeyValuesBase {
     private final KeyValuesFinder finder;
     
     /**
-     * Creates the ExemptionTypeValuesFinder setting any internal dependencies to defaults
+     * Creates the SpecialReviewApprovalTypeValuesFinder setting any internal dependencies to defaults
      */
     public SpecialReviewApprovalTypeValuesFinder() {
         PersistableBusinessObjectValuesFinder boFinder = new PersistableBusinessObjectValuesFinder();
@@ -44,7 +44,7 @@ public class SpecialReviewApprovalTypeValuesFinder extends KeyValuesBase {
     }
     
     /**
-     * Creates the ExemptionTypeValuesFinder setting the wrapped finder.
+     * Creates the SpecialReviewApprovalTypeValuesFinder setting the wrapped finder.
      * @param aFinder the finder
      * @throws NullPointerException if the finder is null
      */

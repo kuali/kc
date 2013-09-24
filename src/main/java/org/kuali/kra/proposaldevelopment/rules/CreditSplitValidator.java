@@ -224,24 +224,6 @@ public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
         
         return auditErrors;
     }
-    
-    /**
-     * Delegates to <code>{@link #addAuditError(String, String...)}</code>
-     * 
-     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.<br/>
-     * <br/>
-     * The <code>{@link AuditError}</code> that is added is.<br/>
-     * <code>CREDIT_SPLIT_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR</code>
-     * 
-     * @param messageKey
-     * @see CreditSplitAuditError
-     * @see AuditError
-     * @see KNSGlobalVariables.getAuditErrorMap()
-     * @see #addAuditError(String, String...)
-     */
-    private void addAuditError(String messageKey) {
-        addAuditError(messageKey, null);
-    }
 
     /**
      * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.<br/>

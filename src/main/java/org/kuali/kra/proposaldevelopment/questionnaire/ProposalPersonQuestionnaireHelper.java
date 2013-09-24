@@ -39,8 +39,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      */
     private static final long serialVersionUID = -5090730280279711495L;
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonQuestionnaireHelper.class);
-    
+
     private ProposalPerson proposalPerson;
     
     private ProposalDevelopmentForm proposalDevelopmentForm;

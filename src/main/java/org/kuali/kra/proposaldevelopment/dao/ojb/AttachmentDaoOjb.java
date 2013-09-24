@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.dao.ojb;
 
-import java.sql.Types;
-import java.util.Iterator;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
@@ -27,6 +24,9 @@ import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.util.OjbCollectionAware;
 
+import java.sql.Types;
+import java.util.Iterator;
+
 /**
  * 
  * This class created to get the timestamp and upload user for attachments.
@@ -35,9 +35,7 @@ import org.kuali.rice.krad.util.OjbCollectionAware;
  */
 
 public class AttachmentDaoOjb  extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, AttachmentDao {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-    .getLog(AttachmentDaoOjb.class);
-    
+
     /**
      * 
      * @see org.kuali.kra.proposaldevelopment.dao.AttachmentDao#getPersonnelTimeStampAndUploadUser(java.lang.Integer, java.lang.String, java.lang.Integer)

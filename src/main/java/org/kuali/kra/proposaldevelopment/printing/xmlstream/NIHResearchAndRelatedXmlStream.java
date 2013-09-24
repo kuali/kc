@@ -133,9 +133,7 @@ AbstractResearchAndRelatedStream {
     private static final String ORGANIZATION_QUESTION_ID_H5 = "H5";
     private static final String ORGANIZATION_QUESTION_ID_I8 = "I8";
     private static final String DEFAULT_VALUE_KEY_PERSON_FLAG_CODE = "true";
-    private static final String KEY_PERSON_FLAG_DESCRIPTION_VALUE_COLLABORATOR = "Collaborator/Other";
     private static final String KEY_PERSON_FLAG_DESCRIPTION_VALUE_KEY_PERSON = "Key Person";
-    private static final String KEY_PERSON_FLAG_CODE_VALUE_FALSE = "false";
     private static final String GENERAL_CERTIFICATION_QUESTION_ID = "H6";
     private static final String LOBBYING_QUESTION_ID = "H0";
     private static final String REFERENCES_BLOCK_TYPE = "references";

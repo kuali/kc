@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
-import org.kuali.kra.document.ResearchDocumentBase;
+
+import java.util.List;
+import java.util.Map;
 
 public class ProposalDevelopmentCustomDataHelper extends CustomDataHelperBase<CustomAttributeDocValue> {
     

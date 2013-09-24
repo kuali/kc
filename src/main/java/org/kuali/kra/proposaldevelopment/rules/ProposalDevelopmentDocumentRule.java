@@ -15,68 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.kra.logging.BufferedLogger.info;
-
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TimeFormatter;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
-import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
-import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
-import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
-import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
-import org.kuali.kra.proposaldevelopment.rule.AddCongressionalDistrictRule;
-import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
-import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
-import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
-import org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule;
-import org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule;
-import org.kuali.kra.proposaldevelopment.rule.BudgetDataOverrideRule;
-import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
-import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
-import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
-import org.kuali.kra.proposaldevelopment.rule.DeleteCongressionalDistrictRule;
-import org.kuali.kra.proposaldevelopment.rule.DeleteProposalSiteRule;
-import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
-import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
-import org.kuali.kra.proposaldevelopment.rule.ProposalDataOverrideRule;
-import org.kuali.kra.proposaldevelopment.rule.ResubmissionPromptRule;
-import org.kuali.kra.proposaldevelopment.rule.SaveKeyPersonRule;
-import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
-import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.BasicProposalSiteEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.BudgetDataOverrideEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.ClearProposalSiteAddressRule;
-import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.ResubmissionRuleEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
+import org.kuali.kra.proposaldevelopment.rule.*;
+import org.kuali.kra.proposaldevelopment.rule.event.*;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -86,17 +39,19 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
+import java.util.HashMap;
+import java.util.List;
+
+import static org.kuali.kra.logging.BufferedLogger.info;
+
 
 
 /**
  * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
  *
- * @see org.kuali.proposaldevelopment.rules.KeyPersonnelAuditRule
- * @see org.kuali.proposaldevelopment.rules.PersonEditableFieldRule
- * @see org.kuali.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, BusinessRuleInterface, SaveProposalSitesRule, DeleteProposalSiteRule, ClearProposalSiteAddressRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, BusinessRuleInterface, SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule {
     
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class); 
@@ -166,14 +121,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         }
         System.err.println("  returning: " +  (valid));
         return valid;
-    }
-
-    public boolean processDeleteProposalSiteRules(BasicProposalSiteEvent proposalSiteEvent) {
-        return new ProposalSiteRule().processBasicProposalSiteRules(proposalSiteEvent);
-    }
-    
-    public boolean processClearProposalSiteAddressRules(BasicProposalSiteEvent ProposalSiteEvent) {
-        return new ProposalSiteRule().processBasicProposalSiteRules(ProposalSiteEvent);
     }
     
     public boolean processAddCongressionalDistrictRules(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent) {
@@ -423,9 +370,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
    
       
-    /**
-     * @see org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule#processAddNarrativeBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,org.kuali.kra.proposaldevelopment.bo.Narrative)
-     */
+
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent) {
         return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);
     }
@@ -482,9 +427,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return new ProposalDevelopmentAbstractsRule().processAddAbstractBusinessRules(document, proposalAbstract);
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule#processSaveNarrativesBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
     public boolean processSaveNarrativesBusinessRules(SaveNarrativesEvent saveNarrativesEvent) {
         return new ProposalDevelopmentNarrativeRule().processSaveNarrativesBusinessRules(saveNarrativesEvent);
     }
@@ -504,18 +446,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return new ProposalDevelopmentInstituteAttachmentRule().processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent);    
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentsRule#processAddPersonnelAttachmentsBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentsEvent)
-     */
     public boolean processAddPersonnelAttachmentBusinessRules(AddPersonnelAttachmentEvent addPersonnelAttachmentEvent) {
         return new ProposalDevelopmentPersonnelAttachmentRule().processAddPersonnelAttachmentBusinessRules(addPersonnelAttachmentEvent);    
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentsRule#processAddPersonnelAttachmentsBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentsEvent)
-     */
     public boolean processSavePersonnelAttachmentBusinessRules(SavePersonnelAttachmentEvent savePersonnelAttachmentEvent) {
         return new ProposalDevelopmentPersonnelAttachmentRule().processSavePersonnelAttachmentBusinessRules(savePersonnelAttachmentEvent);
     }
@@ -523,7 +457,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     /**
      * Delegating method for the <code>{@link ChangeKeyPersonRule}</code> which is triggered by the <code>{@link ChangeKeyPersonEvent}</code>
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.rice.krad.bo.BusinessObject)
      */
     public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source,int index) {
         return new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(proposalPerson, source,index);
