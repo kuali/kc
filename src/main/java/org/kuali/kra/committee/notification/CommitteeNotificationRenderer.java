@@ -25,8 +25,7 @@ import org.kuali.kra.irb.notification.IRBReplacementParameters;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
@@ -102,7 +101,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
     }
 
     private ConfigurationService getKualiConfigurationService() {
-        return KRADServiceLocator.getKualiConfigurationService();
+        return CoreApiServiceLocator.getKualiConfigurationService();
     }
     
 }

@@ -29,7 +29,7 @@ import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.lookup.dao.CoiDisclosureDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.krad.util.OjbCollectionAware;
+import org.kuali.rice.krad.service.util.OjbCollectionAware;
 
 
 public class CoiDisclosureDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CoiDisclosureDao {

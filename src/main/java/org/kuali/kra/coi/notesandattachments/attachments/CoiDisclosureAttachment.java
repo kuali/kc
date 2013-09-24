@@ -31,8 +31,8 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements Comparable<CoiDisclosureAttachment>{
@@ -347,7 +347,7 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
 
     private String getUpdatedByString() {
         if (updatedByString == null) {
-            updatedByString = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MESSAGE_UPDATED_BY);
+            updatedByString = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MESSAGE_UPDATED_BY);
         }
         return updatedByString;
     }

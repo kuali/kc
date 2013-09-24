@@ -52,6 +52,7 @@ import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -61,7 +62,6 @@ import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -155,7 +155,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         // only want to prompt them to save if they already can save
         if (docForm.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE)) {
             Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
+            ConfigurationService kualiConfiguration = CoreApiServiceLocator.getKualiConfigurationService();
 
             // logic for close question
             if (question == null) {
@@ -448,7 +448,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             String methodToCall = ((KualiForm) form).getMethodToCall();
             if(question == null){
-                ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
+                ConfigurationService kualiConfiguration = CoreApiServiceLocator.getKualiConfigurationService();                                  
                 return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, UPDATE_COST_LIMITS_QUESTION,
                         KeyConstants.QUESTION_TOTALCOSTLIMIT_CHANGED), 
                         methodToCall, methodToCall);

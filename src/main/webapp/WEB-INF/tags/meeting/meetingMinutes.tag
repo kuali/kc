@@ -23,7 +23,7 @@
 	<c:set var="protocolContingencyBOClassName" value="org.kuali.kra.meeting.ProtocolContingency" />
 </c:if>
 
-<c:set var="attributeReferenceDummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
+<c:set var="attributeReferenceDummyAttributes" value="${DataDictionary.AttributeReference.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <c:set target="${paramMap}" property="scheduleId" value="${KualiForm.meetingHelper.committeeSchedule.id}" />
 <c:set var="showdiv" value="display :block"/>

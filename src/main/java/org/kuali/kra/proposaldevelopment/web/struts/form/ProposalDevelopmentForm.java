@@ -51,6 +51,7 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.*;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -72,7 +73,6 @@ import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.util.AutoPopulatingList;
@@ -335,12 +335,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * @param request
      */
     public static void printRequest(HttpServletRequest request) {
-        System.err.println("*****************");
         for (Object param : request.getParameterMap().keySet()) {
             Object value = request.getParameter(param.toString());
-            System.err.println("Key: " + param.toString() + "  value: " + value.toString());
         }
-        System.err.println("*****************");
     }
     
     @Override
@@ -350,7 +347,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         ProposalDevelopmentDocument pd = getProposalDevelopmentDocument();
         if (!pd.isProposalDeleted()) {
             ProposalState proposalState = (pd == null) ? null : pd.getDevelopmentProposal().getProposalState();
-            HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", proposalState == null? "" : proposalState.getDescription());
+            HeaderField docStatus = new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", proposalState == null? "" : proposalState.getDescription());
             
             getDocInfo().set(1, docStatus);
             
@@ -1141,10 +1138,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
-        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+        ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor",doc ))) {       
             if ( isCanSubmitToSponsor() ) {
-                String submitToGrantsGovImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_submittosponsor.gif";
+                String submitToGrantsGovImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submittosponsor.gif";
                 addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
             }
             if(isCanSubmitToGrantsGov()) {

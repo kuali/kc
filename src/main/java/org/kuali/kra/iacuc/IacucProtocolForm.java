@@ -229,7 +229,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
         documentNumber.setDdAttributeEntryName("DataDictionary.IacucProtocolDocument.attributes.documentNumber");
         
         ProtocolStatusBase protocolStatus = (pd == null) ? null : pd.getIacucProtocol().getProtocolStatus();
-        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
+        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
         getDocInfo().set(1, docStatus);
         
         String lastUpdatedDateStr = null;

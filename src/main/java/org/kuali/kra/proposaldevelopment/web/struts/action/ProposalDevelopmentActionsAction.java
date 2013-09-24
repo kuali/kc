@@ -74,6 +74,7 @@ import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -234,7 +235,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         if ( !DOCUMENT_APPROVE_QUESTION.equals(question)) {
             // ask question if not already asked
-              return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_APPROVE_QUESTION, KRADServiceLocator
+              return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_APPROVE_QUESTION, CoreApiServiceLocator
                       .getKualiConfigurationService().getPropertyValueAsString(KeyConstants.QUESTION_APPROVE_FUTURE_REQUESTS),
                        KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");             
         }

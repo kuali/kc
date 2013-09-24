@@ -48,6 +48,7 @@ import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -59,7 +60,6 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
@@ -951,10 +951,10 @@ public class CoiDisclosureAction extends CoiAction {
             
             // disclosure ID and label are always required, so put in a default
             if (StringUtils.isEmpty(disclosureEventType.getProjectIdLabel())) {
-                disclosureEventType.setProjectIdLabel(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(DEFAULT_EVENT_ID_STRING));
+                disclosureEventType.setProjectIdLabel(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(DEFAULT_EVENT_ID_STRING));
             }
             if (StringUtils.isEmpty(disclosureEventType.getProjectTitleLabel())) {
-                disclosureEventType.setProjectTitleLabel(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(DEFAULT_EVENT_TITLE_STRING));
+                disclosureEventType.setProjectTitleLabel(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(DEFAULT_EVENT_TITLE_STRING));
             }
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(writer, disclosureEventTypeAjaxBean);

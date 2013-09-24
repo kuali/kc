@@ -20,7 +20,7 @@ import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
-import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class NegotiationNotificationRenderer extends NotificationRendererBase {
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         if (noneGiven == null) {
-            noneGiven = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(KeyConstants.NO_REASON_GIVEN);
+            noneGiven = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(KeyConstants.NO_REASON_GIVEN);
         }
         Map<String, String> result = super.getDefaultReplacementParameters();
         NegotiationUnassociatedDetail details = negotiation.getUnAssociatedDetail();

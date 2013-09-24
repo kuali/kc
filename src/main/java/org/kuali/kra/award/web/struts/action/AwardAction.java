@@ -67,6 +67,7 @@ import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -1524,7 +1525,7 @@ public class AwardAction extends BudgetParentActionBase {
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         AwardTemplateSyncScope[] scopes = awardForm.getCurrentSyncScopes();
         AwardTemplateSyncScope[] scopesList = scopes;   // for maintaining the current scopes list
-        ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
+        ConfigurationService kualiConfiguration = CoreApiServiceLocator.getKualiConfigurationService();
         
         for( int i = 0; i < scopes.length; i++ ) {
             AwardTemplateSyncScope currentScope = scopes[i];
@@ -1601,7 +1602,7 @@ public class AwardAction extends BudgetParentActionBase {
     }    
     
     private String getScopeMessageToAddQuestion( AwardTemplateSyncScope scope ) {
-        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+        ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         String result = configurationService.getPropertyValueAsString("document.question.syncPanel.add.text."+scope);
         return result==null?"":result;
     }

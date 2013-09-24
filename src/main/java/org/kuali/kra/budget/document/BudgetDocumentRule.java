@@ -119,7 +119,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         BudgetDocument budgetDocument = (BudgetDocument) document;
         
         GlobalVariables.getMessageMap().addToErrorPath("document");        
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         GlobalVariables.getMessageMap().addToErrorPath("parentDocument");
         if (ObjectUtils.isNull(budgetDocument.getParentDocument())) {
             budgetDocument.refreshReferenceObject("parentDocument");

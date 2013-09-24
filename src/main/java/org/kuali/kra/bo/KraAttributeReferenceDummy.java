@@ -19,12 +19,12 @@ package org.kuali.kra.bo;
 import java.sql.Timestamp;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.rice.krad.bo.AttributeReferenceDummy;
+import org.kuali.rice.krad.datadictionary.AttributeReference;
 
 /**
  * Attribute Reference Dummy Business Object.
  */
-public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
+public class KraAttributeReferenceDummy extends AttributeReference {
 
     private String description;
     private String bigDescription;

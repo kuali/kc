@@ -37,15 +37,15 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd"> 
 
 
-    <bean id="citizenshipTypeService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+    <bean id="citizenshipTypeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="citizenshipTypeService" />
     </bean>
     
-    <bean id="rolodexService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+    <bean id="rolodexService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="rolodexService" />
     </bean>
     
-    <bean id="unitService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+    <bean id="unitService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="unitService" />
     </bean>
     

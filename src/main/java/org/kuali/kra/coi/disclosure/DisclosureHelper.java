@@ -30,8 +30,8 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.io.Serializable;
@@ -156,7 +156,7 @@ public class DisclosureHelper implements Serializable {
                         // we have a "bad" disposition status, so we set the display flag and an error message, and break
                         unresolvedEventsPresent = true;
                         if (annualCertApprovalErrorMsgForAdmin == null) {
-                            annualCertApprovalErrorMsgForAdmin = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(ERROR_COI_ANNUAL_OPEN_DISCLOSURES_FOR_ADMIN);
+                            annualCertApprovalErrorMsgForAdmin = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(ERROR_COI_ANNUAL_OPEN_DISCLOSURES_FOR_ADMIN);              
                             annualCertApprovalErrorMsgForAdmin = annualCertApprovalErrorMsgForAdmin.replace("{0}", getCoiDisclosure().getDisclosureReporter().getReporter().getFullName());
                         }
                         break;                        

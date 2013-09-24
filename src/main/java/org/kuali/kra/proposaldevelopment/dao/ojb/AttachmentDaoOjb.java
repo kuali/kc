@@ -22,7 +22,7 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.krad.util.OjbCollectionAware;
+import org.kuali.rice.krad.service.util.OjbCollectionAware;
 
 import java.sql.Types;
 import java.util.Iterator;

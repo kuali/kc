@@ -34,13 +34,13 @@ import org.kuali.kra.maintenance.QuestionMaintainableImpl;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -195,7 +195,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
                 specialHandlingOfQuestion(questionMaintenanceForm, request);
 
                 // ask question if not already asked
-                ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
+                ConfigurationService kualiConfiguration = CoreApiServiceLocator.getKualiConfigurationService();
                 forward = performQuestionWithoutInput(mapping, form, request, response, EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION, 
                         kualiConfiguration.getPropertyValueAsString(KeyConstants.QUESTION_EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE), 
                         KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CLOSE, "");

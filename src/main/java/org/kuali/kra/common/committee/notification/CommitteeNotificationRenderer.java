@@ -21,6 +21,7 @@ import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -107,7 +108,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
     }
 
     private ConfigurationService getKualiConfigurationService() {
-        return KRADServiceLocator.getKualiConfigurationService();
+        return CoreApiServiceLocator.getKualiConfigurationService();
     }
     
 }

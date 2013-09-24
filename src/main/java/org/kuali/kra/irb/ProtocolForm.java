@@ -197,7 +197,7 @@ public class ProtocolForm extends ProtocolFormBase {
         documentNumber.setDdAttributeEntryName("DataDictionary.ProtocolDocument.attributes.documentNumber");
         
         ProtocolStatus protocolStatus = (ProtocolStatus) ((pd == null) ? null : pd.getProtocol().getProtocolStatus());
-        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
+        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
         getDocInfo().set(1, docStatus);
         
         String lastUpdatedDateStr = null;

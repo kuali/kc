@@ -50,7 +50,6 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springframework.util.AutoPopulatingList;
 
 public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
@@ -597,7 +596,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * @return
      */
     private ConfigurationService lookupKualiConfigurationService() {
-        return KRADServiceLocator.getKualiConfigurationService();
+        return CoreApiServiceLocator.getKualiConfigurationService();
     }
     
     

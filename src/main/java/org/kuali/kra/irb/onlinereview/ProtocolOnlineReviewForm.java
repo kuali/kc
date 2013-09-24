@@ -29,8 +29,8 @@ import org.kuali.kra.irb.onlinereview.authorization.ProtocolOnlineReviewTask;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewFormBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -78,7 +78,7 @@ public class ProtocolOnlineReviewForm extends ProtocolOnlineReviewFormBase {
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProtocolOnlineReviewTask("rejectProtocolOnlineReview",doc))
                 && doc.getDocumentHeader().getWorkflowDocument().isEnroute()
                 && ProtocolOnlineReviewStatus.FINAL_STATUS_CD.equals(doc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode())) {
-            String resubmissionImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_return_to_reviewer.gif";
+            String resubmissionImage = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_return_to_reviewer.gif";
             addExtraButton("methodToCall.rejectOnlineReview", resubmissionImage, "Return to reviewer");
         }
         
