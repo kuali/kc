@@ -64,7 +64,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         service.setProtocolCopyService(KraServiceLocator.getService(ProtocolCopyService.class));
         service.setKraLookupDao(KraServiceLocator.getService(KraLookupDao.class));
         service.setProtocolFinderDao(KraServiceLocator.getService(ProtocolFinderDao.class));
-        service.setSequenceAccessorService(KraServiceLocator.getService(SequenceAccessorService.class));
         service.setQuestionnaireAnswerService(KraServiceLocator.getService(QuestionnaireAnswerService.class));
         service.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
     }

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
-import java.util.List;
-
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
@@ -24,6 +22,8 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
+
+import java.util.List;
 
 public interface ReviewCommentsService<PRA extends ProtocolReviewAttachmentBase> {
     /**
@@ -162,25 +162,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachmentBase>
      * @return
      */
     boolean setHideReviewerName(List<? extends ProtocolReviewableBase> reviewComments);
-    
-    /**
-     * 
-     * This method is to check whether the current user can view this minute comment.
-     * 
-     * @param CommitteeScheduleMinuteBase minute
-     * @return whether the current user can view this comment
-     */
-    boolean getReviewerMinuteCommentsView(CommitteeScheduleMinuteBase minute);
-    
-    /**
-     * 
-     * This method is to check whether the Reviewer can view Accepted minute comment.
-     * 
-     * @param CommitteeScheduleMinuteBase minute
-     * @return whether the current user can view this comment
-     */
-    boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinuteBase minute);
-    
+
     /**
      * 
      * This method is to delete a review attachment.

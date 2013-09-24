@@ -15,21 +15,11 @@
  */
 package org.kuali.kra.protocol.protocol.funding.impl;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.protocol.protocol.ProtocolHelperBase;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
-import org.kuali.kra.protocol.protocol.funding.ProtocolProposalDevelopmentDocumentService;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -38,12 +28,22 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.protocol.ProtocolHelperBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolProposalDevelopmentDocumentService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * 
@@ -74,8 +74,8 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
         return proposalDevelopmentDocument;
     }
    
-    @Override
-    public void populateDocumentOverview(ProtocolBase protocol, ProposalDevelopmentDocument proposalDocument)
+
+    protected void populateDocumentOverview(ProtocolBase protocol, ProposalDevelopmentDocument proposalDocument)
     {
         ProtocolDocumentBase protocolDocument = protocol.getProtocolDocument();
         DocumentHeader proposalDocumentHeader = proposalDocument.getDocumentHeader();
@@ -87,8 +87,8 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
 
     }
 
-    @Override
-    public void populateRequiredFields(ProtocolBase protocol, ProposalDevelopmentDocument proposalDocument)
+
+    protected void populateRequiredFields(ProtocolBase protocol, ProposalDevelopmentDocument proposalDocument)
     throws Exception
     {
         DevelopmentProposal developmentProposal = proposalDocument.getDevelopmentProposal();
@@ -135,16 +135,14 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
      * is assigned the Aggregator role.
      * @param doc the proposal development document
      */
-    @Override
-    public void initializeAuthorization(ProposalDevelopmentDocument document) {
+    protected void initializeAuthorization(ProposalDevelopmentDocument document) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
     }
 
 
-    @Override
-    public void populateProposalPerson_Investigator(ProtocolBase protocol, ProposalDevelopmentDocument proposalDocument) {
+    protected void populateProposalPerson_Investigator(ProtocolBase protocol, ProposalDevelopmentDocument proposalDocument) {
         ProposalPerson proposalPerson = new ProposalPerson();
 
         proposalPerson.setPersonId(protocol.getPrincipalInvestigatorId());
@@ -167,8 +165,8 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
     
     }
 
-    @Override
-    public void populateProposalSpecialReview(ProtocolBase protocol, ProposalDevelopmentDocument proposalDocument)
+
+    protected void populateProposalSpecialReview(ProtocolBase protocol, ProposalDevelopmentDocument proposalDocument)
     {
     if (protocol != null) {
         Integer specialReviewNumber = proposalDocument.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
@@ -186,8 +184,8 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
         }
     }
 
-    @Override
-    public boolean isAuthorizedCreateProposal(ProtocolHelperBase protocolHelper) {
+
+    protected boolean isAuthorizedCreateProposal(ProtocolHelperBase protocolHelper) {
         // TODO Auto-generated method stub
         boolean canCreateProposal = protocolHelper.isCanCreateProposalDevelopment();
         return canCreateProposal;

@@ -15,18 +15,10 @@
  */
 package org.kuali.kra.protocol.onlinereview;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.protocol.onlinereview.lookup.ProtocolOnlineReviewLookupConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.protocol.onlinereview.lookup.ProtocolOnlineReviewLookupConstants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -38,6 +30,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
+import java.text.ParseException;
+import java.util.*;
+
 public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extends KraLookupableHelperServiceImpl {
 
     /**
@@ -45,8 +40,7 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
      */
     private static final long serialVersionUID = 7269604308213091097L;
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewLookupableHelperServiceImplBase.class);
-    
+
     private DictionaryValidationService dictionaryValidationService;
     
     //field names

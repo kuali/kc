@@ -15,12 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -30,6 +25,9 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Validate a protocol submission to the IRB for review.
@@ -41,12 +39,7 @@ public abstract class ProtocolSubmitActionRuleBase extends ResearchDocumentRuleB
 
     private static final String MANDATORY = "M";
     private ParameterService parameterService;
-    private CommitteeService committeeService;
 
-    /**
-     * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.iacuc.IacucProtocolDocument,
-     *      org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
-     */
     public boolean processSubmitAction(ProtocolDocumentBase document, ProtocolSubmitAction submitAction) {
 
         boolean isValid = validateSubmissionType(document, submitAction);
@@ -173,10 +166,6 @@ public abstract class ProtocolSubmitActionRuleBase extends ResearchDocumentRuleB
         return valid;
     }
 
-    private boolean isSubmissionTypeInvalid(String submissionTypeCode) {
-        return !existsUnique(getProtocolSubmissionTypeClassHook(), "submissionTypeCode", submissionTypeCode);
-    }
-
     protected abstract Class<? extends ProtocolSubmissionTypeBase> getProtocolSubmissionTypeClassHook();
     
 
@@ -206,20 +195,6 @@ public abstract class ProtocolSubmitActionRuleBase extends ResearchDocumentRuleB
         return false;
     }
 
-    @SuppressWarnings("unchecked")
-    private BusinessObject getBo(Class<? extends BusinessObject> boType, String propertyName, String keyField) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(propertyName, keyField);
-
-        List<BusinessObject> results = (List<BusinessObject>) getBusinessObjectService().findMatching(boType, fieldValues);
-        if (results.isEmpty()) {
-            return null;
-        }
-        else {
-            return results.get(0);
-        }
-    }
-
     /**
      * Is it mandatory for the submission to contain the committee and schedule?
      * 
@@ -246,23 +221,4 @@ public abstract class ProtocolSubmitActionRuleBase extends ResearchDocumentRuleB
         }
         return this.parameterService;
     }
-
-    private CommitteeService getCommitteeService() {
-        if (null == this.committeeService) {
-            this.committeeService = KraServiceLocator.getService(CommitteeService.class);
-        }
-        return this.committeeService;
-    }
-
-    /**
-     * 
-     * This method can be used in production for injecting a real committee service, and in testing it can be used for setting a
-     * mock service.
-     * 
-     * @param committeeService
-     */
-    public void setCommitteeService(CommitteeService committeeService) {
-        this.committeeService = committeeService;
-    }
-
 }

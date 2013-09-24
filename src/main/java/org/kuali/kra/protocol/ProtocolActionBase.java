@@ -15,18 +15,9 @@
  */
 package org.kuali.kra.protocol;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -57,16 +48,23 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The ProtocolActionBase is the base class for all ProtocolBase actions.  Each derived
@@ -74,14 +72,7 @@ import org.kuali.rice.krad.util.KRADUtils;
  * all user requests for that particular tab (web page).
  */
 public abstract class ProtocolActionBase extends KraTransactionalDocumentActionBase {
-    
-    private static final Log LOG = LogFactory.getLog(ProtocolActionBase.class);
-    private static final String PROTOCOL_NUMBER = "protocolNumber";
-    private static final String SUBMISSION_NUMBER = "submissionNumber";
-    private static final String SUFFIX_T = "T";
-    private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
-    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-    
+
     /** {@inheritDoc} */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -238,8 +229,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -319,7 +308,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
     /**
      * Create the original set of ProtocolBase Users for a new ProtocolBase Document.
      * The creator the protocol is assigned to the PROTOCOL_AGGREGATOR role.
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
@@ -418,11 +406,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
     }
 
 
-
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
-     * org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
                   
@@ -500,28 +483,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
     public ActionForward onlineReview(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(getProtocolOnlineReviewForwardNameHook());
-    }
-        
-    /*
-     * This is to retrieve answer header based on answerheaderid
-     */
-    private AnswerHeader getAnswerHeader(HttpServletRequest request) {
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("answerHeaderId", Integer.toString(this.getSelectedLine(request)));
-        return  (AnswerHeader)getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, fieldValues);
-    }
-
-    /*
-     * get protocolnumber for answerheader moduleitemkey
-     * a saved but not submitted answer has "T" at the end of protocolnumber
-     */
-    private String getProtocolNumber(AnswerHeader answerHeader) {
-        String protocolNumber = answerHeader.getModuleItemKey();
-        if (protocolNumber.endsWith(SUFFIX_T)) {
-            protocolNumber = protocolNumber.substring(0, protocolNumber.length() - 1);
-        }
-        return protocolNumber;
     }
     
     protected KraAuthorizationService getKraAuthorizationService() {

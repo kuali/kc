@@ -742,7 +742,6 @@
      <bean id="iacucProtocolAbandonService" class="org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonServiceImpl">
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />
-        <property name="kcNotificationService" ref="kcNotificationService" />
         <property name="documentService" ref="documentService" />
     </bean>
     
@@ -809,7 +808,6 @@
 
     <bean id="iacucReviewCommentsService" class="org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="committeeScheduleService" ref="iacucCommitteeScheduleService" />
         <property name="committeeService" ref="iacucCommitteeService" />
         <property name="roleService" ref="roleService" />
         <property name="dateTimeService" ref="dateTimeService" />
@@ -1095,7 +1093,6 @@
         <property name="documentService" ref="documentService" />
         <property name="kraLookupDao" ref="kraLookupDao" />
         <property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
-        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>

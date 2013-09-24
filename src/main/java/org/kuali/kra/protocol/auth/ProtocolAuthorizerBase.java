@@ -17,7 +17,6 @@ package org.kuali.kra.protocol.auth;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -51,7 +50,7 @@ public abstract class ProtocolAuthorizerBase extends TaskAuthorizerImpl {
 
     /**
      * Is the user authorized to execute the given protocol task?
-     * @param username the user's unique username
+     * @param userId the user's unique username
      * @param task the protocol task
      * @return true if the user is authorized; otherwise false
      */
@@ -67,23 +66,13 @@ public abstract class ProtocolAuthorizerBase extends TaskAuthorizerImpl {
     
     /**
      * Does the given user has the permission for this protocol?
-     * @param username the unique username of the user
+     * @param userId the unique username of the user
      * @param protocol the protocol
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
     protected final boolean hasPermission(String userId, ProtocolBase protocol, String permissionName) {
         return kraAuthorizationService.hasPermission(userId, protocol, permissionName);
-    }
-    
-    /**
-     * Is the protocol an amendment protocol? 
-     * @param protocol the protocol
-     * @return true if the protocol is an amendment; otherwise false
-     */
-    protected final boolean isAmendment(ProtocolBase protocol) {
-        return protocol.getProtocolNumber() != null &&
-               protocol.getProtocolNumber().contains("A");
     }
 
     /**
@@ -97,10 +86,6 @@ public abstract class ProtocolAuthorizerBase extends TaskAuthorizerImpl {
                (protocol.getProtocolNumber().contains("A") ||
                 protocol.getProtocolNumber().contains("R") ||
                 protocol.getProtocolNumber().contains("C"));
-    }
-    
-    protected final boolean isAdminCorrection(ProtocolTaskBase task) {
-        return TaskName.PROTOCOL_ADMIN_CORRECTION.equals(task.getTaskName());
     }
     
     /**

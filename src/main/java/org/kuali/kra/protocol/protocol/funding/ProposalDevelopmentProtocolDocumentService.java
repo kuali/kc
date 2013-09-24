@@ -15,18 +15,10 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 
 public interface ProposalDevelopmentProtocolDocumentService <GenericProtocolDocument extends ProtocolDocumentBase> {
 
     public ProtocolDocumentBase createProtocolDocument(ProposalDevelopmentForm proposalDevelopmentForm) throws Exception;
-    public boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper);
-    public void populateDocumentOverview(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument);
-    public void populateRequiredFields(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument) throws Exception;
-    public void populateProtocolPerson_Investigator(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument);
-    public void populateProtocolFundingSource(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument);
-    public void initializeAuthorization(ProtocolDocumentBase protocolDocument);
 }

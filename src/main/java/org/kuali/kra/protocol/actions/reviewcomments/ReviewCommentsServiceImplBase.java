@@ -15,16 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -32,38 +22,37 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.*;
 
 public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAttachmentBase> implements ReviewCommentsService<PRA> {
 
     private static final String HIDE = "0";  
     private static final String DISPLAY = "1";
     protected BusinessObjectService businessObjectService;
-    private CommitteeScheduleServiceBase committeeScheduleService;
     private CommitteeServiceBase committeeService;
     private ProtocolFinderDao protocolFinderDao;
     private RoleService roleService;
@@ -471,11 +460,6 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         this.businessObjectService = businessObjectService;
     }
 
-    public void setCommitteeScheduleService(CommitteeScheduleServiceBase committeeScheduleService) {
-        this.committeeScheduleService = committeeScheduleService;
-    }
-    
-
     public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;
     }
@@ -645,35 +629,8 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         return PersonnelIds;
     }
 
-    /**
-     * Returns whether the current user can view this non Final Comments and Private Comment.
-     * 
-     * @param CommitteeScheduleMinuteBase minute
-     * @return whether the current user can view this comment
-     */
-    public boolean getReviewerMinuteCommentsView(CommitteeScheduleMinuteBase minute) {
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        String principalName = GlobalVariables.getUserSession().getPrincipalName();
-        return StringUtils.equals(principalName, minute.getCreateUser()) && minute.isFinalFlag()
-                || (isReviewer(minute, principalId) && minute.isFinalFlag())
-                || (!minute.getPrivateCommentFlag() && minute.isFinalFlag());
-    }
-
-
     private boolean isAdmin(String principalId) {
         return !CollectionUtils.isEmpty(getAdminIds()) && getAdminIds().contains(principalId);
-    }
-
-    /*
-     * if the person is PI.
-     */
-    private boolean isPrincipalInvestigator(CommitteeScheduleMinuteBase reviewComment, String principalId) {
-        boolean isPi = false;
-        if (reviewComment.getProtocolId() != null) {
-            // TODO : need to check if the submission number is ok to get this way
-            isPi = principalId.equals(reviewComment.getProtocol().getPrincipalInvestigatorId());
-        }
-        return isPi;
     }
 
     /*
@@ -939,31 +896,6 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         String committeeId = submission.getCommitteeId();
         String scheduleId =  submission.getScheduleId();
         return isActiveCommitteeMember(committeeId, scheduleId, principalId);
-    }
-
-
-    /**
-     * Returns whether the Reviewer can view this accepted minute Comments in print.
-     * 
-     * @param CommitteeScheduleMinuteBase minute
-     * @return whether the current user can view this comment
-     */
-    public boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinuteBase minute) {
-        boolean viewAcceptedMinute = false;
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        String principalName = GlobalVariables.getUserSession().getPrincipalName();
-        if (minute.getProtocolOnlineReviewIdFk() != null) {
-            ProtocolOnlineReviewBase protocolOnlineReview = businessObjectService.findBySinglePrimaryKey(getProtocolOnlineReviewClassHook(), minute.getProtocolOnlineReviewIdFk());
-            if (protocolOnlineReview.isAdminAccepted()) {
-                viewAcceptedMinute = true;
-            }
-        }
-        else {
-            viewAcceptedMinute = true;
-        }
-        return (StringUtils.equals(principalName, minute.getCreateUser()) && viewAcceptedMinute)
-                || (isReviewer(minute, principalId) && minute.isFinalFlag() && viewAcceptedMinute)
-                || (!minute.getPrivateCommentFlag() && minute.isFinalFlag() && viewAcceptedMinute);
     }
 
  

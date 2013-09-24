@@ -23,7 +23,6 @@ import org.kuali.kra.service.OrganizationService;
 
 public abstract class ProtocolLocationServiceImplBase implements ProtocolLocationService {
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolLocationServiceImplBase.class);
     private OrganizationService organizationService;
     private static final String REFERENCE_PROTOCOL_ORGANIZATION_TYPE = "protocolOrganizationType";
     private static final String REFERENCE_ORGANIZATION = "organization";

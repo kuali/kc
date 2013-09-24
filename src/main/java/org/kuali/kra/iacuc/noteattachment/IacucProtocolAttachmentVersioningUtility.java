@@ -28,7 +28,7 @@ import org.kuali.rice.krad.service.DocumentService;
 public class IacucProtocolAttachmentVersioningUtility extends ProtocolAttachmentVersioningUtilityBase {
 
     public IacucProtocolAttachmentVersioningUtility(ProtocolFormBase form) {
-        super(form, getProtocolAttachmentService(), KraServiceLocator.getService(VersioningService.class), KraServiceLocator.getService(DocumentService.class));
+        super(form, getProtocolAttachmentService(), KraServiceLocator.getService(VersioningService.class));
     }
     
     private static ProtocolAttachmentService getProtocolAttachmentService() {
