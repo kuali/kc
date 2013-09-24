@@ -276,7 +276,7 @@ public class PrintingServiceImpl implements PrintingService {
         }
     }
 
-    public String getReportName() {
+    protected String getReportName() {
         String dateString = getDateTimeService().getCurrentDate().toString();
         return StringUtils.deleteWhitespace(dateString);
     }

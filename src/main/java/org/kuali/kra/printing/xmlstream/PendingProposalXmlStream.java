@@ -1,28 +1,20 @@
 package org.kuali.kra.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import noNamespace.CurrentAndPendingSupportDocument;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingReportCEColumnNames;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport.PendingReportCEColomnValues;
-
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.*;
 
 /**
  * This class generates XML that confirms with the XSD related to Pending
@@ -31,7 +23,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * 
  */
 public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
-	private InstitutionalProposalPersonService institutionalProposalPersonService;
 	private ArrayList columsList;
     private static final String PROP_SEQ_STATUS = "ACTIVE";
     private static final String PROP_NUMBER = "proposalNumber";
