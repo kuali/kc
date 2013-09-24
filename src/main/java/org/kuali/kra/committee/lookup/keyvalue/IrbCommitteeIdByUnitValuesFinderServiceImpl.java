@@ -23,11 +23,6 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class IrbCommitteeIdByUnitValuesFinderServiceImpl extends CommitteeIdByUnitValuesFinderServiceImplBase<Committee> implements IrbCommitteeIdByUnitValuesFinderService {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 4302453726017564740L;
-
     @Override
     protected String getCommitteeTypeCodeHook() {
         return CommitteeType.IRB_TYPE_CODE;
