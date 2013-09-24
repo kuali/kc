@@ -164,7 +164,7 @@
 	<bean id="committeeService"
 		class="org.kuali.kra.committee.service.impl.CommitteeServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
+		<property name="versioningService" ref="versioningService" />
 	</bean>
 
     <bean id="committeeNotificationRoleQualifierService" class="org.kuali.kra.committee.notification.CommitteeNotificationRoleQualifierServiceImpl"

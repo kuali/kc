@@ -178,9 +178,8 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
         super.doRouteStatusChange(statusChangeEvent);
         this.setDocStatusCode(statusChangeEvent.getNewRouteStatus());
         if (isFinal(statusChangeEvent) && this.getCommittee().getSequenceNumber() > 1) {
-            List<CS> schedules = this.getCommittee().getCommitteeSchedules();
-            this.getCommittee().setCommitteeSchedules(getCommitteeService().mergeCommitteeSchedule(this.getCommittee().getCommitteeId()));
-            getBusinessObjectService().delete(schedules);
+            List<CS> newMasterSchedules = getCommitteeService().mergeCommitteeSchedule(this.getCommittee().getCommitteeId());
+            this.getCommittee().setCommitteeSchedules(newMasterSchedules);
             getBusinessObjectService().save(this);
         }
     }

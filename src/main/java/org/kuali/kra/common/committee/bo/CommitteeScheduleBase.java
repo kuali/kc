@@ -107,6 +107,45 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
         setScheduleAgendas(new ArrayList<ScheduleAgendaBase>()); 
         setCommitteeScheduleAttachments(new ArrayList<CommitteeScheduleAttachmentsBase>());
 	} 
+    
+    // to be called only when creating a light-weight version of this schedule. 
+    // this method will nullify all "heavy" references. 
+    public void nullifyHeavyMeetingData() {
+        this.protocols = null;
+        this.committeeScheduleAttendances = null;        
+        this.committeeScheduleMinutes = null;  
+        this.committeeScheduleAttachments = null;
+        this.protocolSubmissions = null;        
+        this.commScheduleActItems = null;
+        this.minuteDocs = null;        
+        this.scheduleAgendas = null;  
+    }
+    
+    // this method will copy over the editable 'light' references and primitives 
+    // from the sourceSchedule onto this schedule.
+    public void copyLightDataFrom(CS sourceSchedule) {
+        this.filter = sourceSchedule.filter;
+        this.delete = sourceSchedule.delete;
+        this.selected = sourceSchedule.selected;
+ 
+        this.scheduledDate = sourceSchedule.scheduledDate;
+        this.place = sourceSchedule.place;
+        this.time = sourceSchedule.time;
+
+        this.protocolSubDeadline = sourceSchedule.protocolSubDeadline;
+        this.scheduleStatusCode = sourceSchedule.scheduleStatusCode;
+        this.meetingDate = sourceSchedule.meetingDate;
+        this.startTime = sourceSchedule.startTime;
+        this.endTime = sourceSchedule.endTime;
+        this.agendaProdRevDate = sourceSchedule.agendaProdRevDate;
+        this.maxProtocols = sourceSchedule.maxProtocols;
+        this.comments = sourceSchedule.comments; 
+        this.availableToReviewers = sourceSchedule.availableToReviewers;
+        
+        this.viewStartTime = sourceSchedule.viewStartTime;
+        this.viewEndTime = sourceSchedule.viewEndTime;
+    }
+    
 	
     public Long getId() {
         return id;

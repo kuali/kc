@@ -77,12 +77,10 @@
 		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
 	</bean>
 	
-	
-	<bean id="iacucCommitteeService"
-		class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
-	</bean>
+	<bean id="iacucCommitteeService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+		<property name="versioningService" ref="versioningService" />
+    </bean>
 	
 	<bean id="iacucCommitteeScheduleAttendanceService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeScheduleAttendanceServiceImpl">
         <property name="committeeService" ref="iacucCommitteeService" />
