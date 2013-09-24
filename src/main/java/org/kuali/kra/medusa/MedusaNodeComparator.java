@@ -15,17 +15,15 @@
  */
 package org.kuali.kra.medusa;
 
-import java.util.Comparator;
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.Comparator;
 
 
 public class MedusaNodeComparator implements Comparator<MedusaNode> {
