@@ -36,11 +36,12 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.impl.services.ConfigurationServiceImpl;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.impl.ConfigurationServiceImpl;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -152,7 +153,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
             }
         };
         
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(KRADServiceLocator.getKualiConfigurationService(), service,
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         rule.validateTotalDirectCost(null, true, new HashSet<String>());
     }
@@ -169,7 +170,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
             }
         };
         
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(KRADServiceLocator.getKualiConfigurationService(), service,
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         rule.validateTotalDirectCost(this.pdDocument, true, null);
     }
@@ -178,7 +179,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
 
     private void testNoErrors(final DocumentService service) {
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(KRADServiceLocator.getKualiConfigurationService(), service,
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -218,7 +219,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
         };
 
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_INCOMPLETE);
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(KRADServiceLocator.getKualiConfigurationService(), service,
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -370,7 +371,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
         };
         
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(KRADServiceLocator.getKualiConfigurationService(), service,
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -383,7 +384,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
             + warnings, warnings.contains(getWarning(rule)));
 
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
-        rule = new BudgetModularTotalDirectCostRule(KRADServiceLocator.getKualiConfigurationService(), service,
+        rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -427,7 +428,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
         };
 
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(KRADServiceLocator.getKualiConfigurationService(), service,
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -441,7 +442,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
 
         GlobalVariables.getMessageMap().clearErrorMessages();
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
-        rule = new BudgetModularTotalDirectCostRule(KRADServiceLocator.getKualiConfigurationService(), service,
+        rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -485,7 +486,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
         };
 
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(KRADServiceLocator.getKualiConfigurationService(), service,
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -497,7 +498,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
 
         
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
-        rule = new BudgetModularTotalDirectCostRule(KRADServiceLocator.getKualiConfigurationService(), service,
+        rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);

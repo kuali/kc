@@ -50,10 +50,7 @@ public class AbstractConfigurer extends ModuleConfigurer implements SmartApplica
     
     @Override
     public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        if (applicationEvent instanceof ContextRefreshedEvent) {
-            loadDataDictionary();
-            publishDataDictionaryComponents();
-        }
+       
     }
     
     @Override
@@ -73,32 +70,6 @@ public class AbstractConfigurer extends ModuleConfigurer implements SmartApplica
         return -1000;
     }
     
-    /**
-     * Used to "poke" the Data Dictionary again after the Spring Context is initialized.  This is to
-     * allow for modules loaded with KualiModule after the KNS has already been initialized to work.
-     *
-     * Also initializes the DateTimeService
-     */
-    protected void loadDataDictionary() {
-        if (isLoadDataDictionary()) {
-            LOG.info(getModuleTitle() + " Configurer - Loading DD");
-            DataDictionaryService dds = KRADServiceLocatorWeb.getDataDictionaryService();
-            if (dds == null) {
-                dds = (DataDictionaryService) GlobalResourceLoader
-                        .getService(KRADServiceLocatorWeb.DATA_DICTIONARY_SERVICE);
-            }
-            dds.getDataDictionary().parseDataDictionaryConfigurationFiles(false);
-
-            if (isValidateDataDictionary()) {
-                LOG.info(getModuleTitle() + " Configurer - Validating DD");
-                dds.getDataDictionary().validateDD(isValidateDataDictionaryEboReferences());
-            }
-
-            // KULRICE-4513 After the Data Dictionary is loaded and validated, perform Data Dictionary bean overrides.
-            dds.getDataDictionary().performBeanOverrides();
-        }
-    }
-    
     protected void publishDataDictionaryComponents() {
         if (isComponentPublishingEnabled()) {
             long delay = getComponentPublishingDelay();
@@ -111,7 +82,7 @@ public class AbstractConfigurer extends ModuleConfigurer implements SmartApplica
                         long start = System.currentTimeMillis();
                         LOG.info("Executing scheduled Data Dictionary component publishing...");
                         try {
-                            KRADServiceLocatorInternal.getDataDictionaryComponentPublisherService().publishAllComponents();
+                            KRADServiceLocatorWeb.getDataDictionaryComponentPublisherService().publishAllComponents();
                         } catch (RuntimeException e) {
                             LOG.error("Failed to publish data dictionary components.", e);
                             throw e;

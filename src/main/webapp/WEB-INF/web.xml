@@ -35,18 +35,23 @@
 
 	<filter>
 	    <filter-name>BootstrapFilter</filter-name>
-	    <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
+	    <filter-class>org.kuali.rice.krad.web.filter.BootstrapFilter</filter-class>
 	</filter>
 
 	<filter>
 	    <filter-name>UserLoginFilter</filter-name>
-	    <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+	    <filter-class>org.kuali.rice.krad.web.filter.UserLoginFilter</filter-class>
 	</filter>
 
     <filter>
     	<filter-name>UserPreferencesFilter</filter-name>
     	<filter-class>org.kuali.rice.kew.web.UserPreferencesFilter</filter-class>
     </filter>
+
+  <filter>
+    <filter-name>DummyLoginFilter</filter-name>
+    <filter-class>org.kuali.rice.krad.web.filter.DummyLoginFilter</filter-class>
+  </filter>
 
 	${monitoring.mapping}
 
@@ -95,6 +100,10 @@
     	<servlet-name>notification</servlet-name>
   	</filter-mapping>
 
+    <filter-mapping>
+        <filter-name>DummyLoginFilter</filter-name>
+        <servlet-name>login</servlet-name>
+    </filter-mapping>
     <!-- for KCB Spring Web MVC pages -->
     <filter-mapping>
         <filter-name>BootstrapFilter</filter-name>
@@ -185,7 +194,7 @@
 
 <!-- Rice content Start -->
   	<listener>
-    	<listener-class>org.kuali.rice.krad.web.session.NonSerializableSessionListener</listener-class>
+    	<listener-class>org.kuali.rice.krad.web.listener.NonSerializableSessionListener</listener-class>
  	</listener>
    
     <listener>
@@ -199,10 +208,6 @@
 	<listener>
 		<listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
-
-    <listener>
-       <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
-    </listener>
     
 	<listener>
 	    <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
@@ -283,6 +288,13 @@
 		<servlet-name>attachment</servlet-name>
 		<servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+        <servlet-name>login</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+  
 	
 	<!--  
 	
@@ -397,6 +409,11 @@
 		<url-pattern>/kew/attachment/*</url-pattern>
 	</servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>login</servlet-name>
+        <url-pattern>/kr-login/*</url-pattern>
+    </servlet-mapping>
+    
 	<session-config>
 		<session-timeout>60</session-timeout>
 	</session-config>

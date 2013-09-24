@@ -61,11 +61,6 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
             return false;
         }
         
-        GlobalVariables.getMessageMap().addToErrorPath(DOCUMENT_ERROR_PATH);
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
-            document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-        GlobalVariables.getMessageMap().removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        
         NegotiationDocument negotiationDocument = (NegotiationDocument) document;
         Negotiation negotiation = negotiationDocument.getNegotiation();
         

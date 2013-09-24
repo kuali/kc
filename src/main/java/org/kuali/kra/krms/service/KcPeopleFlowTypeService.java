@@ -61,4 +61,9 @@ public class KcPeopleFlowTypeService implements PeopleFlowTypeService {
         return Collections.emptyList();
     }
 
+    @Override
+    public List<Map<String, String>> resolveMultipleRoleQualifiers(String arg0, String arg1, Document arg2, DocumentContent arg3) {
+        return null;
+    }
+
 }

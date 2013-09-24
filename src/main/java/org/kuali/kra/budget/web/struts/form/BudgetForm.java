@@ -56,7 +56,6 @@ import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -688,7 +687,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
      * @return
      */
     private ConfigurationService lookupKualiConfigurationService() {
-        return KRADServiceLocator.getKualiConfigurationService();
+        return CoreApiServiceLocator.getKualiConfigurationService();
     }
     
     public String getPrevOnOffCampusFlag() {
@@ -763,7 +762,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     protected HeaderField getHeaderDocStatus (WorkflowDocument parentWorkflowDocument) {
-        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", parentWorkflowDocument != null? parentWorkflowDocument.getStatus().getLabel() : null);
+        return new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", parentWorkflowDocument != null? parentWorkflowDocument.getStatus().getLabel() : null);
     }
     
     protected HeaderField getHeaderDocInitiator(WorkflowDocument parentWorkflowDocument) {
@@ -771,7 +770,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         if (parentWorkflowDocument != null) {
             initiator = KcPerson.fromPersonId(parentWorkflowDocument.getInitiatorPrincipalId());
         }
-        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
+        return new HeaderField("DataDictionary.AttributeReference.attributes.initiatorNetworkId", 
                 initiator != null ? initiator.getUserName() : null);
     }
     
@@ -780,7 +779,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         if(parentWorkflowDocument != null && parentWorkflowDocument.getDateCreated() != null) {
         createDateStr = CoreApiServiceLocator.getDateTimeService().toString(parentWorkflowDocument.getDateCreated().toDate(), "hh:mm a MM/dd/yyyy");
         }
-        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", createDateStr);
+        return new HeaderField("DataDictionary.AttributeReference.attributes.createDate", createDateStr);
     }
     
     public String getUrRateClassCodePrevValue() {

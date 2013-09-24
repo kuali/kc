@@ -46,12 +46,6 @@ public class CoiDisclosureDocumentRule extends ResearchDocumentRuleBase implemen
             return false;
         }
 
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document,
-                getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-
         boolean valid = true;
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) document;
         valid &= processReporterUnitRules(coiDisclosureDocument);
