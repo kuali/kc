@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import org.kuali.rice.kns.web.struts.form.KualiForm;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
 public class BatchCorrespondenceDetailForm extends KualiForm {
 
