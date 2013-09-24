@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
@@ -29,6 +24,11 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BudgetSubAwardsRule {
     
@@ -40,11 +40,6 @@ public class BudgetSubAwardsRule {
     
     public BudgetSubAwardsRule(BudgetSubAwards budgetSubAwards) {
         this.budgetSubAwards = budgetSubAwards;
-    }
-    
-    public boolean processApply() {
-        budgetSubAwards.setNewSubAwardFileError(false);
-        return verifyOrganizationName();
     }
     
     public boolean processNonXFDAttachment() {

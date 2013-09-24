@@ -118,9 +118,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String PERIOD_TYPE_ACADEMIC_MONTHS = "2";
     private static final String PERIOD_TYPE_CALENDAR_MONTHS = "3";
     private static final String PERIOD_TYPE_SUMMER_MONTHS = "4";
-    private static final String PERIOD_TYPE_CYCLE_MONTHS = "CY";
-    private static final String TARGET_CATEGORY_CODE_EQUIPMENT_COST = "42";
-    private static final String TARGET_CATEGORY_CODE_01 = "01";
     private static final String SENIOR_PERSONNEL_CATEGORY_CODE = "1";    
     private static final String KEYPERSON_OTHER = "Other (Specify)";
     private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";

@@ -43,7 +43,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class Narrative extends KraPersistableBusinessObjectBase implements HierarchyMaintainable, KcAttachment {
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(Narrative.class);
 
     private String proposalNumber;
 
@@ -79,8 +78,6 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     private transient FormFile narrativeFile;
 
-    private String institutionalAttachmentTypeCode;
-
     private Timestamp timestampDisplay;
 
     private String uploadUserDisplay;
@@ -94,10 +91,6 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     public Narrative() {
         narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
         narrativeUserRights = new ArrayList<NarrativeUserRights>();
-    }
-
-    protected String findLoggedInUserPersonId() {
-        return GlobalVariables.getUserSession().getPerson().getPrincipalId();
     }
 
     public Integer getModuleNumber() {
@@ -275,7 +268,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     /**
      * Can the current user download (view) the attachment?
-     * @param username 
+     * @param userId
      * @return true if the user can view the attachment; otherwise false
      */
     public boolean getDownloadAttachment(String userId) {

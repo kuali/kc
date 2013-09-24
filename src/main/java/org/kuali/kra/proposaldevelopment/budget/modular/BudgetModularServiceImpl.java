@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
@@ -29,6 +25,10 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class BudgetModularServiceImpl implements BudgetModularService {
     
@@ -148,12 +148,6 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             budgetModular.setConsortiumFna(consortiumFna);
             budgetModular.calculateAllTotals();
         }
-    }
-
-    protected List<BudgetModularIdc> generateBudgetModularIdcsForLineItem(BudgetLineItem budgetLineItem) {
-        List<BudgetModularIdc> budgetModularIdcs = new ArrayList<BudgetModularIdc>();
-        
-        return budgetModularIdcs;
     }
 
     /**

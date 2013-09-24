@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -35,14 +26,15 @@ import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Handles all of the actions from the Proposal Development Actions web page.
@@ -50,9 +42,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAction {
-    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentActionsAction.class);
 
-    private DateTimeService dateTimeService;
     /**
      * Struts mapping for the Proposal web page.  
      */

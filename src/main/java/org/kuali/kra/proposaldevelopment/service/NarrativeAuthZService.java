@@ -15,18 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import java.util.List;
-
 import org.kuali.kra.infrastructure.NarrativeRight;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
-/**
- * This class...
- */
 public interface NarrativeAuthZService {
-    
-    public NarrativeRight authorize(Narrative narrative, String userId);
 
     /**
      * Gets the default narrative right for a user.  The default narrative
@@ -48,14 +40,4 @@ public interface NarrativeAuthZService {
      * @return the user's default narrative right
      */
     public NarrativeRight getDefaultNarrativeRight(String roleName);
-    
-    /**
-     * Gets the default narrative right for a user.  The default narrative
-     * right is the highest right that a user can have based upon his/her
-     * roles.
-     *
-     * @param roleNames the proposal roles for the user
-     * @return the user's default narrative right
-     */
-    public NarrativeRight getDefaultNarrativeRight(List<String> roleNames);
 }

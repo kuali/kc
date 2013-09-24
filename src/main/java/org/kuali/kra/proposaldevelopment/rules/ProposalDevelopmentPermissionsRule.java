@@ -46,8 +46,7 @@ import org.kuali.kra.service.SystemAuthorizationService;
  */
 public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase implements PermissionsRule {
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentPermissionsRule.class);
-    
+
     private transient KcPersonService kcPersonService;
     
     /**

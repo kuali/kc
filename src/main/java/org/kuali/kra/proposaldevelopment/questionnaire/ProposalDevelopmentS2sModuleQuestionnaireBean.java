@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 public class ProposalDevelopmentS2sModuleQuestionnaireBean extends ProposalDevelopmentModuleQuestionnaireBean {
     

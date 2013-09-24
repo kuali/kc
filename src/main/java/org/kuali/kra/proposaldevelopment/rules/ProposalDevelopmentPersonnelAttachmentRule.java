@@ -48,7 +48,6 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
     private static final String FILE_NAME_PARM = "File Name";
     private static final String NEW_PROP_PERSON_BIO_PREFIX = "newPropPersonBio.";
     private static final String PERSONNEL_ATTACHMENT_FILE = "personnelAttachmentFile";
-    private static final String PERSONNEL_DESCRIPTION = "description";
     private static final String PROPOSAL_PERSON_NUMBER = "proposalPersonNumber";
     
     public static String buildErrorPath(String endPath) {

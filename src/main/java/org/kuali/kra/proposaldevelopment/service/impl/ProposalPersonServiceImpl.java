@@ -15,27 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.lookup.keyvalue.KCStateValuesFinder;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.kra.util.ValuesFinderUtility;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
-/**
- * 
- * This class...
- */
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ProposalPersonServiceImpl implements ProposalPersonService {
     
     private static final Integer UNIT_HEIRARCHY_NODE = 3;
@@ -79,32 +73,9 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         return propPersonName;
     }
     
-    public KcPerson getPerson(String loggedInUser) {
-        return this.kcPersonService.getKcPersonByUserName(loggedInUser);
-    }
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonService#getProposalPersonById(java.lang.Integer, java.lang.Integer)
-     */
-    public ProposalPerson getProposalPersonById(String proposalNumber, Integer proposalPersonNumber) {
-        Map<String, String> keys = new HashMap<String, String>();
-        keys.put("proposalNumber", proposalNumber.toString());
-        keys.put("proposalPersonNumber", proposalPersonNumber.toString());
-        
-        return (ProposalPerson) getBusinessObjectService().findByPrimaryKey(ProposalPerson.class, keys);
-    }
-    
     public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber) {
         Map<String, String> keys = new HashMap<String, String>();
         keys.put("proposalNumber", proposalNumber.toString());
-          
-        return (List<ProposalPerson>) getBusinessObjectService().findMatching(ProposalPerson.class, keys);
-    }    
-    
-    public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber, String roleCode) {
-        Map<String, String> keys = new HashMap<String, String>();
-        keys.put("proposalNumber", proposalNumber.toString());
-        keys.put("proposalPersonRoleId", roleCode);
           
         return (List<ProposalPerson>) getBusinessObjectService().findMatching(ProposalPerson.class, keys);
     }
@@ -127,11 +98,4 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         }
         return personDivisionName;
     }
-    
-    @Override
-    public String getNewStateList(String countryCode) {
-        List<KeyValue> values = KCStateValuesFinder.getKeyValues(countryCode.trim());
-        return ValuesFinderUtility.processKeyValueList(values);
-    }
-    
 }

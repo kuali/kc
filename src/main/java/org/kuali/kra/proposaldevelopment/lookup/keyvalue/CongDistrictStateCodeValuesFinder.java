@@ -15,17 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.location.api.state.State;
-import org.kuali.rice.location.api.state.StateService;
 import org.kuali.rice.location.framework.state.StateValuesFinder;
+
+import java.util.List;
 
 public class CongDistrictStateCodeValuesFinder extends StateValuesFinder {
 

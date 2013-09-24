@@ -20,7 +20,6 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 /**
  * 
