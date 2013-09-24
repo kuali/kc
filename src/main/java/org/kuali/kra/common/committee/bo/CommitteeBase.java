@@ -439,4 +439,21 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         return retVal;
     }
     
+    /**
+     * This method will return a schedule in this committee's list that has 
+     * the same schedule id as the supplied param. If no such schedule is found, it will return null.
+     * @param scheduleId
+     * @return
+     */
+    public CS getCommitteeSchedule(String scheduleId) {
+        CS retVal = null;
+        for (CS schedule : this.getCommitteeSchedules()) {
+            if (StringUtils.equals(schedule.getScheduleId(), scheduleId)) {
+                retVal = schedule;
+                break;
+            }
+        }
+        return retVal;
+    }
+    
 }

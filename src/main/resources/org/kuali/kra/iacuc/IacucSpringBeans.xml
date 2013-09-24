@@ -694,11 +694,6 @@
         --> 
     </bean>
     
-    <bean id="iacucCommitteeService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-	<property name="sequenceAccessorService" ref="sequenceAccessorService" />
-    </bean>   
-    
     <bean id="baseCommitteeScheduleService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeScheduleServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="scheduleService" ref="scheduleService" />

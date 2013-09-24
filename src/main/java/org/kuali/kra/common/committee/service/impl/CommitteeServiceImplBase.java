@@ -33,18 +33,14 @@ import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
-import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.SequenceAccessorService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The CommitteeBase Service implementation.
@@ -60,7 +56,8 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     private static final String NO_PLACE = "[no location]";
 
     private BusinessObjectService businessObjectService;
-    private SequenceAccessorService sequenceAccessorService;
+    private VersioningService versioningService;
+
 
     /**
      * Set the Business Object Service.
@@ -70,11 +67,35 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        if(this.businessObjectService == null) {
+            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        }
+        return this.businessObjectService;
+    }
+
+    
+    
+    /**
+     * Inject the Versioning Service.
+     * @param versioningService
+     */
+    public void setVersioningService(VersioningService versioningService) {
+        this.versioningService = versioningService;
+    }
+    
+    public VersioningService getVersioningService() {
+        if(this.versioningService == null) {
+            this.versioningService = KraServiceLocator.getService(VersioningService.class);
+        }
+        return versioningService;
+    }
+    
 
     /**
      * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#getCommitteeById(java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     public CMT getCommitteeById(String committeeId) {
         CMT committee = null;
         if (!StringUtils.isBlank(committeeId)) {
@@ -128,8 +149,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
      * @param committee
      * @param researchArea
      */
-    protected void addCommitteeResearchArea(CMT committee, ResearchAreaBase researchArea) {
-
+    protected void addCommitteeResearchArea(CMT committee, ResearchAreaBase researchArea) { 
         CommitteeResearchAreaBase committeeResearchArea = getNewCommitteeResearchAreaInstanceHook();
         committeeResearchArea.setCommittee(committee);
         committeeResearchArea.setCommitteeIdFk(committee.getId());
@@ -234,7 +254,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     /**
      * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#getAvailableMembers(java.lang.String, java.lang.String)
      */
-    protected List<CommitteeMembershipBase> getAvailableMembersNow(String committeeId) {
+    public List<CommitteeMembershipBase> getAvailableMembersNow(String committeeId) {
         List<CommitteeMembershipBase> availableMembers = new ArrayList<CommitteeMembershipBase>();
         CMT committee = getCommitteeById(committeeId);
         if (committee != null) {
@@ -281,14 +301,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
      * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#getCommitteeSchedule(org.kuali.kra.common.committee.bo.CommitteeBase, java.lang.String)
      */
     public CS getCommitteeSchedule(CMT committee, String scheduleId) {
-        //TODO the code belongs in and should be moved to CommitteeBase BO?
-        List<CS> schedules = committee.getCommitteeSchedules();
-        for (CS schedule : schedules) {
-            if (StringUtils.equals(schedule.getScheduleId(), scheduleId)) {
-                return schedule;
-            }
-        }
-        return null;
+        return committee.getCommitteeSchedule(scheduleId);
     }
     
     /**
@@ -298,46 +311,64 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     public List<CS> mergeCommitteeSchedule(String committeeId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(COMMITTEE_ID, committeeId);
-        List<CMT> committees = (List<CMT>) businessObjectService.findMatching(getCommitteeBOClassHook(), fieldValues);
+        List<CMT> committees = (List<CMT>) getBusinessObjectService().findMatching(getCommitteeBOClassHook(), fieldValues);
         Collections.sort(committees);
         CMT newCommittee = committees.get(committees.size() - 1);
         CMT oldCommittee = committees.get(committees.size() - 2);
-        List<CS> copiedSchedules = new ArrayList<CS>();
-        if (CollectionUtils.isNotEmpty(newCommittee.getCommitteeSchedules())
-                || CollectionUtils.isNotEmpty(oldCommittee.getCommitteeSchedules())) {
-            copiedSchedules = copySchedules(newCommittee.getCommitteeSchedules(), oldCommittee.getCommitteeSchedules());
+        List<CS> newMasterSchedules = new ArrayList<CS>();
+        
+        List<CS> oldMasterSchedules = oldCommittee.getCommitteeSchedules();
+        List<CS> newSchedules = newCommittee.getCommitteeSchedules();
+        
+        // remove the to-be-retained old schedules and new schedules from the old master list and the new master list 
+        // respectively, and combine these removed schedules to create the new master list.
+        if (CollectionUtils.isNotEmpty(newSchedules) || CollectionUtils.isNotEmpty(oldMasterSchedules)) {
+            newMasterSchedules = createNewMasterScheduleList(newSchedules, oldMasterSchedules);
+            // delete the remaining old master schedule list and the remaining new schedule list 
+            getBusinessObjectService().delete(oldMasterSchedules);
+            getBusinessObjectService().delete(newSchedules);
         }
-        return copiedSchedules;
+        
+        
+        return newMasterSchedules;
     }
 
-    
+
     /*
-     * copy schedules from old committee to new committee if the old schedule has meeting data.
-     * All newly added schedules, i.e. those that are present only in the new schedule listing, will be automatically included in the return list.
+     * If any of the schedules in the old schedule list also exists in the new schedule liset, then copy over the light data from the 
+     * corresponding new schedule to the old schedule. Move all such old schedules from the old master schedule list to the the return list. 
+     * Finally, all newly added schedules, i.e. those that are present only in the new schedule listing, are also moved to the return list from
+     * the new schedule list.
      */
-    protected List<CS> copySchedules(List<CS> newSchedules, List<CS> oldSchedules) {
-        List<CS> copiedSchedules = new ArrayList<CS>();
-        for (CS schedule : oldSchedules) {
-            if (isNotEmptyData(schedule) || isInNewCommittee(schedule, newSchedules)) {
-                CS copiedSchedule = getCopiedSchedule(schedule);
-                if (isInNewCommittee(schedule, newSchedules)) {
-                    CS newSchedule = getNewCommitteeSchedule(schedule, newSchedules);
-                    copiedSchedule.setScheduleStatusCode(newSchedule.getScheduleStatusCode());
-                    copiedSchedule.setPlace(newSchedule.getPlace());
-                    copiedSchedule.setTime(newSchedule.getTime());
-                    copiedSchedule.setScheduledDate(newSchedule.getScheduledDate());
-                    copiedSchedule.setProtocolSubDeadline(newSchedule.getProtocolSubDeadline());
+    protected List<CS> createNewMasterScheduleList(List<CS> newSchedules, List<CS> oldSchedules) {
+        List<CS> masterSchedules = new ArrayList<CS>();
+        // make shallow copies of the new and old schedule list in order to avoid concurrent modification exceptions
+        // as we remove schedules from the original lists.
+        List<CS> newSchedulesCopy = new ArrayList<CS>(newSchedules);
+        List<CS> oldSchedulesCopy = new ArrayList<CS>(oldSchedules);
+        
+        // loop over the old schedules and process those that need to be retained in the master list
+        for (CS oldSchedule : oldSchedulesCopy) {
+            CS newCommitteeVersionOfOldSchedule = getNewCommitteeSchedule(oldSchedule, newSchedules);
+            if (isNotEmptyData(oldSchedule) || (newCommitteeVersionOfOldSchedule != null)) {
+                // if its in the new committee, then the schedule's light data may have been modified, so copy it over
+                if (newCommitteeVersionOfOldSchedule != null) {
+                    oldSchedule.copyLightDataFrom(newCommitteeVersionOfOldSchedule);
                 }
-                copiedSchedules.add(copiedSchedule);
+                masterSchedules.add(oldSchedule);
+                // remove the old schedule from the old list
+                oldSchedules.remove(oldSchedule);
             } 
         }
-        for (CS schedule : newSchedules) {
-            if (!isScheduleDateMatched(schedule, copiedSchedules)) {
-                copiedSchedules.add(schedule);
+        // add all the newly-added new schedules to the master list as well
+        for (CS newSchedule : newSchedulesCopy) {
+            if (!isScheduleDateMatched(newSchedule, masterSchedules)) {
+                masterSchedules.add(newSchedule);
+                // remove them from the new schedule list
+                newSchedules.remove(newSchedule);
             }
         }
-        return copiedSchedules;
-
+        return masterSchedules;
     }
     
     /*
@@ -353,59 +384,6 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         
     }
     
-    /*
-     * get schedule that will copy all meeting data from old schedule
-     */
-    protected CS getCopiedSchedule(CS schedule) {
-        // temporarily set the parent committee to null for the duration of deep copy so as
-        // to prevent transitive copying of the other schedules referred to by the committee
-        CMT parentCommittee = schedule.getParentCommittee();
-        schedule.setCommittee(null);
-        CS copiedSchedule = (CS) ObjectUtils.deepCopy(schedule);
-        schedule.setCommittee(parentCommittee);
-        
-        copiedSchedule.setId(null);
-        schedule.getCommScheduleActItems().size();
-        // all the collection are set up as transient because the complexity
-        // of doc content and deepcopy.  keep it this way.
-        copiedSchedule.setScheduleAgendas(schedule.getScheduleAgendas());
-        copiedSchedule.setMinuteDocs(schedule.getMinuteDocs());
-        copiedSchedule.setCommitteeScheduleAttendances(schedule.getCommitteeScheduleAttendances());
-        copiedSchedule.setCommitteeScheduleMinutes(schedule.getCommitteeScheduleMinutes());
-        copiedSchedule.setCommScheduleActItems(schedule.getCommScheduleActItems());
-        copiedSchedule.setProtocolSubmissions(schedule.getLatestProtocolSubmissions());
-        for (CommitteeScheduleAttendanceBase attendance : copiedSchedule.getCommitteeScheduleAttendances()) {
-            attendance.setCommScheduleAttendanceId(null);
-        }
-        for (CommitteeScheduleMinuteBase<?, CS> minute : copiedSchedule.getCommitteeScheduleMinutes()) {
-            minute.setCommScheduleMinutesId(null);
-        }
-        for (CommScheduleActItemBase actItem : copiedSchedule.getCommScheduleActItems()) {
-            setActItemId(actItem, copiedSchedule.getCommitteeScheduleMinutes());
-        }
-        for (CommScheduleMinuteDocBase minuteDoc : copiedSchedule.getMinuteDocs()) {
-            minuteDoc.setCommScheduleMinuteDocId(null);
-        }
-        for (ScheduleAgendaBase agenda : copiedSchedule.getScheduleAgendas()) {
-            agenda.setScheduleAgendaId(null);
-        }
-        return copiedSchedule;
-        
-    }
-    
-    /*
-     * Since actitemid is reset, and if the act item is referenced in minute;
-     * then this relationship need to be set up properly.
-     */
-    protected void setActItemId(CommScheduleActItemBase actItem, List<CSM> minutes) {
-        Long nextCommScheduleActItemId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_MEETING_ID");
-        for (CSM minute : minutes) {
-            if (minute.getCommScheduleActItemsIdFk() != null && actItem.getCommScheduleActItemsId().equals(minute.getCommScheduleActItemsIdFk())) {
-                minute.setCommScheduleActItemsIdFk(nextCommScheduleActItemId);
-            }            
-        }
-        actItem.setCommScheduleActItemsId(nextCommScheduleActItemId);
-    }
     
     /*
      * check if new schedule is already exist in the new copied schedule list.
@@ -443,8 +421,18 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         return null;
     }
 
-    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
-        this.sequenceAccessorService = sequenceAccessorService;
+    
+    @Override
+    public CMT getLightVersion(String committeeId) throws Exception{
+        CMT committee = getCommitteeById(committeeId);
+        // nullify the original committeeDocument
+        committee.setCommitteeDocument(null);
+        // iterate through each of the schedules and nullify the 'heavy' links
+        for(CS committeeSchedule : committee.getCommitteeSchedules()) {
+            committeeSchedule.nullifyHeavyMeetingData();
+        }
+        return getVersioningService().createNewVersion(committee);
     }
+    
 
 }
