@@ -15,27 +15,24 @@ un * Copyright 2005-2013 The Kuali Foundation
  */
 package org.kuali.kra.kim.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.OrganizationCorrespondent;
 import org.kuali.kra.bo.UnitCorrespondent;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.summary.OrganizationSummary;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.OrganizationService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Checks whether the principal is an IrbCorrespondent for the given Organization ID.
