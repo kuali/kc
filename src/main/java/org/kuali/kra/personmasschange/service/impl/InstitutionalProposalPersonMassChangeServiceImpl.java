@@ -15,16 +15,7 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
@@ -35,12 +26,9 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.InstitutionalProposalPersonMassChangeService;
-import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
-import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
 
 /**
  * Defines the service for performing a Person Mass Change on Institutional Proposals.
