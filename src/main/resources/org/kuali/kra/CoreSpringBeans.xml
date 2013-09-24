@@ -479,10 +479,6 @@
     	<property name="mailSender" ref="mailSender" />
     	<property name="parameterService" ref="parameterService" />
     </bean>
-
-    <bean id="kcGroupService" class="org.kuali.kra.kim.service.impl.KcGroupServiceImpl">
-        <property name="groupService" ref="groupService" />
-    </bean>
     
     <bean id="kcLockJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="kcPessimisticLockService" />

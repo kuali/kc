@@ -44,7 +44,6 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
-import org.kuali.kra.kim.service.KcGroupService;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
@@ -84,6 +83,7 @@ import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.RoutingReportCriteria;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -310,7 +310,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     private boolean recipientMatchesUser(ActionRequest actionRequest, String loggedInPrincipalId) {
-        KcGroupService groupService = KraServiceLocator.getService(KcGroupService.class);
         if(actionRequest != null && loggedInPrincipalId != null ) {
             List<ActionRequest> actionRequests =  Collections.singletonList(actionRequest);
             if(actionRequest.isRoleRequest()) {
@@ -319,13 +318,18 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             for( ActionRequest cActionRequest : actionRequests ) {
                 String recipientUser = cActionRequest.getPrincipalId();
                 if( ( recipientUser != null && recipientUser.equals(loggedInPrincipalId) ) 
-                        || (StringUtils.isNotBlank(cActionRequest.getGroupId()) && groupService.isMemberOfGroup(loggedInPrincipalId, cActionRequest.getGroupId() ))) {
+                        || (StringUtils.isNotBlank(cActionRequest.getGroupId()) 
+                        && getGroupService().isMemberOfGroup(loggedInPrincipalId, cActionRequest.getGroupId() ))) {
                     return true;
                 }
             }
         }
         
         return false;  
+    }
+    
+    protected GroupService getGroupService() {
+        return KimApiServiceLocator.getGroupService();
     }
     
     /**
