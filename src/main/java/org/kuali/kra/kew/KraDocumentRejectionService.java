@@ -28,49 +28,13 @@ public interface KraDocumentRejectionService {
 
     /**
      * Reject a document.  
-     * @param documentNumber The number of the document to reject.
+     * @param document The document to reject.
      * @param reason An explanation of why the document has been rejected.
      * @param principalId The principal to reject the document as.
      * @param appDocStatus The application document status for the document.  Only applied if non-null.
      * @throws WorkflowException
      */
     void reject(Document document, String reason, String principalId, String appDocStatus);
-    
-    /**
-     * Reject a document.  
-     * @param documentNumber The number of the document to reject.
-     * @param reason An explanation of why the document has been rejected.
-     * @param principalId The principal to reject the document as.
-     * @throws WorkflowException
-     */
-    void reject(Document document, String reason, String principalId);
-
-
-    /**
-     * Reject a document.  
-     * @param documentNumber The number of the document to reject.
-     * @param reason An explanation of why the document has been rejected.
-     * @param principalId The principal to reject the document as.
-     * @param appDocStatus The application document status for the document.  Only applied if non-null.
-     * @throws WorkflowException
-     */
-    void reject(String documentNumber, String reason, String principalId, String appDocStatus);
-    
-    /**
-     * Reject a document.  
-     * @param documentNumber The number of the document to reject.
-     * @param reason An explanation of why the document has been rejected.
-     * @param principalId The principal to reject the document as.
-     * @throws WorkflowException
-     */
-    void reject(String documentNumber, String reason, String principalId);
-    
-    /**
-     * Get the name of the first workflow node for the document.
-     * @param documentType The document type you want the initial node for.
-     * @return The name of the initial workflow node.
-     */
-    String getWorkflowInitialNodeName(String documentType);
     
     /**
      * Determine if the document is on it's initial node.  A document can be in workflow and on it's initial node
@@ -91,23 +55,14 @@ public interface KraDocumentRejectionService {
     boolean isDocumentOnInitialNode(Document documentNumber);
 
     /**
-     * Determine if the document is on a particular node.  
-     * 
-     * @param documentNumber
-     * @param nodeName
-     * @return
+     * Reject a document.
+     * @param documentNumber The number of the document to reject.
+     * @param reason An explanation of why the document has been rejected.
+     * @param principalId The principal to reject the document as.
+     * @throws WorkflowException
      */
-    boolean isDocumentOnNode(String documentNumber, String nodeName);
+    void reject(String documentNumber, String reason, String principalId);
 
-    /**
-     * Determine if the document is on a particular node.  
-     * 
-     * @param documentNumber
-     * @param nodeName
-     * @return
-     */
-    boolean isDocumentOnNode(Document documentNumber, String nodeName);
-    
     /**
      * Reject a document and send it back to a particular node.  
      * @param document The document number to reject

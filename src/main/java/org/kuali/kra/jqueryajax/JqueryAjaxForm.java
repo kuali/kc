@@ -16,7 +16,6 @@
 package org.kuali.kra.jqueryajax;
 
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * 
