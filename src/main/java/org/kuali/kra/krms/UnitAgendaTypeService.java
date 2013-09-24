@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.krms;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
@@ -34,9 +31,11 @@ import org.kuali.rice.krms.framework.engine.AgendaTree;
 import org.kuali.rice.krms.framework.engine.BasicAgenda;
 import org.kuali.rice.krms.impl.provider.repository.LazyAgendaTree;
 import org.kuali.rice.krms.impl.provider.repository.RepositoryToEngineTranslator;
-import org.kuali.rice.krms.impl.provider.repository.RepositoryToEngineTranslatorImpl;
 import org.kuali.rice.krms.impl.type.AgendaTypeServiceBase;
 import org.kuali.rice.krms.impl.util.KRMSServiceLocatorInternal;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
 

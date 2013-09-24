@@ -15,34 +15,21 @@
  */
 package org.kuali.kra.krms.service.impl;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
-import org.kuali.kra.krms.UnitAgendaTypeService;
 import org.kuali.kra.krms.service.KcKrmsCacheManager;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
-import org.kuali.rice.krms.api.engine.Engine;
-import org.kuali.rice.krms.api.engine.EngineResults;
-import org.kuali.rice.krms.api.engine.ExecutionFlag;
-import org.kuali.rice.krms.api.engine.ExecutionOptions;
-import org.kuali.rice.krms.api.engine.Facts;
-import org.kuali.rice.krms.api.engine.ResultEvent;
-import org.kuali.rice.krms.api.engine.SelectionCriteria;
+import org.kuali.rice.krms.api.engine.*;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.framework.engine.BasicRule;
 import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
+
+import java.util.*;
 
 public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService {
     
