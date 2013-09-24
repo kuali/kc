@@ -27,13 +27,9 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-/**
- * This class...
- */
 public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleResearchDocumentBase implements
         InstitutionalProposalAddCostShareRule {
 
-    //private static final String NEW_PROPOSAL_COST_SHARE = Constants.IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY;
     private InstitutionalProposalCostShare institutionalProposalCostShare;
     private String fieldStarter = "";
     private boolean displayNullFieldErrors = true;
