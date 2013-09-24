@@ -23,7 +23,6 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends ProtocolOnl
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8740814934249836927L;
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewLookupableHelperServiceImpl.class);
 
     @Override
     protected String getProtocolOLRSavedStatusCodeHook() {

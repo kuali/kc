@@ -33,9 +33,6 @@ public class OnlineReviewsActionHelper extends  OnlineReviewsActionHelperBase {
      */
     private static final long serialVersionUID = 5629826686189661976L;
 
-    
-    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(OnlineReviewsActionHelper.class);
-    
     public OnlineReviewsActionHelper(ProtocolForm form) {
         super(form);
     }
