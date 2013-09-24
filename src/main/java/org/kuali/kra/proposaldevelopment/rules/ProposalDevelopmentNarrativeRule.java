@@ -58,7 +58,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Implementation of business rules required for the Proposal attachment page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
- * @see org.kuali.rice.kns.rules.BusinessRule
  * @author kualidev@oncourse.iu.edu
  * @version 1.0
  */
@@ -195,7 +194,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     
     /**
      * Get the narrative rights for a user.
-     * @param username the user's unique username
+     * @param userId the user's unique username
      * @param narrative the narrative to search through for the user's rights
      * @return
      */
@@ -304,21 +303,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
                                  KeyConstants.ERROR_NARRATIVE_USER_RIGHT_NO_PERMISSION, person.getFullName());
             }
         }
-//        ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-//        List<Person> aggregators=proposalAuthorizationService.getPersonsInRole(document, RoleConstants.AGGREGATOR);
-//        if(aggregators.size()== 1 ){
-//            for(Person person:aggregators){
-//                for (NarrativeUserRights userRights : newNarrativeUserRights) {
-//                    if(person.getPersonId().equals(userRights.getUserId())){
-//                        if(userRights.getAccessType().equals(NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())){
-//                            isValid = false;
-//                            this.reportError(Constants.NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY, 
-//                                    KeyConstants.ERROR_ONE_AGGREGATOR_MODFIY, person.getFullName());
-//                        }
-//                    }
-//                }
-//            }
-//        }
+
         return isValid;
     }
     

@@ -130,8 +130,6 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
         if(StringUtils.isNotBlank(budgetCategoryTypeCode)) {
             KNSGlobalVariables.getMessageList().add(Constants.BUDGET_EXPENSE_LOOKUP_MESSAGE1);
         }
-        //KNSGlobalVariables.getMessageList().add(categoryTypeName);
-        //KNSGlobalVariables.getMessageList().add(Constants.BUDGET_EXPENSE_LOOKUP_MESSAGE2);
         return searchResultsReturn;
     }
 }
