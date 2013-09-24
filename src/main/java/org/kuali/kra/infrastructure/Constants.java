@@ -22,19 +22,14 @@ public interface Constants {
     public static final String COMMA=",";
     public static final String SEMI_COLON=";";
 
-    public static final String BOOTSTRAP_SPRING_FILE = "kc.bootstrap.spring.file";
     public static final String KC_CORE_SERVICE_NAMESPACE = "http://kc.kuali.org/core/v5_0";
     public static final String FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE = "http://kc.kuali.org/kc-kfs/v2_0";
     public static final String FINANCIAL_SYSTEM_SERVICE_NAMESPACE = "http://kfs.kuali.org/kc-kfs/v2_0";
-    public static final String KRA_SESSION_KEY = "kra.session";
-    public static final String APP_CONTEXT_KEY = "app.context.name";
     public static final String DATASOURCE = "kraDataSource";
     public static final String DATA_DICTIONARY_SERVICE_NAME = "dataDictionaryService";
     public static final String BUSINESS_OBJECT_DICTIONARY_SERVICE_NAME = "businessObjectDictionaryService";
     public static final String DATE_TIME_SERVICE_NAME = "dateTimeService";
     public static final String BUSINESS_OBJECT_DAO_NAME = "businessObjectDao";
-    public static final String HTML_FORM_ACTION = "htmlFormAction";
-    public static final Integer APPROVAL_STATUS = 2;
     public static final String MAINTENANCE_NEW_ACTION = "New";
     
     public static final String LAST_ACTION_PRINCIPAL_ID = "lastActionPrincipalId";
@@ -44,7 +39,6 @@ public interface Constants {
     public static final String CO_INVESTIGATOR_ROLE = "COI";
     public static final String MULTIPLE_VALUE = "multipleValues";
     public static final String KEYWORD_PANEL_DISPLAY = "proposaldevelopment.displayKeywordPanel";
-    public static final String BIOSKETCH_ATTACHMENT_TYPE_CODE = "1";
 
     public static final String PHS_RESTRAININGPLAN_PILEADERSHIPPLAN_ATTACHMENT="121";
     public static final String PHS_RESEARCHPLAN_MULTIPLEPILEADERSHIPPLAN="46";
@@ -53,7 +47,6 @@ public interface Constants {
 
 
     public static final String MAPPING_BASIC = "basic";
-    public static final String MAPPING_ERROR = "error";
     public static final String MAPPING_CUSTOM_DATA = "customData";
     public static final String MAPPING_PROPOSAL_ACTIONS = "actions";
     public static final String MAPPING_PROTOCOL_ACTIONS = "protocolActions";
@@ -61,7 +54,6 @@ public interface Constants {
     public static final String MAPPING_PROPOSAL_MEDUSA_PAGE = "proposalMedusa";
     public static final String MAPPING_PROPOSAL_APPROVER_PAGE = "approverView";
     public static final String MAPPING_PROPOSAL_DISPLAY_INACTIVE = "displayInactive";
-    public static final String NEW_PROPOSAL_PERSON_PROPERTY_NAME = "newProposalPerson";
     public static final String NEW_PERSON_LOOKUP_FLAG = "newPersonLookupFlag";
     public static final String MAPPING_CLOSE_PAGE = "closePage";
     public static final String MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE = "attachmentRights";
@@ -69,8 +61,6 @@ public interface Constants {
     public static final String MAPPING_RESUBMISSION_PROMPT = "resubmissionPrompt";
     public static final String MAPPING_HOLDING_PAGE = "kraHoldingPage";
     public static final String ALTERNATE_DOC_ID_SESSION_KEY = "alternateDocIdSessionKey";
-    public static final String MAPPING_IRB_HOLDING_PAGE = "irbHoldingPage";
-    public static final String MAPPING_LOOKUP_PAGE ="lookUpPage";
     
     public static final String HOLDING_PAGE_MESSAGES = "holdingPageMessages";
     public static final String HOLDING_PAGE_RETURN_LOCATION = "holdingPageReturnLocation";
@@ -82,8 +72,6 @@ public interface Constants {
     public static final String CREDIT_SPLIT_ENABLED_RULE_NAME = "proposaldevelopment.creditsplit.enabled";
     public static final String CREDIT_SPLIT_ENABLED_FLAG = "creditSplitEnabledFlag";
 
-    public static final String NARRATIVE_MODULE_NUMBER = "proposalDevelopment.narrative.moduleNumber";
-    public static final String NARRATIVE_MODULE_SEQUENCE_NUMBER = "proposalDevelopment.narrative.moduleSequenceNumber";
     public static final String PROP_PERSON_BIO_NUMBER = "proposalDevelopment.proposalPersonBiography.biographyNumber";
     public static final String PROPOSAL_LOCATION_SEQUENCE_NUMBER = "proposalDevelopment.proposalLocation.locationSequenceNumber";
     public static final String PROPOSAL_SPECIALREVIEW_NUMBER = "proposalDevelopment.proposalSpecialReview.specialReviewNumber";
@@ -97,7 +85,6 @@ public interface Constants {
     public static final String NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY = "newNarrativeUserRight";
     public static final String INVALID_FILE_NAME_ERROR_CODE = "2";
     public static final String INVALID_FILE_NAME_CHECK_PARAMETER = "INVALID_FILE_NAME_CHECK";
-    public static final String INVALID_FILE_NAME_ERROR_TAB = "institutionalProposalNotepadBean.newInstitutionalProposalNotepad.invalidFileName";
     public static final String REJECT_NARRATIVE_TYPE_CODE_PARAM = "rejectNarrativeTypeCode";
     public static final String HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM = "HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC";
 
@@ -118,7 +105,6 @@ public interface Constants {
 
     public static final String PARAMETER_MODULE_IACUC_PROTOCOL_BILLABLE = "iacuc.protocol.billable";
     public static final String MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT = "KC-PD";
-    public static final String MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL = "KC-IP";
     public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
     public static final String MODULE_NAMESPACE_NEGOTIATION = "KC-NEGOTIATION";
     public static final String MODULE_NAMESPACE_SUBAWARD = "KC-SUBAWARD";
@@ -133,11 +119,9 @@ public interface Constants {
     public static final String NARRATIVE_MODULE_STATUS_INCOMPLETE = "I";
 
     public static final String ABSTRACTS_PROPERTY_KEY = "newProposalAbstract";
-    public static final String SPONSOR_PROPOSAL_NUMBER_PROPERTY_KEY = "sponsorProposalNumber";
     public static final String DEADLINE_DATE_KEY = "document.developmentProposalList[0].deadlineDate";
     public static final String PRIME_SPONSOR_KEY = "document.developmentProposalList[0].primeSponsorCode";
     public static final String PROJECT_TITLE_KEY = "document.developmentProposalList[0].title";
-    public static final String SPONSOR_PROPOSAL_NUMBER_LABEL = "Sponsor Proposal ID";
 
     public static final String AUDIT_ERRORS = "Validation Errors";
     public static final String AUDIT_WARNINGS = "Warnings";
@@ -150,7 +134,6 @@ public interface Constants {
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String QUESTIONS_PAGE = "questions";
     public static final String PERMISSIONS_PAGE = "permissions";
-    public static final String SUMMARY_PAGE = "proposalSummary";
     public static final String PROPOSAL_ACTIONS_PAGE = "actions";
     public static final String HIERARCHY_PAGE = "hierarchy";
     public static final String ATTACHMENTS_PAGE = "abstractsAttachments";
@@ -166,15 +149,10 @@ public interface Constants {
     public static final String BUDGET_PARAMETERS_TOTALS_PANEL_NAME = "Budget Periods & Totals";
     public static final String BUDGET_EXPENSES_PAGE_METHOD = "budgetExpenses";
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR = "BudgetOvervieV";
-    public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_NAME = "Budget Overview (Period ";
     public static final String INVALID_TIME = "Invalid Time";
     // Proposal Document Property Constants
     public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String BUDGET_VERSION_PANEL_NAME = "Budget Versions";
-    public static final String BUDGET_VERSION_OVERVIEWS = "budgetVersionOverviews";
-    
-    // Budget Document Property Constants
-    public static final String BUDGET_VERSION_NUMBER = "budgetVersionNumber";
 
     // Key Personnel Mojo
     public static final String KEY_PERSONNEL_PAGE = "keyPersonnel";
@@ -198,20 +176,15 @@ public interface Constants {
     public static final String YNQ_REVIEW_DATE_REQUIRED = "Date required: if answer = ";
 	public static final String STATUS_ACTIVE = "A";
 	public static final String STATUS_INACTIVE = "I";
-    public static final String QUESTION_STATUS_ACTIVE = "A";
-    public static final String DOCUMENT_SAVED = "S";
-    public static final String DOCUMENT_INITIATED = "?";
     public static final String ANSWER_NA = "X";
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "MM/dd/yyyy";
     public static final String DEFAULT_TIME_FORMAT_PATTERN = "h:mm a";
-    public static final String MODULE_NAMESPACE_BUDGET = "KC-B"; 
-    public static final String BUDGET_ALL_DETAIL_TYPE_CODE = "All";
+    public static final String MODULE_NAMESPACE_BUDGET = "KC-B";
     
     // Budget Versions Constants
     public static final String BUDGET_STATUS_COMPLETE_CODE = "budgetStatusCompleteCode";
     public static final String BUDGET_STATUS_INCOMPLETE_CODE = "budgetStatusIncompleteCode";
-    public static final String PROPOSAL_BUDGET_VERSION_NUMBER = "proposalDevelopment.budget.versionNumber";
     public static final String BUDGET_DEFAULT_OVERHEAD_RATE_CODE = "defaultOverheadRateClassCode";
     public static final String BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE = "defaultOverheadRateTypeCode";
     public static final String BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE = "defaultUnderrecoveryRateClassCode";
@@ -227,27 +200,20 @@ public interface Constants {
     //budget status codes
     public static final String BUDGET_STATUS_CODE_IN_PROGRESS = "1";
     public static final String BUDGET_STATUS_CODE_TO_BE_POSTED = "10";
-    public static final String BUDGET_STATUS_CODE_ERROR_IN_POSTING = "11";
     public static final String BUDGET_STATUS_CODE_SUBMITTED = "5";
     public static final String BUDGET_STATUS_CODE_REJECTED = "8";
-    public static final String BUDGET_STATUS_CODE_POSTED = "9";
     public static final String BUDGET_STATUS_CODE_CANCELLED = "14";
     public static final String BUDGET_STATUS_CODE_DISAPPROVED = "13";
     
     // Budget Personnel
     public static final String BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE = "budgetPersonDefaultAppointmentType";
-    //public static final String BUDGET_PERSON_DEFAULT_PERIOD_TYPE = "budgetPersonDefaultPeriodType";
     public static final String BUDGET_PERSON_DEFAULT_CALCULATION_BASE = "budgetPersonDefaultCalculationBase";
-    public static final String BUDGET_PERSON_DEFAULT_EFFECTIVE_DATE = "budgetPersonDefaultEffectiveDate";
     public static final String PERSON_SEQUENCE_NUMBER = "personSequenceNumber";
     public static final String BUDGET_PERSONNEL_PAGE = "personnel";
     public static final String JOB_CODE = "jobCode";
     public static final String BUDGET_CATEGORY_PERSONNEL = "P";
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE_PARAMETER = "budgetPersonDefaultJobCode";
     public static final String DEFAULT_INFLATION_RATE_FOR_SALARY = "DEFAULT_INFLATION_RATE_FOR_SALARY";
-        
-    // KIM Authorization Namespace for KRA
-    public static final String KRA_NAMESPACE = "KRA";
     
     // Key Permissions Info
     public static final String CONFIRM_DELETE_PROPOSAL_USER_KEY = "confirmDeleteProposalUser";
@@ -276,7 +242,6 @@ public interface Constants {
     //Budget Expenses
     public static final String BUDGET_LINEITEM_NUMBER = "budget.budgetLineItem.lineItemNumber";
     public static final String BUDGET_EXPENSE_LOOKUP_MESSAGE1 = "budget.expense.lookup.message1";
-    public static final String BUDGET_EXPENSE_LOOKUP_MESSAGE2 = "budget.expense.lookup.message2";
     public static final String PERCENT_EFFORT_FIELD = "Percent Effort";
     public static final String PERCENT_CHARGED_FIELD = "Percent Charged";
     public static final String BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE = "budgetPersonDetailsDefaultPeriodType";
@@ -308,7 +273,6 @@ public interface Constants {
     public static final String NO_FIELD= "noField";
     public static final String GRANTS_GOV_LINK="message.grantsgov.link";
     public static final String GRANTS_GOV_GENERIC_ERROR_KEY= "error.grantsgov.schemavalidation.generic.errorkey";
-    public static final String GRANTS_GOV_SUBMISSION_SUCCESSFUL_MESSAGE = "message.grantsGov.submission.successful";
     public static final String S2SBUDGET_BUDGET_CATEGORY_TYPE_PERSONNEL = "s2sBudgetBudgetCategoryTypePersonnel";
     public static final String S2SBUDGET_FILTER_CATEGORY_TYPE_PERSONNEL = "s2sBudgetFilterCategoryTypePersonnel";
     public static final String S2SBUDGET_RATE_CLASS_TYPE_SALARIES_MS = "s2sBudgetRateClassTypeSalariesMs";
@@ -351,14 +315,12 @@ public interface Constants {
     
     // custom attribute
     public static final String CUSTOM_ATTRIBUTE_ID = "customAttributeId";
-    public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_ACTIVE = "document.newMaintainableObject.active";
     public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID = "document.newMaintainableObject.customAttributeId";
     public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN = "document.newMaintainableObject.lookupReturn";
     public static final String LOOKUP_RETURN_FIELDS = "lookupReturnFields";
     public static final String LOOKUP_CLASS_NAME = "lookupClassName";
 
     public static final String MAPPING_PERSONNEL_BUDGET = "personnelBudget";
-    public static final String MAPPING_EXPENSES_BUDGET = "expenses";
     public static final String BUDGET_PERSON_LINE_NUMBER = "budget.budgetPersonnelDetails.personNumber";
     public static final String BUDGET_PERSON_LINE_SEQUENCE_NUMBER = "budget.budgetPersonnelDetails.sequenceNumber";
     
@@ -368,10 +330,7 @@ public interface Constants {
     
     public static final String TRUE_FLAG = "Y";
     public static final String FALSE_FLAG = "N";
-    public static final String PROPOSAL_SPECIAL_REVIEW_KEY = "document.developmentProposalList[0].proposalSpecialReview*";
     public static final String SPECIAL_REVIEW_PAGE = "specialReview";
-    public static final String SPECIAL_REVIEW_PANEL_ANCHOR = "SpecialReview";
-    public static final String SPECIAL_REVIEW_PANEL_NAME = "Special Review Information";
     public static final String BUDGET_PERIOD_PANEL_NAME = "Budget Period And Totals Information";
     public static final String BUDGET_RATE_PANEL_NAME = "Budget Rate";
     public static final String BUDGET_RATE_PAGE = "budgetRate";
@@ -387,18 +346,13 @@ public interface Constants {
     public static final String PROPOSAL_HIERARCHY_PAGE = "proposalHierarchy";
     
     public static final String BUDGET_PERIOD_PANEL_ANCHOR = "BudgetPeriodsAmpTotals";
-    public static final String BUDGET_RATE_PANEL_ANCHOR = "BudgetRate";
     public static final String BUDGET_VERSIONS_PANEL_ANCHOR = "BudgetVersions";
-    public static final String BUDGET_PERIOD_KEY = "document.budgetPeriod*";
     public static final String BUDGET_DISTRIBUTION_AND_INCOME_PAGE = "budgetDistributionAndIncome";
     public static final String BUDGET_UNRECOVERED_F_AND_A_PANEL_ANCHOR = "budgetUnrecoveredFandA";
     public static final String BUDGET_UNRECOVERED_F_AND_A_PANEL_NAME = "Budget Unrecovered F and A";
     public static final String BUDGET_COST_SHARE_PANEL_ANCHOR = "budgetCostSharing";
     public static final String BUDGET_COST_SHARE_PANEL_NAME = "Budget Cost Sharing";
     public static final String BUDGET_OVERVIEW_PANEL_NAME = "Budget Overview";
-    
-    // Copy proposal
-    public static final String COPY_PROPOSAL_PROPERTY_KEY = "copyProposal";
     
     //Approver View
     public static final String MAPPING_COPY_PROPOSAL_PAGE = "copyProposal";
@@ -412,32 +366,20 @@ public interface Constants {
     public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
 
     // Budget Rates
-    public static final int APPLICABLE_RATE_PRECISION = 3;
-    public static final int APPLICABLE_RATE_SCALE = 2;
     public static final String APPLICABLE_RATE_LIMIT = "999.99";
-    public static final String APPLICABLE_RATE_DECIMAL_CHAR = ".";
     
     // Modular Budget
     public static final String PARAMETER_FNA_COST_ELEMENTS = "consortiumFnaCostElements";
     public static final String PARAMETER_FNA_RATE_CLASS_TYPE = "fnaRateClassTypeCode";
-    
-    public static final String PROPOSALDATA_OVERRIDE_PROPERTY_KEY = "newProposalChangedData";
+
     public static final String PROPOSALDATA_CHANGED_VAL_KEY = "newProposalChangedData.changedValue";
-    public static final String PROPOSALDATA_DISPLAY_VAL_KEY = "newProposalChangedData.displayValue";
-    public static final String PROPOSALDATA_CURRENT_DISPLAY_KEY = "newProposalChangedData.oldDisplayValue";
     public static final String PROPOSALDATA_COMMENTS_KEY = "newProposalChangedData.comments";
     
     //Budget Change Data
-    public static final String BUDGETDATA_OVERRIDE_PROPERTY_KEY = "newBudgetChangedData";
     public static final String BUDGETDATA_CHANGED_VAL_KEY = "newBudgetChangedData.changedValue";
-    public static final String BUDGETDATA_DISPLAY_VAL_KEY = "newBudgetChangedData.displayValue";
-    public static final String BUDGETDATA_CURRENT_DISPLAY_KEY = "newBudgetChangedData.oldDisplayValue";
     public static final String BUDGETDATA_COMMENTS_KEY = "newBudgetChangedData.comments";
     public static final String ENABLE_BUDGET_CALCULATED_SALARY = "enableBudgetCalculatedSalary";
-    
-    
 
-    public static final String BUDGET_SALARY_REPORT = "ProposalBudget/Salaries";
     public static final String PERSONNEL_BUDGET_PANEL_NAME = "Personnel Budget";
     public static final String INITIAL_UNIT_HIERARCHY_LOAD_DEPTH = "initialUnitLoadDepth";
     public static final String NUMBER_PER_SPONSOR_HIERARCHY_GROUP = "numberPerSponsorHierarchyGroup";
@@ -449,17 +391,12 @@ public interface Constants {
     public static final String PDF_REPORT_CONTENT_TYPE = "application/pdf";
     public static final String PDF_FILE_EXTENSION = ".pdf";
     public static final String GENERIC_SPONSOR_CODE = "GENERIC_SPONSOR_CODE";
-    public static final String CUSTOM_ERROR = "error.custom";
     
     /**
      * Subaward budget information
      */
     public static final String SUBAWARD_FILE_FIELD_NAME = "subAwardFile";
     public static final String SUBAWARD_FILE_REQUIERED = "newSubAward.subAwardFile.required";
-    //public static final String SUBAWARD_FILE = "newSubAward.subAwardFile";
-    public static final String SUBAWARD_FILE_INVALID = "newSubAward.subAwardFile.inValid";
-    public static final String SUBAWARD_FILE_NOT_POPULATED = "newSubAward.subAwardFile.notExtracted";
-    //public static final String SUBAWARD_ORG_NAME = "newSubAward.organizationName";
     public static final String SUBAWARD_ORG_NAME_REQUIERED = "newSubAward.organizationName.required";
     public static final String SUBAWARD_ORG_NAME_INVALID = "newSubAward.organizationName.invalid";
     public static final String SUBAWARD_FILE_SPECIAL_CHARECTOR = "newSubAward.subAwardFile.special.character";
@@ -474,12 +411,9 @@ public interface Constants {
     public static final String SPONSOR_HIERARCHY_PRINTING_NAME_PARAM = "SPONSOR_HIERARCHY_FOR_PRINTING";
     
     public static final String SUBAWARD_FILE_NOT_EXTRACTED = "newSubAward.subAwardFile.notExtracted";
-    
-    public static final boolean GRANTS_GOV_LINK_TARGET_POPUP = true;
+
     public static final String BUDGET_CATEGORY_TYPE_PERSONNEL = "budgetCategoryType.personnel";
     public static final String BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT = "budgetCategoryType.participantSupport";
-    
-    public static final String KIM_QUAL_ATTR_PROPOSAL_KEY = "proposal";
 
     //Award
     public static final String MAPPING_AWARD_BASIC = "basic";
@@ -495,23 +429,14 @@ public interface Constants {
     public static final String MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE = "notesAndAttachments";
     public static final String MAPPING_AWARD_ACTIONS_PAGE = "awardActions";
     public static final String MAPPING_AWARD_MEDUSA_PAGE = "medusa";
-    public static final String MAPPING_REPORTS_TAB = "reports";
     public static final String MAPPING_AWARD_BUDGET_VERSIONS_PAGE = "budgets";
     public static final String MAPPING_ICR_RATE_CODE_PROMPT = "icrRateCodePrompt";
     
     
     //COI
     public static final String MAPPING_COI_EDIT_LIST = "editList";
-    public static final String FINANCIAL_ENTITY_STATUS_ACTIVE = "active";
     public static final String FINANCIAL_ENTITY_STATUS_INACTIVE = "inactive";
-    public static final String ENTITY_OWNERSHIP_TYPE_CODE_PUBLIC = "P";
     public static final String ENTITY_OWNERSHIP_TYPE_CODE_PRIVATE = "V";
-    public static final String COI_APPROVE_ACTION = "Approve";
-    public static final int APPROVE_ACTION_CODE = 0;
-    public static final int DISAPPROVE_ACTION_CODE = 1;
-    public static final int SET_DISPOSITION_STATUS_ACTION_CODE = 2;
-    public static final String COI_DISAPPROVE_ACTION = "Disapprove";
-    public static final String COI_SET_DISPOSITION_STATUS_ACTION = "Set Disposition Status";
     public static final String COI_WORK_IN_PROGRESS_REVIEW_STATUS_PARM = "WORK_IN_PROGRESS_REVIEW_STATUSES";
     public static final String COI_SCREENING_QUESTIONNAIRE_KRMS_RULE = "SCREENING_QUESTIONNAIRE_KRMS_RULE";
     
@@ -532,8 +457,6 @@ public interface Constants {
     public static final String CFDA_MAINT_TYP_ID_MANUAL = "MANUAL";
     public static final String CFDA_GOV_URL_PARAMETER = "CFDA_GOV_URL";
     public static final String CFDA_GOV_LOGIN_USERNAME = "anonymous";
-    public static final String CFDA_CRON_START_TIME_PARAMETER = "CFDA_BATCH_JOB_CRON_START_TIME";
-    public static final String CFDA_BATCH_JOB_CRON_EXPRESSION_PARAMETER = "CFDA_BATCH_JOB_CRON_EXPRESSION";
     public static final String DEFAULT_CRON_EXPRESSION = "0 0 5 * * ?";
     public static final String CFDA_BATCH_NOTIFICATION_RECIPIENT_PARAMETER = "CFDA_BATCH_NOTIFICATION_RECIPIENT";
 
@@ -546,7 +469,6 @@ public interface Constants {
     public static final String AWARD_SYNC_NOT_APPLICABLE = "Not applicable";
     
   //Institutional Proposal
-    public static final String MAPPING_INSTITUTIONAL_PROPOSAL_BASIC = "basic";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_HOME_PAGE = "home";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_CONTACTS_PAGE = "contacts";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE = "specialReview";
@@ -595,7 +517,6 @@ public interface Constants {
     public static final String UNIT_CONTACTS_DEFAULT_GROUP_FLAG = "U";
     
     //Award Audit Rules
-    public static final String CONTACT_AUDIT_RULES_ERROR_KEY = "document.contactAuditRules";
     public static final String REPORT_TERMS_AUDIT_RULES_ERROR_KEY = "document.reportTermsAuditRules";
     public static final String TERMS_AUDIT_RULES_ERROR_KEY = "document.termsAuditRules";
     public static final String PAYMENT_AND_INVOICES_AUDIT_RULES_ERROR_KEY = "document.paymentsAuditRules";
@@ -617,11 +538,6 @@ public interface Constants {
     public static final String SUBAWARD_PANEL_ANCHOR = "Subaward";
     public static final String MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_ANCHOR = "anchorDetailsDates";
     public static final String MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME = "Details & Dates";
-
-
-
-    // Award Rules
-    public static final String COST_SHARE_ADD_ACTION_PROPERTY_KEY = "newAwardCostShare";
     
     // IRB
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE = "1";
@@ -634,8 +550,6 @@ public interface Constants {
     public static final Integer PROTOCOL_REFERENCE_COMMENT_LENGTH = 250;
     public static final String ACTIVE_STATUS_LITERAL = "Active";
     public static final String INACTIVE_STATUS_LITERAL = "Inactive";
-    public static final String CONFIRM_DELETE_PROTOCOL_USER_KEY = "confirmDeleteProtocolUser";
-    public static final String PROPERTY_PROTOCOL_NUMBER = "protocolNumber";
     public static final String PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION = "IRB_COMM_SELECTION_DURING_SUBMISSION";
     public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME = "IRB_DISPLAY_REVIEWER_NAME";
     public static final String PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL = "IRB_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL";
@@ -685,10 +599,8 @@ public interface Constants {
     public static final String PROTOCOL_PERSONNEL_PAGE = "personnel";
     public static final String PROTOCOL_PERSONNEL_PANEL_ANCHOR = "Add Personnel:";
     public static final String PROTOCOL_PERSONNEL_PANEL_NAME = "Personnel";
-    public static final String PROTOCOL_PRINCIPAL_INVESTIGATOR_KEY = "newProtocolPerson*";
 
     public static final String VIEW_ONLY = "viewOnly";
-    public static final String POPUP_VIEW_ONLY = "popupViewOnly";
     
     // Protocol Action Rules
     public static final String PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY = "actionHelper.protocolSubmitAction";
@@ -728,13 +640,9 @@ public interface Constants {
     public static final String PROTOCOL_ABANDON_ACTION_PROPERTY_KEY = "actionHelper.protocolAbandonBean";
     
     //Online Review
-    public static final String PROTOCOL_ONLINE_REVIEW_KEY="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[%s]";
     public static final String ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW="IRBAdminInitialReview";
     public static final String ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER="OnlineReviewer";
     public static final String ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW="IRBAdminReview";
-    
-    //Protocol Summary Print View
-    public static final Integer PROTOCOL_SUMMARY_VOTINGCOMMENTS = 250;
     
     //Protocol History View
     public static final String PROTOCOL_HISTORY_DATE_RANGE_FILTER_START_DATE_KEY = "actionHelper.filteredHistoryStartDate";
@@ -752,14 +660,10 @@ public interface Constants {
     public static final String IACUC_PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME = "IACUCReview";
 
     // Committee
-    public static final String COMMITTEE_PROPERTY_KEY = "committee";
-    public static final String COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE = "COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE";
     public static final String COMMITTEE_AGENDA_NOTIFICATION = "213";
     public static final String COMMITTEE_MINUTES_NOTIFICATION = "215";
     
     public static final String CONFIRM_DELETE_PERMISSIONS_USER_KEY = "confirmDeletePermissionsUser";
-   
-    public static final String MAPPING_CHECKLIST_ITEM_DESCRIPITION = "checkListItemDescription";
     
     // Correspondence
     public static final String DEFAULT_CORRESPONDENCE_TEMPLATE = "DEFAULT";
@@ -804,13 +708,7 @@ public interface Constants {
     public static final String QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN = "document.newMaintainableObject.businessObject.lookupReturn";
     
     //Institutional Proposal Rules
-    public static final String IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY = "institutionalProposalCostShareBean.newInstitutionalProposalCostShare";
     public static final String IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY = "newInstitutionalProposalUnrecoveredFandA";
-    
-    //Institutional Proposal Audit Rules 
-    public static final String GRADUATE_STUDENT_PANEL_ANCHOR = "GraduateStudent";
-    public static final String GRADUATE_STUDENT_PANEL_NAME = "GraduateStudent";
-    public static final String GRADUATE_STUDENT_AUDIT_RULES_ERROR_KEY = "document.graduateStudentAuditRules";
     
     //Award Hierarchy - Time And Money Constants
     public static final String AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT = "000000-00000";
@@ -845,7 +743,6 @@ public interface Constants {
 
     // Maintenance documents
     public static final String VALID_SPECIAL_REVIEW_APPROVAL_TYPE_CODE_KEY = "document.newMaintainableObject.approvalTypeCode";
-    public static final String VALID_SPECIAL_REVIEW_APPROVAL_REVIEW_CODE_KEY = "document.newMaintainableObject.specialReviewCode";
     
     //WHITE SPACE 
     public char SPACE_SEPARATOR = 32;
@@ -854,9 +751,7 @@ public interface Constants {
     
     // Protocol questionnaire page audit rules
     public static final String PROTOCOL_QUESTIONNAIRE_PAGE = "questionnaire";
-    public static final String PROTOCOL_QUESTIONNAIRE_PANEL_NAME = "Questionnaire";
     public static final String PROTOCOL_QUESTIONNAIRE_PANEL_ANCHOR = "Questionnaire";
-    public static final String PROTOCOL_QUESTIONNAIRE_KEY = "questionnaireHelper.answerHeaders[0].answers[0].answer";
 
     public static final String PRINT_LOGGING_ENABLE = "print.logging.enable";
     public static final String PRINT_LOGGING_DIRECTORY = "print.logging.directory";
@@ -872,7 +767,6 @@ public interface Constants {
     public static final String AWARD_BUDGET_DEFAULT_UNDERRECOVERY_RATE_CLASS_CODE = "awardBudgetDefaultUnderrecoveryRateClassCode";
     public static final String AWARD_BUDGET_EB_RATE_CLASS_CODE = "awardBudgetEbRateClassCode";
     public static final String AWARD_BUDGET_EB_RATE_TYPE_CODE = "awardBudgetEbRateTypeCode";
-    public static final String DEFAULT_FNA_RATE_CLASS_CODE = "defaultFnARateClassCode";
 
     
     //Subaward
@@ -885,7 +779,6 @@ public interface Constants {
     public static final String MAPPING_SUBAWARD_ACTION_PAGE="subAwardActions";
     public static final String SUBAWARD_SEQUENCE_SUBAWARD_CODE = "SUBAWARD_CODE_S";
     public static final String SUBAWARD_AUDIT_RULE_ERROR_KEY = "newSubAwardContact.rolodex.fullName";
-    public static final String MAPPING_SUBAWARD_CONTACT_PANEL = "Contacts"; 
     public static final String SUBAWARD_CONTACTS_PANEL_NAME = "Contacts";
     public static final String SUBAWARD_CONTACTS_PANEL_ANCHOR = "Contacts";
     public static final String SUBAWARD_FINANCIAL_PANEL ="Financial";
@@ -906,12 +799,10 @@ public interface Constants {
     public static final String COI_DISCLOSURE_DISCLOSURE_PAGE = "coiDisclosure";
     public static final String COI_DISCLOSURE_DISCLOSURE_PANEL_NAME = "Disclosure";
     public static final String DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR = "Financial Entity";
-    public static final String DISCLOSURE_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDiscDetails[%s].entityStatusCode";
     public static final String DISCLOSURE_FINANCIAL_ENTITY_KEY2 = "document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[%s].entityStatusCode";
     public static final String DISCLOSURE_MANUAL_DISPOSITION_STATUS = "document.coiDisclosureList[0].coiDisclProjects[0].disclosureDispositionCode";
 
     public static final String DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[%s].entityStatusCode";
-    public static final String DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDisclEventProjects[%s].coiDiscDetails[%s].entityStatusCode";
     public static final String DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY2 = "document.coiDisclosureList[0].coiDisclProjects[%s].coiDiscDetails[%s].entityStatusCode";
 
     public static final String DISCLOSURE_UPDATE_FINANCIAL_ENTITY_KEY = "disclosureHelper.masterDisclosureBean.%s[%s].coiDisclProject.coiDiscDetails[%s].entityStatusCode";
@@ -936,7 +827,6 @@ public interface Constants {
     public static final String PARAMETER_MODULE_IACUC_PROTOCOL_REFERENCEID1 = "iacuc.protocol.referenceID1";;
     public static final String PARAMETER_MODULE_IACUC_PROTOCOL_REFERENCEID2 = "iacuc.protocol.referenceID2";;
     public static final String IACUC_DEACTIVATE_ACTION_PROPERTY_KEY = "actionHelper.iacucProtocolDeactivateBean";
-    public static final String IACUC_REQUEST_DEACTIVATE_ACTION_PROPERTY_KEY = "actionHelper.iacucProtocolRequestDeactivateBean";
     public static final String IACUC_REQUEST_LIFT_HOLD_ACTION_PROPERTY_KEY = "actionHelper.iacucProtocolRequestLiftHoldBean";
     
     public static final String PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION = "IACUC_COMM_SELECTION_DURING_SUBMISSION";
@@ -966,10 +856,6 @@ public interface Constants {
     public static final String REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT = "REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT";
     public static final String REPORT_TRACKING_NOTIFICATIONS_BATCH_ENABLED = "REPORT_TRACKING_NOTIFICATIONS_BATCH_ENABLED";
     
-    public static final String IACUC_PROTOCOL_PAGE = "iacucProtocol";
-    public static final String IACUC_PROTOCOL_PANEL_NAME = "The Three R\'s";
-    public static final String IACUC_PROTOCOL_ALTERNATE_SEARCH = "Alternate Search";
-
     public static final String FORMULATED_COST_ELEMENTS = "formulatedCostElements";
     public static final String BUDGET_FORMULATED_NUMBER = "BUDGET_FORMULATED_NUMBER";
     public static final String FORMULATED_COST_ENABLED = "enableFormulatedCostCalculation";

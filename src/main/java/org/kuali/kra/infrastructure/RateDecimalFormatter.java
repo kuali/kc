@@ -23,12 +23,10 @@ import org.kuali.kra.budget.RateDecimal;
 import org.kuali.rice.core.web.format.BigDecimalFormatter;
 
 public class RateDecimalFormatter extends BigDecimalFormatter {
-    private static Log LOG = LogFactory.getLog(BigDecimalFormatter.class);
     private static final long serialVersionUID = 4658319828434873892L;
 
     /**
      * Overidden to create a RateDecimal from a String
-     * @see org.kuali.core.web.format.BigDecimalFormatter#convertToObject(java.lang.String)
      */
     @Override
     protected Object convertToObject(String target) {
