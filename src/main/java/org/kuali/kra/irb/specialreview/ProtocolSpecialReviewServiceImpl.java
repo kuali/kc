@@ -15,24 +15,15 @@
  */
 package org.kuali.kra.irb.specialreview;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalState;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.specialreview.impl.ProtocolSpecialReviewServiceImplBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProtocolSpecialReviewServiceImpl extends ProtocolSpecialReviewServiceImplBase implements ProtocolSpecialReviewService {
 

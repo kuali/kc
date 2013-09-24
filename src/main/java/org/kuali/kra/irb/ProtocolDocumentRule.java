@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.List;
-
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
@@ -66,7 +64,8 @@ import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRuleBas
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRuleBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 /**
  * Main Business Rule class for <code>{@link ProtocolDocument}</code>. Responsible for delegating rules to independent rule classes.
