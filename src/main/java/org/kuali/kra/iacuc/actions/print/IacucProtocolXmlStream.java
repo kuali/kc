@@ -83,18 +83,6 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         return xmlObjectMap;
     }
 
-    /**
-     * 
-     * This method is to create xml data for protocol action notifications
-     * @param protocol
-     * @return
-     */
-    public String generateXmlStreamForNotification(IacucProtocol protocol) {
-        ProtocolDocument protocolDocumentType = ProtocolDocument.Factory.newInstance();
-        protocolDocumentType.setProtocol(getProtocol(protocol));
-        return protocolDocumentType.toString();
-    }
-
     public ProtocolType getProtocol(IacucProtocol protocolInfoBean, Integer submissionNumber) {
         ProtocolType protocolType = ProtocolType.Factory.newInstance();
         setProtocolMasterData(protocolInfoBean, protocolType);

@@ -15,28 +15,20 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * Handles the processing of submitting a protocol to the IRB office for review.
@@ -45,13 +37,11 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
-    private static final String SEQUENCE_NUMBER = "sequenceNumber";
 
     private static final String SUBMIT_TO_IRB = "Submitted to IRB";
     
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
-    private ProtocolFinderDao protocolFinderDao;
     private BusinessObjectService businessObjectService;
     private ProtocolAssignReviewersService protocolAssignReviewersService;
     
@@ -70,15 +60,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
     }
-    
-    /**
-     * Set the Protocol Finder DAO.
-     * @param protocolFinderDao
-     */
-    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
-        this.protocolFinderDao = protocolFinderDao;
-    }
-    
+
     /**
      * Set the Business Object Service.
      * @param businessObjectService
@@ -94,11 +76,8 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     public void setProtocolAssignReviewersService(ProtocolAssignReviewersService protocolAssignReviewersService) {
         this.protocolAssignReviewersService = protocolAssignReviewersService;
     }
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getTotalSubmissions(java.lang.String)
-     */
+
+    @Override
     public int getTotalSubmissions(Protocol protocol) {
         int totalSubmissions = 0;
         
@@ -111,38 +90,15 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         return totalSubmissions;
     }
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getProtocolSubmissions(java.lang.String)
-     */
+
     @SuppressWarnings("unchecked")
-    public List<ProtocolSubmission> getProtocolSubmissions(String protocolNumber) {
+    protected List<ProtocolSubmission> getProtocolSubmissions(String protocolNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(PROTOCOL_NUMBER, protocolNumber);
         Collection<ProtocolSubmission> submissions = businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
         
         return new ArrayList<ProtocolSubmission>(submissions);
     }
-   
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getProtocolSubmissions(java.lang.String, java.lang.String)
-     */
-    @SuppressWarnings("unchecked")
-    public List<ProtocolSubmission> getProtocolSubmissions(String protocolNumber, int submissionNumber) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(PROTOCOL_NUMBER, protocolNumber);
-        fieldValues.put(SUBMISSION_NUMBER, submissionNumber);
-        Collection<ProtocolSubmission> submissions = businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
-        
-        return new ArrayList<ProtocolSubmission>(submissions);
-    }
-        
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getProtocolSubmissionsLookupSequence(java.lang.String)
-     */
 
     private List<ProtocolSubmission> getProtocolSubmissionsLookupList(String protocolNumber,List<ProtocolSubmission> protocolSubmissionList) throws Exception{
            Collection<ProtocolSubmission> submissions = protocolSubmissionList;
@@ -174,11 +130,8 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
            }
            return new ArrayList<ProtocolSubmission>(protocolSubmissionLookupResult);
        }
-    
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getProtocolSubmissionsLookupData(java.util.List)
-     */
+
+    @Override
     public List<ProtocolSubmission> getProtocolSubmissionsLookupData(List<ProtocolSubmission> protocolSubmissionList) throws Exception{        
         Collection<ProtocolSubmission> submissions = protocolSubmissionList;
         List<ProtocolSubmission> protocolSubmissionsLookupResult = new ArrayList<ProtocolSubmission>();
@@ -209,6 +162,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * 
      * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#submitToIrbForReview(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
      */
+    @Override
     public void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction) throws Exception {
         
         /*
@@ -267,26 +221,6 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
             businessObjectService.save(minutes);
         }
     }
-    
-    /**
-     * When an amendment/renewal is submitted to the IRB office, a corresponding
-     * action entry must be added to the original protocol so that the user will
-     * know when the amendment/renewal was submitted.
-     * @param type
-     * @param origProtocolNumber
-     * @throws WorkflowException 
-     * @throws Exception
-     */
-    protected void addActionToOriginalProtocol(String type, String origProtocolNumber, Integer submissionNumber) throws WorkflowException {
-        String protocolNumber = origProtocolNumber.substring(0, 10);
-        String index = origProtocolNumber.substring(11);
-        Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
-        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.SUBMIT_TO_IRB);
-        protocolAction.setComments(type + "-" + index + ": " + SUBMIT_TO_IRB);
-        protocolAction.setSubmissionNumber(submissionNumber);
-        protocol.getProtocolActions().add(protocolAction);
-        businessObjectService.save(protocol);
-    }
 
     /**
      * Create a Protocol Submission.
@@ -341,7 +275,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * Add an optional Check List to the submission.  Exempt Studies and Expedited Reviews each
      * require a check list to be added to the submission.  Other protocol review types do not
      * have a check list.
-     * @param submission the submission
+     * @param submissionBuilder the submission
      * @param submitAction the submission data
      */
     protected void addCheckLists(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
@@ -365,7 +299,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
 
     /**
      * Add the Exempt Studies Check List items to the submission.
-     * @param submission the submission
+     * @param submissionBuilder the submission
      * @param submitAction the submission data
      */
     protected void addExemptStudiesCheckList(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
@@ -378,8 +312,6 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     
     /**
      * Add the Expedited Review Check List items to the submission.
-     * @param submission the submission
-     * @param submitAction the submission data
      */
     protected void addExpeditedReviewCheckList(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction action) {
         for (ExpeditedReviewCheckListItem item : action.getExpeditedReviewCheckList()) {

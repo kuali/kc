@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -33,6 +29,10 @@ import org.kuali.kra.protocol.actions.submit.ActionRightMapping;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionMappingBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionServiceImplBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -56,7 +56,6 @@ public class ProtocolActionServiceImpl extends ProtocolActionServiceImplBase imp
     private static final int UNDO_UPDATE_RULE = 6;
     
     private static final String PERFORMACTION_FILE = "org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl";
-    private static final String UPDATE_FILE = "org/kuali/kra/irb/drools/rules/updateProtocolRules.drl";
 
     private static final String KC_PROTOCOL = "KC-PROTOCOL";
 
@@ -176,30 +175,6 @@ public class ProtocolActionServiceImpl extends ProtocolActionServiceImplBase imp
         if (!answerHeaders.isEmpty()) {
             businessObjectService.delete(answerHeaders);
         }
-    }  
-    
-    /**
-     * This method is to check if user is authorized to perform action of 'actionTypeCode'
-     */
-    protected boolean isAuthorizedtoPerform(String actionTypeCode, Protocol protocol) {
-        boolean flag = false;
-        ActionRightMapping rightMapper = new ActionRightMapping();
-
-        flag = hasPermissionLeadUnit(actionTypeCode, protocol, rightMapper);
-
-        if (!flag) {
-            flag = hasPermissionToSubmit(actionTypeCode, protocol, rightMapper);
-        }
-
-        if (!flag) {
-            flag = hasPermissionAsCommitteeMember(actionTypeCode, protocol, rightMapper);
-        }
-
-        if (!flag) {
-            flag = hasPermissionSpecialCase(actionTypeCode, DEFAULT_ORGANIZATION_UNIT, rightMapper);
-        }
-
-        return flag;
     }
 
     @Override

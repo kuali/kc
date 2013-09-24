@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.irb.actions;
 
+import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
+
 import java.util.ArrayList;
 import java.util.List;
-
-//import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
-import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 
 /**
  * 

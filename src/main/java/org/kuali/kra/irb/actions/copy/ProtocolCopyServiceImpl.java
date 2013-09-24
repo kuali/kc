@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.actions.copy;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -27,7 +26,6 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.copy.ProtocolCopyServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.protocol.protocol.ProtocolNumberServiceBase;
 
 /**
  * The Protocol Copy Service creates a new Protocol Document

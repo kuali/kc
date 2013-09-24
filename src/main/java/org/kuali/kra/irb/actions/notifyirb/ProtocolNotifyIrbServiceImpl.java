@@ -15,43 +15,36 @@
  */
 package org.kuali.kra.irb.actions.notifyirb;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
-import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Protocol Request Service Implementation.
  */
 public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     
-    private static final Log LOG = LogFactory.getLog(ProtocolNotifyIrbServiceImpl.class);
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
-    private KcNotificationService kcNotificationService;
 
     /**
      * Set the business object service.
@@ -143,10 +136,6 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
-    }
-    
-    public void setKcNotificationService(KcNotificationService kcNotificationService) {
-        this.kcNotificationService = kcNotificationService;
     }
     
 }

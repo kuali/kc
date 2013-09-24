@@ -15,21 +15,18 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionAjaxServiceImplBase;
 import org.kuali.rice.core.api.util.KeyValue;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class ProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServiceImplBase implements ProtocolActionAjaxService {
     
-    private static final Log LOG = LogFactory.getLog(ProtocolActionAjaxServiceImpl.class);
 
     @Override
     public String getReviewers(String protocolId, String committeeId, String scheduleId) {

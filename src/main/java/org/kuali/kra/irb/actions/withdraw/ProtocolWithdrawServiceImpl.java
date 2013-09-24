@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.actions.withdraw;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -42,7 +41,6 @@ import java.sql.Date;
 public class ProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImplBase implements ProtocolWithdrawService {
 
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
-    private KcNotificationService kcNotificationService;
     
     @Override
     public ProtocolDocumentBase administrativelyMarkIncomplete(ProtocolBase protocol, ProtocolAdministrativelyIncompleteBean markIncompleteBean) throws Exception {
@@ -150,9 +148,5 @@ public class ProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImplBase
 
     public void setProtocolAssignToAgendaService(ProtocolAssignToAgendaService protocolAssignToAgendaService) {
         this.protocolAssignToAgendaService = protocolAssignToAgendaService;
-    }
-
-    public void setKcNotificationService(KcNotificationService kcNotificationService) {
-        this.kcNotificationService = kcNotificationService;
     }
 }

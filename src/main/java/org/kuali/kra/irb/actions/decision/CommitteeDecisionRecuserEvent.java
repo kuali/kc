@@ -20,21 +20,11 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * 
- * This class...
- */
 public class CommitteeDecisionRecuserEvent extends KraDocumentEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeDecisionRecuserEvent.class);
     private CommitteeDecision actionBean;
-    
-    /**
-     * 
-     * Constructs a CommitteeDecisionAbstainerEvent.java.
-     * @param document
-     * @param decision
-     */
+
     public CommitteeDecisionRecuserEvent(ProtocolDocument document, CommitteeDecision decision) {
         super("Recording Committee Decision " + getDocumentId(document), "", document);
         this.actionBean = decision;
