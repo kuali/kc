@@ -15,16 +15,12 @@
  */
 package org.kuali.kra.protocol.questionnaire;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolModuleBase;
 import org.kuali.kra.questionnaire.BaseQuestionnaireAuditRule;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -35,6 +31,9 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnaireAuditRule<ProtocolDocumentBase> implements DocumentAuditRule {
     

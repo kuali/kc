@@ -15,17 +15,6 @@
  */
 package org.kuali.kra.protocol.actions;
 
-import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -95,13 +84,17 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.*;
+
 /**
  * The form helper class for the ProtocolBase Actions tab.
  */
 @SuppressWarnings("serial")
 public abstract class ActionHelperBase implements Serializable {
 
-    protected static final long ONE_DAY = 1000L * 60L * 60L * 24L;
     protected static final String NAMESPACE = "KC-UNT";
     protected transient QuestionnaireAnswerService questionnaireAnswerService;
 
@@ -139,8 +132,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canAssignToAgendaUnavailable = false;
     protected boolean canAssignCmtSched = false;
     protected boolean canAssignCmtSchedUnavailable = false;
-    protected boolean canRemoveFromToAgenda = false;
-    protected boolean canRemoveFromAgendaUnavailable = false;
     protected boolean canAssignReviewers = false;
     protected boolean canAssignReviewersCmtSel = false;
     protected boolean canAssignReviewersUnavailable = false;
@@ -265,8 +256,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected Date filteredHistoryEndDate;
     
     // additional properties for Submission Details
-    protected ProtocolSubmissionBase selectedSubmission;
-    @SuppressWarnings("rawtypes")
     protected List<CommitteeScheduleMinuteBase> reviewComments;        
     protected List<? extends ProtocolReviewAttachmentBase> reviewAttachments;        
     protected List<ProtocolVoteAbstaineeBase> abstainees;        

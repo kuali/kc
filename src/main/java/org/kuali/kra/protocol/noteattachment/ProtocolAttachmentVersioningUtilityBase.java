@@ -15,19 +15,17 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Class used for versioning protocol attachments.
@@ -53,7 +51,6 @@ public abstract class ProtocolAttachmentVersioningUtilityBase {
 
     protected final ProtocolAttachmentService notesService;
     protected final VersioningService versionService;
-    protected final DocumentService docService;
     
     protected final ProtocolFormBase form;
     protected static final String ATTACHMENT_DELETED = "3";
@@ -65,10 +62,9 @@ public abstract class ProtocolAttachmentVersioningUtilityBase {
      * @param form the form
      * @param notesService the notesService
      * @param versionService the versionService
-     * @param docService the docService
-     * @throws IllegalArgumentException if the form, notesService, versionService, or docService is null
+     * @throws IllegalArgumentException if the form, notesService, or versionService is null
      */
-    protected ProtocolAttachmentVersioningUtilityBase(final ProtocolFormBase form, final ProtocolAttachmentService notesService, final VersioningService versionService, final DocumentService docService) {
+    protected ProtocolAttachmentVersioningUtilityBase(final ProtocolFormBase form, final ProtocolAttachmentService notesService, final VersioningService versionService) {
         if (form == null) {
             throw new IllegalArgumentException("the form was null");
         }
@@ -80,14 +76,9 @@ public abstract class ProtocolAttachmentVersioningUtilityBase {
         if (versionService == null) {
             throw new IllegalArgumentException("the versionService was null");
         }
-        
-        if (docService == null) {
-            throw new IllegalArgumentException("the docService was null");
-        }
-        
+
         this.form = form;
         this.versionService = versionService;
-        this.docService = docService;
         this.notesService = notesService;
     }
     

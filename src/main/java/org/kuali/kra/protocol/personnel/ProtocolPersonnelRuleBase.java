@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class contains rules to validate protocol personnel.

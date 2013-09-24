@@ -18,7 +18,6 @@ package org.kuali.kra.irb.noteattachment;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolRuleHelperBase;
 import org.kuali.rice.kns.util.AuditError;
@@ -36,17 +35,15 @@ class ProtocolAttachmentProtocolRuleHelper extends ProtocolAttachmentProtocolRul
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
     ProtocolAttachmentProtocolRuleHelper(final String aPropertyPrefix) {
-        super(aPropertyPrefix, KraServiceLocator.getService(ProtocolAttachmentService.class));
+        super(aPropertyPrefix);
     }
     
     
     /**
      * Creates helper deferring the setting of the prefix to later and setting used services.
-     * @param attachmentService the Attachment Service
-     * @throws IllegalArgumentException if the attachmentService is null
      */
-    ProtocolAttachmentProtocolRuleHelper(final ProtocolAttachmentService attachmentService) {
-        super(attachmentService);
+    ProtocolAttachmentProtocolRuleHelper() {
+        super();
     }
     
     /**

@@ -15,14 +15,16 @@
  */
 package org.kuali.kra.protocol.protocol.funding.impl;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -33,10 +35,6 @@ import org.kuali.kra.protocol.protocol.ProtocolNumberServiceBase;
 import org.kuali.kra.protocol.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -46,6 +44,8 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 /**
  * 
@@ -98,7 +98,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<Generic
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
-    public void populateDocumentOverview(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument)
+    protected void populateDocumentOverview(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument)
     {
         ProposalDevelopmentDocument proposalDocument = developmentProposal.getProposalDocument();
         DocumentHeader proposalDocumentHeader = proposalDocument.getDocumentHeader();
@@ -110,7 +110,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<Generic
 
     }
 
-    public void populateRequiredFields(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument)
+    protected void populateRequiredFields(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument)
     throws Exception
     {
         ProtocolBase protocol = protocolDocument.getProtocol();
@@ -137,7 +137,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<Generic
      * is assigned the Aggregator role.
      * @param doc the proposal development document
      */
-    public void initializeAuthorization(ProtocolDocumentBase protocolDocument) {
+    protected void initializeAuthorization(ProtocolDocumentBase protocolDocument) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         kraAuthorizationService.addRole(userId, getProtocolAggregatorHook(), protocolDocument.getProtocol());
         kraAuthorizationService.addRole(userId, getProtocolApproverHook(), protocolDocument.getProtocol());
@@ -154,8 +154,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<Generic
 
     }
 
-    @Override
-   public void populateProtocolPerson_Investigator(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument)
+    protected void populateProtocolPerson_Investigator(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument)
     {
         ProtocolPersonBase protocolPerson = getProtocolPersonNewInstanceHook(); 
         ProtocolBase protocol = protocolDocument.getProtocol();
@@ -168,8 +167,8 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<Generic
         protocolPersonnelService.addProtocolPerson(protocol, protocolPerson);
     
     }
-    @Override
-    public boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper) {
+
+    protected boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper) {
         SpecialReview<?> specialReview = specialReviewHelper.getNewSpecialReview();
         boolean canCreateProposal=false;
         if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) )
@@ -193,8 +192,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<Generic
     }
 
 
-    @Override
-    public void populateProtocolFundingSource(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument) {
+    protected void populateProtocolFundingSource(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument) {
         ProtocolBase protocol = protocolDocument.getProtocol();
 
         List<ProtocolFundingSourceBase> protocolFundingSources = protocol.getProtocolFundingSources();

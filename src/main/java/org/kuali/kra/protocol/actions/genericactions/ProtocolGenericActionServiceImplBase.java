@@ -15,13 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.genericactions;
 
-import java.sql.Timestamp;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolVersionService;
@@ -37,6 +34,8 @@ import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.sql.Timestamp;
 
 /**
  * This class handles the generic actions that can be made to a protocol.  A generic action contain a comment, action date, and a 
@@ -92,13 +91,6 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     protected abstract ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission, String protocolActionType);
     
     protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondenceHook(String protocolActionType);
-
-    protected void createCorrespondenceAndAttach(ProtocolBase protocol, String protocolActionType) throws PrintingException {
-        ProtocolActionsCorrespondenceBase correspondence = getNewProtocolActionsCorrespondenceHook(protocolActionType);
-        correspondence.setPrintableBusinessObject(protocol);
-        correspondence.setProtocol(protocol);
-        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
-    }
        
     
     

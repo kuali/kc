@@ -15,14 +15,12 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolRuleHelperBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 
 public class IacucProtocolAttachmentProtocolRuleHelper extends ProtocolAttachmentProtocolRuleHelperBase {
 
     protected IacucProtocolAttachmentProtocolRuleHelper(String aPropertyPrefix) {
-        super(aPropertyPrefix, (ProtocolAttachmentService)KraServiceLocator.getService("iacucProtocolAttachmentService"));
+        super(aPropertyPrefix);
     }
 
 }

@@ -17,8 +17,6 @@ package org.kuali.kra.protocol.personnel;
 
 import java.util.List;
 
-import org.kuali.kra.bo.PersonTraining;
-
 
 
 
@@ -45,12 +43,4 @@ public interface ProtocolPersonTrainingService {
      * @param protocolPerson
      */
     public void setTrainedFlag(ProtocolPersonBase protocolPerson);
-
-    /**
-     * This method is to get training details for a person
-     * @param personId
-     * @return
-     */
-    public List<PersonTraining> getPersonTrainingDetails(String personId);
-    
 }

@@ -15,27 +15,12 @@
  */
 package org.kuali.kra.protocol;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.apache.ojb.broker.query.*;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.TypedAttachment;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
@@ -46,6 +31,10 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.sql.Date;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 
@@ -69,7 +58,6 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
  
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
-    private Map<String, String> searchMap = new HashMap<String, String>();
     private List<String> investigatorRole = new ArrayList<String>();
     private List<String> personRole = new ArrayList<String>();
     private Map<String, String> baseLookupFieldValues;

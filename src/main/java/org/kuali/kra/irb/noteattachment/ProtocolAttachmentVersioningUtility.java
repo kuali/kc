@@ -47,8 +47,7 @@ public class ProtocolAttachmentVersioningUtility extends ProtocolAttachmentVersi
     
     public ProtocolAttachmentVersioningUtility(final ProtocolForm form) {
         super(form, KraServiceLocator.getService(ProtocolAttachmentService.class), 
-                    KraServiceLocator.getService(VersioningService.class), 
-                    KraServiceLocator.getService(DocumentService.class));
+                    KraServiceLocator.getService(VersioningService.class));
     }
 
     @Override

@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.request;
 
-import java.io.Serializable;
-
-import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
+
+import java.io.Serializable;
 
 /**
  * The ProtocolRequestBean is used for some of the common, yet simple,

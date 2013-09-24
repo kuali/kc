@@ -726,7 +726,6 @@
         <property name="documentService" ref="documentService" />
         <property name="kraLookupDao" ref="kraLookupDao" />
         <property name="protocolFinderDao" ref="protocolFinderDao" />
-        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
@@ -765,7 +764,6 @@
     
     <bean id="reviewCommentsService" class="org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="committeeScheduleService" ref="committeeScheduleService" />
         <property name="committeeService" ref="committeeService" />
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
    		<property name="roleService" ref="roleService" />
@@ -992,7 +990,6 @@
     <bean id="protocolAbandonService" class="org.kuali.kra.irb.actions.abandon.ProtocolAbandonServiceImpl">
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
-        <property name="kcNotificationService" ref="kcNotificationService" />
        <property name="documentService" ref="documentService" />
     </bean>
     

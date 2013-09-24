@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.correspondence;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.printing.PrintingException;
@@ -28,10 +25,12 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -145,13 +144,6 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
     }
     
     protected abstract PersonSignatureService getPersonSignatureServiceHook();
-    
-    /**{@inheritDoc}**/
-    public List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplates(String actionType) {
-        List<ProtocolCorrespondenceTemplateBase> templates = 
-            this.protocolActionTypeToCorrespondenceTemplateService.getTemplatesByProtocolAction(actionType);
-        return templates;
-    }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;

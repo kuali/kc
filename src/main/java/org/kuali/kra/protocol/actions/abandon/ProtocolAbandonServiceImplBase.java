@@ -17,12 +17,11 @@ package org.kuali.kra.protocol.actions.abandon;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -34,12 +33,8 @@ public abstract class ProtocolAbandonServiceImplBase implements ProtocolAbandonS
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
-    private KcNotificationService kcNotificationService;
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.abandon.ProtocolAbandonService#abandonProtocol(org.kuali.kra.irb.ProtocolBase, org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean)
-     */
+
     public void abandonProtocol(ProtocolBase protocol, ProtocolGenericActionBean protocolAbandonBean) throws WorkflowException {
 
         ProtocolActionBase protocolAction = getNewActionHook(protocol); 
@@ -80,10 +75,6 @@ public abstract class ProtocolAbandonServiceImplBase implements ProtocolAbandonS
     public void setProtocolActionCorrespondenceGenerationService(
             ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-    }
-    
-    public void setKcNotificationService(KcNotificationService kcNotificationService) {
-        this.kcNotificationService = kcNotificationService;
     }
 
 

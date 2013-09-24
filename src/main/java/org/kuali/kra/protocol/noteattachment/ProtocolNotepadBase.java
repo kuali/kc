@@ -15,18 +15,14 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
+import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.infrastructure.KraNotepadInterface;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
+import org.kuali.kra.protocol.ProtocolBase;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Comparator;
-
-import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraNotepadInterface;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.ProtocolAssociateBase;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The ProtocolBase Notepad class.

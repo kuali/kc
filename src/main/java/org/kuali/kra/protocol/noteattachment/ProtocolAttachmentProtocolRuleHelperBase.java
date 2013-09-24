@@ -18,7 +18,6 @@ package org.kuali.kra.protocol.noteattachment;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.kns.util.AuditError;
 
@@ -32,33 +31,19 @@ public abstract class ProtocolAttachmentProtocolRuleHelperBase {
     protected static final String NOTES_ATTACHMENTS_CLUSTER_LABEL = "Notes & Attachments";
     protected static final String NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY = "NoteAndAttachmentAuditErrors";
     protected static final String NOTE_AND_ATTACHMENT_LINK = "noteAndAttachment";
-    
-    protected final ProtocolAttachmentService attachmentService;
+
     protected final ErrorReporter errorReporter = new ErrorReporter();
     protected String propertyPrefix;
     
-    /**
-     * Creates helper deferring the setting of the prefix to later and setting used services.
-     * @param attachmentService the Attachment Service
-     * @throws IllegalArgumentException if the attachmentService is null
-     */
-    protected ProtocolAttachmentProtocolRuleHelperBase(final ProtocolAttachmentService attachmentService) {
-        if (attachmentService == null) {
-            throw new IllegalArgumentException("the attachmentService is null");
-        }
-        
-        this.attachmentService = attachmentService;
+
+    protected ProtocolAttachmentProtocolRuleHelperBase() {
     }
     
     /**
      * New constructor added in uplift
      */
-    protected ProtocolAttachmentProtocolRuleHelperBase (String aPropertyPrefix, ProtocolAttachmentService attachmentService) {
-        if (attachmentService == null) {
-            throw new IllegalArgumentException("the attachmentService is null");
-        }
-  
-        this.attachmentService = attachmentService;  
+    protected ProtocolAttachmentProtocolRuleHelperBase (String aPropertyPrefix) {
+
         this.resetPropertyPrefix(aPropertyPrefix);        
     }
     

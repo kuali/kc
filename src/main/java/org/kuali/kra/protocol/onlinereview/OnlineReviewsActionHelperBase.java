@@ -15,17 +15,6 @@
  */
 package org.kuali.kra.protocol.onlinereview;
 
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -47,11 +36,14 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.*;
 
 
 public abstract class OnlineReviewsActionHelperBase implements Serializable {
@@ -83,7 +75,6 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     private transient KcPersonService kcPersonService;
     
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(OnlineReviewsActionHelperBase.class);
-    private static final String REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "Review ProtocolBase:%s, PI:%s";
     private boolean hideReviewerName;
     private boolean hideReviewerNameForAttachment;
     
@@ -459,10 +450,6 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     
     private DataDictionaryService getDataDictionaryService() {
         return KraServiceLocator.getService(DataDictionaryService.class);
-    }
-    
-    private boolean requiresLock(Document document) {
-        return getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking();
     }
     
     protected Map convertSetToMap(Set s){
