@@ -19,10 +19,7 @@ import org.apache.commons.logging.Log;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionEventBase;
 
-/**
- * 
- * This class...
- */
+
 @SuppressWarnings("unchecked")
 public class CommitteeDecisionEvent extends CommitteeDecisionEventBase {
     

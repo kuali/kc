@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
@@ -28,6 +23,10 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Assembles the Protocol Review Types to display in the drop-down menu when

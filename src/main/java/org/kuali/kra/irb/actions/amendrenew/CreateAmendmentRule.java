@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.amendrenew.CreateAmendmentRuleBase;
 
 /**

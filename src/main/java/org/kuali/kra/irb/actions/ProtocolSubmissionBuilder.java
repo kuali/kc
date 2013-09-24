@@ -51,7 +51,6 @@ public class ProtocolSubmissionBuilder {
     private static final String NEXT_SUBMISSION_DOCUMENT_ID_KEY = "submissionDocId";
     
     private ProtocolSubmission protocolSubmission;
-    private List<FormFile> attachments = new ArrayList<FormFile>();
     private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
     
     /**

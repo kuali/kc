@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -27,7 +22,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
@@ -36,6 +30,11 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Validate a protocol submission to the IRB for review.
@@ -98,15 +97,6 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
                     KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
         }
         return valid;
-    }
-
-    private boolean isSubmissionTypeInvalidForProtocolStatus(ProtocolDocument document, String submissionTypeCode) {
-        String protocolStatusCode = document.getProtocol().getProtocolStatusCode();
-        return (StringUtils.isNotBlank(protocolStatusCode)
-                && (StringUtils.equals(ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, protocolStatusCode) || StringUtils.equals(
-                        ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED, protocolStatusCode)) && !(StringUtils.equals(
-                ProtocolSubmissionType.RESPONSE_TO_PREV_IRB_NOTIFICATION, submissionTypeCode) || StringUtils.equals(
-                ProtocolSubmissionType.CONTINUATION, submissionTypeCode)));
     }
 
     /**
@@ -337,10 +327,6 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             }
         }
         return valid;
-    }
-
-    private boolean isSubmissionTypeInvalid(String submissionTypeCode) {
-        return !existsUnique(ProtocolSubmissionType.class, "submissionTypeCode", submissionTypeCode);
     }
 
     private boolean isReviewTypeInvalid(String reviewTypeCode) {
