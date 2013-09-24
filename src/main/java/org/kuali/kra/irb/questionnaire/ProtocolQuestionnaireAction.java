@@ -15,17 +15,6 @@
  */
 package org.kuali.kra.irb.questionnaire;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -42,8 +31,16 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
-import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerRule;
 import org.kuali.rice.krad.document.Document;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 /**
  * This class represents the Struts Action for Protocol Questionnaires.
