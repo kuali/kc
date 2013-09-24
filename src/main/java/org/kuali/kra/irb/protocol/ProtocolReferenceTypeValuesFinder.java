@@ -35,8 +35,6 @@ public class ProtocolReferenceTypeValuesFinder extends ProtocolReferenceTypeValu
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3469947964740703859L;
-    
-    KeyValueFinderService keyValueFinderService = (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
 
     /**
      * Constructs the list of Protocol Types. Each entry in the list is a &lt;key, value&gt; pair, where the "key" is the unique

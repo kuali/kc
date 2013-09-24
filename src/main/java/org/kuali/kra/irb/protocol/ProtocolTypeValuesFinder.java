@@ -34,7 +34,6 @@ import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProtocolTypeValuesFinder extends KeyValuesBase {
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
     /**
      * Constructs the list of Protocol Types.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique

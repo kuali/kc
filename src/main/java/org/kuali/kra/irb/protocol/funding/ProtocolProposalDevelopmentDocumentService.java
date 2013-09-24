@@ -15,20 +15,10 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.protocol.ProtocolHelper;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 public interface ProtocolProposalDevelopmentDocumentService {
     public final static String PROJECT_END_DATE_NUMBER_OF_YEARS = "protocolProjectEndDateNumberOfYears";
     public ProposalDevelopmentDocument createProposalDevelopmentDocument(ProtocolForm protocolForm) throws Exception;
-    public boolean isAuthorizedCreateProposal(ProtocolHelper protocolHelper);
-    public void populateDocumentOverview(Protocol protocol, ProposalDevelopmentDocument proposalDocument);
-    public void populateRequiredFields(Protocol protocol, ProposalDevelopmentDocument proposalDocument) throws Exception;
-    public void populateProposalPerson_Investigator(Protocol protocol, ProposalDevelopmentDocument proposalDocument);
-    public void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument);
-    public void initializeAuthorization(ProposalDevelopmentDocument document);
 }
