@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.protocol.protocol.research;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.protocol.ProtocolBase;
+
+import java.util.Collection;
+import java.util.List;
 
 
 public abstract class ProtocolResearchAreaServiceImplBase implements ProtocolResearchAreaService {
@@ -38,13 +37,6 @@ public abstract class ProtocolResearchAreaServiceImplBase implements ProtocolRes
                 protocol.addProtocolResearchAreas(createInstanceOfProtocolResearchAreas(protocol, newResearchAreas));
             }
         }
-    }
-    
-    /**
-     * @see org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService#isEmptyProtocolResearchAreas(org.kuali.kra.protocol.ProtocolBase)
-     */
-    public boolean isEmptyProtocolResearchAreas(ProtocolBase protocol) {
-        return CollectionUtils.isEmpty(protocol.getProtocolResearchAreas());
     }
 
     /**

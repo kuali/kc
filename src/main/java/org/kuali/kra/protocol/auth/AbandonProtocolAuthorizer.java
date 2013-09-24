@@ -15,30 +15,14 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
  * This class to check whether user has authorization to abandon protocol
  */
 public class AbandonProtocolAuthorizer extends ProtocolAuthorizerBase {
-
-    private static final List<String> APPROVE_ACTION_TYPES;
-    static {
-        final List<String> codes = new ArrayList<String>();     
-        codes.add(ProtocolActionType.APPROVED);
-        codes.add(ProtocolActionType.EXPEDITE_APPROVAL);
-        codes.add(ProtocolActionType.GRANT_EXEMPTION);
-        APPROVE_ACTION_TYPES = codes;
-    }
 
     /**
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
@@ -49,27 +33,6 @@ public class AbandonProtocolAuthorizer extends ProtocolAuthorizerBase {
             && (hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL)
                     || hasPermission(userId, task.getProtocol(), PermissionConstants.MODIFY_ANY_PROTOCOL));
     }
-    
-    /*
-     * check if this protocol has not been approved
-     */
-    private boolean isInitialProtocol(ProtocolBase protocol) {
-        boolean initialProtocol = true;
-        return initialProtocol;
-    }
-    
-    /*
-     * check if user is PI
-     */
-    private boolean isPrincipalInvestigator(ProtocolBase protocol) {
-        Person user = GlobalVariables.getUserSession().getPerson();
-        boolean isPi = false;
-        if (user.getPrincipalId().equals(protocol.getPrincipalInvestigator().getPersonId())) {
-            isPi = true;
-        }
-        return isPi;
-    }
-
 }
 
 

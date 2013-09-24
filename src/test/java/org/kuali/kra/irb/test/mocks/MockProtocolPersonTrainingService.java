@@ -40,9 +40,4 @@ public class MockProtocolPersonTrainingService implements ProtocolPersonTraining
         protocolPerson.setTrained(true);
     }
 
-    @Override
-    public List<PersonTraining> getPersonTrainingDetails(String personId) {
-        return new ArrayList<PersonTraining>();
-    }
-
 }

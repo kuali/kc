@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -36,8 +31,12 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The ProtocolBase Amendment/Renewal Service Implementation.
@@ -62,7 +61,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     protected ProtocolCopyService protocolCopyService;
     protected KraLookupDao kraLookupDao;
     protected ProtocolFinderDao protocolFinderDao;
-    protected SequenceAccessorService sequenceAccessorService;
+
     protected QuestionnaireAnswerService questionnaireAnswerService;
     protected BusinessObjectService businessObjectService;
     /**
@@ -79,15 +78,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      */
     public void setProtocolCopyService(ProtocolCopyService protocolCopyService) {
         this.protocolCopyService = protocolCopyService;
-    }
-
-    
-    /**
-     * Set the Sequence Accessor Service.
-     * @param sequenceAccessorService
-     */
-    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
-        this.sequenceAccessorService = sequenceAccessorService;
     }
     
     /**

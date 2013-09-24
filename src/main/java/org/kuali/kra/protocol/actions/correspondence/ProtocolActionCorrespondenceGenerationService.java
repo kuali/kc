@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.correspondence;
 
-import java.util.List;
-
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
@@ -34,8 +31,6 @@ public interface ProtocolActionCorrespondenceGenerationService {
      * @throws PrintingException
      */
     void generateCorrespondenceDocumentAndAttach(ProtocolActionsCorrespondenceBase printableCorrespondence) throws PrintingException;
-    
-    List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplates(String actionType);
     
     AttachmentDataSource reGenerateCorrespondenceDocument(ProtocolActionsCorrespondenceBase printableCorrespondence) throws PrintingException ; 
 

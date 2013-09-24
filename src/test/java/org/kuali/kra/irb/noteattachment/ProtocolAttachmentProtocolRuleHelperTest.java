@@ -47,9 +47,8 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
      */
     @Test
     public void validStatusBlankCode() {
-        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
         
-        ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper(paService);
+        ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -67,9 +66,8 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
      */
     @Test
     public void validStatus() {
-        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
         
-        ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper(paService);
+        ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -90,9 +88,8 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
      */
     @Test
     public void invalidStatusValidCodeForSubmissionNull() {
-        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
         
-        ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper(paService);
+        ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -110,9 +107,8 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
      */
     @Test
     public void invalidStatusValidCodeForSubmissionValidCode() {
-        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
         
-        ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper(paService);
+        ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -130,9 +126,8 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
      */
     @Test
     public void validStatusValidCodeForSubmission() {
-        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
         
-        ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper(paService);
+        ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();

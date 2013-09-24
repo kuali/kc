@@ -15,12 +15,9 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import java.io.IOException;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
@@ -28,9 +25,10 @@ import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.io.IOException;
+
 
 public abstract class ProtocolAttachmentPersonnelRuleBase extends ResearchDocumentRuleBase implements AddProtocolAttachmentPersonnelRule {
-    protected static final String OTHER_TYPE_CODE = "9";
 
     protected static final String PROPERTY_NAME_NEW_ATTACHMENT_TYPE = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].typeCode";
     protected static final String PROPERTY_NAME_NEW_ATTACHMENT_DESCRIPTION = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].description";

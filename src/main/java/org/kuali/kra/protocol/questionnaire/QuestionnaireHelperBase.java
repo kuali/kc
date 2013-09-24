@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.protocol.questionnaire;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -31,6 +27,9 @@ import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
