@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.krms.service;
 
+import org.kuali.kra.krms.KrmsRulesContext;
+
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kra.krms.KrmsRulesContext;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 public interface KrmsRulesExecutionService {
     
