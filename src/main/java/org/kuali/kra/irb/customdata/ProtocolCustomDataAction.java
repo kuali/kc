@@ -15,31 +15,23 @@
  */
 package org.kuali.kra.irb.customdata;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Struts Action class for the Custom Data tab.
  */
 public class ProtocolCustomDataAction extends ProtocolAction {
-
-    private static final Log LOG = LogFactory.getLog(ProtocolCustomDataAction.class);
     
     private static final String CUSTOM_ATTRIBUTE_NAME = "IRBCustomDataAttribute";
 

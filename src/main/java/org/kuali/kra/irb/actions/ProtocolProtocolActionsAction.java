@@ -2493,8 +2493,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (protocolForm.getActionHelper().getCanManageNotes()) {
                 
                 final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
-                    
-                //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
+
                 boolean validNotes = true;
                 //validate all of them first
                 for (ProtocolNotepadBase note : protocol.getNotepads()) {
