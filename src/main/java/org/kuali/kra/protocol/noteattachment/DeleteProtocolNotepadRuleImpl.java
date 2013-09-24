@@ -20,10 +20,7 @@ package org.kuali.kra.protocol.noteattachment;
  * @see DeleteProtocolNotepadRule for details
  */
 public class DeleteProtocolNotepadRuleImpl implements DeleteProtocolNotepadRule {
-    
-    private final ProtocolNotepadRuleHelper notesHelper
-        = new ProtocolNotepadRuleHelper(NoteAndAttachmentPrefix.NEW_NOTEPAD.getPrefixName());
-    
+
     /** {@inheritDoc} */
     public boolean processDeleteProtocolNotepadRules(DeleteProtocolNotepadEvent event) {
         //TODO: Might have to do some more authorizing here...

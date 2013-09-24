@@ -15,14 +15,7 @@
  */
 package org.kuali.kra.protocol.permission;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.web.bean.Role;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -40,6 +33,11 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.permission.PermissionQueryResults;
 import org.kuali.rice.kim.api.type.KimType;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 /**
  * The PermissionsHelperBase is used to manage the Permissions tab web page.
  * It contains the data, forms, and methods needed to render the page.
@@ -54,7 +52,6 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
     protected static final String AGGREGATOR_NAME = "Aggregator";
     protected static final String VIEWER_NAME = "Viewer";
     protected static final String UNASSIGNED_NAME = "unassigned";
-    private static final Log LOG = LogFactory.getLog(PermissionsHelperBase.class);
 
     //A collection of role names within the namespace that should not be assignable 
     //in the permissions page.

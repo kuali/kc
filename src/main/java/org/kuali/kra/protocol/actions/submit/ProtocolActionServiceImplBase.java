@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.kuali.kra.drools.util.DroolsRuleHandler;
@@ -33,6 +29,11 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * 
@@ -41,10 +42,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * post-update will update protocol status or submission status.
  */
 public abstract class ProtocolActionServiceImplBase implements ProtocolActionService {
-    
-    protected static final String MODIFY_ANY_PROTOCOL = "Modify Any ProtocolBase";
-
-    protected static final String DEFAULT_ORGANIZATION_UNIT = "000001";
 
     protected static final String AMEND = "A";
 

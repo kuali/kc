@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -30,12 +25,14 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Rules that invoke audit mode for KeyPersonnel
  */
 public abstract class ProtocolPersonnelAuditRuleBase extends ResearchDocumentRuleBase implements DocumentAuditRule {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelAuditRuleBase.class);
     private List<AuditError> auditErrors;
     private static final String PERSONNEL_AUDIT_ERRORS = "personnelAuditErrors";
     

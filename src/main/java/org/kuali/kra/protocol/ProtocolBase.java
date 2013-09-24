@@ -15,16 +15,6 @@
  */
 package org.kuali.kra.protocol;
 
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
@@ -46,13 +36,7 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilterBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatusBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
+import org.kuali.kra.protocol.noteattachment.*;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
@@ -65,14 +49,7 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewExemption;
-import org.kuali.kra.protocol.summary.AdditionalInfoSummary;
-import org.kuali.kra.protocol.summary.AttachmentSummary;
-import org.kuali.kra.protocol.summary.FundingSourceSummary;
-import org.kuali.kra.protocol.summary.OrganizationSummary;
-import org.kuali.kra.protocol.summary.PersonnelSummary;
-import org.kuali.kra.protocol.summary.ProtocolSummary;
-import org.kuali.kra.protocol.summary.ResearchAreaSummary;
-import org.kuali.kra.protocol.summary.SpecialReviewSummary;
+import org.kuali.kra.protocol.summary.*;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -82,6 +59,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.*;
+import java.util.Map.Entry;
 
 
 public abstract class ProtocolBase extends KraPersistableBusinessObjectBase implements SequenceOwner<ProtocolBase>, Permissionable, UnitAclLoadable, Disclosurable, KcKrmsContextBo {
@@ -683,15 +665,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         ProtocolLocationService protocolLocationService = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
         return protocolLocationService;
     }
-
-    /*
-     * Initialize protocol location.
-     * Add default organization.
-     */
-    private void initializeProtocolLocation() {
-        getProtocolLocationService().addDefaultProtocolLocation(this);
-    }
-     
     
 
     public List<ProtocolPersonBase> getProtocolPersons() {
@@ -1380,29 +1353,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         }
         this.setNotepads(notepads);
     }
-  
-    
-    
-    
-    private ProtocolPersonBase findMatchingPerson(ProtocolPersonBase person) {
-        ProtocolPersonBase matchingPerson = null;
-        for (ProtocolPersonBase newPerson : this.getProtocolPersons()) {
-            if (newPerson.getProtocolPersonRoleId().equals(person.getProtocolPersonRoleId())) {
-                if ((StringUtils.isNotBlank(newPerson.getPersonId()) && StringUtils.isNotBlank(person.getPersonId())
-                    && newPerson.getPersonId().equals(person.getPersonId())) 
-                    || (newPerson.getRolodexId() != null && person.getRolodexId() != null
-                    && newPerson.getRolodexId().equals(person.getRolodexId()))) {
-                    matchingPerson = newPerson;
-                    break;
-                    }
-            }
-        }
-        return matchingPerson;
-    }
-  
-    
-    
-    
     
     @SuppressWarnings("unchecked")
     protected void mergeSpecialReview(ProtocolBase amendment) {

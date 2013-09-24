@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.assignagenda;
 
-import java.sql.Timestamp;
-import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
@@ -26,13 +24,14 @@ import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.krad.service.DocumentService;
 
+import java.sql.Timestamp;
+import java.util.Iterator;
+
 /**
  * 
  * This class implements ProtocolAssignToAgendaService.
  */
 public abstract class ProtocolAssignToAgendaServiceImplBase implements ProtocolAssignToAgendaService {
-    
-    private static final long serialVersionUID = 986748376;
 
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;

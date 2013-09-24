@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.protocol.onlinereview;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+
+import java.sql.Date;
+import java.util.List;
 
 
 
@@ -33,11 +33,6 @@ public interface ProtocolOnlineReviewService {
     
     static final String ONLINE_REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "%s/Protocol# %s";
     
-    /**
-     * Document type code for online review.
-     */
-    String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE_CODE = "PTRV";
-        
     /**
      * Assign an online review to a reviewer.  Reviewers must be a member of the committee.
      * This method will create a new ProtocolReviewDocument, and the associated BO and return it.
@@ -158,19 +153,7 @@ public interface ProtocolOnlineReviewService {
      * @param annotation
      */
     void cancelOnlineReviews(ProtocolSubmissionBase submission, String annotation);
-    
-    /*
-     * Remove all online reviews associated with the submission.
-     * If an online review document is enroute it will be cancelled.  
-     * If an online review is final no action will be taken on the document.
-     * In both cases, the status will be set to X and the comments ( if any ) will be removed.
-     * 
-     * @param ProtocolSubmissionBase the submission you want to remove all of the online reviews on.
-     * @param annotation  The annotation to be applied to the workflow document when we cancel.
-     *  
-     */
-    void removeOnlineReviews(ProtocolSubmissionBase submission, String annotation);
-    
+
     /**
      * Finalizes all online review documents associated with the submission.
      * 

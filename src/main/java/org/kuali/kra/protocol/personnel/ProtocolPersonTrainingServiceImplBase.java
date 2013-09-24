@@ -15,20 +15,19 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public abstract class ProtocolPersonTrainingServiceImplBase implements ProtocolPersonTrainingService {
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonTrainingServiceImplBase.class);
     private static final String PERSON_ID_FIELD = "personId";
     private static final String ACTIVE_FLAG_FIELD = "active";
     private static final String FOLLOWUP_DATE_FIELD = "followupDate";
@@ -73,13 +72,6 @@ public abstract class ProtocolPersonTrainingServiceImplBase implements ProtocolP
             }
         }
         return false;        
-    }
-
-    public List<PersonTraining> getPersonTrainingDetails(String personId) {
-        Map<String, Object> matchingKeys = new HashMap<String, Object>();
-        matchingKeys.put(PERSON_ID_FIELD, personId);
-        matchingKeys.put(ACTIVE_FLAG_FIELD, IS_ACTIVE_VALUE);
-        return (List<PersonTraining>) getBusinessObjectService().findMatchingOrderBy(PersonTraining.class, matchingKeys, FOLLOWUP_DATE_FIELD, false);
     }
     
     /**

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.protocol;
 
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
@@ -24,25 +22,12 @@ import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImplBase;
-import org.kuali.kra.protocol.permission.ProtocolPermissionsRule;
-import org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelEvent;
-import org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelRule;
-import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
-import org.kuali.kra.protocol.personnel.AddProtocolUnitRule;
-import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRuleBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRuleBase;
-import org.kuali.kra.protocol.personnel.ProtocolUnitRuleBase;
-import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
-import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRuleBase;
-import org.kuali.kra.protocol.actions.decision.CommitteePersonBase;
-import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionAbstainerRule;
-import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRecuserRule;
-import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRule;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRuleBase;
+import org.kuali.kra.protocol.actions.decision.*;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
-import org.kuali.kra.protocol.protocol.funding.AddProtocolFundingSourceEventBase;
+import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImplBase;
+import org.kuali.kra.protocol.permission.ProtocolPermissionsRule;
+import org.kuali.kra.protocol.personnel.*;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRuleBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRuleBase;
 import org.kuali.kra.protocol.protocol.location.AddProtocolLocationEvent;
@@ -51,16 +36,17 @@ import org.kuali.kra.protocol.protocol.location.ProtocolLocationRuleBase;
 import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceEventBase;
 import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRuleBase;
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRuleBase;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.List;
 
 /**
  * Main Business Rule class for <code>{@link ProtocolDocumentBase}</code>. Responsible for delegating rules to independent rule classes.
@@ -240,16 +226,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     }    
     
     protected abstract ProtocolLocationRuleBase getNewProtocolLocationRuleInstanceHook();
-    
-         
-    /**
-     * @see org.kuali.kra.irb.protocol.AddProtocolFundingSourceRule#processAddProtocolFundingSourceBusinessRules(org.org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEventBase)
-     */
-    public boolean processAddProtocolFundingSourceBusinessRules(AddProtocolFundingSourceEventBase addProtocolFundingSourceEvent) {
 
-        return getNewProtocolFundingSourceRuleInstanceHook().processAddProtocolFundingSourceBusinessRules(addProtocolFundingSourceEvent);
-        
-    }
 
     protected abstract ProtocolFundingSourceRuleBase getNewProtocolFundingSourceRuleInstanceHook();
 

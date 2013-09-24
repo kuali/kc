@@ -15,33 +15,27 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPersonnelService {
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelServiceImplBase.class);
     private BusinessObjectService businessObjectService;
     private SequenceAccessorService sequenceAccessorService;
     private ProtocolPersonTrainingService protocolPersonTrainingService;
@@ -120,30 +114,6 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
             }
         }
         protocol.getProtocolPersons().removeAll(deletedPersons);
-    }
-    
-    /**
-     * When deleting a Person, attachments associated with that person must also get deleted.
-     * 
-     * <p>
-     * Implementation note:  This method manually deletes personnel attachments from a ProtocolBase
-     * because the ProtocolBase contains the personnel attachments rather than the ProtocolPersonBase containing
-     * the personnel attachments.  If the ProtocolPersonBase contained the personnel attachments obj could be
-     * used to delete records.  The reason for the "ProtocolBase"-"personnel attachment" relationship is
-     * to makes all "ProtocolBase"-"note/attachment" relationships consistent.
-     * </p>
-     * 
-     * @param protocolPersonId the person id that is deleted.
-     * @param toDelete the Collection to delete from.
-     */
-    protected void deleteAssociatedPersonnelAttachments(Integer protocolPersonId, Collection<ProtocolAttachmentPersonnelBase> toDelete) {
-        
-        for (final Iterator<ProtocolAttachmentPersonnelBase> i = toDelete.iterator(); i.hasNext();) {
-            final ProtocolAttachmentPersonnelBase attachment = i.next();
-            if (attachment.getPerson().getProtocolPersonId().equals(protocolPersonId)) {
-                i.remove();
-            }
-        }
     }
     
     /**

@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.protocol.onlinereview;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -53,6 +47,12 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnlineReviewService {
 
@@ -522,16 +522,6 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         for(ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
 //            review.addActionPerformed("Finalize:"+review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode()+":"+review.getProtocolOnlineReviewStatusCode());
             finalizeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
-        }
-    }
-    
-    /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#finalizeOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase)
-     */
-    public void removeOnlineReviews(ProtocolSubmissionBase submission, String annotation) {
-        //get the online reviews, loop through them and finalize them if necessary.
-        for(ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
-            removeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
         }
     }
     

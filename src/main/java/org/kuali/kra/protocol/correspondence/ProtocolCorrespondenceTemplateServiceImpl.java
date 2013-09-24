@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.protocol.correspondence;
 
+import org.apache.struts.upload.FormFile;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.struts.upload.FormFile;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 

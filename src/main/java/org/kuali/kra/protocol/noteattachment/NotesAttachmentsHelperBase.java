@@ -15,21 +15,12 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -39,6 +30,8 @@ import org.kuali.kra.util.CollectionUtil;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.*;
 
 /**
  * This is the "Helper" class for ProtocolBase Notes And Attachments.
@@ -422,17 +415,10 @@ public abstract class NotesAttachmentsHelperBase {
         return true;
     }
     
-    private void checkTodeleteFile(ProtocolAttachmentPersonnelBase attachment) {
-        if (attachment.getFileId() != null && !notesService.isSharedFile(attachment)) {
-            FilesToDelete.add(attachment.getFile());
-        }
-    }
-    
     /** 
      * Removes an attachment from the passed in List if a valid index.
      * @param <T> the attachment type
-     * @param the attachment to add
-     * @param attachments the attachment list to add the attachment to
+     * @param attachment the attachment to add
      */
     private <T extends ProtocolAttachmentBase> void addNewAttachment(final T attachment) {
         
@@ -535,47 +521,6 @@ public abstract class NotesAttachmentsHelperBase {
                 attachment.setNewFile(null);
             }
         }
-    }
-    
-    /** 
-     * assigns a document id to all attachments in the passed in collection based on the passed in type to doc number map. 
-     * 
-     * @param <T> the type of attachments
-     * @param attachments the collection of attachments that require doc number assignment
-     * @param typeToDocNumber the map that contains all the highest doc numbers of existing attachments based on type code
-     */
-    private <T extends ProtocolAttachmentBase & TypedAttachment> void assignDocumentId(final Collection<T> attachments,
-        final Map<String, Integer> typeToDocNumber) {
-        assert attachments != null : "the attachments was null";
-        assert typeToDocNumber != null : "the typeToDocNumber was null";
-       
-        for (final T attachment : attachments) {
-            if (attachment.isNew()) {
-                final Integer nextDocNumber = NotesAttachmentsHelperBase.createNextDocNumber(typeToDocNumber.get(attachment.getTypeCode()));
-                attachment.setDocumentId(nextDocNumber);
-            }
-        }
-    }
-    
-    /**
-     * Creates a map containing the highest doc number from a collection of attachments for each type code.
-     * @param <T> the type
-     * @param attachments the collection of attachments
-     * @return the map
-     */
-    private <T extends ProtocolAttachmentBase & TypedAttachment> Map<String, Integer> createTypeToMaxDocNumber(final Collection<T> attachments) {
-        assert attachments != null : "the attachments was null";
-        
-        final Map<String, Integer> typeToDocNumber = new HashMap<String, Integer>();
-        
-        for (final T attachment : attachments) {
-            final Integer curMax = typeToDocNumber.get(attachment.getTypeCode());
-            if (curMax == null || curMax.intValue() < attachment.getDocumentId().intValue()) {
-                typeToDocNumber.put(attachment.getTypeCode(), attachment.getDocumentId());
-            }
-        }
-        
-        return typeToDocNumber;
     }
     
     /**
@@ -764,7 +709,7 @@ public abstract class NotesAttachmentsHelperBase {
     
     /**
      * Adds the passed in notepad to the list on the protocol.
-     * @param notepad the notepad to add.
+     * @param notepadObject the notepad to add.
      */
     private void modifyNotepad(ProtocolNotepadBase notepadObject) {
         setUpdateFields(notepadObject);
@@ -774,7 +719,7 @@ public abstract class NotesAttachmentsHelperBase {
     
     /**
      * Adds the passed in notepad to the list on the protocol.
-     * @param notepad the notepad to add.
+     * @param noteToDelete the notepad to add.
      */
     private void deleteNotepad(int noteToDelete) {
         this.getProtocol().getNotepads().remove(noteToDelete);

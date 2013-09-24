@@ -16,9 +16,6 @@
 
 package org.kuali.kra.protocol;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -41,6 +38,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * This class represents the ProtocolBase Review Document Object.
@@ -55,7 +55,6 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentBase implements Copyable, SessionDocument { 
 	
     private static final String DOCUMENT_TYPE_CODE = "PTRV";
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewDocumentBase.class);
     private static final String OLR_DOC_ID_PARAM = "olrDocId";
     private static final String OLR_EVENT_PARAM = "olrEvent";
 

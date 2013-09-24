@@ -17,10 +17,8 @@ package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
  * This class contains methods to "help" in validating {@link ProtocolAttachmentBase ProtocolAttachmentBase}.
@@ -135,27 +133,6 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
             KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_TYPE, (type != null) ? type.getDescription(): "");
         
         return false;
-    }
-    
-    /**
-     * Validates that the selected type exists in the system (is valid). Creates a hard error.
-     * 
-     * @param <T> the attachment "type"
-     * @param attachment the attachment.
-     * @return true if valid.
-     */
-    <T extends ProtocolAttachmentBase & TypedAttachment> boolean validType(final T attachment) {
-        //This assumes that the status object has been refreshed from the DB
-        //and if not found the refresh action set the person to null.
-        //This is an artifact of using anon keys
-
-        if (attachment.getType() == null
-            || StringUtils.isBlank(attachment.getType().getCode())) {
-            this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.TYPE_CODE,
-                KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_TYPE);
-            return false;
-        }
-        return true;
     }
     
     /**
