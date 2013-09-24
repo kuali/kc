@@ -15,19 +15,11 @@
  */
 package org.kuali.kra.negotiations.service;
 
-import java.util.List;
-
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.negotiations.bo.Negotiable;
-import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationActivity;
-import org.kuali.kra.negotiations.bo.NegotiationActivityHistoryLineBean;
-import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
-import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.bo.NegotiationStatus;
-import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.List;
 
 /**
  * Service to help with Negotiation and working with Negotiations.
@@ -126,15 +118,6 @@ public interface NegotiationService {
      * link the negotiation to the new inst prop.
      */
     void checkForPropLogPromotion(Negotiation negotiation);
-    
-    /**
-     * 
-     * This method checks to see if the passed in person id is the PI, CO-PI, or KeyPerson on the associated document.
-     * @param negotiation
-     * @param personToCheckPersonId
-     * @return
-     */
-    boolean isPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId);
 
     /**
      * This method fine a NegotiationAssociatedDetail object from the DB and sets it to the passed in negotiation.

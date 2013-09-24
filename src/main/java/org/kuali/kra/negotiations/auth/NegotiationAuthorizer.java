@@ -19,9 +19,6 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.PessimisticLock;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class NegotiationAuthorizer extends TaskAuthorizerImpl {
     
@@ -60,16 +57,4 @@ public abstract class NegotiationAuthorizer extends TaskAuthorizerImpl {
     protected final boolean hasPermission(String userId, Negotiation negotiation, String permissionName) {
         return kraAuthorizationService.hasPermission(userId, negotiation, permissionName);
     }
-    
-    protected boolean isPessimisticLocked(Document document) {
-        boolean isLocked = false;
-        for (PessimisticLock lock : document.getPessimisticLocks()) {
-            // if lock is owned by current user, do not display message for it
-            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
-                isLocked = true;
-            }
-        }
-        return isLocked;
-    }
-
 }
