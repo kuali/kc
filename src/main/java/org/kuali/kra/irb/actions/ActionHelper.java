@@ -106,8 +106,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 @SuppressWarnings("serial")
 public class ActionHelper extends ActionHelperBase {
-    
-    private static final long ONE_DAY = 1000L * 60L * 60L * 24L;
+
     private static final String NAMESPACE = "KC-UNT";
     private static final List<String> ACTION_TYPE_SUBMISSION_DOC;
     static {

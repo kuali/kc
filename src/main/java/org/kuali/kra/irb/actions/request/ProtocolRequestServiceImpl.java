@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.irb.actions.request;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,19 +22,20 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.notification.IRBNotificationRenderer;
-import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Protocol Request Service Implementation.
@@ -155,19 +151,6 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
         submissionBuilder.setCommittee(requestBean.getCommitteeId());
         submissionBuilder.setActionAttachments(requestBean.getActionAttachments());
         return submissionBuilder.create();
-    }
-    
-    /*
-     * send Request notification for different event
-     */
-    protected void sendRequestNotification(Protocol protocol, ProtocolRequestBean requestBean) throws Exception {
-        ProtocolActionType protocolActionType = businessObjectService.findBySinglePrimaryKey(ProtocolActionType.class, requestBean.getProtocolActionTypeCode());
-        String protocolActionTypeCode = protocolActionType.getProtocolActionTypeCode();
-        String description = protocolActionType.getDescription();
-        
-        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-        IRBNotificationContext context = new IRBNotificationContext(protocol, protocolActionTypeCode, description, renderer);
-        kcNotificationService.sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
     }
 
 

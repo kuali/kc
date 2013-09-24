@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.withdraw;
 
-import java.util.ArrayList;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -24,7 +22,6 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -34,20 +31,14 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.ArrayList;
 
 /**
  * Test the ProtocolWithdrawService implementation.
@@ -75,7 +66,6 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
         service.setProtocolAssignToAgendaService(getMockProtocolAssignToAgendaService());
         service.setProtocolActionCorrespondenceGenerationService(getMockActionCorrespondenceGenerationService());
-        service.setKcNotificationService(getMockKcNotificationService());
         
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
     }
@@ -188,16 +178,6 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         }});
         
         return bean;
-    }
-    
-    private KcNotificationService getMockKcNotificationService() {
-        final KcNotificationService service = context.mock(KcNotificationService.class);
-        
-        context.checking(new Expectations() {{
-            ignoring(service);
-        }});
-        
-        return service;
     }
     
 }

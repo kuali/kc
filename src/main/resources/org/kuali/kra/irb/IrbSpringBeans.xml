@@ -670,7 +670,6 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="protocolFinderDao" ref="protocolFinderDao" />
         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
     </bean>
     
@@ -682,9 +681,6 @@
         <property name="protocolVersionService" ref="protocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
-		<!-- TEMPORARILY COMMENTED OUT DURING IRB BACKFIT - THIS IS NOT USED -->    
- 		<!-- <property name="identityManagementService" ref="identityService"/> --> 
-		<property name="kcNotificationService" ref="kcNotificationService" /> 
  		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
     </bean>
     
@@ -699,7 +695,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
        <property name="documentService" ref="documentService" />
-       	<property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
     
     <bean id="protocolNotifyCommitteeService" class="org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeServiceImpl">

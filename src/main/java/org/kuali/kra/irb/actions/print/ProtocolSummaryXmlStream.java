@@ -15,21 +15,10 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
-import org.kuali.kra.bo.CustomAttributeDocValue;
-import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.common.permissions.web.bean.AssignedRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -40,7 +29,6 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
-// import org.kuali.kra.irb.actions.ProtocolSummaryPrintOptions;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateAuthorizationService;
@@ -57,7 +45,6 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
-import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
@@ -68,32 +55,14 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
-import org.w3.x2001.protocolSummarySchema.ProtoAmendRenewalType;
-import org.w3.x2001.protocolSummarySchema.ProtocolActionsType;
-import org.w3.x2001.protocolSummarySchema.ProtocolCorrespondentType;
-import org.w3.x2001.protocolSummarySchema.ProtocolDetailsType;
-import org.w3.x2001.protocolSummarySchema.ProtocolDocumentType;
-import org.w3.x2001.protocolSummarySchema.ProtocolDocumentsType;
-import org.w3.x2001.protocolSummarySchema.ProtocolFundingSourceType;
-import org.w3.x2001.protocolSummarySchema.ProtocolInvestigatorType;
-import org.w3.x2001.protocolSummarySchema.ProtocolKeyPersonsType;
-import org.w3.x2001.protocolSummarySchema.ProtocolLocationType;
-import org.w3.x2001.protocolSummarySchema.ProtocolModulesType;
-import org.w3.x2001.protocolSummarySchema.ProtocolNotesType;
-import org.w3.x2001.protocolSummarySchema.ProtocolOtherDataType;
-import org.w3.x2001.protocolSummarySchema.ProtocolOtherDocumentsType;
-import org.w3.x2001.protocolSummarySchema.ProtocolReferencesType;
-import org.w3.x2001.protocolSummarySchema.ProtocolResearchAreasType;
-import org.w3.x2001.protocolSummarySchema.ProtocolRiskLevelsType;
-import org.w3.x2001.protocolSummarySchema.ProtocolRolesType;
-import org.w3.x2001.protocolSummarySchema.ProtocolSpecialReviewType;
-import org.w3.x2001.protocolSummarySchema.ProtocolSubjectsType;
-import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument;
+import org.w3.x2001.protocolSummarySchema.*;
 import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument.ProtocolSummary;
 import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument.ProtocolSummary.PrintRequirement;
-import org.w3.x2001.protocolSummarySchema.ProtocolUnitsType;
-import org.w3.x2001.protocolSummarySchema.ProtocolUserRolesType;
-import org.w3.x2001.protocolSummarySchema.SchoolInfoType;
+
+import java.sql.Date;
+import java.util.*;
+
+// import org.kuali.kra.irb.actions.ProtocolSummaryPrintOptions;
 
 /**
  * This class is to generate Protocol Summary Xml file

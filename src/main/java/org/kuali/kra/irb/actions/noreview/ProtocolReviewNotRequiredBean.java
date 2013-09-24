@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.irb.actions.noreview;
 
-import java.io.Serializable;
-import java.sql.Date;
-
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
+
+import java.sql.Date;
 
 /**
  * This class manages the HTML Elements needed for the review not required panel.

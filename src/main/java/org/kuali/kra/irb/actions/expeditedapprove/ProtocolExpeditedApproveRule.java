@@ -19,8 +19,6 @@ import org.drools.core.util.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveEvent;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveRule;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
  * Encapsulates the rules for approving a Protocol.

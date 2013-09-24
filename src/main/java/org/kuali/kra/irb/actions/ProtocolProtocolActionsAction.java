@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.irb.actions;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,7 +46,6 @@ import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedEvent;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
-import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionsCorrespondence;
@@ -76,17 +66,8 @@ import org.kuali.kra.irb.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
-import org.kuali.kra.irb.actions.reviewcomments.ProtocolAddReviewAttachmentEvent;
-import org.kuali.kra.irb.actions.reviewcomments.ProtocolAddReviewCommentEvent;
-import org.kuali.kra.irb.actions.reviewcomments.ProtocolManageReviewAttachmentEvent;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.irb.actions.risklevel.ProtocolAddRiskLevelEvent;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelService;
-import org.kuali.kra.irb.actions.risklevel.ProtocolUpdateRiskLevelEvent;
+import org.kuali.kra.irb.actions.reviewcomments.*;
+import org.kuali.kra.irb.actions.risklevel.*;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
@@ -96,13 +77,7 @@ import org.kuali.kra.irb.actions.undo.UndoLastActionService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.infrastructure.IrbConstants;
-import org.kuali.kra.irb.noteattachment.AddProtocolNotepadEvent;
-import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRule;
-import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRuleImpl;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
+import org.kuali.kra.irb.noteattachment.*;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
@@ -128,17 +103,22 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The set of actions for the Protocol Actions tab.
