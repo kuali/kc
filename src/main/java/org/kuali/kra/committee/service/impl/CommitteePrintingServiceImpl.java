@@ -15,24 +15,19 @@
  */
 package org.kuali.kra.committee.service.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
-
-import org.kuali.kra.committee.print.CommitteeFutureScheduledMeetingsPrint;
-import org.kuali.kra.common.committee.print.CommitteeReportType;
-import org.kuali.kra.committee.print.CommitteeRosterPrint;
-import org.kuali.kra.committee.print.CommitteeTemplatePrint;
-import org.kuali.kra.committee.print.ProtocolBatchCorrespondencePrint;
-import org.kuali.kra.committee.print.ProtocolCorrespondenceTemplatePrint;
-import org.kuali.kra.committee.print.ScheduleTemplatePrint;
+import org.kuali.kra.committee.print.*;
 import org.kuali.kra.committee.service.CommitteePrintingService;
+import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.impl.PrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * 
@@ -86,19 +81,6 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
         AttachmentDataSource attachmentDataSource = super.print(printableArtifactList);
 
         String fileName = "CommitteeReport" + Constants.PDF_FILE_EXTENSION;
-        try {
-            attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            attachmentDataSource.setFileName(fileName);
-        }
-        attachmentDataSource.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-
-        return attachmentDataSource;
-    }
-    
-    public AttachmentDataSource printRenewalReminder(List<Printable> printableArtifactList) throws PrintingException {
-        AttachmentDataSource attachmentDataSource = super.print(printableArtifactList);
-        String fileName = "RenewalReminder" + Constants.PDF_FILE_EXTENSION;
         try {
             attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
         } catch (UnsupportedEncodingException e) {
