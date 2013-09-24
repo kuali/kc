@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.negotiations.document;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.DocumentCustomData;
@@ -32,10 +27,14 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class...
@@ -118,15 +117,6 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
         } else {
             this.setDocStatusCode(routeStatusCode);
         }
-    }
-    
-    /**
-     * Has the document entered the final state in workflow?
-     * @param statusChangeEvent
-     * @return
-     */
-    private boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
-        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
     }
     
     /**
