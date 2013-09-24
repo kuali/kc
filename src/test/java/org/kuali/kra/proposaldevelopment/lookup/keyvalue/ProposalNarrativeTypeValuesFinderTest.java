@@ -120,10 +120,7 @@ public class ProposalNarrativeTypeValuesFinderTest extends KcUnitTestBase {
     @SuppressWarnings("serial")
     private class MockNarrative extends Narrative {
 
-        @Override
-        protected String findLoggedInUserPersonId() {
-            return QUICKSTART;
-        }
+
         
     }
     
