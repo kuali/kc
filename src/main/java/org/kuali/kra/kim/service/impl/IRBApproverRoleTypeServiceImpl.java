@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.kim.service.impl;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
+
+import java.util.Map;
 
 public class IRBApproverRoleTypeServiceImpl extends RoleTypeServiceBase {
 

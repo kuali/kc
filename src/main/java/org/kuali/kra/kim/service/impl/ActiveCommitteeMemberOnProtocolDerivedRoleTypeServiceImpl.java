@@ -15,20 +15,19 @@
  */
 package org.kuali.kra.kim.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -39,17 +38,11 @@ import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
  */
 public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl.class);   
-
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
         requiredAttributes.add(KcKimAttributes.PROTOCOL);
     }
-    
-    /**
-     * 
-     * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, org.kuali.rice.core.util.AttributeSet)
-     */
+
     @Override
     public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName,
             Map<String,String> qualification) {
@@ -76,11 +69,7 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends D
         
         return members;
     }
-    
-    /**
-     * 
-     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.core.util.AttributeSet)
-     */
+
     @Override
     public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName,
             Map<String,String> qualification) {

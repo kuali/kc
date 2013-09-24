@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.kim.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
@@ -29,11 +24,14 @@ import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 @SuppressWarnings("deprecation")
 public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
-    private static final org.apache.log4j.Logger LOG = 
-        org.apache.log4j.Logger.getLogger(ProtocolAffiliateTypeDerivedRoleTypeServiceImpl.class);
     
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
