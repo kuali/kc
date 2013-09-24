@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.irb.actions.withdraw;
 
-import java.io.Serializable;
-import java.sql.Date;
-
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
+
+import java.sql.Date;
 
 /**
  * This class is really just a "form" containing the reason

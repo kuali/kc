@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
-import java.sql.Timestamp;
-import java.util.Iterator;
-import java.util.List;
-
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -31,6 +27,9 @@ import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 
@@ -77,22 +76,6 @@ public class ProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaSer
     
     protected String getProtocolActionTypeAssignToAgendaCodeHook() {
         return ProtocolActionType.ASSIGN_TO_AGENDA;
-    }
-
-    protected ProtocolAction getSubmitToIrbProtocolAction(Protocol protocol) {
-        Iterator<ProtocolActionBase> i = protocol.getProtocolActions().iterator();
-        ProtocolAction returnAction = null;
-        while (i.hasNext()) {
-            ProtocolAction pa = (ProtocolAction) i.next();
-            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.SUBMIT_TO_IRB) 
-                    && (returnAction == null || returnAction.getSequenceNumber().intValue() < pa.getSequenceNumber().intValue() )) {
-                returnAction = pa;
-            }else if(pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.WITHDRAWN)){
-                returnAction = null;
-            }
-        }
-        // no proper protocol action found, return null
-        return returnAction;
     }
 
     /** {@inheritDoc} */

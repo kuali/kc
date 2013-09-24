@@ -27,8 +27,7 @@ public class ProtocolAssignToAgendaRule extends ResearchDocumentRuleBase impleme
 
     private static final String COMMITTEE_ID_FIELD = "committeeId";
     private static final String ACTION_DATE_FIELD = "actionDate";
-    private static final String PROTOCOL_ASSIGNED = "protocolAssigned";
-    
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)

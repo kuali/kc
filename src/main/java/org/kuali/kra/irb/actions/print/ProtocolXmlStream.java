@@ -15,11 +15,19 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.mit.irb.irbnamespace.CorrespondentDocument.Correspondent;
+import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
+import edu.mit.irb.irbnamespace.KeyStudyPersonDocument.KeyStudyPerson;
+import edu.mit.irb.irbnamespace.PersonDocument.Person;
+import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol;
+import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.FundingSource;
+import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.RiskLevels;
+import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions;
+import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions.NextSchedule;
+import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
+import edu.mit.irb.irbnamespace.SpecialReviewDocument.SpecialReview;
+import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
+import edu.mit.irb.irbnamespace.VulnerableSubjectDocument.VulnerableSubject;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -40,22 +48,13 @@ import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
-import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStreamBase;
 import org.kuali.kra.service.KcPersonService;
-import edu.mit.irb.irbnamespace.CorrespondentDocument.Correspondent;
-import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
-import edu.mit.irb.irbnamespace.KeyStudyPersonDocument.KeyStudyPerson;
-import edu.mit.irb.irbnamespace.PersonDocument.Person;
-import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol;
-import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.FundingSource;
-import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.RiskLevels;
-import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions;
-import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions.NextSchedule;
-import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
-import edu.mit.irb.irbnamespace.SpecialReviewDocument.SpecialReview;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
-import edu.mit.irb.irbnamespace.VulnerableSubjectDocument.VulnerableSubject;
+
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class is used to populate xmlbeans object for Protocol schema elements
@@ -77,18 +76,6 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
         Map<String,XmlObject> xmlObjectMap = new HashMap<String, XmlObject>();
         xmlObjectMap.put("Protocol", protocolDocumentType);
         return xmlObjectMap;
-    }
-
-    /**
-     * 
-     * This method is to create xml data for protocol action notifications
-     * @param protocol
-     * @return
-     */
-    public String generateXmlStreamForNotification(org.kuali.kra.irb.Protocol protocol) {
-        edu.mit.irb.irbnamespace.ProtocolDocument protocolDocumentType = edu.mit.irb.irbnamespace.ProtocolDocument.Factory.newInstance();
-        protocolDocumentType.setProtocol(getProtocol(protocol));
-        return protocolDocumentType.toString();
     }
 
     public Protocol getProtocol(org.kuali.kra.irb.Protocol protocolInfoBean, Integer submissionNumber) {

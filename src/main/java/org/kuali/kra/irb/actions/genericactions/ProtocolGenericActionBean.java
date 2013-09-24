@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.irb.actions.genericactions;
 
-import java.sql.Date;
-
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBeanBase;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
+
+import java.sql.Date;
 
 /**
  * This class is really just a "form" for generic actions.

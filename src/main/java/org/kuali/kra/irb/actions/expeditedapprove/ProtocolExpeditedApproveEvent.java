@@ -18,7 +18,6 @@ package org.kuali.kra.irb.actions.expeditedapprove;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveEvent;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * Encapsulates the event that the IRB Administrator approves a protocol.
