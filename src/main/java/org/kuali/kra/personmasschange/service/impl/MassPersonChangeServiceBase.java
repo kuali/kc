@@ -15,12 +15,9 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.rules.ErrorReporter;
@@ -28,6 +25,8 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.List;
 
 public abstract class MassPersonChangeServiceBase {
     

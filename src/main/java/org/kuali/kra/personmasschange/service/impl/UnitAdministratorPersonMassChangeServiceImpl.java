@@ -15,19 +15,17 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.UnitAdministratorPersonMassChangeService;
-import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Defines the service for performing a Person Mass Change on Units.
