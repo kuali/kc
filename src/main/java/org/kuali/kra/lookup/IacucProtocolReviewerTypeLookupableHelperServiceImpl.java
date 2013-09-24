@@ -17,7 +17,6 @@ package org.kuali.kra.lookup;
 
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 public class IacucProtocolReviewerTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
