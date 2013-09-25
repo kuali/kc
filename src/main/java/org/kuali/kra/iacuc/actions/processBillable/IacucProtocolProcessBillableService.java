@@ -19,7 +19,6 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 

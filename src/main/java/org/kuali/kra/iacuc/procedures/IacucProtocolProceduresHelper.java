@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
@@ -28,6 +24,10 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IacucProtocolProceduresHelper implements Serializable{
 
@@ -96,10 +96,6 @@ public class IacucProtocolProceduresHelper implements Serializable{
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
-    }
-
-    protected String getUserIdentifier() {
-        return GlobalVariables.getUserSession().getPrincipalId();
     }
 
     public IacucProtocolStudyGroup getNewIacucProtocolStudyGroup() {

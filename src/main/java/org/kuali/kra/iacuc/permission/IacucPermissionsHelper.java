@@ -15,12 +15,7 @@
  */
 package org.kuali.kra.iacuc.permission;
 
-import java.util.HashMap;
-import java.util.HashSet;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
@@ -28,6 +23,9 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.permission.PermissionsHelperBase;
+
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 /**
@@ -42,9 +40,6 @@ public class IacucPermissionsHelper extends PermissionsHelperBase {
     private static final long serialVersionUID = 3601806102887965826L;
 
 
-    private static final Log LOG = LogFactory.getLog(IacucPermissionsHelper.class);
-    
-    
     /**
      * Constructs a PermissionsHelperBase.
      * @param form the form

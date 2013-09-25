@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.iacuc.threers;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 public class AddAlternateSearchEvent extends KraDocumentEventBaseExtension {
 

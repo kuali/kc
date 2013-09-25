@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IacucProcedurePersonResponsible extends ProtocolAssociateBase { 
     

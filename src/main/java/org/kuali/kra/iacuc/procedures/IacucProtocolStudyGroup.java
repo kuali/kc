@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase { 
     

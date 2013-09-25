@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -34,6 +29,9 @@ import org.kuali.kra.iacuc.procedures.rule.AddProtocolStudyGroupEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class IacucProtocolProceduresAction extends IacucProtocolAction {
 
@@ -161,10 +159,6 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     protected IacucProtocolStudyGroupBean getSelectedProcedureBean(HttpServletRequest request, IacucProtocolDocument document) {
         int selectedBeanIndex = getSelectedBeanIndex(request, BEAN_FIND_PARAM_START, FIND_PARAM_END);
         return document.getIacucProtocol().getIacucProtocolStudyGroupBeans().get(selectedBeanIndex);
-    }
-    
-    protected int getSelectedProcedurePersonIndex(HttpServletRequest request) {
-        return getSelectedBeanIndex(request, BEAN_PERSON_FIND_PARAM_START, FIND_PARAM_END);
     }
 
     /**

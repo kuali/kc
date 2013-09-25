@@ -17,14 +17,11 @@ package org.kuali.kra.iacuc.onlinereview.authorization;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
-import org.kuali.kra.protocol.onlinereview.authorization.ProtocolOnlineReviewTask;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.service.KraAuthorizationService;
 
 public abstract class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizerImpl {
     private KraAuthorizationService kraAuthorizationService;
-    private IacucProtocolOnlineReviewService iacucProtocolOnlineReviewService;
    
     
     /**
@@ -46,8 +43,8 @@ public abstract class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizer
     
     /**
      * Does the given user have the permission for this protocol?
-     * @param username the unique username of the user
-     * @param protocol the protocol
+     * @param userId the unique username of the user
+     * @param protocolOnlineReview the protocol
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
@@ -63,11 +60,4 @@ public abstract class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizer
     public KraAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
     }
-
-
-    public void setIacucProtocolOnlineReviewService(IacucProtocolOnlineReviewService iacucProtocolOnlineReviewService) {
-        this.iacucProtocolOnlineReviewService = iacucProtocolOnlineReviewService;
-    }
-
-
 }

@@ -18,7 +18,6 @@ package org.kuali.kra.iacuc.personnel;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEventBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * Represents the event to save a ProtocolPersonnel.

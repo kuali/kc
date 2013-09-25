@@ -15,38 +15,30 @@
  */
 package org.kuali.kra.iacuc.actions.assignreviewers;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.notification.bo.NotificationType;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
-import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
-//import org.kuali.kra.protocol.actions.notification.AssignReviewerNotificationRenderer;
-//import org.kuali.kra.protocol.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-//import org.kuali.kra.protocol.notification.IRBNotificationContext;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.sql.Date;
+import java.util.List;
+
+//import org.kuali.kra.protocol.actions.notification.AssignReviewerNotificationRenderer;
+//import org.kuali.kra.protocol.actions.notification.ProtocolNotificationRequestBean;
+//import org.kuali.kra.protocol.notification.IRBNotificationContext;
+
 public class IacucProtocolAssignReviewersServiceImpl implements IacucProtocolAssignReviewersService{
     private BusinessObjectService businessObjectService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
-    private KcNotificationService kcNotificationService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService#assignReviewers(org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase, 
-     *      java.util.List)
-     */
     public void assignReviewers(ProtocolSubmissionBase protocolSubmission, List<ProtocolReviewerBeanBase> protocolReviewerBeans) throws Exception  {
         if (protocolSubmission != null) {
             for (ProtocolReviewerBeanBase bean : protocolReviewerBeans) {
@@ -128,11 +120,5 @@ public class IacucProtocolAssignReviewersServiceImpl implements IacucProtocolAss
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
-
-    
-    public void setKcNotificationService(KcNotificationService kcNotificationService) {
-        this.kcNotificationService = kcNotificationService;
-    }
-    
 
 }

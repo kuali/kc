@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.iacuc.questionnaire;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KrmsRulesContext;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaireBeanBase {
 

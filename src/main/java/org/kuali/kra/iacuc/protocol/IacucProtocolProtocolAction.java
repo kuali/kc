@@ -15,50 +15,24 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.IacucProtocolAction;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
-import org.kuali.kra.iacuc.IacucProtocolForm;
-import org.kuali.kra.iacuc.IacucResearchArea;
+import org.kuali.kra.iacuc.*;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.notification.IacucProtocolFundingSourceNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
-import org.kuali.kra.iacuc.protocol.funding.AddIacucProtocolFundingSourceEvent;
-import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
-import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
-import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceServiceImpl;
-import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentDocumentService;
-import org.kuali.kra.iacuc.protocol.funding.LookupIacucProtocolFundingSourceEvent;
-import org.kuali.kra.iacuc.protocol.funding.SaveIacucProtocolFundingSourceLinkEvent;
+import org.kuali.kra.iacuc.protocol.funding.*;
 import org.kuali.kra.iacuc.protocol.location.AddIacucProtocolLocationEvent;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
-import org.kuali.kra.iacuc.protocol.reference.AddIacucProtocolReferenceEvent;
-import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReference;
-import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceBean;
-import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceService;
-import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceType;
+import org.kuali.kra.iacuc.protocol.reference.*;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
-import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -69,14 +43,19 @@ import org.kuali.kra.protocol.ProtocolEventBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolProposalDevelopmentDocumentService;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class IacucProtocolProtocolAction extends IacucProtocolAction {
     
@@ -614,24 +593,9 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
-
-    private void setQnCompleteStatus(List<AnswerHeader> answerHeaders) {
-        for (AnswerHeader answerHeader : answerHeaders) {
-            answerHeader.setCompleted(getQuestionnaireAnswerService().isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
-        }
-    }
     
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
-    }
-
-    /*
-     * get the saved answer headers
-     */
-    private List<AnswerHeader> getAnswerHeaders(ActionForm form, String actionTypeCode) {
-        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
-        return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
     }
     
 }

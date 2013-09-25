@@ -17,17 +17,8 @@ package org.kuali.kra.iacuc.actions;
 
 import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class IacucProtocolActionMapping implements FactBean {
-    
-    // TODO : this will extends base ProtocolActionMapping from protocol eventually
-    private static final String PROTOCOL_NUMBER = "protocolNumber";
-    private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    private static final String SUBMISSION_NUMBER = "submissionNumber";
-
-
-    private BusinessObjectService businessObjectService;
         
     String submissionStatusCode;
     
@@ -56,10 +47,6 @@ public class IacucProtocolActionMapping implements FactBean {
         this.protocolStatusCode = protocolStatusCode;
         this.scheduleId = scheduleId;
         this.submissionNumber = submissionNumber;
-    }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
     
     public void setProtocol(ProtocolBase protocol) {

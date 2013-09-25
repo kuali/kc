@@ -15,15 +15,12 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentVersioningUtilityBase;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.krad.service.DocumentService;
 
 public class IacucProtocolAttachmentVersioningUtility extends ProtocolAttachmentVersioningUtilityBase {
 
