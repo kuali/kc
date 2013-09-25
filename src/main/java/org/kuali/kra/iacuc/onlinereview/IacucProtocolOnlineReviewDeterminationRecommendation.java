@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewDeterminationRecommendationBase;
 
@@ -25,24 +26,50 @@ public class IacucProtocolOnlineReviewDeterminationRecommendation extends Protoc
      */
     private static final long serialVersionUID = -1768290517796704487L;
 
-    private Long assocReviewTypeCode;
+    private String iacucProtocolReviewTypeCode;
     
-    private ProtocolReviewTypeBase assocReviewType;
+    private ProtocolReviewTypeBase iacucProtocolReviewType;
 
-    public Long getAssocReviewTypeCode() {
-        return assocReviewTypeCode;
+    private IacucProtocolActionType iacucProtocolActionType;
+    
+    private String iacucProtocolActionTypeCode;
+    
+    public String getIacucProtocolReviewTypeCode() {
+        return iacucProtocolReviewTypeCode;
     }
 
-    public void setAssocReviewTypeCode(Long assocReviewTypeCode) {
-        this.assocReviewTypeCode = assocReviewTypeCode;
+    public void setIacucProtocolReviewTypeCode(String iacucProtocolReviewTypeCode) {
+        this.iacucProtocolReviewTypeCode = iacucProtocolReviewTypeCode;
     }
 
-    public ProtocolReviewTypeBase getAssocReviewType() {
-        return assocReviewType;
+    public ProtocolReviewTypeBase getIacucProtocolReviewType() {
+        if (iacucProtocolReviewType == null || !iacucProtocolReviewType.getReviewTypeCode().equals(iacucProtocolReviewTypeCode)) {
+            refreshReferenceObject("iacucProtocolReviewType");
+        }
+        return iacucProtocolReviewType;
     }
 
-    public void setAssocReviewType(ProtocolReviewTypeBase assocReviewType) {
-        this.assocReviewType = assocReviewType;
+    public void setIacucProtocolReviewType(ProtocolReviewTypeBase iacucProtocolReviewType) {
+        this.iacucProtocolReviewType = iacucProtocolReviewType;
+    }
+
+    public IacucProtocolActionType getIacucProtocolActionType() {
+        if (iacucProtocolActionType == null || !iacucProtocolActionType.getProtocolActionTypeCode().equals(iacucProtocolActionTypeCode)) {
+            refreshReferenceObject("iacucProtocolActionType");
+        }
+        return iacucProtocolActionType;
+    }
+
+    public void setIacucProtocolActionType(IacucProtocolActionType iacucProtocolActionType) {
+        this.iacucProtocolActionType = iacucProtocolActionType;
+    }
+
+    public String getIacucProtocolActionTypeCode() {
+        return iacucProtocolActionTypeCode;
+    }
+
+    public void setIacucProtocolActionTypeCode(String iacucProtocolActionTypeCode) {
+        this.iacucProtocolActionTypeCode = iacucProtocolActionTypeCode;
     }
 
 }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.drools.core.util.StringUtils;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
@@ -45,9 +46,9 @@ public class IacucProtocolOnlineReviewDeterminationRecommendationValuesFinder ex
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         for (IacucProtocolOnlineReviewDeterminationRecommendation recommendation : recommendations) {
-            if (recommendation.getAssocReviewTypeCode() == null || recommendation.getAssocReviewTypeCode().intValue() == 0 ||
-                recommendation.getAssocReviewTypeCode().intValue() == Integer.valueOf(reviewType)) {
-                keyValues.add(new ConcreteKeyValue(recommendation.getProtocolOnlineReviewDeterminationRecommendationCode().toString(), recommendation.getDescription()));
+            if (StringUtils.isEmpty(recommendation.getIacucProtocolReviewTypeCode()) ||
+                recommendation.getIacucProtocolReviewTypeCode().equals(reviewType)) {
+                keyValues.add(new ConcreteKeyValue(recommendation.getProtocolOnlineReviewDeterminationRecommendationCode().toString(), recommendation.getIacucProtocolActionType().getDescription()));
             }
         }
         return keyValues;

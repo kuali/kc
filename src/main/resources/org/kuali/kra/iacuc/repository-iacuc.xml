@@ -1278,18 +1278,21 @@
         </reference-descriptor>
                
     </class-descriptor> 
-    
-    
+        
     <class-descriptor class = "org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationRecommendation" table = "IACUC_PROTO_OLR_DT_REC_TYPE">
 		<field-descriptor name="protocolOnlineReviewDeterminationRecommendationCode" column="REVIEW_DETERM_RECOM_CD" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="assocReviewTypeCode" column="ASSOC_REVIEW_TYPE" jdbc-type="BIGINT"/>
+		<field-descriptor name="iacucProtocolReviewTypeCode" column="ASSOC_REVIEW_TYPE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="iacucProtocolActionTypeCode" column="IACUC_PROT_ACTION_TYPE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <reference-descriptor name="assocReviewType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="assocReviewTypeCode"/>
+        <reference-descriptor name="iacucProtocolReviewType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="iacucProtocolReviewTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="iacucProtocolActionType" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="iacucProtocolActionTypeCode"/>
         </reference-descriptor>
 	</class-descriptor> 
 
@@ -1301,8 +1304,6 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor> 
-
-
 
     <class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer" table="IACUC_PROTOCOL_REVIEWERS">
         <field-descriptor name="protocolReviewerId" column="PROTOCOL_REVIEWER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROTOCOL_REVIEWER_ID"/>

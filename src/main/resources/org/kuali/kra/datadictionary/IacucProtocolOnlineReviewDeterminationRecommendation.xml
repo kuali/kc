@@ -29,8 +29,10 @@
 			<list>
 				<ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-protocolOnlineReviewDeterminationRecommendationCode"/>
 				<ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-description"/>
-                <ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewTypeCode" />
-                <ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewType.description" />
+                <ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewTypeCode" />
+                <ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewType.description" />
+                <ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolActionTypeCode" />
+                <ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolActionType.description" />
 				<ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-versionNumber"/>
 			</list>
 		</property>
@@ -57,6 +59,8 @@
 	
 	<bean id="IacucProtocolOnlineReviewDeterminationRecommendation-description" parent="IacucProtocolOnlineReviewDeterminationRecommendation-description-parentBean"/>
     <bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-description-parentBean" parent="KraAttributeReferenceDummy-description">
+		<property name="label" value="Description"/>
+		<property name="shortLabel" value="Description"/>
     	<property name="required" value="true"/>
     	<property name="maxLength" value="300"/>
     </bean>
@@ -65,9 +69,9 @@
 	<bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
-    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewTypeCode" parent="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewTypeCode-parentBean" />
-    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="assocReviewTypeCode" />
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewTypeCode" parent="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewTypeCode-parentBean" />
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="iacucProtocolReviewTypeCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Review Type" />
         <property name="shortLabel" value="Review Type" />
@@ -88,11 +92,41 @@
         <property name="description" value="Review Type" />
     </bean>
   
-    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewType.description" parent="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewType.description-parentBean" />
-    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewType.description-parentBean" abstract="true" parent="IacucProtocolReviewType-description">
-        <property name="name" value="assocReviewType.description" />
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewType.description" parent="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewType.description-parentBean" />
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewType.description-parentBean" abstract="true" parent="IacucProtocolReviewType-description">
+        <property name="name" value="iacucProtocolReviewType.description" />
         <property name="label" value="Review Type" />
         <property name="shortLabel" value="Review Type" />
+    </bean>
+  
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolActionTypeCode" parent="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolActionTypeCode-parentBean" />
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolActionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="iacucProtocolActionTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Recommended Action" />
+        <property name="shortLabel" value="Recommended Action" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+	    <property name="control" >
+    	    <bean parent="SelectControlDefinition" 
+    	        p:businessObjectClass="org.kuali.kra.iacuc.actions.IacucProtocolActionType" 
+    	        p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+    	        p:includeKeyInLabel="false"
+    	        p:includeBlankRow="false"
+    	        p:keyAttribute="protocolActionTypeCode"
+    	        p:labelAttribute="description" />
+    	</property>
+        <property name="summary" value="Recommended Action" />
+        <property name="description" value="Recommended Action" />
+    </bean>
+  
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolActionType.description" parent="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolActionType.description-parentBean" />
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolActionType.description-parentBean" abstract="true" parent="IacucProtocolReviewType-description">
+        <property name="name" value="iacucProtocolActionType.description" />
+        <property name="label" value="Recommended Action" />
+        <property name="shortLabel" value="Recommended Action" />
     </bean>
   
 	<!-- Business Object Inquiry Definition -->
@@ -108,7 +142,8 @@
 						<list>
 							<bean p:attributeName="protocolOnlineReviewDeterminationRecommendationCode" p:forceInquiry="true" parent="FieldDefinition"/>
 							<bean p:attributeName="description" parent="FieldDefinition"/>
-							<bean p:attributeName="assocReviewTypeCode" parent="FieldDefinition"/>
+							<bean p:attributeName="iacucProtocolReviewTypeCode" parent="FieldDefinition"/>
+							<bean p:attributeName="iacucProtocolActionTypeCode" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -129,14 +164,16 @@
 			<list>
 				<bean p:attributeName="protocolOnlineReviewDeterminationRecommendationCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
-				<bean p:attributeName="assocReviewTypeCode" parent="FieldDefinition"/>
+				<bean p:attributeName="iacucProtocolReviewTypeCode" parent="FieldDefinition"/>
+				<bean p:attributeName="iacucProtocolActionTypeCode" parent="FieldDefinition"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
 				<bean p:attributeName="protocolOnlineReviewDeterminationRecommendationCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
-				<bean p:attributeName="assocReviewTypeCode" parent="FieldDefinition"/>
+				<bean p:attributeName="iacucProtocolReviewTypeCode" parent="FieldDefinition"/>
+				<bean p:attributeName="iacucProtocolActionType.description" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>
