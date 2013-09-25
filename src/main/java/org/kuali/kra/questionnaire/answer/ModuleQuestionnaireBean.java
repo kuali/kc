@@ -15,21 +15,11 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
-import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.krms.KrmsRulesContext;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
-import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sModuleQuestionnaireBean;
-import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Map;
 
 
 /**
