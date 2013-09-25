@@ -15,25 +15,22 @@
  */
 package org.kuali.kra.questionnaire.printing;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.print.QuestionnairePrint;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class QuestionnairePrintingServiceImpl implements QuestionnairePrintingService {
 
@@ -42,50 +39,6 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
     private PrintingService printingService;
     private QuestionnairePrint questionnairePrint;
     private BusinessObjectService businessObjectService;
-
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaire(org.kuali.kra.document.ResearchDocumentBase,
-     *      java.util.Map)
-     */
-    public AttachmentDataSource printQuestionnaire(
-            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters)
-            throws PrintingException {
-        /* TODO : Questionnaire is a maintenance document.  questionnaireId is generated when document is approved and
-        *   saved to DB. so, pk is not in doc xml content, and passing questionnaireid will not work.
-        *   Therefore, passing documentNumber, questionnaire can be retrieved from xml content by loaddocument.
-        *   This is what I think how offshore team can get questionnaire data to generate pdf.
-        */   
-        AttachmentDataSource source = null;
-        AbstractPrint printable = getQuestionnairePrint();
-        if (printable != null) {
-            printable.setPrintableBusinessObject(printableBusinessObject);
-            printable.setReportParameters(reportParameters);
-            source = getPrintingService().print(printable);
-            source.setFileName("Questionnaire-" + reportParameters.get("documentNumber") + Constants.PDF_FILE_EXTENSION);
-            source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-        }
-        return source;
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaireAnswer(KewPersistableBusinessObjectBase,
-     *      java.util.Map)
-     */
-    public AttachmentDataSource printQuestionnaireAnswer(KraPersistableBusinessObjectBase printableBusinessObject, 
-            Map<String, Object> reportParameters) throws PrintingException {
-        AttachmentDataSource source = null;
-        AbstractPrint printable = getQuestionnairePrint();
-        if (printable != null) {
-            printable.setPrintableBusinessObject(printableBusinessObject);
-            printable.setReportParameters(reportParameters);
-            source = getPrintingService().print(printable);
-            source.setFileName("QuestionnaireAnswer" + reportParameters.get("questionnaireId") + Constants.PDF_FILE_EXTENSION);
-            source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-        }
-        return source;
-    }
 
     
     private Questionnaire getQuestionnaire(Long questionnaireRefId) {

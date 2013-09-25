@@ -15,28 +15,11 @@
  */
 package org.kuali.kra.questionnaire;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -49,14 +32,22 @@ import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 /*
  * Big issue is that questionnairequestions and usages can't be included in xmldoccontent because maintframework - questions &
@@ -71,13 +62,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This is the maintenance action class is for questionnaire.
  */
 public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
-    private static final Log LOG = LogFactory.getLog(QuestionnaireMaintenanceDocumentAction.class);
     private static final String PCP = "#;#";
     private static final String PQP = "#q#";
     private static final String PUP = "#u#";
     private static final String PFP = "#f#";
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-    private static final String DOCUMENT_NUMBER = "documentNumber";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)

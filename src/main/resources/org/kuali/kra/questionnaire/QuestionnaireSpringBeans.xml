@@ -106,7 +106,6 @@
     <bean id="questionnaireAnswerService" class="org.kuali.kra.questionnaire.answer.QuestionnaireAnswerServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
-        <property name="parameterService" ref="parameterService"/>
         <property name="questionnaireService" ref="questionnaireService" />
         <property name="krmsRulesExecutionService" ref="krmsRulesExecutionService" />
     </bean>

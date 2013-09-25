@@ -15,15 +15,12 @@
  */
 package org.kuali.kra.reporting.service;
 
-import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.kuali.kra.reporting.bo.BirtParameterBean;
 import org.kuali.kra.reporting.bo.CustReportDetails;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public interface BirtReportService {

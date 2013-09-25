@@ -36,7 +36,6 @@ import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -58,10 +57,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
-    private static final String QUESTIONNAIRE_AGENDA_NAME = "QUESTIONNAIRE_AGENDA_NAME";
     private BusinessObjectService businessObjectService;
     private ProtocolFinderDao protocolFinderDao;
-    private ParameterService  parameterService;
     private QuestionnaireService questionnaireService;
     private KrmsRulesExecutionService krmsRulesExecutionService;
 
@@ -852,10 +849,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         GlobalVariables.getUserSession().addObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced", ruleResults);
         
         return ruleResults;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
     
     public ModuleQuestionnaireBean getModuleSpecificBean(AnswerHeader answerHeader) {

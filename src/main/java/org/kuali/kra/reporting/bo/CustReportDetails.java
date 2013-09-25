@@ -17,10 +17,7 @@ package org.kuali.kra.reporting.bo;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kim.impl.permission.PermissionBo;
 import org.kuali.rice.krad.bo.PersistableAttachment;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class CustReportDetails extends KraPersistableBusinessObjectBase implements PersistableAttachment{ 
     
