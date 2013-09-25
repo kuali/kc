@@ -15,25 +15,10 @@
  */
 package org.kuali.kra.reporting.web.struts.action;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.eclipse.birt.report.engine.api.EXCELRenderOption;
-import org.eclipse.birt.report.engine.api.HTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
-import org.eclipse.birt.report.engine.api.PDFRenderOption;
-import org.eclipse.birt.report.engine.api.RenderOption;
+import org.eclipse.birt.report.engine.api.*;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.kuali.kra.infrastructure.Constants;
@@ -49,12 +34,20 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
 
 
 
 public class ReportGenerationAction extends ReportGenerationBaseAction {
-  
-    private BirtReportService birtReportService;
     
     /**
      * sets report parameters to action form     
@@ -183,10 +176,6 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
     
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.close(mapping, form, request, response);
-    }
-
-    public void setBirtReportService(BirtReportService birtReportService) {
-        this.birtReportService = birtReportService;
     }
     
     public BirtReportService getBirtReportService() {
