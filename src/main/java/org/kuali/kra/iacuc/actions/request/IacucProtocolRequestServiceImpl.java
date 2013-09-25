@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions.request;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,19 +22,16 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
-import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionBuilder;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
-import org.kuali.kra.iacuc.notification.IacucProtocolRequestActionNotificationRenderer;
+import org.kuali.kra.iacuc.actions.submit.*;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Protocol Request Service Implementation.
@@ -151,19 +143,6 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
         submissionBuilder.setCommittee(requestBean.getCommitteeId());
         submissionBuilder.setActionAttachments(requestBean.getActionAttachments());
         return submissionBuilder.create();
-    }
-    
-    /*
-     * send Request notification for different event
-     */
-    protected void sendRequestNotification(IacucProtocol protocol, IacucProtocolRequestBean requestBean) throws Exception {
-        IacucProtocolActionType protocolActionType = businessObjectService.findBySinglePrimaryKey(IacucProtocolActionType.class, requestBean.getProtocolActionTypeCode());
-        String protocolActionTypeCode = protocolActionType.getProtocolActionTypeCode();
-        String description = protocolActionType.getDescription();
-        
-        IacucProtocolRequestActionNotificationRenderer renderer = new IacucProtocolRequestActionNotificationRenderer(protocol, requestBean.getReason());
-        IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, protocolActionTypeCode, description, renderer);
-        getKcNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
     }
 
 

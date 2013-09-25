@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.iacuc.onlinereview.authorization;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
@@ -35,6 +32,9 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
         
@@ -205,13 +205,6 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
         boolean result = super.canDisapprove(document, user);
         result &= canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS); 
         return result;
-    }
-    
-    private KraWorkflowService getKraWorkflowService() {
-        if (kraWorkflowService==null) {
-            kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
-        }
-        return kraWorkflowService;
     }
 
     @Override

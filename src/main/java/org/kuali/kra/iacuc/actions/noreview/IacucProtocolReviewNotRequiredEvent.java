@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions.noreview;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.noreview.ExecuteProtocolReviewNotRequiredRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;

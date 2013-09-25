@@ -15,15 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.modifysubmission;
 
-import java.util.List;
-
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
+
+import java.util.List;
 
 public interface IacucProtocolModifySubmissionService {
 
     public void modifySubmission(ProtocolDocumentBase protocolDocument, IacucProtocolModifySubmissionBean bean, List<ProtocolReviewerBeanBase> beans) throws Exception;
-
-    public String getAssignedScheduleId(ProtocolBase protocol);
 }

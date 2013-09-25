@@ -15,16 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions.modifysubmission;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.sql.Date;
-
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
-import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -33,7 +28,11 @@ import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.springframework.util.AutoPopulatingList;
-import org.apache.commons.lang.StringUtils;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean implements Serializable {
@@ -155,10 +154,6 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
         this.scheduleId = currentScheduleId;
     }
 
-    private IacucProtocolAssignCmtService getProtocolAssignCmtService() {
-        return KraServiceLocator.getService(IacucProtocolAssignCmtService.class);
-    }
-
     public List<ProtocolReviewerBeanBase> getReviewers() {
         return reviewers;
     }
@@ -249,10 +244,6 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
     
     private CommitteeServiceBase getCommitteeService() {
         return KraServiceLocator.getService(IacucCommitteeService.class);
-    }
-    
-    protected IacucProtocolModifySubmissionService getProtocolModifySubmissionService() {
-        return KraServiceLocator.getService(IacucProtocolModifySubmissionService.class);
     }
   
 }

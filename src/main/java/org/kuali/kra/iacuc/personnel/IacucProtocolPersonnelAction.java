@@ -16,14 +16,6 @@
 package org.kuali.kra.iacuc.personnel;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -50,15 +42,17 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.krad.util.KRADConstants;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
+
 
 public class IacucProtocolPersonnelAction extends IacucProtocolAction {
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucProtocolPersonnelAction.class);
-    
+
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
     private static final String CONFIRM_NO_DELETE = "";
-    private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
 
 
     private ProtocolAttachmentService protocolAttachmentService;
@@ -387,7 +381,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
         keyMap.put("protocolNumber", protocol.getProtocolNumber());
         keyMap.put("sequenceNumber", protocol.getSequenceNumber());
  
-        List<ProtocolAttachmentPersonnelBase> attachments = (List<ProtocolAttachmentPersonnelBase>)getBusinessObjectService().findMatching(IacucProtocolAttachmentPersonnel.class, keyMap);
+        Collection<IacucProtocolAttachmentPersonnel> attachments = getBusinessObjectService().findMatching(IacucProtocolAttachmentPersonnel.class, keyMap);
         List<AttachmentFile> filesToDelete = new ArrayList<AttachmentFile>();
         List<Long> attachmentIds = new ArrayList<Long>();
         for (ProtocolAttachmentPersonnelBase attachment : protocol.getAttachmentPersonnels()) {

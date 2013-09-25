@@ -15,12 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.print.service.impl;
 
-import java.math.BigInteger;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.mit.coeus.xml.iacuc.*;
+import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
@@ -39,16 +35,12 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import edu.mit.coeus.xml.iacuc.MinuteType;
-import edu.mit.coeus.xml.iacuc.PersonType;
-import edu.mit.coeus.xml.iacuc.ProtocolSubmissionType;
-import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
-import edu.mit.coeus.xml.iacuc.ScheduleType;
-import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
+import java.math.BigInteger;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * This class...
- */
 public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     private BusinessObjectService businessObjectService;

@@ -124,26 +124,26 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
     // this method will copy over the editable 'light' references and primitives 
     // from the sourceSchedule onto this schedule.
     public void copyLightDataFrom(CS sourceSchedule) {
-        this.filter = sourceSchedule.filter;
-        this.delete = sourceSchedule.delete;
-        this.selected = sourceSchedule.selected;
+        this.filter = sourceSchedule.getFilter();
+        this.delete = sourceSchedule.getDelete();
+        this.selected = sourceSchedule.isSelected();
  
-        this.scheduledDate = sourceSchedule.scheduledDate;
-        this.place = sourceSchedule.place;
-        this.time = sourceSchedule.time;
+        this.scheduledDate = sourceSchedule.getScheduledDate();
+        this.place = sourceSchedule.getPlace();
+        this.time = sourceSchedule.getTime();
 
-        this.protocolSubDeadline = sourceSchedule.protocolSubDeadline;
-        this.scheduleStatusCode = sourceSchedule.scheduleStatusCode;
-        this.meetingDate = sourceSchedule.meetingDate;
-        this.startTime = sourceSchedule.startTime;
-        this.endTime = sourceSchedule.endTime;
-        this.agendaProdRevDate = sourceSchedule.agendaProdRevDate;
-        this.maxProtocols = sourceSchedule.maxProtocols;
-        this.comments = sourceSchedule.comments; 
-        this.availableToReviewers = sourceSchedule.availableToReviewers;
+        this.protocolSubDeadline = sourceSchedule.getProtocolSubDeadline();
+        this.scheduleStatusCode = sourceSchedule.getScheduleStatusCode();
+        this.meetingDate = sourceSchedule.getMeetingDate();
+        this.startTime = sourceSchedule.getStartTime();
+        this.endTime = sourceSchedule.getEndTime();
+        this.agendaProdRevDate = sourceSchedule.getAgendaProdRevDate();
+        this.maxProtocols = sourceSchedule.getMaxProtocols();
+        this.comments = sourceSchedule.getComments();
+        this.availableToReviewers = sourceSchedule.isAvailableToReviewers();
         
-        this.viewStartTime = sourceSchedule.viewStartTime;
-        this.viewEndTime = sourceSchedule.viewEndTime;
+        this.viewStartTime = sourceSchedule.getViewStartTime();
+        this.viewEndTime = sourceSchedule.getViewEndTime();
     }
     
 	

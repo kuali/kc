@@ -18,8 +18,6 @@ package org.kuali.kra.iacuc.personnel;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.personnel.AddProtocolPersonnelEventBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Represents the event to add a ProtocolPersonnel.

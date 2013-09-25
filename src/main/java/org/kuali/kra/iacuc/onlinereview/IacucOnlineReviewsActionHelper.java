@@ -33,8 +33,7 @@ public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelperB
      */
     private static final long serialVersionUID = 8937646851450759832L;
     
-    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucOnlineReviewsActionHelper.class);
-   
+
     public IacucOnlineReviewsActionHelper(IacucProtocolForm form) {
         super(form);
     }

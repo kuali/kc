@@ -21,18 +21,8 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 
 public class IacucProtocolAssignToCmtUnavailableAuthorizer extends IacucProtocolAuthorizer {
-   
-    /**
-     * Is the protocol's submission in a pending or submitted to committee status?
-     * @param protocol
-     * @return
-     */
-    private boolean isPendingOrSubmittedToCommittee(ProtocolBase protocol) {
-        return findSubmission(protocol) != null;
-    }
     
     /**
      * Find the submission.  It is the submission that is either currently pending or

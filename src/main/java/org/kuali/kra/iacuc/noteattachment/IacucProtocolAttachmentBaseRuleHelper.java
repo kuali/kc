@@ -18,7 +18,6 @@ package org.kuali.kra.iacuc.noteattachment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBaseRuleHelper;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class IacucProtocolAttachmentBaseRuleHelper extends ProtocolAttachmentBaseRuleHelper {

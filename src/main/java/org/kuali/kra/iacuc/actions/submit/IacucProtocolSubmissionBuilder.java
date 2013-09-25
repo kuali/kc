@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,6 +30,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The Protocol Submission Builder is a helper class used to construct
  * a submission.  A client uses the builder to add items to the submission BO.
@@ -49,7 +49,6 @@ public class IacucProtocolSubmissionBuilder {
     private static final String NEXT_SUBMISSION_DOCUMENT_ID_KEY = "submissionDocId";
     
     private IacucProtocolSubmission protocolSubmission;
-    private List<FormFile> attachments = new ArrayList<FormFile>();
     private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
     
     /**

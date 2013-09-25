@@ -15,16 +15,8 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.auth.AbandonProtocolAuthorizer;
-import org.kuali.kra.protocol.auth.ProtocolTaskBase;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AbandonIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 

@@ -15,24 +15,12 @@
  */
 package org.kuali.kra.iacuc.notification;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.actions.IacucProtocolAction;
-import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.protocol.notification.ProtocolNotificationRendererBase;
 import org.kuali.kra.protocol.notification.ProtocolReplacementParameters;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+
+import java.util.Map;
 
 /**
  * Renders fields for the IRB and IACUC notifications.

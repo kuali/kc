@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +25,6 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolForm;
@@ -62,12 +54,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelperBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
-import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewAttachmentEvent;
-import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
-import org.kuali.kra.protocol.onlinereview.event.DeleteProtocolOnlineReviewEvent;
-import org.kuali.kra.protocol.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
-import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
-import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
+import org.kuali.kra.protocol.onlinereview.event.*;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -80,6 +67,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
     private static final Log LOG = LogFactory.getLog(IacucProtocolOnlineReviewAction.class);
@@ -89,7 +82,6 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     private static final String PROTOCOL_OLR_TAB = "iacucProtocolOnlineReview";
     private static final String DOCUMENT_REJECT_QUESTION="DocReject";
     private static final String DOCUMENT_DELETE_QUESTION="ProtocolDocDelete";
-    private static final String UPDATE_REVIEW_STATUS_TO_FINAL="statusToFinal";
     private static final String DOCUMENT_REJECT_REASON_MAXLENGTH = "2000";
     private static final String ERROR_DOCUMENT_DELETE_REASON_REQUIRED = "You must enter a reason for this deletion.  The reason must be no more than {0} characters long.";
    
