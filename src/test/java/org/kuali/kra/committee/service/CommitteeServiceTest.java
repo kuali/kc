@@ -343,13 +343,21 @@ public class CommitteeServiceTest {
          final Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("committeeId", "test");
         
+        
+        Committee oldCommittee = getCommittee("test",1);
+        Committee newCommittee = getCommittee("test",2);
+        final List<CommitteeSchedule> oldSchedules = oldCommittee.getCommitteeSchedules();
+        final List<CommitteeSchedule> newSchedules = newCommittee.getCommitteeSchedules();
+        
         final Collection<Committee> committees = new ArrayList<Committee>();
-        committees.add(getCommittee("test",1));
-        committees.add(getCommittee("test",2));
+        committees.add(oldCommittee);
+        committees.add(newCommittee);
         
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
             one(businessObjectService).findMatching(Committee.class, fieldValues); will(returnValue(committees));
+            one(businessObjectService).delete(oldSchedules);
+            one(businessObjectService).delete(newSchedules);
         }});
         committeeService.setBusinessObjectService(businessObjectService);
         List<CommitteeSchedule> schedules = committeeService.mergeCommitteeSchedule("test");
