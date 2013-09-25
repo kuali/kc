@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.notifyiacuc;
 
-import java.io.Serializable;
-
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionBeanBase;
 import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
+
+import java.io.Serializable;
 
 /**
  * This class is really just a "form" for notifying the IRB.

@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.iacuc.threers;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.kra.iacuc.IacucProtocol;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IacucAlternateSearchServiceImpl implements IacucAlternateSearchService {
 

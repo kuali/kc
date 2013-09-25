@@ -23,11 +23,6 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class IacucCommitteeIdByUnitValuesFinderServiceImpl extends CommitteeIdByUnitValuesFinderServiceImplBase<IacucCommittee> implements IacucCommitteeIdByUnitValuesFinderService {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 3549989651198528446L;
-
     @Override
     protected String getCommitteeTypeCodeHook() {
         return CommitteeType.IACUC_TYPE_CODE;

@@ -15,14 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import java.math.BigInteger;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.mit.coeus.xml.iacuc.*;
+import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
@@ -52,7 +46,6 @@ import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
@@ -71,38 +64,14 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import edu.mit.coeus.xml.iacuc.AlternateDbSearchType;
-import edu.mit.coeus.xml.iacuc.AmendRenewalType;
-import edu.mit.coeus.xml.iacuc.CorrespondentType;
-import edu.mit.coeus.xml.iacuc.ExceptionType;
-import edu.mit.coeus.xml.iacuc.FundingSourceType;
-import edu.mit.coeus.xml.iacuc.InvestigatorType;
-import edu.mit.coeus.xml.iacuc.KeyStudyPersonType;
-import edu.mit.coeus.xml.iacuc.LocationType;
-import edu.mit.coeus.xml.iacuc.NotesType;
-import edu.mit.coeus.xml.iacuc.OtherDataType;
-import edu.mit.coeus.xml.iacuc.PersonType;
-import edu.mit.coeus.xml.iacuc.PrinciplesType;
-import edu.mit.coeus.xml.iacuc.PrintRequirementType;
-import edu.mit.coeus.xml.iacuc.ProtocolActionsType;
-import edu.mit.coeus.xml.iacuc.ProtocolMasterDataType;
-import edu.mit.coeus.xml.iacuc.ProtocolReviewerType;
-import edu.mit.coeus.xml.iacuc.ProtocolType;
-import edu.mit.coeus.xml.iacuc.ReferencesType;
-import edu.mit.coeus.xml.iacuc.ResearchAreaType;
-import edu.mit.coeus.xml.iacuc.RolesType;
-import edu.mit.coeus.xml.iacuc.ScheduleSummaryType;
-import edu.mit.coeus.xml.iacuc.SpecialReviewType;
-import edu.mit.coeus.xml.iacuc.SpeciesType;
-import edu.mit.coeus.xml.iacuc.StudyGroupType;
-import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
-import edu.mit.coeus.xml.iacuc.UserRolesType;
-import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
@@ -192,11 +161,6 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
         setSubmissionDetails(protocol, protocolType);
         
         return protocolType;
-    }
-   
-    private String getProposalParameterValue(String param) {
-        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, param);
     }
 
     /**
@@ -427,10 +391,6 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             notesTypelist.add(notesType);
         }        
         protocolType.setNotesArray(notesTypelist.toArray(new NotesType[0]));
-    }
-    
-    private Calendar convertDateToCalendar(Date date) {
-        return date == null ? null : getDateTimeService().getCalendar(date);
     }
 
     /**
@@ -878,11 +838,6 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-    protected final boolean hasPermission(String userId, ProtocolBase protocol, String permissionName) {
-        
-        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(userId, protocol, permissionName);
-    }   
     
     /**
      * Sets the scheduleXmlStream attribute value.

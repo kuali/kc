@@ -15,37 +15,31 @@
  */
 package org.kuali.kra.iacuc.questionnaire;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.questionnaire.SaveProtocolQuestionnaireEvent;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
-import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerRule;
+import org.kuali.kra.questionnaire.answer.*;
 import org.kuali.rice.krad.document.Document;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 /**
  * This class represents the Struts Action for Protocol Questionnaires.
@@ -55,12 +49,7 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
     private static final String SUBMISSION_QUESTIONNAIRE = "submissionQuestionnaire";
-    private static final String SUFFIX_T = "T";
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.IacucProtocolAction#preSave(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
-     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);
@@ -95,7 +84,6 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
 
     /**
      * This is specifically for 'lookup' return a value.
-     * @see org.kuali.kra.irb.IacucProtocolAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -131,8 +119,6 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.irb.IacucProtocolAction#saveOnClose(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
-     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

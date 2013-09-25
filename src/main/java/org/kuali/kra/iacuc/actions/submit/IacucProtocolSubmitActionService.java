@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import java.util.List;
-
 import org.kuali.kra.iacuc.IacucProtocol;
 
 /**
@@ -30,23 +28,6 @@ public interface IacucProtocolSubmitActionService {
      * @return the total number of submissions for the given protocolNumber
      */
     int getTotalSubmissions(IacucProtocol protocol);
-    
-    /**
-     * Finds all submissions for the given protocolNumber.
-     * @param protocolNumber The human-readable protocol number
-     * @return the list of submissions for the given protocolNumber
-     */
-    List<IacucProtocolSubmission> getProtocolSubmissions(String protocolNumber);
-    
-    /**
-     * Finds all submissions for the given protocolNumber and submissionNumber.
-     * 
-     * Note that there are multiple submissions for a given protocol since the submissions are copied when the protocol is versioned.
-     * @param protocolNumber The human-readable protocol number
-     * @param submissionNumber The submission number
-     * @return the list of submissions for the given protocolNumber
-     */
-    List<IacucProtocolSubmission> getProtocolSubmissions(String protocolNumber, int submissionNumber);
 
     /**
      * Submit a protocol to the IACUC office for review.
@@ -55,14 +36,4 @@ public interface IacucProtocolSubmitActionService {
      * @throws Exception 
      */
     void submitToIacucForReview(IacucProtocol protocol, IacucProtocolSubmitAction submitAction) throws Exception;
-    
-    /**
-     * 
-     * This method for getting IacucProtocolSubmissionsLookup from given protocolNumber...
-     * @param protocolNumber
-     * @return
-     * @throws Exception
-     */
-   
-    public List<IacucProtocolSubmission> getProtocolSubmissionsLookupData(List<IacucProtocolSubmission> protocolSubmissionList) throws Exception;
 }

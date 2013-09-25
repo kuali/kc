@@ -15,18 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionMappingBase;
+
+import java.util.*;
 
 /*
  * This class is for the condition attributes of of the protocol action.
@@ -38,13 +32,6 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
     static {
         final Map<String, String> codeMap = new HashMap<String, String>();              
         ACTION_TYPE_SUBMISSION_TYPE_MAP = Collections.unmodifiableMap(codeMap);
-    }
-
-    private static final List<String> APPROVE_ACTION_TYPES;
-    static {
-        final List<String> codes = new ArrayList<String>();     
-        codes.add(IacucProtocolActionType.IACUC_APPROVED);
-        APPROVE_ACTION_TYPES = codes;
     }
 
 
