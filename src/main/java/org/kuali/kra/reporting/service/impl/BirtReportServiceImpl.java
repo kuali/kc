@@ -15,6 +15,16 @@
  */
 package org.kuali.kra.reporting.service.impl;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.reporting.BirtHelper;
+import org.kuali.kra.reporting.bo.BirtParameterBean;
+import org.kuali.kra.reporting.bo.CustReportDetails;
+import org.kuali.kra.reporting.service.BirtReportService;
+import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -22,26 +32,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.reporting.BirtHelper;
-import org.kuali.kra.reporting.bo.BirtParameterBean;
-import org.kuali.kra.reporting.bo.CustReportDetails;
-import org.kuali.kra.reporting.service.BirtReportService;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
-
 public class BirtReportServiceImpl implements BirtReportService{
     
     private BusinessObjectService businessObjectService;
     private BirtHelper birtHelper;
-    private KraAuthorizationService kraAuthorizationService;
-    private UnitAuthorizationService unitAuthorizationService;
     
     public static final String PERMISSION_NAME = "RUN GLOBAL REPORTS";
-    public static final String DATA_SOURCE = "org.eclipse.birt.report.data.oda.jdbc";
 
     /**
      * Fetch input parameters from  template
@@ -106,20 +102,8 @@ public class BirtReportServiceImpl implements BirtReportService{
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-    
-    public KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KraAuthorizationService.class);
-    }
-
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
-    }
 
     public UnitAuthorizationService getUnitAuthorizationService() {
         return KraServiceLocator.getService(UnitAuthorizationService.class);
-    }
-
-    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
-        this.unitAuthorizationService = unitAuthorizationService;
     }
 }
