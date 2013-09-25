@@ -15,26 +15,19 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * Handles the processing of submitting a protocol to the IACUC office for review.
@@ -42,14 +35,11 @@ import org.kuali.rice.krad.service.DocumentService;
 public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmitActionService {
     
     private static final String PROTOCOL_NUMBER = "protocolNumber";
-    private static final String SUBMISSION_NUMBER = "submissionNumber";
-    private static final String SEQUENCE_NUMBER = "sequenceNumber";
 
     private static final String SUBMITTED_TO_IACUC = "SubmittedToIACUC";
     
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
-    private IacucProtocolFinderDao protocolFinderDao;
     private BusinessObjectService businessObjectService;
     
     /**
@@ -69,14 +59,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     }
     
     /**
-     * Set the ProtocolBase Finder DAO.
-     * @param protocolFinderDao
-     */
-    public void setProtocolFinderDao(IacucProtocolFinderDao protocolFinderDao) {
-        this.protocolFinderDao = protocolFinderDao;
-    }
-    
-    /**
      * Set the Business Object Service.
      * @param businessObjectService
      */
@@ -84,10 +66,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService#getTotalSubmissions(java.lang.String)
-     */
     @Override
     public int getTotalSubmissions(IacucProtocol protocol) {
         int totalSubmissions = 0;
@@ -101,45 +79,15 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         
         return totalSubmissions;
     }
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService#getProtocolSubmissions(java.lang.String)
-     */
-    @SuppressWarnings("unchecked")
-    public List<IacucProtocolSubmission> getProtocolSubmissions(String protocolNumber) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(PROTOCOL_NUMBER, protocolNumber);
-        Collection<IacucProtocolSubmission> submissions = businessObjectService.findMatching(IacucProtocolSubmission.class, fieldValues);
-        
-        return new ArrayList<IacucProtocolSubmission>(submissions);
-    }
-   
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService#getProtocolSubmissions(java.lang.String, java.lang.String)
-     */
-    @SuppressWarnings("unchecked")
-    public List<IacucProtocolSubmission> getProtocolSubmissions(String protocolNumber, int submissionNumber) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(PROTOCOL_NUMBER, protocolNumber);
-        fieldValues.put(SUBMISSION_NUMBER, submissionNumber);
-        Collection<IacucProtocolSubmission> submissions = businessObjectService.findMatching(IacucProtocolSubmission.class, fieldValues);
-        
-        return new ArrayList<IacucProtocolSubmission>(submissions);
-    }
-        
-    /**
-     * 
-     * @see org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService#getProtocolSubmissionsLookupSequence(java.lang.String)
-     */
 
-    private List<IacucProtocolSubmission> getProtocolSubmissionsLookupList(String protocolNumber,List<IacucProtocolSubmission> protocolSubmissionList) throws Exception{
-           Collection<IacucProtocolSubmission> submissions = protocolSubmissionList;
-           List<IacucProtocolSubmission> protocolSubmissionLookupDataList = new ArrayList<IacucProtocolSubmission>();      
-           List<IacucProtocolSubmission> protocolSubmissionLookupResult = new ArrayList<IacucProtocolSubmission>();
-           return new ArrayList<IacucProtocolSubmission>(protocolSubmissionLookupResult);
-       }
+    @SuppressWarnings("unchecked")
+    protected List<IacucProtocolSubmission> getProtocolSubmissions(String protocolNumber) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(PROTOCOL_NUMBER, protocolNumber);
+        Collection<IacucProtocolSubmission> submissions = businessObjectService.findMatching(IacucProtocolSubmission.class, fieldValues);
+        
+        return new ArrayList<IacucProtocolSubmission>(submissions);
+    }
     
     /**
      * When a protocol is submitted for review, an action entry must be added to the protocol. 
@@ -150,7 +98,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
      * data for a submission: type, checklists, reviewers, etc.
      * @throws Exception 
      * 
-     * @see org.kuali.kra.iacuc.actions.submit.ProtocolSubmitActionService#submitToIacucForReview(org.kuali.kra.protocol.ProtocolBase, org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction)
      */
     public void submitToIacucForReview(IacucProtocol protocol, IacucProtocolSubmitAction submitAction) throws Exception {
         
@@ -209,26 +156,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
             businessObjectService.save(minutes);
         }
     }
-    
-    /**
-     * When an amendment/renewal is submitted to the IACUC office, a corresponding
-     * action entry must be added to the original protocol so that the user will
-     * know when the amendment/renewal was submitted.
-     * @param type
-     * @param origProtocolNumber
-     * @throws WorkflowException 
-     * @throws Exception
-     */
-    protected void addActionToOriginalProtocol(String type, String origProtocolNumber, Integer submissionNumber) throws WorkflowException {
-        String protocolNumber = origProtocolNumber.substring(0, 10);
-        String index = origProtocolNumber.substring(11);
-        ProtocolBase protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
-        IacucProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, IacucProtocolActionType.SUBMITTED_TO_IACUC);
-        protocolAction.setComments(type + "-" + index + ": " + SUBMITTED_TO_IACUC);
-        protocolAction.setSubmissionNumber(submissionNumber);
-        protocol.getProtocolActions().add(protocolAction);
-        businessObjectService.save(protocol);
-    }
 
     /**
      * Create a ProtocolBase Submission.
@@ -262,15 +189,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
      */
     protected void setCommittee(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
         submissionBuilder.setCommittee(submitAction.getNewCommitteeId());
-    }
-    
-    /**
-     * @TODO when this gets implemented, see IacucProtocolSubmissionLookupableHelperServiceImpl.getSearchResults ..... that function orginally called this function, but now that it returns null, it had broken the search, so that call is commented out.
-     * @see org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService#getProtocolSubmissionsLookupData(java.util.List)
-     */
-    public List<IacucProtocolSubmission> getProtocolSubmissionsLookupData(List<IacucProtocolSubmission> protocolSubmissionList) throws Exception {
-        // TODO
-        return null;
     }
 
 }

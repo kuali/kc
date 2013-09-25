@@ -106,24 +106,5 @@ public enum IacucProtocolRequestAction {
         
         return protocolRequestAction;
     }
-    
-    /**
-     * Returns the value of this enumeration based on the given actionTypeCode.
-     * 
-     * This can return null, which isn't ideal but is necessary since ProtocolActionTypeCode is not an enum.
-     * @param actionTypeCode the action type code
-     * @return the ProtocolRequestAction corresponding to the actionTypeCode
-     */
-    public static IacucProtocolRequestAction valueOfActionTypeCode(String actionTypeCode) {
-        IacucProtocolRequestAction protocolRequestAction = null;
-        
-        for (IacucProtocolRequestAction action : values()) {
-            if (action.getActionTypeCode().equals(actionTypeCode)) {
-                protocolRequestAction = action;
-            }
-        }
-        
-        return protocolRequestAction;
-    }
 
 }

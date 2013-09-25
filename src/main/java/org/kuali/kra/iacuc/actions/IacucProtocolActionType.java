@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
 public class IacucProtocolActionType extends ProtocolActionTypeBase { 

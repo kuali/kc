@@ -15,33 +15,17 @@
  */
 package org.kuali.kra.iacuc.customdata;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.
@@ -53,11 +37,7 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase<
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -5964117436714994219L;
-    
-    private static final String CUSTOM_ATTRIBUTE_NAME = "IacucProtocolCustomDataAttribute";
-    private static final String PROTOCOL_ID_ATTRIBUTE_NAME = "protocolId";
-    private static final String CUSTOM_ATTRIBUTE_DOCUMENT_TYPE_NAME = "documentTypeName";
-    
+
     /**
      * Constructs a CustomDataHelper.
      * @param form the form

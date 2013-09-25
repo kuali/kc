@@ -17,7 +17,6 @@ package org.kuali.kra.iacuc.onlinereview.authorization;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
-import org.kuali.kra.protocol.onlinereview.authorization.ProtocolOnlineReviewTask;
 
 public class RejectIacucProtocolOnlineReviewAuthorizer extends IacucProtocolOnlineReviewAuthorizer {
 

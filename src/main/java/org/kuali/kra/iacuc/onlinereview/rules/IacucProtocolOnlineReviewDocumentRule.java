@@ -22,18 +22,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
-import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
-import org.kuali.kra.protocol.onlinereview.event.DeleteProtocolOnlineReviewEvent;
-import org.kuali.kra.protocol.onlinereview.event.DisapproveProtocolOnlineReviewCommentEvent;
-import org.kuali.kra.protocol.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
-import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
-import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
-import org.kuali.kra.protocol.onlinereview.rules.AddOnlineReviewCommentRule;
-import org.kuali.kra.protocol.onlinereview.rules.DeleteOnlineReviewRule;
-import org.kuali.kra.protocol.onlinereview.rules.DisapproveOnlineReviewCommentRule;
-import org.kuali.kra.protocol.onlinereview.rules.RejectOnlineReviewCommentRule;
-import org.kuali.kra.protocol.onlinereview.rules.RouteProtocolOnlineReviewRule;
-import org.kuali.kra.protocol.onlinereview.rules.SaveProtocolOnlineReviewRule;
+import org.kuali.kra.protocol.onlinereview.event.*;
+import org.kuali.kra.protocol.onlinereview.rules.*;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -51,7 +41,6 @@ implements AddOnlineReviewCommentRule,
     private static final String ONLINE_REVIEW_COMMENTS_ERROR_PATH = "onlineReviewsActionHelper.reviewCommentsBeans[%s]";
     private static final String ONLINE_REVIEW_ATTACHMENTS_ERROR_PATH = "onlineReviewsActionHelper.reviewAttachmentsBeans[%s]";
     private static final String ONLINE_REVIEW_ERROR_PATH = "onlineReviewsActionHelper.protocolOnlineReviewDocuments[%s].protocolOnlineReview";
-    private static final String REVIEWER_APPROVAL_NODE_NAME = "OnlineReviewer";
     private transient KraAuthorizationService kraAuthorizationService;
     private transient KraWorkflowService kraWorkflowService;
 
@@ -171,24 +160,6 @@ implements AddOnlineReviewCommentRule,
             valid = false;
         }
         return valid;
-    }
-
-    private KraAuthorizationService getKraAuthorizationService() {
-        KraAuthorizationService service;
-        if (kraAuthorizationService == null) {
-            service = KraServiceLocator.getService(KraAuthorizationService.class);
-            kraAuthorizationService = service;
-        }
-        return kraAuthorizationService;
-    }
-
-    private KraWorkflowService getKraWorkflowService() {
-        KraWorkflowService service;
-        if (kraWorkflowService == null) {
-            service = KraServiceLocator.getService(KraWorkflowService.class);
-            this.kraWorkflowService = service;
-        }
-        return kraWorkflowService;
     }
 
     public boolean processRules(KraDocumentEventBaseExtension event) {

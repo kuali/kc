@@ -15,15 +15,13 @@
  */
 package org.kuali.kra.iacuc;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.ProtocolActionBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class IacucProtocolMedusaAction extends IacucProtocolAction {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

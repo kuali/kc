@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -53,7 +46,6 @@ import org.kuali.kra.iacuc.actions.print.IacucProtocolQuestionnairePrintingServi
 import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
@@ -72,19 +64,9 @@ import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.questionnaire.IacucSubmissionQuestionnaireHelper;
 import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
-import org.kuali.kra.protocol.ProtocolVersionService;
+import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.protocol.*;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
-import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolEditableBean;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionDocBase;
@@ -100,6 +82,7 @@ import org.kuali.kra.protocol.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.protocol.actions.decision.CommitteePersonBase;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.followup.FollowupActionService;
+import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService;
@@ -124,6 +107,9 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * The form helper class for the ProtocolBase Actions tab.
@@ -327,17 +313,6 @@ public class IacucActionHelper extends ActionHelperBase {
         return expirationDate;
     }
 
-    private ProtocolActionBase findProtocolAction(String actionTypeCode, List<ProtocolActionBase> protocolActions, IacucProtocolSubmission currentSubmission) {
-
-        for (ProtocolActionBase pa : protocolActions) {
-            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
-                    && (pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
-                return pa;
-            }
-        }
-        return null;
-    }
-
   
     public void prepareView() throws Exception {
         super.prepareView();
@@ -412,17 +387,6 @@ public class IacucActionHelper extends ActionHelperBase {
         IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL, protocol);
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);        
         return tas.isAuthorized(userId, task);
-    }
-    
-    
-    protected boolean hasGenericPermission(String genericActionName) {
-        IacucProtocolTask task = new IacucProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION, getIacucProtocol(), genericActionName);
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    protected boolean hasGenericUnavailablePermission(String genericActionName) {
-        IacucProtocolTask task = new IacucProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION_UNAVAILABLE, getIacucProtocol(), genericActionName);
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     protected boolean hasFollowupAction(String actionCode) {

@@ -688,10 +688,6 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" /> 
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
-              <!--  assign reviewer is just for testing.  don't commit 
-        <property name="protocolAssignReviewersService" ref="iacucProtocolAssignReviewersService" />
-        --> 
     </bean>
     
     <bean id="baseCommitteeScheduleService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeScheduleServiceImpl">
@@ -817,12 +813,6 @@
         <property name="kraWorkflowService" ref="kraWorkflowService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
-        <property name="iacucProtocolOnlineReviewService" ref="iacucProtocolOnlineReviewService" />
-    </bean>
-  
-
-    <bean id="iacucNotificationRoleQualifierService" class="org.kuali.kra.iacuc.notification.IacucNotificationRoleQualifierServiceImpl"
-          scope="prototype">
     </bean>
 
     <bean id="iacucProtocolOnlineReviewTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
@@ -851,7 +841,6 @@
      <bean id="iacucProtocolAssignReviewersService" class="org.kuali.kra.iacuc.actions.assignreviewers.IacucProtocolAssignReviewersServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
-        <property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
 
     

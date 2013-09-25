@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions.modifysubmission;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -59,6 +52,13 @@ import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProcessBillableService implements IacucProtocolModifySubmissionService{
@@ -178,13 +178,6 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
             submission.setCommittee(committee);
             return true;
         }
-    }
-    public String getAssignedScheduleId(ProtocolBase protocol) {
-        ProtocolSubmissionBase submission = findSubmission(protocol);
-        if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-            return submission.getScheduleId();
-        }
-        return null;
     }
     
     protected ProtocolSubmissionBase findSubmission(ProtocolBase protocol) {

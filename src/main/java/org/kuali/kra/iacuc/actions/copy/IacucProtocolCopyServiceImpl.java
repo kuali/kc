@@ -15,24 +15,13 @@
  */
 package org.kuali.kra.iacuc.actions.copy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
-import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
-import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyCustomData;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
+import org.kuali.kra.iacuc.procedures.*;
 import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesService;
@@ -48,15 +37,16 @@ import org.kuali.kra.protocol.actions.copy.ProtocolCopyServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<IacucProtocolDocument> implements IacucProtocolCopyService{
 
     private IacucProtocolSpeciesService iacucProtocolSpeciesService;
     private IacucProtocolExceptionService iacucProtocolExceptionService;
     private IacucProtocolProcedureService iacucProtocolProcedureService;
-    
-    public void copyIacucProtocolModules(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
-        copyIacucProtocolLists(srcProtocol, destProtocol);
-    }
     
     @Override
     protected Class<? extends ProtocolActionBase> getProtocolActionBOClassHook() {
@@ -116,32 +106,11 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Ia
         }
         destProtocol.setIacucAlternateSearches(newIacucAlternateSearches); 
     }
-    
 
-    /**
-     * @see org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService#copyIacucProtocolModules(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.IacucProtocol)
-     */
     public void copyProtocolThreers(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
         addThreeRs(srcProtocol, destProtocol);
     }
 
-    /**
-     * @see org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService#copyProtocolSpeciesAndGroups(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.IacucProtocol)
-     */
-    public void copyProtocolSpeciesAndGroups(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
-        addProtocolSpecies(srcProtocol, destProtocol);
-    }
-
-    /**
-     * @see org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService#copyProtocolProcedures(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.IacucProtocol)
-     */
-    public void copyProtocolProcedures(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
-        addProtocolProcedures(srcProtocol, destProtocol);
-    }
-
-    /**
-     * @see org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService#copyProtocolExceptions(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.IacucProtocol)
-     */
     public void copyProtocolExceptions(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
         addProtocolExceptions(srcProtocol, destProtocol);
     }
@@ -151,8 +120,6 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Ia
      * Return a map of old species and current species id. 
      * This mapping is required when new set of procedures are created where it is
      * linked to protocol species id.
-     * @param sourceProtocolSpecies
-     * @param destDoc
      */
     protected void addProtocolSpecies(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
         List<IacucProtocolSpecies> sourceProtocolSpecies = srcProtocol.getIacucProtocolSpeciesList();
@@ -286,8 +253,6 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Ia
     
     /**
      * This method is to copy protocol exceptions
-     * @param sourceProtocolExceptions
-     * @param destDoc
      */
     protected void addProtocolExceptions(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
         destProtocol.setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
@@ -339,9 +304,6 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Ia
     
     /**
      * This method is to copy protocol procedures
-     * @param sourceProtocolProcedures
-     * @param destDoc
-     * @param speciesIdMapping
      */
     protected void addProtocolProcedures(IacucProtocol srcProtocol, IacucProtocol destProtocol) { 
         destProtocol.setIacucProtocolStudyGroupBeans(new ArrayList<IacucProtocolStudyGroupBean>());

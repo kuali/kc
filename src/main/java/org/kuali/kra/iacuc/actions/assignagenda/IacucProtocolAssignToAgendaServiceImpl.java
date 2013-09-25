@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions.assignagenda;
 
-import java.sql.Timestamp;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -26,12 +22,14 @@ import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 
 
