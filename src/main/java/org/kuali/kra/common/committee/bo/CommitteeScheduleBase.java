@@ -274,7 +274,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
 	}
 
 	public Integer getMaxProtocols() {
-        if (maxProtocols == null) {
+        if (maxProtocols == null && getParentCommittee() != null) {
             maxProtocols = getParentCommittee().getMaxProtocols();
         }
 		return maxProtocols;
@@ -593,7 +593,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
     }
 
     public String getNamespace() {
-        return getParentCommittee().getNamespace();
+        return getParentCommittee() != null ? getParentCommittee().getNamespace() : null;
     }
 
     public List<String> getRoleNames() {
