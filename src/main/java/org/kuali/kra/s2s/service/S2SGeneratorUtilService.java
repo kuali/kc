@@ -17,13 +17,12 @@ package org.kuali.kra.s2s.service;
 
 import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Map;
-
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 
 /**
  * 

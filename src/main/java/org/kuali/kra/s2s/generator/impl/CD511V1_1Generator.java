@@ -17,7 +17,6 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.cd511V11.CD511Document;
 import gov.grants.apply.forms.cd511V11.CD511Document.CD511;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

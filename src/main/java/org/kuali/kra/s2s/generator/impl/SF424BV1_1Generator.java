@@ -19,7 +19,6 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.sf424BV11.AssuranceType;
 import gov.grants.apply.forms.sf424BV11.AssurancesDocument;
 import gov.grants.apply.forms.sf424BV11.AuthorizedRepresentativeDocument.AuthorizedRepresentative;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

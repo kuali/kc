@@ -5,8 +5,6 @@
  */
 package org.kuali.kra.s2s.util;
 
-import javax.xml.transform.TransformerException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xml.security.algorithms.MessageDigestAlgorithm;
@@ -19,6 +17,8 @@ import org.apache.xml.security.utils.DigesterOutputStream;
 import org.kuali.kra.s2s.S2SException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import javax.xml.transform.TransformerException;
 
 /**
  * This is a convenience object that simplifies the hashing processing to one

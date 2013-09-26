@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.home.AwardBasisOfPayment;
 import org.kuali.kra.award.home.AwardMethodOfPayment;
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
@@ -26,6 +23,9 @@ import org.kuali.kra.util.ValuesFinderUtility;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoicesService {
@@ -36,17 +36,13 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
     static final String BASISOFPAYMENTCODE = "basisOfPaymentCode";
     static final String METHODOFPAYMENTCODE = "methodOfPaymentCode";
     
-    private static final String SEMICOLON_AS_DELIMITOR = ";";
-    private static final String COMMA_AS_DELIMITOR = ",";
-    
+
     private static final String AWARDBASISOFPAYMENT_CODE = "basisOfPaymentCode"; 
     private static final String AWARDMETHODOFPAYMENT_CODE = "methodOfPaymentCode";
     
     BusinessObjectService businessObjectService;
-  
-    /**
-     * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getEncodedValidAwardBasisPaymentsByAwardTypeCode(java.lang.Integer)
-     */
+
+    @Override
     public String getEncodedValidAwardBasisPaymentsByAwardTypeCode(Integer awardTypeCode) {
         List<KeyValue> results = new ArrayList<KeyValue>();
         results.add(new ConcreteKeyValue("","select"));
@@ -55,13 +51,11 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
             current.refresh();
             results.add(new ConcreteKeyValue( current.getBasisOfPaymentCode(), current.getBasisOfPayment().getDescription() ));
         }
-        
+
         return ValuesFinderUtility.processKeyValueList(results);
     }
 
-    /**
-     * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getEncodedValidBasisMethodPaymentsByBasisCode(java.lang.String)
-     */
+    @Override
     public String getEncodedValidBasisMethodPaymentsByBasisCode(String basisOfPaymentCode) {
         List<KeyValue> results = new ArrayList<KeyValue>();
         results.add(new ConcreteKeyValue("","select"));
@@ -72,12 +66,9 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
         }
         return ValuesFinderUtility.processKeyValueList(results);
     }
-    
 
-    /**
-     * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getValidAwardBasisPaymentsByAwardTypeCode(java.lang.Integer)
-     */
-    @SuppressWarnings("unchecked")
+
+    @Override
     public List<ValidAwardBasisPayment> getValidAwardBasisPaymentsByAwardTypeCode(Integer awardTypeCode) {
         List<ValidAwardBasisPayment> results = new ArrayList<ValidAwardBasisPayment>( businessObjectService.findMatchingOrderBy(ValidAwardBasisPayment.class,
                 ServiceHelper.getInstance().buildCriteriaMap(AWARDTYPECODE, awardTypeCode),
@@ -86,9 +77,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
         return results;
     }
 
-    /**
-     * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getValidBasisMethodPaymentByBasisCode(java.lang.String)
-     */
+    @Override
     public List<ValidBasisMethodPayment> getValidBasisMethodPaymentByBasisCode(String basisOfPaymentCode) {
         
         List<ValidBasisMethodPayment> results = new ArrayList<ValidBasisMethodPayment>( businessObjectService.findMatchingOrderBy(ValidBasisMethodPayment.class,
@@ -97,22 +86,8 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
                 true ));
         return results;
     }
-    
-    
-    /**
-     * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getValidBasisMethodPaymentByMethodCode(java.lang.String)
-     */
-    public List<ValidBasisMethodPayment> getValidBasisMethodPaymentByMethodCode(String methodOfPaymentCode) {
-        List<ValidBasisMethodPayment> results = new ArrayList<ValidBasisMethodPayment>( businessObjectService.findMatchingOrderBy(ValidBasisMethodPayment.class,
-                ServiceHelper.getInstance().buildCriteriaMap( METHODOFPAYMENTCODE, methodOfPaymentCode ),
-                BASISOFPAYMENTCODE, 
-                true ));
-        return results;
-    }
-    
-    /**
-     * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getValidAwardBasisPayment(java.lang.Integer)
-     */
+
+    @Override
     public ValidAwardBasisPayment getValidAwardBasisPayment( Integer validAwardBasisPaymentId ) {
         ValidAwardBasisPayment vBasisPayment = (ValidAwardBasisPayment)businessObjectService.findByPrimaryKey(ValidAwardBasisPayment.class, ServiceHelper.getInstance().buildCriteriaMap(VALIDAWARDBASISPAYMENT_ID, validAwardBasisPaymentId));
         return vBasisPayment;
@@ -135,20 +110,16 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
         this.businessObjectService = businessObjectService;
     }
 
-    
-    
 
-    /**
-     * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getAwardBasisOfPaymentDescription(java.lang.String)
-     */
+
+
+    @Override
     public String getAwardBasisOfPaymentDescription(String awardBasisOfPaymentId) {
         AwardBasisOfPayment basisOfPayment = (AwardBasisOfPayment)businessObjectService.findByPrimaryKey(AwardBasisOfPayment.class, ServiceHelper.getInstance().buildCriteriaMap(AWARDBASISOFPAYMENT_CODE, awardBasisOfPaymentId));
         return basisOfPayment!=null?basisOfPayment.getDescription():"";
     }
 
-    /**
-     * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getAwardMethodOfPaymentDescription(java.lang.String)
-     */
+    @Override
     public String getAwardMethodOfPaymentDescription(String awardMethodOfPaymentId) {
         AwardMethodOfPayment awardMethodOfPayment = (AwardMethodOfPayment)businessObjectService.findByPrimaryKey(AwardMethodOfPayment.class, ServiceHelper.getInstance().buildCriteriaMap(AWARDMETHODOFPAYMENT_CODE, awardMethodOfPaymentId));
         return awardMethodOfPayment!=null?awardMethodOfPayment.getDescription():"";

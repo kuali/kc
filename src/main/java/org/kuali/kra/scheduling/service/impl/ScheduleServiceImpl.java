@@ -15,24 +15,8 @@
  */
 package org.kuali.kra.scheduling.service.impl;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kra.scheduling.expr.CronExpression;
-import org.kuali.kra.scheduling.expr.DayCronExpression;
-import org.kuali.kra.scheduling.expr.MonthDayCronExpression;
-import org.kuali.kra.scheduling.expr.MonthDayMultipleYearsCronExpression;
-import org.kuali.kra.scheduling.expr.MonthDayOrLastDayMultipleYearsCronExpression;
-import org.kuali.kra.scheduling.expr.MonthlyWeekDayCronExpression;
-import org.kuali.kra.scheduling.expr.NeverCronExpression;
-import org.kuali.kra.scheduling.expr.WeekCronExpression;
-import org.kuali.kra.scheduling.expr.YearMonthDayCronExpression;
-import org.kuali.kra.scheduling.expr.YearMonthDayOfWeekCronExpression;
+import org.kuali.kra.scheduling.expr.*;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
@@ -42,6 +26,9 @@ import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.quartz.SimpleTrigger;
 import org.quartz.TriggerUtils;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * This class is thread safe implementation of ScheduleService interface. Primary function of this service implementation is to

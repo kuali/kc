@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.s2s.generator.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.budget.BudgetDecimal;
+
+import java.util.LinkedHashMap;
 
 public class IndirectCostDetails {
 

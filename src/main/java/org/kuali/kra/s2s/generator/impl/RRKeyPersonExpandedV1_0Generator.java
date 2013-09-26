@@ -16,20 +16,15 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrKeyPersonExpandedV10.PersonProfileDataType;
-import gov.grants.apply.forms.rrKeyPersonExpandedV10.ProjectRoleDataType;
-import gov.grants.apply.forms.rrKeyPersonExpandedV10.RRKeyPersonExpandedDocument;
 import gov.grants.apply.forms.rrKeyPersonExpandedV10.PersonProfileDataType.Profile;
 import gov.grants.apply.forms.rrKeyPersonExpandedV10.PersonProfileDataType.Profile.OtherProjectRoleCategory;
+import gov.grants.apply.forms.rrKeyPersonExpandedV10.ProjectRoleDataType;
+import gov.grants.apply.forms.rrKeyPersonExpandedV10.RRKeyPersonExpandedDocument;
 import gov.grants.apply.forms.rrKeyPersonExpandedV10.RRKeyPersonExpandedDocument.RRKeyPersonExpanded;
 import gov.grants.apply.forms.rrKeyPersonExpandedV10.RRKeyPersonExpandedDocument.RRKeyPersonExpanded.AdditionalProfilesAttached;
 import gov.grants.apply.forms.rrKeyPersonExpandedV10.RRKeyPersonExpandedDocument.RRKeyPersonExpanded.BioSketchsAttached;
 import gov.grants.apply.forms.rrKeyPersonExpandedV10.RRKeyPersonExpandedDocument.RRKeyPersonExpanded.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -43,6 +38,10 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 /**

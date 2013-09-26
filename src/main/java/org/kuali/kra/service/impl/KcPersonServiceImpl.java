@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
@@ -29,8 +25,11 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
-import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service for working with KcPerson objects.
@@ -128,24 +127,6 @@ public class KcPersonServiceImpl implements KcPersonService {
         }
         
         return KcPerson.fromEntityAndPersonId(this.identityService.getEntityByPrincipalId(personId), personId);
-    }
-    
-    /**
-     * Creates a List of KcPersons from a list of KIM entities.
-     * 
-     * @param entities the list of entities
-     * @return the list of Kc persons
-     */
-    protected List<KcPerson> createKcPersonsFrom(List<? extends EntityContract> entities) {
-        List<KcPerson> persons = new ArrayList<KcPerson>();
-        
-        for (EntityContract entity : entities) {
-            for (PrincipalContract principal : entity.getPrincipals()) {
-                persons.add(KcPerson.fromEntityAndPersonId(entity, principal.getPrincipalId()));
-            }
-        }
-        
-        return persons;
     }
     
     public List<KcPerson> createKcPersonsFromPeople(List<Person> people) {

@@ -16,13 +16,10 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.performanceSite14V14.PerformanceSite14Document;
-import gov.grants.apply.forms.performanceSite14V14.SiteLocationDataType;
 import gov.grants.apply.forms.performanceSite14V14.PerformanceSite14Document.PerformanceSite14;
+import gov.grants.apply.forms.performanceSite14V14.SiteLocationDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
-
-import java.util.List;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
@@ -33,6 +30,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
+
+import java.util.List;
 
 /**
  * 

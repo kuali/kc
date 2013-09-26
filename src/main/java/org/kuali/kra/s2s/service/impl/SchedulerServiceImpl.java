@@ -15,32 +15,20 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.polling.MailInfo;
-import org.kuali.kra.s2s.polling.PollingInfo;
-import org.kuali.kra.s2s.polling.SchedulerReader;
-import org.kuali.kra.s2s.polling.StatusInfo;
-import org.kuali.kra.s2s.polling.TaskInfo;
+import org.kuali.kra.s2s.polling.*;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.service.SchedulerService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.core.api.mail.MailMessage;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.SimpleTrigger;
+import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.util.*;
 
 /**
  * 

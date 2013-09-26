@@ -35,10 +35,6 @@ import gov.grants.apply.forms.sf424AV10.ResourceLineItemDocument.ResourceLineIte
 import gov.grants.apply.forms.sf424AV10.ResourceTotalsDocument.ResourceTotals;
 import gov.grants.apply.forms.sf424AV10.SummaryLineItemDocument.SummaryLineItem;
 import gov.grants.apply.forms.sf424AV10.SummaryTotalsDocument.SummaryTotals;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -54,6 +50,9 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for generating the XML object for grants.gov SF424AV1_0. Form is generated using XMLBean classes and is based on SF424AV1_0

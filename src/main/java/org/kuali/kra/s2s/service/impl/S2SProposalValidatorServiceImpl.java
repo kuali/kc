@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.service.S2SProposalValidatorService;
 import org.kuali.kra.s2s.validator.S2SErrorMessages;
+
+import java.util.List;
 
 /**
  * 

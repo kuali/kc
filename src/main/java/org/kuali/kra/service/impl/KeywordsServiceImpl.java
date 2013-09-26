@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
@@ -30,6 +26,10 @@ import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class is the implementation of KeywordsService to handle the requests from keywords panel in general
@@ -60,14 +60,6 @@ public class KeywordsServiceImpl implements KeywordsService {
         }
     }
 
-    /**
-     * @see org.kuali.kra.service.KeywordsService#hasKeywordsPanelEnabledForModule(java.lang.String)
-     */
-    //TODO:implement this method after deciding the role for enabling keyword
-    public Boolean hasKeywordsPanelEnabledForModule(String moduleCode) {
-        // TODO it should be implemented after the discussion
-        return null;
-    }
     /**
      * 
      * This method to check whether there is any duplicate objects before adding to the list

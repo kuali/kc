@@ -19,25 +19,20 @@ import gov.grants.apply.forms.nsfCoverPageV11.DegreeTypeDataType;
 import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument;
 import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument.NSFCoverPage;
 import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument.NSFCoverPage.CoPIInfo;
+import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument.NSFCoverPage.CoPIInfo.CoPI;
 import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument.NSFCoverPage.NSFUnitConsideration;
 import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument.NSFCoverPage.OtherInfo;
 import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument.NSFCoverPage.PIInfo;
-import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument.NSFCoverPage.CoPIInfo.CoPI;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.proposaldevelopment.bo.*;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
  * 

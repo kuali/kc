@@ -17,17 +17,12 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget;
-import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo;
-import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods;
-import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods2;
-import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods3;
-import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods4;
-import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5;
+import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.*;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.BudgetJustifications;
-import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.EntirePeriodTotalCost;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.BudgetJustifications.AdditionalNarrativeJustification;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.BudgetJustifications.ConsortiumJustification;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.BudgetJustifications.PersonnelJustification;
+import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.EntirePeriodTotalCost;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods.DirectCost;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods.IndirectCost;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods.IndirectCost.IndirectCostItems;
@@ -44,11 +39,6 @@ import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.IndirectCost5;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.IndirectCost5.IndirectCostItems5;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -64,6 +54,10 @@ import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for generating the XML object for grants.gov PHS398ModularBudgetV1_0.

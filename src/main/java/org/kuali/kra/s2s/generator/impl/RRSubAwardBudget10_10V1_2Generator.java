@@ -20,12 +20,6 @@ import gov.grants.apply.forms.rrBudget10V11.RRBudget10Document.RRBudget10;
 import gov.grants.apply.forms.rrSubawardBudget1010V12.RRSubawardBudget1010Document;
 import gov.grants.apply.forms.rrSubawardBudget1010V12.RRSubawardBudget1010Document.RRSubawardBudget1010;
 import gov.grants.apply.forms.rrSubawardBudget1010V12.RRSubawardBudget1010Document.RRSubawardBudget1010.BudgetAttachments;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
@@ -36,6 +30,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * Class for generating the XML object for grants.gov RRSubAwardBudgetV1.2. Form is generated using XMLBean classes and is based on

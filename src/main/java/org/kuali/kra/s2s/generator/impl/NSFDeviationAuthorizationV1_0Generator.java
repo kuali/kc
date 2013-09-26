@@ -17,7 +17,6 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.nsfDeviationAuthorizationV10.NSFDeviationAuthorizationDocument;
 import gov.grants.apply.forms.nsfDeviationAuthorizationV10.NSFDeviationAuthorizationDocument.NSFDeviationAuthorization;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;

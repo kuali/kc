@@ -15,18 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanationType;
 import org.kuali.kra.infrastructure.Constants;
@@ -37,15 +25,17 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.YnqService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
+
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 public class YnqServiceImpl implements YnqService {
 
     private BusinessObjectService businessObjectService;
-    private DateTimeService dateTimeService;
-    
+
     
     /**
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnqExplanationTypes()
@@ -79,15 +69,6 @@ public class YnqServiceImpl implements YnqService {
         ynqs.addAll(allTypes);
         // Preserves the sort ID ordering because Collections.sort is "guaranteed to be stable: equal elements will not be reordered as a result of the sort."
         Collections.sort(ynqs, new GroupNameComparator());
-        /* also filter all questions based on effective date - current date >= effective date */
-        /* - Effective date filter currently not used
-        Date currentDate = getDateTimeService().getCurrentSqlDateMidnight();
-        for(Ynq type: allTypes) {
-            if(type.getEffectiveDate().compareTo(currentDate) < 0   ) {
-                ynqs.add(type);
-            }
-        } 
-        */
         return ynqs;
     }
 
@@ -309,20 +290,6 @@ public class YnqServiceImpl implements YnqService {
         }
         return retValue;
     }
-
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.YnqService#getProposalPerson()
-     */
-    @SuppressWarnings("unchecked")
-    public List<ProposalPerson> getProposalPerson() {
-        Collection<ProposalPerson> allTypes = new ArrayList<ProposalPerson>();
-        allTypes = businessObjectService.findAll(ProposalPerson.class);
-        List<ProposalPerson> proposalPerson = new ArrayList<ProposalPerson>();
-        for(ProposalPerson type: allTypes) {
-            proposalPerson.add(type);
-        } 
-        return proposalPerson;
-    }
     
     /**
      * Gets the businessObjectService attribute.
@@ -338,14 +305,6 @@ public class YnqServiceImpl implements YnqService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
 

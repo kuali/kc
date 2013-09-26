@@ -23,13 +23,7 @@ import org.kuali.kra.web.struts.form.MultiLookupFormBase;
  * This service is to handle the requests from Keywords panel
  */
 public interface KeywordsService<T> {
-    /**
-     * 
-     * This method is check whether the keyword panel needs to be enabled or not
-     * @param moduleCode
-     * @return
-     */
-    public Boolean hasKeywordsPanelEnabledForModule(String moduleCode);
+
     /**
      * 
      * This method is to add keyword to the document or BO.

@@ -15,39 +15,10 @@ kc * Copyright 2005-2013 The Kuali Foundation.
  */
 package org.kuali.kra.s2s.service.impl;
 
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListRequest;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListResponse;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationStatusDetailRequest;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationStatusDetailResponse;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetOpportunityListRequest;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetOpportunityListResponse;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationRequest;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationResponse;
+import gov.grants.apply.webservices.applicantintegrationservices_v1.*;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListRequest.ApplicationFilter;
 import gov.grants.apply.webservices.applicantintegrationservices_v1_0.ApplicantIntegrationPortType;
 import gov.grants.apply.webservices.applicantintegrationservices_v1_0.ErrorMessage;
-
-import java.io.IOException;
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.activation.DataHandler;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.xml.ws.soap.SOAPFaultException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.attachment.AttachmentImpl;
@@ -68,6 +39,18 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SConnectorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import javax.activation.DataHandler;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.xml.ws.soap.SOAPFaultException;
+import java.io.IOException;
+import java.security.*;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.util.*;
 
 /**
  * 

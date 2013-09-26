@@ -24,7 +24,6 @@ import gov.grants.apply.forms.ed524BudgetV10.ED524BudgetDocument.ED524Budget.Ind
 import gov.grants.apply.forms.ed524BudgetV10.ED524BudgetDocument.ED524Budget.IndirectCost.OtherApprovingFederalAgency;
 import gov.grants.apply.forms.ed524BudgetV10.ED524BudgetDocument.ED524Budget.IndirectCost.RestrictedIndirectCostRate;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;

@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
@@ -39,13 +31,19 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.util.StringUtils;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     
     private static final String FIELD_NAME_PARENT_AWARD_NUMBER = "parentAwardNumber";
     private static final String FIELD_NAME_AWARD_NUMBER = "awardNumber";
     private static final String DATE_FORMAT_MM_DD_YYYY = "MM/dd/yyyy";
-    private static final String TAG_H3_END = "</h3>";
-    private static final String TAG_H3_START = "<h3>";
     private static final String LAST_5_CHARS_OF_ROOT = "00001";
     private static final String COLUMN_CODE = "%3A";
     private static final String DOC_FINAL_STATUS_CODE = "F";

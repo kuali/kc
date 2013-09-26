@@ -15,15 +15,12 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.List;
+import java.util.Map;
 
 public interface CustomAttributeService {
 
@@ -72,18 +69,4 @@ public interface CustomAttributeService {
      * @throws Exception
      */
     public String getLookupReturnsForAjaxCall(String lookupClass) throws Exception ;
-
-    /**
-     * 
-     * This method is to set up the key/value pair for custom attributes
-     * @param bos
-     */
-    public void setBusinessObjectService(BusinessObjectService bos);
-
-    /**
-     * Accessor for <code>{@link BusinessObjectService}</code>
-     *
-     * @return BusinessObjectService
-     */
-    public BusinessObjectService getBusinessObjectService();
 }

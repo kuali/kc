@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanationType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+
+import java.util.List;
 
 public interface YnqService {
     /**
@@ -36,12 +36,6 @@ public interface YnqService {
      * @return List of questions.
      */
     public List<Ynq> getYnq(String questionType);
-
-    /**
-     * This method returns list of Proposal Persons.
-     * @return List of proposal persons.
-     */
-    public List<ProposalPerson> getProposalPerson();
 
     /**
      * This method is used to populate questions.

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
+
+import java.util.List;
 
 
 public interface AwardPaymentAndInvoicesService {
@@ -28,8 +28,7 @@ public interface AwardPaymentAndInvoicesService {
      * @return List of ValidAwardBasisPayment records associated with the given awardTypeCode
      */
     public List<ValidAwardBasisPayment> getValidAwardBasisPaymentsByAwardTypeCode( Integer awardTypeCode );
-    
-    
+
     /**
      * 
      * @param basisOfPaymentCode The basisOfPayment code
@@ -37,13 +36,6 @@ public interface AwardPaymentAndInvoicesService {
      */
     public List<ValidBasisMethodPayment> getValidBasisMethodPaymentByBasisCode( String basisOfPaymentCode );
     
-    /**
-     * Return the ValidBasisMethodPayment objects with basisOfPaymentCode equal to the provided value.
-     * @param basisOfPaymentCode The basisOfPayment code
-     * @return List of ValidBasisMethodPayment codes that have basisOfPaymentCode equal to the given parameter.
-     */
-    public List<ValidBasisMethodPayment> getValidBasisMethodPaymentByMethodCode( String methodOfPaymentCode );
-
     public ValidAwardBasisPayment getValidAwardBasisPayment(Integer validAwardBasisPaymentId);
 
     public String getAwardMethodOfPaymentDescription( String awardMethodOfPaymentId );

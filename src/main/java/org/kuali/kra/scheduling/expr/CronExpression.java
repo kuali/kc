@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.scheduling.expr;
 
+import org.kuali.kra.scheduling.util.Time24HrFmt;
+
 import java.text.ParseException;
 import java.util.Date;
-
-import org.kuali.kra.scheduling.util.Time24HrFmt;
 
 /**
  * This is abstract class, expects to implement expression generation logic.

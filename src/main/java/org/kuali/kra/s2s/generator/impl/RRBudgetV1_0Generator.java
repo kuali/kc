@@ -15,22 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.rrBudgetV10.BudgetTypeDataType;
-import gov.grants.apply.forms.rrBudgetV10.BudgetYear1DataType;
-import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType;
-import gov.grants.apply.forms.rrBudgetV10.KeyPersonCompensationDataType;
-import gov.grants.apply.forms.rrBudgetV10.KeyPersonDataType;
-import gov.grants.apply.forms.rrBudgetV10.OtherPersonnelDataType;
-import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument;
-import gov.grants.apply.forms.rrBudgetV10.SectBCompensationDataType;
-import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.BudgetPeriod;
-import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.Equipment;
-import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.IndirectCosts;
-import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.KeyPersons;
-import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.OtherDirectCosts;
-import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.OtherPersonnel;
-import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.ParticipantTraineeSupportCosts;
-import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.Travel;
+import gov.grants.apply.forms.rrBudgetV10.*;
+import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.*;
 import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.Equipment.AdditionalEquipmentsAttachment;
 import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.Equipment.EquipmentList;
 import gov.grants.apply.forms.rrBudgetV10.BudgetYearDataType.Equipment.TotalFundForAttachedEquipment;
@@ -51,11 +37,6 @@ import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument.RRBudget.BudgetSummar
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType.FileLocation;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -65,16 +46,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.generator.bo.AttachmentData;
-import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
-import org.kuali.kra.s2s.generator.bo.BudgetSummaryInfo;
-import org.kuali.kra.s2s.generator.bo.CompensationInfo;
-import org.kuali.kra.s2s.generator.bo.CostInfo;
-import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
-import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
-import org.kuali.kra.s2s.generator.bo.OtherDirectCostInfo;
-import org.kuali.kra.s2s.generator.bo.OtherPersonnelInfo;
+import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

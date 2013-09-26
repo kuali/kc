@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.s2s.generator.bo;
 
+import org.kuali.kra.budget.BudgetDecimal;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kra.budget.BudgetDecimal;
 
 public class OtherDirectCostInfo {
 
