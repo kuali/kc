@@ -18,33 +18,19 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument;
 import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan;
 import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ApplicationType;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments;
 import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ApplicationType.TypeOfApplication;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.BackgroundSignificance;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.IntroductionToApplication;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.ProgressReport;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.ResearchDesignMethods;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.SpecificAims;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection.ConsortiumContractualArrangements;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection.DataAndSafetyMonitoringPlan;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection.InclusionOfChildren;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection.InclusionOfWomenAndMinorities;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection.LettersOfSupport;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection.ProtectionOfHumanSubjects;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection.ResourceSharingPlans;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection.TargetedPlannedEnrollmentTable;
-import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection.VertebrateAnimals;
+import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments;
+import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.*;
+import gov.grants.apply.forms.phs398ResearchPlanV10.PHS398ResearchPlanDocument.PHS398ResearchPlan.ResearchPlanAttachments.HumanSubjectSection.*;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for generating the XML object for grants.gov PHS398ResearchPlanV1_0. Form is generated using XMLBean classes and is based

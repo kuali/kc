@@ -17,28 +17,12 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document;
 import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.AbstractAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.BibliographyAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.EnvironmentalImpact;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.EquipmentAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.FacilitiesAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.HumanSubjectsSupplement;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.InternationalActivities;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.OtherAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.ProjectNarrativeAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.VertebrateAnimalsSupplement;
+import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.*;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
-
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.infrastructure.Constants;
@@ -50,10 +34,12 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>

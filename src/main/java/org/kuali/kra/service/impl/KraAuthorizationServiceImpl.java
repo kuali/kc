@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.RolePersons;
@@ -39,6 +30,8 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+
+import java.util.*;
 
 /**
  * The Kra Authorization Service Implementation.
@@ -82,9 +75,7 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         this.permissionService = permissionService;
     }
 
-    /**
-     * @see org.kuali.kra.award.service.KraAuthorizationService#getUserNames(org.kuali.kra.common.permissions.Permissionable, java.lang.String)
-     */
+    @Override
     public List<String> getUserNames(Permissionable permissionable, String roleName) {
         List<String> userNames = new ArrayList<String>();
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
@@ -98,37 +89,27 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         }
         return userNames;
     }
-    
-    /**
-     * @see org.kuali.kra.award.service.KraAuthorizationService#addRole(java.lang.String, java.lang.String, org.kuali.kra.common.permissions.Permissionable)
-     */
+
+    @Override
     public void addRole(String userId, String roleName, Permissionable permissionable) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        roleManagementService.assignPrincipalToRole(userId, permissionable.getNamespace(), roleName,new HashMap<String,String>(qualifiedRoleAttributes));
-        forceFlushRoleCaches();
+        roleManagementService.assignPrincipalToRole(userId, permissionable.getNamespace(), roleName, new HashMap<String, String>(qualifiedRoleAttributes));
     }
-    
-    /**
-     * @see org.kuali.kra.award.service.KraAuthorizationService#removeRole(java.lang.String, java.lang.String, org.kuali.kra.common.permissions.Permissionable)
-     */
+
+    @Override
     public void removeRole(String userId, String roleName, Permissionable permissionable) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        roleManagementService.removePrincipalFromRole(userId, permissionable.getNamespace(), roleName,new HashMap<String,String>(qualifiedRoleAttributes));
-        forceFlushRoleCaches();
+        roleManagementService.removePrincipalFromRole(userId, permissionable.getNamespace(), roleName, new HashMap<String, String>(qualifiedRoleAttributes));
     }
-    
-    /**
-     * @see org.kuali.kra.award.service.KraAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.common.permissions.Permissionable, java.lang.String)
-     */
+
+    @Override
     public boolean hasPermission(String userId, Permissionable permissionable, String permissionName) {
         return hasPermission(userId, permissionable, permissionable.getNamespace(), permissionName);
     }
-    
-    /**
-     * @see org.kuali.kra.award.service.KraAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.common.permissions.Permissionable, java.lang.String)
-     */
+
+    @Override
     public boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName) {
         boolean userHasPermission = false;
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
@@ -145,11 +126,9 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
             userHasPermission = unitAuthorizationService.hasPermission(userId, unitNumber, permissionNamespace, permissionName);
         }
         return userHasPermission;
-    }    
-    
-    /**
-     * @see org.kuali.kra.award.service.KraAuthorizationService#hasRole(java.lang.String, org.kuali.kra.common.permissions.Permissionable, java.lang.String)
-     */
+    }
+
+    @Override
     public boolean hasRole(String userId, Permissionable permissionable, String roleName) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
@@ -159,27 +138,14 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         }
         return false;
     }
-    
-    /**
-     * @see org.kuali.kra.award.service.KraAuthorizationService#getRoles(java.lang.String, org.kuali.kra.common.permissions.Permissionable)
-     */
+
+    @Override
     public List<String> getRoles(String userId, Permissionable permissionable) {
         Set<String> roleNames = new HashSet<String>();
         String documentNumber = permissionable.getDocumentNumberForPermission();
         Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
         qualifiedRoleAttrs.put(permissionable.getDocumentKey(), documentNumber);
         if (documentNumber != null) {
-              //No way to get the Attribute ID - cannot use this 
-//            Map<String, String> fieldValues = new HashMap<String, String>();   
-//            fieldValues.put(KIMPropertyConstants.Principal.PRINCIPAL_NAME, principal.getPrincipalName());
-//            fieldValues.put("attributes.attributeValue", documentNumber);
-//            fieldValues.put("attributes.kimAttribute.attributeName", permissionable.getDocumentKey()); 
-//            fieldValues.put("attributes.kimAttribute.namespaceCode", KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE); 
-//            fieldValues.put("kimTypeId", "*");
-//            List<Role> roles = (List<Role>) roleManagementService.findRoles(fieldValues);
-//            for(Role role : roles) {
-//                roleNames.add(role.getName());
-//            }
             List<String> roleIds = new ArrayList<String>();
             Map<String, String> roleNameIdMap = new HashMap<String, String>();
             for(String role : permissionable.getRoleNames()) {
@@ -197,10 +163,8 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         
         return new ArrayList<String>(roleNames); 
     }
-    
-    /**
-     * @see org.kuali.kra.award.service.KraAuthorizationService#getPersonsInRole(org.kuali.kra.common.permissions.Permissionable, java.lang.String)
-     */
+
+    @Override
     public List<KcPerson> getPersonsInRole(Permissionable permissionable, String roleName) {
         List<KcPerson> persons = new ArrayList<KcPerson>();
         if(permissionable != null && StringUtils.isNotBlank(roleName)) { 
@@ -216,10 +180,8 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         } 
         return persons;
     }
-    
-    /**
-     * @see org.kuali.kra.award.service.KraAuthorizationService#getAllRolePersons(org.kuali.kra.common.permissions.Permissionable)
-     */
+
+    @Override
     public List<RolePersons> getAllRolePersons(Permissionable permissionable) {
         List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
         
@@ -246,20 +208,13 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         return rolePersonsList;
     }
 
-    
+    @Override
     public boolean hasRole(String userId, String namespace, String roleName) {
         Role role = roleManagementService.getRoleByNamespaceCodeAndName(namespace, roleName);
         if(role != null) {
             return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), null);
         }
         return false;
-    }
-
-    /**
-     * FIXME: Rice Hack - this method needs to be called because after we update kim data the cache handling is done
-     * asynchronously and subsequent reads are likely to be reading from a dirty cache.
-     */
-    public void forceFlushRoleCaches() {
     }
 
     public RoleService getRoleService() {

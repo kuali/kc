@@ -18,16 +18,15 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.rrPersonalData12V12.DirectorType;
 import gov.grants.apply.forms.rrPersonalData12V12.RRPersonalData12Document;
 import gov.grants.apply.forms.rrPersonalData12V12.RRPersonalData12Document.RRPersonalData12;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for generating the XML object for grants.gov RRPersonalDataV1.2. Form

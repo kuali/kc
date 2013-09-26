@@ -16,24 +16,8 @@
 package org.kuali.kra.s2s.generator.impl;
 
 
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetTypeDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYear1DataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.KeyPersonCompensationDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.KeyPersonDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.OtherPersonnelDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.SectBCompensationDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.SummaryDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.TotalDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.BudgetPeriod;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.Equipment;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.IndirectCosts;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.KeyPersons;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherDirectCosts;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherPersonnel;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.ParticipantTraineeSupportCosts;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.Travel;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.*;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.*;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.Equipment.EquipmentList;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherDirectCosts.Others;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherPersonnel.GraduateStudents;
@@ -48,27 +32,18 @@ import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument.RRF
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument.RRFedNonFedBudget.BudgetSummary.CumulativeTrainee;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument.RRFedNonFedBudget.BudgetSummary.CumulativeTravels;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
-import org.kuali.kra.s2s.generator.bo.BudgetSummaryInfo;
-import org.kuali.kra.s2s.generator.bo.CompensationInfo;
-import org.kuali.kra.s2s.generator.bo.CostInfo;
-import org.kuali.kra.s2s.generator.bo.EquipmentInfo;
-import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
-import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
-import org.kuali.kra.s2s.generator.bo.OtherDirectCostInfo;
-import org.kuali.kra.s2s.generator.bo.OtherPersonnelInfo;
+import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

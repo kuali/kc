@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationCorrespondent;
-import org.kuali.kra.bo.UnitAdministrator;
+
+import java.util.List;
 
 public interface OrganizationService {
 

@@ -15,20 +15,9 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.rrSF424V10.AORInfoType;
-import gov.grants.apply.forms.rrSF424V10.ApplicantTypeCodeDataType;
-import gov.grants.apply.forms.rrSF424V10.ApplicationTypeCodeDataType;
-import gov.grants.apply.forms.rrSF424V10.OrganizationContactPersonDataType;
-import gov.grants.apply.forms.rrSF424V10.RRSF424Document;
-import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.StateReview.StateReviewDate;
-import gov.grants.apply.forms.rrSF424V10.StateReviewCodeTypeDataType;
-import gov.grants.apply.forms.rrSF424V10.SubmissionTypeDataType;
+import gov.grants.apply.forms.rrSF424V10.*;
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424;
-import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.ApplicantInfo;
-import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.ApplicantType;
-import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.ApplicationType;
-import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.EstimatedProjectFunding;
-import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.StateReview;
+import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.*;
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.ApplicantInfo.ContactPersonInfo;
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.ApplicantType.SmallBusinessOrganizationType;
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.ApplicantType.SmallBusinessOrganizationType.IsSociallyEconomicallyDisadvantaged;
@@ -41,10 +30,6 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV10.OrganizationDataTypeV2;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType.Enum;
-
-import java.math.BigDecimal;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -58,11 +43,7 @@ import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -70,6 +51,9 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
+
+import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * Class for generating the XML object for grants.gov RRSF424V1_0. Form is

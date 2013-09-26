@@ -691,7 +691,6 @@
     
     <bean id="rolodexService" class="org.kuali.kra.service.impl.RolodexServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="rolodexDao" ref="rolodexDao" />
     </bean>
     
     <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.RolodexDaoOjb" />
@@ -809,7 +808,6 @@
     
     <bean id="ynqService" class="org.kuali.kra.service.impl.YnqServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
     <!-- Cross-Module Services -->

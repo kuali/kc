@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -30,6 +22,9 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.util.*;
 
 public class VersionHistoryServiceImpl implements VersionHistoryService {
     public static final String VERSION_STATUS_FIELD = "statusForOjb";
@@ -91,26 +86,6 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         } else {
             return null;
         }
-    }
-    
-    private VersionHistory getPendingVersionHistory (List<VersionHistory> list) {
-        VersionHistory returnVal = null;
-        for(VersionHistory vh : list) {
-            if(vh.getStatus().equals(VersionStatus.PENDING)) {
-                returnVal = vh;
-            }
-        }
-        return returnVal;
-    }
-    
-    private VersionHistory getActiveVersionHistory (List<VersionHistory> list) {
-        VersionHistory returnVal = null;
-        for(VersionHistory vh : list) {
-            if(vh.getStatus().equals(VersionStatus.ACTIVE)) {
-                returnVal = vh;
-            }
-        }
-        return returnVal;
     }
 
     /**
@@ -244,17 +219,6 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
             map.put(owner.getSequenceNumber(), owner);
         }
         return map;
-    }
-
-    protected void resetExistingVersionsToArchived(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner,
-            List<VersionHistory> versionHistories, VersionStatus versionStatus) {
-        List<VersionHistory> existingEntries = loadVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner));
-        for (VersionHistory versionHistory : existingEntries) {
-            if (!(versionStatus == VersionStatus.CANCELED && versionHistory.getStatus() == VersionStatus.ACTIVE)) {
-                versionHistory.setStatus(VersionStatus.ARCHIVED);
-            }
-        }
-        versionHistories.addAll(existingEntries);
     }
     
     protected String getVersionName(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner) {

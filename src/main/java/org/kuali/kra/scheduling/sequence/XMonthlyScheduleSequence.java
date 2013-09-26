@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.scheduling.sequence;
 
+import org.quartz.CronTrigger;
+import org.quartz.TriggerUtils;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-
-import org.quartz.CronTrigger;
-import org.quartz.TriggerUtils;
 
 /**
  * This class is variation of DefaultSchduleSequence, it adds logic wrapper to dates returned by Quartz util.

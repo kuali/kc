@@ -17,15 +17,9 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.nsfApplicationChecklistV10.NSFApplicationChecklistDocument;
 import gov.grants.apply.forms.nsfApplicationChecklistV10.NSFApplicationChecklistDocument.NSFApplicationChecklist;
-import gov.grants.apply.forms.nsfApplicationChecklistV10.NSFApplicationChecklistDocument.NSFApplicationChecklist.CoverSheet;
-import gov.grants.apply.forms.nsfApplicationChecklistV10.NSFApplicationChecklistDocument.NSFApplicationChecklist.Equipment;
-import gov.grants.apply.forms.nsfApplicationChecklistV10.NSFApplicationChecklistDocument.NSFApplicationChecklist.NSFCover;
-import gov.grants.apply.forms.nsfApplicationChecklistV10.NSFApplicationChecklistDocument.NSFApplicationChecklist.ProjectNarrative;
-import gov.grants.apply.forms.nsfApplicationChecklistV10.NSFApplicationChecklistDocument.NSFApplicationChecklist.RRBudget;
-import gov.grants.apply.forms.nsfApplicationChecklistV10.NSFApplicationChecklistDocument.NSFApplicationChecklist.RRSrProfile;
+import gov.grants.apply.forms.nsfApplicationChecklistV10.NSFApplicationChecklistDocument.NSFApplicationChecklist.*;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoNotApplicableDataType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;

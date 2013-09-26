@@ -15,16 +15,10 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.rrSF424V10.StateReviewCodeTypeDataType;
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.StateReview;
-import gov.grants.apply.forms.sf424V10.ApplicantTypeCodeType;
-import gov.grants.apply.forms.sf424V10.ApplicationTypeCodeType;
-import gov.grants.apply.forms.sf424V10.GrantApplicationDocument;
-import gov.grants.apply.forms.sf424V10.GrantApplicationType;
-import gov.grants.apply.forms.sf424V10.RevisionCodeType;
-import gov.grants.apply.forms.sf424V10.StateReviewCodeType;
-import gov.grants.apply.forms.sf424V10.SubmissionTypeCodeType;
+import gov.grants.apply.forms.rrSF424V10.StateReviewCodeTypeDataType;
 import gov.grants.apply.forms.sf424V10.AddressDocument.Address;
+import gov.grants.apply.forms.sf424V10.*;
 import gov.grants.apply.forms.sf424V10.AuthorizedRepresentativeDocument.AuthorizedRepresentative;
 import gov.grants.apply.forms.sf424V10.BudgetDocument.Budget;
 import gov.grants.apply.forms.sf424V10.ContactDocument.Contact;
@@ -37,10 +31,6 @@ import gov.grants.apply.forms.sf424V10.SubmittingOrganizationDocument.Submitting
 import gov.grants.apply.system.globalV10.YesNoType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 import gov.grants.apply.system.universalCodesV10.CurrencyCodeType;
-
-import java.math.BigDecimal;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -54,6 +44,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * This Class is used to generate XML object for grants.gov SF424V1.0. This form

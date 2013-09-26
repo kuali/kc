@@ -16,20 +16,15 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType;
-import gov.grants.apply.forms.rrKeyPersonV11.ProjectRoleDataType;
-import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument;
 import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType.Profile;
 import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType.Profile.OtherProjectRoleCategory;
+import gov.grants.apply.forms.rrKeyPersonV11.ProjectRoleDataType;
+import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.AdditionalProfilesAttached;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.BioSketchsAttached;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -47,6 +42,10 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Class for generating the XML object for grants.gov RRKeyPersonV1.1. Form is generated using XMLBean classes and is based on

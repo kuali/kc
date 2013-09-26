@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
+
+import java.util.List;
 
 /**
  * The Authorization Service handles access to Documents.
@@ -108,6 +108,4 @@ public interface KraAuthorizationService {
     public List<RolePersons> getAllRolePersons(Permissionable permissionable);
     
     public boolean hasRole(String userId, String namespace, String roleName);
-    
-    public void forceFlushRoleCaches();    
 }

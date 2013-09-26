@@ -19,10 +19,6 @@ import gov.grants.apply.forms.budgetV11.BudgetNarrativeAttachmentsDocument;
 import gov.grants.apply.forms.budgetV11.BudgetNarrativeAttachmentsDocument.BudgetNarrativeAttachments;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -30,6 +26,9 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

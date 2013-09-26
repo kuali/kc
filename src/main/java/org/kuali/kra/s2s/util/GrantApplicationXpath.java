@@ -4,17 +4,16 @@
  */
 package org.kuali.kra.s2s.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
-import javax.xml.transform.TransformerException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import javax.xml.transform.TransformerException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 /**
  * Grant application Xpath class.

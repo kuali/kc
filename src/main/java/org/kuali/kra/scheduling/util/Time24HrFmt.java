@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.scheduling.util;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 import java.text.ParseException;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * This is util class helps facade time in 24 hour format.

@@ -16,30 +16,12 @@
 package org.kuali.kra.s2s.service.impl;
 
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.CitizenshipType;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
@@ -51,9 +33,7 @@ import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDet
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
@@ -62,7 +42,6 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionn
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
-import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -86,6 +65,9 @@ import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * 

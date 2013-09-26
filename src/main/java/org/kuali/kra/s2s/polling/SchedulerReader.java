@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.s2s.polling;
 
-import java.util.Hashtable;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.kuali.kra.s2s.S2SException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.Hashtable;
 
 /**
  * 
