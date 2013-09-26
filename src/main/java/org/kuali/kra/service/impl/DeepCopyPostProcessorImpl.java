@@ -15,24 +15,18 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.io.Serializable;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * This class is to process deep copy with Object Utils and then 
@@ -81,22 +75,7 @@ public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor{
             findAllFields(klass, allFields);
         }
     }
-    //Not tested
-    public void fixProperty(Object object, Class clazz, Object propertyValue, String... methodNames){
-        Map<String, Object> objectMap = new HashMap<String, Object>();
-        for (int i = 0; i < methodNames.length; i++) {
-            String methodName = methodNames[i];
-            objectMap.clear();
-            fixProperty(objectMap, methodName, clazz, propertyValue,objectMap);
-        }
-    }
-    
-    /**
-     * Recurse through all of the BOs and if a BO has a ProposalNumber property,
-     * set its value to the new proposal number.
-     * @param object the object
-     * @param proposalNumber the proposal number
-     */
+
     @SuppressWarnings("unchecked")
     public void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap){
         if(ObjectUtils.isNotNull(object)) {

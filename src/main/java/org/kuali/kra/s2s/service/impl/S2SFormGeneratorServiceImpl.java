@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlOptions;
@@ -27,6 +24,9 @@ import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 

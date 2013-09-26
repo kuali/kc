@@ -15,27 +15,17 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument;
-import gov.grants.apply.forms.sflllV11.ReportDataType;
-import gov.grants.apply.forms.sflllV11.ReportEntityDataType;
 import gov.grants.apply.forms.sflllV11.AwardeeDataType.Address;
+import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument;
 import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure;
-import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.FederalActionStatus;
-import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.FederalActionType;
-import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.FederalProgramName;
-import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.IndividualsPerformingServices;
-import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.LobbyingRegistrant;
-import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.ReportEntity;
-import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.SignatureBlock;
+import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.*;
 import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.IndividualsPerformingServices.Individual;
 import gov.grants.apply.forms.sflllV11.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.ReportEntity.Prime;
+import gov.grants.apply.forms.sflllV11.ReportDataType;
+import gov.grants.apply.forms.sflllV11.ReportEntityDataType;
 import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -45,6 +35,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 

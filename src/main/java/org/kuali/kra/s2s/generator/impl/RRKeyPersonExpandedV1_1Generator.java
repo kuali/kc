@@ -16,20 +16,15 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.PersonProfileDataType;
-import gov.grants.apply.forms.rrKeyPersonExpandedV11.ProjectRoleDataType;
-import gov.grants.apply.forms.rrKeyPersonExpandedV11.RRKeyPersonExpandedDocument;
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.PersonProfileDataType.Profile;
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.PersonProfileDataType.Profile.OtherProjectRoleCategory;
+import gov.grants.apply.forms.rrKeyPersonExpandedV11.ProjectRoleDataType;
+import gov.grants.apply.forms.rrKeyPersonExpandedV11.RRKeyPersonExpandedDocument;
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.RRKeyPersonExpandedDocument.RRKeyPersonExpanded;
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.RRKeyPersonExpandedDocument.RRKeyPersonExpanded.AdditionalProfilesAttached;
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.RRKeyPersonExpandedDocument.RRKeyPersonExpanded.BioSketchsAttached;
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.RRKeyPersonExpandedDocument.RRKeyPersonExpanded.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
@@ -43,6 +38,10 @@ import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.util.AuditError;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class generates RRKeyPersonExpanded xml object. It uses xmlbeans for

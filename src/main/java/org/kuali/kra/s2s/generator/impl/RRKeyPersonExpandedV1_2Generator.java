@@ -16,20 +16,15 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.PersonProfileDataType;
-import gov.grants.apply.forms.rrKeyPersonExpanded12V12.ProjectRoleDataType;
-import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Document;
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.PersonProfileDataType.Profile;
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.PersonProfileDataType.Profile.OtherProjectRoleCategory;
+import gov.grants.apply.forms.rrKeyPersonExpanded12V12.ProjectRoleDataType;
+import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Document;
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Document.RRKeyPersonExpanded12;
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Document.RRKeyPersonExpanded12.AdditionalProfilesAttached;
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Document.RRKeyPersonExpanded12.BioSketchsAttached;
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Document.RRKeyPersonExpanded12.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -37,17 +32,17 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 /**
  * This class generates RRKeyPersonExpanded xml object. It uses xmlbeans for
  * generation of the form. Form is generated based on RRKeyPersonExpanded

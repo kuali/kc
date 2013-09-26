@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
@@ -30,6 +27,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This abstract class has methods that are common to all the versions of ED524Budget form.

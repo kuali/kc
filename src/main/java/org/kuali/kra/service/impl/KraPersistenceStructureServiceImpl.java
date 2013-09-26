@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.rice.krad.exception.ClassNotPersistableException;
 import org.kuali.rice.krad.service.impl.PersistenceStructureServiceImpl;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class KraPersistenceStructureServiceImpl extends PersistenceStructureServiceImpl implements KraPersistenceStructureService { 
 
@@ -53,19 +53,4 @@ public class KraPersistenceStructureServiceImpl extends PersistenceStructureServ
         
         throw new ClassNotPersistableException(clazz.getName() + " is not Persistable");
      }
-
-    protected Map<String, FieldDescriptor> getPersistableAttributesMap(Class clazz)  throws ClassNotPersistableException {
-       Map<String, FieldDescriptor> fieldMap = new HashMap<String, FieldDescriptor>();
-       if(isPersistable(clazz)) {
-           ClassDescriptor classDescriptor = getClassDescriptor(clazz);
-           FieldDescriptor fieldDescriptors[] = classDescriptor.getFieldDescriptions();
-           for(FieldDescriptor fieldDescriptor : fieldDescriptors) {
-               fieldMap.put(fieldDescriptor.getAttributeName(), fieldDescriptor);
-           }
-           return fieldMap;
-       } 
-       
-       throw new ClassNotPersistableException(clazz.getName() + " is not Persistable");
-    }
-
 }

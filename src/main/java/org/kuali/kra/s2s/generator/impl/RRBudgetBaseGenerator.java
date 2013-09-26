@@ -20,16 +20,6 @@ import gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocumen
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument;
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList;
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons.Compensation;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -47,7 +37,6 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
 import org.kuali.kra.s2s.generator.bo.CostInfo;
-import org.kuali.kra.s2s.generator.bo.EquipmentInfo;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -56,6 +45,14 @@ import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This abstract class has methods that are common to all the versions of

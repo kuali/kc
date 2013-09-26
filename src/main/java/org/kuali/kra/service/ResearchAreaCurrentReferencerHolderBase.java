@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.protocol.ProtocolBase;
 
 /**
@@ -56,15 +56,6 @@ public class ResearchAreaCurrentReferencerHolderBase {
 
     public String getResearchAreaCode() {
         return researchAreaCode;
-    }
-    
-    
-    public boolean containsAnyValidReferencers() {
-        boolean retValue = false;
-        if( (null != this.currentReferencingProtocol) || (null != this.currentReferencingCommittee) || (null != this.currentReferencingCommitteeMembership) ) {
-            retValue = true;
-        }
-        return retValue;
     }
     
     public String getMessage() {

@@ -22,10 +22,6 @@ import gov.grants.apply.forms.edSF424SupplementV10.EDSF424SupplementDocument.EDS
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoNotApplicableDataType;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
@@ -35,6 +31,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

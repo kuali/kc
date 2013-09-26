@@ -15,22 +15,18 @@
  */
 package org.kuali.kra.service.impl;
 
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.service.RolodexService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.dao.RolodexDao;
-import org.kuali.kra.service.RolodexService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-
 public class RolodexServiceImpl implements RolodexService {
 
-    private Map<String, String> userNameCache = new HashMap<String, String>();
-    
     private BusinessObjectService businessObjectService;
-    private RolodexDao rolodexDao;
-    
+
     /**
      * Sets the businessObjectService attribute value.
      * 
@@ -39,10 +35,6 @@ public class RolodexServiceImpl implements RolodexService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
-    public void setRolodexDao(RolodexDao rolodexDao) {
-        this.rolodexDao = rolodexDao;
-    }   
     
     /**
      * @see org.kuali.kra.service.RolodexService#getRolodex(int)

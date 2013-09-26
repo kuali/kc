@@ -17,15 +17,9 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.nsfApplicationChecklist12V12.NSFApplicationChecklist12Document;
 import gov.grants.apply.forms.nsfApplicationChecklist12V12.NSFApplicationChecklist12Document.NSFApplicationChecklist12;
-import gov.grants.apply.forms.nsfApplicationChecklist12V12.NSFApplicationChecklist12Document.NSFApplicationChecklist12.CoverSheet;
-import gov.grants.apply.forms.nsfApplicationChecklist12V12.NSFApplicationChecklist12Document.NSFApplicationChecklist12.Equipment;
-import gov.grants.apply.forms.nsfApplicationChecklist12V12.NSFApplicationChecklist12Document.NSFApplicationChecklist12.NSFCover;
-import gov.grants.apply.forms.nsfApplicationChecklist12V12.NSFApplicationChecklist12Document.NSFApplicationChecklist12.ProjectNarrative;
-import gov.grants.apply.forms.nsfApplicationChecklist12V12.NSFApplicationChecklist12Document.NSFApplicationChecklist12.RRBudget;
-import gov.grants.apply.forms.nsfApplicationChecklist12V12.NSFApplicationChecklist12Document.NSFApplicationChecklist12.RRSrProfile;
+import gov.grants.apply.forms.nsfApplicationChecklist12V12.NSFApplicationChecklist12Document.NSFApplicationChecklist12.*;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;

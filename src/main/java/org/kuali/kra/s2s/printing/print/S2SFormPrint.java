@@ -1,15 +1,14 @@
 package org.kuali.kra.s2s.printing.print;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.transform.Source;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.xmlstream.XmlStream;
+
+import javax.xml.transform.Source;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class S2SFormPrint extends AbstractPrint {
 	private static final long serialVersionUID = 1L;

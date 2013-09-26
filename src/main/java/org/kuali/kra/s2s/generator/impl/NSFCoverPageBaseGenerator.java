@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.Calendar;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.Calendar;
 
 /**
  * This abstract class has methods that are common to all the versions of

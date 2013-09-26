@@ -15,24 +15,12 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.customdata.AwardCustomData;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.ArgValueLookup;
-import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
-import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PropertyConstants;
@@ -40,11 +28,11 @@ import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
+
+import java.util.*;
 
 /**
  * This class provides the implementation of the Custom Attribute Service.
@@ -55,10 +43,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
     private static final String ARGVALUELOOKUPE_CLASS = "org.kuali.kra.bo.ArgValueLookup";
     private BusinessObjectService businessObjectService;
 
-    /**
-     * @see org.kuali.kra.service.CustomAttributeService#getDefaultAwardCustomAttributeDocuments()
-     */
-    @SuppressWarnings("unchecked")
+    @Override
     public Map<String, CustomAttributeDocument> getDefaultCustomAttributeDocuments(String documentTypeCode, List<? extends DocumentCustomData> customDataList) {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
         Map<String, String> queryMap = new HashMap<String, String>();
@@ -90,118 +75,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         }
         return customIds;
     }
-    
-    /**
-     * Get the Custom Attribute Documents from the database.  Must make a copy of
-     * the BOs.  The current custom attribute software stores the value in the
-     * CustomAttribute BO.  Unfortunately, the BO instance is common to all of 
-     * documents that use that custom attribute.  In other words, suppose two documents
-     * are retrieved from database on the same transaction.  OJB will cache the 
-     * CustomAttribute BO instances and use the same instances for both documents.
-     * But those two documents may have different values for the custom attributes.
-     * In that case, the last to write its value to the CustomAttribute BO will win.
-     * To avoid this problem, this method returns a copy of the BOs so that each
-     * document will have its own instances.
-     * @param documentTypeCode
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    protected List<CustomAttributeDocument> getCustomAttributeDocuments(String documentTypeCode) {
-        List<CustomAttributeDocument> newCustomAttributeDocuments = new ArrayList<CustomAttributeDocument>();
-        
-        Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), documentTypeCode);
 
-        List<CustomAttributeDocument> customAttributeDocuments = (List<CustomAttributeDocument>)getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
-        for (CustomAttributeDocument customAttributeDocument : customAttributeDocuments) {
-            newCustomAttributeDocuments.add(copyCustomAttributeDocument(customAttributeDocument));
-        }
-        
-        return newCustomAttributeDocuments;
-    }
-    
-    protected CustomAttributeDocument copyCustomAttributeDocument(CustomAttributeDocument customAttributeDocument) {
-        CustomAttributeDocument newCustomAttributeDocument = new CustomAttributeDocument();
-        
-        newCustomAttributeDocument.setCustomAttributeId(customAttributeDocument.getCustomAttributeId());
-        newCustomAttributeDocument.setDocumentTypeName(customAttributeDocument.getDocumentTypeName());
-        newCustomAttributeDocument.setRequired(customAttributeDocument.isRequired());
-        newCustomAttributeDocument.setTypeName(customAttributeDocument.getTypeName());
-        newCustomAttributeDocument.setDocumentType(customAttributeDocument.getDocumentType());
-        newCustomAttributeDocument.setCustomAttribute(copyCustomAttribute(customAttributeDocument.getCustomAttribute()));
-        newCustomAttributeDocument.setActive(customAttributeDocument.isActive());
-        
-        return newCustomAttributeDocument;
-    }
-
-    protected CustomAttribute copyCustomAttribute(CustomAttribute customAttribute) {
-        CustomAttribute newCustomAttribute = new CustomAttribute();
-        
-        newCustomAttribute.setId(customAttribute.getId());
-        newCustomAttribute.setDataLength(customAttribute.getDataLength());
-        newCustomAttribute.setDataTypeCode(customAttribute.getDataTypeCode());
-        newCustomAttribute.setDefaultValue(customAttribute.getDefaultValue());
-        newCustomAttribute.setGroupName(customAttribute.getGroupName());
-        newCustomAttribute.setLabel(customAttribute.getLabel());
-        newCustomAttribute.setLookupClass(customAttribute.getLookupClass());
-        newCustomAttribute.setLookupReturn(customAttribute.getLookupReturn());
-        newCustomAttribute.setName(customAttribute.getName());
-        newCustomAttribute.setValue(customAttribute.getValue());
-        newCustomAttribute.setCustomAttributeDataType(customAttribute.getCustomAttributeDataType());
-        
-        return newCustomAttribute;
-    }
-
-    /**
-     * @see org.kuali.kra.service.CustomAttributeService#getDefaultAwardCustomAttributeDocuments()
-     */
-    @SuppressWarnings("unchecked")
-    public Map<String, CustomAttributeDocument> getDefaultAwardCustomAttributeDocuments() {
-        Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
-        Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(KRADPropertyConstants.DOCUMENT_TYPE_CODE, "AWRD");
-        List<CustomAttributeDocument> customAttributeDocumentList = 
-            (List<CustomAttributeDocument>) getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
-        for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
-            if (customAttributeDocument.isActive()) {
-                customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
-            }
-        }
-        return customAttributeDocuments;
-    }
-    /**
-     * @see org.kuali.kra.service.CustomAttributeService#saveCustomAttributeValues(org.kuali.kra.document.ResearchDocumentBase)
-     */
-    public void saveCustomAttributeValues(ResearchDocumentBase document) {
-        Map<String, CustomAttributeDocument>customAttributeDocuments = document.getCustomAttributeDocuments();
-        if (customAttributeDocuments != null) {
-            for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
-                CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-                Integer customAttributeId = customAttributeDocument.getCustomAttributeId();
-                String documentNumber = document.getDocumentNumber();
-
-                Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
-                primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-                CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
-
-                if (customAttributeDocValue == null) {
-                    customAttributeDocValue = new CustomAttributeDocValue();
-                    customAttributeDocValue.setCustomAttributeId(customAttributeDocument.getCustomAttributeId().longValue());
-                    customAttributeDocValue.setDocumentNumber(document.getDocumentNumber());
-                }
-
-                customAttributeDocValue.setValue(customAttributeDocument.getCustomAttribute().getValue());
-
-                businessObjectService.save(customAttributeDocValue);
-            }
-        }
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.service.CustomAttributeService#setCustomAttributeKeyValue(org.kuali.kra.document.ResearchDocumentBase, java.lang.String, java.lang.String)
-     */
+    @Override
     public void setCustomAttributeKeyValue(String documentNumber, Map<String, CustomAttributeDocument> customAttributeDocuments, String attributeName, String networkId) {
         WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(networkId, documentNumber);
         
@@ -240,10 +115,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         return businessObjectService;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.service.CustomAttributeService#getCustomAttributeDataType(java.lang.String)
-     */
+    @Override
     public CustomAttributeDataType getCustomAttributeDataType(String dataTypeCode) {
 
         Map<String, String> primaryKeys = new HashMap<String, String>();
@@ -255,10 +127,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.service.CustomAttributeService#getLookupReturns(java.lang.String)
-     */
+    @Override
     public List getLookupReturns(String lookupClass) throws Exception {
         List<String> lookupReturns = new ArrayList<String>();
         if (ARGVALUELOOKUPE_CLASS.equals(lookupClass)) {
@@ -277,10 +146,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         return lookupReturns;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.service.CustomAttributeService#getLookupReturnsForAjaxCall(java.lang.String)
-     */
+    @Override
     public String getLookupReturnsForAjaxCall(String lookupClass) throws Exception {
         List lookupFieldNames = getLookupReturns(lookupClass);
         String attributeNames="";

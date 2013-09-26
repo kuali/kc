@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.rule.event;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.rules.CustomDataRule;
+import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Encapsulates a validation event for a Custom Attribute add action.

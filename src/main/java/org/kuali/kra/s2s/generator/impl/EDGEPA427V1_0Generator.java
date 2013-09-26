@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.edGEPA427V10.GEPA427AttachmentsDocument;
 import gov.grants.apply.forms.edGEPA427V10.GEPA427AttachmentsDocument.GEPA427Attachments;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

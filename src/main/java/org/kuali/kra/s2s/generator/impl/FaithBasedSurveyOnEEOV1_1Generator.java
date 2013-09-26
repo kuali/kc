@@ -17,7 +17,6 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.faithBasedSurveyOnEEOV11.SurveyOnEEODocument;
 import gov.grants.apply.forms.faithBasedSurveyOnEEOV11.SurveyOnEEODocument.SurveyOnEEO;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.bo.S2sOpportunity;

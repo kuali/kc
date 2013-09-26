@@ -18,23 +18,8 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument;
 import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT1;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT10;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT11;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT12;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT13;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT14;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT15;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT2;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT3;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT4;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT5;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT6;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT7;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT8;
-import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT9;
+import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.*;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

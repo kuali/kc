@@ -3,14 +3,13 @@
  */
 package org.kuali.kra.s2s.util;
 
-import java.io.ByteArrayInputStream;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.TransformerException;
-
 import org.apache.xpath.XPathAPI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.TransformerException;
+import java.io.ByteArrayInputStream;
 
 /**
  * Class processes XPath Queries.

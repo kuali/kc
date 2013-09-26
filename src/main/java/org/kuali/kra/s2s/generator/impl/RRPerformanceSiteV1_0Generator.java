@@ -16,14 +16,11 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrPerformanceSiteV10.RRPerformanceSiteDocument;
-import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType;
 import gov.grants.apply.forms.rrPerformanceSiteV10.RRPerformanceSiteDocument.RRPerformanceSite;
+import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType;
 import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType.Address;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
-
-import java.util.List;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -31,6 +28,8 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.util.List;
 
 /**
  * This Class is used to generate XML object for grants.gov RRPerformanceSiteV1.0. This form is generated using XMLBean classes and
