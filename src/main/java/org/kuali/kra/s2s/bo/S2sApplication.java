@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.util.List;
 
 public class S2sApplication extends KraPersistableBusinessObjectBase {
 

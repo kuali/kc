@@ -17,24 +17,14 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument;
 import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument;
-import gov.grants.apply.forms.sflllV10.ReportDataType;
-import gov.grants.apply.forms.sflllV10.ReportEntityDataType;
 import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure;
-import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.FederalActionStatus;
-import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.FederalActionType;
-import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.FederalProgramName;
-import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.IndividualsPerformingServices;
-import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.LobbyingRegistrant;
-import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.ReportEntity;
-import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.SignatureBlock;
+import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.*;
 import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.IndividualsPerformingServices.Individual;
 import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument.LobbyingActivitiesDisclosure.ReportEntity.Prime;
+import gov.grants.apply.forms.sflllV10.ReportDataType;
+import gov.grants.apply.forms.sflllV10.ReportEntityDataType;
 import gov.grants.apply.system.globalLibraryV10.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -44,6 +34,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.math.BigDecimal;
-import java.util.List;
 import gov.grants.apply.forms.nasaPIandAORSupplementalDataSheetV10.FederalAgencyDataType;
 import gov.grants.apply.forms.nasaPIandAORSupplementalDataSheetV10.NasaPIandAORSupplementalDataSheetDocument;
 import gov.grants.apply.forms.nasaPIandAORSupplementalDataSheetV10.NasaPIandAORSupplementalDataSheetDocument.NasaPIandAORSupplementalDataSheet;
@@ -24,7 +22,6 @@ import gov.grants.apply.forms.nasaPIandAORSupplementalDataSheetV10.NasaPIandAORS
 import gov.grants.apply.forms.nasaPIandAORSupplementalDataSheetV10.NasaPIandAORSupplementalDataSheetDocument.NasaPIandAORSupplementalDataSheet.PrincipalInvestigatorName;
 import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -32,17 +29,16 @@ import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 

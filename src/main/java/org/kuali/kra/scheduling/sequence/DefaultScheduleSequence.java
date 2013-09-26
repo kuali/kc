@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.scheduling.sequence;
 
+import org.quartz.CronTrigger;
+import org.quartz.TriggerUtils;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-
-import org.quartz.CronTrigger;
-import org.quartz.TriggerUtils;
 
 /**
  * This class is default implementation of ScheduleSequence Interface.

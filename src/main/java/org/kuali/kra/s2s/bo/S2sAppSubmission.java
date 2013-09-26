@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
 import java.sql.Timestamp;
 import java.util.List;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
 

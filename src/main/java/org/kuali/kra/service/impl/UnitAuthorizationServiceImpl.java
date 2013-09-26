@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
@@ -33,13 +26,14 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.RoleService;
 
+import java.util.*;
+
 /**
  * The Unit Authorization Service Implementation.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KraAuthorizationServiceImpl.class);
 
     private UnitService unitService;
     private SystemAuthorizationService systemAuthorizationService;

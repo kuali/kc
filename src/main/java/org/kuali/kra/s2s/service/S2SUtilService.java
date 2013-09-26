@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.s2s.service;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
@@ -32,6 +27,11 @@ import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.state.State;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 

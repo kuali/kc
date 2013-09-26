@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.s2s.service;
 
-import java.util.List;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
@@ -28,6 +26,8 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
 import org.kuali.kra.s2s.generator.bo.BudgetSummaryInfo;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
+
+import java.util.List;
 
 /**
  * This class contains the Budget related calculations for a proposal

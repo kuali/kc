@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -35,15 +29,16 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 
  * This class to check whether activity type has been changed for PD or Award, and budget is not sync'ed.  
  */
 public class ActivityTypeAuditRule  implements DocumentAuditRule{
 
-    private static final Log LOG = LogFactory.getLog(ActivityTypeAuditRule.class);
-
-    
     /**
      * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */

@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
+
 import gov.grants.apply.forms.sf424ShortV10.SF424ShortDocument;
 import gov.grants.apply.forms.sf424ShortV10.SF424ShortDocument.SF424Short;
 import gov.grants.apply.system.globalLibraryV20.ApplicantTypeCodeDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationType;
@@ -36,6 +32,10 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This Class is used to generate XML object for grants.gov SF424ShortV1_0. This form is generated using XMLBean classes and is

@@ -509,8 +509,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                  
                 DocumentService docService = KraServiceLocator.getService(DocumentService.class);
                 docService.saveDocument(copiedDocument);
-                kraAuthService.forceFlushRoleCaches();
-                
+
                 nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
                 
                 // Helper method to clear document form data.

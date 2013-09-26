@@ -17,7 +17,6 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.ggLobbyingFormV11.LobbyingFormDocument;
 import gov.grants.apply.forms.ggLobbyingFormV11.LobbyingFormDocument.LobbyingForm;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

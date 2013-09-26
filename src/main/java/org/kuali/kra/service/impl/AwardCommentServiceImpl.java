@@ -15,20 +15,15 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
-import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardCommentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 /**
  * Service class for Award Comments on Comments, Notes & Attachments tab.
@@ -37,8 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AwardCommentServiceImpl implements AwardCommentService {
     
     private BusinessObjectService businessObjectService;
-    private AwardService awardService;
-    
+
     private String AWARD_COMMENT_SCREEN_FLAG = "awardCommentScreenFlag";
     private String AWARD_COMMENT_TYPE_CODE = "commentTypeCode";
     private String AWARD_ID = "awardId";
@@ -159,21 +153,4 @@ public class AwardCommentServiceImpl implements AwardCommentService {
     public BusinessObjectService getBusinessObjectService() {
         return this.businessObjectService;
     }
-
-    /**
-     * Accessor for <code>{@link AwardService}</code>
-     *
-     * @return AwardService
-     */
-    public void setAwardService(AwardService awardService) {
-        this.awardService = awardService;
-    }
-    
-    public AwardService getAwardService() {
-        if (awardService == null) {
-            awardService = KraServiceLocator.getService(AwardService.class);
-        }
-        return awardService;
-    }
-
 }

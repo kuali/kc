@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.scheduling.sequence;
 
+import org.apache.commons.lang.ObjectUtils;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.commons.lang.ObjectUtils;
 
 /**
  * This class decorates ScheduleSequence to add logic wrapper to filter dates, to generate schedule for every week, every other week, etc ...

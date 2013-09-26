@@ -20,7 +20,6 @@ import gov.grants.apply.system.globalLibraryV10.AddressRequireCountryDataType;
 import gov.grants.apply.system.globalLibraryV10.ContactPersonDataType;
 import gov.grants.apply.system.globalLibraryV10.HumanNameDataType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
-
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;

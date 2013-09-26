@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import java.sql.Timestamp;
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.S2sRevisionType;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 

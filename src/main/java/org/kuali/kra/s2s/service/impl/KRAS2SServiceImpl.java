@@ -20,33 +20,7 @@ import gov.grants.apply.system.headerV10.GrantSubmissionHeaderDocument.GrantSubm
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.GrantApplication;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.GrantApplication.Forms;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.ApplicationInformationType;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListResponse;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationStatusDetailResponse;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetOpportunityListResponse;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.OpportunityInformationType;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationResponse;
-
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.activation.DataHandler;
-import javax.mail.util.ByteArrayDataSource;
-import javax.xml.namespace.QName;
-
+import gov.grants.apply.webservices.applicantintegrationservices_v1.*;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -63,34 +37,33 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.bo.S2sAppAttachments;
-import org.kuali.kra.s2s.bo.S2sAppSubmission;
-import org.kuali.kra.s2s.bo.S2sApplication;
-import org.kuali.kra.s2s.bo.S2sOppForms;
-import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.s2s.bo.S2sProvider;
+import org.kuali.kra.s2s.bo.*;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
-import org.kuali.kra.s2s.service.S2SConnectorService;
-import org.kuali.kra.s2s.service.PrintService;
-import org.kuali.kra.s2s.service.S2SFormGeneratorService;
-import org.kuali.kra.s2s.service.S2SProposalValidatorService;
-import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.kra.s2s.service.S2SValidatorService;
+import org.kuali.kra.s2s.service.*;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.activation.DataHandler;
+import javax.mail.util.ByteArrayDataSource;
+import javax.xml.namespace.QName;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * 

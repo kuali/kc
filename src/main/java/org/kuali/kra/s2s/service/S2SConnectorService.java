@@ -19,12 +19,10 @@ import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicati
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationStatusDetailResponse;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetOpportunityListResponse;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationResponse;
-
-import java.util.Map;
+import org.kuali.kra.s2s.S2SException;
 
 import javax.activation.DataHandler;
-
-import org.kuali.kra.s2s.S2SException;
+import java.util.Map;
 
 /**
  * 

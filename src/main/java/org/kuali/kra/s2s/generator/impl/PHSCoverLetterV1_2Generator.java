@@ -19,7 +19,6 @@ import gov.grants.apply.forms.phsCoverLetter12V12.PHSCoverLetter12Document;
 import gov.grants.apply.forms.phsCoverLetter12V12.PHSCoverLetter12Document.PHSCoverLetter12;
 import gov.grants.apply.forms.phsCoverLetter12V12.PHSCoverLetter12Document.PHSCoverLetter12.CoverLetterFile;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

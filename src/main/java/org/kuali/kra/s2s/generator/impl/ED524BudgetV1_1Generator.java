@@ -23,9 +23,6 @@ import gov.grants.apply.forms.ed524BudgetV11.ED524BudgetDocument.ED524Budget.Ind
 import gov.grants.apply.forms.ed524BudgetV11.ED524BudgetDocument.ED524Budget.IndirectCost.OtherApprovingFederalAgency;
 import gov.grants.apply.forms.ed524BudgetV11.ED524BudgetDocument.ED524Budget.IndirectCost.RestrictedIndirectCostRate;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
-
-import java.math.BigDecimal;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -36,6 +33,8 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.math.BigDecimal;
 
 public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
     private static final Log LOG = LogFactory.getLog(ED524BudgetV1_1Generator.class);

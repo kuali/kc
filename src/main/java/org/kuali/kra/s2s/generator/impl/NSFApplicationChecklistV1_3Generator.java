@@ -17,22 +17,16 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.nsfApplicationChecklist13V13.NSFApplicationChecklist13Document;
 import gov.grants.apply.forms.nsfApplicationChecklist13V13.NSFApplicationChecklist13Document.NSFApplicationChecklist13;
-import gov.grants.apply.forms.nsfApplicationChecklist13V13.NSFApplicationChecklist13Document.NSFApplicationChecklist13.CoverSheet;
-import gov.grants.apply.forms.nsfApplicationChecklist13V13.NSFApplicationChecklist13Document.NSFApplicationChecklist13.Equipment;
-import gov.grants.apply.forms.nsfApplicationChecklist13V13.NSFApplicationChecklist13Document.NSFApplicationChecklist13.NSFCover;
-import gov.grants.apply.forms.nsfApplicationChecklist13V13.NSFApplicationChecklist13Document.NSFApplicationChecklist13.ProjectNarrative;
-import gov.grants.apply.forms.nsfApplicationChecklist13V13.NSFApplicationChecklist13Document.NSFApplicationChecklist13.RRBudget;
-import gov.grants.apply.forms.nsfApplicationChecklist13V13.NSFApplicationChecklist13Document.NSFApplicationChecklist13.RRSrProfile;
+import gov.grants.apply.forms.nsfApplicationChecklist13V13.NSFApplicationChecklist13Document.NSFApplicationChecklist13.*;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
-
-import java.util.List;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.util.List;
 
 /**
  * 

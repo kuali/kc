@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.s2s.service;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.rice.kns.util.AuditError;
+
+import java.util.List;
 
 /**
  * 

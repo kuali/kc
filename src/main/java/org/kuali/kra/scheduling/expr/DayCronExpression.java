@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.scheduling.expr;
 
-import java.text.ParseException;
-import java.util.Date;
-
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
+
+import java.text.ParseException;
+import java.util.Date;
 
 /**
  * This class extends CronExpression and provides DayCronExpression implementation.

@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.s2s.validator;
 
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.DOMBuilder;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.AuditError;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class S2SErrorHandler {
     private static Map<String, AuditError> auditErrorMap;

@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,6 +28,9 @@ import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.lang.reflect.Method;
+import java.util.*;
 
 public class SponsorServiceImpl implements SponsorService, Constants {
     private SponsorHierarchyDao sponsorHierarchyDao;
@@ -486,28 +480,12 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         GlobalVariables.getUserSession().removeObject(sessionKey);
     }
 
-    protected boolean evaluateWhetherSponsorHierarchyIncludesNih(SponsorHierarchy sponsorHierarchy) {
-        String nihIndicator = findNihIndicatorForSponsorHierarchyLevel();
-        return sponsorHierarchy.isNihSponsorInAnylevel(nihIndicator);
-    }
-
     protected String findNihIndicatorForSponsorHierarchyLevel() {
         return parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_LEVEL_HIERARCHY);
     }
 
     protected String findSponsorHierarchyName() {
         return parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_HIERARCHY_NAME );
-    }
-
-    protected Collection<SponsorHierarchy> loadSponsorHierarchies(String sponsorCode) {
-        Map<String, String> valueMap = new HashMap<String, String>();
-        valueMap.put("sponsorCode", sponsorCode);
-        valueMap.put("hierarchyName", findSponsorHierarchyName());
-        Collection<SponsorHierarchy> sponsorHierarchies = businessObjectService.findMatching(SponsorHierarchy.class, valueMap);
-        if(sponsorHierarchies == null) {
-            sponsorHierarchies = new ArrayList<SponsorHierarchy>();
-        }
-        return sponsorHierarchies;
     }
 
     public boolean isSponsorNihMultiplePi(Sponsorable sponsorable) {
