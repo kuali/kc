@@ -15,35 +15,26 @@
  */
 package org.kuali.kra.subaward.lookup;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
+import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
+
+import java.util.*;
 
 /**
  * This class is for SubAwardLookupableHelperServiceImpl
@@ -53,13 +44,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
 
     private static final String AWARD_NUMBER = "awardNumber";
     private static final String ORGANIZATION_NAME = "organizationName";
-    private static final String REQUISITIONER_USER_NAME="requisitionerUserName";    
-    static final String PERSON_ID = "personId";
-    static final String ROLODEX_ID = "rolodexId";
-    static final String UNIT_NUMBER = "unitNumber";
-    static final String USER_ID = "userId";
-    static final String PI_NAME = "principalInvestigatorName";
-    static final String OSP_ADMIN_NAME = "ospAdministratorName";
+    private static final String REQUISITIONER_USER_NAME="requisitionerUserName";
     private VersionHistoryService versionHistoryService; 
     
     @Override
@@ -78,8 +63,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         try {
             returnResults = filterForActiveSubAwards(unboundedResults, awardNumber, subrecipientName, requisitionerUserName, fieldValues.get("statusCode"));
         } catch (WorkflowException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         return returnResults;

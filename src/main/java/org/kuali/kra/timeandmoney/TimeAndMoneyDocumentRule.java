@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.timeandmoney;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -47,6 +43,10 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * Main Business Rule class for <code>{@link TimeAndMoneyDocument}</code>. 
  * Responsible for delegating rules to independent rule classes.
@@ -55,8 +55,6 @@ import org.kuali.rice.krad.util.MessageMap;
 public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implements TransactionRule, AwardDirectFandADistributionRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
-    public static final boolean VALIDATION_REQUIRED = true;
-    public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     public static final String AWARD_ERROR_PATH = "award";
     private transient ReportTrackingService reportTrackingService;
 
@@ -225,17 +223,6 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     public boolean processAwardDirectFandADistributionBusinessRules(
             AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         return new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
-    }
-
-    public boolean processSingleNodeTransactionBusinessRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public boolean processSingleNodeTransactionBusinessRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai,
-            TimeAndMoneyDocument doc) {
-        // TODO Auto-generated method stub
-        return false;
     }
     
     public ReportTrackingService getReportTrackingService() {

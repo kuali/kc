@@ -15,22 +15,18 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SubAwardContact extends SubAwardAssociate { 
 
     private static final long serialVersionUID = 1L;
-
-	private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
 
     private Integer subAwardContactId;
     private Long subAwardId; 
@@ -42,7 +38,6 @@ public class SubAwardContact extends SubAwardAssociate {
     private ContactType contactType;
 
     private Rolodex rolodex;
-    private SubAward subAward;
 
 
     private String rolodexName;

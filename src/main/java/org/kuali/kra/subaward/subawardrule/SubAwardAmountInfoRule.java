@@ -34,12 +34,4 @@ public interface SubAwardAmountInfoRule extends BusinessRule {
 	 */
 	public boolean processAddSubAwardAmountInfoBusinessRules(
     SubAwardAmountInfo subAwardAmountInfo, SubAward subAward);
-    /**.
-     * This method is for rule validation while deleting subAwardAmountInfo
-     * @param amountInfo The amountInfo
-     * @param subAward the subAward
-     * @return boolean value
-     */
-    public boolean processDeleteSubAwardAmountInfoBusinessRules(
-    SubAwardAmountInfo amountInfo, SubAward subAward);
 }

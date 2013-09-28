@@ -17,39 +17,22 @@
 package org.kuali.kra.subaward.subawardrule;
 
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
-import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
-import org.kuali.kra.subaward.bo.SubAwardCloseout;
-import org.kuali.kra.subaward.bo.SubAwardContact;
-import org.kuali.kra.subaward.bo.SubAwardFundingSource;
-import org.kuali.kra.subaward.customdata.SubAwardCustomData;
+import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.Collections;
 
 /**
  * This class is for rule validation while
@@ -165,29 +148,6 @@ SubAwardFundingSourceRule {
         }
         return rulePassed;
     }
-    
-    public boolean processSaveSubAwardAmountInfoBusinessRule(SubAward subAward) {
-        boolean rulePassed = true; 
-         
-        if (subAward.getTotalObligatedAmount() != null && subAward.getTotalObligatedAmount().isNegative()) {
-            rulePassed = false; 
-            reportError(AMOUNT_INFO_ERRORS, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE); 
-        }
-        if (subAward.getTotalAnticipatedAmount() != null && subAward.getTotalAnticipatedAmount().isNegative()) {
-            rulePassed = false; 
-            reportError(AMOUNT_INFO_ERRORS, KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE); 
-        } 
-        if (subAward.getTotalAvailableAmount() != null && subAward.getTotalAvailableAmount().isNegative()) {
-            rulePassed = false;
-            reportError(AMOUNT_INFO_ERRORS, KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT );  
-        }
-        if(subAward.getTotalObligatedAmount().isGreaterThan(subAward.getTotalAnticipatedAmount())) {
-            rulePassed = false;
-            reportError(AMOUNT_INFO_ERRORS, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_GREATER_THAN_ANTICIPATED_AMOUNT); 
-        }
-        
-        return rulePassed;
-    }
 
     public boolean processAddSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward) {
         boolean rulePassed = true; 
@@ -225,18 +185,6 @@ SubAwardFundingSourceRule {
         
         return rulePassed;
     }
-    
-    
-    public boolean processDeleteSubAwardAmountInfoBusinessRules(SubAwardAmountInfo subAwardAmountInfo,SubAward subAward) {
-        boolean rulePassed = true; 
-
-        if((subAward.getTotalObligatedAmount().subtract(subAwardAmountInfo.getObligatedChange())).isLessThan(subAward.getTotalAmountReleased())){
-            rulePassed = false;
-            reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_SUBAWARD_OBLIGATED_AMOUNT_IS_GREATER_AMOUNT_RELEASED ); 
-        }
-        
-        return rulePassed;
-    }  
 
     public boolean processAddSubAwardContactBusinessRules(SubAwardContact subAwardContact,SubAward subAward) {
         boolean rulePassed = true;          
@@ -327,14 +275,10 @@ SubAwardFundingSourceRule {
         }
         return rulePassed;
     }
-    
-    /**
-     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
-     */
+
     @Override
     public boolean processRunAuditBusinessRules(Document document){
-        boolean retval = true;
-        retval = super.processRunAuditBusinessRules(document);
+        boolean retval = super.processRunAuditBusinessRules(document);
         retval &= new SubAwardAuditRule().processRunAuditBusinessRules(document);
         retval &= new SubAwardFinancialAuditRule().processRunAuditBusinessRules(document);
         return retval;
