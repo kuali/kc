@@ -15,38 +15,8 @@
  */
 package org.kuali.kra.web.struts.action;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kra.logging.BufferedLogger.debug;
-import static org.kuali.kra.logging.BufferedLogger.error;
-import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
-import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
-import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
-import javax.mail.internet.HeaderTokenizer;
-import javax.mail.internet.MimeUtility;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -90,29 +60,43 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.UnknownDocumentIdException;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import javax.mail.internet.HeaderTokenizer;
+import javax.mail.internet.MimeUtility;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.*;
+
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang.StringUtils.replace;
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.error;
+import static org.kuali.rice.krad.util.KRADConstants.*;
 
 // TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
