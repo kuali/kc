@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncDescendantValues;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AllActiveValueFinder extends KeyValuesBase {
     /*

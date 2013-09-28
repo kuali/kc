@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -27,6 +25,8 @@ import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.List;
 
 /**
  * This class supports the AwardForm class

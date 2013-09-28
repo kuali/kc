@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardSponsorTermRuleEvent;
 import org.kuali.kra.award.AwardSponsorTermRuleImpl;
@@ -31,6 +23,13 @@ import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This is a helper class for AwardPaymentReportsandTermsAction.java

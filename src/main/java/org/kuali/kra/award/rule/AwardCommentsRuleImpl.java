@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.rule;
 
-import java.util.Collection;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -28,6 +26,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.ServiceHelper;
+
+import java.util.Collection;
 
 
 /**

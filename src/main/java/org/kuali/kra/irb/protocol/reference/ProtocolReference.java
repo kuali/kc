@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.protocol.reference;
 
-import java.text.ParseException;
-
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
+
+import java.text.ParseException;
 
 /**
  * 

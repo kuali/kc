@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.sql.Date;
-
 import org.junit.Test;
 import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.sql.Date;
 
 public class CommitteeActionGenerateBatchCorrespondenceRuleTest extends KcUnitTestBase {
     

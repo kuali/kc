@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.sql.Date;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
+
+import java.sql.Date;
 
 public class FinIntEntityYnq extends KraPersistableBusinessObjectBase {
 

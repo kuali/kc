@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
-import java.util.List;
-
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 /**
  * Represents the event for saving a Protocol Funding Source.

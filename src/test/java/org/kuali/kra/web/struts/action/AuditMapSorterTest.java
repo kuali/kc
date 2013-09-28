@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.web.struts.action;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -29,6 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
+
+import java.util.*;
 
 /**
  * Tests the {@link AuditMapSorter AuditMapSorter} class.

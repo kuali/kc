@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -28,18 +22,18 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent;
-import org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeEvent;
-import org.kuali.kra.budget.distributionincome.AddBudgetUnrecoveredFandAEvent;
-import org.kuali.kra.budget.distributionincome.BudgetCostShare;
-import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
-import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
-import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
+import org.kuali.kra.budget.distributionincome.*;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.KualiRuleService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 public class BudgetDistributionAndIncomeAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetDistributionAndIncomeAction.class);

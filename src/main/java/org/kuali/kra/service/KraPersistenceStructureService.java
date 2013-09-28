@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service;
 
-import java.util.Map;
-
 import org.kuali.rice.krad.exception.ClassNotPersistableException;
 import org.kuali.rice.krad.service.PersistenceStructureService;
+
+import java.util.Map;
 
 public interface KraPersistenceStructureService extends PersistenceStructureService {
 

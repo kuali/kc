@@ -15,16 +15,15 @@
  */
 package org.kuali.kra.common.committee.service;
 
-import java.text.ParseException;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
+
+import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.util.List;
 
 
 public interface CommitteeScheduleServiceBase<CS extends CommitteeScheduleBase<CS, CMT, ?, CSM>, 

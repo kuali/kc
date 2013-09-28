@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.home;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.paymentreports.Frequency;
@@ -27,6 +24,9 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.GenericAwardReportTerm;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.springframework.util.AutoPopulatingList;
+
+import java.sql.Date;
+import java.util.List;
 
 public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase implements GenericAwardReportTerm {
 

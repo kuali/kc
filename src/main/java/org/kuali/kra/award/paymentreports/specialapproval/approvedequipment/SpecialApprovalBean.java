@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -25,6 +22,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This class supports the Award Form / AwardPaymentReportsAndTermsAction classes for SpecialApproval

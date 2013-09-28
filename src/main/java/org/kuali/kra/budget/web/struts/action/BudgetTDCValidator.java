@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.proposaldevelopment.rules.BudgetModularTotalDirectCostRule;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class contains methods to validate the BudgetModular Total Direct Cost rule.

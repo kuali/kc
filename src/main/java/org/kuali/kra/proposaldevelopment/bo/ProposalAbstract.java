@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.sql.Timestamp;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Timestamp;
 
 /**
  * Every Proposal can have zero or more Abstracts attached to it.

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.summary;
 
+import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
+import org.kuali.kra.iacuc.threers.IacucProtocolAlternateSearchDatabase;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
-import org.kuali.kra.iacuc.threers.IacucProtocolAlternateSearchDatabase;
 
 public class IacucAlternateSearchSummary implements Serializable {
 

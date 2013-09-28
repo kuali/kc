@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.protocol.actions.decision;
 
-import java.io.Serializable;
-import java.util.List;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This class is a bean for managing the input for a committee decision.

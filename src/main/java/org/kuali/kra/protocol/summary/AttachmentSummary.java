@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.summary;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
-
-import org.apache.commons.lang.StringUtils;
 
 public class AttachmentSummary implements Serializable {
 

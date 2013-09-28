@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.correspondence;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class BatchCorrespondenceBase extends KraPersistableBusinessObjectBase {
 

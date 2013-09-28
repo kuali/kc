@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.web.struts.authorization;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.authorization.Task;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * A Web Task Factory is responsible for building a Task.

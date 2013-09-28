@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.bo;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SeparateAssociate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Represents a Protocol Attachment File.

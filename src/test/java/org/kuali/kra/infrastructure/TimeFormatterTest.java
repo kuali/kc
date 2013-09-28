@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.infrastructure;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 public class TimeFormatterTest {
     private static final ArrayList<String> TIME_LIST = new ArrayList<String>();

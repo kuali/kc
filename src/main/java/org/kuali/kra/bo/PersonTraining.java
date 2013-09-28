@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.bo;
 
-import java.sql.Date;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+
+import java.sql.Date;
 
 /**
  * 

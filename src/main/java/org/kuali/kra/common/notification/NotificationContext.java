@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.common.notification;
 
-import java.util.List;
-
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.util.EmailAttachment;
+
+import java.util.List;
 
 /**
  * A context from which a Notification is sent. Contains instance-specific information 

@@ -15,20 +15,16 @@
  */
 package org.kuali.kra.service.impl;
 
-import static org.junit.Assert.*;
-
-import java.util.Calendar;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.util.Calendar;
+import java.util.Map;
 
 /**
  * This test is very fragile.  It depends on test methods running in an exact order.  This has been partially fixed.

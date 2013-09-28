@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a Proposal Site. It can either refer to an Organization, or to

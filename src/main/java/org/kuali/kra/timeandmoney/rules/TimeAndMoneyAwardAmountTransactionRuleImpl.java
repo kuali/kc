@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.timeandmoney.rules;
 
-import java.sql.Date;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
@@ -33,6 +30,9 @@ import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.sql.Date;
+import java.util.Map.Entry;
 
 /**
  * This class...

@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.protocol.funding.impl;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
@@ -47,6 +43,10 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * 

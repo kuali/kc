@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.kim.service.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.type.KimType;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class ProposalRoleServiceImpl implements ProposalRoleService {
     private SystemAuthorizationService systemAuthorizationService;

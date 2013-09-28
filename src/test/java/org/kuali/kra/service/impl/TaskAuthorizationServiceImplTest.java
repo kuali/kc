@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizer;
@@ -25,6 +22,9 @@ import org.kuali.kra.authorization.TaskAuthorizerGroup;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test the Task Authorization Service Implementation.

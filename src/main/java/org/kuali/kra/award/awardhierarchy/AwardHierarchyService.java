@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public interface AwardHierarchyService {
     static boolean RECURS_HIERARCHY = true;

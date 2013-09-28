@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ModifyIacucAmendmentAuthorizer extends ModifyIacucProtocolAuthorizer {
     

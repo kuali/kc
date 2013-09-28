@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol.actions.genericactions;
 
-import java.io.Serializable;
-import java.sql.Date;
-
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBeanBase;
+
+import java.io.Serializable;
+import java.sql.Date;
 
 /**
  * This interface is really just a "form" for generic actions.

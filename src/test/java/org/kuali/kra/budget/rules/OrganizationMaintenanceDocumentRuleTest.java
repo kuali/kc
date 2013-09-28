@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.budget.rules;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -33,6 +30,9 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.List;
 
 public class OrganizationMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private OrganizationMaintenanceDocumentRule rule = null;

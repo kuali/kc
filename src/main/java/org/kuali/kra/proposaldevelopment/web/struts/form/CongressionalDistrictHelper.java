@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
+
+import java.io.Serializable;
 
 /**
  * This class stores form data for adding a new congressional district to a Proposal Site.

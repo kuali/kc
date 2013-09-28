@@ -15,12 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Method metadata for {@link CreditSplit} instances to determine the <code>name</code> property of a {@link CreditSplit}. Attach the 

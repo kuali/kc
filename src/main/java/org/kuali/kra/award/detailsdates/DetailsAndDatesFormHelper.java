@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.detailsdates;
 
-import java.io.Serializable;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.Sponsor;
@@ -24,6 +22,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
+
+import java.io.Serializable;
 
 /**
  * This class encapsulates presentation-specific data and behavior

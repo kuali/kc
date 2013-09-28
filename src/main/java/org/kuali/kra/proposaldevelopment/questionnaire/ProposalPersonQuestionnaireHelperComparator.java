@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
-import java.util.Comparator;
-
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
+
+import java.util.Comparator;
 
 /**
  * 

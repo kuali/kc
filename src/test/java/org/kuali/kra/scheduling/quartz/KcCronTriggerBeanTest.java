@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.scheduling.quartz;
 
-import static org.junit.Assert.assertEquals;
-
-import java.text.ParseException;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -26,10 +22,13 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.impl.datetime.DateTimeServiceImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.quartz.JobDetail;
+
+import java.text.ParseException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for the KcCronTriggerBean class.

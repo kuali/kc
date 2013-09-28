@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.common.committee.document.authorization;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
@@ -26,6 +23,9 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class is the CommitteeBase Document Authorizer.  It determines the edit modes and

@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.protocol.summary;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewExemption;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewExemption;
 
 public class SpecialReviewSummary implements Serializable {
 

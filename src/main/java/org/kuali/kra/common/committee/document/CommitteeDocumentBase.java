@@ -16,9 +16,6 @@
 
 package org.kuali.kra.common.committee.document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
@@ -32,6 +29,9 @@ import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The CommitteeBase Document wraps a single CommitteeBase BO.  

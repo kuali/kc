@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.infrastructure;
 
-import java.math.BigDecimal;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.RateDecimal;
 import org.kuali.rice.core.web.format.BigDecimalFormatter;
+
+import java.math.BigDecimal;
 
 public class RateDecimalFormatter extends BigDecimalFormatter {
     private static final long serialVersionUID = 4658319828434873892L;

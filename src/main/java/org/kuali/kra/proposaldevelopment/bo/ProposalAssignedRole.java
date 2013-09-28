@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.List;
-
 import org.kuali.rice.krad.bo.BusinessObjectBase;
+
+import java.util.List;
 
 public class ProposalAssignedRole extends BusinessObjectBase {
 

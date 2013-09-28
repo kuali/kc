@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -26,6 +23,9 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Overrides the normal {@link org.kuali.rice.kim.lookup.PersonLookupableHelperServiceImpl} to add inquiry and lookup parameters to certain fields.

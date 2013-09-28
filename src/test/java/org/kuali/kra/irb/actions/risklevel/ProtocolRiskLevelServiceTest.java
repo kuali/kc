@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +23,9 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.kra.util.DateUtils;
+
+import java.sql.Date;
+import java.util.List;
 
 public class ProtocolRiskLevelServiceTest extends KcUnitTestBase {
     

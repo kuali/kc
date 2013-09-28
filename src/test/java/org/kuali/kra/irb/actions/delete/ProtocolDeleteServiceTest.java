@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.delete;
 
-import java.util.List;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -32,6 +30,8 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import java.util.List;
 
 /**
  * Test the ProtocolDeleteService implementation.

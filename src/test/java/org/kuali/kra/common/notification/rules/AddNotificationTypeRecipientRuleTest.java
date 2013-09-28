@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.common.notification.rules;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
@@ -25,6 +22,9 @@ import org.kuali.kra.common.notification.rule.AddNotificationRecipientRule;
 import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddNotificationTypeRecipientRuleTest extends KcUnitTestBase {
     

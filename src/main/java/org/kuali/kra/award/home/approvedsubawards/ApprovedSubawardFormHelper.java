@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.home.approvedsubawards;
 
-import java.io.Serializable;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
+
+import java.io.Serializable;
 
 /**
  * This class...

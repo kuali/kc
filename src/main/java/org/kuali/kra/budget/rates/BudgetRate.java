@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.rates;
 
-import java.sql.Date;
-
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.calculator.DateSortable;
+
+import java.sql.Date;
 
 public class BudgetRate extends AbstractBudgetRate implements DateSortable {
 

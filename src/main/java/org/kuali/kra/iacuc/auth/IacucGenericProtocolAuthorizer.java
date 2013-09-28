@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 

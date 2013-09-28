@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.maintenance;
 
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanation;
@@ -26,6 +24,8 @@ import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
+
+import java.util.List;
 
 public class YnqMaintainableImpl extends KraMaintainableImpl {
     private static final long serialVersionUID = -8242765028364970138L;

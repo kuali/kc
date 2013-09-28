@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
+
+import static org.junit.Assert.assertEquals;
 
 public class QuestionVersioningTest {
     

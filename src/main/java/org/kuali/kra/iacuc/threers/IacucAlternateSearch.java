@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.threers;
 
+import org.kuali.kra.protocol.ProtocolAssociateBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.kuali.kra.protocol.ProtocolAssociateBase;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class IacucAlternateSearch extends ProtocolAssociateBase {
 

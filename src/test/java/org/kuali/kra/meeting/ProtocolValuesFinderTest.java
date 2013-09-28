@@ -15,13 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import junit.framework.Assert;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -31,6 +25,11 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RunWith(JMock.class)
 public class ProtocolValuesFinderTest {

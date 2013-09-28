@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.common.committee.notification;
 
-import java.util.Map;
-
 import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
+
+import java.util.Map;
 
 /**
  * Renders additional fields for the Agenda Created notification.

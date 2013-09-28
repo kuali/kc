@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.subaward.notification;
 
-import java.text.SimpleDateFormat;
-import java.util.Map;
-
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.text.SimpleDateFormat;
+import java.util.Map;
 
 /**
  * Renders fields for the Award notifications.

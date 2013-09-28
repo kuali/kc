@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.notifycommittee;
 
-import java.sql.Date;
-
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
+
+import java.sql.Date;
 
 /**
  * This class is really just a "form" for notifying the CommitteeBase.

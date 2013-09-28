@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import org.kuali.rice.krad.service.BusinessObjectService;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * The implementation of the Check List Service.

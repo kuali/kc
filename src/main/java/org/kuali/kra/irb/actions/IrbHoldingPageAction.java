@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.actions;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -25,6 +22,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.web.struts.action.AbstractHoldingPageAction;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 public class IrbHoldingPageAction extends AbstractHoldingPageAction {

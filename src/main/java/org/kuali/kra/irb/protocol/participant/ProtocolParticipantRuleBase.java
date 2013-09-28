@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 /**
  * This class contains the rules to validate a <code>{@link ProtocolParticipant}</code>.

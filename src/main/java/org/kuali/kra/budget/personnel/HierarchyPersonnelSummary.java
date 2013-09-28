@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.personnel;
 
+import org.kuali.kra.budget.core.Budget;
+
 import java.io.Serializable;
 import java.util.List;
-
-import org.kuali.kra.budget.core.Budget;
 
 public class HierarchyPersonnelSummary implements Serializable {
 

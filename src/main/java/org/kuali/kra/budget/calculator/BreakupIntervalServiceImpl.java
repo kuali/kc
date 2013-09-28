@@ -15,22 +15,18 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Operator;
-import org.kuali.kra.budget.rates.AbstractBudgetRate;
-import org.kuali.kra.budget.rates.BudgetLaRate;
-import org.kuali.kra.budget.rates.BudgetRate;
-import org.kuali.kra.budget.rates.RateClassBaseExclusion;
-import org.kuali.kra.budget.rates.RateClassBaseInclusion;
+import org.kuali.kra.budget.rates.*;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.timeandmoney.history;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 import java.io.Serializable;
 import java.sql.Date;
-
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class TimeAndMoneyActionSummary implements Serializable{
     

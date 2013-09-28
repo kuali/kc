@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.iacuc.notification;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -31,6 +27,10 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRendererBase;
 import org.kuali.kra.protocol.notification.ProtocolReplacementParameters;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Renders fields for the IRB and IACUC notifications.

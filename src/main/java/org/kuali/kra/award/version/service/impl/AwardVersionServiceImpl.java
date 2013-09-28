@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.version.service.impl;
 
-import java.util.List;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.VersionHistoryService;
+
+import java.util.List;
 
 /**
  * Award Version Service implementation

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.ProtocolReviewerBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class ProtocolReviewer extends ProtocolReviewerBase {

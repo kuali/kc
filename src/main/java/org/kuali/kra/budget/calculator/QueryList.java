@@ -15,26 +15,17 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.query.*;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.RandomAccess;
-
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.calculator.query.GreaterThan;
-import org.kuali.kra.budget.calculator.query.LesserThan;
-import org.kuali.kra.budget.calculator.query.Operator;
-import org.kuali.kra.budget.calculator.query.RelationalOperator;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.*;
 
 
 /**

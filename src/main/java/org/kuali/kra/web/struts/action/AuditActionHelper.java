@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.web.struts.action;
 
-import java.util.Iterator;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -29,6 +27,8 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
 import org.kuali.rice.krad.service.KualiRuleService;
+
+import java.util.Iterator;
 
 /**
  * Helper class for Audit Actions.

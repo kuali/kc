@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.coi.lookup;
 
+import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.rice.krad.bo.BusinessObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.rice.krad.bo.BusinessObject;
 
 @SuppressWarnings("unchecked")
 public class CoiAnnualEventDisclosureLookupableHelper extends CoiDisclosureLookupableHelperBase {

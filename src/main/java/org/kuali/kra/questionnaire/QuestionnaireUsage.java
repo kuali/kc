@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.CoeusModule;
@@ -26,6 +22,10 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class QuestionnaireUsage extends KraPersistableBusinessObjectBase implements Comparable<QuestionnaireUsage>, SequenceAssociate<Questionnaire> {
 

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachmentSummary;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachmentSummary;
 
 public class FinancialEntitySummaryBean implements Serializable {
     /**

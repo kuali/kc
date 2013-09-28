@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.authorization;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
 
 /**
  * A Task Authorizer Group groups a set of Task Authorizers.

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import java.util.List;
-
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
@@ -24,6 +22,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.List;
 
 /**
  * This class handles comment data feeds

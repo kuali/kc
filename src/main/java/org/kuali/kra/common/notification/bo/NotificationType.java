@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import java.util.List;
-
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.springframework.util.AutoPopulatingList;
+
+import java.util.List;
 
 /**
  * Defines the template for Notifications.

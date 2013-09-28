@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.test.infrastructure;
 
-import java.io.File;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.eclipse.jetty.server.Server;
@@ -24,6 +22,8 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
+
+import java.io.File;
 
 public class JettyServer implements Lifecycle {
 	

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.budget.service;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,6 +27,9 @@ import org.kuali.kra.budget.nonpersonnel.BudgetJustificationServiceImpl;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 public class BudgetJustificationServiceTest {
     private Budget budgetDocument;

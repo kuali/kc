@@ -15,20 +15,16 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.award.home.ContactType;
+import org.kuali.kra.bo.*;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.bo.UnitAdministratorType;
-import org.kuali.kra.bo.UnitContactType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...

@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -30,6 +25,11 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 
 /**
  * 

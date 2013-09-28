@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.actions.grantexemption;
 
-import java.io.Serializable;
-import java.sql.Date;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
+
+import java.io.Serializable;
+import java.sql.Date;
 
 /**
  * This class is really just a "form" for granting an exemption.

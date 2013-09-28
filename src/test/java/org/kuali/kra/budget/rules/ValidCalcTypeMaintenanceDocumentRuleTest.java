@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.rules;
 
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +28,8 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
+
+import java.util.Map;
 
 public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private ValidCalcTypeMaintenanceDocumentRule rule = null;

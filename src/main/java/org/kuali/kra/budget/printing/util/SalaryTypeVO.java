@@ -1,8 +1,8 @@
 package org.kuali.kra.budget.printing.util;
 
-import java.util.List;
-
 import org.kuali.kra.budget.BudgetDecimal;
+
+import java.util.List;
 
 /**
  * This class having the budget salary calculated values.

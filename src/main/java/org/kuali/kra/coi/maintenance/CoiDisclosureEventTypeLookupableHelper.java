@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi.maintenance;
 
-import java.util.List;
-
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.List;
 
 public class CoiDisclosureEventTypeLookupableHelper extends KualiLookupableHelperServiceImpl {
     

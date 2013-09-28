@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.List;
-
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.service.VersionException;
+
+import java.util.List;
 
 /**
  * 

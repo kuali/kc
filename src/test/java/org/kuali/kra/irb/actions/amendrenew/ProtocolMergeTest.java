@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -36,6 +32,10 @@ import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProtocolMergeTest extends KcUnitTestBase {
     

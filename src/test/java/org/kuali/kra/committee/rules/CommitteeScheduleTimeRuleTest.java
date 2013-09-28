@@ -15,8 +15,18 @@
  */
 package org.kuali.kra.committee.rules;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
+import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -24,18 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.MessageMap;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CommitteeScheduleTimeRuleTest {
     

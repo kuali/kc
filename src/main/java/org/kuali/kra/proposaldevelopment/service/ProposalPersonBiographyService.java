@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+
+import java.util.List;
 
 public interface ProposalPersonBiographyService {
     /**

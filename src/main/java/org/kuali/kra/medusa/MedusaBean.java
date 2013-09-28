@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.medusa;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.service.MedusaService;
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 public class MedusaBean implements Serializable{
 

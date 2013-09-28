@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.assignagenda;
 
-import java.io.Serializable;
-
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+
+import java.io.Serializable;
 
 /**
  * This class is really just a "form" for assigning a protocol to an agenda.

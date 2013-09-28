@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.dao;
 
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
+
+import java.util.List;
 
 /**
  * This class...

@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.krms;
 
-import java.io.ByteArrayInputStream;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KcKrmsCacheManager;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -30,6 +25,10 @@ import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.w3c.dom.Document;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import java.io.ByteArrayInputStream;
 
 public abstract class KcRulesEngineExecuter implements RulesEngineExecutor {
 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.correspondence;
 
-import java.util.List;
-
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.List;
 
 public class BatchCorrespondenceDetailServiceImpl implements BatchCorrespondenceDetailService {
 

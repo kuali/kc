@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +22,9 @@ import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class KraMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase {
     private KraMaintenanceDocumentRuleBase rule = null;

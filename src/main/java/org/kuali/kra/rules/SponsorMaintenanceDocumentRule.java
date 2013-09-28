@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.regex.Pattern;
-
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.regex.Pattern;
 
 /**
  * This class overrides the custom route and custom approve methods of the MaintenanceDocument processing to check the length of the

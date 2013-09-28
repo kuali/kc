@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -26,6 +24,8 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.List;
 
 public class BudgetExpenseRule {
     private static final double MAX_BUDGET_DECIMAL_VALUE = 9999999999.00;

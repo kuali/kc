@@ -15,21 +15,17 @@
  */
 package org.kuali.kra.coi.lookup.dao.ojb;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureEventType;
-import org.kuali.kra.coi.CoiDisclosureHistory;
-import org.kuali.kra.coi.CoiDisclosureStatus;
+import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.lookup.dao.CoiDisclosureDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 public class CoiDisclosureDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CoiDisclosureDao {

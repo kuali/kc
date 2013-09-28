@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
@@ -26,6 +23,9 @@ import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorresp
 import org.kuali.kra.common.committee.rules.CommitteeActionViewBatchCorrespondenceRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommitteeActionViewBatchCorrespondenceRuleTest {
     

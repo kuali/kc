@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This rule validates the Approval Type Code and Special Review Code fields on a Valid Special Review Approval document.

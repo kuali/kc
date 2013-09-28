@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.krms.service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
 import org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class KcPeopleFlowTypeService implements PeopleFlowTypeService {
 

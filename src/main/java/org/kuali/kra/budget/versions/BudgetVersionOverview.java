@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.budget.versions;
 
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.rates.RateClass;
@@ -26,6 +22,10 @@ import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class representation of a Budget Overview Business Object.  This BO maps to

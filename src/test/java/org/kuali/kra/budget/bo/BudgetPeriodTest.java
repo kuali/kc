@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.budget.bo;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class BudgetPeriodTest {
     private static final int DAY_1 = 1;

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.common.permissions.rule;
 
-import java.util.List;
-
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
+
+import java.util.List;
 
 /**
  * Defines the Business Rule for processing Permissions.

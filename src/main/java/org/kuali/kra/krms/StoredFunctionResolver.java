@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.krms;
 
+import org.kuali.kra.dao.ojb.StoredFunctionDao;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.kuali.kra.dao.ojb.StoredFunctionDao;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * This class is for resolving terms for StoredFuncions. It extract values from prerequisites, execute Stored Function 

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import java.sql.Date;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -27,6 +25,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.util.DateUtils;
+
+import java.sql.Date;
 
 /**
  * Test the business rules for approving a Protocol.  Since all three types of approvals (full, expedited, and response) are using the same rule, 

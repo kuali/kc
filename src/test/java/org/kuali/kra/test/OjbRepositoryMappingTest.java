@@ -15,9 +15,22 @@
  */
 package org.kuali.kra.test;
 
-import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
-import static org.junit.Assert.fail;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.*;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
+import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,26 +43,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.kuali.rice.core.api.config.property.Config;
-import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
-import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
+import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
+import static org.junit.Assert.fail;
 
 /**
  * Unit Tests for validating an OJB repository XML file. The objective is to validate without initializing OJB. If OJB starts up and

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.notify;
 
-import java.io.Serializable;
-
 import org.apache.struts.upload.FormFile;
+
+import java.io.Serializable;
 
 /**
  * 

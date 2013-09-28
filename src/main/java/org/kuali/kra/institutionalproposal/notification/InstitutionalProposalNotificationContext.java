@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.notification;
 
-import java.util.List;
-
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.NotificationRenderer;
@@ -25,6 +23,8 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.util.EmailAttachment;
+
+import java.util.List;
 
 /**
  * This class extends the notification context base and provides some helpful functions for any Institutional Proposal specific events.

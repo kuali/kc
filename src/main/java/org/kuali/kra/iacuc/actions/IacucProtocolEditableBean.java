@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import org.kuali.kra.iacuc.actions.IacucActionHelper;
-import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolEditableBean;
 
 public class IacucProtocolEditableBean extends IacucProtocolActionBean implements ProtocolEditableBean {

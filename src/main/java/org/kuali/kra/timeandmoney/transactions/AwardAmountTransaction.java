@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
 import java.io.Serializable;
 import java.sql.Date;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class AwardAmountTransaction extends KraPersistableBusinessObjectBase implements Serializable {
 

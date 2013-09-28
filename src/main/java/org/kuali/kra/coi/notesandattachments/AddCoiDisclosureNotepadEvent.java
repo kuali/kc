@@ -17,7 +17,6 @@ package org.kuali.kra.coi.notesandattachments;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.rule.event.KraDocumentEventBase;

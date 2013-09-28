@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.award.lookup;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -35,6 +27,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.*;
 
 public class AwardTransactionLookupServiceImpl implements AwardTransactionLookupService {
 

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
-import java.sql.Date;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +25,8 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
 
 public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
     

@@ -17,7 +17,6 @@ package org.kuali.kra.service.impl;
 
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
-
 import org.kuali.kra.bo.CitizenshipType;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.service.CitizenshipTypeService;

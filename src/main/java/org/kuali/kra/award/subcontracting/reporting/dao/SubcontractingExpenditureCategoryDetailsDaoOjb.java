@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.subcontracting.reporting.dao;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.query.Criteria;
@@ -26,6 +23,9 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryDetails;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
+
+import java.sql.Date;
+import java.util.List;
 
 public class SubcontractingExpenditureCategoryDetailsDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, SubcontractingExpenditureCategoryDetailsDao {
 

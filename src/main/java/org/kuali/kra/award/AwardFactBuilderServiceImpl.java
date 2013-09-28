@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.award;
 
-import java.io.ByteArrayInputStream;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CoeusModule;
@@ -34,6 +29,10 @@ import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.w3c.dom.Document;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import java.io.ByteArrayInputStream;
 
 public class AwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
     

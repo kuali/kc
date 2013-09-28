@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.bo.MessageOfTheDay;
 import org.kuali.kra.service.MessageOfTheDayService;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageOfTheDayServiceImpl implements MessageOfTheDayService {
 

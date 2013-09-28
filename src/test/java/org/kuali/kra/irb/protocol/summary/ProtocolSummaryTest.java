@@ -15,26 +15,16 @@
  */
 package org.kuali.kra.irb.protocol.summary;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.irb.personnel.ProtocolAffiliationType;
-import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.ExemptionType;
-import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
-import org.kuali.kra.bo.SpecialReviewType;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ResearchArea;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
+import org.kuali.kra.irb.personnel.ProtocolAffiliationType;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.protocol.ProtocolType;
@@ -49,6 +39,11 @@ import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProtocolSummaryTest extends KcUnitTestBase {
 

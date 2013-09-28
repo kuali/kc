@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.mit.coeus.xml.iacuc.CommitteeMasterDataType;
+import edu.mit.coeus.xml.iacuc.NextScheduleDateType;
+import edu.mit.coeus.xml.iacuc.RenewalReminderDocument;
+import edu.mit.coeus.xml.iacuc.RenewalReminderType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
@@ -32,10 +30,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStreamBase;
 import org.kuali.kra.protocol.actions.print.RenewalReminderStreamBase;
 
-import edu.mit.coeus.xml.iacuc.CommitteeMasterDataType;
-import edu.mit.coeus.xml.iacuc.NextScheduleDateType;
-import edu.mit.coeus.xml.iacuc.RenewalReminderDocument;
-import edu.mit.coeus.xml.iacuc.RenewalReminderType;
+import java.util.*;
 
 public class IacucRenewalReminderStream extends RenewalReminderStreamBase {
 

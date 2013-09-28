@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.maintenance;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
@@ -33,6 +30,9 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+
+import java.util.List;
+import java.util.Map;
 
 public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     private static final long serialVersionUID = 7123853550462673935L;

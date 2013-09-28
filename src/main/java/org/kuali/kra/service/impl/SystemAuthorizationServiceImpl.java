@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -30,6 +27,9 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The System Authorization Service Implementation.

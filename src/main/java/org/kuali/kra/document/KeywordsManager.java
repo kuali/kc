@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.document;
 
-import java.util.List;
-
 import org.kuali.kra.bo.ScienceKeyword;
+
+import java.util.List;
 
 /**
  * This interface has all the methods to process ScienceKeywords within a BO or Document.

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import java.util.List;
-
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
+
+import java.util.List;
 
 public interface IacucProtocolPersonTrainingService extends ProtocolPersonTrainingService {
 

@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
@@ -26,6 +22,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 class KeywordsDataFeedCommand extends ProposalDataFeedCommandBase {
     

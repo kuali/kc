@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.paymentreports;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Report RegenerationType values finder class.

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -29,6 +26,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rules.TemplateRuleTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddProtocolFundingSourceTest {
     

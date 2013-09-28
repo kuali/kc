@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.protocol.specialreview.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -28,6 +25,9 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSpecialReviewService {

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.coi.service.impl;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -28,6 +26,8 @@ import org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+
+import java.util.List;
 
 public class CoiJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements CoiJavaFunctionKrmsTermService {
 

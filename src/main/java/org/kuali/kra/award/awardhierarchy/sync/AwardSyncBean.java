@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.kuali.kra.award.AwardForm;
@@ -31,6 +25,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Award Form Bean with helper methods and properties for award sync.

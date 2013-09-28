@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.infrastructure.Constants;
@@ -31,6 +26,11 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 /**
  * 
  * This class implements a custom lookup for S2S Grants.gov Opportunity Lookup

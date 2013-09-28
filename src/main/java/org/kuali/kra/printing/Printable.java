@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.printing;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.util.watermark.Watermarkable;
+
+import javax.xml.transform.Source;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.transform.Source;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.util.watermark.Watermarkable;
 
 /**
  * 

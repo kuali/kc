@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +30,9 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonC
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest {
 

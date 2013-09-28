@@ -15,10 +15,11 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class encapsulates the notion of a protocol review. Essentially 

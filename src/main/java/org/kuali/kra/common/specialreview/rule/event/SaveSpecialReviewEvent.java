@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.common.specialreview.rule.event;
 
-import java.util.List;
-
 import org.apache.commons.collections.ListUtils;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
@@ -25,6 +23,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 /**
  * Represents the event for saving the Special Reviews.

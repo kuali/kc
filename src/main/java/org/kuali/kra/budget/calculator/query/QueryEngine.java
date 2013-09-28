@@ -17,14 +17,14 @@
 package org.kuali.kra.budget.calculator.query;
 
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.kra.budget.calculator.QueryList;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.kra.budget.calculator.QueryList;
 
 /**
  * Contains different sets of Data Collection

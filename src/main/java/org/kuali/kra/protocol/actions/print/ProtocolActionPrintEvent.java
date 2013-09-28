@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
-import org.kuali.kra.protocol.actions.print.ProtocolActionPrintRule;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;

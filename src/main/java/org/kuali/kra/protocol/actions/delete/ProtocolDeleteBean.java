@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.delete;
 
-import java.io.Serializable;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
+
+import java.io.Serializable;
 
 /**
  * This class is really just a "form" containing the reason

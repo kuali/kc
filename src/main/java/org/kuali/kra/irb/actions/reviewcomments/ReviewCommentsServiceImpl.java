@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.infrastructure.Constants;
@@ -35,6 +32,9 @@ import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsServiceImplBa
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

@@ -16,9 +16,6 @@
 package org.kuali.kra.irb.actions.correspondence;
 
 
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.struts.upload.FormFile;
 import org.junit.After;
 import org.junit.Before;
@@ -30,6 +27,9 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.Collection;
+import java.util.List;
 
 public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcUnitTestBase {
     

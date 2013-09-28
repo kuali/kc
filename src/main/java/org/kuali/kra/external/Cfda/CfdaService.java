@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.external.Cfda;
 
+import org.kuali.kra.award.home.CFDA;
+
 import java.io.IOException;
 import java.util.SortedMap;
-
-import org.kuali.kra.award.home.CFDA;
 
 
 public interface CfdaService {

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.actions.assigncmtsched;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
+
+import java.io.Serializable;
 
 /**
  * This class is really just a "form" for assigning a protocol

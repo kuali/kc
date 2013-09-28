@@ -17,12 +17,7 @@ package org.kuali.kra.meeting;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
-import org.kuali.kra.common.committee.meeting.MeetingServiceImplBase;
-import org.kuali.kra.common.committee.meeting.OtherPresentBeanBase;
-import org.kuali.kra.common.committee.meeting.ProtocolContingencyBase;
-import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
+import org.kuali.kra.common.committee.meeting.*;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.springframework.transaction.annotation.Transactional;
 

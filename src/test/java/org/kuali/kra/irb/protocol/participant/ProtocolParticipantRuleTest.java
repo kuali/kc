@@ -15,16 +15,15 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test the business rules for Protocol Participant.

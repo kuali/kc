@@ -15,14 +15,11 @@
  */
 package org.kuali.kra.reporting.web.struts.form;
 
+import org.kuali.kra.reporting.bo.*;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.kra.reporting.bo.BirtParameterBean;
-import org.kuali.kra.reporting.bo.CustReportDetails;
-import org.kuali.kra.reporting.bo.CustReportType;
-import org.kuali.kra.reporting.bo.CustRptDefaultParms;
-import org.kuali.kra.reporting.bo.CustRptTypeDocument;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
 @SuppressWarnings("deprecation")

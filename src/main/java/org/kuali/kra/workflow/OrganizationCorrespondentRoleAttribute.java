@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.workflow;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.OrganizationCorrespondent;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -32,6 +27,11 @@ import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.GenericRoleAttribute;
 import org.kuali.rice.kew.rule.QualifiedRoleName;
 import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class OrganizationCorrespondentRoleAttribute extends GenericRoleAttribute {
     /**

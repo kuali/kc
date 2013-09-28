@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.sql.Date;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.sql.Date;
 
 public class ProposalOverview extends KraPersistableBusinessObjectBase {
 

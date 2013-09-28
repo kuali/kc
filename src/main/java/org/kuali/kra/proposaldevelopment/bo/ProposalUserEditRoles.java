@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.bo.BusinessObjectBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A <b>ProposalUserEditRoles</b> is used as a form used by the Edit Roles

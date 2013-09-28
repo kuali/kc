@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award;
 
-import java.sql.Date;
-
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.sql.Date;
 
 
 /**

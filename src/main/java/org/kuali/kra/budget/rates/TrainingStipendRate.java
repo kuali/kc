@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.rates;
 
-import java.sql.Date;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
+
+import java.sql.Date;
 
 public class TrainingStipendRate extends KraPersistableBusinessObjectBase {
 

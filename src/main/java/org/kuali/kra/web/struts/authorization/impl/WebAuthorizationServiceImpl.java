@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.web.struts.authorization.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.authorization.Task;
@@ -30,6 +23,12 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.authorization.WebAuthorizer;
 import org.kuali.kra.web.struts.authorization.WebTaskFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Implementation of the Web Authorization Service.

@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.actions.undo;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -27,6 +23,10 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.undo.UndoLastActionServiceImplBase;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UndoLastActionServiceImpl extends UndoLastActionServiceImplBase implements UndoLastActionService {
 

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.Collection;
-
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
@@ -26,6 +24,8 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.rice.kim.api.role.RoleService;
+
+import java.util.Collection;
 
 /**
  * 

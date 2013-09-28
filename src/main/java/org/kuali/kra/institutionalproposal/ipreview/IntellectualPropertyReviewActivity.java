@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
-import java.sql.Date;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.sql.Date;
 
 /**
  * This class represents an Intellectual Property Review Activity.

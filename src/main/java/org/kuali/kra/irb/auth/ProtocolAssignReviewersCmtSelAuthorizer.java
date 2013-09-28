@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.auth;
 
-import java.util.Collections;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
@@ -25,6 +23,8 @@ import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.RoutingReportCriteria;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
+
+import java.util.Collections;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.

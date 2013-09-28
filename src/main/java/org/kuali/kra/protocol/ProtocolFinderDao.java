@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+
+import java.util.List;
 
 
 /**

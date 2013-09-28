@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.UUID;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.UUID;
 
 /**
  * This class holds related testing artifacts for complex sep seq associate BO structures.

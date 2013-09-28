@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import java.text.SimpleDateFormat;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Defines a document-specific instance of a Notification Type.

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.Collection;
-
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.Collection;
 
 /**
  * This class Creates comment type based on the create comment method called.

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.common.notification;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class contains tests for NotificationRendererBase

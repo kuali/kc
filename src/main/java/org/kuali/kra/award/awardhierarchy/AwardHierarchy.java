@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -30,6 +22,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
 
 /**
  * AwardHierarchy is version agnostic. It should always reference the active version of the Award if one is present. If not present, it will reference the one

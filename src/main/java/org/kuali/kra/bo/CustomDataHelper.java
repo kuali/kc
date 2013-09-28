@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.bo;
 
-import java.io.Serializable;
+import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 
 public class CustomDataHelper extends CustomDataHelperBase<PersonCustomData> implements Serializable {
 

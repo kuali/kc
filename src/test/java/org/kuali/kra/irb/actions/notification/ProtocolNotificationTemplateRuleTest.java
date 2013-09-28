@@ -15,13 +15,7 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
 import junit.framework.Assert;
-
 import org.apache.struts.upload.FormFile;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -32,6 +26,11 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ProtocolNotificationTemplateRuleTest {
     Mockery context = new JUnit4Mockery();

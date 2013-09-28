@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Contactable;
@@ -28,6 +25,9 @@ import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class...

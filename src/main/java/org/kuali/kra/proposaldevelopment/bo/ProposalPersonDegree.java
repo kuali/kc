@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
-
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
  * Represents the Proposal Degree <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>

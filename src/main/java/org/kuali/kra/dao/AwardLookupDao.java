@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.dao;
 
+import org.kuali.rice.krad.bo.BusinessObject;
+
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.rice.krad.bo.BusinessObject;
 
 public interface AwardLookupDao {
     public List<? extends BusinessObject> getAwardSearchResults(Map fieldValues, boolean usePrimaryKeys);

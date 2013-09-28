@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.iacuc.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -26,6 +23,9 @@ import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Overrides the custom save and approve methods of the maintenance document processing to check uniqueness constraints.

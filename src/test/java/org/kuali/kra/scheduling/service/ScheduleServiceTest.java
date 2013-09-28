@@ -15,14 +15,15 @@
  */
 package org.kuali.kra.scheduling.service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class ScheduleServiceTest {
     

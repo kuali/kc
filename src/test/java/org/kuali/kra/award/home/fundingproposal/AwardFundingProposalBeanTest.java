@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -35,6 +29,8 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.util.*;
 
 public class AwardFundingProposalBeanTest extends KcUnitTestBase {
     private AwardFundingProposalBean bean;

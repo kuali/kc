@@ -16,9 +16,6 @@
 package org.kuali.kra.iacuc.actions;
 
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -26,6 +23,9 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionAjaxServiceImplBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServiceImplBase implements IacucProtocolActionAjaxService {
     

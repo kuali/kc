@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
@@ -26,6 +24,8 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+
+import java.util.List;
 
 /**
  * Maintainable implementation for handling the sequence for Notification Number.

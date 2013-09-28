@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.external.award.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -25,6 +22,9 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.web.struts.action.AwardActionsAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * For Account Creation, if there is more than one possible ICR Rate Code mapping, prompt the user to select the correct one. 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
-import java.sql.Date;
-
 import org.kuali.rice.krad.bo.BusinessObjectBase;
+
+import java.sql.Date;
 
 public class NewProtocolOnlineReviewBean extends BusinessObjectBase {
 

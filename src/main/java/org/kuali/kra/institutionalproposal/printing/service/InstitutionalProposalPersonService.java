@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.printing.service;
 
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+
+import java.util.List;
 
 /**
  * These class have different methods to provide service like pass proposal

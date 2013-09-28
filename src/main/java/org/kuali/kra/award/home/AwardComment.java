@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.bo.CommentType;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * This class is business object representation of an Award Comment

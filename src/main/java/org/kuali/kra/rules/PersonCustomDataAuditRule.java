@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
@@ -27,6 +25,8 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.Map;
 
 public class PersonCustomDataAuditRule extends PersonCustomDataRuleBase implements DocumentAuditRule {
     

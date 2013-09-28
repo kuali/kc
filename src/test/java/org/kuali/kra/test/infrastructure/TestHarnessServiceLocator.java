@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.test.infrastructure;
 
-import javax.sql.DataSource;
-import javax.transaction.UserTransaction;
-
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.transaction.jta.JtaTransactionManager;
+
+import javax.sql.DataSource;
+import javax.transaction.UserTransaction;
 
 /**
  * Locator that sits on the testharness SpringContext.

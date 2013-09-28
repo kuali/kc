@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import java.util.Map;
-
 import org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper;
+
+import java.util.Map;
 
 public class AwardSyncHelpersServiceImpl implements AwardSyncHelpersService {
 

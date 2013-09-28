@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.award;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.workflow.AbstractProjectPersonDerivedRoleTypeServiceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class AwardInvestigatorDerivedRoleTypeServiceImpl extends AbstractProjectPersonDerivedRoleTypeServiceImpl {
     

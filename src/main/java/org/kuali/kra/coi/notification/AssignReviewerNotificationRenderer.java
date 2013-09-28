@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi.notification;
 
-import java.util.Map;
-
 import org.kuali.kra.coi.CoiDisclosure;
+
+import java.util.Map;
 
 /**
  * Renders additional fields for the Disclosure Certified notification.

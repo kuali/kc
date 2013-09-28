@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

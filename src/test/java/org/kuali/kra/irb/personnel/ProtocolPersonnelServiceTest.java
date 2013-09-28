@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +31,9 @@ import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
     protected static final String CO_INVESTIGATOR_PERSON_ID = "10000000003";

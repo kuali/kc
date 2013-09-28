@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import edu.mit.coeus.xml.iacuc.CorrespondenceDocument;
+import edu.mit.coeus.xml.iacuc.CorrespondenceType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -26,8 +25,8 @@ import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStreamBase;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStreamBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
-import edu.mit.coeus.xml.iacuc.CorrespondenceDocument;
-import edu.mit.coeus.xml.iacuc.CorrespondenceType;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IacucCorrespondenceXmlStream extends CorrespondenceXmlStreamBase {
     

@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.committee.notification;
 
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.irb.notification.IRBReplacementParameters;
 import org.kuali.kra.meeting.ScheduleAgenda;
+
+import java.util.Map;
 
 /**
  * Renders additional fields for the Agenda Created notification.

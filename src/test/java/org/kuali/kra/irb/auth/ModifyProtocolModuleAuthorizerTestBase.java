@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.auth;
 
-import java.util.Collections;
-
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.test.ProtocolFactory;
+
+import java.util.Collections;
 
 /**
  * Test the Modification of a Protocol Module Authorizer.

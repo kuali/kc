@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,6 +27,8 @@ import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.*;
 
 /**
  * This class tests AwardCreditSplitBean

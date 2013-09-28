@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.List;
-
 import org.kuali.rice.krad.bo.BusinessObjectBase;
+
+import java.util.List;
 
 /**
  * The RolePersons BO is simply a role name with a list of the

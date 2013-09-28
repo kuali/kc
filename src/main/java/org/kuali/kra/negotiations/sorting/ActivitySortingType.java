@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.negotiations.sorting;
 
-import java.util.Comparator;
-
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
+
+import java.util.Comparator;
 
 /**
  * Activity Sorting Enum for displaying and choosing the correct comparator.

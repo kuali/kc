@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+
+import java.util.List;
 
 /**
  * This class...

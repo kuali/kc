@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -30,6 +25,10 @@ import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class InstitutionalProposalNotificationEditorAction extends InstitutionalProposalAction {
     

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award;
 
-import java.util.List;
-
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.util.List;
 
 /**
  * This class applies sponsor term rules.

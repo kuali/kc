@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.home.approvedsubawards;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * This class...

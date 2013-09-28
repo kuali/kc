@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.summary;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * 

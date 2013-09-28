@@ -15,14 +15,9 @@
  */
 package org.kuali.kra.timeandmoney.document.authorization;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -38,6 +33,10 @@ import org.kuali.rice.kim.impl.role.RoleMemberAttributeDataBo;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
     

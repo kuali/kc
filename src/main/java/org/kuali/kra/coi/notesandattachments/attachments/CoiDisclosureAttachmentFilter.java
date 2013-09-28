@@ -18,8 +18,6 @@ package org.kuali.kra.coi.notesandattachments.attachments;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
-
 public class CoiDisclosureAttachmentFilter implements Serializable {
 
     /**

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+
+import java.util.List;
 
 /**
  * 

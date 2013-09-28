@@ -15,13 +15,15 @@
  */
 package org.kuali.kra.committee.print;
 
-import java.math.BigInteger;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.mit.irb.irbnamespace.CommitteeDocument.Committee;
+import edu.mit.irb.irbnamespace.CommitteeMasterDataDocument.CommitteeMasterData;
+import edu.mit.irb.irbnamespace.CommitteeMemberDocument.CommitteeMember;
+import edu.mit.irb.irbnamespace.CommitteeMemberRoleDocument.CommitteeMemberRole;
+import edu.mit.irb.irbnamespace.PersonDocument.Person;
+import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions;
+import edu.mit.irb.irbnamespace.ResearchAreaDocument.ResearchArea;
+import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
+import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -33,15 +35,8 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 
-import edu.mit.irb.irbnamespace.CommitteeDocument.Committee;
-import edu.mit.irb.irbnamespace.CommitteeMasterDataDocument.CommitteeMasterData;
-import edu.mit.irb.irbnamespace.CommitteeMemberDocument.CommitteeMember;
-import edu.mit.irb.irbnamespace.CommitteeMemberRoleDocument.CommitteeMemberRole;
-import edu.mit.irb.irbnamespace.PersonDocument.Person;
-import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions;
-import edu.mit.irb.irbnamespace.ResearchAreaDocument.ResearchArea;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;
+import java.math.BigInteger;
+import java.util.*;
 
 /**
  * This class generates XML that confirms with the XSD related to 

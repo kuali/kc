@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +24,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.util.List;
 
 public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestBase{
 

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.sql.Date;
-
 import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
+
+import java.sql.Date;
 
 public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implements Comparable<ProposalYnq> {
 
