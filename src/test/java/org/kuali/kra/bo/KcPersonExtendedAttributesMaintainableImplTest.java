@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -28,6 +26,8 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 public class KcPersonExtendedAttributesMaintainableImplTest extends MaintenanceRuleTestBase {
     private static final int NUMBER_SECTIONS = 4;

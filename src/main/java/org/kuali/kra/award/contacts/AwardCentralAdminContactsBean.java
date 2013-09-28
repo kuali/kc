@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.bo.KcPerson;
@@ -26,6 +22,10 @@ import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitService;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides support for the Award Contacts Project Personnel panel

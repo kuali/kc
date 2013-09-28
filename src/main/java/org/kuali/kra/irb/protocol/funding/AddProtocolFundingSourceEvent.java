@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.protocol.funding.AddProtocolFundingSourceEventBase;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 /**
  * 

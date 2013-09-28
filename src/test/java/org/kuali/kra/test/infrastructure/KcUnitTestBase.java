@@ -15,17 +15,9 @@
  */
 package org.kuali.kra.test.infrastructure;
 
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.HashMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunListener;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -43,6 +35,10 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.HashMap;
 
 /**
  * This class serves as a base test class for all KC unit tests. It handles ensuring all of the necessary lifecycles are properly

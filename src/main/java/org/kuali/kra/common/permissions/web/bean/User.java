@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.permissions.web.bean;
 
+import org.kuali.kra.bo.KcPerson;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.kra.bo.KcPerson;
 
 /**
  * A User is a mapping of a single Person to a list of Roles.  It

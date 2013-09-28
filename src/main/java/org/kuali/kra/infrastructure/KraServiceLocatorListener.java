@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.infrastructure;
 
-import javax.servlet.ServletContextEvent;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
+
+import javax.servlet.ServletContextEvent;
 
 public class KraServiceLocatorListener extends KualiInitializeListener {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KraServiceLocatorListener.class);

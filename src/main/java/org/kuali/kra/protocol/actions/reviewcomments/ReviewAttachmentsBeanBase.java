@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 
 public abstract class ReviewAttachmentsBeanBase<PRA extends ProtocolReviewAttachmentBase> implements Serializable {
 

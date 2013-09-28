@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.dao;
 
+import org.kuali.kra.award.contacts.AwardPerson;
+
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kra.award.contacts.AwardPerson;
 
 /**
  * This interface defines contract for database interactions with AwardPersons

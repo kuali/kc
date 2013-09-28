@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
-import java.util.Collection;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
@@ -27,6 +25,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+
+import java.util.Collection;
 
 public abstract class ProtocolFundingSourceAuditRuleBase extends ResearchDocumentRuleBase implements DocumentAuditRule {
     

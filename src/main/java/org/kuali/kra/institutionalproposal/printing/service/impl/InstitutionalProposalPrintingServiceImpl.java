@@ -1,7 +1,5 @@
 package org.kuali.kra.institutionalproposal.printing.service.impl;
 
-import java.util.Map;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint;
@@ -10,6 +8,8 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+
+import java.util.Map;
 
 public class InstitutionalProposalPrintingServiceImpl implements
 		InstitutionalProposalPrintingService {

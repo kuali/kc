@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.personmasschange.service;
 
-import java.util.List;
-
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
+
+import java.util.List;
 
 /**
  * Defines the service interface for performing a Person Mass Change on Unit Administrators.

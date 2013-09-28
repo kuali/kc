@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
@@ -26,6 +23,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleResearchDocumentBase implements
         InstitutionalProposalAddCostShareRule {

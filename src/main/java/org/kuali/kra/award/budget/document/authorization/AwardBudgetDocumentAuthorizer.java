@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.budget.document.authorization;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -27,6 +24,9 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
 

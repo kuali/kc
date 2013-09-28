@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.permission;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -25,6 +22,9 @@ import org.kuali.kra.common.permissions.web.struts.action.PermissionsAction;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * The ProtocolPermissionsAction responds to user events from the

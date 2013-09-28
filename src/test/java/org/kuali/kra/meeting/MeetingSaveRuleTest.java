@@ -15,22 +15,22 @@
  */
 package org.kuali.kra.meeting;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.common.committee.meeting.MeetingSaveEvent;
 import org.kuali.kra.common.committee.meeting.MeetingSaveRule;
+import org.kuali.kra.common.committee.meeting.MemberPresentBean;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.common.committee.meeting.MemberPresentBean;
+
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class MeetingSaveRuleTest {
     

@@ -16,8 +16,6 @@
 package org.kuali.kra.irb.protocol.funding;
 
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 public interface ProposalDevelopmentProtocolDocumentService {

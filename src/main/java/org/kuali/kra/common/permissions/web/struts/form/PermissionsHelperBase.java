@@ -15,21 +15,11 @@
  */
 package org.kuali.kra.common.permissions.web.struts.form;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
-import org.kuali.kra.common.permissions.web.bean.AssignedRole;
-import org.kuali.kra.common.permissions.web.bean.Role;
-import org.kuali.kra.common.permissions.web.bean.RoleState;
-import org.kuali.kra.common.permissions.web.bean.User;
-import org.kuali.kra.common.permissions.web.bean.UserState;
+import org.kuali.kra.common.permissions.web.bean.*;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
@@ -42,6 +32,12 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.permission.PermissionQueryResults;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * The PermissionsHelperBase is the base class of all PermissionsHelperBase classes.

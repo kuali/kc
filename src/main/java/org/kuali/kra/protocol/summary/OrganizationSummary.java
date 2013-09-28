@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.summary;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Rolodex;
+
+import java.io.Serializable;
 
 public class OrganizationSummary implements Serializable {
 

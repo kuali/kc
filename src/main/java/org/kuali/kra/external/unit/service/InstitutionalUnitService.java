@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.external.unit.service;
 
-import java.util.List;
+import org.kuali.kra.external.HashMapElement;
+import org.kuali.kra.external.unit.UnitDTO;
+import org.kuali.kra.infrastructure.Constants;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-
-import org.kuali.kra.external.HashMapElement;
-import org.kuali.kra.external.unit.UnitDTO;
-import org.kuali.kra.infrastructure.Constants;
+import java.util.List;
 
 /**
  * This is the external service that is published to the service bus for

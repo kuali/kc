@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.notifycommittee;
 
+import org.kuali.kra.protocol.actions.ProtocolActionBean;
+
 import java.io.Serializable;
 import java.sql.Date;
-
-import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 public interface ProtocolNotifyCommitteeBean extends ProtocolActionBean, Serializable {
     

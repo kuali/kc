@@ -15,33 +15,20 @@
  */
 package org.kuali.kra.award;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardComment;
-import org.kuali.kra.award.home.AwardSponsorTerm;
-import org.kuali.kra.award.home.AwardSyncable;
-import org.kuali.kra.award.home.AwardSyncableList;
-import org.kuali.kra.award.home.AwardTemplate;
-import org.kuali.kra.award.home.AwardTemplateComment;
-import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
-import org.kuali.kra.award.home.AwardTemplateTerm;
+import org.kuali.kra.award.home.*;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * This class is the implementation of AwardTemplateSyncService.

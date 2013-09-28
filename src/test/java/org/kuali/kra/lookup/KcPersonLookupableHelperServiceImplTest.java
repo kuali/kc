@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.List;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -30,6 +28,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 public class KcPersonLookupableHelperServiceImplTest extends KcUnitTestBase {
     

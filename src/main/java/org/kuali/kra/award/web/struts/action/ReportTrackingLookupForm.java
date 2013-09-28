@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.paymentreports.ReportTrackingView;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingSearchViews;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Report Tracking Lookup Form.

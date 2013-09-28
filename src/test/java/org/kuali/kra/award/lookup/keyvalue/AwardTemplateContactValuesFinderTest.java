@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -32,6 +28,10 @@ import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class AwardTemplateContactValuesFinderTest extends KcUnitTestBase {
     AwardTemplateContactValuesFinder awardTempContactValuesFinder;

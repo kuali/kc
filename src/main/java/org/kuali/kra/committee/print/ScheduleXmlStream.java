@@ -15,19 +15,24 @@
  */
 package org.kuali.kra.committee.print;
 
-import java.math.BigInteger;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
+import edu.mit.irb.irbnamespace.PersonDocument.Person;
+import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
+import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
+import edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary;
+import edu.mit.irb.irbnamespace.ScheduleDocument;
+import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
+import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.Attendents;
+import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;
+import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.OtherBusiness;
+import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.PreviousSchedule;
+import edu.mit.irb.irbnamespace.ScheduleMasterDataDocument.ScheduleMasterData;
+import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
+import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.ActionType;
+import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo;
+import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo.Checklists;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
@@ -49,22 +54,9 @@ import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.service.KcPersonService;
 
-import edu.mit.irb.irbnamespace.ScheduleDocument;
-import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
-import edu.mit.irb.irbnamespace.PersonDocument.Person;
-import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
-import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
-import edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.Attendents;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.OtherBusiness;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.PreviousSchedule;
-import edu.mit.irb.irbnamespace.ScheduleMasterDataDocument.ScheduleMasterData;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.ActionType;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo.Checklists;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.util.*;
 
 public class ScheduleXmlStream extends PrintBaseXmlStream {
     private CommitteeMembershipService committeeMembershipService;

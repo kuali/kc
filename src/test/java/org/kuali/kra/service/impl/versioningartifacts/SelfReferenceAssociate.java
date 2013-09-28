@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
+import org.kuali.kra.SequenceAssociate;
+
 import java.util.ArrayList;
 import java.util.Collection;
-
-import org.kuali.kra.SequenceAssociate;
 
 public class SelfReferenceAssociate implements SequenceAssociate<SelfReferenceOwner> {
 

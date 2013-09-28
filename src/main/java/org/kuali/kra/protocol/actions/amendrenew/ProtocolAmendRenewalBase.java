@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.ProtocolBase;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ProtocolAmendRenewalBase extends KraPersistableBusinessObjectBase implements SequenceAssociate<ProtocolBase> {
 

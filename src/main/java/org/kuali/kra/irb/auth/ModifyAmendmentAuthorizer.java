@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Modify Amendment Authorizer determines if the user can modify a particular module within the amendment.

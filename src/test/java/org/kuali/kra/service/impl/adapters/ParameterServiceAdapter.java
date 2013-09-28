@@ -1,11 +1,11 @@
 package org.kuali.kra.service.impl.adapters;
 
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.rice.coreservice.api.parameter.Parameter;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Adapter for ParameterService

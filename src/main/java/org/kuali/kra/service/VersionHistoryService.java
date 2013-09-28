@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
+
+import java.util.List;
 
 public interface VersionHistoryService {
 

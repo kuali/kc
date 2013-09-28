@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.util.List;
 
 /**
  * 

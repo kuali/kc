@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.actions.notifycommittee;
 
-import java.sql.Timestamp;
-
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.sql.Timestamp;
 
 /**
  * Protocol Request Service Implementation.

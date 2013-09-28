@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
-import java.sql.Date;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+
+import java.sql.Date;
 
 /**
  * This class encapsulates the notion of a protocol review. Essentially 

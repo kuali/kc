@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.io.Serializable;
-
 import org.kuali.kra.budget.BudgetDecimal;
+
+import java.io.Serializable;
 
 public class CostShareInfoDO implements Serializable {
 

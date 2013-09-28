@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.external.budget.service;
 
-import java.util.List;
+import org.kuali.kra.external.HashMapElement;
+import org.kuali.kra.infrastructure.Constants;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-
-import org.kuali.kra.external.HashMapElement;
-import org.kuali.kra.infrastructure.Constants;
+import java.util.List;
 
 
 @WebService(name = "budgetCategoryService", targetNamespace = Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE)

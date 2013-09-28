@@ -15,12 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
-import org.kuali.kra.common.committee.meeting.MeetingServiceImplBase;
-import org.kuali.kra.common.committee.meeting.OtherPresentBeanBase;
-import org.kuali.kra.common.committee.meeting.ProtocolContingencyBase;
-import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
+import org.kuali.kra.common.committee.meeting.*;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;

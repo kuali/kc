@@ -1,17 +1,10 @@
 package org.kuali.kra.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import noNamespace.CurrentAndPendingSupportDocument;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentReportCEColumnNames;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentSupport;
 import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentSupport.CurrentReportCEColomnValues;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -22,6 +15,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.util.*;
 /**
  * This class generates XML that confirms with the XSD related to Current
  * Proposal Report. The data for XML is derived from

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is a helper class for sponsor term form helper

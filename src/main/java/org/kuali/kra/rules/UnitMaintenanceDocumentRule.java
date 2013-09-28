@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.List;
-
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 public class UnitMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
     

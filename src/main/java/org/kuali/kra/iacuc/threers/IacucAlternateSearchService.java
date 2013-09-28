@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.threers;
 
-import java.util.List;
-
 import org.kuali.kra.iacuc.IacucProtocol;
+
+import java.util.List;
 
 public interface IacucAlternateSearchService {
 

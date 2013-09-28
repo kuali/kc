@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.infrastructure;
 
-import java.math.BigDecimal;
-
 import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
 import org.kuali.kra.budget.BudgetDecimal;
+
+import java.math.BigDecimal;
 
 /**
  * This class...

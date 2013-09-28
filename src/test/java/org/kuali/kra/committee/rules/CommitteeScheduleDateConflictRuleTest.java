@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -34,6 +27,8 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.*;
 
 public class CommitteeScheduleDateConflictRuleTest extends KcUnitTestBase {
     

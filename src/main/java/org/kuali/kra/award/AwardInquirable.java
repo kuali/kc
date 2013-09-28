@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,6 +30,10 @@ import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AwardInquirable extends KualiInquirableImpl {
     

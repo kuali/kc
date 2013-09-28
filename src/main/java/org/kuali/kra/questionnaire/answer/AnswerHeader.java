@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.Questionnaire;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Holds additional information related to a series of {@link Answer Answers}.

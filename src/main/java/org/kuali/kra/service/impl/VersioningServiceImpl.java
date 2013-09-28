@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.SeparatelySequenceableAssociate;
@@ -25,6 +22,9 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.Sequenceable;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This service implements generic versioning.

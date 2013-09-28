@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.committee.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +25,9 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommitteeLookupHelperServiceTest extends KcUnitTestBase {
     

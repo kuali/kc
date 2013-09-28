@@ -15,11 +15,8 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -27,6 +24,8 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 public class ProtocolFinderDaoOjbTest extends KcUnitTestBase {
     

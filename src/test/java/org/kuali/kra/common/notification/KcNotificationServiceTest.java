@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.common.notification;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
@@ -44,13 +36,14 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.kra.util.EmailAttachment;
-import org.kuali.rice.ken.api.service.SendNotificationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.ken.api.notification.Notification;
-import org.kuali.rice.ken.service.NotificationService;
+import org.kuali.rice.ken.api.service.SendNotificationService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.util.*;
 
 public class KcNotificationServiceTest extends KcUnitTestBase {
     

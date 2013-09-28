@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
@@ -27,6 +23,10 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Lookup wrapper class to modify lookup results of <code>{@link NonOrganizationalRolodex}</code> lookups

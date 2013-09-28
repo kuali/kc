@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.common.committee.bo;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
@@ -28,9 +23,14 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.CoiReviewType;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 import org.kuali.kra.util.DateUtils;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a single committee within an institution.

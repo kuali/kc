@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.maintenance;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -29,6 +27,8 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 /**
  * This class...

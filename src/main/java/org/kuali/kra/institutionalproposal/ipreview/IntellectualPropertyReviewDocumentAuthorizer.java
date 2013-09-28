@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+
+import java.util.Map;
 
 /**
  * Custom document authorizer for IntellectualPropertyReview maintenance document.

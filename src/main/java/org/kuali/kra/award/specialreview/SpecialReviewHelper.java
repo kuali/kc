@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.award.specialreview;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.BooleanUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defines the Special Review Helper for Award.

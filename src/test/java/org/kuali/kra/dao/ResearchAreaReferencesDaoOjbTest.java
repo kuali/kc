@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.dao;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +36,10 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResearchAreaReferencesDaoOjbTest extends KcUnitTestBase {
     

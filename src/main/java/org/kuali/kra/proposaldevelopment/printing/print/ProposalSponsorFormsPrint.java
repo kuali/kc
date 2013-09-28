@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.printing.print;
 
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -33,6 +24,14 @@ import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopme
 import org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream;
 import org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides the implementation for printing Print Certification

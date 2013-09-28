@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -32,6 +26,11 @@ import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.Iterator;
 
 /*
  * This class is used for question look in Questionnaire maintenance

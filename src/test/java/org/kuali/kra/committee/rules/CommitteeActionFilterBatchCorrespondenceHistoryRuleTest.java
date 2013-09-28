@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.sql.Date;
-
 import org.junit.Test;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
 import org.kuali.kra.common.committee.rules.CommitteeActionFilterBatchCorrespondenceHistoryRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
+
+import java.sql.Date;
 
 public class CommitteeActionFilterBatchCorrespondenceHistoryRuleTest {
 

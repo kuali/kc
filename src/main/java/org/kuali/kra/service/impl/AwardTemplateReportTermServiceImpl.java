@@ -15,20 +15,12 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import org.kuali.kra.award.paymentreports.Frequency;
-import org.kuali.kra.award.paymentreports.FrequencyBase;
-import org.kuali.kra.award.paymentreports.Report;
-import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
-import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
+import org.kuali.kra.award.paymentreports.*;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardTemplateReportTermService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
 
 public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTermService{
     

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.service.impl.mocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.service.UnitAuthorizationService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Mock System Authorization Service.  The result determines the return

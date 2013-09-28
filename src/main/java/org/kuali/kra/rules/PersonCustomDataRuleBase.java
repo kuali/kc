@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.infrastructure.PropertyConstants;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.infrastructure.PropertyConstants;
 
 public class PersonCustomDataRuleBase extends ResearchDocumentRuleBase {
     

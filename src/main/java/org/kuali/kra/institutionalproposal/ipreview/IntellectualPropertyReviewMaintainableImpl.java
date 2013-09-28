@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
-import java.io.Serializable;
-import java.util.Map;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
@@ -25,6 +22,9 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * This class leverages hooks into the Intellectual Property Review document lifecycle for custom processing.

@@ -15,8 +15,19 @@
  */
 package org.kuali.kra.committee;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.kuali.kra.committee.bo.*;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
+import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.service.impl.VersioningServiceImpl;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -26,24 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
-import org.kuali.kra.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.location.ProtocolLocation;
-import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
-import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.service.impl.VersioningServiceImpl;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CommitteeVersioningTest implements Serializable {
 

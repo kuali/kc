@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.budget.versions;
 
-import static org.kuali.kra.infrastructure.KeyConstants.BUDGET_VERSION_EXISTS;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_BUDGET_NAME_MISSING;
-import static org.kuali.kra.logging.BufferedLogger.info;
-import static org.springframework.util.StringUtils.hasText;
-
-import java.util.List;
-
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentRule;
@@ -29,6 +22,13 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
+
+import static org.kuali.kra.infrastructure.KeyConstants.BUDGET_VERSION_EXISTS;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_BUDGET_NAME_MISSING;
+import static org.kuali.kra.logging.BufferedLogger.info;
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * A composited rule of the {@link BudgetDocumentRule}. It is expected that the {@link BudgetDocumentRule} will call this rule directly on save,

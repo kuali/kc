@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import java.util.List;
-
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import java.util.List;
 
 /**
  * 

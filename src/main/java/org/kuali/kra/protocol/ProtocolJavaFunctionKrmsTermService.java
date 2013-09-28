@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.protocol;
 
-import org.kuali.kra.protocol.ProtocolBase;
-
-
 public interface ProtocolJavaFunctionKrmsTermService {
 
     /**

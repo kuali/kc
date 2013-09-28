@@ -15,21 +15,11 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
-import org.kuali.kra.common.committee.meeting.CommonMeetingService;
-import org.kuali.kra.common.committee.meeting.MeetingActionsActionBase;
-import org.kuali.kra.common.committee.meeting.MeetingFormBase;
-import org.kuali.kra.common.committee.meeting.MeetingHelperBase;
-import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
+import org.kuali.kra.common.committee.meeting.*;
 import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
@@ -45,6 +35,10 @@ import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 public class IacucMeetingActionsAction extends MeetingActionsActionBase {
 

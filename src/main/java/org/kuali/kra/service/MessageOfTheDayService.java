@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.kra.bo.MessageOfTheDay;
+
+import java.util.List;
 
 
 public interface MessageOfTheDayService {

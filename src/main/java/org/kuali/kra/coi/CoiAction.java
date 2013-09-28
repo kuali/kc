@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -41,6 +34,11 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     protected static final String MASTER_DISCLOSURE = "masterDisclosure";

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.rice.integration;
 
-import static org.hamcrest.core.Is.is;
-
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
@@ -33,6 +31,8 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import static org.hamcrest.core.Is.is;
 
 /**
  * This is an integration test that makes sure the {@link DictionaryValidationService DictionaryValidationService} does not

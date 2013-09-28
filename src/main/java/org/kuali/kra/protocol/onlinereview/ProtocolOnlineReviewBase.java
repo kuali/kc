@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.protocol.onlinereview;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.KcPerson;
@@ -34,6 +29,11 @@ import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class encapsulates the notion of a protocol review. Essentially 

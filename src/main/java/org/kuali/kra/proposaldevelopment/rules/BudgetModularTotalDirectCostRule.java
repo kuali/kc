@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -38,6 +34,10 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This validates the Budget Modular's Total Direct Cost.

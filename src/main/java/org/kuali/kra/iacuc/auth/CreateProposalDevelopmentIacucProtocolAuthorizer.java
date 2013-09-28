@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
+import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 /**
  * This service class is used to do authorization for create proposal task for proposal development document.  
  */

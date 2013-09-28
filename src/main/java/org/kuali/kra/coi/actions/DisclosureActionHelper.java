@@ -15,31 +15,26 @@
  */
 package org.kuali.kra.coi.actions;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.CoiDispositionStatus;
-import org.kuali.kra.coi.CoiReviewer;
-import org.kuali.kra.coi.CoiUserRole;
+import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
-import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
+import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DisclosureActionHelper implements Serializable {
 

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import java.util.Collection;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.rules.ErrorReporter;
+
+import java.util.Collection;
 
 /**
  * 

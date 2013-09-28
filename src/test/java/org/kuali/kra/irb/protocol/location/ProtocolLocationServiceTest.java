@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.protocol.location;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
+
+import static org.junit.Assert.assertEquals;
 
 public class ProtocolLocationServiceTest {
     protected static final String NEW_ORGANIZATION_VALUE =  "000004";

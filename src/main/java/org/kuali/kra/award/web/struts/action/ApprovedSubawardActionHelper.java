@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.io.Serializable;
-
 import org.kuali.kra.award.AwardDocumentRule;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.approvedsubawards.ApprovedSubawardFormHelper;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleImpl;
+
+import java.io.Serializable;
 
 /**
  * This class...

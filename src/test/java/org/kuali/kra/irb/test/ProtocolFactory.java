@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.test;
 
-import java.util.ArrayList;
-
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -29,6 +27,8 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
 
 /**
  * Base class for Protocol business rule tests.

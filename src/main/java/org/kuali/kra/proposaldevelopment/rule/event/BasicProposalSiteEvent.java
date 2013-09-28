@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalSiteRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Superclass for rule events related to Proposal Sites.

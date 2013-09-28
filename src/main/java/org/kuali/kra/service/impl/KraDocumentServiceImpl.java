@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
@@ -27,6 +25,8 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
 import org.springframework.dao.OptimisticLockingFailureException;
+
+import java.util.ArrayList;
 
 /**
  * 

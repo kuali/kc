@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service;
 
+import org.kuali.kra.util.EmailAttachment;
+
 import java.util.List;
 import java.util.Set;
-
-import org.kuali.kra.util.EmailAttachment;
 
 
 public interface KcEmailService {

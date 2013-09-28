@@ -15,10 +15,9 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 
 /**
  * This class defines functions that need to be implemented in a "bean" that needs to provide support for reviewer comments.

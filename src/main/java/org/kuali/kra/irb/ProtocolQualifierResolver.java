@@ -16,10 +16,6 @@
 package org.kuali.kra.irb;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase.ProtocolWorkflowType;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -27,6 +23,10 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.role.XPathQualifierResolver;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 

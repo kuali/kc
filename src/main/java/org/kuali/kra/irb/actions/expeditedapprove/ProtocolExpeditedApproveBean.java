@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.expeditedapprove;
 
-import java.sql.Date;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -26,6 +24,8 @@ import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+
+import java.sql.Date;
 
 /**
  * This class is really just a "form" for approving a protocol.

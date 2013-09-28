@@ -15,24 +15,10 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import noNamespace.BudgetSummaryReportDocument;
-import noNamespace.ReportHeaderType;
-import noNamespace.ReportPageType;
-import noNamespace.ReportType;
-import noNamespace.SubReportType;
+import noNamespace.*;
 import noNamespace.BudgetSummaryReportDocument.BudgetSummaryReport;
 import noNamespace.ReportPageType.BudgetSummary;
 import noNamespace.ReportPageType.CalculationMethodology;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -45,6 +31,9 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.printing.util.ReportTypeVO;
 import org.kuali.kra.document.ResearchDocumentBase;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**

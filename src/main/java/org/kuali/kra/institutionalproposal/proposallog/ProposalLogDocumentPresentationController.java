@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
-import java.util.Set;
-
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.Set;
 
 /**
  * Determines read-only fields on the Proposal Log maintenance document.

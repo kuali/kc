@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.rice.krad.bo.PersistableAttachment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersonSignature extends KraPersistableBusinessObjectBase implements PersistableAttachment {
 

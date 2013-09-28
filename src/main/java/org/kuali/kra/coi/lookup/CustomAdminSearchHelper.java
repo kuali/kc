@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomAdminSearchHelper {
 

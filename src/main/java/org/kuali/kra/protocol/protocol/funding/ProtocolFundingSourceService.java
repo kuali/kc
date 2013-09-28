@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
-import java.util.Map.Entry;
-
 import org.kuali.kra.protocol.ProtocolActionBase;
+
+import java.util.Map.Entry;
 
 /**
  * Provides the required API for performing a multi-type lookup for funding sources, business rules used by the View, and business rule management for a 

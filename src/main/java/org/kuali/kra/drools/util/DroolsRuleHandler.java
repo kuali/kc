@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.drools.util;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
-
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.WorkingMemory;
@@ -26,6 +23,9 @@ import org.drools.compiler.PackageBuilderConfiguration;
 import org.drools.rule.Package;
 import org.drools.rule.builder.dialect.java.JavaDialectConfiguration;
 import org.kuali.kra.drools.brms.FactBean;
+
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 /**
  * 

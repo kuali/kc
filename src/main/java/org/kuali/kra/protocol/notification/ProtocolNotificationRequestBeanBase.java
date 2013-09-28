@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.notification;
 
-import java.io.Serializable;
-
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+
+import java.io.Serializable;
 
 public abstract class ProtocolNotificationRequestBeanBase implements Serializable {
     

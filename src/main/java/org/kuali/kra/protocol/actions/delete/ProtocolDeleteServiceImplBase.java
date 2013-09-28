@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.protocol.actions.delete;
 
-import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;

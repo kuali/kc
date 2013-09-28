@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.config;
 
+import org.kuali.kra.common.config.AbstractConfigurer;
+import org.kuali.rice.core.api.config.module.RunMode;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.kuali.kra.common.config.AbstractConfigurer;
-import org.kuali.rice.core.api.config.module.RunMode;
 
 public class CoreConfigurer extends AbstractConfigurer {
     

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 import java.util.Comparator;
 
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Used to order <code>{@link ProposalPerson}</code> instances by <code>{@link ProposalPersonRole}</code>.

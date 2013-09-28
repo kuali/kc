@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.List;
-
 import org.kuali.kra.irb.Protocol;
+
+import java.util.List;
 
 /**
  * Handles the processing of submitting a protocol to the IRB office.

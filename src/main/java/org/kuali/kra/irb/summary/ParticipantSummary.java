@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.summary;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.io.Serializable;
 
 public class ParticipantSummary implements Serializable {
 

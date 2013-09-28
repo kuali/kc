@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.helpers;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncException;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Award Sync Helper interface. Describes the interface for classes

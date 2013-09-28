@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.service.MultiCampusIdentityService;
@@ -28,6 +24,10 @@ import org.kuali.rice.kim.api.identity.entity.EntityContract;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityService {
     

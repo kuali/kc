@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.budget.service.impl;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -30,6 +27,9 @@ import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * The Budget Lock Service implementation.  It derives from the Pessimistic Lock Service in 

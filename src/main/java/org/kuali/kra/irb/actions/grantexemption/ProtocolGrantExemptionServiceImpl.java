@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.grantexemption;
 
-import java.sql.Timestamp;
-
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -24,6 +22,8 @@ import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGene
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.sql.Timestamp;
 
 /**
  * The ProtocolGrantExemptionService implementation.

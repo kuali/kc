@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RateClassExistenceRule extends KraMaintenanceDocumentRuleBase {
     

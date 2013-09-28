@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.rule.event;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -25,6 +22,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuditCustomDataEvent extends SaveCustomDataEvent {
 

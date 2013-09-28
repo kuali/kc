@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
-import java.sql.Date;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -26,6 +24,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.rules.TemplateRuleTest;
+
+import java.sql.Date;
 
 /**
  * Test the business rules for Assigning a protocol to a committee.

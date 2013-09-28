@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.timeandmoney;
 
-import java.sql.Date;
-
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.sql.Date;
 
 /**
  * This class is the BO representation of an Award Amount F and A Distribution.

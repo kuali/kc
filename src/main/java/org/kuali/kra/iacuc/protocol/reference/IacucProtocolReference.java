@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.protocol.reference;
 
-import java.text.ParseException;
-
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
+
+import java.text.ParseException;
 
 public class IacucProtocolReference extends ProtocolReferenceBase {
     

@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
@@ -29,6 +25,10 @@ import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachme
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

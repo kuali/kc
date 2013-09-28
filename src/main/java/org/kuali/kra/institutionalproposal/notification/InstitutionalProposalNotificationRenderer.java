@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.notification;
 
+import org.kuali.kra.common.notification.NotificationRendererBase;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.notification.NotificationRendererBase;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 /**
  * Renders fields for the Institutional Proposal notifications.

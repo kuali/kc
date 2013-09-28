@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.iacuc.notification;
 
-import java.util.Map;
-
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
+
+import java.util.Map;
 
 /**
  * Renders additional fields for the Protocol Disapproved notification.

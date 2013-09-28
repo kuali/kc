@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.protocol.research;
 
-import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
+
+import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 
 /*
  * WARNING: Please do not move this test.  It does not like to pass with the entire suite unless it is further up the testing chain.

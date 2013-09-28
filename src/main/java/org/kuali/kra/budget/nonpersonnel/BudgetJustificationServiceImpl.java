@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.core.Budget;
@@ -28,6 +23,11 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class BudgetJustificationServiceImpl implements BudgetJustificationService {
 

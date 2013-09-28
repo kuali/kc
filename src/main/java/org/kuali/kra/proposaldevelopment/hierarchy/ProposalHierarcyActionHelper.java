@@ -15,29 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_BUDGET_CHILD_STATUSES_NOT_COMPLETE;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_LINK_ALREADY_MEMBER;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_LINK_NOT_PARENT;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_LINK_NO_BUDGET_VERSION;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_LINK_PARENT_BUDGET_COMPLETE;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_REMOVE_PARENT_BUDGET_COMPLETE;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_UNEXPECTED;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.FIELD_CHILD_NUMBER;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.FIELD_GENERIC;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.FIELD_PARENT_BUDGET_STATUS;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.FIELD_PARENT_NUMBER;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.MESSAGE_CREATE_SUCCESS;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.MESSAGE_REMOVE_SUCCESS;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.WARNING_LINK_DIFFERENT_SPONSOR;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.WARNING_LINK_NO_FINAL_BUDGET;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,6 +37,11 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
 
 /**
  * This class...

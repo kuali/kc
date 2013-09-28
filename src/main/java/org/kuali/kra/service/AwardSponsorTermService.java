@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.List;
 
 
 /**

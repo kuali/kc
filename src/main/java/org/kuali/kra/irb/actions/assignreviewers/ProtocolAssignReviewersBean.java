@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.actions.assignreviewers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -30,6 +27,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is really just a "form" for assigning a protocol

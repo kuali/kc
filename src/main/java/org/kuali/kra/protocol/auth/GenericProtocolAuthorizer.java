@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 

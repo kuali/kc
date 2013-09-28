@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.s2s.service;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
@@ -40,6 +32,10 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is used to test the PDF Printing of Forms

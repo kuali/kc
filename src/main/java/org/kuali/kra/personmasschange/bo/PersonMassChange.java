@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.personmasschange.bo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersonMassChange extends KraPersistableBusinessObjectBase {
 

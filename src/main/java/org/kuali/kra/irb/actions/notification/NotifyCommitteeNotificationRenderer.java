@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * Renders additional fields for the Notify IRB notification.

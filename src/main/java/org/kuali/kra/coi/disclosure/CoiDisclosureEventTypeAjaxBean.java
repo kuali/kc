@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.util.List;
-
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.List;
 
 public class CoiDisclosureEventTypeAjaxBean {
 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.commitments;
 
-import java.util.List;
-
 import org.kuali.kra.award.home.ValidRates;
+
+import java.util.List;
 
 
 /**

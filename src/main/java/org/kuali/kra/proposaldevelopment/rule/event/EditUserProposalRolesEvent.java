@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -25,6 +23,8 @@ import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.List;
 
 /**
  * The EditUserProposalRolesEvent is generated when the proposal roles for a

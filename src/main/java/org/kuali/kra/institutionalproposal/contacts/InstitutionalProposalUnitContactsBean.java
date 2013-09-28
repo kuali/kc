@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.KcPerson;
@@ -27,6 +24,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class...

@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.notification;
 
-import java.text.SimpleDateFormat;
-import java.util.Map;
-
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+
+import java.text.SimpleDateFormat;
+import java.util.Map;
 
 /**
  * Renders fields for the Proposal Development notifications.

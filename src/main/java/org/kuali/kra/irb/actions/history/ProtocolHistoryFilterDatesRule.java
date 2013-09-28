@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.actions.history;
 
-import java.util.Date;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.util.Date;
 
 public class ProtocolHistoryFilterDatesRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolHistoryFilterDatesEvent> {
 

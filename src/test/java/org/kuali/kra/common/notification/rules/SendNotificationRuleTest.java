@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.common.notification.rules;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.kra.common.notification.bo.KcNotification;
@@ -26,6 +23,9 @@ import org.kuali.kra.common.notification.rule.SendNotificationRule;
 import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SendNotificationRuleTest extends KcUnitTestBase {
     

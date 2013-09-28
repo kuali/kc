@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * 

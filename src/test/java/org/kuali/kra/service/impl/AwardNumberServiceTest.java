@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -36,6 +29,11 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class AwardNumberServiceTest {
     

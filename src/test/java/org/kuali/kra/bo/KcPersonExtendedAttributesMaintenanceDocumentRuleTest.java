@@ -22,7 +22,6 @@ import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.kra.rules.KcPersonExtendedAttributesMaintenanceDocumentRule;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;

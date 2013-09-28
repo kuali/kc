@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.meeting;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -26,6 +24,8 @@ import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
+
+import static org.junit.Assert.assertEquals;
 
 public class ViewScheduleAuthorizerTest {
     private static final String USERNAME = "quickstart";

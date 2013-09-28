@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.external.award;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -29,6 +25,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FinancialIndirectCostRecoveryTypeCodeDocumentRule extends KraMaintenanceDocumentRuleBase{
     private BusinessObjectService businessObjectService;

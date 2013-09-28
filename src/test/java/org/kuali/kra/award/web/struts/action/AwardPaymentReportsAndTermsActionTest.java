@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,6 +23,10 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

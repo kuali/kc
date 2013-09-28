@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.protocol;
 
-import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -31,6 +30,8 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.List;
 
 /**
  * 

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.service.ProposalAbstractsService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+
+import java.util.List;
 
 public class ProposalAbstractsServiceImpl implements ProposalAbstractsService {
     

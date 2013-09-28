@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +22,9 @@ import org.kuali.kra.proposaldevelopment.bo.MailType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * This class tests KraPersistableBusinessObjectBase.

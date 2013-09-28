@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.timeandmoney;
 
+import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.timeandmoney.history.TransactionDetail;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.timeandmoney.history.TransactionDetail;
 
 /**
  * This class...

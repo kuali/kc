@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.coi;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.sql.Date;
+import java.sql.Timestamp;
 
 public class CoiUserRole extends KraPersistableBusinessObjectBase {
 

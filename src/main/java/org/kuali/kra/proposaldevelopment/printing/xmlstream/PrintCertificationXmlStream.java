@@ -16,38 +16,22 @@
 
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import noNamespace.Certification;
-import noNamespace.Investigator;
+import noNamespace.*;
 import noNamespace.OrganizationType;
-import noNamespace.PCschoolInfoType;
-import noNamespace.PrintCertificationDocument;
-import noNamespace.Sponsor;
 import noNamespace.PrintCertificationDocument.PrintCertification;
-
+import noNamespace.Sponsor;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.ArgValueLookup;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
+
+import java.util.*;
+
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 
 /**
  * This class generates XML that confirms with the XSD related to Print

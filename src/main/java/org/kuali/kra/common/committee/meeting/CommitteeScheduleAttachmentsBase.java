@@ -19,12 +19,6 @@ package org.kuali.kra.common.committee.meeting;
  *  this is BO for committee schedule attachments
  */
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcAttachment;
@@ -33,6 +27,12 @@ import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class CommitteeScheduleAttachmentsBase extends KraPersistableBusinessObjectBase  implements KcAttachment  {
 

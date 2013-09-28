@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.correspondence;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
+
+import java.util.List;
 
 public interface ProtocolActionTypeToCorrespondenceTemplateService {
     /**

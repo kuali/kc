@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceOwner;
+
+import java.util.List;
 
 /**
  * This interface defines generic versioning behavior. Versioning always implies that 

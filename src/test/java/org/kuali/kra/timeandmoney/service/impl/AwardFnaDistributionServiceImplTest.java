@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.timeandmoney.service.impl;
 
-import static org.junit.Assert.*;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -25,10 +23,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.timeandmoney.service.AwardFnaDistributionService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(JMock.class)
 public class AwardFnaDistributionServiceImplTest {

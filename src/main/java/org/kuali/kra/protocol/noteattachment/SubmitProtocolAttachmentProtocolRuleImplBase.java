@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.ProtocolDocumentBase;
+
+import java.util.List;
 
 /**
  * Class handles rules for submitting a {@link ProtocolAttachmentProtocolBase ProtocolAttachmentProtocolBase}.

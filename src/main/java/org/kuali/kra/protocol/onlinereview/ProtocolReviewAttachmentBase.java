@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.protocol.onlinereview;
 
-import java.sql.Timestamp;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
@@ -24,6 +22,8 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+
+import java.sql.Timestamp;
 
 /**
  * 

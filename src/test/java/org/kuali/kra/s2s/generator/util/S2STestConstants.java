@@ -15,19 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.util;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-
 public class S2STestConstants {
     public static final String ATT_DIR_PATH = "src/test/resources/testAttachments/";
 }

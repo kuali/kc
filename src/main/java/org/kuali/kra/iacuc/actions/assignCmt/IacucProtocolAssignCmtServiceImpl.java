@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions.assignCmt;
 
-import java.sql.Timestamp;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
@@ -28,6 +26,8 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Timestamp;
 
 public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmtService {
 

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.actions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
@@ -28,6 +25,9 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {

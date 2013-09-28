@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -44,6 +35,10 @@ import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * 

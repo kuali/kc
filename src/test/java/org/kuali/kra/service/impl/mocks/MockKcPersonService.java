@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.service.impl.mocks;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.api.identity.Person;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MockKcPersonService implements KcPersonService {
     

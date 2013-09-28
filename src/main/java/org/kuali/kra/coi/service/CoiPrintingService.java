@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.coi.service;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.printing.Printable;
@@ -24,7 +23,6 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class provides the interface for printing reports related to COI. It has the

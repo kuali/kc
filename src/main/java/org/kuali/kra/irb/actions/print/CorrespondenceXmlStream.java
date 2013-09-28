@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import edu.mit.irb.irbnamespace.CorrespondenceDocument;
+import edu.mit.irb.irbnamespace.CorrespondenceDocument.Correspondence;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -25,8 +24,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStreamBase;
 
-import edu.mit.irb.irbnamespace.CorrespondenceDocument;
-import edu.mit.irb.irbnamespace.CorrespondenceDocument.Correspondence;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is used to populate the xml beans objects for Correspondence schema elements in irb.xsd

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
+import org.kuali.kra.SequenceOwner;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import org.kuali.kra.SequenceOwner;
 
 /**
  * This class represents a sequence owner that is also an associate; i.e. a SubAward on an Award 

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.negotiations.rules;
 
-import java.util.Calendar;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.negotiations.bo.Negotiation;
@@ -24,6 +22,8 @@ import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Calendar;
 
 /**
  * 

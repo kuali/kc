@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateTerm;
 import org.kuali.kra.bo.SponsorTermType;
@@ -26,6 +22,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class SponsorTemplateTermsExistenceRule extends KraMaintenanceDocumentRuleBase {
 

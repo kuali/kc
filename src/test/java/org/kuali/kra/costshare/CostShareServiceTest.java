@@ -17,14 +17,13 @@ package org.kuali.kra.costshare;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 @NAMESPACE(namespace=Constants.KC_GENERIC_PARAMETER_NAMESPACE)
 @COMPONENT(component=Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE)

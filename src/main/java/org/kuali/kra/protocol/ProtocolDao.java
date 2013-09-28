@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol;
 
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.protocol.noteattachment.TypedAttachment;
+
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.protocol.noteattachment.TypedAttachment;
 
 
 /**

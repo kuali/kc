@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.web.filter;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 public class PerformanceFilterResponse extends HttpServletResponseWrapper {
 

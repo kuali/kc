@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.common.notification.rules;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.bo.NotificationType;
@@ -30,6 +24,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
 
 /**
  * Overrides the custom save and approve methods of the maintenance document processing to check uniqueness constraints.

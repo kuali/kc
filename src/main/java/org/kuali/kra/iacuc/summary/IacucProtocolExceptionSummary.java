@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.summary;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
+
+import java.io.Serializable;
 
 public class IacucProtocolExceptionSummary implements Serializable { 
     

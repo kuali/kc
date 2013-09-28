@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import java.util.List;
-
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+
+import java.util.List;
 
 /**
  * This class represents the event when a <code>{@link ProtocolParticipant}</code> is added to a 

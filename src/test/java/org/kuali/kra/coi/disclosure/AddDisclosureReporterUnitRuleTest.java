@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityReporterUnit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddDisclosureReporterUnitRuleTest {
 

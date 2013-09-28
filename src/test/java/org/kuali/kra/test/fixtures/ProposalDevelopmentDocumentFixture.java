@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.test.fixtures;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.krad.service.DocumentService;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Fixture class for creating valid <code>{@link ProposalDevelopmentDocument}</code> instances.

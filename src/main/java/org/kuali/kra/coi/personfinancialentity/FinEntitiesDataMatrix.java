@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+
+import java.util.List;
 
 /**
  * 

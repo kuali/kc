@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.negotiations.printing.service;
 
-import java.util.Map;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+
+import java.util.Map;
 
 /**
  * This class provides the means for printing reports related to Negotiation.

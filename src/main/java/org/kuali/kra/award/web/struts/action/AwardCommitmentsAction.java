@@ -15,25 +15,20 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
-import org.kuali.kra.award.commitments.AwardCostShare;
-import org.kuali.kra.award.commitments.AwardFandaRate;
-import org.kuali.kra.award.commitments.AwardFandaRateRule;
-import org.kuali.kra.award.commitments.AwardFandaRateSaveEvent;
+import org.kuali.kra.award.commitments.*;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 

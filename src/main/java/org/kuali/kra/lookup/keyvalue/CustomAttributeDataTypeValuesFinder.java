@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import java.util.List;
-
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.List;
 
 public class CustomAttributeDataTypeValuesFinder extends KeyValuesBase {
 

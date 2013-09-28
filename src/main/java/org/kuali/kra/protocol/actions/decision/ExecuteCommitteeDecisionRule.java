@@ -16,7 +16,6 @@
 package org.kuali.kra.protocol.actions.decision;
 
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**

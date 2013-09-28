@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.protocol.actions.undo;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.actions.ProtocolActionBase;
 
 public abstract class UndoLastActionBeanHelperBase implements Serializable {
     

@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraPersistenceStructureService;
@@ -28,6 +24,10 @@ import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BudgetColumnsValuesFinder extends KeyValuesBase {
     private DataDictionaryService dataDictionaryService;

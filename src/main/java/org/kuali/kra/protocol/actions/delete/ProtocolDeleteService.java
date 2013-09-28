@@ -16,7 +16,6 @@
 package org.kuali.kra.protocol.actions.delete;
 
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface ProtocolDeleteService {

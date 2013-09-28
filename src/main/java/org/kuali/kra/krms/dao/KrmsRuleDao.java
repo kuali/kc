@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.krms.dao;
 
+import org.kuali.rice.krms.impl.repository.RuleBo;
+
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.rice.krms.impl.repository.RuleBo;
 
 public interface KrmsRuleDao {
     

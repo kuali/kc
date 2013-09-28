@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import org.kuali.kra.budget.BudgetDecimal;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
-
-import org.kuali.kra.budget.BudgetDecimal;
 
 public class ProposalDevelopmentApproverViewDO implements Serializable  {
     

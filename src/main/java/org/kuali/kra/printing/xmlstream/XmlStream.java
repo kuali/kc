@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.printing.xmlstream;
 
-import java.util.Map;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -25,6 +23,8 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.Map;
 
 /**
  * This class is used for generating XML stream for report generation of any

@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.krms.service.impl;
 
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.kra.krms.FunctionTermResolver;
 import org.kuali.kra.krms.JavaFunctionResolver;
-import org.kuali.kra.krms.service.impl.FunctionTermResolverTypeServiceBase;
 import org.kuali.rice.krms.api.repository.function.FunctionDefinition;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class is used for calling appropriate Java Function Resolver from KRMS Type Service

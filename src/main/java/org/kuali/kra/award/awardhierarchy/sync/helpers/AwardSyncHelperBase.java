@@ -15,30 +15,22 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.helpers;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.award.awardhierarchy.sync.*;
+import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
+import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncUtilityService;
+import org.kuali.kra.award.home.Award;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncException;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
-import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
-import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncUtilityService;
-import org.kuali.kra.award.home.Award;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import java.util.*;
 
 /**
  * Base class for award hierarchy sync data access objects.

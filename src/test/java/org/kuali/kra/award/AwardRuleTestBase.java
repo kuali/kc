@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award;
 
-import java.util.HashMap;
-
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.award.document.AwardDocument;
@@ -30,6 +28,8 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
+
+import java.util.HashMap;
 
 /**
  * Base class for Award business rule tests.

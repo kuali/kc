@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.commitments;
 
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +25,10 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class AwardFandARateAuditRuleTest {
     private AwardFandARateAuditRule rule; 

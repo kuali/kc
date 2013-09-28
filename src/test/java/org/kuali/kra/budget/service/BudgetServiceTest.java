@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.budget.service;
 
-import java.sql.Date;
-import java.util.UUID;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +33,9 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.UUID;
 
 /**
  * Unit tests for the BudgetService interface

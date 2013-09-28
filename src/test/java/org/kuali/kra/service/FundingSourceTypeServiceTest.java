@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -28,6 +25,9 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.service.impl.FundingSourceTypeServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**

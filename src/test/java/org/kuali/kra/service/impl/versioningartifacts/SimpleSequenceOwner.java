@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import java.util.Random;
-
 import org.kuali.kra.SequenceOwner;
+
+import java.util.Random;
 
 /**
  * This test artifact represents a top level sequenceOwnerImpl; i.e. Award

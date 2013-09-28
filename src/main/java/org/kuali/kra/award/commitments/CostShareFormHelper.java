@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.commitments;
 
-import java.io.Serializable;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.costshare.CostShareFunctions;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+
+import java.io.Serializable;
 
 /**
  * This class supports the AwardForm class

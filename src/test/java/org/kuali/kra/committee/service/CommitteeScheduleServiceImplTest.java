@@ -15,20 +15,6 @@
  */
 package org.kuali.kra.committee.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.jmock.Expectations;
@@ -39,16 +25,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.bo.ScheduleStatus;
 import org.kuali.kra.committee.service.impl.CommitteeScheduleServiceImpl;
-import org.kuali.kra.common.committee.web.struts.form.schedule.DailyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.DayOfWeek;
-import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
-import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.common.committee.web.struts.form.schedule.WeeklyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
+import org.kuali.kra.common.committee.bo.ScheduleStatus;
+import org.kuali.kra.common.committee.web.struts.form.schedule.*;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -59,6 +38,11 @@ import org.kuali.kra.scheduling.sequence.WeekScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.text.ParseException;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class CommitteeScheduleServiceImplTest  {
     

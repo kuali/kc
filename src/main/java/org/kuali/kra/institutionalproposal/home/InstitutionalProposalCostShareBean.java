@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import java.io.Serializable;
-
 import org.kuali.kra.costshare.CostShareFunctions;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -24,6 +22,8 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRuleEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRuleImpl;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+
+import java.io.Serializable;
 
 /**
  * This class...

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -27,6 +24,9 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Implements Question specific methods necessary to render the lookup and provides 

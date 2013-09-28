@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class CoiSubmittedDisclosureLookupableHelper extends CoiDisclosureLookupableHelperBase {

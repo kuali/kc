@@ -15,19 +15,21 @@
  */
 package org.kuali.kra.irb.onlinereview.rules;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.DeleteProtocolOnlineReviewEvent;
 import org.kuali.kra.irb.onlinereview.event.DisapproveProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
+import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
+import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
+import org.kuali.kra.protocol.onlinereview.rules.RouteProtocolOnlineReviewRule;
+import org.kuali.kra.protocol.onlinereview.rules.SaveProtocolOnlineReviewRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -36,11 +38,8 @@ import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
-import org.kuali.kra.protocol.onlinereview.rules.SaveProtocolOnlineReviewRule;
-import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
-import org.kuali.kra.protocol.onlinereview.rules.RouteProtocolOnlineReviewRule;
+
+import java.util.List;
 
 public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase implements AddOnlineReviewCommentRule
                                                                                          ,SaveProtocolOnlineReviewRule

@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizer;
@@ -27,6 +22,11 @@ import org.kuali.kra.authorization.TaskAuthorizerGroup;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The Task Authorization Service Implementation.

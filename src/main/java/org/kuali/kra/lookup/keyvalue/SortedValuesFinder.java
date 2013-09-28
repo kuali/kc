@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 /**
  * A {@link KeyValuesFinder KeyValuesFinder} that sort the {@link KeyValue KeyValue} returned from

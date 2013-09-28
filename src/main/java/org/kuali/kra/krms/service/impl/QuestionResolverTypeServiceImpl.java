@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.krms.service.impl;
 
-import java.util.Set;
-
 import org.kuali.kra.krms.QuestionResolver;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
+
+import java.util.Set;
 
 public class QuestionResolverTypeServiceImpl implements TermResolverTypeService {
     

@@ -15,22 +15,16 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.coi.CoiDisclosureUndisclosedEvents;
-import org.kuali.kra.coi.CoiDispositionStatus;
-import org.kuali.kra.coi.DisclosureReporter;
-import org.kuali.kra.coi.DisclosureReporterUnit;
+import org.kuali.kra.coi.*;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.VersionException;
+
+import java.util.List;
+import java.util.Map;
 
 public interface CoiDisclosureService {
 

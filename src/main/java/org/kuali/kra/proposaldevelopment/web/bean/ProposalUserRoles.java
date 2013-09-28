@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.web.bean;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * A ProposalUserRoles corresponds to one user with access to a proposal. That user can have one or more assigned roles. This class

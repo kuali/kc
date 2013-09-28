@@ -15,12 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.mit.coeus.xml.iacuc.*;
+import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -47,19 +43,11 @@ import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
 import org.kuali.kra.service.KcPersonService;
 
-import edu.mit.coeus.xml.iacuc.CorrespondentType;
-import edu.mit.coeus.xml.iacuc.FundingSourceType;
-import edu.mit.coeus.xml.iacuc.InvestigatorType;
-import edu.mit.coeus.xml.iacuc.KeyStudyPersonType;
-import edu.mit.coeus.xml.iacuc.PersonType;
-import edu.mit.coeus.xml.iacuc.ProtocolDocument;
-import edu.mit.coeus.xml.iacuc.ProtocolMasterDataType;
-import edu.mit.coeus.xml.iacuc.ProtocolReviewerType;
-import edu.mit.coeus.xml.iacuc.ProtocolType;
-import edu.mit.coeus.xml.iacuc.ResearchAreaType;
-import edu.mit.coeus.xml.iacuc.SpecialReviewType;
-import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
-import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
     

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.common.committee.service;
 
-import java.util.Collection;
-
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
+
+import java.util.Collection;
 
 public interface CommitteeMembershipServiceBase<CMT extends CommitteeBase<CMT, ?, ?>> {
     /**

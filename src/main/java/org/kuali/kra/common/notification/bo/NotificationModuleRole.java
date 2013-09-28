@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.notification.bo;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 

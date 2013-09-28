@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +22,9 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class PersistableBusinessObjectValuesFinderTestBase extends KcUnitTestBase {
     private Class valuesFinderClass;

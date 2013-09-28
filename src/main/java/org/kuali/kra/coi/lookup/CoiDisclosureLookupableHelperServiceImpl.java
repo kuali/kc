@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -30,6 +25,11 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class CoiDisclosureLookupableHelperServiceImpl extends CoiDisclosureLookupableHelperBase {

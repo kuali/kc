@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
+import org.apache.struts.upload.FormFile;
+
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.apache.struts.upload.FormFile;
 
 public class FormFileMock implements FormFile {
     

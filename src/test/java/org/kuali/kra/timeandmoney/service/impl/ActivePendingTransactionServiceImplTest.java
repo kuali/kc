@@ -16,9 +16,6 @@
 package org.kuali.kra.timeandmoney.service.impl;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,6 +25,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ActivePendingTransactionServiceImplTest {
     

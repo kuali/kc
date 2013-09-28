@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.negotiations.lookup;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.negotiations.bo.Negotiation;
@@ -40,6 +32,8 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+
+import java.util.*;
 
 /**
  * Negotiation Lookup Helper Service

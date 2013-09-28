@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.Collection;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +31,9 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.Collection;
+import java.util.Map;
 
 public class SponsorTemplateTermsExistenceRuleTest extends KcUnitTestBase {
     MaintenanceDocument sponsorTemplateDoc;

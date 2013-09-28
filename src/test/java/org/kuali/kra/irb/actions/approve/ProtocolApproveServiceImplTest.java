@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -42,6 +38,10 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     

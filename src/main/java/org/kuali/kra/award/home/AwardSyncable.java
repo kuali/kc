@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.kra.award.AwardTemplateSyncScope;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import org.kuali.kra.award.AwardTemplateSyncScope;
 
 /**
  * This Annotation represents award syncable property

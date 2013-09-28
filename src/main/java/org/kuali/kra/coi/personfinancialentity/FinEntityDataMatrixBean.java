@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * 

@@ -15,17 +15,9 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import noNamespace.BudgetPeriodData;
-import noNamespace.SalaryType;
 import noNamespace.BudgetSalaryDocument.BudgetSalary;
-
+import noNamespace.SalaryType;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.BudgetCategory;
@@ -36,6 +28,8 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
 import org.kuali.kra.budget.printing.util.SalaryTypeVO;
 import org.kuali.kra.budget.rates.RateClass;
+
+import java.util.*;
 
 /**
  * This class will contain all common methods that can be used across budget

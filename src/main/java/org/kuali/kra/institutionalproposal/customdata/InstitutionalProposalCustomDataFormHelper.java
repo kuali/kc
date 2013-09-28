@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.customdata;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+
+import java.util.List;
+import java.util.Map;
 
 public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperBase<InstitutionalProposalCustomData> {
 

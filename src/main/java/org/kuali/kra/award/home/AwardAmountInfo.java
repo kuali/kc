@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.home;
 
-import java.sql.Date;
-
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.sql.Date;
 
 /**
  * AwardAmountInfo BO

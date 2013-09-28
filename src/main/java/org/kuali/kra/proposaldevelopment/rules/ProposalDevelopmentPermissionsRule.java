@@ -15,21 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.NarrativeRight;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.bo.ProposalRoleState;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
+import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
@@ -37,6 +26,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.SystemAuthorizationService;
+
+import java.util.List;
 
 /**
  * Business Rule to determine the legality of modifying the access

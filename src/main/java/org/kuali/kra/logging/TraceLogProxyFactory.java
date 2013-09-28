@@ -15,17 +15,16 @@
  */
 package org.kuali.kra.logging;
 
-import static org.kuali.kra.logging.BufferedLogger.error;
-import static org.kuali.kra.logging.BufferedLogger.trace;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
-import org.apache.commons.logging.LogFactory;
+import static org.kuali.kra.logging.BufferedLogger.error;
+import static org.kuali.kra.logging.BufferedLogger.trace;
 
 /**
  * Factory for creating a <i>Proxy</i> for trace logging. There is no easy way to log entry and exit of a method. With this Factory, 

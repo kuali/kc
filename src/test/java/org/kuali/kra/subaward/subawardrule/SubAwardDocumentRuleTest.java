@@ -15,21 +15,15 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
-import java.sql.Date;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
-import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
-import org.kuali.kra.subaward.bo.SubAwardCloseout;
-import org.kuali.kra.subaward.bo.SubAwardContact;
-import org.kuali.kra.subaward.bo.SubAwardFundingSource;
-import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
+import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.sql.Date;
 
 
 public class SubAwardDocumentRuleTest extends KcUnitTestBase {

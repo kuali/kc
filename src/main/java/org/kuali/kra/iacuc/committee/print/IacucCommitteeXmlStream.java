@@ -15,37 +15,20 @@
  */
 package org.kuali.kra.iacuc.committee.print;
 
-import java.math.BigInteger;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.mit.coeus.xml.iacuc.*;
+import edu.mit.coeus.xml.iacuc.CommitteeType;
+import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
-import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.bo.*;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 
-import edu.mit.coeus.xml.iacuc.CommitteeDocument;
-import edu.mit.coeus.xml.iacuc.CommitteeMasterDataType;
-import edu.mit.coeus.xml.iacuc.CommitteeMemberRoleType;
-import edu.mit.coeus.xml.iacuc.CommitteeMemberType;
-import edu.mit.coeus.xml.iacuc.CommitteeType;
-import edu.mit.coeus.xml.iacuc.PersonType;
-import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
-import edu.mit.coeus.xml.iacuc.ResearchAreaType;
-import edu.mit.coeus.xml.iacuc.ScheduleSummaryType;
-import edu.mit.coeus.xml.iacuc.ScheduleType;
+import java.math.BigInteger;
+import java.util.*;
 
 /**
  * This class generates XML that confirms with the XSD related to 

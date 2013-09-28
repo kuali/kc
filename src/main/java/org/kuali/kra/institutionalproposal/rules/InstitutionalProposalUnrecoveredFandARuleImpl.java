@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
@@ -29,6 +25,10 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecovered
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class...

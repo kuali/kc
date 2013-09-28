@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This class is really just a "form" for submitting a protocol for review in the Submit for Review Action.

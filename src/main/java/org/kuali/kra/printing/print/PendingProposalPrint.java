@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.printing.print;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.transform.Source;
-
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.printing.util.PrintingUtils;
+
+import javax.xml.transform.Source;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides the implementation for printing Pending proposal Report.

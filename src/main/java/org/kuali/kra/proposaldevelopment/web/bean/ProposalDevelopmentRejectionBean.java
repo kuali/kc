@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.web.bean;
 
-import java.io.Serializable;
-
 import org.apache.struts.upload.FormFile;
+
+import java.io.Serializable;
 
 public class ProposalDevelopmentRejectionBean implements Serializable {
 

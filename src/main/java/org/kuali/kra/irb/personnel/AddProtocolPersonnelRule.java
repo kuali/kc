@@ -17,7 +17,6 @@ package org.kuali.kra.irb.personnel;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelRuleBase;
-import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
