@@ -33,7 +33,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
@@ -47,7 +46,6 @@ import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -216,15 +214,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             return new ActionForward(forward, true);
         }
     }
-    
-    
-    private BudgetSummaryService getBudgetSummaryService() {
-        return KraServiceLocator.getService(BudgetSummaryService.class);
-    }
-
-    private BudgetRatesService<Award> getBudgetRateService() {
-        return KraServiceLocator.getService(BudgetRatesService.class);
-    }
 
     public ActionForward confirmSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return synchBudgetRate(mapping, form, request, response, true);
@@ -359,12 +348,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         
         return -1;
     }
-    
-    protected void updateAwardDocument(AwardForm awardForm) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        AwardDocument awardDocument = awardForm.getAwardDocument();
-        boService.save(awardDocument.getBudgetDocumentVersions());
-    }    
 
     /**
      * {@inheritDoc}

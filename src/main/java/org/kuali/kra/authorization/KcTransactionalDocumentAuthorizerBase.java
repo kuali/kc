@@ -57,7 +57,6 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     }
     
     public static final String PRE_ROUTING_ROUTE_NAME = "PreRoute";
-    public static final String EDIT_MODE_DEFAULT_TRUE_VALUE = "TRUE";
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActions(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
@@ -199,15 +198,6 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      */
     protected final boolean canClose(Document document) {
         return true;
-    }
-    
-    /**
-     * Can the document be saved to the database?
-     * @param document the document
-     * @return true if saveable; otherwise false
-     */
-    protected final boolean canSave(Document document) {
-        return canEdit(document);
     }
     
     /**
@@ -459,16 +449,6 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      */
     public boolean canFyi(Document document, Person user) {
         return canTakeRequestedAction(document, KewApiConstants.ACTION_REQUEST_FYI_REQ, user);
-    }
-    
-    /**
-     * Can the user approve and disapprove the given document?
-     * @param document the document
-     * @param user the user
-     * @return true if the user can approve and disapprove the document; otherwise false
-     */
-    protected boolean canApproveAndDisapprove(Document document, Person user) {
-         return canTakeRequestedAction(document, KewApiConstants.ACTION_REQUEST_APPROVE_REQ, user);
     }
     
     /**

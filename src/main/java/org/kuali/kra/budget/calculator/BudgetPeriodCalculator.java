@@ -18,9 +18,9 @@ package org.kuali.kra.budget.calculator;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.*;
-import org.kuali.kra.budget.core.*;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
@@ -77,10 +77,6 @@ public class BudgetPeriodCalculator {
         if(budget.getOhRateClassCode()!=null && budgetCalculationService.getBudgetFormFromGlobalVariables()!=null){
             budgetCalculationService.getBudgetFormFromGlobalVariables().setOhRateClassCodePrevValue(budget.getOhRateClassCode());
         }        
-    }
-
-    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
-        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
     }
 
     public void applyToLaterPeriods(Budget budget, BudgetPeriod currentBudgetPeriod, BudgetLineItem currentBudgetLineItem) {

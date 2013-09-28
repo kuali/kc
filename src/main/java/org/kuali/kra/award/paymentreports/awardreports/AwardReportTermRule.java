@@ -21,8 +21,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
  * This interface defines the rule processing method
  */
 public interface AwardReportTermRule extends BusinessRule {
-    public static final String PAYMENT_SCHEDULE_ITEMS_LIST_ERROR_KEY = "paymentScheduleItems";
-    
+
     /**
      * This method is used to validate AwardPaymentSchedule items in an Award
      * @param awardApprovedEquipmentRuleEvent

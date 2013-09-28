@@ -43,7 +43,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
@@ -166,20 +165,6 @@ public class CoiNotesAndAttachmentsHelper {
             CoiDisclosureTask task = new CoiDisclosureDeleteUpdateAttachmentTask(TaskName.DELETE_UPDATE_ATTACHMENT, getCoiDisclosure(), attachments.get(i));
             canDeleteUpdateAttachment.put(i, getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
         }
-    }
-
-    protected boolean canDeleteAttachmentById(String id) {
-        
-        getCoiDisclosure().refreshReferenceObject("coiDisclosureAttachments");
-        List<CoiDisclosureAttachment> attachments = getCoiDisclosure().getCoiDisclosureAttachments();
-        for (CoiDisclosureAttachment attachment : attachments) {
-            if (StringUtils.equalsIgnoreCase(attachment.getAttachmentIdForPermission().toString(), id)) {
-                CoiDisclosureTask task = new CoiDisclosureDeleteUpdateAttachmentTask(TaskName.DELETE_UPDATE_ATTACHMENT, getCoiDisclosure(), attachment);
-                return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-
-            }
-        }
-        return false;
     }
     
     public Map<Integer, Boolean> getCanDeleteUpdateNote() {
@@ -624,10 +609,6 @@ public class CoiNotesAndAttachmentsHelper {
         getBusinessObjectService().save(notepad);
         getCoiDisclosure().getCoiDisclosureNotepads().add(notepad);   
 
-    }
-
-    protected DocumentService getDocumentService() {
-        return KraServiceLocator.getService(DocumentService.class);    
     }
 
     protected void setUpdateFields(KraPersistableBusinessObjectBase bo) {

@@ -21,7 +21,6 @@ import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -36,14 +35,9 @@ public abstract class CommitteeScheduleAttendanceServiceImplBase<CSRV extends Co
                                                              implements CommitteeScheduleAttendanceServiceBase {
     
     private CSRV committeeService;
-    private ParameterService parameterService;
     
     public void setCommitteeService(CSRV committeeService) {
         this.committeeService = committeeService;
-    }
-    
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
   
     protected abstract Class<CD> getCommitteeDocumentClassBOHook();

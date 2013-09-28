@@ -187,14 +187,6 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         return qlfilteredList.isEmpty()?new InstituteRate():qlfilteredList.get(0);
     }
 
-    /**
-     * This method...
-     * @return
-     */
-    private String getDefaultFnARateClassCode() {
-        return getParameterService().getParameterValueAsString(BudgetDocument.class,DEFAULT_FNA_RATE_CLASS_CODE);
-    }
-
 
     private RateType createRateType(String rateClassCode, String awardFnArateTypeCode,String rateTypeDesc) {
         RateType rateType = new RateType();

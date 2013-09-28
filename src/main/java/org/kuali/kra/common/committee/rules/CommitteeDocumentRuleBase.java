@@ -76,12 +76,7 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
     private static final String REVIEW_TYPE_ERROR_PROPERTY_NAME = "document.committeeList[0].reviewTypeCode";
     
     private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.committeeList[0].committeeResearchAreas.inactive";
-    
-    private static final boolean VALIDATION_REQUIRED = true;
-    
-    // KRACOEUS-641: Changed CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME to false to prevent duplicate error messages
-    private static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
-    
+
     /**
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */

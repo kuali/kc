@@ -18,10 +18,8 @@ package org.kuali.kra.award.home.fundingproposal;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.List;
 
@@ -30,8 +28,6 @@ import java.util.List;
  */
 class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
     private static final String COST_SHARE_COMMENT_PATTERN = "Added Cost Shares from Proposal Number %s";
-    
-    private BusinessObjectService businessObjectService;
     
     public CostSharingDataFeedCommand(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
         super(award, proposal, mergeType);
@@ -77,16 +73,4 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
         
         return awardCostShare;
     }
-    
-    /**
-     * Looks up and returns the BusinessObjectService.
-     * @return the business object service. 
-     */
-    protected BusinessObjectService getBusinessObjectService() {
-        if (this.businessObjectService == null) {
-            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
-        }
-        return this.businessObjectService;
-    }
-    
 }

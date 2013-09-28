@@ -30,14 +30,12 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
-import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -546,17 +544,6 @@ public class AwardHomeAction extends AwardAction {
     
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
-    }
-
-    /**
-     * @return
-     */
-    protected VersioningService getVersioningService() {
-        return KraServiceLocator.getService(VersioningService.class);
-    }
-    
-    protected BudgetSummaryService getBudgetSummaryService() {
-        return KraServiceLocator.getService(BudgetSummaryService.class);
     }
     
     /**

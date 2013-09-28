@@ -84,8 +84,7 @@ public class CurrentReportBean extends ReportBean {
     private KualiDecimal totalIndirectCostTotal;
     private List<AwardCustomData> awardCustomDataList;
     private ParameterService parameterService;
-    protected static final String ROOT_AWARD_NUMBER_PARAMETER = "rootAwardNumber";
-    
+
     public CurrentReportBean(AwardPerson awardPerson) {
         this.roleCode = awardPerson.getRoleCode();
         this.academicYearEffort = awardPerson.getAcademicYearEffort();

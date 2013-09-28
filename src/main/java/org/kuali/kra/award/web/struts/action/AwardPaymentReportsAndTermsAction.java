@@ -532,23 +532,6 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
     /**
      * 
-     * This method reads the recipient size from the request.
-     * @param request
-     * @return
-     */    
-    protected int getRecipientSize(HttpServletRequest request) {
-        int recipientSize = -1;
-        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            String recipientSizeString = StringUtils.substringBetween(parameterName, 
-                                                                        ".recipientSize", PERIOD);
-            recipientSize = Integer.parseInt(recipientSizeString);
-        }        
-        return recipientSize;
-    }
-    
-    /**
-     * 
      * This method adds a new AwardSponsorTerm object to the list of AwardSponosorTerm objects
      * inside Award.
      * For every added AwardReportTerm object; we are adding an empty AwardReportTerm object to

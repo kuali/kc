@@ -28,8 +28,7 @@ public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
     private String taskName;
     private UnitAuthorizationService unitAuthorizationService;
     protected KraWorkflowService kraWorkflowService;
-    protected KcPersonService kcPersonService;
-    
+
     /**
      * Set the name of the task.  Injected by the Spring Framework.
      * @param taskName the task's name
@@ -52,14 +51,6 @@ public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
      */
     public final void setKraWorkflowService(KraWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
-    }
-    
-    /**
-     * Sets the KC Person Service.
-     * @param kcPersonService the kc person service
-     */
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
     }
     
     /**

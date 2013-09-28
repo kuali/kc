@@ -25,7 +25,10 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -68,33 +71,6 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
         criteria.put("rateClassType", F_AND_A_RATE_CLASS_TYPE_CODE);
         List<ValidRates> rates = new ArrayList<ValidRates>(businessObjectService.findMatching(ValidRates.class, criteria));
         return rates;
-    }
-    
-    /**
-     * 
-     * This method retrieves the fiscal year start date using the fiscal year and 
-     * default fiscal year start date
-     * 
-     * @param fiscalYear
-     * @param dateParts
-     * @return
-     */
-    protected List<Date> getFiscalYearStartAndDates(int fiscalYear, String[] dateParts){
-        Calendar calendar = GregorianCalendar.getInstance();
-        List<Date> dates = new ArrayList<Date>();
-        
-        try{
-            calendar.set(fiscalYear-1, Integer.valueOf(dateParts[0]) - 1
-                    , Integer.valueOf(dateParts[1]));            
-        }catch(NumberFormatException e){
-            throw e;
-        }
-        
-        dates.add(new Date(calendar.getTimeInMillis()));        
-        calendar.add(Calendar.YEAR, 1);
-        calendar.add(Calendar.DAY_OF_YEAR, -1);
-        dates.add(new Date(calendar.getTimeInMillis()));
-        return dates; 
     }
    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

@@ -18,7 +18,6 @@ package org.kuali.kra.budget.calculator;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
-import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -52,14 +51,6 @@ import java.util.*;
  */
 public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     
-    private static final String EQUIPMENT = "E";
-    private static final String TRAVEL = "T";
-    private static final String PARTICIPANT_SUPPORT = "S";
-    private static final String OTHER_DIRECT = "O";
-    private static final String CALCULATED_COST = "CalculatedCost";
-    private static final String INDIRECT_COST = "IndirectCost";
-    private static final String SALARY = "Salary";
-    private static final String FRINGE = "Fringe";
     private BusinessObjectService businessObjectService;
     private BudgetDistributionAndIncomeService budgetDistributionAndIncomeService;
 
@@ -928,39 +919,5 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             budgetLimits.set(0, budgetLimits.get(0).add(awardCalcAmt.getCalculatedCost()));
         }
         budgetLimits.set(2, budgetLimits.get(2).add(awardCalcAmt.getCalculatedCost()));
-    }
-
-    
-    protected void getFringeAndCalculatedCost(Map<String, List<BudgetDecimal>> personnelBudgetLimits,
-            AwardBudgetLineItemExt awardBudgetLineItem, boolean isPrevBudget) {
-        for (BudgetLineItemCalculatedAmount calcExpenseAmount : awardBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
-                calcExpenseAmount.refreshReferenceObject("rateClass");
-                AwardBudgetLineItemCalculatedAmountExt awardCalcAmt = (AwardBudgetLineItemCalculatedAmountExt) calcExpenseAmount;
-                // Check for Employee Benefits RateClassType
-                if (calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
-                    addBudgetLimits(personnelBudgetLimits.get(FRINGE), awardCalcAmt, isPrevBudget);
-                }
-                else if (!calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("O")){
-                    addBudgetLimits(personnelBudgetLimits.get(CALCULATED_COST), awardCalcAmt, isPrevBudget);
-
-                } else {
-                    addBudgetLimits(personnelBudgetLimits.get(INDIRECT_COST), awardCalcAmt, isPrevBudget);
-                }
-        }
-    }
-
-    protected void getNonPersonnelCalAmt(Map<String, List<BudgetDecimal>> personnelBudgetLimits,
-            AwardBudgetLineItemExt awardBudgetLineItem, boolean isPrevBudget) {
-        for (BudgetLineItemCalculatedAmount calcExpenseAmount : awardBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
-                calcExpenseAmount.refreshReferenceObject("rateClass");
-                AwardBudgetLineItemCalculatedAmountExt awardCalcAmt = (AwardBudgetLineItemCalculatedAmountExt) calcExpenseAmount;
-                // Check for Employee Benefits RateClassType
-                if (!calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("O")){
-                    addBudgetLimits(personnelBudgetLimits.get(CALCULATED_COST), awardCalcAmt, isPrevBudget);
-
-                } else {
-                    addBudgetLimits(personnelBudgetLimits.get(INDIRECT_COST), awardCalcAmt, isPrevBudget);
-                }
-        }
     }
 }

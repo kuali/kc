@@ -84,7 +84,6 @@
 	
 	<bean id="iacucCommitteeScheduleAttendanceService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeScheduleAttendanceServiceImpl">
         <property name="committeeService" ref="iacucCommitteeService" />
-    	<property name="parameterService" ref="parameterService" />
     </bean>
     
     <bean id="iacucCommitteeMembershipService"

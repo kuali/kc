@@ -23,12 +23,6 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 @SuppressWarnings("serial")
 public class CoiReviewType extends KraPersistableBusinessObjectBase {
-    
-    public static final String FULL_REVIEW_TYPE_CODE = "1";
-    public static final String EXPEDITED_REVIEW_TYPE_CODE = "2";
-    public static final String COI_REVIEW_NOT_REQUIRED_REVIEW_TYPE_CODE = "3";
-    public static final String RESPONSE_REVIEW_TYPE_CODE = "4";
-    public static final String FYI_TYPE_CODE = "5";
 
     private String reviewTypeCode;
     private String description;
