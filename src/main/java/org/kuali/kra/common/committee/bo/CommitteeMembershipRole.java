@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.common.committee.bo;
 
-import java.sql.Date;
-
 import org.apache.commons.lang.ObjectUtils;
+
+import java.sql.Date;
 
 /**
  * 

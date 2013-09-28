@@ -15,17 +15,16 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.disclosure.AddDisclosureReporterUnitEvent;
 import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
 import org.kuali.kra.infrastructure.Constants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 /**
  * 

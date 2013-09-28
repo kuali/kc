@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.sql.Date;
+import java.util.List;
 
 public class CommitteeScheduleDeadlineDateRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeScheduleDeadlineEvent>{
     

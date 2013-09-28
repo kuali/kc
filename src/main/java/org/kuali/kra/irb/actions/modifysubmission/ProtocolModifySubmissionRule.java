@@ -15,25 +15,19 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
-import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.actions.submit.ValidProtoSubRevType;
-import org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual;
+import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**

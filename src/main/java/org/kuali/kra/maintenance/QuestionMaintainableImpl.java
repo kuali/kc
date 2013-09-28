@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.maintenance;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -33,6 +30,9 @@ import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class customizes the maintainable class for the question maintenance document.

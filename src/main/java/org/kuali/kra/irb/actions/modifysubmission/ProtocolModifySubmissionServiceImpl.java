@@ -15,20 +15,15 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.proccessbillable.ProtocolProccessBillableService;
-import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
-import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 

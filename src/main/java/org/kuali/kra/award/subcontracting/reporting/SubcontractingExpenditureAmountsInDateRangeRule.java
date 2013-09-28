@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.subcontracting.reporting;
 
-import java.sql.Date;
-
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
 
 @SuppressWarnings("deprecation")
 public class SubcontractingExpenditureAmountsInDateRangeRule {

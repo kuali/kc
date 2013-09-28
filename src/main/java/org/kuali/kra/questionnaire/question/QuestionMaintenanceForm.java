@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class QuestionMaintenanceForm extends KualiMaintenanceForm {
 

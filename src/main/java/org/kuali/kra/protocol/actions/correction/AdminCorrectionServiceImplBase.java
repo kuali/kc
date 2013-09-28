@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.correction;
 
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.List;
-
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.core.api.util.xml.XmlJotter;
@@ -28,6 +24,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
+
+import java.io.InputStream;
+import java.util.Calendar;
+import java.util.List;
 
 public abstract class AdminCorrectionServiceImplBase implements AdminCorrectionService {
     private SendNotificationService sendNotificationService;

@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -40,6 +32,14 @@ import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 
 public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
     

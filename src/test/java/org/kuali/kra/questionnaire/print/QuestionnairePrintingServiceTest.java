@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.questionnaire.print;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -27,18 +22,23 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingServiceTestBase;
 import org.kuali.kra.printing.util.PrintingTestUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
     private QuestionnairePrintingService questionnairePrintingService;

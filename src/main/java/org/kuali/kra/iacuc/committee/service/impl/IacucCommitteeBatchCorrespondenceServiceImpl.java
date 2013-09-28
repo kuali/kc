@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.iacuc.committee.service.impl;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
@@ -43,6 +40,9 @@ import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
+
+import java.sql.Date;
+import java.util.List;
 
 
 public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorrespondenceServiceImplBase implements IacucCommitteeBatchCorrespondenceService {

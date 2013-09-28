@@ -15,17 +15,7 @@
  */
 package org.kuali.kra.reporting;
 
-import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
-import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
-import org.eclipse.birt.report.engine.api.IParameterDefnBase;
-import org.eclipse.birt.report.engine.api.IReportEngine;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
+import org.eclipse.birt.report.engine.api.*;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -34,6 +24,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.reporting.bo.BirtParameterBean;
 import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
+
+import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 
 public class BirtHelper {

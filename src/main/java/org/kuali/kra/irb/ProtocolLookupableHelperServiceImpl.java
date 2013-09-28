@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.TaskName;
@@ -30,6 +26,10 @@ import org.kuali.kra.protocol.ProtocolLookupableHelperServiceImplBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class handles searching for protocols.

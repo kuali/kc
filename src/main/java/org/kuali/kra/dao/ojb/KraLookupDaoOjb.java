@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.dao.ojb;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kra.dao.KraLookupDao;
@@ -26,6 +22,10 @@ import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springmodules.orm.ojb.OjbOperationException;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * This class is the custom service class for kc Lookup Dao Ojb.

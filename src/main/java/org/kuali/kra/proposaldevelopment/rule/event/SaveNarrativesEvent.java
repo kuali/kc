@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
+
+import java.util.List;
 
 /**
  * Event triggered when a Key Person is added to a

@@ -15,20 +15,6 @@
  */
 package org.kuali.kra.common.committee.service.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -38,11 +24,7 @@ import org.kuali.kra.common.committee.bo.ScheduleStatus;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachmentsBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.kra.common.committee.web.struts.form.schedule.DailyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
-import org.kuali.kra.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
+import org.kuali.kra.common.committee.web.struts.form.schedule.*;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
@@ -55,6 +37,13 @@ import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.util.*;
 
 
 /**

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.noreview;
 
-import java.sql.Date;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -26,6 +24,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
 
 public class ProtocolReviewNotRequiredRuleTest extends KcUnitTestBase {
     

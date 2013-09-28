@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -27,6 +23,10 @@ import org.kuali.kra.protocol.ProtocolSubmissionLookupableHelperServiceImplBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 

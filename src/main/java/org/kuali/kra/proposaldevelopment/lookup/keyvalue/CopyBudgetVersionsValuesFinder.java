@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -26,6 +23,9 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * See the method <code>getKeyValues()</code> for a full description.

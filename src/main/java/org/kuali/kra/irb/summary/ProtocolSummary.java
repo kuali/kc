@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.summary;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 
 public class ProtocolSummary extends org.kuali.kra.protocol.summary.ProtocolSummary {
     

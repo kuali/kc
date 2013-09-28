@@ -16,11 +16,6 @@
 package org.kuali.kra.negotiations.auth;
 
 
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,11 +29,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationAgreementType;
-import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.bo.NegotiationStatus;
-import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -53,6 +44,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TestNegotiationAuthorizersTest extends KcUnitTestBase {
     

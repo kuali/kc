@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import java.util.Map;
-
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
+
+import java.util.Map;
 
 /**
  * Renders additional fields for the Reject Review notification.

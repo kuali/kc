@@ -1,20 +1,9 @@
 package org.kuali.kra.award.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import noNamespace.AmountInfoType;
-import noNamespace.AwardHeaderType;
-import noNamespace.AwardNoticeDocument;
-import noNamespace.AwardTransactionType;
-import noNamespace.MoneyHistoryReportType;
+import noNamespace.*;
 import noNamespace.AwardNoticeDocument.AwardNotice;
 import noNamespace.AwardNoticeDocument.AwardNotice.PrintRequirement;
 import noNamespace.AwardType.AwardDetails;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -22,6 +11,8 @@ import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
+
+import java.util.*;
 
 public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 

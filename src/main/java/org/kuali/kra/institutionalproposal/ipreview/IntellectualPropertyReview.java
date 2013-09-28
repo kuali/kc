@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -35,6 +29,12 @@ import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents an Intellectual Property Review.

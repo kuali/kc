@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiReviewer;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class CoiDisclosureReviewsLookupableHelper extends CoiDisclosureLookupableHelperBase {

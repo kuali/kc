@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.printing.service;
 
-import java.util.Map;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+
+import java.util.Map;
 
 /**
  * This class provides the means for printing reports related to

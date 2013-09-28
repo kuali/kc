@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
-import org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermServiceBase;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermServiceBase;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class IrbJavaFunctionKrmsTermServiceImpl extends ProtocolJavaFunctionKrmsTermServiceBase implements IrbJavaFunctionKrmsTermService {
     @Override

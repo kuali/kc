@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -25,6 +22,9 @@ import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * The NewNarrativeUserRightsEvent is generated when the User Rights for

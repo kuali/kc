@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.protocol.actions.approve;
 
-import java.sql.Timestamp;
-
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.sql.Timestamp;
 
 /**
  * Approves a protocol, either for a full, expedited, or response protocol submission.

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.common.permissions.rule.event;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
+
+import java.util.List;
 
 /**
  * The DeletePermissionsUserEvent is generated when a user is to be deleted from

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
-import java.util.List;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 /**
  * Represents the event for saving a ProtocolBase Funding Source.

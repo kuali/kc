@@ -18,7 +18,6 @@ package org.kuali.kra.award.commitments;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.costshare.CostShareService;

@@ -1,9 +1,5 @@
 package org.kuali.kra.common.printing;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
@@ -13,6 +9,10 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Column;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is a DTO bean for storing data for the Pending Report

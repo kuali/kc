@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.permission;
 
-import java.util.HashMap;
-import java.util.HashSet;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -25,6 +22,9 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.protocol.permission.PermissionsHelperBase;
+
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * The PermissionsHelper is used to manage the Permissions tab web page.

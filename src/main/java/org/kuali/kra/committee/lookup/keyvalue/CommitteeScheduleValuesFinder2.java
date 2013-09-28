@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
-import java.util.List;
-
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolForm;
@@ -24,6 +22,8 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.List;
 
 /**
  * Finds the available set of dates where a protocol can be scheduled

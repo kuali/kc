@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -33,6 +28,11 @@ import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachme
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FinancialEntityServiceTest {
     private static final String  PERSON_ID = "10000000001";

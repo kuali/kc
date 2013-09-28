@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.iacuc.species;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
@@ -25,6 +22,9 @@ import org.kuali.kra.iacuc.IacucSpeciesCountType;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IacucProtocolSpecies extends ProtocolAssociateBase { 
     

@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.committee.bo;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.junit.Test;
+import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
+
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang.time.DateUtils;
-import org.junit.Test;
-import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 
 /**
  * This class is Template implementation of BoAttributeTestBase<T> class, to test CommitteeSchedule BO for toStringMapper.

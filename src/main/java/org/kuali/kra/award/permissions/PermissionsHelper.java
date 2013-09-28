@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.permissions;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
@@ -31,6 +27,10 @@ import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KraAuthorizationService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The PermissionsHelper is used to manage the Permissions tab web page.

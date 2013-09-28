@@ -15,28 +15,19 @@
  */
 package org.kuali.kra.printing.service.impl;
 
-import java.awt.Color;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
+import com.lowagie.text.*;
+import com.lowagie.text.Image;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.util.watermark.WatermarkBean;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfGState;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfStamper;
-import com.lowagie.text.pdf.PdfWriter;
+import java.awt.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * 

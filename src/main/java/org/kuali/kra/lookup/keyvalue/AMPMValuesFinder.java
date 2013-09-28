@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AMPMValuesFinder extends KeyValuesBase {
     

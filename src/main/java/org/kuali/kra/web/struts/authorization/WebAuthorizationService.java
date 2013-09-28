@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.web.struts.authorization;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.struts.action.ActionForm;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * The Web Authorization Service is used by the Struts Actions to determine if a

@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class KcPersonServiceImplTest extends KcUnitTestBase {
     

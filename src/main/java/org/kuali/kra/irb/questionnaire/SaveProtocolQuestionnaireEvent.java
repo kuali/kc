@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.questionnaire;
 
-import java.util.List;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 
 public class SaveProtocolQuestionnaireEvent extends KraDocumentEventBaseExtension {

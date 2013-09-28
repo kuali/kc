@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.helpers;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncException;
@@ -29,6 +25,10 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Award Hierarchy Sync Helper for Report Recipient.

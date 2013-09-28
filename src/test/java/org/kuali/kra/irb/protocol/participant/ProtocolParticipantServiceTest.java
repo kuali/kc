@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * 

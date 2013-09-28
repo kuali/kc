@@ -15,27 +15,13 @@
  */
 package org.kuali.kra.common.committee.web.struts.action;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDateConflictEvent;
-import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDayEvent;
-import org.kuali.kra.common.committee.rule.event.CommitteeScheduleFilterEvent;
-import org.kuali.kra.common.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
-import org.kuali.kra.common.committee.rule.event.CommitteeScheduleTimeEvent;
-import org.kuali.kra.common.committee.rule.event.CommitteeScheduleWeekDayEvent;
-import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEventBase;
+import org.kuali.kra.common.committee.rule.event.*;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.common.committee.rules.CommitteeScheduleDataDictionaryValidationRule;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
@@ -46,6 +32,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 public abstract class CommitteeScheduleActionBase extends CommitteeActionBase {
     

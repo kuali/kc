@@ -15,16 +15,15 @@
  */
 package org.kuali.kra.committee.print;
 
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
-
 import edu.mit.irb.irbnamespace.PersonDocument.Person;
 import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions;
 import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 
 /**
  * This class has different helper methods to populate data for Person XML data.

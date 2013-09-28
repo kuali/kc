@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions.reviewcomments;
 
-import java.util.List;
-
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.protocol.actions.reviewcomments.ProtocolManageReviewAttachmentEventBase;
+
+import java.util.List;
 
 public class IacucProtocolManageReviewAttachmentEvent extends ProtocolManageReviewAttachmentEventBase<IacucProtocolReviewAttachment> {
 

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
-import java.util.List;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 /**
  * Validates the rules for a Protocol Risk Level add action.

@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,6 +24,8 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.*;
 
 /**
  * This class provides error reporting capabilities.

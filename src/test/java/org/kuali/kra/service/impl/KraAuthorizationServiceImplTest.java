@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.KcPerson;
@@ -33,6 +30,9 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.List;
 
 /**
  * Test the Kra Authorization Service Impl.  Mocks are used

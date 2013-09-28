@@ -1,8 +1,5 @@
 package org.kuali.kra.printing.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.dao.CurrentReportDao;
@@ -16,6 +13,9 @@ import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  *

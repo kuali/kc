@@ -15,13 +15,8 @@
  */
 package org.kuali.kra.award.detailsdates;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardTransferringSponsor;
 import org.kuali.kra.award.home.CFDA;
@@ -34,6 +29,10 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Default implementation of AwardDetailsAndDatesRule

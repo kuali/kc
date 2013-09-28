@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.ojb.broker.core.proxy.ProxyHelper;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 
 public class ObjectCopyUtils {
     

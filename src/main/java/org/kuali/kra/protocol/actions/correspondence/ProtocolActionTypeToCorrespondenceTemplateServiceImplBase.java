@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.protocol.actions.correspondence;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 import org.kuali.kra.protocol.correspondence.ValidProtoActionCoresp;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class ProtocolActionTypeToCorrespondenceTemplateServiceImplBase implements ProtocolActionTypeToCorrespondenceTemplateService {
     

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.correspondence;
 
-import java.sql.Timestamp;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
+
+import java.sql.Timestamp;
 
 /**
  * 

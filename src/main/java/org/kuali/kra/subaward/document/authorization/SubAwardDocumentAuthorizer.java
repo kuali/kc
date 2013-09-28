@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kra.subaward.document.authorization;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
@@ -24,6 +22,9 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.HashSet;
+import java.util.Set;
 /**
  * This class is using as SubAwardDocumentAuthorizer...
  */

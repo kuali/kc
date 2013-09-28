@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,6 +54,10 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Award Hierarchy Sync Service Implementation.

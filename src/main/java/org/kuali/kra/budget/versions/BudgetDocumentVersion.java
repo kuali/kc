@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.budget.versions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -25,6 +22,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BudgetDocumentVersion extends KraPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion> {
 

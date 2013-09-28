@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
@@ -26,6 +24,8 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 import org.kuali.kra.service.KraAuthorizationService;
+
+import java.util.List;
 
 /**
  * Base class for Narrative Authorizers.

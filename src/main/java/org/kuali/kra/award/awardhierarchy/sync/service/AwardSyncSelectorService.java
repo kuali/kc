@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import java.util.List;
-
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.home.Award;
+
+import java.util.List;
 
 public interface AwardSyncSelectorService {
 

@@ -16,11 +16,6 @@
 package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.Invocation;
@@ -38,6 +33,11 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @SuppressWarnings("deprecation")

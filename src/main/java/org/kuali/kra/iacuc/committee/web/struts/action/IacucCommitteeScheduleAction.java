@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.action;
 
-import java.util.List;
-
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -30,6 +28,8 @@ import org.kuali.kra.iacuc.committee.rule.event.IacucDeleteCommitteeScheduleEven
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 public class IacucCommitteeScheduleAction extends CommitteeScheduleActionBase {
 

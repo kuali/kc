@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.protocol.reference;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
 
 /**
  * This class is implementation of <code>AddProtocolReferenceRule</code> interface. Impl makes sure necessary rules are satisfied 

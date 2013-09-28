@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import java.sql.Timestamp;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+
+import java.sql.Timestamp;
 
 /**
  * 

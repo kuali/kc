@@ -15,16 +15,7 @@
  */
 package org.kuali.kra.irb;
 
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsNot.not;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.SeparateAssociate;
 import org.kuali.kra.bo.AttachmentFile;
@@ -43,6 +34,14 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNot.not;
 
 /**
  * Integration test for protocol versioning.  Does not test attachment versioning.

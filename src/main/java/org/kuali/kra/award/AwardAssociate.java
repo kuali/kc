@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.io.Serializable;
 
 /**
  * This class handles the legacy sequenceNumber/awardNumber data from Coeus

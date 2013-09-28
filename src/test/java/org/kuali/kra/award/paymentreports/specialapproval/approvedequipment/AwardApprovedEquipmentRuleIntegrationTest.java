@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,6 +26,11 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class tests AwardApprovedEquipmentRuleImpl behavior

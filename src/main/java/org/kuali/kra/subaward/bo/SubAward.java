@@ -15,20 +15,9 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardType;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
@@ -44,6 +33,12 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.AutoPopulatingList;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 

@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
+import org.kuali.kra.protocol.ProtocolBase;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * This is the base class for all ProtocolBase Attachments.

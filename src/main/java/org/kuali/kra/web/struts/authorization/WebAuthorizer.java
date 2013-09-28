@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.web.struts.authorization;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.springframework.beans.factory.InitializingBean;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * A Web Authorizer maps to a Struts Action class where one or more its methods

@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class is the Values Finder for Notice of Opportunity.

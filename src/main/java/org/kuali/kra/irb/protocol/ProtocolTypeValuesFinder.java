@@ -16,15 +16,9 @@
  */
 package org.kuali.kra.irb.protocol;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -32,6 +26,11 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public class ProtocolTypeValuesFinder extends KeyValuesBase {
     /**

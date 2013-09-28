@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
-import java.sql.Timestamp;
-
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+
+import java.sql.Timestamp;
 
 /**
  * This class represents the ProtocolBase Attachment Personnel.

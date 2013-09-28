@@ -15,16 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.document;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -37,7 +31,6 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
-import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -46,6 +39,10 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

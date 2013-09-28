@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.List;
-
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.List;
 
 /**
  * Used to describe a <code>{@link BusinessObject}</code> with credit that can be split. Usually,

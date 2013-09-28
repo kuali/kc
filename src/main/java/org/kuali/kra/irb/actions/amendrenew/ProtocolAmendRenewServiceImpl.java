@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -30,6 +27,9 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewServiceImplBa
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Protocol Amendment/Renewal Service Implementation.

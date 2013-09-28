@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -25,6 +22,9 @@ import org.kuali.kra.service.AwardPaymentAndInvoicesService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

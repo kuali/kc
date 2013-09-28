@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.actions.undo;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -39,26 +35,22 @@ import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
-// import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+// import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 
 /**
  * Test the ProtocolWithdrawService implementation.

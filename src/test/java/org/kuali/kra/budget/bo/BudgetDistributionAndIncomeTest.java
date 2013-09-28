@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.budget.bo;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -26,6 +22,10 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public abstract class BudgetDistributionAndIncomeTest {
     protected static final BudgetDecimal FY_2007_Q3_AMT = new BudgetDecimal(100.0);

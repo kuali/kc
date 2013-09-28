@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**

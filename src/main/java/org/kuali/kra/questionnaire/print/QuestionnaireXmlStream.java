@@ -15,26 +15,8 @@
  */
 package org.kuali.kra.questionnaire.print;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import noNamespace.AnswerHeaderType;
-import noNamespace.AnswerInfoType;
-import noNamespace.ModuleInfoType;
-import noNamespace.ModuleUsageType;
-import noNamespace.Person;
-import noNamespace.ProposalInfoType;
-import noNamespace.ProtocolInfoType;
-import noNamespace.QuestionInfoType;
-import noNamespace.QuestionnaireDocument;
-import noNamespace.QuestionsType;
-import noNamespace.UserOptions;
-import noNamespace.UserOptionsInfoType;
+import noNamespace.*;
 import noNamespace.QuestionnaireDocument.Questionnaire;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,6 +53,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
+
+import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget total

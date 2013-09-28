@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ValidPersonSignatureMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
     private static final String PERSON_SIGNATURE_FILE_INVALID_ERROR_KEY = "error.invalid.personSignature.invalid.fileName";

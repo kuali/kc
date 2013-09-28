@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.notification;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 
 public class AwardReportTrackingNotificationRenderer extends AwardNotificationRenderer {
 

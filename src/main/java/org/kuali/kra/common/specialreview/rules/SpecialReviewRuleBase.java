@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.common.specialreview.rules;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
@@ -42,6 +35,9 @@ import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.CollectionUtils;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * This class validates all rules associated with SpecialReview.

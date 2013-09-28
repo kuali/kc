@@ -15,33 +15,13 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import noNamespace.AwardHierarchyType;
-import noNamespace.AwardNoticeDocument;
-import noNamespace.AwardType;
-import noNamespace.ChildAwardType;
-import noNamespace.OtherGroupDetailsType;
-import noNamespace.OtherGroupType;
-import noNamespace.SpecialReviewType;
+import noNamespace.*;
 import noNamespace.AwardNoticeDocument.AwardNotice.PrintRequirement;
-import noNamespace.AwardType.AwardBudgetDetails;
-import noNamespace.AwardType.AwardFundingSummary;
-import noNamespace.AwardType.AwardOtherDatas;
-import noNamespace.AwardType.AwardPaymentSchedules;
-import noNamespace.AwardType.AwardSpecialReviews;
-import noNamespace.AwardType.AwardTransferringSponsors;
-import noNamespace.AwardType.ChildAwardDetails;
+import noNamespace.AwardType.*;
 import noNamespace.AwardType.AwardBudgetDetails.BudgetDetails;
 import noNamespace.AwardType.AwardOtherDatas.OtherData;
 import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
 import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
@@ -59,6 +39,8 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
+
+import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Award Notice

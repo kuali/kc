@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.subcontracting.reporting.dao;
 
+import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryDetails;
+
 import java.sql.Date;
 import java.util.List;
-
-import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryDetails;
 
 public interface SubcontractingExpenditureCategoryDetailsDao {
     

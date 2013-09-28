@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.sql.Date;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,6 +24,8 @@ import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.sql.Date;
 
 /**
  * 

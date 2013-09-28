@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
@@ -32,6 +24,8 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.*;
 
 /**
  * 

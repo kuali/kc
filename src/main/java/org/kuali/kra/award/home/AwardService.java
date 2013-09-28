@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.List;
-
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import java.util.List;
 
 /**
  * 

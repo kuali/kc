@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
@@ -33,6 +29,10 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Unit lookup that accounts for the extra parameter {@code campusCode} and filters the search results if it is defined.

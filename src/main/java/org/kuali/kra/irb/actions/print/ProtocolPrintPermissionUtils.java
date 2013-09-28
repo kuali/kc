@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
@@ -24,6 +22,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.KraAuthorizationService;
+
+import java.util.List;
 
 /**
  * This class...

@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kra.budget.parameters;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
@@ -36,6 +30,13 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule{
     private static final Log LOG = LogFactory.getLog(BudgetPeriodRule.class);

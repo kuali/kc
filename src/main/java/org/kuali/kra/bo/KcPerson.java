@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
@@ -46,6 +39,13 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 
 /**
  * Represents a person in KC.

@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.protocol.permission;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -39,6 +33,11 @@ import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The ProtocolBase Permissions Action Helper performs all of the presentation logic

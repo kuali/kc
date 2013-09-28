@@ -15,18 +15,11 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import noNamespace.AmountInfoType;
 import noNamespace.AwardNoticeDocument;
 import noNamespace.AwardNoticeDocument.AwardNotice;
 import noNamespace.AwardType;
 import noNamespace.AwardType.AwardAmountInfo;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.home.Award;
@@ -36,6 +29,8 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
 /**
  * This class generates XML that conforms with the XSD related to Award Budget
  * hierarchy Report. The data for XML is derived from

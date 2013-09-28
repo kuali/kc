@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.irb.protocol.research;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ResearchArea;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 
 public class ProtocolResearchAreaServiceTest {

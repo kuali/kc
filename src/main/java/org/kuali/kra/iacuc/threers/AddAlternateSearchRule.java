@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.iacuc.threers;
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -25,6 +22,9 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Date;
+import java.util.List;
 
 public class AddAlternateSearchRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddAlternateSearchEvent> {
 

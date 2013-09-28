@@ -15,25 +15,20 @@
  */
 package org.kuali.kra.web.filter;
 
-import java.io.IOException;
-import java.util.Enumeration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.MDC;
+import org.kuali.kra.util.SensitiveFieldFilterUtil;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Enumeration;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 //CHECKSTYLE_OFF:IllegalImport need to use log4j for MDC - commons logging does have this feature
-import org.apache.log4j.MDC;
 //CHECKSTYLE_ON:IllegalImport
-import org.kuali.kra.util.SensitiveFieldFilterUtil;
 
 /**
  * Part of KRA's {@link FilterChain} that handles {@link HttpServletRequest} and {@link HttpSession} state. State information

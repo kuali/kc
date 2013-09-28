@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -32,6 +27,11 @@ import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperServiceImpl {
     private static final String HIERARCHY_NAME = "hierarchyName";

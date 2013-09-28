@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.common.committee.lookup.keyvalue;
 
-import java.util.Collection;
-
 import org.kuali.kra.common.committee.bo.CommitteeBase;
+
+import java.util.Collection;
 
 public interface CommitteeIdByUnitValuesFinderService<CMT extends CommitteeBase<CMT, ?, ?>> {
     

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AwardSyncStatus extends KraPersistableBusinessObjectBase {
 

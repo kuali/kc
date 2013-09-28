@@ -16,9 +16,6 @@
 
 package org.kuali.kra.iacuc;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,6 +57,9 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**

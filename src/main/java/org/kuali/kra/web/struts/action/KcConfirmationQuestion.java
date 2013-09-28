@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.web.struts.action;
 
-import java.util.ArrayList;
-
 import org.kuali.rice.kns.question.QuestionBase;
+
+import java.util.ArrayList;
 
 /**
  * This class support the ConfirmationQuestion. For example: a Yes/No/Cancel dialog window.

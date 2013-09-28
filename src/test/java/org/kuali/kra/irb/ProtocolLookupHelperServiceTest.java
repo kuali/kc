@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -41,6 +36,11 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
     

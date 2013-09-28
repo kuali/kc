@@ -15,37 +15,24 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_KEY;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_NAME;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOUND;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.info;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.kuali.kra.logging.TraceLogProxyFactory;
 import org.kuali.kra.logging.Traceable;
-import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.CreditSplitNameInfo;
-import org.kuali.kra.proposaldevelopment.bo.CreditSplitable;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+
+import java.lang.reflect.Method;
+import java.util.*;
+
+import static org.kuali.kra.infrastructure.Constants.*;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOUND;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 /**
  * Validates Credit Splits on a <code>{@link ProposalPerson}</code> and/or <code>{@link ProposalPersonUnit}</code> by

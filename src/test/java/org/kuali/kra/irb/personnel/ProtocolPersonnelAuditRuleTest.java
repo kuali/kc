@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
+
+import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 /**
  * This class is to test protocol personnel audit rule error message
  */

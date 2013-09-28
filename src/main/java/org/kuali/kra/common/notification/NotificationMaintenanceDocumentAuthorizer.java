@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.common.notification;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class NotificationMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 

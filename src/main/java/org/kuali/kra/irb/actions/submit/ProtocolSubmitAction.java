@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -27,6 +24,9 @@ import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.springframework.util.AutoPopulatingList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is really just a "form" for submitting a protocol for review in the Submit for Review Action.

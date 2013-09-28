@@ -16,14 +16,6 @@
 package org.kuali.kra.award.paymentreports.closeout;
 
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -35,6 +27,9 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * 

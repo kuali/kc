@@ -15,12 +15,7 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import junit.framework.Assert;
-
 import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -38,6 +33,10 @@ import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
 

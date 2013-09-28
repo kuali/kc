@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import java.util.List;
-
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
@@ -28,6 +26,8 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelRuleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.rule.BusinessRuleInterface;
+
+import java.util.List;
 
 /**
  * This class...

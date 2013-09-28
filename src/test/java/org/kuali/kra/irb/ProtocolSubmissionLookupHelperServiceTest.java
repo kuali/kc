@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -37,6 +34,9 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBase {
     

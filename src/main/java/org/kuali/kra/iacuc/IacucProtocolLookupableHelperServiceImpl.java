@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.iacuc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
@@ -33,6 +29,10 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupableHelperServiceImplBase<IacucProtocol> {
 

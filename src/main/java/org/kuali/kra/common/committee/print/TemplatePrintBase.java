@@ -15,16 +15,15 @@
  */
 package org.kuali.kra.common.committee.print;
 
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
-
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
-import org.kuali.kra.printing.print.AbstractPrint;
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides the core for printing CommitteeBase reports from the appropriate template.

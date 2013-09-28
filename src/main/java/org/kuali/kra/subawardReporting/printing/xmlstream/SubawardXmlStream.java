@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.subawardReporting.printing.xmlstream;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import noNamespace.NameAndAddressTypeDocument.NameAndAddressType;
 import noNamespace.SubcontractReportPageType;
 import noNamespace.SubcontractReportPageType.VendorType;
@@ -33,27 +24,23 @@ import noNamespace.SubcontractReportsDocument.SubcontractReports.AdministeringOf
 import noNamespace.SubcontractReportsDocument.SubcontractReports.CompanyInfo;
 import noNamespace.SubcontractReportsDocument.SubcontractReports.ContractorType;
 import noNamespace.SubcontractReportsDocument.SubcontractReports.ReportingPeriod;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmountsInDateRange;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.SponsorHierarchy;
-import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
 import org.kuali.kra.util.DateUtils;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class SubawardXmlStream implements XmlStream {
 

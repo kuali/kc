@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +23,10 @@ import org.kuali.kra.dao.RolodexDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Tests the {@link NonOrganizationalLookupableHelperServiceImpl}.

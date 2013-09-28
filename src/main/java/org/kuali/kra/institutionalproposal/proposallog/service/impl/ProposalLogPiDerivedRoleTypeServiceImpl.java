@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.rice.core.api.membership.MemberType;
@@ -28,6 +24,10 @@ import org.kuali.rice.kim.framework.role.RoleTypeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Performs matching logic for Principal Investigator derived role.

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import java.sql.Date;
-
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolRiskLevelCommentable;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
+
+import java.sql.Date;
 
 /**
  * This class is really just a "form" for approving a protocol.

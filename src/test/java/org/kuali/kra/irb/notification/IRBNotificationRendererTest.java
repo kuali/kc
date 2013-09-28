@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.irb.notification;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -40,6 +33,13 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class contains tests for IRBNotificationRenderer

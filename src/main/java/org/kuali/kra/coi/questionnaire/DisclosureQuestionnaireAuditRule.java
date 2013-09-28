@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.coi.questionnaire;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -39,6 +36,9 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<CoiDisclosureDocument> implements DocumentAuditRule {
 

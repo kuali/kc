@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.noreview;
 
+import org.kuali.kra.protocol.actions.ProtocolActionBean;
+
 import java.io.Serializable;
 import java.sql.Date;
-
-import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 /**
  * This class manages the HTML Elements needed for the review not required panel.

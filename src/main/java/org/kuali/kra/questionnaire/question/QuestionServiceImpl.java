@@ -15,15 +15,11 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
 
 /**
  * Implementation of the various Question services.

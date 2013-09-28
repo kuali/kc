@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.noreview;
 
-import java.sql.Date;
-
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
+
+import java.sql.Date;
 
 /**
  * This class manages the HTML Elements needed for the review not required panel.

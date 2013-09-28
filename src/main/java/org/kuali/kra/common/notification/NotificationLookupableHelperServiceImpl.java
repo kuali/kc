@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.common.notification;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     

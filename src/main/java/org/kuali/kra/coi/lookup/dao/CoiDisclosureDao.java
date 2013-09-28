@@ -15,10 +15,11 @@
  */
 package org.kuali.kra.coi.lookup.dao;
 
-import java.util.Collection;
-import java.util.List;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureHistory;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface CoiDisclosureDao {
 

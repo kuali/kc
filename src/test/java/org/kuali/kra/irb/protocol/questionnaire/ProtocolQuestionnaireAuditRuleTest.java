@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.protocol.questionnaire;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -38,6 +35,9 @@ import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProtocolQuestionnaireAuditRuleTest extends ProtocolRuleTestBase {
     private Mockery context = new JUnit4Mockery();

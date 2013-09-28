@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
-import java.util.Collections;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -26,13 +24,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
-import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Collections;
 
 public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
     

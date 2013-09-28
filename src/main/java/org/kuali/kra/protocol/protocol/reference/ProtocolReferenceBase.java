@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.protocol.reference;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
+import org.kuali.kra.protocol.ProtocolBase;
+
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 /**
  * 

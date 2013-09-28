@@ -15,56 +15,16 @@
  */
 package org.kuali.kra.institutionalproposal.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import noNamespace.ActivityType;
-import noNamespace.AnticipatedAwardType;
-import noNamespace.BudgetDataType;
-import noNamespace.CostSharingType;
-import noNamespace.IDCRateType;
-import noNamespace.IPDisclosureItemType;
-import noNamespace.IPKeyPersonType;
-import noNamespace.IPSchoolInfoType;
-import noNamespace.IPsponsorType;
-import noNamespace.InstProposalMasterData;
-import noNamespace.InstituteProposalDocument;
-import noNamespace.InvestigatorType2;
-import noNamespace.KeyPersonType;
-import noNamespace.MailingInfoType;
-import noNamespace.NSFcodeType;
-import noNamespace.NoticeOfOppType;
-import noNamespace.OtherGroupDetailsTypes;
-import noNamespace.OtherGroupTypes;
-import noNamespace.PersonType;
-import noNamespace.ProposalStatusType;
-import noNamespace.ProposalType;
-import noNamespace.ScienceCodeType;
-import noNamespace.SpecialReviewType2;
-import noNamespace.UnitType;
+import noNamespace.*;
 import noNamespace.InstituteProposalDocument.InstituteProposal;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.NoticeOfOpportunity;
-import org.kuali.kra.bo.NsfCode;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -74,11 +34,7 @@ import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
+import org.kuali.kra.institutionalproposal.home.*;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
@@ -88,6 +44,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Institution

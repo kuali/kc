@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.List;
-import java.util.concurrent.Callable;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.OptimisticLockException;
@@ -34,6 +31,9 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.PostProcessorService;
 import org.kuali.rice.krad.service.impl.PostProcessorServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Extends the {@PostProcessorService} to record the actual user performing an action on a workflow status change.

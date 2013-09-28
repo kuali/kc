@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
@@ -28,6 +24,10 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Builds a key/value pair of available Institutional Proposal Status Codes.

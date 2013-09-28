@@ -17,10 +17,6 @@ package org.kuali.kra.bo;
 
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +24,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CitizenshipTypeService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CitizenshipTypeTest extends KcUnitTestBase {
     

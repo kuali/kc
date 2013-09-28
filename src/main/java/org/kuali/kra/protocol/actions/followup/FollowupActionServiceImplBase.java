@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.protocol.actions.followup;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ValidProtocolActionActionBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public abstract class FollowupActionServiceImplBase<T extends ValidProtocolActionActionBase> implements FollowupActionService<T> {

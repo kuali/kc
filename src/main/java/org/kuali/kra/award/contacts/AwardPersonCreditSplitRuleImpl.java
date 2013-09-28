@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class processes AwardPersonCreditSplitRules

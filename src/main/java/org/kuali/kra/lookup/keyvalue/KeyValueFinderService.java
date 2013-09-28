@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
+import org.kuali.rice.core.api.util.KeyValue;
+
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This class...

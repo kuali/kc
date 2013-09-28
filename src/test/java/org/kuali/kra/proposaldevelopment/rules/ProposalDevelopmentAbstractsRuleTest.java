@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +25,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
+
+import java.util.List;
 
 /**
  * Test the business rules for Proposal Abstracts.

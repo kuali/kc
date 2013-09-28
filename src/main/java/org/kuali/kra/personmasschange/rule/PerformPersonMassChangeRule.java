@@ -17,13 +17,7 @@ package org.kuali.kra.personmasschange.rule;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.personmasschange.bo.AwardPersonMassChange;
-import org.kuali.kra.personmasschange.bo.InstitutionalProposalPersonMassChange;
-import org.kuali.kra.personmasschange.bo.NegotiationPersonMassChange;
-import org.kuali.kra.personmasschange.bo.PersonMassChange;
-import org.kuali.kra.personmasschange.bo.ProposalDevelopmentPersonMassChange;
-import org.kuali.kra.personmasschange.bo.SubawardPersonMassChange;
-import org.kuali.kra.personmasschange.bo.UnitAdministratorPersonMassChange;
+import org.kuali.kra.personmasschange.bo.*;
 import org.kuali.kra.personmasschange.rule.event.PerformPersonMassChangeEvent;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;

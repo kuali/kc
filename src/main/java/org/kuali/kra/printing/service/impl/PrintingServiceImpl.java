@@ -15,32 +15,9 @@
  */
 package org.kuali.kra.printing.service.impl;
 
-import java.awt.Color;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.stream.StreamSource;
-
+import com.lowagie.text.*;
+import com.lowagie.text.Font;
+import com.lowagie.text.pdf.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,19 +35,15 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.HeaderFooter;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfDestination;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfOutline;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfWriter;
+import javax.xml.transform.*;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamSource;
+import java.awt.*;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.List;
 
 /**
  * This class provides the functionality for printing any {@link Printable} object. It uses the methods available in Printable

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.budget.document.authorization;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -34,6 +31,9 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class is the Budget Document Authorizer.  It determines the edit modes and

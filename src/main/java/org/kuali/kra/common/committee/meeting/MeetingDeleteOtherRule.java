@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.util.List;
 
 /**
  * Defines the rule that a user cannot delete an Other Action if it is being used in a Minute entry.

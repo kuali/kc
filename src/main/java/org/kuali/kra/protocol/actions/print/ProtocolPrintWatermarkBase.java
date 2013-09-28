@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.lowagie.text.Image;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,7 +32,9 @@ import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.util.watermark.Watermarkable;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import com.lowagie.text.Image;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 

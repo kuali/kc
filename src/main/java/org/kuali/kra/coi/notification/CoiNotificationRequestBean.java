@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi.notification;
 
-import java.io.Serializable;
-
 import org.kuali.kra.coi.CoiDisclosure;
+
+import java.io.Serializable;
 
 public class CoiNotificationRequestBean implements Serializable {
 

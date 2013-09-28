@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.actions.withdraw;
 
-import java.sql.Date;
-
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
+
+import java.sql.Date;
 
 /**
  * This class is really just a "form" containing the reason

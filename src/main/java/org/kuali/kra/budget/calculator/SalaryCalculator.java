@@ -15,21 +15,9 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.query.And;
-import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.calculator.query.GreaterThan;
-import org.kuali.kra.budget.calculator.query.LesserThan;
-import org.kuali.kra.budget.calculator.query.Or;
+import org.kuali.kra.budget.calculator.query.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -45,6 +33,9 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * This class is to calculate the salary

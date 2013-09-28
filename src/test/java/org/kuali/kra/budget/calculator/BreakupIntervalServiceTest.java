@@ -16,11 +16,6 @@
 package org.kuali.kra.budget.calculator;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +25,11 @@ import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * This class is to test different scenarios of BreakupInterval calculation

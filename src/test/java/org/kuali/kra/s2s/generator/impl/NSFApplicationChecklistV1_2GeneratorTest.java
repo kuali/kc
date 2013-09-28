@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class tests the NSFApplicationChecklistV1_2 Generator

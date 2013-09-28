@@ -15,17 +15,14 @@
  */
 package org.kuali.kra.institutionalproposal.document.authorization;
 
-import java.util.Map;
-import java.util.Set;
-
-import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Map;
 
 /**
  * This class is the Institutional Proposal Document Authorizer.  It determines the edit modes and

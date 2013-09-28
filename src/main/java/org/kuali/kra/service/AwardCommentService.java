@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.bo.CommentType;
+
+import java.util.List;
 
 /**
  * This is the Award Comment Service interface.

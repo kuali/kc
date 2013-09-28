@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
@@ -27,6 +24,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Question extends KraPersistableBusinessObjectBase implements Comparable<Question>, SequenceOwner<Question> {
 

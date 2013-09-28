@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.costshare;
 
-import java.util.List;
-
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.AuditError;
+
+import java.util.List;
 
 /**
  * 

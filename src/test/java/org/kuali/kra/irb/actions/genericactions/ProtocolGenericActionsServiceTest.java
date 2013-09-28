@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.actions.genericactions;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -35,20 +31,16 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
 

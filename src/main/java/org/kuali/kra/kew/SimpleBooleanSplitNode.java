@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.kew;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.engine.RouteContext;
@@ -26,6 +23,9 @@ import org.kuali.rice.kew.engine.node.SplitNode;
 import org.kuali.rice.kew.engine.node.SplitResult;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This code was taken directly from KFS SimpleBooleanSplitNode

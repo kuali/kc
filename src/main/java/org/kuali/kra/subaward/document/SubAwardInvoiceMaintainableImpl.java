@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.subaward.document;
 
-import java.util.Map;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
@@ -26,6 +24,8 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Map;
 
 public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
 

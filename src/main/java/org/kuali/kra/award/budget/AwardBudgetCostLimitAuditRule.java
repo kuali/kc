@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.award.budget;
 
-import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
@@ -36,6 +31,11 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 
 /**
  * 

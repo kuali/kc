@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.commitments;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -32,6 +28,10 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class AwardFandARateAuditRule implements DocumentAuditRule {
     private static final String FANDA_AUDIT_ERRORS = "fandaAuditErrors";

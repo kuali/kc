@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
+import org.kuali.kra.iacuc.IacucPersonTraining;
+import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingServiceImplBase;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kra.iacuc.IacucPersonTraining;
-import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingServiceImplBase;
 
 public class IacucProtocolPersonTrainingServiceImpl extends ProtocolPersonTrainingServiceImplBase implements IacucProtocolPersonTrainingService{
     private static final String PERSON_ID_FIELD = "personId";

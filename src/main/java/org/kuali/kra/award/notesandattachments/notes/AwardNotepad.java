@@ -16,12 +16,13 @@
 package org.kuali.kra.award.notesandattachments.notes;
 
 //import java.sql.Date;  
-import java.sql.Timestamp;
 
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraNotepadInterface;
+
+import java.sql.Timestamp;
 
 /**
  * This class...

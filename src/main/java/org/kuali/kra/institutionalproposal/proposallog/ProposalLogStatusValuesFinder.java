@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -32,6 +26,8 @@ import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+
+import java.util.*;
 
 /**
  * This class...

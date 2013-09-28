@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * ProtocolBase Amendment/Renewal Service.

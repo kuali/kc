@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.specialreview;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
@@ -25,6 +22,9 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defines the Special Review Helper for Protocol.

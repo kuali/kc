@@ -15,20 +15,14 @@
  */
 package org.kuali.kra.test.fixtures;
 
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import static org.kuali.kra.infrastructure.Constants.*;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Fixtures used as <code>{@link ProposalPerson}</code> instances for tests. This is NOT test data. Test data is loaded by scripts. These are 

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -26,6 +23,9 @@ import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class InstitutionalProposalPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<InstitutionalProposal> {
 

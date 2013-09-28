@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Unit;
+import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
  * Represents the Proposal Person Unit <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>

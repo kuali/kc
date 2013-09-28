@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.type.KimType;
+
+import java.util.List;
 
 /**
  * The System Authorization Service handles authorization in the global space.

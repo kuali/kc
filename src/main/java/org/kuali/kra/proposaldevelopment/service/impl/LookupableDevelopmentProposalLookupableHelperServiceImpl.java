@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{

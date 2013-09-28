@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.service;
 
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 
 /**
  * 

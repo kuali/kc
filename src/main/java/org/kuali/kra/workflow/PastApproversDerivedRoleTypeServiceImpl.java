@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.workflow;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kew.api.action.ActionTaken;
@@ -27,6 +23,10 @@ import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class PastApproversDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 

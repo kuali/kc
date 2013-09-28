@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
@@ -32,6 +28,10 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class...

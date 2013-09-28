@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.committee.authorizers;
 
-import java.util.List;
-
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.service.UnitAuthorizationService;
+
+import java.util.List;
 
 public class UnitAuthorizationServiceMock implements UnitAuthorizationService {
     

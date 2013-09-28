@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.calculator.ValidCalcType;
 import org.kuali.kra.budget.rates.RateClassType;
@@ -29,6 +26,9 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ValidCalcTypeMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
     

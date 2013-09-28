@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

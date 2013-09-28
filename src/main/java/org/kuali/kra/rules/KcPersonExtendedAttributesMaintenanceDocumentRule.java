@@ -1,8 +1,5 @@
 package org.kuali.kra.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.KcPersonExtendedAttributesMaintainableImpl;
@@ -14,6 +11,9 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
     

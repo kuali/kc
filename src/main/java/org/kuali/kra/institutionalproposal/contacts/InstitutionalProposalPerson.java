@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
@@ -30,6 +27,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InstitutionalProposalPerson extends InstitutionalProposalContact implements PersonRolodex, AbstractProjectPerson {
 

@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -26,6 +22,10 @@ import org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class CommitteeScheduleDeadlineRuleTest {
     

@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
@@ -30,6 +26,10 @@ import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

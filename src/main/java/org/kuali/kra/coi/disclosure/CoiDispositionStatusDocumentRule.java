@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -27,6 +24,9 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CoiDispositionStatusDocumentRule extends KraMaintenanceDocumentRuleBase {
     private BusinessObjectService businessObjectService;

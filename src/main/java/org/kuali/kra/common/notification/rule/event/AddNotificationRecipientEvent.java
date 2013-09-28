@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.common.notification.rule.event;
 
-import java.util.List;
-
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.AddNotificationRecipientRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 /**
  * Represents the event for adding a Notification Type Recipient.

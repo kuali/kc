@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+
+import java.util.List;
 
 public class ProtocolNotepadServiceImpl implements ProtocolNotepadService {
 

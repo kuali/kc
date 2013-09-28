@@ -18,11 +18,7 @@ package org.kuali.kra.iacuc.personnel;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMappingBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonnelServiceImplBase;
-import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
+import org.kuali.kra.protocol.personnel.*;
 import org.kuali.kra.service.KraAuthorizationService;
 
 public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBase implements IacucProtocolPersonnelService {

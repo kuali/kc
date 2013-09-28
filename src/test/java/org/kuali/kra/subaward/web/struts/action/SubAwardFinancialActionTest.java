@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.subaward.web.struts.action;
 
-import java.sql.Date;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,6 +23,8 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.sql.Date;
 
 public class SubAwardFinancialActionTest extends KcUnitTestBase{
 

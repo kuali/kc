@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import static org.hamcrest.core.Is.is;
-
-import java.io.IOException;
-
 import org.apache.struts.upload.FormFile;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -27,6 +23,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.AttachmentFile.CreateException;
+
+import java.io.IOException;
+
+import static org.hamcrest.core.Is.is;
 
 /**
  * Tests for {@link AttachmentFile ProtocolAttachmentFile}.

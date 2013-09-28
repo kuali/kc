@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,6 +28,8 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 public class VersionHistoryServiceImplTest extends KcUnitTestBase {
     private static final String PROTOCOL_VERSION_NAME = "2001";

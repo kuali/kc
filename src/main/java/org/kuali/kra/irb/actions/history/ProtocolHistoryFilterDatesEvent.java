@@ -16,11 +16,11 @@
 package org.kuali.kra.irb.actions.history;
 
 
-import java.util.Date;
-
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.Date;
 
 /**
  * Encapsulates the history filter event on the Protocol Actions panel.

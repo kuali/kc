@@ -15,16 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -33,12 +23,16 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.AwardReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDao;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingPrintingService;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.Printable;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
@@ -47,17 +41,24 @@ import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.kra.award.paymentreports.awardreports.reporting.service.AwardReportTracking;
-import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingPrintingService;
-import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
-import org.kuali.kra.printing.Printable;
-import org.kuali.rice.kns.util.WebUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ReportTrackingLookupAction extends KualiLookupAction {
     

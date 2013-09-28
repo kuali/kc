@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
-import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
+
+import java.util.Map;
 
 public class ScheduleDataTest extends TestCase {
     

@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
@@ -30,6 +24,12 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This is the base class for handling Institutional Proposal Contacts

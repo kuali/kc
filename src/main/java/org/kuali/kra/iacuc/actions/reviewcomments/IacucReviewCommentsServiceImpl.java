@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions.reviewcomments;
 
-import java.util.List;
-
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
@@ -33,6 +31,8 @@ import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
+
+import java.util.List;
 
 public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<IacucProtocolReviewAttachment> implements IacucReviewCommentsService {
     

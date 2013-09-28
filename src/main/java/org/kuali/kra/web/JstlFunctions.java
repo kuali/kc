@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.web;
 
-import static java.lang.Class.forName;
+import org.apache.commons.beanutils.BeanUtils;
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+import static java.lang.Class.forName;
 
 /**
  * Full of static methods for JSTL function access.

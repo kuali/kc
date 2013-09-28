@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+
+import java.util.List;
 
 public interface ProtocolQuestionnairePrintingService {
 

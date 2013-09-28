@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.budget;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
@@ -28,6 +24,10 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class AwardFnARatesValuesFinder extends KeyValuesBase{
     KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");

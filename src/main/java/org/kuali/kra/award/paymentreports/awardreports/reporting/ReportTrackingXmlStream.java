@@ -16,16 +16,10 @@
 
 package org.kuali.kra.award.paymentreports.awardreports.reporting;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import noNamespace.AwardReportingRequirementDocument;
 import noNamespace.AwardReportingRequirementDocument.AwardReportingRequirement;
 import noNamespace.ReportingRequirement;
 import noNamespace.ReportingRequirementDetail;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -34,9 +28,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.xmlstream.XmlStream;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.*;
 
 public class ReportTrackingXmlStream implements XmlStream {
 

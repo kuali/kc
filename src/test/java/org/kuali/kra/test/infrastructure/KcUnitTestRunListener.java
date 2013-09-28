@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.test.infrastructure;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.runner.Description;
@@ -25,6 +22,9 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestLifecycle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides the mechanism to shut down the persistent portions of lifecycles at the end of a full test run.

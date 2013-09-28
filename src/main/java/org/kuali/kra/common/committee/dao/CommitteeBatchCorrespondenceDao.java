@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.committee.dao;
 
+import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
+
 import java.sql.Date;
 import java.util.List;
-
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 
 /**
  * 

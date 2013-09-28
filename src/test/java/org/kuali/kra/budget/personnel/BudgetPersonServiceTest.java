@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.sql.Date;
-import java.util.Calendar;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +26,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.sql.Date;
+import java.util.Calendar;
 
 public class BudgetPersonServiceTest extends KcUnitTestBase{
 

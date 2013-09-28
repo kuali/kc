@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.protocol;
 
-import java.util.List;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import java.util.List;
 
 /**
  * The ProtocolFinderDao implementation for OJB.

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.actions.history;
 
-import java.util.Date;
-
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.rules.TemplateRuleTest;
+
+import java.util.Date;
 
 public class ProtocolHistoryFilterDatesRuleTest extends ProtocolRuleTestBase { 
     

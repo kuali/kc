@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +28,9 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProtocolActionCorrespondenceGenerationServiceTest extends KcUnitTestBase {
     

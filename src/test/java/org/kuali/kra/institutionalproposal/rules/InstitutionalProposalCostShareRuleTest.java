@@ -18,7 +18,6 @@ package org.kuali.kra.institutionalproposal.rules;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;

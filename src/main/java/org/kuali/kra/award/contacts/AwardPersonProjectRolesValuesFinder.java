@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.award.contacts;
 
-import static org.kuali.kra.logging.BufferedLogger.info;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.ContactRole;
@@ -32,6 +25,13 @@ import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 /**
  * This class finds Award Unit Contact Project Roles

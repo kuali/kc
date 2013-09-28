@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import java.util.Map;
-
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+
+import java.util.Map;
 
 public class RolodexDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase implements MaintenanceDocumentAuthorizer{
 

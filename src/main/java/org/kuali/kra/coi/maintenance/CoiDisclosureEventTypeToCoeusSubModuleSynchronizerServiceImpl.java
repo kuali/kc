@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.coi.maintenance;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CoiDisclosureEventTypeToCoeusSubModuleSynchronizerServiceImpl implements CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService {
 

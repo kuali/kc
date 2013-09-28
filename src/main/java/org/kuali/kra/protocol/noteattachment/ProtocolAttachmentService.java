@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+
 import java.util.Collection;
 import java.util.List;
-
-import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 
 
 /**

@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.common.notification.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.bo.NotificationType;
@@ -32,6 +28,10 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Provides a value finder for the Notification Type Recipient Role Namespace and Role name combination.

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import static org.kuali.kra.logging.BufferedLogger.debug;
-import static org.kuali.kra.logging.BufferedLogger.info;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -25,6 +22,9 @@ import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
+
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
      

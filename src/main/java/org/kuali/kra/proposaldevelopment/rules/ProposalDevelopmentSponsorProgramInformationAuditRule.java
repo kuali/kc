@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
@@ -38,6 +32,12 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class processes audit rules (warnings) for the Sponsor & Program Information related

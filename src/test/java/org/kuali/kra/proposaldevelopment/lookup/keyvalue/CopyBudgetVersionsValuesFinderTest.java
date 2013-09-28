@@ -15,17 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

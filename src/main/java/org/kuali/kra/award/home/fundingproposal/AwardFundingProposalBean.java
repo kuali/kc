@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
@@ -40,6 +32,9 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.Serializable;
+import java.util.*;
 
 public class AwardFundingProposalBean implements Serializable {
     

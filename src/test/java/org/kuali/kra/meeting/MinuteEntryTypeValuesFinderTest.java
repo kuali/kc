@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.common.committee.meeting.MinuteEntryTypeValuesFinder;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MinuteEntryTypeValuesFinderTest extends ValuesFinderTestBase {
 

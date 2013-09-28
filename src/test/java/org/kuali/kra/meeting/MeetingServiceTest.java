@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.meeting;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -48,6 +39,15 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MeetingServiceTest extends KcUnitTestBase {
     private Mockery context = new JUnit4Mockery();

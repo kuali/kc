@@ -15,6 +15,12 @@
  */
 package org.kuali.kra.web.filter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,18 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * <httpSample t="4031" lt="843" ts="1211383064375" s="true" lb="Load Portal Page" rc="200" rm="OK" tn="20 Users, 5 Iterations 1-1" dt="text" by="38007" ng="20" na="20">

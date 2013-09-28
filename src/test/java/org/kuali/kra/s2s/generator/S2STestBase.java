@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.s2s.generator;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import org.apache.xmlbeans.XmlObject;
 import org.junit.After;
 import org.junit.Before;
@@ -34,6 +31,9 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * This is the base class for all generator Junit test classes.

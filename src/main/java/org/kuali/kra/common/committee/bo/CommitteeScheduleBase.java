@@ -15,23 +15,9 @@
  */
 package org.kuali.kra.common.committee.bo;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
-import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachmentsBase;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
+import org.kuali.kra.common.committee.meeting.*;
 import org.kuali.kra.common.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.common.permissions.Permissionable;
@@ -40,6 +26,10 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.util.DateUtils;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.

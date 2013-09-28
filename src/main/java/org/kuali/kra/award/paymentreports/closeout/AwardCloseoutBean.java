@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.closeout;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -26,6 +23,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This class supports the AwardForm class.

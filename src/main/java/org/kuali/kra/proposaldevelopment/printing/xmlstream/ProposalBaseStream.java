@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
@@ -31,6 +29,8 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.List;
 
 /**
  * This class will contain all common methods that can be used across Proposal

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,6 +27,8 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.List;
 
 /**
  * This class tests AddAwardProjectPersonRuleImpl

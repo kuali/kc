@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BudgetModular extends BudgetAssociate {
 

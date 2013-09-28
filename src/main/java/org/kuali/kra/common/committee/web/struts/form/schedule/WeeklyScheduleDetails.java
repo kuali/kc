@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.committee.web.struts.form.schedule;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
 
 
 

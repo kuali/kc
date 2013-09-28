@@ -15,14 +15,7 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import junit.framework.Assert;
-
 import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -39,11 +32,12 @@ import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireServiceImpl;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.*;
 
 @RunWith(JMock.class)
 public class QuestionnaireAnswerServiceTest {

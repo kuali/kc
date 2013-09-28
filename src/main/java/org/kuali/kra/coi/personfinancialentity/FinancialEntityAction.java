@@ -15,21 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
-import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
-import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.mail.internet.HeaderTokenizer;
-import javax.mail.internet.MimeUtility;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -65,6 +50,18 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.mail.internet.HeaderTokenizer;
+import javax.mail.internet.MimeUtility;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang.StringUtils.replace;
+import static org.kuali.rice.krad.util.KRADConstants.*;
 
 /**
  * 

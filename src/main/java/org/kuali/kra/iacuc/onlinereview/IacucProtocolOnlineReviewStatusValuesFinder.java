@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Assembles the Protocol Review Types to display in the drop-down menu when

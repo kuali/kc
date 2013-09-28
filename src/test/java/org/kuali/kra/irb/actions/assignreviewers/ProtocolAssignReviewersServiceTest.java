@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.actions.assignreviewers;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -46,6 +43,9 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Test the ProtocolDeleteService implementation.

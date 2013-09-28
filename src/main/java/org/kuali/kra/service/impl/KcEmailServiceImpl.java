@@ -16,12 +16,6 @@
 package org.kuali.kra.service.impl;
 
 
-import java.util.List;
-import java.util.Set;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -34,6 +28,11 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.util.List;
+import java.util.Set;
 
 public class KcEmailServiceImpl implements KcEmailService {
     private static final Log LOG = LogFactory.getLog(KcEmailServiceImpl.class);

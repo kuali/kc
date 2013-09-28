@@ -15,14 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -35,16 +29,19 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class...

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.subcontracting.reporting;
 
-import java.sql.Date;
-
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+
+import java.sql.Date;
 
 @SuppressWarnings("deprecation")
 public class SubcontractingExpendituresDataGenerationForm extends KualiForm {  

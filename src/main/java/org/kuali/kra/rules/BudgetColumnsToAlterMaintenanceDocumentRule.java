@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class BudgetColumnsToAlterMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
     private static Map<String, String> validationClassesMap = new HashMap<String, String>();

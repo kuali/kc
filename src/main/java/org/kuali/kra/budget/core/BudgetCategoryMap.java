@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.core;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetCategoryMap extends KraPersistableBusinessObjectBase {
 

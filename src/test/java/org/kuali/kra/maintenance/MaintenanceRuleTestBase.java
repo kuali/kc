@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.maintenance;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -35,6 +32,9 @@ import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  *  Base class for testing <code>{@link MaintenanceDocument}</code> instances

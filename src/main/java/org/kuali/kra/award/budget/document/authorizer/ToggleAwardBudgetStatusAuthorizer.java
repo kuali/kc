@@ -23,8 +23,8 @@ import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**

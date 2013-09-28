@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
@@ -29,6 +25,10 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class...

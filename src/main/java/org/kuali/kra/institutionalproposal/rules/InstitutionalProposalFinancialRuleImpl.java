@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
-import java.sql.Date;
-
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.sql.Date;
 
 /**
  * This class...

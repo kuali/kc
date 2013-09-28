@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.actions.notifycommittee;
 
-import java.sql.Date;
-
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
+
+import java.sql.Date;
 
 /**
  * This class is really just a "form" for notifying the Committee.

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -31,6 +29,8 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 /**
  * This class contains the business rules that are specific to Question.

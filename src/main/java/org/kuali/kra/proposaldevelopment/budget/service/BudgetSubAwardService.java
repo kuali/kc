@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.service;
 
-import java.util.List;
-
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
+
+import java.util.List;
 
 /**
  * 

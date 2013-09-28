@@ -15,16 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Queue;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -67,6 +57,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 @Transactional
 public class AwardHierarchyServiceImpl implements AwardHierarchyService {

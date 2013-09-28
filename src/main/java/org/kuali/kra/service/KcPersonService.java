@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.rice.kim.api.identity.Person;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service for working with KcPerson objects.

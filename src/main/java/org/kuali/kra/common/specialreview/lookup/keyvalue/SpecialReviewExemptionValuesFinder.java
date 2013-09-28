@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.common.specialreview.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -25,6 +22,9 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * See {@link #getKeyValues()}.

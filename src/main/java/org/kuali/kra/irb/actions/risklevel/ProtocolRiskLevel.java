@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
-import java.sql.Date;
-
 import org.kuali.kra.bo.RiskLevel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
+
+import java.sql.Date;
 
 /**
  * 

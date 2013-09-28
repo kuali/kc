@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.bo;
 
-import java.util.Calendar;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,6 +24,8 @@ import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.Calendar;
 
 public class BudgetProjectIncomeTest {
 

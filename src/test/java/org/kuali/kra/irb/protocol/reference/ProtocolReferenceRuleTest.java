@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.protocol.reference;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +27,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
+
+import java.util.List;
 
 public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
 

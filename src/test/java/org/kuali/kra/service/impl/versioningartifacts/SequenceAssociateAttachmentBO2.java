@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import java.util.Random;
-
 import org.kuali.kra.SeparatelySequenceableAssociate;
+
+import java.util.Random;
 
 /**
  * This class represents an attachment type that needs to be managed in a 

@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -32,6 +25,13 @@ import org.kuali.rice.kns.datadictionary.validation.charlevel.UTF8AnyCharacterVa
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * 

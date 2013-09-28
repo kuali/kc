@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.common.committee.dao.ojb;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.query.Criteria;
@@ -27,6 +24,9 @@ import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
+
+import java.sql.Date;
+import java.util.List;
 
 /**
  * 

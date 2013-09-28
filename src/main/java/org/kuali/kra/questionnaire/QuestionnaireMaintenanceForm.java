@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
@@ -28,6 +23,10 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.springframework.util.AutoPopulatingList;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

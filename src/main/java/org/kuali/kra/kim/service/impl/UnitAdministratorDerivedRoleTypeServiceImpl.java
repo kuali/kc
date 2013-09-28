@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.kim.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractUnitAdministrator;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Checks whether the principal is a Unit Administrator for the given unit.

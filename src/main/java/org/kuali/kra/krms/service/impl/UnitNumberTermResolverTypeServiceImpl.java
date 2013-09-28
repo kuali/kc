@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.krms.service.impl;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class UnitNumberTermResolverTypeServiceImpl implements TermResolverTypeService {
 

@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -30,6 +24,12 @@ import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This is the base class for handling AwardContacts

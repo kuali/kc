@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.actions;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * This class creates the key/values pair ProtocolCorrespondenceType that are valid as a final correspondence 

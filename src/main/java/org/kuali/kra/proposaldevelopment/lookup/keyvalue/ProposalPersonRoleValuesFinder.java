@@ -15,17 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import static org.kuali.kra.infrastructure.Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE;
-import static org.kuali.kra.infrastructure.Constants.KC_GENERIC_PARAMETER_NAMESPACE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PERSON_ROLE_PARAMETER_PREFIX;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.info;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -38,6 +27,14 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static org.kuali.kra.infrastructure.Constants.*;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 /**
  * Temporary class until this can be gotten working via table.

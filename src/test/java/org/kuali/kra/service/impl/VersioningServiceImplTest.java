@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsNull.nullValue;
-
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,23 +22,17 @@ import org.junit.Test;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.service.impl.versioningartifacts.OwnerAssociate;
-import org.kuali.kra.service.impl.versioningartifacts.SelfReferenceAssociate;
-import org.kuali.kra.service.impl.versioningartifacts.SelfReferenceOwner;
-import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts;
-import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateAttachmentBO;
-import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateAttachmentBO2;
-import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateChild;
-import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateChild2;
-import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateGrandChild;
-import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateGrandChild2;
-import org.kuali.kra.service.impl.versioningartifacts.SequenceOwnerImpl;
-import org.kuali.kra.service.impl.versioningartifacts.SimpleAssociate;
-import org.kuali.kra.service.impl.versioningartifacts.SimpleAssociate2;
+import org.kuali.kra.service.impl.versioningartifacts.*;
 import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.AttachmentLargeData;
 import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.AttachmentMetaData;
 import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.AttachmentMetaDataAssoc;
 import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.AttachmentOwner;
+
+import java.util.List;
+
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNull.nullValue;
 
 
 /**

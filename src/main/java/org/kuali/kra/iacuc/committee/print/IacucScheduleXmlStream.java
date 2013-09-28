@@ -15,21 +15,13 @@
  */
 package org.kuali.kra.iacuc.committee.print;
 
-import java.math.BigInteger;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.mit.coeus.xml.iacuc.FundingSourceType;
+import edu.mit.coeus.xml.iacuc.*;
+import edu.mit.coeus.xml.iacuc.ScheduleType.Attendents;
+import edu.mit.coeus.xml.iacuc.ScheduleType.OtherBusiness;
+import edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -50,21 +42,9 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.service.KcPersonService;
 
-import edu.mit.coeus.xml.iacuc.FundingSourceType;
-import edu.mit.coeus.xml.iacuc.InvestigatorType;
-import edu.mit.coeus.xml.iacuc.PersonType;
-import edu.mit.coeus.xml.iacuc.ProtocolMasterDataType;
-import edu.mit.coeus.xml.iacuc.ProtocolReviewerType;
-import edu.mit.coeus.xml.iacuc.ProtocolSubmissionType;
-import edu.mit.coeus.xml.iacuc.ProtocolSummaryType;
-import edu.mit.coeus.xml.iacuc.ScheduleDocument;
-import edu.mit.coeus.xml.iacuc.ScheduleMasterDataType;
-import edu.mit.coeus.xml.iacuc.ScheduleSummaryType;
-import edu.mit.coeus.xml.iacuc.ScheduleType.Attendents;
-import edu.mit.coeus.xml.iacuc.ScheduleType.OtherBusiness;
-import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
-import edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo;
-import edu.mit.coeus.xml.iacuc.ScheduleType;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.util.*;
 
 public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     

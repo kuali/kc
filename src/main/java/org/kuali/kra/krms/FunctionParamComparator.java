@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.krms;
 
-import java.util.Comparator;
-
 import org.kuali.rice.krms.api.repository.function.FunctionParameterDefinition;
+
+import java.util.Comparator;
 
 /**
  * This class...

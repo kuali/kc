@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.external.award.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
@@ -30,6 +26,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AwardAccountValidationServiceImpl implements AwardAccountValidationService {
 

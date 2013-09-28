@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.List;
 
 public class BudgetEditableColumnsValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");

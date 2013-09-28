@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.protocol.funding;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.protocol.funding.AddProtocolFundingSourceEventBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRuleBase;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 public class AddIacucProtocolFundingSourceEvent extends AddProtocolFundingSourceEventBase {
 

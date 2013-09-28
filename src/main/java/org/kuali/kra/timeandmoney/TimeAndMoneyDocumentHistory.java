@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.timeandmoney;
 
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 
 /**
  * A collection of this class is maintained on Time And Money Document.  There will be one entry for each Time And

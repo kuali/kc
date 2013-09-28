@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.common.committee.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
@@ -33,6 +25,8 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.*;
 
 /**
  * This class returns a list of committees that is filtered by the current
@@ -71,7 +65,8 @@ public abstract class CommitteeIdByUnitValuesFinderServiceImplBase<CMT extends C
     public static final String FINAL_STATUS_CD = "F";
     private static final String COMMITTEE_TYPE_CODE = "committeeTypeCode";
     
-    private UnitAuthorizationService unitAuthorizationService;    private UnitService unitService;
+    private UnitAuthorizationService unitAuthorizationService;
+    private UnitService unitService;
     private BusinessObjectService businessObjectService;
      
     
@@ -157,7 +152,8 @@ public abstract class CommitteeIdByUnitValuesFinderServiceImplBase<CMT extends C
 
 
 
-    protected abstract Class<CMT> getCommitteeBOClassHook();    protected abstract String getCommitteeTypeCodeHook(); 
+    protected abstract Class<CMT> getCommitteeBOClassHook();
+    protected abstract String getCommitteeTypeCodeHook(); 
    
     
      
@@ -184,7 +180,8 @@ public abstract class CommitteeIdByUnitValuesFinderServiceImplBase<CMT extends C
     }
     
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
-        this.unitAuthorizationService = unitAuthorizationService;    }
+        this.unitAuthorizationService = unitAuthorizationService;
+    }
     
     /**
      * 
@@ -251,7 +248,8 @@ public abstract class CommitteeIdByUnitValuesFinderServiceImplBase<CMT extends C
     }
   
     protected UnitService getUnitService() { 
-        if(this.unitService == null) {            this.unitService = KraServiceLocator.getService(UnitService.class);
+        if(this.unitService == null) {
+            this.unitService = KraServiceLocator.getService(UnitService.class);
         }
         return this.unitService;
     }

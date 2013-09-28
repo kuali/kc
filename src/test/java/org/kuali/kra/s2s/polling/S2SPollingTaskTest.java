@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.s2s.polling;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +23,11 @@ import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 

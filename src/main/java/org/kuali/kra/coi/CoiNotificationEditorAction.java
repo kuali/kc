@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -32,6 +27,10 @@ import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class CoiNotificationEditorAction extends CoiAction {
     public static final String DISCLOSURE_ACTIONS_TAB = "disclosureActions";

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 
 /**
  * Renders additional fields for the Protocol Suspended by DSMB notification.

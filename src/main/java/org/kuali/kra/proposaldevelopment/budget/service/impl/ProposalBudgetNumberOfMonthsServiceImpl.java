@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.service.impl;
 
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetNumberOfMonthsService;
+
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetNumberOfMonthsService;
 
 public class ProposalBudgetNumberOfMonthsServiceImpl implements ProposalBudgetNumberOfMonthsService {
     

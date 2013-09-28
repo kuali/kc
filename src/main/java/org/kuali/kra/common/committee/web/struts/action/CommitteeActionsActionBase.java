@@ -15,31 +15,25 @@
  */
 package org.kuali.kra.common.committee.web.struts.action;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.*;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
+import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
-import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -47,16 +41,14 @@ import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfDestination;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfOutline;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfWriter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 
 

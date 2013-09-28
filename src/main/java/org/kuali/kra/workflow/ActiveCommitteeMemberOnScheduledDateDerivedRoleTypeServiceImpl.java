@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.workflow;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -32,6 +26,8 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+
+import java.util.*;
 
 
 public class ActiveCommitteeMemberOnScheduledDateDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {

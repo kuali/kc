@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -31,6 +26,10 @@ import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
 import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
 import org.kuali.kra.infrastructure.Constants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class AwardNotificationEditorAction extends AwardAction {
     

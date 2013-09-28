@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions.assignCmt;
 
-import java.io.Serializable;
-
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
+
+import java.io.Serializable;
 
 public class IacucProtocolAssignCmtBean extends  IacucProtocolActionBean implements Serializable {
 

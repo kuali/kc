@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.sql.Date;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
@@ -28,6 +22,12 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.util.DateUtils;
+
+import java.sql.Date;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleDateConflictEvent> {
     

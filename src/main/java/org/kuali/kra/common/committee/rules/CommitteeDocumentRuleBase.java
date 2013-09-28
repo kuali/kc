@@ -15,30 +15,18 @@
  */
 package org.kuali.kra.common.committee.rules;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.common.committee.bo.*;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRoleRule;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRule;
-import org.kuali.kra.common.committee.rule.event.AddCommitteeMembershipEvent;
-import org.kuali.kra.common.committee.rule.event.AddCommitteeMembershipRoleEvent;
-import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDateConflictEvent;
-import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDeadlineEvent;
+import org.kuali.kra.common.committee.rule.event.*;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
-import org.kuali.kra.common.committee.rule.event.CommitteeScheduleTimeEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -56,7 +44,10 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the main business rule class for the CommitteeBase Document.  It

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.config.ConfigurationException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.io.Serializable;
 
 /**
  * This class provides support to the AwardApprovedEquipmentRule 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service;
 
-import java.util.List;
-
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+
+import java.util.List;
 
 /**
  * External services provided by the Proposal Log module.

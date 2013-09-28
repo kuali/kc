@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.protocol;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -30,6 +28,8 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 public class ProtocolVersionServiceTest extends KcUnitTestBase {
     

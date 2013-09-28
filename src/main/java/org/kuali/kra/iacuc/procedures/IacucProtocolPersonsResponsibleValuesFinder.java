@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -29,6 +24,11 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class IacucProtocolPersonsResponsibleValuesFinder extends KeyValuesBase {
 

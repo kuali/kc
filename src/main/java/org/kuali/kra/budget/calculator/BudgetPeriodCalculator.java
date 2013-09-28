@@ -15,25 +15,10 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.query.And;
-import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.calculator.query.GreaterThan;
-import org.kuali.kra.budget.calculator.query.LesserThan;
-import org.kuali.kra.budget.calculator.query.NotEquals;
-import org.kuali.kra.budget.calculator.query.Or;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetCommonService;
-import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
-import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.core.CostElement;
+import org.kuali.kra.budget.calculator.query.*;
+import org.kuali.kra.budget.core.*;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -51,6 +36,12 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 public class BudgetPeriodCalculator {
     private BudgetCalculationService budgetCalculationService;

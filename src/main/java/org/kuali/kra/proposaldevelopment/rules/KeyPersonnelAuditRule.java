@@ -15,27 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_NAME;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_KEY;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ERA_COMMON_USER_NAME;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map.Entry;
-
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
@@ -54,6 +33,17 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+
+import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.kra.infrastructure.Constants.*;
+import static org.kuali.kra.infrastructure.KeyConstants.*;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 
 

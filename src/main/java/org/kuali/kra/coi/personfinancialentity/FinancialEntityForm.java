@@ -15,16 +15,15 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.Map;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 

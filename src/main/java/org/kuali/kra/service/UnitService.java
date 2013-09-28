@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.service;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitCorrespondent;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The Unit Service provides a set of queries related to Units.

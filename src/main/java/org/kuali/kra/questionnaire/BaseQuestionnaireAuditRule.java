@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -31,6 +28,9 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseQuestionnaireAuditRule<T extends ResearchDocumentBase> extends ResearchDocumentRuleBase implements DocumentAuditRule {
 

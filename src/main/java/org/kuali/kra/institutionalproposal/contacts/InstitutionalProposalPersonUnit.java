@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -30,6 +26,10 @@ import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * This class...

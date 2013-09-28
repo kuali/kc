@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+
+import java.util.List;
 
 public interface ProposalAbstractsService {
     

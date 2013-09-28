@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.actions.history;
 
-import java.sql.Date;
-
 import org.kuali.rice.krad.bo.BusinessObjectBase;
+
+import java.sql.Date;
 
 @SuppressWarnings("serial")
 public class DateRangeFilter extends BusinessObjectBase {

@@ -16,19 +16,19 @@
 package org.kuali.kra.service;
 
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.service.impl.SequenceUtils;
 import org.kuali.kra.service.impl.versioningartifacts.SimpleSequenceOwner;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * 

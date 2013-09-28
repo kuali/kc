@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class JobCodeServiceImpl implements JobCodeService {
     

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.rules.CommitteeScheduleTimeRule;
@@ -25,6 +23,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.util.List;
 
 /**
  * 

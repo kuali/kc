@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IacucCommitteeIdIdPairValuesFinder extends IacucCommitteeIdValuesFinder {
 

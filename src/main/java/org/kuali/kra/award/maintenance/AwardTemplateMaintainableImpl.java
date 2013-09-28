@@ -16,11 +16,6 @@
  */
 package org.kuali.kra.award.maintenance;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateReportTerm;
@@ -42,6 +37,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.AutoPopulatingList;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class is for adding validation rules to maintain Award Template

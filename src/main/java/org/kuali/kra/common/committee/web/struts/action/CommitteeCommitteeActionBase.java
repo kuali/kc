@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.common.committee.web.struts.action;
 
-import java.util.Collection;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -36,6 +31,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
 
 /**
  * The CommitteeCommitteeActionBase corresponds to the CommitteeBase tab (web page).  It is

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.protocol.customdata;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
@@ -27,6 +24,10 @@ import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.

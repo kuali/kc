@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.budget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
@@ -34,6 +31,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.impl.BusinessObjectServiceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AwardBudgetServiceImplTest extends KcUnitTestBase {
 

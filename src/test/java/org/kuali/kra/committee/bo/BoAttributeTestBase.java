@@ -15,19 +15,12 @@
  */
 package org.kuali.kra.committee.bo;
 
+import junit.framework.TestCase;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import junit.framework.TestCase;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * This class is abstract template BO test class could use to test toStringMapper. 

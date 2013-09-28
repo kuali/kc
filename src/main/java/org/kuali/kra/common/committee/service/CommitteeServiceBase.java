@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.common.committee.service;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The CommitteeBase Service provides a set of methods for

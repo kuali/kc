@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.lookup.AwardTransactionLookupService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -26,6 +22,10 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Gets all sequence numbers for the current award id.  See

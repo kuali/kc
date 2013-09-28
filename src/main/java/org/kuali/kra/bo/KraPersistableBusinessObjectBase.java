@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.sql.Timestamp;
-import java.util.List;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -32,6 +27,11 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.util.List;
 
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
     

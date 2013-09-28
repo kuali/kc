@@ -15,19 +15,13 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
-import org.kuali.kra.irb.actions.submit.CheckListService;
-import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
-import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.*;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This class is really just a "form" for editing a protocol submission.

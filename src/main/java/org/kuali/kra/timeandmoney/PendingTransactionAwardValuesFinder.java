@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.timeandmoney;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PendingTransactionAwardValuesFinder extends AwardValuesFinder {
     

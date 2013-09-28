@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.AwardForm;
@@ -30,6 +23,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.krad.util.ErrorMessage;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Assumptions:

@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractUnitAdministrator;
 import org.kuali.kra.bo.UnitAdministrator;
@@ -30,6 +25,11 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends AbstractUnitAdministratorDerivedRoleTypeService
         implements RoleTypeService {

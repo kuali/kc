@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
+import org.kuali.kra.SequenceAssociate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import org.kuali.kra.SequenceAssociate;
 
 /**
  * This class is a generic class for testing versioning

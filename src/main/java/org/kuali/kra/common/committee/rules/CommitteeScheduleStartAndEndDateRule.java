@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.common.committee.rules;
 
-import java.sql.Date;
-
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.sql.Date;
 
 public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleStartAndEndDateEvent> {
     

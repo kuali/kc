@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.iacuc;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -47,6 +44,9 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class IacucProtocolAction extends ProtocolActionBase {
    

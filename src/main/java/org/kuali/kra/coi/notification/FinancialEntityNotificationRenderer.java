@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.coi.notification;
 
-import java.util.Map;
-
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.common.notification.NotificationRendererBase;
@@ -24,6 +22,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.util.Map;
 
 /**
  * Renders fields for the IRB notifications.
