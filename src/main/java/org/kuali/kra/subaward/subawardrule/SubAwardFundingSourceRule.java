@@ -16,7 +16,6 @@
 package org.kuali.kra.subaward.subawardrule;
 
 import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 
 /**

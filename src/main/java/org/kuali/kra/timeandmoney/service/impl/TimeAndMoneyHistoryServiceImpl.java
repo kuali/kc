@@ -15,20 +15,12 @@
  */
 package org.kuali.kra.timeandmoney.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchDocumentService;
-import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardAmountInfoHistory;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
 import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
@@ -45,6 +37,8 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.*;
 
 public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryService {
     

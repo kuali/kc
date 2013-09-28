@@ -15,30 +15,12 @@
  */
 package org.kuali.kra.subaward.service.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
@@ -48,14 +30,16 @@ import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * This class is service impl for subAward...
@@ -93,19 +77,6 @@ public class SubAwardServiceImpl implements SubAwardService {
         return newSubAwardDocument;
     }
 
-    /**.
-     * This method is for incrementVersionNumberIfCanceledVersionsExist
-     * @param subAward...
-     *
-     */
-    protected void incrementVersionNumberIfCanceledVersionsExist(
-    SubAward subAward) {
-        List<VersionHistory> versionHistory =
-        (List<VersionHistory>) getBusinessObjectService().
-        findMatching(VersionHistory.class, getHashMap(
-        Long.toString(subAward.getSubAwardId())));
-        subAward.setSequenceNumber(versionHistory.size() + 1);
-    }
     /**.
      * This method is for getting hashMap
      * @param subAwardNumber

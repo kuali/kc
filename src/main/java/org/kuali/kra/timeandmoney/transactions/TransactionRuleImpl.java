@@ -15,23 +15,15 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
@@ -39,8 +31,12 @@ import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The AwardPaymentScheduleRuleImpl
@@ -103,27 +99,6 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         }
         return valid;                    
     }
-    
-    /**
-     * @see org.kuali.kra.timeandmoney.transactions.TransactionRule#processSingleNodeTransactionBusinessRules(org.kuali.kra.timeandmoney.AwardHierarchyNode, org.kuali.kra.award.home.AwardAmountInfo)
-     * Business rules for single node transactions
-     * 1)if direct/F&A view is disabled, then we test that transaction will either move anticipated/obligated money into or our of award.
-     *   We cannot have the instance where we are moving in and out of award at same time since the transactions have a source and destination award
-     * 2)if Direct/F&A view is enabled, then there are two possibilities.
-     *      a)We cannot move money in and out of award for direct/indirect amounts in same transaction.
-     *      b)The exception to this rule is if doing so does not affect the total amount.  The net affect of this is moving money from idc to dc or
-     *        vice versa.
-     */
-    public boolean processSingleNodeTransactionBusinessRules (AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai, TimeAndMoneyDocument doc) {
-        boolean returnValue;
-        if(isDirectIndirectViewEnabled()) {
-            returnValue = processParameterEnabledRules(awardHierarchyNode, aai, doc);
-        } else {
-            returnValue = processParameterDisabledRules(awardHierarchyNode, aai, doc);
-        }
-        return returnValue;
-    }
-    
     
     /**
      * Looks up and returns the ParameterService.

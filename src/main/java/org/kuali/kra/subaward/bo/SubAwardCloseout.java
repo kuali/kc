@@ -16,7 +16,6 @@
 package org.kuali.kra.subaward.bo;
 
 import java.sql.Date;
-import org.kuali.kra.subaward.bo.SubAward;
 
 /**
  * This class is for SubAwardCloseOut...
@@ -39,8 +38,6 @@ public class SubAwardCloseout extends SubAwardAssociate {
     private Date dateReceived;
 
     private String comments;
-
-    private SubAward subAward;
 
     /**
      * Constructs a SubAwardCloseout.java.

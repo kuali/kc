@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.subawardReporting.web.struts.action;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -32,15 +24,19 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
 import org.kuali.kra.subawardReporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.subawardReporting.web.struts.form.IsrSsrReportGenerationForm;
-
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @SuppressWarnings("deprecation")
