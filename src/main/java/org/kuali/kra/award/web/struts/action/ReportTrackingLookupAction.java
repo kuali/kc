@@ -69,8 +69,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
     private DocumentService documentService;
     private VersionHistoryService versionHistoryService;
     private UnitAuthorizationService unitAuthorizationService;
-    private ReportTrackingPrintingService reportTrackingPrintingService;
-    
+
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         isAuthorized();
         return super.execute(mapping, form, request, response);
@@ -337,10 +336,6 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
     
     private ReportTrackingPrintingService getReportTrackingPrintingService() {
         return KraServiceLocator.getService(ReportTrackingPrintingService.class);
-    }
-    public void setReportTrackingPrintingService(
-            ReportTrackingPrintingService reportTrackingPrintingService) {
-        this.reportTrackingPrintingService = reportTrackingPrintingService;
     }
     /**
      * method to stream the byte array to response object

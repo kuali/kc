@@ -23,8 +23,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.service.FiscalYearMonthService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
 import java.util.List;
@@ -32,8 +30,6 @@ import java.util.List;
 class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     private static final String FANDA_COMMENT_PATTERN = "Added Unrecovered F & A from Proposal Number %s";
     
-    private ParameterService parameterService;
-    private BusinessObjectService businessObjectService;
     private FiscalYearMonthService fiscalYearMonthService;
     
     /**
@@ -89,28 +85,6 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
         awardFandA.setStartDate(new Date(this.getFiscalYearMonthService().getFiscalYearStartDate(fy).getTimeInMillis()));
         awardFandA.setEndDate(new Date(this.getFiscalYearMonthService().getFiscalYearEndDate(fy).getTimeInMillis()));
         return awardFandA;
-    }
-    
-    /**
-     * Looks up and returns the ParameterService.
-     * @return the parameter service. 
-     */
-    protected ParameterService getParameterService() {
-        if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
-        }
-        return this.parameterService;
-    }
-    
-    /**
-     * Looks up and returns the BusinessObjectService.
-     * @return the business object service. 
-     */
-    protected BusinessObjectService getBusinessObjectService() {
-        if (this.businessObjectService == null) {
-            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
-        }
-        return this.businessObjectService;
     }
     
     protected FiscalYearMonthService getFiscalYearMonthService() {

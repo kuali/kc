@@ -30,15 +30,9 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
     private static final String ADD_ERROR_KEY = "error.custom";
 
     /**
-     * Provides general validation support
-     */
-    private ValidationHelper validationHelper;
-
-    /**
      * Constructs a BudgetCostShareRuleImpl
      */
     public BudgetCostShareRuleImpl() {
-        validationHelper = new ValidationHelper();
     }
 
     /**

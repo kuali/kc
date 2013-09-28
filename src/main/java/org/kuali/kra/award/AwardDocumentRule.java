@@ -29,7 +29,6 @@ import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleEvent
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleImpl;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
-import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.paymentreports.awardreports.*;
 import org.kuali.kra.award.paymentreports.closeout.AddAwardCloseoutRuleEvent;
@@ -59,11 +58,9 @@ import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
@@ -110,8 +107,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
-    public static final boolean VALIDATION_REQUIRED = true;
-    public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     private static final String AWARD_ERROR_PATH_PREFIX = "document.awardList[0].";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardDocumentRule.class);
@@ -547,18 +542,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         }        
         return isValid;    
     }
-    
-    protected boolean isValidFrequency(
-            AwardReportTerm awardReportTerm, List<KeyValue> frequencyCodes){
-        boolean isValid = false;
-        for(KeyValue KeyValue:frequencyCodes){
-            if(StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(), 
-                    awardReportTerm.getFrequencyCode())) {
-                isValid = true;                    
-            }
-        }
-        return isValid;
-    }
 
     protected boolean isValidFrequencyBase(
             AwardReportTerm awardReportTerm, List<KeyValue> frequencyBaseCodes){
@@ -577,12 +560,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
         reportCodeValuesFinder.setReportClassCode(reportClassCode);
         return reportCodeValuesFinder.getKeyValues();
-    }
-    
-    protected List<KeyValue> getFrequencyCodes(String reportClassCode, String reportCode){
-        FrequencyCodeValuesFinder frequencyCodeValuesFinder 
-        = new FrequencyCodeValuesFinder(reportClassCode, reportCode);
-        return frequencyCodeValuesFinder.getKeyValues();
     }
     
     protected List<KeyValue> getFrequencyBaseCodes(String frequencyCode){
@@ -766,9 +743,5 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         if (auditWarnings.size() > 0) {
             KNSGlobalVariables.getAuditErrorMap().put("homePageAuditWarnings", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditWarnings, Constants.AUDIT_WARNINGS));            
         }
-    }
-    
-    private SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
     }
 }

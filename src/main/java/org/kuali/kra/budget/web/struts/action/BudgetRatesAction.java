@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -40,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 public class BudgetRatesAction extends BudgetAction {
-    private static final Log LOG = LogFactory.getLog(BudgetRatesAction.class);
 
     private static final String CONFIRM_SYNC_RATES = "confirmSyncRates";
     private static final String CONFIRM_SYNC_ALL_RATES = "confirmSyncAllRates";

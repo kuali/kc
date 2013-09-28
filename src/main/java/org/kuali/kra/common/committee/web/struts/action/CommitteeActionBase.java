@@ -26,7 +26,6 @@ import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.impl.KraDocumentServiceImpl;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -109,42 +108,9 @@ public abstract class CommitteeActionBase extends KraTransactionalDocumentAction
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         CommitteeFormBase committeeForm = (CommitteeFormBase) form;
-        doProcessingAfterPost(committeeForm, request);   
-        /*
-        ActionForward actionForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-
-        // only want to prompt them to save if they already can save
-        if (canSave(committeeForm)) {
-            Object question = getQuestion(request);
-            // logic for close question
-            if (question == null) {
-                // ask question if not already asked
-                return this.performQuestionWithoutInput(mapping, form, request, response,
-                        KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, getKualiConfigurationService().getPropertyValueAsString(
-                                RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KRADConstants.CONFIRMATION_QUESTION,
-                        KRADConstants.MAPPING_CLOSE, "");
-            } else {
-                Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-                if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question))
-                        && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                    // if yes button clicked - save the doc
-                    getKraDocumentService().saveDocument(committeeForm.getDocument());
-                }
-                // else go to close logic below
-            }
-        } else {
-            actionForward = mapping.findForward(RiceConstants.MAPPING_BASIC);                    
-        }
-
-        return actionForward;
-        */
+        doProcessingAfterPost(committeeForm, request);
         
         return super.close(mapping, committeeForm, request, response);
-    }
-
-    private KraDocumentServiceImpl getKraDocumentService() {
-        return ((KraDocumentServiceImpl) KraServiceLocator.getService("kraDocumentService"));
-
     }
 
     /**

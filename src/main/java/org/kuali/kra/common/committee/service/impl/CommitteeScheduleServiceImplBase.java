@@ -68,8 +68,6 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
     private static final String PROTOCOL_ID_FIELD = "protocolIdFk";
     private static final String SCHEDULE_ID_FIELD = "scheduleIdFk";
     private static final String ENTRY_NUMBER_FIELD = "entryNumber";
-    private static final String SUBMISSION_ID_FIELD = "submissionIdFk";
-    private static final String COMM_SCHEDULE_MINUTES_ID_PROPERTY = "commScheduleMinutesId";
     private BusinessObjectService businessObjectService;
 
     private ScheduleService scheduleService;   

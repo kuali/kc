@@ -55,7 +55,6 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 	protected DateTimeService dateTimeService = null;
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
-	protected static final String AWARD_NUMBER_PARAMETER = "awardNumber";
 	protected static final String DOCUMENT_NUMBER = "documentNumber";
 	private ParameterService parameterService;
 	/**

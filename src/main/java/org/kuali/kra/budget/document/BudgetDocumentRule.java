@@ -52,8 +52,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
-
 public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
 
     /** 
@@ -509,25 +507,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         GlobalVariables.getMessageMap().removeFromErrorPath("document");
         
         return valid;
-    }
-
-    /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
-     * to the auditErrorMap.
-     * 
-     * @return List of AuditError instances
-     */
-    private List<AuditError> getAuditErrors() {
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        
-        if (!KNSGlobalVariables.getAuditErrorMap().containsKey("budgetPersonnelAuditErrors")) {
-           KNSGlobalVariables.getAuditErrorMap().put("budgetPersonnelAuditErrors", new AuditCluster("Budget Personnel Information", auditErrors, AUDIT_ERRORS));
-        }
-        else {
-            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get("budgetPersonnelAuditErrors")).getAuditErrorList();
-        }
-        
-        return auditErrors;
     }
 
 }

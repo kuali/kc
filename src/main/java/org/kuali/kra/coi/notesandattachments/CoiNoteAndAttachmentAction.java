@@ -22,12 +22,9 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.CoiAction;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
-import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
-import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -220,14 +217,5 @@ public class CoiNoteAndAttachmentAction extends CoiAction {
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    
-    protected CoiPrintingService getCoiPrintingService() {
-        return  KraServiceLocator.getService(CoiPrintingService.class);  
-    }
-    
-    protected WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);  
     }
 }

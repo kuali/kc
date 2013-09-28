@@ -141,10 +141,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     
     public CoiDisclosure() { 
         super();
-//        disclosurePersons = new ArrayList<DisclosurePerson>();
-//        DisclosurePerson newDisclosurePerson = new DisclosurePerson();
-//        newDisclosurePerson.setCoiDisclosure(this);
-//        disclosurePersons.add(newDisclosurePerson);
+
         this.setSequenceNumber(1);
         initCoiDisclosureNumber();
         getDisclosureReporter();

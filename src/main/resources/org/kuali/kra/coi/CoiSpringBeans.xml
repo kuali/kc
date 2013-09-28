@@ -262,7 +262,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="financialEntityService" ref="financialEntityService" />
-        <property name="protocolFinderDao" ref="protocolFinderDao" />
         <property name="versioningService" ref="versioningService" />
         <property name="parameterService" ref="parameterService" />
         <property name="dateTimeService" ref="dateTimeService" />
@@ -280,7 +279,6 @@
     <bean id="parentCoiDisclosureAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="kcPersonService" ref="kcPersonService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="coiDisclosureService" ref="coiDisclosureService" />
     </bean>

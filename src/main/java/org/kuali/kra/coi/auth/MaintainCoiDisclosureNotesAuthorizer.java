@@ -79,10 +79,6 @@ public class MaintainCoiDisclosureNotesAuthorizer extends CoiDisclosureAuthorize
         return !coiDisclosure.isSubmitted();
     }
     
-    protected boolean isDocumentViewOnly(CoiDisclosure coiDisclosure) {
-        return coiDisclosure.getCoiDisclosureDocument().isViewOnly();
-    }
-    
     protected boolean isDocumentFinal(CoiDisclosure coiDisclosure) {
         return coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isFinal();     
     }

@@ -17,8 +17,6 @@ package org.kuali.kra.budget.web.struts.action;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -63,8 +61,6 @@ import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAM
  * Action class for Budget Personnel page
  */
 public class BudgetPersonnelAction extends BudgetExpensesAction {
-    
-    private static final Log LOG = LogFactory.getLog(BudgetPersonnelAction.class);
     
     private static final String CONFIRM_DELETE_BUDGET_PERSON = "confirmDeleteBudgetPerson";
     private static final String EMPTY_GROUP_NAME = "";

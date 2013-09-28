@@ -22,19 +22,14 @@ import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewService;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Defines the base class of all Special Review Helpers.
@@ -129,23 +124,6 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     }
     
     /**
-     * 
-     * This method gets a DevelopmentProposal object based on the proposalNumber
-     * @param proposalNumber
-     * @return
-     */
-    protected DevelopmentProposal getPropososalDevelopment(String proposalNumber) {
-        final String PROPOSAL_NUMBER = "PROPOSAL_NUMBER";
-        DevelopmentProposal dp = null;
-        if (proposalNumber != null) {
-            Map<String, String> key = new HashMap<String, String>();
-            key.put(PROPOSAL_NUMBER, proposalNumber);
-            dp = KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(DevelopmentProposal.class, key);
-        }
-        return dp;
-    }
-    
-    /**
      * Get the existing saved Special Reviews from the form.
      * @return the list of saved Special Reviews
      */
@@ -171,24 +149,6 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      */
 
     protected abstract boolean isIacucProtocolLinkingEnabledForModule();
-
-    /**
-     * Gets the last approved Protocol, ignoring any amendments or renewals.
-     * @param protocolNumber the number of the Protocol
-     * @return the last approved Protocol
-     */
-
-    protected Protocol getLastApprovedProtocol(String protocolNumber) {
-        String lastApprovedProtocolNumber = protocolNumber;
-        
-        if (StringUtils.contains(protocolNumber, AMENDMENT_KEY)) {
-            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, AMENDMENT_KEY);
-        } else if (StringUtils.contains(protocolNumber, RENEWAL_KEY)) {
-            lastApprovedProtocolNumber = StringUtils.substringBefore(protocolNumber, RENEWAL_KEY);
-        }
-        
-        return getProtocolFinderDao().findCurrentProtocolByNumber(lastApprovedProtocolNumber);
-    }
     
     /**
      * Synchronizes the information between the Special Reviews and the corresponding Protocol Funding Sources.

@@ -55,7 +55,6 @@ import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.*;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.*;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
@@ -1032,11 +1031,6 @@ public class AwardAction extends BudgetParentActionBase {
         return map;
     }
 
-    protected KraWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KraWorkflowService.class);
-    }
-    
-
     /**
      * This method tests if the award is new by checking the size of AwardDirectFandADistributions on the Award.
      * @param awardForm
@@ -1621,11 +1615,6 @@ public class AwardAction extends BudgetParentActionBase {
         }
         return syncScopesList;
     }
-    
-    
-    protected KeyPersonnelService getKeyPersonnelService() {
-        return KraServiceLocator.getService(KeyPersonnelService.class);
-    }
 
     protected SponsorService getSponsorService() {
         return KraServiceLocator.getService(SponsorService.class);
@@ -1641,26 +1630,6 @@ public class AwardAction extends BudgetParentActionBase {
      */
     protected VersionHistoryService getVersionHistoryService() {
         return KraServiceLocator.getService(VersionHistoryService.class);
-    }
-    
-    protected String getModuleIdentifierForOpeningDocument(HttpServletRequest request) {
-        String moduleIdentifier = "";
-        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            moduleIdentifier = StringUtils.substringBetween(parameterName, ".moduleIdentifier", ".");
-        }
-
-        return moduleIdentifier;
-    }
-    
-    private String getDocumentType(HttpServletRequest request) {
-        String documentType = "";
-        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            documentType = StringUtils.substringBetween(parameterName, ".documentType", ".");
-        }
-
-        return documentType;
     }
 
    

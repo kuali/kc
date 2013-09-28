@@ -29,7 +29,6 @@ import java.util.Map;
 
 
 public class BudgetPersonnelExpenseRule {
-    private static final String PERSONNEL_CATEGORY = "P";
 
     public BudgetPersonnelExpenseRule() {
     }

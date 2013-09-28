@@ -23,7 +23,6 @@ import org.kuali.kra.bo.OrganizationTypeList;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 
 import java.sql.Timestamp;
@@ -373,13 +372,6 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     
     public boolean isStatusActive() {
         return StringUtils.equals(FinIntEntityStatus.ACTIVE, this.statusCode.toString());
-    }
- 
-    protected DateTimeService getDateTimeService() {
-        if(dateTimeService == null) {
-            dateTimeService = (DateTimeService) CoreApiServiceLocator.getDateTimeService();
-        }
-        return dateTimeService;
     }
 
     @SuppressWarnings("unchecked")

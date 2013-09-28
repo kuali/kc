@@ -738,35 +738,6 @@ public class CoiDisclosureAction extends CoiAction {
         return RESPONSE_ALREADY_HANDLED;
     }
 
-    private byte[] getCoiDisclosureAttachmentFile(ActionForm form, CoiDisclosureAttachment attachment) {
-        CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();
-
-        byte[] attachmentFile = null;
-        final AttachmentFile file = attachment.getFile();
-        Printable printableArtifacts= getCoiPrintingService().getCoiPrintArtifacts(helper.getCoiDisclosure());
-        try {
-            if (printableArtifacts.isWatermarkEnabled()){
-                Integer attachmentDocumentId = attachment.getDocumentId();
-                List<CoiDisclosureAttachment> coiDisclosureAttachmentList = helper.getCoiDisclosure().getCoiDisclosureAttachments();
-                if (coiDisclosureAttachmentList.size()>0){
-                    for (CoiDisclosureAttachment coiDisclosureAttachment : coiDisclosureAttachmentList) {
-                        if (attachmentDocumentId.equals(coiDisclosureAttachment.getDocumentId())){
-                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),
-                                    printableArtifacts.getWatermarkable().getWatermark());
-                        }
-                    }
-                }
-                else {
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),
-                            printableArtifacts.getWatermarkable().getWatermark());
-                }
-            }
-        }
-        catch (Exception e) {
-        }        
-        return attachmentFile;
-    }
-
     public ActionForward updateAttachmentFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();

@@ -42,7 +42,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -483,15 +482,6 @@ public class BudgetVersionsAction extends BudgetAction {
 
     private AwardBudgetService getAwardBudgetService() {
         return KraServiceLocator.getService(AwardBudgetService.class);
-    }
-
-    /**
-     * Locate the {@link ProposalDevelopmentService} implementation
-     *
-     * @return ProposalDevelopmentService singleton instance
-     */
-    private ProposalDevelopmentService getProposalDevelopmentService() {
-        return KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
     private BudgetRatesService getBudgetRatesService() {

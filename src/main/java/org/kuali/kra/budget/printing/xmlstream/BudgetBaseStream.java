@@ -61,7 +61,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 	private static final String DEPENDENT_RATE_CLASS_TYPE = "dependentRateClassType";
 	private static final String RATE_CLASS_CODE = "rateClassCode";
 	private static final String UNIT_NUMBER = "unitNumber";
-	private static final String PROPOSAL_NUMBER = "proposalNumber";
 	private static final String GET_METHOD_PREFIX = "get";
 	private static final String RATE_TYPE_CODE = "rateTypeCode";
 	private static final String CLOSE_BRACES = ")";
@@ -76,13 +75,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	protected static final String PERCENTAGE = "%";
 	protected static final String LAB_ALLOCATION = "Lab Allocation";
 	protected static final String CATEGORY_CODE_LA_SALARY = "99";
-	protected static final String RATE_TYPE_CODE_VACATION_ON_LA = "2";
-	protected static final String RATE_CLASS_CODE_VACATION_ON_LA = "8";
-	protected static final String RATE_TYPE_CODE_LA_SALARY = "1";
-	protected static final String RATE_CLASS_CODE_LA_SALARY = "10";
 	protected static final String DEFAULT_RATE_TYPE_CODE_FOR_LI = "3";
-	protected static final String RATE_CLASS_CODE_EB_ON_LA = "5";
-	protected static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
 	private static final String RATE_CLASS = "rateClass";
 	private static final String STRING_SEPRATOR = "-";
 	private static final String EMPTY_STRING = "";
