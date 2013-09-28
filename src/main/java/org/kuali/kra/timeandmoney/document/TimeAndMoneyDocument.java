@@ -15,19 +15,10 @@
  */
 package org.kuali.kra.timeandmoney.document;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.common.permissions.Permissionable;
@@ -46,6 +37,8 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.*;
 
 /**
  * 
@@ -71,7 +64,6 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements Copyab
     private List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems;
     private Award award;
     private AwardAmountTransaction newAwardAmountTransaction;
-    private List<AwardDirectFandADistribution> awardDirectFandADistributions;
     private List<AwardVersionHistory> awardVersionHistoryList;
     private List<String> order;
     
@@ -114,8 +106,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements Copyab
         pendingTransactions = new ArrayList<PendingTransaction>();
         awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
         timeAndMoneyHistory = new LinkedHashMap<Object, Object>();
-        timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>(); 
-        awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
+        timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>();
         newAwardAmountTransaction = new AwardAmountTransaction();
         awardVersionHistoryList = new ArrayList<AwardVersionHistory>();
         order = new ArrayList<String>();

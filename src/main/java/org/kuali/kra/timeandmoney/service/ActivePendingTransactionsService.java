@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.timeandmoney.service;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
+
+import java.util.List;
+import java.util.Map;
 
 public interface ActivePendingTransactionsService {
     
@@ -35,21 +35,8 @@ public interface ActivePendingTransactionsService {
     
     List<AwardAmountTransaction> processTransactions(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction, Map<String
             , AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems, Boolean refreshFlag);
-    
-    List<AwardAmountTransaction> processSingleNodeMoneyTransaction(TimeAndMoneyDocument doc,AwardAmountTransaction newAwardAmountTransaction
-            , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems);
-    
+
     List<Award> processTransactionsForAddRuleProcessing(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction, Map<String
             , AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems);
-    
-//    /**
-//     * 
-//     * This method retrieves the active award using the version history service.
-//     * @param awardNumber
-//     * @return
-//     */
-//    Award getPendingAwardVersion(String awardNumber);
-//    Award getActiveAwardVersion(String awardNumber);
-//    Award getWorkingAwardVersion(String awardNumber);
 
 }

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import java.sql.Date;
-import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.sql.Date;
 
 public class SubAwardFundingSource extends SubAwardAssociate { 
 

@@ -15,20 +15,11 @@
  */
 package org.kuali.kra.timeandmoney.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
@@ -46,6 +37,9 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class ActivePendingTransactionsServiceImpl implements ActivePendingTransactionsService {
     
@@ -152,35 +146,6 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         return awardAmountTransactions;
     }
     
-    public List<AwardAmountTransaction> processSingleNodeMoneyTransaction(TimeAndMoneyDocument doc,AwardAmountTransaction newAwardAmountTransaction
-            , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems) {
-        List<PendingTransaction> updatedPendingTransactions = new ArrayList<PendingTransaction>();
-        List<PendingTransaction> pendingTransactionsToBeDeleted = new ArrayList<PendingTransaction>();
-        updatedPendingTransactions.addAll(doc.getPendingTransactions());
-                
-        PendingTransaction pendingTransaction = doc.getPendingTransactions().get(doc.getPendingTransactions().size() - 1);
-        
-        Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
-        AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
-        AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());            
-        AwardHierarchyNode parentNode = new AwardHierarchyNode();
-        //
-        if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-            processPendingTransactionWhenSourceIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
-                    , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, destinationAwardNode);   
-            
-            //
-        }else if(StringUtils.equalsIgnoreCase(pendingTransaction.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-            processPendingTransactionWhenDestinationIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
-                    , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, sourceAwardNode); 
-        }
-        updatedPendingTransactions.remove(pendingTransaction);
-        pendingTransactionsToBeDeleted.add(pendingTransaction);
-        
-        List<AwardAmountTransaction> awardAmountTransactions = prepareAwardAmountTransactionsListForPersistence(awardAmountTransactionItems);
-        return awardAmountTransactions;
-    }
-    
     /**
      * This method...
      * @param doc
@@ -236,18 +201,6 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         }
         
         return awardItems;
-    }
-
-    /*
-     * This method deletes processed pending transactions from the doc for persistence.
-     * 
-     * @param doc
-     * @param pendingTransactionsToBeDeleted
-     */
-    protected void deletePendingTransactions(TimeAndMoneyDocument doc, List<PendingTransaction> pendingTransactionsToBeDeleted) {
-        for(PendingTransaction pendingTransaction: pendingTransactionsToBeDeleted){
-            doc.getPendingTransactions().remove(pendingTransaction);
-        }
     }
 
     /*
@@ -1227,58 +1180,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         awardVersionService = KraServiceLocator.getService(AwardVersionService.class);
         return awardVersionService;
     }
-    
-//    public Award getWorkingAwardVersion(String goToAwardNumber) {
-//        Award award = null;
-//        award = getPendingAwardVersion(goToAwardNumber);
-//        if (award == null) {
-//            award = getActiveAwardVersion(goToAwardNumber);
-//        }
-//        return award;
-//    }
-//    
-//    /*
-//     * This method retrieves the pending award version.
-//     * 
-//     * @param doc
-//     * @param goToAwardNumber
-//     */
-//    @SuppressWarnings("unchecked")
-//    public Award getPendingAwardVersion(String goToAwardNumber) {
-//        
-//        Award award = null;
-//        VersionHistory versionHistory = versionHistoryService.findPendingVersion(Award.class, goToAwardNumber);
-//        if (versionHistory != null) {
-//            return (Award) versionHistory.getSequenceOwner();
-//        } else {
-//            return null;
-//        }
-//    }
-//    
-//    protected Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
-//        Map<String, String> map = new HashMap<String,String>();
-//        map.put("awardNumber", goToAwardNumber);
-//        return map;
-//    }
-//    
-//    /**
-//     * 
-//     * @see org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService#getActiveAwardVersion(java.lang.String)
-//     */
-//    @SuppressWarnings("unchecked")
-//    public Award getActiveAwardVersion(String awardNumber) {
-//          
-//        VersionHistory vh = versionHistoryService.findActiveVersion(Award.class, awardNumber);
-//        Award award = null;
-//        
-//        if(vh!=null){
-//            award = (Award) vh.getSequenceOwner();
-//        }else{
-//            List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, getHashMap(awardNumber));     
-//            award = (CollectionUtils.isEmpty(awards) ? null : awards.get(0));
-//        }
-//        return award;
-//    }
+
     
     /**
      * Replace the UserSession with one for the user who routed the parent award.

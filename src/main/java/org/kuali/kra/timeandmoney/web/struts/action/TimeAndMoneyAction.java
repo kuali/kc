@@ -15,18 +15,6 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.struts.action.ActionForm;
@@ -71,6 +59,12 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
@@ -557,33 +551,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         newAwardAmountInfo.setAnticipatedChangeIndirect(new KualiDecimal(0));
         newAwardAmountInfo.setOriginatingAwardVersion(award.getSequenceNumber());
 
-        
-        //updateAmountFields(updateAmounts, addOrSubtract, pendingTransaction, awardAmountInfo, newAwardAmountInfo);
-        
-        //addAwardAmountTransaction(newAwardAmountInfo.getAwardNumber(), awardAmountTransactionItems, newAwardAmountTransaction, documentNumber);
-
         return newAwardAmountInfo;
-    }
-    
-    /*
-     * This is a helper method to add awardAmountTransaction information.
-     * 
-     * AwardAmountTransacion table is going to have one entry per document, per affected award.
-     * Affected award here means an award that is part of any of the Pending Transactions.
-     * 
-     * That's why we will maintain a map of AwardAmountTransaction Objects with awardNumber as the key. If the key is present, we won't
-     * add a new entry here, otherwise we will. We will persist all awardAmountTransaction objects later.
-     */
-    private void addAwardAmountTransaction(String awardNumber, Map<String, AwardAmountTransaction> awardAmountTransactionItems, AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
-        if(!awardAmountTransactionItems.containsKey(awardNumber)){
-            AwardAmountTransaction newAwardAmountTransaction1 = new AwardAmountTransaction(); 
-            newAwardAmountTransaction1.setAwardNumber(awardNumber);
-            newAwardAmountTransaction1.setDocumentNumber(documentNumber);
-            newAwardAmountTransaction1.setTransactionTypeCode(newAwardAmountTransaction.getTransactionTypeCode());
-            newAwardAmountTransaction1.setComments(newAwardAmountTransaction.getComments());
-            newAwardAmountTransaction1.setNoticeDate(newAwardAmountTransaction.getNoticeDate());
-            awardAmountTransactionItems.put(awardNumber, newAwardAmountTransaction1);    
-        }       
     }
     
     private void updateAwardAmountTransactions(TimeAndMoneyDocument timeAndMoneyDocument) {
