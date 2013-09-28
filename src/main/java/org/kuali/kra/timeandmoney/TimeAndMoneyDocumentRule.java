@@ -33,7 +33,6 @@ import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionS
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRuleImpl;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
-import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.AddTransactionRuleEvent;
 import org.kuali.kra.timeandmoney.transactions.TransactionRule;
 import org.kuali.kra.timeandmoney.transactions.TransactionRuleEvent;
@@ -85,7 +84,6 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
      * @param document
      */
     protected void reportAwardReportTrackingError(Document document) {
-        //ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
         for (Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()) {
             Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
@@ -230,10 +228,6 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
             reportTrackingService = KraServiceLocator.getService(ReportTrackingService.class);
         }
         return reportTrackingService;
-    } 
-    
-    protected ActivePendingTransactionsService getActivePendingTransactionsService(){
-        return (ActivePendingTransactionsService) KraServiceLocator.getService(ActivePendingTransactionsService.class);
     }
     
     public AwardVersionService getAwardVersionService() {
