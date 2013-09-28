@@ -16,8 +16,6 @@
 package org.kuali.kra.budget.web.struts.action;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -61,7 +59,6 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 public class BudgetParametersAction extends BudgetAction {
-    private static final Log LOG = LogFactory.getLog(BudgetParametersAction.class);
     private static final String CONFIRM_RECALCULATE_BUDGET_KEY = "calculateAllPeriods";
     private static final String CONFIRM_SAVE_BUDGET_KEY = "saveAfterQuestion";
     private static final String CONFIRM_GENERATE_ALL_PERIODS = "confirmGenerateAllPeriods";

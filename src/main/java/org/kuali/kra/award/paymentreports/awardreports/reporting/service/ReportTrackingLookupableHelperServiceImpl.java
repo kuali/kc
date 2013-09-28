@@ -23,8 +23,6 @@ import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 public class ReportTrackingLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 721845462946339775L;
-    
-    private ReportTrackingDao reportTrackingDao;
 
     @Override
     protected String getDocumentTypeName() {
@@ -40,13 +38,4 @@ public class ReportTrackingLookupableHelperServiceImpl extends KraLookupableHelp
     protected String getKeyFieldName() {
         return "objectId";
     }
-
-    protected ReportTrackingDao getReportTrackingDao() {
-        return reportTrackingDao;
-    }
-
-    public void setReportTrackingDao(ReportTrackingDao reportTrackingDao) {
-        this.reportTrackingDao = reportTrackingDao;
-    }
-
 }

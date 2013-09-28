@@ -20,14 +20,10 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase {
 
@@ -114,22 +110,5 @@ public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase {
         assert error != null : "the error is null";
 
         this.addAuditError(error, BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY, Constants.BUDGET_PERIOD_PANEL_NAME, Constants.AUDIT_ERRORS);
-    }
-    
-    /**
-     * Adds an budget period date error.
-     * @param warning the error
-     */
-    private List<AuditError> getAuditErrors() {
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        
-        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY)) {
-           KNSGlobalVariables.getAuditErrorMap().put(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY, new AuditCluster(Constants.BUDGET_PERIOD_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
-        }
-        else {
-            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY)).getAuditErrorList();
-        }
-        
-        return auditErrors;
     }
 }

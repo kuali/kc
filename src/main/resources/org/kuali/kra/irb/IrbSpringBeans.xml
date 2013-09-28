@@ -138,7 +138,6 @@
     <bean id="parentProtocolAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="kcPersonService" ref="kcPersonService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="protocolActionService" ref="protocolActionService" />
     </bean>
@@ -555,7 +554,6 @@
 	<bean id="parentProtocolOnlineReviewAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="kcPersonService" ref="kcPersonService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService" />
     </bean>
@@ -958,13 +956,8 @@
     
     <bean id="committeeScheduleAttendanceService" class="org.kuali.kra.committee.service.impl.CommitteeScheduleAttendanceServiceImpl">
         <property name="committeeService" ref="committeeService" />
-    	<property name="parameterService" ref="parameterService" />
     </bean>
-    
-       <!--  <bean id="abstractProtocolActionsCorrespondence"
-            class="org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence" abstract="true">
-         <property name="protocolXmlStream" ref="protocolXmlStream" />
-        </bean> -->
+
                 
     <bean id="renewalReminderStream"
             class="org.kuali.kra.irb.actions.print.RenewalReminderStream" parent="printBaseXmlStream">

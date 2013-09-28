@@ -28,7 +28,6 @@ import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDet
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -399,10 +398,6 @@ public class AwardFundingProposalBean implements Serializable {
     
     protected InstitutionalProposalService getInstitutionalProposalService() {
         return KraServiceLocator.getService(InstitutionalProposalService.class);
-    }
-    
-    protected IdentityService getIdentityService() {
-        return KraServiceLocator.getService(IdentityService.class);
     }
     
     protected PermissionService getPermissionService() {

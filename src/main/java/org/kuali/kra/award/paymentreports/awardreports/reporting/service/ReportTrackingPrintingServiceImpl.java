@@ -56,14 +56,6 @@ public class ReportTrackingPrintingServiceImpl implements ReportTrackingPrinting
          return attachmentDataSource;
      }
 
-
-    protected String getReportName(String reportFileNamePrefix, String reportName) {
-
-        StringBuilder reportFullName = new StringBuilder(reportFileNamePrefix).append(
-                "_").append(reportName.replace(' ', '_')).append(
-                Constants.PDF_FILE_EXTENSION);
-        return reportFullName.toString();
-    }
      public AwardReportTracking getReportPrintable(ReportTrackingType reportType,ReportTracking detailResult,AwardReportTracking printable) {
             switch(reportType) {
                 case AWARD_REPORT_TRACKING :

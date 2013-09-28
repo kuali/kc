@@ -15,16 +15,9 @@
  */
 package org.kuali.kra.common.config;
 
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.SmartApplicationListener;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class AbstractConfigurer extends ModuleConfigurer implements SmartApplicationListener {
     
@@ -64,56 +57,6 @@ public class AbstractConfigurer extends ModuleConfigurer implements SmartApplica
         // return a lower value which will give the data dictionary indexing higher precedence since DD indexing should
         // be started as soon as it can be
         return -1000;
-    }
-    
-    protected void publishDataDictionaryComponents() {
-        if (isComponentPublishingEnabled()) {
-            long delay = getComponentPublishingDelay();
-            LOG.info("Publishing of Data Dictionary components is enabled, scheduling publish after " + delay + " millisecond delay");
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            try {
-                scheduler.schedule(new Runnable() {
-                    @Override
-                    public void run() {
-                        long start = System.currentTimeMillis();
-                        LOG.info("Executing scheduled Data Dictionary component publishing...");
-                        try {
-                            KRADServiceLocatorWeb.getDataDictionaryComponentPublisherService().publishAllComponents();
-                        } catch (RuntimeException e) {
-                            LOG.error("Failed to publish data dictionary components.", e);
-                            throw e;
-                        } finally {
-                            long end = System.currentTimeMillis();
-                            LOG.info("... finished scheduled execution of Data Dictionary component publishing.  Took " + (end-start) + " milliseconds");
-                        }
-                    }
-                }, delay, TimeUnit.MILLISECONDS);
-            } finally {
-                scheduler.shutdown();
-            }
-        }
-    }
-    
-    public boolean isLoadDataDictionary() {
-        return ConfigContext.getCurrentContextConfig().getBooleanProperty("load.data.dictionary", true);
-    }
-
-    public boolean isValidateDataDictionary() {
-        return ConfigContext.getCurrentContextConfig().getBooleanProperty("validate.data.dictionary", false);
-    }
-    
-    public boolean isValidateDataDictionaryEboReferences() {
-        return ConfigContext.getCurrentContextConfig().getBooleanProperty("validate.data.dictionary.ebo.references",
-                false);
-    }
-
-    public boolean isComponentPublishingEnabled() {
-        return ConfigContext.getCurrentContextConfig().getBooleanProperty(
-                KRADConstants.Config.COMPONENT_PUBLISHING_ENABLED, false);
-    }
-
-    public long getComponentPublishingDelay() {
-        return ConfigContext.getCurrentContextConfig().getNumericProperty(KRADConstants.Config.COMPONENT_PUBLISHING_DELAY, 0);
     }
     
 }

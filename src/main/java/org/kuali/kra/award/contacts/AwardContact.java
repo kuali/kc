@@ -37,7 +37,6 @@ public abstract class AwardContact extends AwardAssociate {
 
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
 
-    private static final String PERSON_ID_FIELD_NAME = "personId";
 
     private static final long serialVersionUID = 4386300861743037298L;
 

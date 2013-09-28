@@ -16,18 +16,10 @@
 package org.kuali.kra.budget.rates;
 
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 
 public class BudgetRateAuditRule  extends ResearchDocumentRuleBase implements DocumentAuditRule {
     private static final String BUDGET_RATE_AUDIT_WARNING_KEY = "budgetRateAuditWarnings";
@@ -47,24 +39,6 @@ public class BudgetRateAuditRule  extends ResearchDocumentRuleBase implements Do
         
         return retval;
 
-    }
-    
-    /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
-     * to the auditErrorMap.
-     * @return List of AuditError instances
-     */
-    private List<AuditError> getAuditErrors() {
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        
-        if (!getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
-            getAuditErrorMap().put(BUDGET_RATE_AUDIT_WARNING_KEY, new AuditCluster(Constants.BUDGET_RATE_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
-        }
-        else {
-            auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_RATE_AUDIT_WARNING_KEY)).getAuditErrorList();
-        }
-        
-        return auditErrors;
     }
 
 }

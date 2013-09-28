@@ -259,14 +259,5 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
         }
         return null;
     }
-
-
-    protected boolean isIdenticalCreditSplit() {
-        return identicalCreditSplit;
-    }
-
-    protected void setIdenticalCreditSplit(boolean identicalCreditSplit) {
-        this.identicalCreditSplit = identicalCreditSplit;
-    }
     
 }

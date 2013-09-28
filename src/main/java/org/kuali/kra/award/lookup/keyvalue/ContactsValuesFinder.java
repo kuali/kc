@@ -24,7 +24,6 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
-import org.kuali.rice.krad.service.PersistenceService;
 
 import java.util.*;
 
@@ -81,16 +80,6 @@ public class ContactsValuesFinder extends KeyValuesBase {
      */
     protected KeyValuesService getKeyValuesService(){
         return KraServiceLocator.getService(KeyValuesService.class);
-    }
-    
-    /**
-     * 
-     * This is a wrapper method for the retrieval of PersistenceService.
-     * 
-     * @return
-     */
-    protected PersistenceService getPersistenceService(){
-        return KraServiceLocator.getService(PersistenceService.class);
     }
    
 }

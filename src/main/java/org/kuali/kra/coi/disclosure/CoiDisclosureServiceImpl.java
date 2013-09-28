@@ -44,7 +44,6 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.krms.UnitAgendaTypeService;
@@ -83,7 +82,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
     private FinancialEntityService financialEntityService;
-    private ProtocolFinderDao protocolFinderDao;
     private VersioningService versioningService;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
@@ -935,10 +933,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.financialEntityService = financialEntityService;
     }
 
-    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
-        this.protocolFinderDao = protocolFinderDao;
-    }
-
     public void setVersioningService(VersioningService versioningService) {
         this.versioningService = versioningService;
     }
@@ -1689,21 +1683,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 }
                 projectDetailMap.get(detail.getOriginalCoiDisclosureId()).add(detail);
             }
-        }
-        return projectDetailMap;
-        
-    }
-
-    /*
-     * Set up the map which contains the detail list for each project reported in annual event
-     */
-    private Map <String, List<CoiDiscDetail>> setupDetailMapForAnnual(List<CoiDiscDetail> projectDetails) {
-        Map <String, List<CoiDiscDetail>> projectDetailMap = new HashMap<String, List<CoiDiscDetail>>();
-        for (CoiDiscDetail detail : projectDetails) {
-            if (!projectDetailMap.containsKey(detail.getModuleItemKey())) {
-                projectDetailMap.put(detail.getModuleItemKey(), new ArrayList<CoiDiscDetail>());
-            }
-            projectDetailMap.get(detail.getModuleItemKey()).add(detail);
         }
         return projectDetailMap;
         

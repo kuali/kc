@@ -115,9 +115,6 @@
 		<property name="parameterService">
 			<ref bean="parameterService"/>
 		</property>
-		<property name="budgetPersonService">
-			<ref bean="budgetPersonService"/>
-		</property>
 		<property name="budgetRatesService">
 			<ref bean="budgetRatesService"/>
 		</property>

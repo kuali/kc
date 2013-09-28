@@ -31,7 +31,10 @@ import org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.personnel.*;
+import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.kra.budget.personnel.BudgetPersonSalaryDetails;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.ValidCeJobCode;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.ValidCeRateType;
@@ -81,7 +84,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
-    private BudgetPersonService budgetPersonService;
     private BudgetRatesService<T> budgetRatesService;
     private PessimisticLockService pessimisticLockService;
     private BudgetVersionRule budgetVersionRule;
@@ -211,10 +213,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
-        this.budgetPersonService = budgetPersonService;
     }
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -924,9 +922,5 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     protected ParameterService getParameterService() {
         return parameterService;
     }
-
-    protected BudgetPersonService getBudgetPersonService() {
-        return budgetPersonService;
-    }    
 
 }
