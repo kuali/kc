@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.web.struts.form;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -25,6 +23,8 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 
  * This class manages the form attributes for UnitHierarchy.
@@ -32,8 +32,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class UnitHierarchyForm extends KualiForm {
 
     private static final long serialVersionUID = 998128282202385681L;
-    private static final String DETAIL_TYPE_CODE_A = "A";
-    
+
     private String units;
     private String selectedUnitNumber;
     private transient ParameterService parameterService;

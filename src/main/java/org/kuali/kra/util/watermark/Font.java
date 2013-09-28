@@ -23,13 +23,12 @@
 package org.kuali.kra.util.watermark;
 
 
-import java.awt.Color;
-import java.lang.reflect.Field;
-
+import com.lowagie.text.pdf.BaseFont;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.lowagie.text.pdf.BaseFont;
+import java.awt.*;
+import java.lang.reflect.Field;
 /**
  * 
  * This class for setting the font details.
@@ -38,7 +37,6 @@ import com.lowagie.text.pdf.BaseFont;
 public class Font {
     
     private static final Log LOG = LogFactory.getLog(Font.class);
-    public static String BOLD;
     /**
      * fontName name
      */

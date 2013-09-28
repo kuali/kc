@@ -16,7 +16,6 @@
 package org.kuali.kra.timeandmoney.transactions;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
@@ -329,25 +328,9 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         return GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_TNM_PENDING_TRANSACTION_ITEM_NOT_UNIQUE);
     }
     
-    /*
-     * This method retrieves AwardHierarchyService
-     */
-    protected AwardHierarchyService getAwardHierarchyService(){        
-        return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
-    }
-    
     public AwardVersionService getAwardVersionService() {
         return KraServiceLocator.getService(AwardVersionService.class);
     }
-    
-//    public Award getWorkingAwardVersion(String goToAwardNumber) {
-//        Award award = null;
-//        award = getPendingAwardVersion(goToAwardNumber);
-//        if (award == null) {
-//            award = getActiveAwardVersion(goToAwardNumber);
-//        }
-//        return award;
-//    }
     
     /**
      * This method...
@@ -457,19 +440,5 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
                     new String[]{award.getAwardNumber()});
         }
         return true;
-    }
-    
-    
-    private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
-        Map<String, String> map = new HashMap<String,String>();
-        map.put("awardNumber", goToAwardNumber);
-        return map;
-    }
-
-    
-    private Map<String, String> getHashMap(String goToAwardNumber) {
-        Map<String, String> map = new HashMap<String,String>();
-        map.put("awardNumber", goToAwardNumber);
-        return map;
     }
 }
