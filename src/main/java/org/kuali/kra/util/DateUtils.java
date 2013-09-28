@@ -48,27 +48,6 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
     }
 
     /**
-     * Adds null-safety to commons.DateUtils isSameDay method.
-     * 
-     * @return true if both calendars are null or represent the same day
-     */
-    public static boolean isSameDay(Calendar cal1, Calendar cal2) {
-        boolean same = false;
-
-        if ((cal1 == null) && (cal2 == null)) {
-            same = true;
-        }
-        else if ((cal1 != null) && (cal2 != null)) {
-            return org.apache.commons.lang.time.DateUtils.isSameDay(cal1, cal2);
-        }
-        else {
-            same = false;
-        }
-
-        return same;
-    }
-
-    /**
      * Converts the given java.util.Date into an equivalent java.sql.Date
      * 
      * @param date
@@ -94,24 +73,6 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
         timelessCal.set(Calendar.MILLISECOND, 0);
 
         return new java.sql.Date(timelessCal.getTimeInMillis());
-    }
-
-
-    /**
-     * Convert the given java.util.date into a java.util.date of which all the time fields are set to 0.
-     * 
-     * @param date
-     * @return
-     */
-    public static java.util.Date clearTimeFields(java.util.Date date) {
-        Calendar timelessCal = new GregorianCalendar();
-        timelessCal.setTime(date);
-        timelessCal.set(Calendar.HOUR_OF_DAY, 0);
-        timelessCal.set(Calendar.MINUTE, 0);
-        timelessCal.set(Calendar.SECOND, 0);
-        timelessCal.set(Calendar.MILLISECOND, 0);
-
-        return new java.util.Date(timelessCal.getTimeInMillis());
     }
 
     /**
@@ -144,34 +105,6 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
         endCompare.set(Calendar.MILLISECOND, 0);
 
         return (endCompare.getTimeInMillis() - startCompare.getTimeInMillis()) / (24 * 60 * 60 * 1000);
-    }
-
-    /**
-     * @param startDateTime
-     * @param endDateTime
-     * @return the difference in hours between the second timestamp and first
-     */
-    public static double getDifferenceInHours(Timestamp startDateTime, Timestamp endDateTime) {
-        int difference = 0;
-
-        Calendar startCalendar = Calendar.getInstance();
-        startCalendar.setTime(startDateTime);
-
-        Calendar endCalendar = Calendar.getInstance();
-        endCalendar.setTime(endDateTime);
-
-        // First, get difference in whole days
-        Calendar startCompare = Calendar.getInstance();
-        startCompare.setTime(startDateTime);
-        startCompare.set(Calendar.HOUR_OF_DAY, 0);
-        startCompare.set(Calendar.MINUTE, 0);
-
-        Calendar endCompare = Calendar.getInstance();
-        endCompare.setTime(endDateTime);
-        endCompare.set(Calendar.HOUR_OF_DAY, 0);
-        endCompare.set(Calendar.MINUTE, 0);
-
-        return (endCalendar.getTimeInMillis() - startCalendar.getTimeInMillis()) / (60.0000 * 60.0000 * 1000.0000);
     }
 
     /**

@@ -1103,20 +1103,6 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             }
         }
     }
-
-    /*
-     * This method validates the ObliDistributableAmount
-     * @param pendingTransaction
-     * @param awardAmountInfo
-     * @param totalPendingObligated
-     */
-    protected void validateObliDistributableAmount(PendingTransaction pendingTransaction, AwardAmountInfo awardAmountInfo, KualiDecimal totalPendingObligated) {
-        if(pendingTransaction.getObligatedAmount()!=null){
-            if(awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount().add(totalPendingObligated)).isLessThan(new KualiDecimal(0))){
-                throw new RuntimeException("Insufficient Obligated Money");
-            }
-        }
-    }
    
     
 
@@ -1237,13 +1223,6 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             returnValue = value1;
         }
         return returnValue;
-    }
-    
-
-    protected Map<String, String> getHashMap(String goToAwardNumber) {
-        Map<String, String> map = new HashMap<String,String>();
-        map.put("awardNumber", goToAwardNumber);
-        return map;
     }
     
     /**

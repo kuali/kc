@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.timeandmoney;
 
-import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -88,14 +85,6 @@ public class AwardValuesFinder extends KeyValuesBase{
             }
         }
         return rootAwardNumber;
-    }
-    
-    public AwardHierarchyService getAwardHierarchyService(){        
-        return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
-    }
-    
-    public AwardHierarchyUIService getAwardHierarchyUIService(){        
-        return (AwardHierarchyUIService) KraServiceLocator.getService(AwardHierarchyUIService.class);
     }
 
 }
