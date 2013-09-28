@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.Map;
-
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+
+import java.util.Map;
 
 public class PersonSignatureMaintainableImpl extends KraMaintainableImpl implements Maintainable {
     /**

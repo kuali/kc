@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Test;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class tests KULRICE-984: Lookups - Relative Limit Gap

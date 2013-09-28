@@ -15,14 +15,7 @@
  */
 package org.kuali.kra.coi;
 
-import java.io.ByteArrayInputStream;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
@@ -36,6 +29,10 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 import org.w3c.dom.Document;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import java.io.ByteArrayInputStream;
 
 public class CoiDisclosureFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
     

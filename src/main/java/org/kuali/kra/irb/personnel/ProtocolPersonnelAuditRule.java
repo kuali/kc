@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRuleBase;
+
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 
 /**

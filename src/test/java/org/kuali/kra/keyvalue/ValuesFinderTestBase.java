@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.keyvalue;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+
+import java.util.List;
 
 /**
  * This is a base class for ValuesFinder tests.

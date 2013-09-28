@@ -37,6 +37,7 @@ import java.lang.reflect.Field;
 public class Font {
     
     private static final Log LOG = LogFactory.getLog(Font.class);
+    public static String BOLD;
     /**
      * fontName name
      */

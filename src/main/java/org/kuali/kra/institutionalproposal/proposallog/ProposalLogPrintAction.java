@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -29,6 +23,11 @@ import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrinti
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class ProposalLogPrintAction extends KualiAction {
 

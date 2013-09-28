@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SkipVersioning;
@@ -32,6 +26,8 @@ import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
 
 /**
  * This class associates an AwardContact and a Unit

@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.StringReader;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdom.CDATA;
@@ -30,6 +23,13 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.StringReader;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class BudgetJustificationWrapper implements Serializable {
     private String justificationText;        

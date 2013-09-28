@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.budget.parameters;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -28,6 +24,10 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase {
 

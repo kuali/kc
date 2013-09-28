@@ -15,36 +15,20 @@
  */
 package org.kuali.kra.negotiations.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import noNamespace.ActivitiesType;
-import noNamespace.ActivityTypes;
-import noNamespace.LeadUnitType;
-import noNamespace.NegotiationDataType;
-import noNamespace.NegotiationsDocument;
-import noNamespace.ProposalTypes;
-import noNamespace.SponsorTypes;
-import noNamespace.StatusType;
+import noNamespace.*;
 import noNamespace.NegotiationsDocument.Negotiations;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.negotiations.bo.Negotiable;
-import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationActivity;
-import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.*;
 
 
 public class NegotiationActivityXmlStream implements XmlStream {

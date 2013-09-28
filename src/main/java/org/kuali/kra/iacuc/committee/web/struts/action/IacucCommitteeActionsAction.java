@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.action;
 
-import java.sql.Date;
-
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -32,6 +30,8 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeBatchCorrespondenceSe
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.rice.krad.document.Document;
+
+import java.sql.Date;
 
 public class IacucCommitteeActionsAction extends CommitteeActionsActionBase {
 

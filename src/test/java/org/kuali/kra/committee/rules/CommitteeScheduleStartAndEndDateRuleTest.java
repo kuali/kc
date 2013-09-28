@@ -15,26 +15,21 @@
  */
 package org.kuali.kra.committee.rules;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Date;
-import java.util.HashMap;
-
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
-import org.kuali.kra.common.committee.web.struts.form.schedule.DailyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
-import org.kuali.kra.common.committee.web.struts.form.schedule.WeeklyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
+import org.kuali.kra.common.committee.web.struts.form.schedule.*;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.Date;
+import java.util.HashMap;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CommitteeScheduleStartAndEndDateRuleTest  {
     

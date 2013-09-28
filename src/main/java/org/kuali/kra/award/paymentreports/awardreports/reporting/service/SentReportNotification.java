@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
-import java.sql.Date;
-import java.util.Calendar;
-
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.sql.Date;
+import java.util.Calendar;
 
 public class SentReportNotification extends KraPersistableBusinessObjectBase {
 

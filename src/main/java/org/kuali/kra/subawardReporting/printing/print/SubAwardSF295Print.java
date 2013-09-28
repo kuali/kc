@@ -15,15 +15,13 @@
  */
 package org.kuali.kra.subawardReporting.printing.print;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.transform.Source;
-
-
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
+
+import javax.xml.transform.Source;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SubAwardSF295Print extends AbstractPrint {

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.util.List;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
+
+import java.util.List;
 
 /**
  * This class provides support for the Award Contacts Project Personnel panel

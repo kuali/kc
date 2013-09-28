@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.web.struts.form;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.struts.action.ActionMapping;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+
+import javax.servlet.http.HttpServletRequest;
 
 public abstract class ResearchAreasFormBase extends KualiForm {
 

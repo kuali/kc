@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -34,6 +28,12 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class MeetingHelperBase implements Serializable {
 

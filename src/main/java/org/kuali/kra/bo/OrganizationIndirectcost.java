@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.bo;
 
-import java.sql.Date;
-
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.sql.Date;
 
 public class OrganizationIndirectcost extends KraPersistableBusinessObjectBase {
 

@@ -16,7 +16,6 @@
 package org.kuali.kra.meeting;
 
 import junit.framework.Assert;
-
 import org.junit.Test;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.committee.meeting.ScheduleActItemType;

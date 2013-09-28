@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.proposaladmindetails;
 
-import java.sql.Date;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+
+import java.sql.Date;
 
 public class ProposalAdminDetails extends KraPersistableBusinessObjectBase {
 

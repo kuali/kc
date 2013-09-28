@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.decision;
 
-import java.util.List;
-
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
+import org.kuali.kra.protocol.ProtocolBase;
+
+import java.util.List;
 
 /**
  * The Committee Decision Service processes committee decisions.

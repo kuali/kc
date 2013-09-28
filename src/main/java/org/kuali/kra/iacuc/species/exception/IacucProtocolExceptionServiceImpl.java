@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.species.exception;
 
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ObjectUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.rice.krad.service.SequenceAccessorService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolExceptionServiceImpl implements IacucProtocolExceptionService {
     private SequenceAccessorService sequenceAccessorService;

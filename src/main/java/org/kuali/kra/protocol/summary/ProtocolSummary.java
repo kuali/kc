@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.protocol.summary;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.actions.ProtocolActionBase;
 
 
 

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.document;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
@@ -26,6 +23,9 @@ import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BudgetColumnsToAlterMaintainableImpl  extends KraMaintainableImpl {
     private static Map<String, String> validationClassesMap = new HashMap<String, String>();

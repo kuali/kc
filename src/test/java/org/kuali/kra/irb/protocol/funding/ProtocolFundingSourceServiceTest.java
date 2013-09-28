@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
-import java.util.Collections;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -43,6 +40,9 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.Collections;
+import java.util.Map.Entry;
 
 /**
 * The JUnit test class for <code>{@link ProtocolFundingSourceServiceImpl}</code>

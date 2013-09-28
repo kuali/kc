@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +24,11 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class...

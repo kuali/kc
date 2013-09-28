@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,6 +22,10 @@ import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AwardReportTermRuleImplTest extends KcUnitTestBase {
     

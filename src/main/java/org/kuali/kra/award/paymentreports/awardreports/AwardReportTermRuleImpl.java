@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
@@ -26,6 +22,10 @@ import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The AwardPaymentScheduleRuleImpl.

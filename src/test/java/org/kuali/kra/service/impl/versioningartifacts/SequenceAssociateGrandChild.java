@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import java.util.Random;
-
 import org.kuali.kra.SequenceAssociate;
+
+import java.util.Random;
 
 /**
  * This class is the "grandchild" SequenceAssociate of the owner

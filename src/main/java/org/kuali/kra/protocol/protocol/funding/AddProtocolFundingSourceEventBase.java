@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.protocol.ProtocolEventBase;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 /**
  * 

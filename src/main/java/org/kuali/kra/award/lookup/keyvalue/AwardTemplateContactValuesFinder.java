@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateContact;
@@ -30,6 +26,10 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
 

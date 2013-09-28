@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.coi;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.DocumentCustomData;
@@ -32,11 +27,16 @@ import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.engine.Facts;
-import org.kuali.rice.kim.api.identity.Person;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 

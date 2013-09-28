@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
@@ -31,6 +26,11 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class CoiDisclEventProject implements Serializable {

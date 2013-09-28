@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.approve;
 
-import java.sql.Date;
-
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+
+import java.sql.Date;
 
 /**
  * This class is really just a "form" for approving a protocol.

@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.personmasschange.web.struts.action;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeViewHelper;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class PersonMassChangeViewAction extends PersonMassChangeAction {
     

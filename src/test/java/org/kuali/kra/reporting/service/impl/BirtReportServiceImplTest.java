@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.reporting.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +23,9 @@ import org.kuali.kra.reporting.bo.BirtParameterBean;
 import org.kuali.kra.reporting.bo.CustReportDetails;
 import org.kuali.kra.reporting.service.BirtReportService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BirtReportServiceImplTest extends KcUnitTestBase {
     

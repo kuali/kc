@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.bo;
 
+import org.springframework.util.AutoPopulatingList;
+
 import java.sql.Date;
 import java.util.List;
-
-import org.springframework.util.AutoPopulatingList;
 
 public class Ynq extends KraSortablePersistableBusinessObjectBase {
 

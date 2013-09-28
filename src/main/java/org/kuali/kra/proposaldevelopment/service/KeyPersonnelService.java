@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import java.util.Collection;
-import java.util.Map;
-
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
@@ -25,6 +22,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * A Service for persisted modifications of Key Personnel related business objects

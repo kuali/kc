@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import java.util.List;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -25,18 +23,11 @@ import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
-import org.kuali.kra.personmasschange.service.AwardPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.IacucProtocolPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.InstitutionalProposalPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.NegotiationPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.PersonMassChangeService;
-import org.kuali.kra.personmasschange.service.ProposalDevelopmentPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.ProposalLogPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.ProtocolPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.SubawardPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.UnitAdministratorPersonMassChangeService;
+import org.kuali.kra.personmasschange.service.*;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.subaward.bo.SubAward;
+
+import java.util.List;
 
 /**
  * Defines the service for performing a Person Mass Change.

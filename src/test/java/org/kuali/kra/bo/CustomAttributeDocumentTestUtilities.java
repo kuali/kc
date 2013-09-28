@@ -16,51 +16,8 @@
  */
 package org.kuali.kra.bo;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
-import javax.sql.DataSource;
-
-import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.SystemUtils;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.rice.kew.actionrequest.ActionRequestValue;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.WorkflowDocumentFactory;
-import org.kuali.rice.kew.api.action.ActionItem;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.engine.node.RouteNodeInstance;
-import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.jdbc.core.ConnectionCallback;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.StatementCallback;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallback;
-import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * Defines utilities for unit testing

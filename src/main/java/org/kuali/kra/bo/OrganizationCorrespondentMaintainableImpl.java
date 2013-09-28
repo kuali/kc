@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.correspondence.CorrespondentType;
@@ -28,6 +25,9 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class...

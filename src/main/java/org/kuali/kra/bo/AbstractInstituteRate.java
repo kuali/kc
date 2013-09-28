@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.bo;
 
-import java.sql.Date;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.rates.AbstractBudgetRate;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+
+import java.sql.Date;
 
 public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey, MutableInactivatable {
 

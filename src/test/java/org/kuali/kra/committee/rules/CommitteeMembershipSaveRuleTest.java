@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.sql.Date;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.sql.Date;
 
 /**
  * Test the Committee Membership Save Rules

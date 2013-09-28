@@ -15,24 +15,10 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import noNamespace.BudgetSummaryReportDocument;
-import noNamespace.ReportHeaderType;
-import noNamespace.ReportPageType;
-import noNamespace.ReportType;
-import noNamespace.SubReportType;
+import noNamespace.*;
 import noNamespace.BudgetSummaryReportDocument.BudgetSummaryReport;
 import noNamespace.ReportPageType.BudgetSummary;
 import noNamespace.ReportPageType.CalculationMethodology;
-
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -45,6 +31,9 @@ import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.printing.util.ReportTypeVO;
 import org.kuali.kra.document.ResearchDocumentBase;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget Summary

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
+
+import java.util.List;
 
 
 public interface ProtocolActionService {

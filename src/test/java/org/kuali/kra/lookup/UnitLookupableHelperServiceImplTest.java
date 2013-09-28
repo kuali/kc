@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -34,6 +30,10 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UnitLookupableHelperServiceImplTest extends KcUnitTestBase {
     

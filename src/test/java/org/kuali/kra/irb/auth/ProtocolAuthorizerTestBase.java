@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -35,6 +32,9 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ProtocolAuthorizerTestBase extends KcUnitTestBase {
     

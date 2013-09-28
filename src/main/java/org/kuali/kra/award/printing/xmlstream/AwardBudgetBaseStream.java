@@ -16,15 +16,9 @@
 
 package org.kuali.kra.award.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import noNamespace.AwardTransactionType;
-import noNamespace.SchoolInfoType2;
 import noNamespace.AwardType.AwardTransactionInfo;
-
+import noNamespace.SchoolInfoType2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
@@ -36,6 +30,11 @@ import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>

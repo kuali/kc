@@ -15,27 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.kra.infrastructure.Constants.INSTITUTIONAL_ATTACHMENT_TYPE_NAME;
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.Constants.MAPPING_CLOSE_PAGE;
-import static org.kuali.kra.infrastructure.Constants.MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE;
-import static org.kuali.kra.infrastructure.Constants.MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE;
-import static org.kuali.kra.infrastructure.Constants.PERSONNEL_ATTACHMENT_TYPE_NAME;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_ATTACHMENT_TYPE_NAME;
-import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ABSTRACT_CONFIRMATION;
-import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,23 +25,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRenderer;
-import org.kuali.kra.proposaldevelopment.rule.event.AddAbstractEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.NewNarrativeUserRightsEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.*;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAbstractsService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
@@ -79,6 +46,20 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.kuali.kra.infrastructure.Constants.*;
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ABSTRACT_CONFIRMATION;
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 /**
  * <code>Struts Action</code> class process requests from Proposal Abstract Attachments page.

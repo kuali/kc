@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
@@ -28,6 +26,8 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.util.List;
 
 /**
  * Runs the rule processing for saving a ProtocolBase Funding Source.

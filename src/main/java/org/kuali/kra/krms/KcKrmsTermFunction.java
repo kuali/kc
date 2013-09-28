@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.krms;
 
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.util.List;
 
 /**
  * This class...

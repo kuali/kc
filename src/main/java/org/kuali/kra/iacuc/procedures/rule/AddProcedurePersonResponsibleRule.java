@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.iacuc.procedures.rule;
 
-import java.util.List;
-import java.util.StringTokenizer;
-
 import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
 import org.kuali.kra.infrastructure.Constants;
@@ -26,6 +23,9 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * This class adds rule for adding new <code>ProcedurePersonResponsible</code> object

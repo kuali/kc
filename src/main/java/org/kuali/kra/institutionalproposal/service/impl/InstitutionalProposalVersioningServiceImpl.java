@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
@@ -28,6 +23,11 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Transactional
 public class InstitutionalProposalVersioningServiceImpl implements InstitutionalProposalVersioningService {

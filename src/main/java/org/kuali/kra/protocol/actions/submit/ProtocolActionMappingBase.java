@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * This class is for the condition attributes of of the protocol action.

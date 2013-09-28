@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.test;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +22,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+
+import java.util.List;
 
 
 public class StateServiceTest extends KcUnitTestBase{

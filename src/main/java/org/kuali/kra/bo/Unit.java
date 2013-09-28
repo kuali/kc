@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * This class is a Unit

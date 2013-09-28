@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -29,8 +26,8 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.notesandattachments.notes.AwardNoteAddEvent;
-import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
 import org.kuali.kra.award.notesandattachments.notes.AwardNoteEventBase.ErrorType;
+import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
 import org.kuali.kra.award.rule.event.AddAwardAttachmentEvent;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
@@ -38,6 +35,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.impl.AwardCommentServiceImpl;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 

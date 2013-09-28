@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.service;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -29,6 +24,11 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.service.impl.OrganizationServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test the methods in OrganizationServiceImpl.

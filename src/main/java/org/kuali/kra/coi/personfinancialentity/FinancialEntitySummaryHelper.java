@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachmentSummary;
@@ -31,6 +24,9 @@ import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.io.Serializable;
+import java.util.*;
 
 
 public class FinancialEntitySummaryHelper implements Serializable {

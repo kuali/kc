@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
+import org.kuali.rice.core.api.util.KeyValue;
+
 import java.io.Serializable;
 import java.util.Comparator;
-
-import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Compares two {@link KeyValue KeyValue} instances. Useful when sorting a list of for 

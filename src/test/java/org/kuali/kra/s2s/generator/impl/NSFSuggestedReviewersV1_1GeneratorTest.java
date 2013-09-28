@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class tests the NSFSuggestedReviewersV1_1 Generator

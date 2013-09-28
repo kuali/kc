@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import static org.hamcrest.core.Is.is;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -31,8 +23,11 @@ import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
+
+import static org.hamcrest.core.Is.is;
 
 /**
  * Tests for {@link ProtocolAttachmentServiceImpl ProtocolAttachmentServiceImpl}.

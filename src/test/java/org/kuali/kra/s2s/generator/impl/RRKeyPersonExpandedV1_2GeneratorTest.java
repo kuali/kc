@@ -15,20 +15,14 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

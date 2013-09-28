@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,15 +24,18 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewServiceImplBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewServiceImplBase implements ProtocolOnlineReviewService {
 

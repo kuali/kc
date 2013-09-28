@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.actions.notifyirb;
 
-import java.io.Serializable;
-
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+
+import java.io.Serializable;
 
 /**
  * This class is really just a "form" for notifying the IRB.

@@ -15,22 +15,17 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentServiceImplBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatusBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeGroupBase;
+import org.kuali.kra.protocol.noteattachment.*;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 /** Implementation of {@link ProtocolAttachmentService ProtocolNoteAndAttachmentService}. */

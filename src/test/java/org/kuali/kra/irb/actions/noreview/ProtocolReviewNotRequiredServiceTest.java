@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.noreview;
 
-import java.sql.Date;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -31,6 +29,8 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
 
 /**
  * This class...

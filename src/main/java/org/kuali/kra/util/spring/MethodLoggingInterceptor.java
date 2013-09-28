@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.util.spring;
 
-import static org.kuali.kra.logging.BufferedLogger.info;
-
-import java.lang.reflect.Method;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.aop.framework.ProxyFactoryBean;
+
+import java.lang.reflect.Method;
+
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 /**
  * <p>Integrated with Spring for creating a tracing proxy for Spring Services. Makes use of the {@link ProxyFactoryBean} 

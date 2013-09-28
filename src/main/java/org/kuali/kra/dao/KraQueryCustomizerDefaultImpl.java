@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.dao;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Criteria;
@@ -27,6 +23,10 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 /**
  * 
  * This class used for supplying customized query to OJB repository <code>collection-descriptor</code> tag.

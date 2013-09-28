@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.award.notesandattachments.notes;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Calendar;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * This class...

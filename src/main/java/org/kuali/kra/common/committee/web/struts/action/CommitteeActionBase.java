@@ -15,21 +15,10 @@
  */
 package org.kuali.kra.common.committee.web.struts.action;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.Collection;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -50,6 +39,13 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.Map;
+
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * The CommitteeActionBase is the base class for all CommitteeBase actions.  Each derived

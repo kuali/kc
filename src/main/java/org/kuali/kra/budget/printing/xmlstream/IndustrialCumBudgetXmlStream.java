@@ -15,18 +15,9 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.crypto.dsig.XMLObject;
-
 import noNamespace.BudgetSalaryDocument;
-import noNamespace.SalaryType;
 import noNamespace.BudgetSalaryDocument.BudgetSalary;
-
+import noNamespace.SalaryType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -37,6 +28,9 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
 import org.kuali.kra.budget.printing.util.SalaryTypeVO;
 import org.kuali.kra.document.ResearchDocumentBase;
+
+import javax.xml.crypto.dsig.XMLObject;
+import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Industrial

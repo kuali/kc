@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.FundingProposalMergeType;
@@ -25,6 +22,9 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FundingProposalMergeTypeValuesFinder extends PersistableBusinessObjectValuesFinder {
 

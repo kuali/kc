@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.web.struts.authorization;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * The Proposal Task Factory will create a Proposal Task with its

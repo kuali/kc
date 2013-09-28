@@ -15,30 +15,20 @@
  */
 package org.kuali.kra.negotiations.service;
 
-import static org.junit.Assert.*;
-
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationAgreementType;
-import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
-import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.bo.NegotiationStatus;
-import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NegotiationServiceImplTest extends KcUnitTestBase {
     

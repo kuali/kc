@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.web.struts.action;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-
 import org.apache.struts.action.ActionServlet;
 import org.apache.struts.action.PlugIn;
 import org.apache.struts.config.ModuleConfig;
@@ -29,6 +23,11 @@ import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.RateDecimalFormatter;
 import org.kuali.rice.core.web.format.Formatter;
+
+import javax.servlet.ServletException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class provides a central place for application-wide {@link Formatter Formatter} registration.

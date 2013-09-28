@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.HashMap;
-
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -28,6 +26,8 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.HashMap;
 
 /**
  * Base class for Proposal Development business rule tests.

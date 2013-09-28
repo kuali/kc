@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.negotiations.sorting;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Values finder that includes key and labels from the ActitivySortingType enum.

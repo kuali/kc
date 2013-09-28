@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.krms.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.FunctionParamComparator;
 import org.kuali.kra.krms.FunctionTermResolver;
@@ -30,6 +25,11 @@ import org.kuali.rice.krms.api.repository.function.FunctionParameterDefinition;
 import org.kuali.rice.krms.api.repository.function.FunctionRepositoryService;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 

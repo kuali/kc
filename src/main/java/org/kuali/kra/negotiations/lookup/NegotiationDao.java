@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.negotiations.lookup;
 
+import org.kuali.kra.negotiations.bo.Negotiation;
+
 import java.util.Collection;
 import java.util.Map;
-
-import org.kuali.kra.negotiations.bo.Negotiation;
 
 /**
  * Negotiation Dao Interface.

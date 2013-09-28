@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.coi.certification;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.actions.DisclosureActionHelper;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is really just a "form" for submitting a protocol for review in the Submit for Review Action.

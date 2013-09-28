@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
 import org.kuali.kra.bo.Unit;
+
+import java.util.List;
 
 /**
  * The Unit Authorization Service handles users and their permissions

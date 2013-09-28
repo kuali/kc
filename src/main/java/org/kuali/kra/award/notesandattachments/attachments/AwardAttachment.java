@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.award.notesandattachments.attachments;
 
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.Award;
@@ -28,6 +23,11 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class...

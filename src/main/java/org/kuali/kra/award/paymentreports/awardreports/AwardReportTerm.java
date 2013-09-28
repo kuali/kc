@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
@@ -35,6 +29,12 @@ import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * 

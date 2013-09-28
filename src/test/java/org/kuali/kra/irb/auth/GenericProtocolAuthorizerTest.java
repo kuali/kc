@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +31,9 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GenericProtocolAuthorizerTest extends KcUnitTestBase {
     

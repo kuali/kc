@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.medusa;
 
+import org.kuali.rice.krad.bo.BusinessObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.rice.krad.bo.BusinessObject;
 
 
 public class MedusaNode implements Serializable {

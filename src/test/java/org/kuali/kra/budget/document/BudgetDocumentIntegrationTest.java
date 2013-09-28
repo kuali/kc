@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.budget.document;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.core.Budget;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class BudgetDocumentIntegrationTest {
     private static final int MILLIS_PER_SECOND = 1000;

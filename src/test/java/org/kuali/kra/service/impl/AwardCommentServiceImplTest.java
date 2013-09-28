@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -31,6 +26,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class tests <code>AwardCommentService</code>

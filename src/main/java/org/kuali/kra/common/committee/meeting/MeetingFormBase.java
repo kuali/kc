@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 

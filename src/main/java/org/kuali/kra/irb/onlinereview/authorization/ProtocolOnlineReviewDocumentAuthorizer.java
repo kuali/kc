@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.onlinereview.authorization;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -30,6 +27,9 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 

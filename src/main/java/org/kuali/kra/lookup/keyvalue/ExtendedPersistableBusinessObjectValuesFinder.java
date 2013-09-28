@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * This class extends the PersistableBusinessObjectValuesFinder - the Generic ValuesFinder - 

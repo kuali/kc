@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import java.io.IOException;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.IOException;
 
 /**
  * 

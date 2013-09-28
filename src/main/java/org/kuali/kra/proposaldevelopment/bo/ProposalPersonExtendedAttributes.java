@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.List;
-
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.PersonAppointment;
 import org.kuali.kra.bo.PersonDegree;
+
+import java.util.List;
 
 /**
  * 

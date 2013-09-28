@@ -15,15 +15,9 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
@@ -35,6 +29,8 @@ import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
 
 /**
  * This class is a bean for managing the input for a committee decision.

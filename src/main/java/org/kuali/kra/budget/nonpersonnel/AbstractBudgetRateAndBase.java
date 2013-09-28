@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.sql.Date;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.rates.RateClass;
+
+import java.sql.Date;
 
 public abstract class AbstractBudgetRateAndBase extends BudgetAssociate {
 

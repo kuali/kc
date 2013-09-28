@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.negotiations.notifications;
 
-import java.util.List;
-
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.util.EmailAttachment;
+
+import java.util.List;
 
 /**
  * Notification Context for Negotiation Closed action.

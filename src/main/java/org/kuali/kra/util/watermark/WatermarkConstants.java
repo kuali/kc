@@ -22,7 +22,7 @@
 package org.kuali.kra.util.watermark;
 
 
-import java.awt.Color;
+import java.awt.*;
 /**
  * 
  * This interface is used to store all constants for 

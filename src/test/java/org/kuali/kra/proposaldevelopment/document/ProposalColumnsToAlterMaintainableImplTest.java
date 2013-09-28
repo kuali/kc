@@ -16,8 +16,6 @@
 package org.kuali.kra.proposaldevelopment.document;
 
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -29,6 +27,8 @@ import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Map;
 
 public class ProposalColumnsToAlterMaintainableImplTest extends KcUnitTestBase {
 

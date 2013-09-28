@@ -16,10 +16,9 @@
 package org.kuali.kra.committee.web.struts.form.schedule.util;
 
 import junit.framework.TestCase;
-
 import org.junit.Test;
-import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.common.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
+import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 
 public class ScheduleOptionsUtilTest extends TestCase {
     

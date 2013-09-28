@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.PermissionConstants;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class SponsorHierarchy extends KraPersistableBusinessObjectBase implements Permissionable {
 

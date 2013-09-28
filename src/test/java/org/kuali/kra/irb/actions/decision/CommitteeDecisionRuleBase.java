@@ -15,19 +15,19 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
+import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
     

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.util;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.springframework.core.io.Resource;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.springframework.core.io.Resource;
 
 /**
  * This class is used to load sensitive fields resource file and store each

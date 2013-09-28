@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.budget.rules;
 
-import static org.junit.matchers.JUnitMatchers.hasItem;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -43,6 +34,15 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.matchers.JUnitMatchers.hasItem;
 
 /**
  * Tests the {@link InstituteRateRateTypeRateClassRuleImpl InstituteRateRateTypeRateClassRuleImpl} class.

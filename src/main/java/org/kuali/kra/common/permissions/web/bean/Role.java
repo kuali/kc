@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.permissions.web.bean;
 
+import org.kuali.rice.kim.api.permission.Permission;
+
 import java.io.Serializable;
 import java.util.List;
-
-import org.kuali.rice.kim.api.permission.Permission;
 
 /**
  * A role which consists of its unique name, its display name, and

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CoiDisclosedProjectBean implements Serializable {
 

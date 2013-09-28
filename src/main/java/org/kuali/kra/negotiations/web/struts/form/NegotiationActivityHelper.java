@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.negotiations.web.struts.form;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
@@ -31,6 +25,12 @@ import org.kuali.kra.negotiations.rules.NegotiationActivityAttachmentRuleImpl;
 import org.kuali.kra.negotiations.rules.NegotiationActivityRuleImpl;
 import org.kuali.kra.negotiations.sorting.ActivitySortingType;
 import org.kuali.kra.negotiations.sorting.AttachmentSortingType;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Form helper to manage activities and attachments.

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.committee.keyvalue;
 
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.common.committee.keyvalue.Month;
+
+import java.util.Map;
 
 public class MonthTest extends Assert{
     

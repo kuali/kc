@@ -1,8 +1,8 @@
 package org.kuali.kra.budget.printing.util;
 
-import java.sql.Date;
-
 import org.kuali.kra.budget.BudgetDecimal;
+
+import java.sql.Date;
 
 public class ReportTypeVO {
 

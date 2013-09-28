@@ -15,11 +15,9 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.action;
 
-import java.util.List;
-
 import org.kuali.kra.bo.ResearchAreaBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeMemberEventBase.ErrorType;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
@@ -34,6 +32,8 @@ import org.kuali.kra.iacuc.committee.rules.IacucCommitteeDocumentRule;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeMembershipService;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 public class IacucCommitteeMembershipAction extends CommitteeMembershipActionBase {
 

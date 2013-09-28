@@ -15,19 +15,17 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
-import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
-import static org.kuali.kra.infrastructure.Constants.CONTACTS_PANEL_ANCHOR;
-import static org.kuali.kra.infrastructure.Constants.CONTACTS_PANEL_NAME;
-import static org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplitRule.PROPOSAL_CREDIT_SPLIT_LIST_ERROR_KEY;
-import static org.kuali.kra.logging.BufferedLogger.info;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import static org.kuali.kra.infrastructure.Constants.*;
+import static org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplitRule.PROPOSAL_CREDIT_SPLIT_LIST_ERROR_KEY;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 public class InstitutionalProposalCreditSplitAuditError extends AuditError {
         

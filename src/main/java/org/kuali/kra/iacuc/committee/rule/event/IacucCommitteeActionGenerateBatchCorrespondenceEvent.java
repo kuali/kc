@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.committee.rule.event;
 
-import java.sql.Date;
-
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
 import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
 import org.kuali.kra.iacuc.committee.rules.IacucCommitteeActionGenerateBatchCorrespondenceRule;
 import org.kuali.rice.krad.document.Document;
+
+import java.sql.Date;
 
 
 public class IacucCommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeActionGenerateBatchCorrespondenceEventBase {

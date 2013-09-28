@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.common.notification.rule;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
@@ -24,6 +22,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 /**
  * Runs the rule processing for adding a Notification Type Recipient.

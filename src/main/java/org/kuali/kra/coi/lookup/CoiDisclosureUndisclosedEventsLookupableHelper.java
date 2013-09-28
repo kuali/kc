@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.KcPerson;
@@ -42,6 +34,10 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 public class CoiDisclosureUndisclosedEventsLookupableHelper extends KraLookupableHelperServiceImpl {

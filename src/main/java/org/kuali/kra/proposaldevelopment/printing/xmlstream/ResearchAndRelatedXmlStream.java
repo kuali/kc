@@ -18,43 +18,16 @@ package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.AssuranceType;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.ContactInfoType;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.PostalAddressType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ApplicantOrganizationType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.AuthorizedOrganizationalRepresentativeType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.BudgetPeriodType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.BudgetSummaryType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.DescriptionBlockType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.FundingOpportunityDetailsType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.HumanSubjectsType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OrgAssurancesType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ParticipantType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.PersonFullNameType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchAndRelatedProjectDocument;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.SalariesAndWagesType;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.*;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProgramDirectorPrincipalInvestigatorDocument.ProgramDirectorPrincipalInvestigator;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectDescriptionDocument.ProjectDescription;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchAndRelatedProjectDocument.ResearchAndRelatedProject;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchCoverPageDocument.ResearchCoverPage;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.OrganizationType;
-import org.kuali.kra.bo.OrganizationYnq;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
@@ -71,6 +44,13 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class generates XML that confirms with the RaR XSD related to Proposal

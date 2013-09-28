@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.ContactRole;
@@ -31,6 +28,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class implements an Award Person 

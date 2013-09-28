@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.actions.noreview;
 
-import java.sql.Timestamp;
-
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Timestamp;
 
 /**
  * This class manages the action of marking a protocol as review not required.

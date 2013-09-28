@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.question.Question;
+
+import java.util.List;
 
 /**
  * Holds a single answer for a {@link Question Question}.

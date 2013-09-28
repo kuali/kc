@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.service.impl;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
@@ -27,6 +24,9 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class InstitutionalProposalLockServiceImpl extends PessimisticLockServiceImpl implements ProposalLockService {
 

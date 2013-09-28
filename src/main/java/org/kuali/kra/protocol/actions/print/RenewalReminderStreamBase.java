@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
-import java.util.Map;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
+
+import java.util.Map;
 
 /**
  * This class...

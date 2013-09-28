@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.negotiations.printing.print;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.transform.Source;
-
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
+
+import javax.xml.transform.Source;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NegotiationActivityprint extends AbstractPrint {
 

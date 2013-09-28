@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.negotiations.sorting;
 
-import java.util.Comparator;
-
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
+
+import java.util.Comparator;
 
 /**
  * Enum that lists the various ways of sorting the list of attachments and includes the appropriate

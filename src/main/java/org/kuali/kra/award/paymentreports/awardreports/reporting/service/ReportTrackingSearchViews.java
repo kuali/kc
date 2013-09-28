@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.paymentreports.ReportTrackingView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.paymentreports.ReportTrackingView;
 
 /**
  * Used as a container for Spring configuration related to Report Tracking Views.

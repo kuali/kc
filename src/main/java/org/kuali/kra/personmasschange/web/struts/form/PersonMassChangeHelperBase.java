@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.personmasschange.web.struts.form;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
@@ -24,6 +22,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
+
+import java.io.Serializable;
 
 public class PersonMassChangeHelperBase implements Serializable {
 

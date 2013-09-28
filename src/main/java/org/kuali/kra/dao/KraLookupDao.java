@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.dao;
 
-import java.util.Collection;
-
 import org.kuali.rice.krad.dao.LookupDao;
+
+import java.util.Collection;
 
 /**
  * This class is Custom lookup service Interface for kc development.

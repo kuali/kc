@@ -15,19 +15,14 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.RolodexService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

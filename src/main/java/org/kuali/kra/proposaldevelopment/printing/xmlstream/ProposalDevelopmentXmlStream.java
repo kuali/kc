@@ -42,7 +42,6 @@ import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALMASTERDocument.PROPOSALMASTER.
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALMASTERDocument.PROPOSALMASTER.PRINCIPALINVESTIGATORNAME;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPPERCREDITSPLITDocument.PROPPERCREDITSPLIT;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPPERSONDocument.PROPPERSON;
-import edu.mit.coeus.utils.xml.v2.propdev.PROPRATESDocument.PROPRATES;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPSCIENCECODEDocument.PROPSCIENCECODE;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPSPECIALREVIEWDocument.PROPSPECIALREVIEW;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPUNITCREDITSPLITDocument.PROPUNITCREDITSPLIT;

@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
@@ -32,6 +27,11 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRuleBase;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 
 /**
  * Validate a protocol submission to the IRB for review.

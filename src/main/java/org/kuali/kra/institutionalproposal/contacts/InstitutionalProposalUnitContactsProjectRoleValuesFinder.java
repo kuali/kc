@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -27,6 +23,10 @@ import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class InstitutionalProposalUnitContactsProjectRoleValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
     

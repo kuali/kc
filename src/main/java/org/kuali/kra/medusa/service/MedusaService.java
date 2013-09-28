@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.medusa.service;
 
-import java.util.List;
-
 import org.kuali.kra.medusa.MedusaNode;
+
+import java.util.List;
 
 /**
  * 

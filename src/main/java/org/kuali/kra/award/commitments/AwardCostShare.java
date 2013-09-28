@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.award.commitments;
 
-import java.sql.Date;
-import java.util.Collection;
-
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.util.Collection;
 
 /**
  * This class is business object representation of an Award Cost Share

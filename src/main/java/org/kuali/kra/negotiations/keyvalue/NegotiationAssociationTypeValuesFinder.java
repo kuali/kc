@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.negotiations.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
@@ -28,6 +23,11 @@ import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class NegotiationAssociationTypeValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
     

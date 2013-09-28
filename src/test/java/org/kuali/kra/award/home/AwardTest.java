@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,6 +28,9 @@ import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

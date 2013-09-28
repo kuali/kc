@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
@@ -29,6 +25,9 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Timestamp;
+import java.util.Map;
 
 public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements Maintainable {
 

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
@@ -28,6 +25,9 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

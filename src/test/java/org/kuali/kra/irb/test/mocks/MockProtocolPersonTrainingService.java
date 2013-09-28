@@ -15,11 +15,9 @@
  */
 package org.kuali.kra.irb.test.mocks;
 
-import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

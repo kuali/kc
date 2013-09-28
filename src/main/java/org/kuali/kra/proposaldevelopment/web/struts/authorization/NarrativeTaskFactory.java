@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.authorization;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Narrative Task Factory is used to create a Narrative Task.  The derived

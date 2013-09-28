@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.maintenance;
 
-import java.util.List;
-
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 /**
  * 

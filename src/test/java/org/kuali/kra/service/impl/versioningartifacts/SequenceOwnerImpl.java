@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
+import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.SkipVersioning;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.SkipVersioning;
 
 /**
  * This test artifact represents a top level sequenceOwnerImpl; i.e. Award

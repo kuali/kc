@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.irb.correspondence;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +22,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class BatchCorrespondenceDetailRuleTest {
     

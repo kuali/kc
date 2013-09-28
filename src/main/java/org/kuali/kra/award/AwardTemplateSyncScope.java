@@ -15,23 +15,18 @@
  */
 package org.kuali.kra.award;
 
-import java.lang.reflect.Field;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.AwardComment;
-import org.kuali.kra.award.home.AwardSyncable;
-import org.kuali.kra.award.home.AwardSyncableList;
-import org.kuali.kra.award.home.AwardTemplateComment;
-import org.kuali.kra.award.home.AwardTemplateContact;
-import org.kuali.kra.award.home.AwardTemplateReportTerm;
+import org.kuali.kra.award.home.*;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.lang.reflect.Field;
 
 public enum AwardTemplateSyncScope {
     

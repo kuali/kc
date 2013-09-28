@@ -16,9 +16,6 @@
 
 package org.kuali.kra.irb;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.RolePersons;
@@ -45,6 +42,9 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

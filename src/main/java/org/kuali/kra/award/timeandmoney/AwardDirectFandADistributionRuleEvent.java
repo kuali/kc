@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.timeandmoney;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
+
+import java.util.List;
 
 /**
  * This class represents the rule event for Award Direct F and A Distribution tab.

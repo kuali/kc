@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -26,6 +22,10 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KeyValuesService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /*
  * This is for questionnaire maintenance.  Only list the codes that user has permission to associate

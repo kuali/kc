@@ -1,10 +1,10 @@
 package org.kuali.kra.lookup;
 
-import java.util.List;
-
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+
+import java.util.List;
 
 public class KcPersonExtendedAttributesLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 

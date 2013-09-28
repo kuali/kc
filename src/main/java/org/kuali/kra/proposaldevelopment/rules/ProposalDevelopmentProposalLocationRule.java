@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -26,6 +24,8 @@ import org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import java.util.List;
 
 public class ProposalDevelopmentProposalLocationRule extends ResearchDocumentRuleBase implements AddProposalSiteRule, SaveProposalSitesRule {
     private static final String LOCATION_NAME_PROPERTY = "locationName";

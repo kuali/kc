@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
+
+import java.util.List;
 
 /**
  * 

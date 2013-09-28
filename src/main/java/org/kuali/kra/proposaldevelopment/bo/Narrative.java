@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -35,7 +27,14 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * 

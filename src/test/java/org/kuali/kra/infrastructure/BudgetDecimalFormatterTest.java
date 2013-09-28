@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.infrastructure;
 
-import java.math.BigDecimal;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.rice.core.web.format.FormatException;
+
+import java.math.BigDecimal;
 
 public class BudgetDecimalFormatterTest {
 

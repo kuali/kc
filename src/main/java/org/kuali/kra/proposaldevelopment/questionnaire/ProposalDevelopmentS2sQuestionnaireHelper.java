@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
-import java.util.List;
-
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -24,6 +22,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionn
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+
+import java.util.List;
 
 public class ProposalDevelopmentS2sQuestionnaireHelper extends ProposalDevelopmentQuestionnaireHelper {
 

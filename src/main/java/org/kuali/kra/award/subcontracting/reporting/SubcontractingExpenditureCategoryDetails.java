@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.subcontracting.reporting;
 
-import java.sql.Date;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.sql.Date;
 
 // this is a read-only access BO that will be used in computing the expenditure data for small business contracting reports
 public class SubcontractingExpenditureCategoryDetails extends KraPersistableBusinessObjectBase {

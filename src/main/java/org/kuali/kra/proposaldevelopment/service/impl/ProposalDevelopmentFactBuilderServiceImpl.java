@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.io.ByteArrayInputStream;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -37,6 +32,10 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 import org.w3c.dom.Document;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import java.io.ByteArrayInputStream;
 
 public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
     

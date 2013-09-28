@@ -1,7 +1,5 @@
 package org.kuali.kra.committee.service;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +11,8 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 public class KcPersonExtendedAttributesLookupableHelperServiceTest extends KcUnitTestBase {
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 4;

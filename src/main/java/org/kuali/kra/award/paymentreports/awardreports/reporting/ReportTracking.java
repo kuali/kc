@@ -15,28 +15,17 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.Distribution;
-import org.kuali.kra.award.paymentreports.Frequency;
-import org.kuali.kra.award.paymentreports.FrequencyBase;
-import org.kuali.kra.award.paymentreports.Report;
-import org.kuali.kra.award.paymentreports.ReportClass;
-import org.kuali.kra.award.paymentreports.ReportRegenerationType;
-import org.kuali.kra.award.paymentreports.ReportStatus;
-import org.kuali.kra.bo.Contactable;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.award.paymentreports.*;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * 

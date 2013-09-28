@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
@@ -27,6 +23,10 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Finds the available set of Submission Types when a protocol

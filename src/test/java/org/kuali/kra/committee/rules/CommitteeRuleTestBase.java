@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.util.HashMap;
-
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.committee.bo.Committee;
@@ -31,6 +29,8 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
+
+import java.util.HashMap;
 
 /**
  * Base class for Committee business rule tests.

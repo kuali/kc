@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.followup;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ValidProtocolActionActionBase;
+
+import java.util.List;
 
 public interface FollowupActionService<T extends ValidProtocolActionActionBase> {
     

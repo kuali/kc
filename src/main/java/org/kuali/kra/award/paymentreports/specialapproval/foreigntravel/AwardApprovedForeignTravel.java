@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.Map;
-
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.bo.Contactable;
@@ -29,6 +25,10 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.Map;
 
 /**
  * This class handles the Award Special Approval for Approved Equipment

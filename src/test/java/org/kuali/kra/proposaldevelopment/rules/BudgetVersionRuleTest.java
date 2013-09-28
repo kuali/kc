@@ -15,23 +15,19 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.versions.*;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.DocumentBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionCollection;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.budget.versions.BudgetVersionRule;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.DocumentBase;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  *

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.timeandmoney.document;
 
-import java.util.Comparator;
-
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
+
+import java.util.Comparator;
 
 public class PendingTransactionComparator implements Comparator<PendingTransaction> {
 

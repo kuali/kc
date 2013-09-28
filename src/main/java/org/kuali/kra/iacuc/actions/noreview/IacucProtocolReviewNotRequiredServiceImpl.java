@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.actions.noreview;
 
-import java.sql.Timestamp;
-
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Timestamp;
 
 /**
  * This class manages the action of marking a protocol as review not required.

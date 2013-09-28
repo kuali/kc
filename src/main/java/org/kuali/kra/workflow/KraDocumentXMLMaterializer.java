@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.workflow;
 
-import java.util.List;
-
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
+
+import java.util.List;
 
 public class KraDocumentXMLMaterializer extends KualiDocumentXmlMaterializer{
     

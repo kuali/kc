@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import java.io.Serializable;
-
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddUnrecoveredFandARuleEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalUnrecoveredFandARuleImpl;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+
+import java.io.Serializable;
 
 /**
  * This class...

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.coi;
 
-import java.sql.Date;
-
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.sql.Date;
 
 /**
  * This class exists only so you can do lookups on undisclosed events.

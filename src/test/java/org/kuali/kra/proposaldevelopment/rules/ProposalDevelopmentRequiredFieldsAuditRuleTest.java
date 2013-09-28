@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -33,8 +27,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -42,6 +36,12 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class tests the ProposalDevelopmentSponsorProgramInformationAuditRule class

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 /**
  * The AwardPaymentScheduleRuleImpl

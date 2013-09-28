@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import java.util.HashMap;
-
 import org.kuali.kra.protocol.actions.print.ProtocolPrintHelper;
 import org.kuali.kra.protocol.actions.print.ProtocolPrintType;
 import org.kuali.kra.protocol.actions.print.ProtocolPrintingServiceImplBase;
+
+import java.util.HashMap;
 
 public class IacucProtocolPrintingServiceImpl extends ProtocolPrintingServiceImplBase implements IacucProtocolPrintingService {
 

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.budget.core;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+
+import java.sql.Date;
+import java.util.List;
 
 /**
  * This class...

@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import static org.hamcrest.core.Is.is;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -30,6 +23,13 @@ import org.junit.Test;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import static org.hamcrest.core.Is.is;
 
 /**
  * Tests for {@link ProtocolAttachmentTypeByGroupValuesFinder ProtocolAttachmentTypeByGroupValuesFinder}.

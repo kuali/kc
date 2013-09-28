@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * This class represents the ProtocolBase Attachment ProtocolBase.

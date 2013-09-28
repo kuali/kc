@@ -16,8 +16,8 @@
 package org.kuali.kra.iacuc.committee.web.struts.form;
 
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeHelperBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
+import org.kuali.kra.common.committee.web.struts.form.CommitteeHelperBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.springframework.util.CollectionUtils;

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTermType;
@@ -30,6 +27,9 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class processes audit rules (warnings) for the Terms Information related

@@ -1,32 +1,5 @@
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.NoticeOfOpportunity;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
-import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.ACTIVITYTYPEDocument.ACTIVITYTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.APPLICABLEREVIEWTYPEDocument.APPLICABLEREVIEWTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.NOTICEOFOPPORTUNITYDocument.NOTICEOFOPPORTUNITY;
@@ -35,7 +8,6 @@ import edu.mit.coeus.utils.xml.v2.lookuptypes.SPECIALREVIEWDocument.SPECIALREVIE
 import edu.mit.coeus.utils.xml.v2.organization.ORGANIZATIONDocument.ORGANIZATION;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPINVESTIGATORTYPE;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument;
-
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument.PROPOSAL;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALMASTERDocument.PROPOSALMASTER;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPPERCREDITSPLITDocument.PROPPERCREDITSPLIT;
@@ -48,6 +20,18 @@ import edu.mit.coeus.utils.xml.v2.rolodex.NAMEDocument.NAME;
 import edu.mit.coeus.utils.xml.v2.rolodex.ROLODEXDocument.ROLODEX;
 import edu.mit.coeus.utils.xml.v2.sponsor.SPONSORDocument.SPONSOR;
 import edu.mit.coeus.utils.xml.v2.userUnit.UNITDocument.UNIT;
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.*;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.proposaldevelopment.bo.*;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+
+import java.sql.Date;
+import java.util.*;
 
 public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 

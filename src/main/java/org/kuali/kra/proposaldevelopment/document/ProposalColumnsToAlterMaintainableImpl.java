@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -26,6 +23,9 @@ import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProposalColumnsToAlterMaintainableImpl extends KraMaintainableImpl {
 

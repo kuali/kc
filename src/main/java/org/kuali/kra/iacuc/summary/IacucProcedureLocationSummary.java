@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.summary;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
+
+import java.io.Serializable;
 
 public class IacucProcedureLocationSummary implements Serializable {
     

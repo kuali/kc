@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.common.committee.rule.event;
 
-import java.util.List;
-
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rules.CommitteeScheduleFilterDatesRule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 public class CommitteeScheduleFilterEvent extends CommitteeScheduleEventBase<CommitteeScheduleFilterDatesRule> {
     

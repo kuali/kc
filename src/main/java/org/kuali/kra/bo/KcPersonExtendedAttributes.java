@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.bo;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.rice.krad.bo.PersistableAttachmentList;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.springframework.util.AutoPopulatingList;
+
+import java.sql.Date;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Class contains attributes related to a KIM entity that do not currently have a home inside of KIM.

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.negotiations.printing.service.impl;
 
-import java.util.Map;
-
 import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -28,6 +26,8 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+
+import java.util.Map;
 
 /**
  * This class is the implementation of {@link AwardPrintingService}. It has

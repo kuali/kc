@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.printing.print;
 
-import java.io.InputStream;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.transform.Source;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -29,6 +22,12 @@ import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.util.watermark.Watermarkable;
+
+import javax.xml.transform.Source;
+import java.io.InputStream;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides all the objects required for printing reports. It

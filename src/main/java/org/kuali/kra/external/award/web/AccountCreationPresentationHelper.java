@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.external.award.web;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.AwardFandaRateService;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Encapsulates presentation tier data/logic related to Create Account functionality.

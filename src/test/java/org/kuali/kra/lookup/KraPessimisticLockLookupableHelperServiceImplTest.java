@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.lookup;
 
+import junit.framework.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.Assert;
-
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests the {@link KraPessimisticLockLookupableHelperServiceImpl KraPessimisticLockLookupableHelperServiceImpl} class.

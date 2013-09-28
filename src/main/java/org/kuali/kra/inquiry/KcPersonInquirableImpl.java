@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.inquiry;
 
-import java.util.Map;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.Map;
 
 /**
  * This class is used to perform an inquiry on a KC Person.

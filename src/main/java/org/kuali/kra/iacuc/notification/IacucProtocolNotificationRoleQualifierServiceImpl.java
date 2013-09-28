@@ -17,10 +17,10 @@ package org.kuali.kra.iacuc.notification;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRoleQualifierServiceImpl;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 public class IacucProtocolNotificationRoleQualifierServiceImpl extends ProtocolNotificationRoleQualifierServiceImpl implements
         IacucProtocolNotificationRoleQualifierService {

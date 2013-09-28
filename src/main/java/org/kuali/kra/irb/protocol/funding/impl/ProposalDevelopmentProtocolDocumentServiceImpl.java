@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.protocol.funding.impl;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.KcPerson;
@@ -46,6 +44,8 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 /**
  * 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.krms;
 
-import java.util.Map;
-
 import org.kuali.rice.krms.api.engine.Facts;
+
+import java.util.Map;
 
 public interface KrmsRulesContext {
     

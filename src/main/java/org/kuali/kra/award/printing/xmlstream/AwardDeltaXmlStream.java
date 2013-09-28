@@ -15,25 +15,17 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import noNamespace.AwardNoticeDocument;
-import noNamespace.AwardType;
-import noNamespace.SpecialReviewType;
 import noNamespace.AwardNoticeDocument.AwardNotice.PrintRequirement;
+import noNamespace.AwardType;
 import noNamespace.AwardType.AwardOtherDatas;
+import noNamespace.AwardType.AwardOtherDatas.OtherData;
 import noNamespace.AwardType.AwardPaymentSchedules;
+import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
 import noNamespace.AwardType.AwardSpecialReviews;
 import noNamespace.AwardType.AwardTransferringSponsors;
-import noNamespace.AwardType.AwardOtherDatas.OtherData;
-import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
 import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
-
+import noNamespace.SpecialReviewType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
@@ -52,6 +44,8 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
+
+import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Award Delta

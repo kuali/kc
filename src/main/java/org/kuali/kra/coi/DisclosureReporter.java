@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.List;
-
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
+
+import java.util.List;
 
 public  abstract class DisclosureReporter extends KraPersistableBusinessObjectBase {
 

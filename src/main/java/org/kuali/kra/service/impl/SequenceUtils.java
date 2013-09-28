@@ -15,30 +15,20 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.collect.Sets;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.SeparatelySequenceableAssociate;
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.Sequenceable;
-import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.*;
 import org.kuali.kra.service.VersionException;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import com.google.common.collect.Sets;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * This class provides Sequence support to the VersioningService.

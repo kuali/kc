@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.common.permissions.web.bean;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KcPerson;
 
 /**
  * A UserState maintains the current roles for a person as well as the

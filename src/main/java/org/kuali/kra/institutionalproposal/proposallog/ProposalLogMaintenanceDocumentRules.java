@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
@@ -25,14 +22,15 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.rules.MaintenanceDocumentRule;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRuleBase
     implements MaintenanceDocumentRule {

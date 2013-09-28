@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
@@ -31,6 +25,8 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.service.PersistenceService;
+
+import java.util.*;
 
 /**
  * 

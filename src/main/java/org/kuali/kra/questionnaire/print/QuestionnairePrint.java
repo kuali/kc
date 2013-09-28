@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.questionnaire.print;
 
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.printing.util.PrintingUtils;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
-
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.util.PrintingUtils;
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

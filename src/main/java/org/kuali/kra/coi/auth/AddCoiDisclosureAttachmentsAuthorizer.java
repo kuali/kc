@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.coi.auth;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.infrastructure.Constants;
@@ -25,6 +22,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.api.permission.PermissionService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddCoiDisclosureAttachmentsAuthorizer extends CoiDisclosureAuthorizer {
 

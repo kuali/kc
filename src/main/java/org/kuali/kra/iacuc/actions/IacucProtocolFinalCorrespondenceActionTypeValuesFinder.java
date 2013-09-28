@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class IacucProtocolFinalCorrespondenceActionTypeValuesFinder extends IacucActionsKeyValuesBase {
 

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions.table;
 
-import java.io.Serializable;
-import java.sql.Date;
-
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
+
+import java.io.Serializable;
+import java.sql.Date;
 
 /**
  * This class is really just a "form" containing the comments and action date 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.sql.Date;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.sql.Date;
 
 /**
  * Represents the Proposal Investigator Certification <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>

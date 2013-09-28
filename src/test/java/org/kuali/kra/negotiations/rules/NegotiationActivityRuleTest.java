@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.negotiations.rules;
 
-import java.util.Calendar;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +23,8 @@ import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationFixtureFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Calendar;
 
 public class NegotiationActivityRuleTest extends KcUnitTestBase {
 

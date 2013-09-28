@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.service;
 
-import java.util.Map;
-
 import org.kuali.kra.award.home.Award;
+
+import java.util.Map;
 
 /**
  * 

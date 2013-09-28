@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
@@ -27,6 +23,10 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Assembles the Protocol Reviewer Types to display in the drop-down menu when

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,6 +22,9 @@ import org.junit.Test;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReportClassValuesFinderTest extends KcUnitTestBase {
     

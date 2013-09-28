@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,6 +23,9 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.rules.SoftError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * This class tests AwardApprovedEquipmentRuleImpl behavior

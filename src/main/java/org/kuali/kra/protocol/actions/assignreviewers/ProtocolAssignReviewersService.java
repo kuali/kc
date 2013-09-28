@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.assignreviewers;
 
-import java.util.List;
-
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+
+import java.util.List;
 
 public interface ProtocolAssignReviewersService {
     /**

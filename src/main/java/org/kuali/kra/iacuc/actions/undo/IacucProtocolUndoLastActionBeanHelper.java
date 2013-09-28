@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions.undo;
 
-import java.io.Serializable;
-
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.protocol.actions.undo.UndoLastActionBeanHelperBase;
+
+import java.io.Serializable;
 
 public class IacucProtocolUndoLastActionBeanHelper extends UndoLastActionBeanHelperBase implements Serializable {
 

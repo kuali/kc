@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.common.committee.rule.event;
 
-import java.util.List;
-
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public abstract class CommitteeScheduleEventBase<Z extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {

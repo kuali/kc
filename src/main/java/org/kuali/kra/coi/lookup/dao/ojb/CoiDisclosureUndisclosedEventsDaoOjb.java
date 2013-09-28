@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.coi.lookup.dao.ojb;
 
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -36,8 +32,12 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
+import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
 
 
 public class CoiDisclosureUndisclosedEventsDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CoiDisclosureUndisclosedEventsDao {

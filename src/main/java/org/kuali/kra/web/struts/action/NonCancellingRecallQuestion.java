@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.web.struts.action;
 
-import java.util.ArrayList;
-
 import org.kuali.rice.kns.question.QuestionBase;
+
+import java.util.ArrayList;
 
 public class NonCancellingRecallQuestion extends QuestionBase {
 

@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.ProposalCountryService;
@@ -30,6 +25,11 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 import org.kuali.rice.location.api.state.State;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class KCStateValuesFinder extends KeyValuesBase {
     

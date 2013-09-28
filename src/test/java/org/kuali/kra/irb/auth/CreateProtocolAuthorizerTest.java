@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.auth;
 
-import static org.junit.Assert.assertEquals;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -29,6 +27,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.UnitAuthorizationService;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test the Create Protocol Authorizer.

@@ -15,20 +15,16 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
-import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureEventType;
-import org.kuali.kra.coi.CoiDisclosureStatus;
-import org.kuali.kra.coi.CoiDispositionStatus;
+import org.kuali.kra.coi.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class AddManualProjectRuleTest extends KcUnitTestBase {
 

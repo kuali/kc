@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.infrastructure;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,6 +22,10 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.web.format.BigDecimalFormatter;
 import org.kuali.rice.core.web.format.FormatException;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * This class makes a BudgetDecimal from a String

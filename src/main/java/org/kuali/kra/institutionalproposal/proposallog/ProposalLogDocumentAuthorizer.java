@@ -15,23 +15,14 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import noNamespace.ProposalLogDocument;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.Map;
 
 public class ProposalLogDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase implements MaintenanceDocumentAuthorizer {
     

@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.krms.dao;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -26,6 +22,10 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
 import org.kuali.rice.krms.impl.repository.RuleBo;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class KrmsRuleDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, KrmsRuleDao  {
 

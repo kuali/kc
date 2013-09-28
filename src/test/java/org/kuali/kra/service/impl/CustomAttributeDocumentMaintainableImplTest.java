@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import static org.junit.Assert.*;
-
-import java.util.Collection;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +27,8 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.Collection;
 
 public class CustomAttributeDocumentMaintainableImplTest extends KcUnitTestBase {
     

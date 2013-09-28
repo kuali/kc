@@ -15,20 +15,19 @@
  */
 package org.kuali.kra.irb.protocol;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceType;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.protocol.protocol.ProtocolReferenceTypeValuesFinderBase;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceTypeBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public class ProtocolReferenceTypeValuesFinder extends ProtocolReferenceTypeValuesFinderBase {
     /**

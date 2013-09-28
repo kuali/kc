@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -38,6 +31,9 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Timestamp;
+import java.util.*;
 
 public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
 

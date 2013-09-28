@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.assignreviewers;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This class is really just a "form" for assigning a protocol

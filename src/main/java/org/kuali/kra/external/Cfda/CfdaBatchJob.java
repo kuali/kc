@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.external.Cfda;
 
-import java.io.IOException;
-import java.util.Collections;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.common.util.StringUtils;
@@ -30,6 +27,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+
+import java.io.IOException;
+import java.util.Collections;
 
 /**
  * This job is triggered by the quartz scheduler to kick off the CFDA table update.

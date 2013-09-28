@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
@@ -29,6 +25,10 @@ import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CoiDisclosureRulesEngineExecutorImpl  extends KcRulesEngineExecuter {
     

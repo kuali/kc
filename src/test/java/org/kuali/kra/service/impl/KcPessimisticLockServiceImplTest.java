@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -32,6 +28,10 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(JMock.class)
 public class KcPessimisticLockServiceImplTest {

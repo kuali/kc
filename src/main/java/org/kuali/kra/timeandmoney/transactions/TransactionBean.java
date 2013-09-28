@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -25,6 +22,9 @@ import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This class supports the TimeAndMoneyForm class

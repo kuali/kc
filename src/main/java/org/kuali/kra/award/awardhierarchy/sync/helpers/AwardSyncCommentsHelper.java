@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.helpers;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncException;
@@ -25,6 +22,9 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 /**
  * Award Hierarchy Sync Helper for Award Comments.

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.bo.versioning;
 
-import java.sql.Date;
-
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
 
 public class VersionHistory extends KraPersistableBusinessObjectBase {
 

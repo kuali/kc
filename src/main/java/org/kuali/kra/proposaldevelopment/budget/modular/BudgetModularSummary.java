@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
+import org.kuali.kra.budget.BudgetDecimal;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetModularSummary implements Serializable {
     

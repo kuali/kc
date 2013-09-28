@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.summary;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IacucProtocolSummary extends ProtocolSummary {
 

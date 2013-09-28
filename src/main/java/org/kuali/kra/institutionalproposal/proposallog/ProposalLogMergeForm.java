@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
-import java.util.List;
-
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+
+import java.util.List;
 
 public class ProposalLogMergeForm extends KualiForm {
 

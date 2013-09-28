@@ -15,20 +15,8 @@
  */
 package org.kuali.kra.printing.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.printing.AwardPrintType;
-import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.coi.print.CoiDisclosureType;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
@@ -50,6 +38,14 @@ import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrintingUtils {
 

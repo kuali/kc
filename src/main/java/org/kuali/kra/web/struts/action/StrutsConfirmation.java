@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.web.struts.action;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 public class StrutsConfirmation {
     private ActionMapping mapping;

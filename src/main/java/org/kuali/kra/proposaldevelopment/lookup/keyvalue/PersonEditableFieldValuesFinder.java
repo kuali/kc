@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.sort;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -31,6 +23,14 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.sort;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Lookup acceptable values for <code>{@link PersonEditableField}</code> business object

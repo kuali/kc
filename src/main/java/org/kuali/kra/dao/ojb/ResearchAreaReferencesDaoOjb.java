@@ -18,7 +18,6 @@ package org.kuali.kra.dao.ojb;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;

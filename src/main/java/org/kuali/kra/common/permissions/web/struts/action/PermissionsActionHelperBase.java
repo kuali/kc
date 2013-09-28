@@ -15,19 +15,6 @@
  */
 package org.kuali.kra.common.permissions.web.struts.action;
 
-import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
-import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -55,6 +42,18 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.apache.commons.lang.StringUtils.replace;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 /**
  * The PermissionsActionHelperBase is a delegate for supporting the Permissions Tab web page.

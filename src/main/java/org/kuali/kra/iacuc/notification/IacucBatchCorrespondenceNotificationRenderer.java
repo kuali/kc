@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.notification;
 
-import java.util.Map;
-
 import org.kuali.kra.iacuc.IacucProtocol;
+
+import java.util.Map;
 
 /**
  * Renders additional fields for the Batch Correspondence notification.

@@ -16,13 +16,7 @@
 package org.kuali.kra.iacuc.correspondence;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailBase;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailActionBase;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailAuthorizationService;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailFormBase;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailRuleBase;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailService;
+import org.kuali.kra.protocol.correspondence.*;
 
 public class IacucBatchCorrespondenceDetailAction extends BatchCorrespondenceDetailActionBase {
 

@@ -15,15 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.printing;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import noNamespace.ProposalLogDocument;
-import noNamespace.ProposalLogLeadUnit;
-import noNamespace.ProposalLogPrincipalInvestigator;
-import noNamespace.ProposalLogProposalType;
-import noNamespace.ProposalLogSponsor;
-
+import noNamespace.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -36,6 +28,9 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 /**

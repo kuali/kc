@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.actions.notifyiacuc;
 
-import java.util.Map;
-
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
+
+import java.util.Map;
 
 /**
  * Renders additional fields for the Notify IRB notification.

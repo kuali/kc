@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonEditableInterface;
@@ -31,6 +23,14 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 public class PersonEditableServiceImpl implements PersonEditableService {
     

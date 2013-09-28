@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.species;
 
-import java.util.HashMap;
-
 import org.kuali.kra.iacuc.IacucProtocol;
+
+import java.util.HashMap;
 
 public interface IacucProtocolSpeciesService {
 

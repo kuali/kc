@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -28,6 +24,10 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class AwardPersonDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, AwardPersonDao {
     private LookupDao lookupDao;

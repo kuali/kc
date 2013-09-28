@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -32,6 +28,10 @@ import org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implements ProposalLockService {
 

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * KC Attachment Service Implementation.

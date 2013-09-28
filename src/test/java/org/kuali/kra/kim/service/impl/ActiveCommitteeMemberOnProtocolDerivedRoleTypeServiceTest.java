@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.kim.service.impl;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -35,6 +28,13 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(JMock.class)
 public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceTest {

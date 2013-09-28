@@ -15,18 +15,14 @@
  */
 package org.kuali.kra.personmasschange.document.authorization;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.*;
 
 public class PersonMassChangeDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 

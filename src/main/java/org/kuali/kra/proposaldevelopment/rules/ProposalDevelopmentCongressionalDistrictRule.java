@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
+
+import java.util.regex.Pattern;
 
 /**
  * This class implements rule checks for adding and deleting congressional districts to a Proposal Site.

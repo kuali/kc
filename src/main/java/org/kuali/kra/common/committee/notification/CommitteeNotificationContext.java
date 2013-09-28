@@ -16,13 +16,11 @@
 package org.kuali.kra.common.committee.notification;
 
 
-import java.util.List;
-
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
+import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
@@ -30,6 +28,8 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.util.EmailAttachment;
 import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * This class extends the notification context base and provides some helpful functions for

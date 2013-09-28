@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.logging;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * Class with static methods wrapping {@link Log} methods. Automatically sets up Log for you. It's called the <code>FormattedLogger</code> because

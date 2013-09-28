@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.hamcrest.Matchers;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -42,6 +34,9 @@ import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.service.impl.ResearchAreasServiceImpl;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.util.*;
 
 @RunWith(JMock.class)
 public class ResearchAreasServiceTest {

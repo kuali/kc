@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.coi.CoiReviewer;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -26,6 +22,10 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class CoiReviewerValuesFinder extends KeyValuesBase {
 

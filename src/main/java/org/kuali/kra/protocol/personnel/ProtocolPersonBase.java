@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonEditableInterface;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.service.KcPersonService;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ProtocolPersonBase extends ProtocolAssociateBase implements PersonEditableInterface, AbstractProjectPerson {
 

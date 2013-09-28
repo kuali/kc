@@ -15,13 +15,10 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.mit.irb.irbnamespace.CommitteeMasterDataDocument.CommitteeMasterData;
+import edu.mit.irb.irbnamespace.NextScheduleDateDocument.NextScheduleDate;
+import edu.mit.irb.irbnamespace.RenewalReminderDocument;
+import edu.mit.irb.irbnamespace.RenewalReminderDocument.RenewalReminder;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.Committee;
@@ -32,10 +29,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.print.RenewalReminderStreamBase;
 
-import edu.mit.irb.irbnamespace.RenewalReminderDocument;
-import edu.mit.irb.irbnamespace.CommitteeMasterDataDocument.CommitteeMasterData;
-import edu.mit.irb.irbnamespace.NextScheduleDateDocument.NextScheduleDate;
-import edu.mit.irb.irbnamespace.RenewalReminderDocument.RenewalReminder;
+import java.sql.Date;
+import java.util.*;
 
 /**
  * This class...

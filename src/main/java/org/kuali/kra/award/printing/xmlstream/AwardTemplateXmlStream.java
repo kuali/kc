@@ -16,45 +16,14 @@
 
 package org.kuali.kra.award.printing.xmlstream;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import noNamespace.BasisPaymentType;
-import noNamespace.CommentType;
-import noNamespace.CompetingRenewalType;
+import noNamespace.*;
 import noNamespace.ContactType;
-import noNamespace.NonCompetingContType;
-import noNamespace.PaymentMethodType;
-import noNamespace.ReportTermDetailsType;
-import noNamespace.ReportTermType;
-import noNamespace.RolodexDetailsType;
-import noNamespace.SchoolInfoType;
-import noNamespace.SponsorType;
-import noNamespace.TemplateDocument;
-import noNamespace.TemplateMasterData;
-import noNamespace.TemplateStatusType;
-import noNamespace.TermDetailsType;
-import noNamespace.TermType;
 import noNamespace.ReportTermDetailsType.MailCopies;
 import noNamespace.TemplateDocument.Template;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.home.AwardBasisOfPayment;
-import org.kuali.kra.award.home.AwardMethodOfPayment;
-import org.kuali.kra.award.home.AwardStatus;
-import org.kuali.kra.award.home.AwardTemplate;
-import org.kuali.kra.award.home.AwardTemplateComment;
-import org.kuali.kra.award.home.AwardTemplateContact;
-import org.kuali.kra.award.home.AwardTemplateReportTerm;
-import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
-import org.kuali.kra.award.home.AwardTemplateTerm;
-import org.kuali.kra.award.home.Distribution;
+import org.kuali.kra.award.home.*;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
@@ -69,6 +38,9 @@ import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Award Template

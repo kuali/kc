@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.timeandmoney;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.lang.time.DateUtils;
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
@@ -27,6 +24,9 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.service.AwardFnaDistributionService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+
+import java.sql.Date;
+import java.util.List;
 
 /**
  * This class contains all rule methods for actions on Award Direct F and A Distribution tab.

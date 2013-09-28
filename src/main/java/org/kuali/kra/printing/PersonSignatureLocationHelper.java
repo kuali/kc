@@ -16,15 +16,15 @@
 
 package org.kuali.kra.printing;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.pdfbox.util.PDFTextStripper;
+import org.apache.pdfbox.util.TextPosition;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.pdfbox.util.PDFTextStripper;
-import org.apache.pdfbox.util.TextPosition;
 
 public class PersonSignatureLocationHelper extends PDFTextStripper {
 

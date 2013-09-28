@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -27,6 +22,8 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
+
+import static org.junit.Assert.*;
 
 public class ProtocolCreateRenewalRuleTest {
     private static final String PROPERTY_KEY = "key";

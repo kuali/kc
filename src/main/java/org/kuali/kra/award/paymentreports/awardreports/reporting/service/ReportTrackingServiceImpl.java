@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
@@ -35,6 +26,10 @@ import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingB
 import org.kuali.kra.service.AwardScheduleGenerationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * 

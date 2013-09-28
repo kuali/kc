@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.util;
 
-import java.util.List;
-
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.List;
 
 public class ValuesFinderUtility {
     

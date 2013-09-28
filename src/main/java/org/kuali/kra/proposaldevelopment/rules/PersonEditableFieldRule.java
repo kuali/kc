@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.kra.infrastructure.Constants.PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERSON_EDITABLE_FIELD_EXISTS;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.Collection;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -28,6 +22,12 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.Collection;
+
+import static org.kuali.kra.infrastructure.Constants.PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERSON_EDITABLE_FIELD_EXISTS;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Business rules class for the <code>{@link PersonEditableFieldMaintenanceDocument}</code>. When a <code>{@link PersonEditableField}</code> BO is created,

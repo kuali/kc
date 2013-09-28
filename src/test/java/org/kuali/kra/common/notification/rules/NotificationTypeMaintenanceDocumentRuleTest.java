@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.common.notification.rules;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -31,6 +27,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     

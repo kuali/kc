@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.correspondence;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class ProtocolCorrespondenceTypeBase extends KraPersistableBusinessObjectBase {
 

@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
@@ -29,6 +22,13 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PHS398ResearchPlanV1_1GeneratorTest extends S2STestBase<PHS398ResearchPlanV1_1Generator> {
 

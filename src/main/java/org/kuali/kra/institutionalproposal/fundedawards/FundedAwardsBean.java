@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.fundedawards;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
@@ -30,6 +26,10 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Web tier helper bean for Funded Awards panel in Institutional Proposal Actions.

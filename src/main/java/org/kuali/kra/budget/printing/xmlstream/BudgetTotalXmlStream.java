@@ -15,16 +15,15 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import noNamespace.BudgetSalaryDocument;
 import noNamespace.BudgetSalaryDocument.BudgetSalary;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.document.ResearchDocumentBase;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget total

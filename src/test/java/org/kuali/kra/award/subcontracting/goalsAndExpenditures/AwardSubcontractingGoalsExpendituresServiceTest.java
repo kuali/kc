@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -25,6 +22,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AwardSubcontractingGoalsExpendituresServiceTest {
 

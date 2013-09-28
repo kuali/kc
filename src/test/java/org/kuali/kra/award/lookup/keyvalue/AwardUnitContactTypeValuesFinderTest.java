@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
+
+import java.util.List;
 
 public class AwardUnitContactTypeValuesFinderTest extends KcUnitTestBase {
 

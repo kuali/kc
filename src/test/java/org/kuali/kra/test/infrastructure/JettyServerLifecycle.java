@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.test.infrastructure;
 
-import java.net.BindException;
-import java.util.HashMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.core.api.config.property.Config;
@@ -26,6 +23,9 @@ import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.api.util.RiceUtilities;
+
+import java.net.BindException;
+import java.util.HashMap;
 
 /**
  * A lifecycle for running a jetty web server.

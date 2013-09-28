@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -29,6 +26,9 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class processes audit rules (warnings)
