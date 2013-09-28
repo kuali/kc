@@ -15,20 +15,16 @@
  */
 package org.kuali.kra.subaward.web.struts.action;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.kra.subaward.SubAwardForm;
-import org.kuali.kra.subaward.customdata.SubAwardCustomData;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * This class is for SubAwardCustomDataAction...

@@ -15,13 +15,7 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.Timestamp;
-
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
@@ -29,6 +23,11 @@ import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.PersistableAttachment;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
 /**
  * This class represents a subAwardAmountReleased.  It mainly deals with the
  * Amount released for a subAward.

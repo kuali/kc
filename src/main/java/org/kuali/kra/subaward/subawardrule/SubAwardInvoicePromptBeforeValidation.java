@@ -15,19 +15,12 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rule.PromptBeforeValidation;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.Calendar;
 
 /**
  * If a newly created Permanent proposal log has the same PI as one or more Temporary logs,

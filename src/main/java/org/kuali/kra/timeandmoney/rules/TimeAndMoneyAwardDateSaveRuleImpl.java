@@ -39,10 +39,6 @@ import java.util.Map.Entry;
 
 public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase implements TimeAndMoneyAwardDateSaveRule {
 
-    private static final String OBLIGATED_DATE_PROPERTY = "obligatedDate";
-    private static final String OBLIGATED_END_DATE_PROPERTY = "obligatedEndDate";
-    private static final String OBLIGATED_START_DATE_PROPERTY = "obligatedStartDate";
-    private static final String FINAL_EXPIRATION_DATE_PROPERTY = "finalExpirationDate";
     private static final String AWARD_EFFECTIVE_DATE_PROPERTY = "document.awardList[0].awardEffectiveDate";
 
     public boolean processSaveAwardDatesBusinessRules(TimeAndMoneyAwardDateSaveEvent timeAndMoneyAwardDateSaveEvent) {
