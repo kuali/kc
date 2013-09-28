@@ -21,12 +21,10 @@ import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -44,8 +42,6 @@ public class AwardServiceImpl implements AwardService {
     private VersioningService versioningService;
     private DocumentService documentService;
     private VersionHistoryService versionHistoryService;
-    private BudgetSummaryService budgetSummaryService;
-    private ParameterService parameterService;
 
     /**
      * Note Awards are ordered by sequenceNumber
@@ -191,22 +187,6 @@ public class AwardServiceImpl implements AwardService {
 
     public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
         this.versionHistoryService = versionHistoryService;
-    }
-
-    protected BudgetSummaryService getBudgetSummaryService() {
-        return budgetSummaryService;
-    }
-
-    public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
-        this.budgetSummaryService = budgetSummaryService;
-    }
-
-    protected ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 
     @Override

@@ -99,7 +99,6 @@ public abstract class AwardBaseStream implements XmlStream {
     protected static final String OTHER_DATA = "otherData";
 	protected static final String SIGNATURE_REQUIRED = "signatureRequired";
 	protected static final String COMMENT_TYPE_CODE_PARAMETER = "commentTypeCode";
-	protected static final String BASIS_OF_PAYMENT = "BASIS OF PAYMENT";
 	protected static final String AWARD_TYPE_CODE_PARAMETER = "awardTypeCode";
 	protected static final String ACTIVITY_TYPE_CODE_PARAMETER = "activityTypeCode";
 	protected static final String ACCOUNT_TYPE_CODE_PARAMETER = "accountTypeCode";
@@ -126,7 +125,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected static final String DOCUMENT_NUMBER = "documentNumber";
 	protected AwardDocument awardDocument = null;
 	protected Award award = null;
-	protected AwardComment awardComment=null;
+
 	protected AwardAmountInfo awardAmountInfo = null;
 	protected Award prevAward = null;
 	protected AwardAmountInfo prevAwardAmountInfo = null;
@@ -2647,17 +2646,6 @@ public abstract class AwardBaseStream implements XmlStream {
         return null;
     }
 
-    private String getRootAccountNumber() {
-	    Map<String,String> param = new HashMap<String,String>();
-	    param.put("awardNumber", award.getAwardNumber());
-	    List<AwardHierarchy> awardHierarchies = (List)getBusinessObjectService().findMatching(AwardHierarchy.class, param);
-	    if(!awardHierarchies.isEmpty()){
-	        AwardHierarchy awardHierarchy = awardHierarchies.get(0);
-	        return awardHierarchy.getRootAwardNumber();
-	    }
-        return null;
-    }
-
     /*
 	 * This method will get the award payment method description
 	 */
@@ -3013,15 +3001,6 @@ public abstract class AwardBaseStream implements XmlStream {
 		return value;
 	}
 
-    protected String getParameterValue(String param) {
-        String value = null;
-        try {
-            value = PrintingUtils.getParameterValue(AwardDocument.class,param);
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-        }
-        return value;
-    }
     /**
      * Gets the parameterService attribute. 
      * @return Returns the parameterService.

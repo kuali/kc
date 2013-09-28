@@ -16,8 +16,6 @@
 package org.kuali.kra.budget.web.struts.action;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -44,7 +42,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 public class BudgetPersonnelBudgetAction extends BudgetAction {
-    private static final Log LOG = LogFactory.getLog(BudgetPersonnelBudgetAction.class);
 
 
     /**

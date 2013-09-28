@@ -343,15 +343,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         }
         return success;
     }
-    
-    protected ErrorMessage convertStringArrayToErrorMessage(String[] message) {
-        ErrorMessage error = new ErrorMessage();
-        error.setErrorKey(message[0]);
-        if (message.length > 1) {
-            error.setMessageParameters(Arrays.copyOfRange(message, 1, message.length-1));
-        }
-        return error;
-    }
 
     public ActionForward printBudgetForm(ActionMapping mapping,
             ActionForm form, HttpServletRequest request,
@@ -391,10 +382,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     
     private Integer generateSubAwardNumber(BudgetDocument budgetDocument) {
         return budgetDocument.getHackedDocumentNextValue("subAwardNumber") != null ? budgetDocument.getHackedDocumentNextValue("subAwardNumber") : 1;
-    }
-    
-    private BudgetDocument getDocument(ActionForm form) {
-        return ((BudgetForm)form).getBudgetDocument();
     }
 
     private BudgetJustificationWrapper getBudgetJusticationWrapper(ActionForm form) {

@@ -164,18 +164,6 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
         return principalInvestigators; 
     }
     
-    protected List<AwardPersonUnit> getPIUnits(List<AwardPerson> projectPersons) {
-        List<AwardPersonUnit> units = new ArrayList<AwardPersonUnit>();
-        for(AwardPerson p: projectPersons) {
-            if(p.isPrincipalInvestigator() ) {
-                for(AwardPersonUnit apu: p.getUnits()) {
-                    units.add(apu);
-                }
-            }
-        }
-        return units; 
-    }
-    
     protected boolean checkCertifiedInvestigators(Award award) {
         boolean retval = true;
         String parmVal = getParameterService().getParameterValueAsString(AwardDocument.class, AWARD_UNCERTIFIED_PARAM);

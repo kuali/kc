@@ -77,21 +77,6 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase {
         this.sponsorTermTypeCode = sponsorTermTypeCode;
     }
 
-    //    /**  
-    //     * Gets the sponsorTermsType attribute.   
-    //     * @return Returns the sponsorTermsType.  
-    //     */  
-    //    public SponsorTermType getSponsorTermType() {  
-    //        return sponsorTermType;  
-    //    }  
-    //  
-    //    /**  
-    //     * Sets the sponsorTermsType attribute value.  
-    //     * @param sponsorTermsType The sponsorTermsType to set.  
-    //     */  
-    //    public void setSponsorTermType(SponsorTermType sponsorTermType) {  
-    //        this.sponsorTermType = sponsorTermType;  
-    //    }  
     /**
      * Gets the sponsorTermId attribute. 
      * @return Returns the sponsorTermId.

@@ -46,7 +46,6 @@ import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -86,7 +85,6 @@ public class AwardSyncServiceImpl implements AwardSyncService {
     private TaskExecutor syncExecutor;
     @SuppressWarnings("unchecked")
     private PersonService personService;
-    private PessimisticLockService pessimisticLockService;
     private KraWorkflowService kraWorkflowService;
     private KraAuthorizationService kraAuthorizationService;
         
@@ -997,14 +995,6 @@ public class AwardSyncServiceImpl implements AwardSyncService {
     @SuppressWarnings("unchecked")
     public void setPersonService(PersonService personService) {
         this.personService = personService;
-    }
-
-    protected PessimisticLockService getPessimisticLockService() {
-        return pessimisticLockService;
-    }
-
-    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
-        this.pessimisticLockService = pessimisticLockService;
     }
 
     protected KraWorkflowService getKraWorkflowService() {

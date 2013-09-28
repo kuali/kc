@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -42,8 +40,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 public class BudgetModularBudgetAction extends BudgetAction {
-    private static final Log LOG = LogFactory.getLog(BudgetModularBudgetAction.class);
-    
+
     private static final String CONFIRM_SYNC_BUDGET_MODULAR = "confirmSyncBudgetModular";
     
     public ActionForward updateView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

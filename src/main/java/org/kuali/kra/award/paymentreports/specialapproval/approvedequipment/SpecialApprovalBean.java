@@ -19,9 +19,6 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KualiRuleService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -33,25 +30,9 @@ public class SpecialApprovalBean implements Serializable {
     private static final long serialVersionUID = -6976882557080351302L;
     
     protected AwardForm form;
-    protected transient KualiRuleService ruleService;
-    private transient BusinessObjectService businessObjectService;
-    
+
     protected SpecialApprovalBean(AwardForm form) {
         this.form = form;
-    }
-
-    /**
-     * @param businessObjectService
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * @param ruleService
-     */
-    public void setRuleService(KualiRuleService ruleService) {
-        this.ruleService = ruleService;
     }
 
     /**
@@ -67,26 +48,7 @@ public class SpecialApprovalBean implements Serializable {
     protected AwardDocument getAwardDocument() {
         return form.getAwardDocument();
     }
-    
-    /**
-     * @return
-     */
-    protected BusinessObjectService getBusinessObjectService() {
-        if(businessObjectService == null) {
-            businessObjectService = (BusinessObjectService) KraServiceLocator.getService("businessObjectService"); 
-        }
-        return businessObjectService;
-    }
 
-    /**
-     * @return
-     */
-    protected KualiRuleService getRuleService() {
-        if(ruleService == null) {
-            ruleService = (KualiRuleService) KraServiceLocator.getService("kualiRuleService"); 
-        }
-        return ruleService;
-    }
 
     /**
      * @param collection

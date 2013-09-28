@@ -415,10 +415,6 @@ public class FinancialEntitySummaryHelper implements Serializable {
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
-    protected FinancialEntityService getFinancialEntityService() {
-        return KraServiceLocator.getService(FinancialEntityService.class);
-    }
   
     
     /**

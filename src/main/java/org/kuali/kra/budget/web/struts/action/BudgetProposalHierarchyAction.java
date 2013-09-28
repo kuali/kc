@@ -15,11 +15,7 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class BudgetProposalHierarchyAction extends BudgetAction {
-    private static final Log LOG = LogFactory.getLog(BudgetProposalHierarchyAction.class);
 
 
 }

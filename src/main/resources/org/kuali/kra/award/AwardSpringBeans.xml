@@ -224,8 +224,6 @@
         <property name="documentService" ref="documentService" />
         <property name="versioningService" ref="versioningService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
-        <property name="budgetSummaryService" ref="budgetSummaryService" />
-        <property name="parameterService" ref="parameterService" />
     </bean>
     
     <bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -643,7 +641,6 @@
         <property name="documentService" ref="documentService"/>
         <property name="personService" ref="personService"/>
         <property name="awardSyncHelpersService" ref="awardSyncHelpersService"/>
-        <property name="pessimisticLockService" ref="awardLockService" />
         <property name="kraWorkflowService" ref="kraWorkflowService"/>
         <property name="kraAuthorizationService" ref="kraAuthorizationService"/>
         <property name="syncExecutor">
@@ -802,7 +799,6 @@
      <bean id="parentAwardAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="kcPersonService" ref="kcPersonService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
     </bean>
 
@@ -864,9 +860,7 @@
     <bean id="reportTrackingNotificationService" parent="abstractReportTrackingNotificationService" 
     	class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceImpl"/>
 	<bean id="abstractReportTrackingNotificationService" abstract="true">
-		<property name="parameterService" ref="parameterService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="notificationService" ref="kcNotificationService" />
 		<property name="awardService" ref="awardService" />
 		<property name="notifications">

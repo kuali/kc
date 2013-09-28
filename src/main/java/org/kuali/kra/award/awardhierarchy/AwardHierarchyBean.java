@@ -326,21 +326,6 @@ public class AwardHierarchyBean implements Serializable {
         this.awardForm = awardForm;
     }
 
-    private AwardHierarchy findNodeInAnyHierarchy(String awardNumber) {
-        AwardHierarchy foundNode = null;
-        for(String rootNodeAwardNumber: rootNodes.keySet()) {
-            AwardHierarchy rootNode = rootNodes.get(rootNodeAwardNumber);
-            foundNode = rootNode.findNodeInHierarchy(awardNumber);
-            if(foundNode != null) {
-                break;
-            }
-        }
-        if(foundNode == null) {
-            foundNode = loadRootNodeForAwardNumber(awardNumber);
-        }
-        return foundNode;
-    }
-
     private AwardHierarchy findRootNodeForCurrentAward(String currentAwardNumber) {
         AwardHierarchy thisRootNode = null;
         for(AwardHierarchy rootNode: rootNodes.values()) {

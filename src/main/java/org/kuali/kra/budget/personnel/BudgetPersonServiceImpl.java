@@ -38,8 +38,7 @@ import java.util.Map;
  */
 public class BudgetPersonServiceImpl implements BudgetPersonService {
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetPersonServiceImpl.class);
-    
+
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;

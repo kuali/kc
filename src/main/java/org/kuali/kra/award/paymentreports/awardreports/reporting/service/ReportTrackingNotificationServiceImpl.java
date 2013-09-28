@@ -24,8 +24,6 @@ import org.kuali.kra.award.notification.AwardReportTrackingNotificationRenderer;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.ken.api.notification.NotificationRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -37,9 +35,7 @@ import java.util.*;
 public class ReportTrackingNotificationServiceImpl implements ReportTrackingNotificationService {
     
     private static final Log LOG = LogFactory.getLog(ReportTrackingNotificationServiceImpl.class);
-    private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
-    private DateTimeService dateTimeService;
     private AwardService awardService;
     private KcNotificationService notificationService;
     
@@ -195,28 +191,12 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         date.set(Calendar.MILLISECOND, 0);
     }
 
-    protected ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    protected DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
     protected KcNotificationService getNotificationService() {

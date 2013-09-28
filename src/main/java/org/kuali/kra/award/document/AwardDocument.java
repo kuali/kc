@@ -52,7 +52,6 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.VersionHistoryService;
@@ -66,7 +65,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -363,10 +361,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         managedLists.add(personUnits);
     }
     
-    protected KraAuthorizationService getKraAuthorizationService(){
-        return (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class);
-    }
-    
     /**
      * @return
      */
@@ -570,10 +564,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     
     protected PermissionService getPermissionService() {
         return KraServiceLocator.getService(PermissionService.class);
-    }
-    
-    protected IdentityService getIdentityService() {
-        return KraServiceLocator.getService(IdentityService.class);
     }
     
     protected InstitutionalProposalService getInstitutionalProposalService() {

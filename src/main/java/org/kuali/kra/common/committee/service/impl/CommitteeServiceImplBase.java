@@ -387,18 +387,6 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     }
     
     /*
-     * check if old schedule still exist in new committee
-     */
-    protected boolean isInNewCommittee(CS schedule, List<CS> schedules) {
-        for (CS newSchedule : schedules) {
-            if (StringUtils.equals(newSchedule.getScheduleId(), schedule.getScheduleId())) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    /*
      * get the matched schedule from new committee.
      */
     protected CS getNewCommitteeSchedule(CS schedule, List<CS> schedules) {
