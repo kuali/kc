@@ -163,21 +163,6 @@ public class OjbRepositoryMappingTest {
             verifyTableForRepository(repositoryFilePath);
         }        
     }
-    
-    /**
-     * Test for validating <code>&lt;class-descriptor ... /&gt;</code> definitions in the repository
-     * 
-     * NOTE: This method only verifies the repository.xml file because it doesn't handle access="anonymous" field properly
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void verifyClasses() throws Exception {
-// TODO: Once the verifyClassesInRepository is fixed to handle anonymous access fields, these lines should activated
-//        for(String repositoryFilePath : repositoryFiles) {
-//            verifyClassesInRepository(repositoryFilePath);
-//        }
-    }
 
     /**
      * This method verifies the tables for a repository file

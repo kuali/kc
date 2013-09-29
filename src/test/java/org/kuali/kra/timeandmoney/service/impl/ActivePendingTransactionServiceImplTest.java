@@ -182,18 +182,6 @@ public class ActivePendingTransactionServiceImplTest {
         Assert.assertEquals(TEN_THOUSAND, nai.getAnticipatedChange());       
         
     }
-
-    @Test
-    public void testValidateAntiDistributableAmount(){
-        AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
-        pt.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
-        pt.setDestinationAwardNumber(awardNumber1);
-        pt.setObligatedAmount(TEN_THOUSAND);
-        pt.setAnticipatedAmount(TEN_THOUSAND);
-        KualiDecimal totalPendingAnticipated = TEN_THOUSAND;
-        //awardAmountInfo.setaward
-        activePendingTransactionsServiceImpl.validateAntiDistributableAmount(pt, awardAmountInfo, totalPendingAnticipated);
-    }
     
     @Test
     public void testFindCommonParent(){
