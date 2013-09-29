@@ -27,6 +27,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * This class is Template implementation of BoAttributeTestBase<T> class, to test CommitteeSchedule BO for toStringMapper.
  */

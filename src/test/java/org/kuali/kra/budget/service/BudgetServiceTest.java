@@ -97,6 +97,7 @@ public class BudgetServiceTest extends KcUnitTestBase {
      * 
      * @throws Exception
      */
+    @Test
     public void testCopyBudgetVersion() throws Exception {
         
         ProposalDevelopmentDocument pdDocument = getPersistedProposalDevelopmentDocument();

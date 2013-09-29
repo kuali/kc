@@ -16,12 +16,10 @@
 package org.kuali.kra.award.paymentreports.closeout;
 
 
-import org.jmock.integration.junit4.JMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -33,7 +31,6 @@ import java.util.*;
  * 
  * This class tests the AwardCloseoutServiceImpl
  */
-@RunWith(JMock.class)
 public class AwardCloseoutServiceImplTest {
 
     public static final String REPORT_CLASS_CODE_FINANCIAL_REPORT = "1";
