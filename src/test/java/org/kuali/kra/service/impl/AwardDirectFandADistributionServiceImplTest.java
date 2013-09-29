@@ -37,7 +37,6 @@ public class AwardDirectFandADistributionServiceImplTest extends AwardDirectFand
     private static final int THREE = 3;
     AwardDirectFandADistributionServiceImpl awardDirectFandADistributionServiceImpl;
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
-    AwardDirectFandADistribution awardDirectFandADistribution;
     Award award;
     
     
@@ -45,7 +44,6 @@ public class AwardDirectFandADistributionServiceImplTest extends AwardDirectFand
     public void setUp() throws Exception {
         awardDirectFandADistributionServiceImpl = new AwardDirectFandADistributionServiceImpl();
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
-        awardDirectFandADistribution = new AwardDirectFandADistribution();
         award = new Award();
         Calendar calendar = Calendar.getInstance();
         award.setAwardEffectiveDate(new Date(calendar.getTime().getTime()));

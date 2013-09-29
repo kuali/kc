@@ -27,14 +27,10 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 
 public class TestSubAwardAuthorizersTest extends KcUnitTestBase {
     
     TaskAuthorizationService taskAuthorizationService;
-    BusinessObjectService businessObjectService;  
-    DocumentService documentService;
     Person quickstart;
     Person jtester;
     Person woods;
@@ -44,8 +40,6 @@ public class TestSubAwardAuthorizersTest extends KcUnitTestBase {
     @Before
     public void setUp() throws Exception {
         taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        documentService =  KraServiceLocator.getService(DocumentService.class);
         quickstart = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("quickstart");
         jtester = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("jtester");
         woods = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("woods");
@@ -55,8 +49,6 @@ public class TestSubAwardAuthorizersTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         taskAuthorizationService = null;
-        businessObjectService = null;
-        documentService=null;
         quickstart = null;
         jtester = null;
         woods = null;

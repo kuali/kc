@@ -19,7 +19,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -30,10 +29,8 @@ import java.util.List;
 
 public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestBase{
 
-    private static final String NEW_PROPOSAL_SPECIAL_REVIEW = "newPropSpecialReview";
     private ProposalDevelopmentDocumentRule rule = null;
     private List<ProposalYnq> proposalYnqs;
-    private List<SpecialReview> specialReviewCodes;
     private BusinessObjectService bos;
 
     @Before

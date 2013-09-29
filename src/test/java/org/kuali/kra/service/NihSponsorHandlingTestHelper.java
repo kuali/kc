@@ -16,14 +16,12 @@ class NihSponsorHandlingTestHelper {
     private Sponsorable sponsorable;
     private BusinessObjectService boService;
     private SponsorService spService;
-    private KeyPersonnelService kpService;
     private static final String SPONSOR_HIERARCHY_NAME = "Sponsor Groups";
 
     NihSponsorHandlingTestHelper(Sponsorable sponsorable, BusinessObjectService boService, SponsorService spService, KeyPersonnelService kpService) {
         this.sponsorable = sponsorable;
         this.boService = boService;
         this.spService = spService;
-        this.kpService = kpService;
         init();
     }
 

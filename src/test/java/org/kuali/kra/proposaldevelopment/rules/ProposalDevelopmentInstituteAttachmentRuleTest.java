@@ -43,7 +43,6 @@ import java.util.Map;
 public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDevelopmentRuleTestBase {
 
     private static final String NEW_INSTITUTE_ATTACHMENT = "newInstituteAttachment";
-    private static final String FILE_NAME = "document.instituteAttachment[0].fileName";
     private static final String EMPTY_STRING = "";
     private static final String ALLOW_MULTIPLE = "allowMultiple";
     private static final String NO = "N";

@@ -28,7 +28,6 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
-import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
@@ -45,7 +44,6 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
 
     private KraAuthorizationService kraAuthService;
     private IdentityService identityManagementService;
-    private RoleService roleManagementService;
     private ProposalDevelopmentService proposalDevelopmentService;
     
     /**
@@ -58,7 +56,6 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
         kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         identityManagementService = KraServiceLocator.getService(IdentityService.class);
-        roleManagementService = KraServiceLocator.getService(RoleService.class);
     }
     
     /**
@@ -219,14 +216,6 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
         // Assign the creator of the proposal to the AGGREGATOR role.
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, doc);
-        //ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
-        //proposalRoleTemplateService.addUsers(doc);
-    } 
-    
-    private ProposalDevelopmentDocument createProposalWithSecondRole(String documentDescription, String leadUnit, String secondRole, String roleRecipientId) throws Exception {
-        ProposalDevelopmentDocument doc = createProposal(documentDescription, leadUnit);
-        kraAuthService.addRole(roleRecipientId, secondRole, doc);
-        return doc;
     }
 
     /**

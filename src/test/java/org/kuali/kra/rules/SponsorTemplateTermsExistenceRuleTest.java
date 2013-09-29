@@ -28,7 +28,6 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -40,8 +39,7 @@ public class SponsorTemplateTermsExistenceRuleTest extends KcUnitTestBase {
     SponsorTemplateTermsExistenceRule rule;
     DocumentService docService;
     AwardTemplate awardTemplate;
-    Maintainable maintainableObject;
-    
+
     @Before
     public void setUp() throws Exception {
         super.setUp();

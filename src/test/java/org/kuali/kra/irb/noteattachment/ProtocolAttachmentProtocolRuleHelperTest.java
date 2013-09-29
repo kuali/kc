@@ -139,16 +139,4 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
         
         Assert.assertThat("Should not be valid", valid, is(false));
     }
-    
-    /**
-     * Gets a ProtocolAttachmentProtocol to validate.
-     * @return a ProtocolAttachmentProtocol to validate.
-     */
-    private ProtocolAttachmentProtocol getAttachmentToValidate() {
-        ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-        attachment.setId(1L);
-        attachment.setType(new ProtocolAttachmentType("1", "a desc"));
-        
-        return attachment;
-    }
 }

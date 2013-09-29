@@ -155,36 +155,6 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         });
     }
 
-    private void mockSubmissionTrueCondt2(final String submissionTypeCode) {
-        context.checking(new Expectations() {
-            {
-                Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
-                positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
-                positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
-                positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
-                positiveFieldValues.put("submissionTypeCode", submissionTypeCode);
-
-                allowing(businessObjectService).countMatching(ProtocolSubmission.class, positiveFieldValues);
-                will(returnValue(0));
-            }
-        });
-    }
-
-    private void mockSubmissionFalseCondt2(final String submissionTypeCode) {
-        context.checking(new Expectations() {
-            {
-                Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
-                positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
-                positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
-                positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
-                positiveFieldValues.put("submissionTypeCode", submissionTypeCode);
-
-                allowing(businessObjectService).countMatching(ProtocolSubmission.class, positiveFieldValues);
-                will(returnValue(1));
-            }
-        });
-    }
-
     private void mockSubmissionCondt3(final boolean cond) {
         // getSubmissionCountCond4
         context.checking(new Expectations() {
@@ -922,12 +892,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     @Test
     public void testActionTypeCode105False() {
         mockSubmissionCondt3(false);
-//        mockSubmissionFalseCondt2("109");
-//        mockSubmissionFalseCondt2("110");
-//        mockSubmissionFalseCondt2("111");
-//        mockSubmissionFalseCondt2("108");
-//        mockSubmissionFalseCondt2("113");
-//        mockSubmissionFalseCondt2("114");
+
         protocol.setProtocolStatusCode("200");
         assertFalse(protocolActionService.canPerformAction("105", protocol));
 
@@ -977,12 +942,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     @Test
     public void testActionTypeCode106False() {
         mockSubmissionCondt3(false);
-//        mockSubmissionFalseCondt2("109");
-//        mockSubmissionFalseCondt2("110");
-//        mockSubmissionFalseCondt2("111");
-//        mockSubmissionFalseCondt2("108");
-//        mockSubmissionFalseCondt2("113");
-//        mockSubmissionFalseCondt2("114");
+
         protocol.setProtocolStatusCode("200");
         assertFalse(protocolActionService.canPerformAction("106", protocol));
 
@@ -1000,12 +960,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     public void testActionTypeCode108True() {
         mockSubmissionCondt3(true);
         mockSubmissionCondt5();
-//        mockSubmissionTrueCondt2("109");
-//        mockSubmissionTrueCondt2("110");
-//        mockSubmissionTrueCondt2("111");
-//        mockSubmissionTrueCondt2("108");
-//        mockSubmissionTrueCondt2("113");
-//        mockSubmissionTrueCondt2("114");
+
         protocol.setProtocolStatusCode("200");
         assertTrue(protocolActionService.canPerformAction("108", protocol));
     }
@@ -1013,12 +968,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     @Test
     public void testActionTypeCode108False() {
         mockSubmissionCondt3(false);
-//        mockSubmissionFalseCondt2("109");
-//        mockSubmissionFalseCondt2("110");
-//        mockSubmissionFalseCondt2("111");
-//        mockSubmissionFalseCondt2("108");
-//        mockSubmissionFalseCondt2("113");
-//        mockSubmissionFalseCondt2("114");
+
         protocol.setProtocolStatusCode("200");
         assertFalse(protocolActionService.canPerformAction("108", protocol));
     }
@@ -1042,21 +992,6 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.canPerformAction("207", protocol));
     }
 
-    // this condition is commented in rule file
-//    @Test
-//    public void testActionTypeCode109Cond1() {
-//        protocol.setSequenceNumber(123);
-//        protocol.getProtocolSubmission().setSubmissionNumber(123);
-//        mockSubmissionCondt4(true);
-//        protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");
-//        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT100");
-//        assertTrue(protocolActionService.canPerformAction("109", protocol));
-//
-//        protocol.getProtocolSubmission().setProtocolReviewTypeCode("3");
-//        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT100");
-//        assertTrue(protocolActionService.canPerformAction("109", protocol));
-//    }
-
     @Test
     public void testActionTypeCode109Cond2() {
         protocol.setSequenceNumber(123);
@@ -1077,12 +1012,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     public void testActionTypeCode114True() {
         mockSubmissionCondt3(true);
         mockSubmissionCondt5();
-//        mockSubmissionTrueCondt2("109");
-//        mockSubmissionTrueCondt2("110");
-//        mockSubmissionTrueCondt2("111");
-//        mockSubmissionTrueCondt2("108");
-//        mockSubmissionTrueCondt2("113");
-//        mockSubmissionTrueCondt2("114");
+
         protocol.setProtocolStatusCode("200");
         assertTrue(protocolActionService.canPerformAction("114", protocol));
 
@@ -1093,12 +1023,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     @Test
     public void testActionTypeCode114False() {
         mockSubmissionCondt3(false);
-//        mockSubmissionFalseCondt2("109");
-//        mockSubmissionFalseCondt2("110");
-//        mockSubmissionFalseCondt2("111");
-//        mockSubmissionFalseCondt2("108");
-//        mockSubmissionFalseCondt2("113");
-//        mockSubmissionFalseCondt2("114");
+
         protocol.setProtocolStatusCode("200");
         assertFalse(protocolActionService.canPerformAction("114", protocol));
 
@@ -1110,12 +1035,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     public void testActionTypeCode115True() {
         mockSubmissionCondt3(true);
         mockSubmissionCondt5();
-//        mockSubmissionTrueCondt2("109");
-//        mockSubmissionTrueCondt2("110");
-//        mockSubmissionTrueCondt2("111");
-//        mockSubmissionTrueCondt2("108");
-//        mockSubmissionTrueCondt2("113");
-//        mockSubmissionTrueCondt2("114");
+
         protocol.setProtocolStatusCode("201");
         assertTrue(protocolActionService.canPerformAction("115", protocol));
     }
@@ -1123,12 +1043,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     @Test
     public void testActionTypeCode115False() {
         mockSubmissionCondt3(false);
-//        mockSubmissionFalseCondt2("109");
-//        mockSubmissionFalseCondt2("110");
-//        mockSubmissionFalseCondt2("111");
-//        mockSubmissionFalseCondt2("108");
-//        mockSubmissionFalseCondt2("113");
-//        mockSubmissionFalseCondt2("114");
+
         protocol.setProtocolStatusCode("201");
         assertFalse(protocolActionService.canPerformAction("115", protocol));
     }

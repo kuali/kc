@@ -18,7 +18,6 @@ package org.kuali.kra.committee.rules;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.common.committee.web.struts.form.schedule.*;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -33,21 +32,10 @@ import static org.junit.Assert.assertTrue;
 
 public class CommitteeScheduleStartAndEndDateRuleTest  {
     
-    private CommitteeDocument document;
-    
+
     private ScheduleData scheduleData;
     
     private CommitteeScheduleStartAndEndDateEvent event;
-    
-    public static String DAILY = "scheduleData.dailySchedule.scheduleEndDate";
-    
-    public static String WEEKLY = "scheduleData.weeklySchedule.scheduleEndDate";
-    
-    public static String MONTHLY = "scheduleData.monthlySchedule.scheduleEndDate";
-    
-    public static String YEARLY = "scheduleData.yearlySchedule.scheduleEndDate";
-    
-    public static String START_DATE = "scheduleData.scheduleEndDate";
     
     @SuppressWarnings("unchecked")
     @Before
@@ -230,6 +218,6 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
         scheduleData = new ScheduleData();
         scheduleData.setRecurrenceType(key.toString());
         scheduleData.setScheduleStartDate(new java.sql.Date(new Date().getTime()));
-        event = new CommitteeScheduleStartAndEndDateEvent("", (CommitteeDocument)document, scheduleData, null, null);
+        event = new CommitteeScheduleStartAndEndDateEvent("", null, scheduleData, null, null);
     }
 }

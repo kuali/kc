@@ -19,8 +19,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
-import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 
 import java.sql.Date;
@@ -49,8 +47,7 @@ public abstract class BudgetDistributionAndIncomeTest {
     
     protected Budget budgetDocument;
     protected Calendar calendar;
-    protected BudgetDistributionAndIncomeService budgetDistributionAndIncomeService;
-    
+
     private Date fiscalYearStartArtifact;
     
     @Before
@@ -58,14 +55,12 @@ public abstract class BudgetDistributionAndIncomeTest {
         calendar = GregorianCalendar.getInstance();
         fiscalYearStartArtifact = getDate(YEAR_2000, Calendar.JULY, DAY_1);
         budgetDocument = new BudgetDocument_CostShareAndUnrecoveredFandAApplicable();
-        budgetDistributionAndIncomeService = new BudgetDistributionAndIncomeServiceImpl();
     }
     
     @After
     public void tearDown() throws Exception {
         budgetDocument = null;
         calendar = null;
-        budgetDistributionAndIncomeService = null;
     }
     
     protected BudgetPeriod createAndAddBudgetPeriod(Date startDate, Date endDate) {

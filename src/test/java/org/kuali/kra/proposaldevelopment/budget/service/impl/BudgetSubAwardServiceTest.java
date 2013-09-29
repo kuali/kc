@@ -46,9 +46,7 @@ public class BudgetSubAwardServiceTest {
     protected BudgetSubAwardServiceImpl service;
     protected BudgetSubAwards subAward;
     protected Budget budget;
-    protected int budgetLineItem = 28;
-    protected String budgetDocumentNumber = "1498";
-    
+
     protected Mockery context;
     
     @Before

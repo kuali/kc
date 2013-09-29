@@ -40,7 +40,6 @@ import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
@@ -73,7 +72,6 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
     
     private ProtocolSubmitActionService protocolSubmitActionService;
     private BusinessObjectService businessObjectService;   
-    private PersonService personService;
     private RolodexService rolodexService;
     private DocumentService documentService;
     private IdentityService identityManagementService;
@@ -88,7 +86,6 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         KNSGlobalVariables.setAuditErrorMap(new HashMap());
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        personService = KraServiceLocator.getService(PersonService.class);
         rolodexService = KraServiceLocator.getService(RolodexService.class);
         documentService = KraServiceLocator.getService("kraDocumentService");
         identityManagementService = KraServiceLocator.getService(IdentityService.class);
