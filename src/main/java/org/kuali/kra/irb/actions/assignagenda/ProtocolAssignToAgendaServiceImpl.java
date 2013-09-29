@@ -36,9 +36,7 @@ import java.util.List;
  * This class implements ProtocolAssignToAgendaService.
  */
 public class ProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaServiceImplBase implements ProtocolAssignToAgendaService {
-    
-    private static final long serialVersionUID = 986748376;
-    
+
     private ProtocolAssignCmtSchedService protocolAssignCmtSchedService;
     
     public void setProtocolAssignCmtSchedService(ProtocolAssignCmtSchedService protocolAssignCmtSchedService) {

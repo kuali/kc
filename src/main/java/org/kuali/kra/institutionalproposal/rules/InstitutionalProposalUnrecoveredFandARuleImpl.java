@@ -20,7 +20,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -37,15 +36,9 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
         InstitutionalProposalUnrecoveredFandARule {
     
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 8573006511997627073L;
-    
     BusinessObjectService businessObjectService;
     
     private static final String NEW_PROPOSAL_UNRECOVERED_FNA = "newInstitutionalProposalUnrecoveredFandA";
-    InstitutionalProposalCostShare institutionalProposalCostShare;
 
     /**
      * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalUnrecoveredFandARule#processAddInstitutionalProposalUnrecoveredFandABusinessRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddUnrecoveredFandARuleEvent)

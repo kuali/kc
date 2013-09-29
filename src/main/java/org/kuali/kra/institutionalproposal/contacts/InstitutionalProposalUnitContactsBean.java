@@ -37,7 +37,6 @@ public class InstitutionalProposalUnitContactsBean extends InstitutionalProposal
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -1563581536920498669L;
-    private static final int OSP_ADMINISTRATOR_TYPE_CODE = 2;
     private static final String DEFAULT_GROUP_CODE_FOR_UNIT_CONTACTS = "U";
 
     public InstitutionalProposalUnitContactsBean(InstitutionalProposalForm institutionalProposalForm) {
@@ -139,20 +138,4 @@ public class InstitutionalProposalUnitContactsBean extends InstitutionalProposal
     protected InstitutionalProposalContact createNewContact() {
         return new InstitutionalProposalUnitContact(UnitContactType.CONTACT);
     }
-    
-    
-    /*
-     * create an InstitutionalProposalUnitContact from a person
-     */
-    private InstitutionalProposalUnitContact createInstitutionalProposalContactForPerson(UnitAdministrator unitAdministrator) {
-        InstitutionalProposalUnitContact institutionalProposalUnitContact = new InstitutionalProposalUnitContact();
-        institutionalProposalUnitContact.setInstitutionalProposal(getInstitutionalProposal());
-        institutionalProposalUnitContact.setPersonId(unitAdministrator.getPerson().getPersonId());
-        institutionalProposalUnitContact.setFullName(unitAdministrator.getPerson().getFullName());
-        institutionalProposalUnitContact.setPerson(unitAdministrator.getPerson());
-        institutionalProposalUnitContact.setUnitContactType(UnitContactType.CONTACT);
-        institutionalProposalUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
-        return institutionalProposalUnitContact;
-    }
-
 }

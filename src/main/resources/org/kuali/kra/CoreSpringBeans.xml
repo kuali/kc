@@ -879,7 +879,6 @@
     <bean id="parentAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="kcPersonService" ref="kcPersonService" />
     </bean>
     
     <bean id="applicationTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup" lazy-init="true">

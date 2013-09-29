@@ -25,7 +25,6 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -56,7 +55,6 @@ import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentE
 import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -84,11 +82,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
     private static final Log LOG = LogFactory.getLog(ProtocolOnlineReviewAction.class);
 
-    private static final String PROTOCOL_TAB = "protocol";
     private static final String PROTOCOL_OLR_TAB = "onlineReview";
     private static final String DOCUMENT_REJECT_QUESTION="DocReject";
     private static final String DOCUMENT_DELETE_QUESTION="ProtocolDocDelete";
-    private static final String UPDATE_REVIEW_STATUS_TO_FINAL="statusToFinal";
     private static final String DOCUMENT_REJECT_REASON_MAXLENGTH = "2000";
     private static final String ERROR_DOCUMENT_DELETE_REASON_REQUIRED = "You must enter a reason for this deletion.  The reason must be no more than {0} characters long.";
     //Protocol Online Review Action Forwards
@@ -101,8 +97,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
     //Used for redirecting to/from the ProtocolOnlineReviewRedirect action.
     private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
-    private static final String PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER="protocolOnlineReviewDocumentNumber";
-    
+
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -906,21 +901,12 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-        
-    private TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
-    }
-    
     private ReviewCommentsService getReviewCommentsService() {
         return KraServiceLocator.getService(ReviewCommentsService.class);
     }
         
     private KraWorkflowService getKraWorkflowService() {
         return KraServiceLocator.getService(KraWorkflowService.class);
-    }
-    
-    private KcNotificationService getKcNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
     }
     
     protected void recordOnlineReviewActionSuccess(String onlineReviewActionName, ProtocolOnlineReviewDocument document) {

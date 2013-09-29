@@ -53,7 +53,6 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
     private static final String ONLINE_REVIEW_COMMENTS_ERROR_PATH = "onlineReviewsActionHelper.reviewCommentsBeans[%s]";
     private static final String ONLINE_REVIEW_ATTACHMENTS_ERROR_PATH = "onlineReviewsActionHelper.reviewAttachmentsBeans[%s]";
     private static final String ONLINE_REVIEW_ERROR_PATH="onlineReviewsActionHelper.protocolOnlineReviewDocuments[%s].protocolOnlineReview";
-    private static final String REVIEWER_APPROVAL_NODE_NAME="OnlineReviewer";
     private transient KraAuthorizationService kraAuthorizationService;
     private transient KraWorkflowService kraWorkflowService;
     
@@ -169,24 +168,6 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
             valid = false;
         }
         return valid;        
-    }
-    
-    private KraAuthorizationService getKraAuthorizationService() {
-        KraAuthorizationService service;
-        if (kraAuthorizationService==null) {
-            service = KraServiceLocator.getService(KraAuthorizationService.class);
-            kraAuthorizationService=service;
-        }
-        return kraAuthorizationService;
-    }
-    
-    private KraWorkflowService getKraWorkflowService() {
-        KraWorkflowService service;
-        if( kraWorkflowService == null) {
-            service = KraServiceLocator.getService(KraWorkflowService.class);
-            this.kraWorkflowService = service;
-        }
-        return kraWorkflowService;
     }
 
     public boolean processRules(KraDocumentEventBaseExtension event) {

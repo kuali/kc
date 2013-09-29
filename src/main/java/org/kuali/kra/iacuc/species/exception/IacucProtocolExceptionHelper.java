@@ -16,7 +16,6 @@
 package org.kuali.kra.iacuc.species.exception;
 
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -45,14 +44,6 @@ public class IacucProtocolExceptionHelper implements Serializable{
     
     public void prepareView() {
 
-    }
-
-    protected IacucProtocol getProtocol() {
-        IacucProtocolDocument document = form.getIacucProtocolDocument();
-        if (document == null || document.getProtocol() == null) {
-            throw new IllegalArgumentException("invalid (null) Iacuc ProtocolDocument in ProtocolForm");
-        }
-        return document.getIacucProtocol();
     }
     
     public IacucProtocolForm getForm() {

@@ -210,7 +210,6 @@
 	</bean>
 	
 	<bean id="iacucPrintXmlUtilService" class="org.kuali.kra.iacuc.committee.print.service.impl.IacucPrintXmlUtilServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
 	</bean>

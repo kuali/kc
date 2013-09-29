@@ -31,7 +31,6 @@ import java.util.Map;
  * This class...
  */
 public class InstitutionalProposalRuleImpl extends ResearchDocumentRuleBase implements InstitutionalProposalRule {
-    BusinessObjectService boService;
 
     /**
      * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalRule#processInstitutionalProposalRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalRuleEvent)

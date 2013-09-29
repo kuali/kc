@@ -32,7 +32,6 @@ public class IacucProtocolPersonRolodex extends ProtocolPersonRolodexBase {
 
     private String officeLocation;
 
-    private String officePhone;
 
     private String secondaryOfficeLocation;
 
@@ -50,7 +49,6 @@ public class IacucProtocolPersonRolodex extends ProtocolPersonRolodexBase {
 
     private String eraCommonsUserName;
 
-    private String fullName;
 
     public IacucProtocolPersonRolodex() {
     }
@@ -76,7 +74,7 @@ public class IacucProtocolPersonRolodex extends ProtocolPersonRolodexBase {
     }
 
     public void setOfficePhone(String officePhone) {
-        this.officePhone = officePhone;
+        super.setPhoneNumber(officePhone);
     }
 
     public String getSecondaryOfficeLocation() {
@@ -142,13 +140,4 @@ public class IacucProtocolPersonRolodex extends ProtocolPersonRolodexBase {
     public void setEraCommonsUserName(String eraCommonsUserName) {
         this.eraCommonsUserName = eraCommonsUserName;
     }
-
-    public String getFullName() {
-        return super.getFullName();
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
 }
