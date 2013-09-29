@@ -33,8 +33,6 @@ import org.kuali.kra.protocol.onlinereview.rules.SaveProtocolOnlineReviewRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -53,8 +51,6 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
     private static final String ONLINE_REVIEW_COMMENTS_ERROR_PATH = "onlineReviewsActionHelper.reviewCommentsBeans[%s]";
     private static final String ONLINE_REVIEW_ATTACHMENTS_ERROR_PATH = "onlineReviewsActionHelper.reviewAttachmentsBeans[%s]";
     private static final String ONLINE_REVIEW_ERROR_PATH="onlineReviewsActionHelper.protocolOnlineReviewDocuments[%s].protocolOnlineReview";
-    private transient KraAuthorizationService kraAuthorizationService;
-    private transient KraWorkflowService kraWorkflowService;
     
     public boolean processAddProtocolOnlineReviewComment(ProtocolOnlineReview protocolOnlineReview, CommitteeScheduleMinute minute) {
         return false;
