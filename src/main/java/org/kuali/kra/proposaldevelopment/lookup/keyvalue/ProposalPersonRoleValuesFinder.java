@@ -97,14 +97,6 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
           return this.getParameterService().getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 PERSON_ROLE_PARAMETER_PREFIX + getRoleIdPrefix(proposal) + role.getProposalPersonRoleId().toLowerCase());
     }
-    /**
-     * Used to indicate to the values finder whether the role has already been rendered
-     * 
-     * @return true if the role has been rendered already, false otherwise
-     */
-    private boolean isNewProposalPersonRoleRendered() {
-        return ((ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm()).isNewProposalPersonRoleRendered();
-    }
 
     /**
      * Locate from Spring a singleton instance of the <code>{@link KeyPersonnelService}</code>.

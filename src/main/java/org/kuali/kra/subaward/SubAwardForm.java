@@ -227,12 +227,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     public String getDocumentTypeName() {
         return "SubAwardDocument";
     }
-    /**
-     *
-     * @see org.kuali.rice.kns.web.struts.form.
-     * KualiDocumentFormBase#populateHeaderFields(
-     * org.kuali.rice.kew.api.WorkflowDocument)
-     */
+
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
          super.populateHeaderFields(workflowDocument);

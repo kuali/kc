@@ -65,7 +65,6 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
 	protected S2SUtilService s2sUtilService;
 	protected BusinessObjectService businessObjectService;
-	private DocumentService documentService ;
 	protected BudgetService budgetService;
 	public static final String OTHERCOST_DESCRIPTION = "Other";
 	public static final String OTHERPERSONNEL_POSTDOC = "PostDoc";
@@ -105,7 +104,6 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 		budgetService = KraServiceLocator.getService(BudgetService.class);
 	}
 	protected void deleteAutoGenNarratives() {
-		BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
@@ -329,14 +327,6 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
        return KraServiceLocator.getService(DocumentService.class);
    }
 
-   /**
-    * @param documentService
-    *            the documentService to set
-    */
-   public void setDocumentService(DocumentService documentService) {
-       this.documentService = documentService;
-   }
-   
     protected BudgetService getBudgetService() {
         return budgetService;
     }

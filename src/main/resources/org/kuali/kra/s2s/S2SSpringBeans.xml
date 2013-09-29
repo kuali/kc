@@ -166,9 +166,6 @@
 		<property name="kcPersonService">
 			<ref bean="kcPersonService" />
 		</property>
-		<property name="rolodexService">
-			<ref bean="rolodexService" />
-		</property>
 	</bean>
 
 	<bean id="grantsGovConnectorService"

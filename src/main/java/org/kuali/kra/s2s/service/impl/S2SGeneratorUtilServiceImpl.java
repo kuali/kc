@@ -28,7 +28,6 @@ import org.kuali.kra.s2s.service.S2SGeneratorUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
@@ -44,7 +43,6 @@ import java.util.*;
  */
 public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
 
-    private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
     private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
@@ -277,15 +275,6 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
         cal.setTime(date);
         return cal;
-    }
-
-    /**
-     * This method is to set businessObjectService
-     * 
-     * @param businessObjectService(BusinessObjectService)
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /**

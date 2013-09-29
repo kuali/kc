@@ -69,7 +69,6 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
@@ -257,27 +256,6 @@ AbstractResearchAndRelatedStream {
                 //						.setNihPriorGrantNumber(sponsorAwardNumber);
             }
         }
-    }
-
-    /**
-     * @param developmentProposal
-     * @return
-     */
-    private InstitutionalProposal getMaxInstitutionalProposal(
-            DevelopmentProposal developmentProposal) {
-        String continuedFrom = developmentProposal.getContinuedFrom();
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("proposalId", continuedFrom);
-        List<InstitutionalProposal> institutionalProposals = (List<InstitutionalProposal>) getBusinessObjectService().findMatching(InstitutionalProposal.class, fieldValues);
-        InstitutionalProposal institutionalProposal = null;
-        Integer maxSequenceNumber = 0;
-        for (InstitutionalProposal proposal : institutionalProposals) {
-            if (maxSequenceNumber < proposal.getSequenceNumber()) {
-                maxSequenceNumber = proposal.getSequenceNumber();
-                institutionalProposal = proposal;
-            }
-        }
-        return institutionalProposal;
     }
 
     private String getNihInventions(DevelopmentProposal developmentProposal) {

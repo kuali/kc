@@ -151,7 +151,6 @@
    		<property name = "identityManagementService" ref = "identityService"/>
    		<property name = "committeeService" ref = "committeeService"/>
    		<property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
-<!--    		<property name = "irbAdminApproveNodeName" value = "IRBAdminReview"/> -->
    		<property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
    		<property name = "reviewCommentsService" ref = "reviewCommentsService"/>
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
@@ -807,19 +806,16 @@
     <bean id="protocolGenericActionService" class="org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionServiceImpl">
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="documentService" ref="documentService" />
-        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
         <property name="protocolVersionService" ref="protocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="kcNotificationService" ref="kcNotificationService" />
         <property name="protocolActionRequestService" ref="irbProtocolActionRequestService" />
     </bean>
     
     <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
-        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
         <property name="parameterService" ref="parameterService"/>
     </bean>
@@ -854,10 +850,9 @@
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolVersionService" ref="protocolVersionService" />        
-   		<property name = "reviewCommentsService" ref = "reviewCommentsService"/>
+   		<property name="reviewCommentsService" ref="reviewCommentsService"/>
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
 		<property name="routeHeaderService" ref="routeHeaderService"/>
-		<property name="identityManagementService" ref="identityService"/>
     </bean>
 
     <bean id="committeeBatchCorrespondenceService" class="org.kuali.kra.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl">
@@ -874,7 +869,6 @@
     <bean id="protocolActionCorrespondenceGenerationService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="printingService" ref="printingService" />
-        <property name="protocolActionTypeToCorrespondenceTemplateService" ref="protocolActionTypeToCorrespondenceTemplateService"/>
         <property name="dateTimeService" ref="dateTimeService" />
 		<property name="personSignatureService" ref="irbPersonSignatureService" />
     </bean>

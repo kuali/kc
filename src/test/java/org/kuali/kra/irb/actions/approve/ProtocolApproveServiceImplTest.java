@@ -29,7 +29,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -66,7 +65,6 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
         service = new ProtocolApproveServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setParameterService(getMockParameterService());
-        service.setProtocolActionCorrespondenceGenerationService(getMockActionCorrespondenceGenerationService());
         service.setProtocolOnlineReviewService(getMockOnlineReviewService());
         service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
     }
@@ -142,16 +140,6 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
         context.checking(new Expectations() {{
             allowing(service).getParameterValueAsString(ProtocolDocument.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
             will(returnValue(PROTOCOL_TYPE_EXEMPT));
-        }});
-        
-        return service;
-    }
-    
-    private ProtocolActionCorrespondenceGenerationService getMockActionCorrespondenceGenerationService() {
-        final ProtocolActionCorrespondenceGenerationService service = context.mock(ProtocolActionCorrespondenceGenerationService.class);
-        
-        context.checking(new Expectations() {{
-            ignoring(service);
         }});
         
         return service;

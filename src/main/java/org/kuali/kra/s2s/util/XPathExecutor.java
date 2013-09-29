@@ -19,11 +19,6 @@ public class XPathExecutor {
 
 	private Document doc;
 	
-	
-	private XPathExecutor(){
-		
-	}
-	
 	public XPathExecutor( String xml ) throws Exception{
 		
 		init( xml );

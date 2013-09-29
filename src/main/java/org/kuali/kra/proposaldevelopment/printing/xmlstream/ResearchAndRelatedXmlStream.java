@@ -28,10 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.nonpersonnel.AbstractBudgetRateAndBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
@@ -184,92 +181,6 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 			}
 		}
 		return budgetPeriodTypeList.toArray(new BudgetPeriodType[0]);
-	}
-	/*
-	 * This method gets SalaryAndWages amount from List of
-	 * BudgetPersonnelRateAndBase as sum of salaryRequested and CalculatedCost
-	 * by checking the rateClassType for vacation and employee benefit
-	 */
-	private BudgetDecimal getSalaryWagesTotalForLineItem(
-			BudgetPersonnelDetails budgetPersDetails) {
-		BudgetDecimal salaryAndWages = BudgetDecimal.ZERO;
-		salaryAndWages = salaryAndWages.add(budgetPersDetails
-				.getSalaryRequested());
-		salaryAndWages = salaryAndWages.add(getFringeCost(budgetPersDetails));
-		return salaryAndWages;
-	}
-
-	/*
-	 * This method gets true if rateClassType is O else false from RateAndBase
-	 */
-	protected boolean isRateAndBaseOfRateClassTypeOverhead(
-			AbstractBudgetRateAndBase rateAndBase) {
-		if (rateAndBase == null) {
-			LOG.debug("isRateAndBaseOfRateClassTypeOverhead : Rate and Base is null");
-			return false;
-		}
-		rateAndBase.refreshNonUpdateableReferences();
-		if (rateAndBase.getRateClass() != null
-				&& RateClassType.OVERHEAD.getRateClassType().equals(
-						rateAndBase.getRateClass().getRateClassType())) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/*
-	 * This method gets true if rateClassType is E else false from RateAndBase
-	 */
-	private boolean isRateAndBaseOfRateClassTypeEB(
-			AbstractBudgetRateAndBase rateAndBase) {
-		if (rateAndBase == null) {
-			LOG.debug("isRateAndBaseOfRateClassTypeEB : Rate and Base is null");
-			return false;
-		}
-
-		rateAndBase.refreshNonUpdateableReferences();
-		if (rateAndBase.getRateClass() != null
-				&& RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(
-						rateAndBase.getRateClass().getRateClassType())) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/*
-	 * This method gets true if rateClassType is V else false from RateAndBase
-	 */
-	private boolean isRateAndBaseOfRateClassTypeVacation(
-			AbstractBudgetRateAndBase rateAndBase) {
-		if (rateAndBase == null) {
-			LOG.debug("isRateAndBaseOfRateClassTypeVacation : Rate and Base is null");
-			return false;
-		}
-
-		rateAndBase.refreshNonUpdateableReferences();
-		if(rateAndBase.getRateClass()!=null && RateClassType.VACATION.getRateClassType().equals(
-				rateAndBase.getRateClass().getRateClassType())){
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	/*
-	 * This method gets ParticipantPatientType Enum value based on
-	 * budgetCategory Description if there is no enum for budgetCategory
-	 * Description take as Other enum value
-	 */
-	private gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ParticipantType.Enum getParticipantPatientType(
-			String budgetCatgoryDesc) {
-		gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ParticipantType.Enum participantType = ParticipantType.Enum
-				.forString(budgetCatgoryDesc);
-		if (participantType == null) {
-			participantType = ParticipantType.OTHER;
-		}
-		return participantType;
 	}
 
 	/*

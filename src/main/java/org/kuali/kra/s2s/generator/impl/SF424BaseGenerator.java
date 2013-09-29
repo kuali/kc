@@ -19,7 +19,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * This abstract class has methods that are common to all the versions of SF424 form.
@@ -29,7 +28,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
     protected S2SUtilService s2sUtilService;
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
-    protected DateTimeService dateTimeService;
 
     protected static final int APPLICANT_TYPE_1_INDEX = 0;
     protected static final int APPLICANT_TYPE_2_INDEX = 1;
@@ -102,6 +100,5 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
     public SF424BaseGenerator() {
         s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
-        dateTimeService = KraServiceLocator.getService(DateTimeService.class);
     }
 }

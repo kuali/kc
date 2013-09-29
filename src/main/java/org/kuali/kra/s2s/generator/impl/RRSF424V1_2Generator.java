@@ -41,7 +41,10 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.*;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
@@ -759,22 +762,6 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		}
 		applicantType.setApplicantTypeCode(applicantTypeCode);
 		return applicantType;
-	}
-
-	private ProposalYnq getAnswer(String questionId,
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		String question;
-		ProposalYnq ynq = null;
-		for (ProposalYnq proposalYnq : proposalDevelopmentDocument
-				.getDevelopmentProposal().getProposalYnqs()) {
-			question = proposalYnq.getQuestionId();
-
-			if (question != null && question.equals(questionId)) {
-				ynq = proposalYnq;
-				break;
-			}
-		}
-		return ynq;
 	}
 
 	private String getSubmissionTypeCode() {

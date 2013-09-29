@@ -215,17 +215,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         }
     }
 
-    private String getCategoryMapTypeDescription(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
-        BudgetCategoryMap budgetCategoryMap = getBudgetCategoryMap(developmentProposal, budgetLineItem);
-        if(budgetCategoryMap!=null){
-            return budgetCategoryMap.getDescription();
-        }else if(budgetLineItem.getLineItemDescription()!=null && !budgetLineItem.getLineItemDescription().equals("")){
-           return budgetLineItem.getLineItemDescription();
-        }else{
-           return budgetLineItem.getBudgetCategory().getDescription(); 
-        }
-    }
-
     /**
      * This method...
      * @param developmentProposal
@@ -337,27 +326,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return equipmentCostList.toArray(new EquipmentCosts[0]);
     }
 
-    /*
-     * This method gets OtherDirectType Enum value based on budgetCategory Description if the budgetCategory description role not
-     * match with the enum type the roleType set to Other
-     */
-    protected gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType.Enum getOtherDirectType(
-            String budgetCategoryDesc) {
-        gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType.Enum otherDirectType = OtherDirectType.Enum
-                .forString(budgetCategoryDesc);
-        if (otherDirectType == null) {
-            otherDirectType = OtherDirectType.OTHER;
-        }
-        return otherDirectType;
-    }
-
-    /*
-     * This method gets TravelType Enum value based on budgetCategory Description
-     */
-    protected TravelType.Enum getTravelType(String budgetCategoryDesc) {
-        TravelType.Enum travelType = TravelType.Enum.forString(budgetCategoryDesc);
-        return travelType;
-    }
 
     /*
      * This method gets personFullNameType XMLObject and setting lastName, firstName, middleName data to it
@@ -724,23 +692,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         }
     }
 
-    /*
-     * This method gets true if rateClassType is O else false from RateAndBase
-     */
-    protected boolean isRateAndBaseOfRateClassTypeOverhead(AbstractBudgetRateAndBase rateAndBase) {
-        if (rateAndBase == null) {
-            LOG.debug("isRateAndBaseOfRateClassTypeOverhead : Rate and Base is null");
-            return false;
-        }
-        rateAndBase.refreshNonUpdateableReferences();
-        if (rateAndBase.getRateClass() != null
-                && RateClassType.OVERHEAD.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType())) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     /*
      * This method gets sum of lineItemCost as otherDirect total cost from List of BudgetLineItem, if budgetCategoryCode is
@@ -1262,12 +1213,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return keyPerson;
     }
 
-    /**
-     * This method...
-     * 
-     * @param keyPersons
-     * @param budgetPersonnelDetails
-     */
     private KeyPersonInfo getKeyPersonFromKcPerson(String personId) {
         KeyPersonInfo keyPerson = null;
         KcPerson kcPerson = null;
@@ -1289,12 +1234,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return keyPerson;
     }
 
-    /**
-     * This method...
-     * 
-     * @param keyPersons
-     * @param budgetPersonnelDetails
-     */
     private KeyPersonInfo getKeyPersonFromTbnPerson(BudgetPersonnelDetails budgetPersonnelDetails) {
         KeyPersonInfo keyPerson = null;
         Map<String, String> searchMap = new HashMap<String, String>();

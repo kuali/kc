@@ -49,7 +49,6 @@ import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -99,11 +98,9 @@ public class S2SBudgetCalculatorServiceImpl implements
     private static final Log LOG = LogFactory
                     .getLog(S2SBudgetCalculatorServiceImpl.class);
     private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
-    private static final Object ONE_STRING = "1";
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
     private S2SUtilService s2SUtilService;
-    private RolodexService rolodexService;
     private ParameterService parameterService;
 
    protected ParameterService getParameterService() {
@@ -1816,19 +1813,6 @@ public class S2SBudgetCalculatorServiceImpl implements
         return KEYPERSON_OTHER;
     }
 
-    private boolean isSeniorLineItem(String keyPersonRole, List<BudgetCategoryMapping> budgetCategoryList, String budgetCategoryCode) {
-        boolean isSeniorLineItem = false;
-        if (keyPersonRole.equalsIgnoreCase(getBudgetPersonRoleOther())) {
-            for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
-                if (categoryMapping.getBudgetCategoryCode().equals(budgetCategoryCode)) {
-                    isSeniorLineItem = true;
-                }
-            }
-        }else {
-            isSeniorLineItem = true;
-        }
-        return isSeniorLineItem;
-    }
     private boolean isSeniorLineItem(List<BudgetCategoryMapping> budgetCategoryList, String budgetCategoryCode) {
         boolean isSeniorLineItem = false;
         for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
@@ -2188,10 +2172,4 @@ public class S2SBudgetCalculatorServiceImpl implements
         this.kcPersonService = kcPersonService;
     }
 
-    /**
-     * @param rolodexService the rolodexService to set
-     */
-    public void setRolodexService(RolodexService rolodexService) {
-        this.rolodexService = rolodexService;
-    }
 }

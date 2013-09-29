@@ -453,10 +453,6 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         }
         
     }
-    
-    protected void removeOnlineReviewDocument(ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument, ProtocolSubmissionBase submission, String annotation) {
-
-    }
         
     /**
      * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#removeOnlineReviewDocument(java.lang.String, boolean, org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase, java.lang.String)

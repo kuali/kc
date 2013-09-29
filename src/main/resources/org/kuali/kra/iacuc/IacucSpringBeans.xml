@@ -975,9 +975,7 @@
     <bean id="iacucProtocolApproveService" class="org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" />
-	    <property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />
         <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
-<!--         <property name="parameterService" ref="parameterService"/> -->
     </bean>
     
     
@@ -1025,13 +1023,11 @@
     <bean id="iacucProtocolGenericActionService" class="org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionServiceImpl">
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="documentService" ref="documentService" />
-	    <property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />
         <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
         <property name="protocolVersionService" ref="iacucProtocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="iacucProtocolAssignToAgendaService" />
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="kcNotificationService" ref="kcNotificationService" />
-    </bean> 
+    </bean>
     
     <bean id="iacucProtocolTableService" class="org.kuali.kra.iacuc.actions.table.IacucProtocolTableServiceImpl">
         <property name="documentService" ref="documentService" />
@@ -1065,7 +1061,6 @@
    		<property name ="reviewCommentsService" ref ="iacucReviewCommentsService"/>
         <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
 		<property name="routeHeaderService" ref="routeHeaderService"/>
-		<property name="identityManagementService" ref="identityService"/>
 		<property name="protocolCopyService" ref="iacucProtocolCopyService" />
     </bean>
 	<bean id="iacucQuestionnairePrintingService" class="org.kuali.kra.iacuc.questionnaire.print.IacucQuestionnairePrintingServiceImpl">
@@ -1082,7 +1077,6 @@
 	<bean id="iacucProtocolActionCorrespondenceGenerationService" class="org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="printingService" ref="printingService" />
-		<property name="protocolActionTypeToCorrespondenceTemplateService" ref="iacucProtocolActionTypeToCorrespondenceTemplateService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="personSignatureService" ref="iacucPersonSignatureService" />
 	</bean>
@@ -1105,18 +1099,6 @@
 	<bean id="iacucBatchCorrespondenceDetailService" class="org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondenceDetailServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
-    
-        
-<!--     <bean id="iacucCommitteeBatchCorrespondenceService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeBatchCorrespondenceServiceImpl"> -->
-<!--         <property name="businessObjectService" ref="businessObjectService" /> -->
-<!--         <property name="protocolDao" ref="iacucProtocolDao" /> -->
-<!--         <property name="protocolGenericActionService" ref="iacucProtocolGenericActionService" /> -->
-<!--         <property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" /> -->
-<!--         <property name="documentService" ref="documentService" /> -->
-<!--         <property name="kcPersonService" ref="kcPersonService" /> -->
-<!--         <property name="kcNotificationService" ref="kcNotificationService" /> -->
-<!--         <property name="dateTimeService" ref="dateTimeService" /> -->
-<!--     </bean> -->
     
     <bean id="iacucResearchAreasService" class="org.kuali.kra.iacuc.service.impl.IacucResearchAreasServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

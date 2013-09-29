@@ -137,22 +137,4 @@ public class OpportunitySchemaParser {
         }
         return schemaList;
     }
-
-    /**
-     * 
-     * Method determines whether a particular form name is available for submission
-     * 
-     * @param nameSpace String
-     * @return boolean availability status
-     */
-    private boolean isAvailable(String nameSpace) {       
-        try {
-            FormMappingInfo info = new FormMappingLoader().getFormInfo(nameSpace);
-            return (info != null);
-        }
-        catch (S2SGeneratorNotFoundException e) {
-            // Form cannot be generated because generator class doesn't exist.
-            return false;
-        }
-    }
 }

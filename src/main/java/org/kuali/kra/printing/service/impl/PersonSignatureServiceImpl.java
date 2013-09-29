@@ -18,16 +18,11 @@ package org.kuali.kra.printing.service.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.pdfbox.Overlay;
-import org.apache.pdfbox.cos.COSArray;
-import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.graphics.xobject.PDJpeg;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import org.apache.pdfbox.util.ImageParameters;
 import org.kuali.kra.bo.PersonSignature;
 import org.kuali.kra.bo.PersonSignatureModule;
 import org.kuali.kra.printing.PersonSignatureLocationHelper;
@@ -40,13 +35,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.*;
-import java.util.List;
 
 public abstract class PersonSignatureServiceImpl implements PersonSignatureService {
     
@@ -107,25 +100,6 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
             pdfFileData = byteArrayOutputStream.toByteArray();
         }
         return pdfFileData;
-    }
-    
-    /**
-     * This method is to remove interactive fields from the form.
-     * @param pdfBytes
-     * @return
-     * @throws Exception
-     */
-    protected ByteArrayOutputStream getFlattenedPdfForm(byte[] pdfBytes) throws Exception {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        InputStream is = new ByteArrayInputStream(pdfBytes);
-        PDDocument pdDoc = PDDocument.load(is);
-        PDDocumentCatalog pdCatalog = pdDoc.getDocumentCatalog();
-        PDAcroForm acroForm = pdCatalog.getAcroForm();
-        COSDictionary acroFormDict = acroForm.getDictionary();
-        COSArray fields = (COSArray) acroFormDict.getDictionaryObject("Fields");
-        fields.clear();
-        pdDoc.save(byteArrayOutputStream);
-        return byteArrayOutputStream;
     }
     
     /**
@@ -281,33 +255,6 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
         originalDocument.save(outputStream);
         originalDocument.close();
         return outputStream;
-    }
-    
-    /**
-     * This method is to get buffered image based on predefined parameters
-     * @param params
-     * @param imageData
-     * @return
-     */
-    protected BufferedImage getBufferedImage(ImageParameters params, byte[] imageData) {
-        byte[] transparentColors = new byte[]{(byte)0xFF,(byte)0xFF};
-        byte[] colors=new byte[]{0, (byte)0xFF};
-        IndexColorModel colorModel = new IndexColorModel( 1, 2, colors, colors, colors, transparentColors );
-        BufferedImage image = new BufferedImage(
-            params.getWidth(),
-            params.getHeight(),
-            BufferedImage.TYPE_BYTE_BINARY,
-            colorModel );
-        DataBufferByte buffer = new DataBufferByte(imageData, 1 );
-        WritableRaster raster =
-            Raster.createPackedRaster(
-                buffer,
-                params.getWidth(),
-                params.getHeight(),
-                params.getBitsPerComponent(),
-                new Point(0,0) );
-        image.setData( raster );
-        return image;
     }
     
     /**

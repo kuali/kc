@@ -92,14 +92,12 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
     private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
     private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
-    private static final String PROPOSAL_YNQ_STATE_REVIEW = "EO";
-    private static final String YNQ_NOT_REVIEWED = "X";   
+    private static final String YNQ_NOT_REVIEWED = "X";
     private static final int DIVISION_NAME_MAX_LENGTH = 30;
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     private static final String CONTACT_TYPE_O = "O";
     private static final Log LOG = LogFactory.getLog(S2SUtilServiceImpl.class);
-    private static final Integer UNIT_HEIRARCHY_NODE = 3;
-    
+
     public static final String PROPOSAL_YNQ_QUESTION_129 = "129";
     public static final String PROPOSAL_YNQ_QUESTION_130 = "130";
     public static final String PROPOSAL_YNQ_QUESTION_131 = "131";

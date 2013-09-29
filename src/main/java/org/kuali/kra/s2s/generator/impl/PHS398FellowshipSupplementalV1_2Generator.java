@@ -115,8 +115,6 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     
     private static final String ANSWER_YES = "Yes";
     private static final String ANSWER_NO = "No";
-    private static final String ANSWER_Y = "Y";
-    private static final String ANSWER_N = "N";
     /*
      * This method is used to get PHSFellowshipSupplemental12 XMLObject and set the data to it from DevelopmentProposal data.
      */
@@ -773,31 +771,6 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
             }
         }
     }
-
-    /**
-     * This method is used to set Narrative Data to ResearchTrainingPlan XMLObject based on NarrativeTypeCode.
-     * 
-     * @param researchTrainingPlan
-     */
-    private Sponsors setSponsorsInfo() {
-        Sponsors sponsors = Sponsors.Factory.newInstance();
-        AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            int typeCode = Integer.parseInt(narrative.getNarrativeTypeCode());
-            if ((narrative.getNarrativeTypeCode() != null) && (typeCode == SPONSOR_COSPONSOR)) {
-                attachedFileDataType = getAttachedFileType(narrative);
-                if (attachedFileDataType == null) {
-                    continue;
-                }
-                SponsorCosponsorInformation sponsorCosponsorInfo = SponsorCosponsorInformation.Factory.newInstance();
-                sponsorCosponsorInfo.setAttFile(attachedFileDataType);
-                sponsors.setSponsorCosponsorInformation(sponsorCosponsorInfo);
-                break;
-            }
-        }
-        return sponsors;
-    }
-
 
     /**
      * This method is used to set HumanSubjectInvoved and VertebrateAnimalUsed XMLObject Data.

@@ -30,7 +30,6 @@ import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
@@ -922,15 +921,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     }
     
     /**
-     * 
-     * This method is a helper method to retrieve AwardSponsorTermService.
-     * @return
-     */
-    protected AwardDirectFandADistributionService getAwardDirectFandADistributionService() {
-        return KraServiceLocator.getService(AwardDirectFandADistributionService.class);
-    }
-    
-    /**
      * Gets the businessObjectService attribute. 
      * @return Returns the businessObjectService.
      */
@@ -939,56 +929,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         return awardVersionService;
     }
 
-//    public Award getWorkingAwardVersion(String goToAwardNumber) {
-//        Award award = null;
-//        award = getPendingAwardVersion(goToAwardNumber);
-//        if (award == null) {
-//            award = getActiveAwardVersion(goToAwardNumber);
-//        }
-//        return award;
-//    }
-//    
-//    /*
-//     * This method retrieves the pending award version.
-//     * 
-//     * @param doc
-//     * @param goToAwardNumber
-//     */
-//    @SuppressWarnings("unchecked")
-//    public Award getPendingAwardVersion(String goToAwardNumber) {
-//        
-//        Award award = null;
-//        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-//        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
-//        if(!(awards.size() == 0)) {
-//            award = awards.get(awards.size() - 1);
-//        }
-//      
-//        return award;
-//    }
-//    
-//   
-//    private Award getActiveAwardVersion(String goToAwardNumber) {
-//        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
-//        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
-//        Award award = null;
-//        
-//        if(vh!=null){
-//            award = (Award) vh.getSequenceOwner();
-//        }else{
-//            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-//            List<Award> matchingAwards = (List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber));
-//            if (matchingAwards != null && !matchingAwards.isEmpty()) {
-//                award = matchingAwards.get(0);
-//            }
-//        }
-//        return award;
-//    }
-//    private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
-//        Map<String, String> map = new HashMap<String,String>();
-//        map.put("awardNumber", goToAwardNumber);
-//        return map;
-//    }
     /*
      * Retrieves an ActivePendingTransactionsService.
      */

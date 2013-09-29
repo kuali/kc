@@ -25,8 +25,6 @@ import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Docu
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Document.RRKeyPersonExpanded12.BioSketchsAttached;
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Document.RRKeyPersonExpanded12.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
@@ -53,8 +51,6 @@ import java.util.List;
 public class RRKeyPersonExpandedV1_2Generator extends
 		RRKeyPersonExpandedBaseGenerator {
 
-	private static final Log LOG = LogFactory
-			.getLog(RRKeyPersonExpandedV1_2Generator.class);
 	Rolodex rolodex;
 	/*
 	 * This method gives details of Principal Investigator,KeyPersons and the

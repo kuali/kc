@@ -16,7 +16,6 @@
 package org.kuali.kra.protocol.noteattachment;
 
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -55,8 +54,7 @@ public abstract class ProtocolAttachmentVersioningUtilityBase {
     protected final ProtocolFormBase form;
     protected static final String ATTACHMENT_DELETED = "3";
     protected static final String ATTACHMENT_DRAFTED = "1";
-    protected ProtocolDocumentBase newDocumentVersion;
-    
+
     /**
      * Constructs a versioning util.
      * @param form the form
