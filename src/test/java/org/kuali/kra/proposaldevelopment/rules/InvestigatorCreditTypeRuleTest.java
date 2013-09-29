@@ -30,8 +30,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * @see org.kuali.kra.proposaldevelopment.rules.InvestigatorCreditTypeRule
  */
 public class InvestigatorCreditTypeRuleTest extends MaintenanceRuleTestBase {
-    private static final InvestigatorCreditTypeFixture RECOGNITION = InvestigatorCreditTypeFixture.RECOGNITION;
-    private static final InvestigatorCreditTypeFixture RESPONSIBILITY = InvestigatorCreditTypeFixture.RESPONSIBILITY;
     private static final InvestigatorCreditTypeFixture SPACE = InvestigatorCreditTypeFixture.SPACE;
     private static final InvestigatorCreditTypeFixture NEGLIGENCE = InvestigatorCreditTypeFixture.NEGLIGENCE;
     

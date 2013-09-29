@@ -22,10 +22,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -40,7 +37,6 @@ public class FinancialEntityServiceTest {
     private static final String  UNIT_NAME = "University";
     private static final String  ENTITY_NUMBER = "1";
     private static final String  ENTITY_NAME_1 = "Entity 1";
-    private static final String  ENTITY_NAME_2 = "Entity 2";
     private static final String  GROUP_NAME_1 = "Group 1";
     private static final String  GROUP_NAME_2 = "Group 2";
     private static final String  COLUMN_NAME_11 = "COLUMN_NAME_11";
@@ -470,32 +466,4 @@ public class FinancialEntityServiceTest {
          finIntEntityRelType.setDescription("Description"+code);
          return finIntEntityRelType;
      }
-     
-     private KcPersonService getMockKcPersonService() {
-         // not really referenced yet
-         final KcPersonService kcPersonService = context.mock(KcPersonService.class);
-         final KcPerson kcPerson = new KcPerson() {
-             public String getUserName() {
-                 
-                 return "quickstart";
-             }
-             public Unit getUnit() {
-                 final Unit unit = new Unit();
-                 unit.setUnitNumber(UNIT_NUMBER);
-                 unit.setUnitName(UNIT_NAME);
-                 
-                 return unit;
-             }
-
-         };
-        // kcPerson.setPersonId(PERSON_ID);
-         
-         context.checking(new Expectations() {{
-             allowing(kcPersonService).getKcPersonByPersonId(PERSON_ID);
-             will(returnValue(kcPerson));
-         }});
-         return kcPersonService;
-     }
-
-
 }

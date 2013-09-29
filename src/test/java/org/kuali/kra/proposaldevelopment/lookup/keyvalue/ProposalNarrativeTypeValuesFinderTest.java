@@ -32,7 +32,6 @@ import java.util.List;
 
 public class ProposalNarrativeTypeValuesFinderTest extends KcUnitTestBase {
 
-    private static final String QUICKSTART = "quickstart";
     private static final String NO = "N";
     private static final String YES = "Y";
     private NarrativeType bioNarrativeType;

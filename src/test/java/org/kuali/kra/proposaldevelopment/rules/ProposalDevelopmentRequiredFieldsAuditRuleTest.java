@@ -51,11 +51,7 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBa
     private DocumentService documentService = null;
     private ParameterService parameterService = null;
     private ProposalDevelopmentProposalRequiredFieldsAuditRule auditRule = null;
-    
-    private String proposalTypeCodeRenewal;
-    private String proposalTypeCodeRevision;
-    private String proposalTypeCodeContinuation;
-    private String proposalTypeCodeResubmission;
+
     private String proposalTypeCodeNew;
     private String changeCorrectedTypeCode;
     
@@ -74,10 +70,6 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBa
         parameterService = CoreFrameworkServiceLocator.getParameterService();
         auditRule = new ProposalDevelopmentProposalRequiredFieldsAuditRule();
         
-        proposalTypeCodeRenewal = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        proposalTypeCodeRevision = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        proposalTypeCodeContinuation = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
-        proposalTypeCodeResubmission = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
         proposalTypeCodeNew = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
         
         Calendar calendar = new GregorianCalendar();

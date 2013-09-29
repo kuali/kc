@@ -23,7 +23,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.AwardNumberService;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardServiceImpl;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -54,7 +53,6 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
     private AwardHierarchyServiceImpl service;
 
     private List<Award> awardList = new ArrayList<Award>();
-    private AwardDocument placeholderDocument;
 
     private AwardHierarchy rootNodeA;
     private AwardHierarchy rootNodeB;
@@ -253,13 +251,7 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
         List<AwardHierarchy> nodes = rootNode.getFlattenedListOfNodesInHierarchy();
         for (AwardHierarchy node: nodes) {
             Award award = createAward(node.getAwardNumber());
-            if (placeholderDocument != null) {
-                placeholderDocument.getAwardList().add(award);
-                award.setAwardDocument(placeholderDocument);
-                getDocumentService().saveDocument(placeholderDocument);
-            } else {
-                awardList.add(award);
-            }
+            awardList.add(award);
             node.setAward(award);
             getBusinessObjectService().save(node);
         }

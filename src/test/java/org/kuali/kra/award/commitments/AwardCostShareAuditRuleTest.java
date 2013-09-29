@@ -37,7 +37,6 @@ public class AwardCostShareAuditRuleTest {
     private static final String TEST_DESTINATION = "12345";
     private static final String TEST_FISCAL_YEAR = "2008";
     private static final String TEST_FISCAL_YEAR_2 = "2009";
-    private static final String TEST_INVALID_FISCAL_YEAR = "1000";
     private static final Integer TEST_COST_SHARE_TYPE = 1;
     private static final Integer PERCENTAGE = 50;
     private static final Integer COMMITMENT_AMOUNT = 10000;

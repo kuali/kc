@@ -22,7 +22,6 @@ import org.junit.Test;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -41,9 +40,7 @@ public class InstitutionalProposalCostShareRuleTest extends KcUnitTestBase {
     private static final Integer AMOUNT = 10000;
     InstitutionalProposalAddCostShareRuleImpl institutionalProposalAddCostShareRule;
     InstitutionalProposalCostShare institutionalProposalCostShare;
-    InstitutionalProposalDocument institutionalProposalDocument;
-    InstitutionalProposalAddCostShareRuleEvent institutionalProposalCostShareRuleEvent;
-    
+
     /**
      * This method...
      * @throws java.lang.Exception

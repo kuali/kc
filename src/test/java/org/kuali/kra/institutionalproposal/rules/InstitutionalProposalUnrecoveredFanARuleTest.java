@@ -25,7 +25,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -53,8 +52,7 @@ public class InstitutionalProposalUnrecoveredFanARuleTest {
     private static final Integer RATE_TYPE_CODE = 1;
     InstitutionalProposalUnrecoveredFandARuleImpl institutionalProposalUnrecoveredFandARuleImpl;
     InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA;
-    InstitutionalProposalDocument institutionalProposalDocument;
-    
+
     /**
      * This method...
      * @throws java.lang.Exception

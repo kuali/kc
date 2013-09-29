@@ -29,7 +29,6 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 public class AwardCommentFactoryTest extends KcUnitTestBase{ 
     private static final int AWARD_COMMENT_ATTRIBUTES_COUNT = 7;
     
-    private Award awardBo;
     private AwardCommentFactory awardCommentFactory;
     
     /**
@@ -39,7 +38,6 @@ public class AwardCommentFactoryTest extends KcUnitTestBase{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        awardBo = new Award();
         awardCommentFactory = new AwardCommentFactory();
     }
 
@@ -50,7 +48,6 @@ public class AwardCommentFactoryTest extends KcUnitTestBase{
     @After
     public void tearDown() throws Exception {
         super.tearDown();
-        awardBo = null;
         awardCommentFactory = null;
     }
     

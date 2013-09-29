@@ -54,11 +54,8 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     private ProposalDevelopmentSponsorProgramInformationAuditRule auditRule = null;
     
     private String proposalTypeCodeRenewal;
-    private String proposalTypeCodeRevision;
-    private String proposalTypeCodeContinuation;
     private String proposalTypeCodeResubmission;
-    private String proposalTypeCodeNew; 
-    
+
     Date tomorrow;
     
     private class ProposalDevelopmentServiceMock extends ProposalDevelopmentServiceImpl {
@@ -96,11 +93,8 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         auditRule.setParameterService(parameterService);
         
         proposalTypeCodeRenewal = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        proposalTypeCodeRevision = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        proposalTypeCodeContinuation = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
         proposalTypeCodeResubmission = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
-        proposalTypeCodeNew = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
-        
+
         Calendar calendar = new GregorianCalendar();
         calendar.add(Calendar.DATE, 1);
         tomorrow = new Date(calendar.getTimeInMillis());           

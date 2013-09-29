@@ -24,11 +24,9 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.rates.*;
-import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -161,19 +159,7 @@ public class BudgetRatesServiceTest extends KcUnitTestBase {
     }
 
     private void initializeBudgetDocument() {
-        budgetDocument = new BudgetDocument() {
-
-//            @Override
-//            public BudgetRatesService getBudgetRatesService() {
-//                return budgetRatesService;
-//            }
-//
-//            @Override
-//            public BudgetSummaryService getBudgetSummaryService() {
-//                return new MockBudgetSummaryService();            
-//            }            
-            
-        };
+        budgetDocument = new BudgetDocument();
         Budget budget = budgetDocument.getBudget();
         budget.setBudgetVersionNumber(1);
         budget.setBudgetDocument(budgetDocument);
@@ -479,26 +465,5 @@ public class BudgetRatesServiceTest extends KcUnitTestBase {
             return budgetPersons;
         }  
         
-    }
-
-       
-        
-    
-    public class MockBudgetSummaryService implements BudgetSummaryService {
-        public void addBudgetPeriod(Budget budgetDocument, BudgetPeriod newBudgetPeriod) { }
-        public boolean budgetLineItemExists(Budget budgetDocument, Integer budgetPeriod) { return false; }
-        public void calculateBudget(Budget budgetDocument) { }
-        public void deleteBudgetPeriod(Budget budgetDocument, int delPeriod) { }
-        public void generateAllPeriods(Budget budgetDocument) { }
-        public void updateOnOffCampusFlag(Budget budgetDocument, String onOffCampusFlag) {}
-        public void adjustStartEndDatesForLineItems(Budget budgetDocument) { }
-        public void setupOldStartEndDate(Budget budgetDocument, boolean resetAll) { }        
-        public void setupOldStartEndDate(List <BudgetLineItem > budgetLineItems) { }        
-        public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate, boolean leapDayInPeriod, boolean leapDayInGap) { return new ArrayList <Date>();}
-        public boolean isLeapDaysInPeriod(Date sDate, Date eDate){ return false; }
-        public String getOnOffCampusFlagDescription(String onOffCampusFlag){ return ""; }
-        public void defaultBudgetPeriods(Budget budgetDocument) { }
-        public String defaultWarningMessage(Budget budgetDocument) { return "" ;}
-        public void generateBudgetPeriods(Budget budget, List<BudgetPeriod> budgetPeriods) {}
     }
 }

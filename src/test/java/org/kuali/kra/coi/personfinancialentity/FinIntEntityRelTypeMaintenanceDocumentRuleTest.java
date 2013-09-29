@@ -38,8 +38,7 @@ public class FinIntEntityRelTypeMaintenanceDocumentRuleTest extends MaintenanceR
     private static final String CODE_2 = "2";
     private static final Integer SORT_ID_1 = 1;
     private static final String DESCRIPTION_1 = "Test1";
-    private static final String DESCRIPTION_2 = "Test2";
-       
+
     private FinIntEntityRelTypeMaintenanceDocumentRule rule;
     
     private Mockery context = new JUnit4Mockery();

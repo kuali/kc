@@ -32,8 +32,7 @@ public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
     private static final String CO_INVESTIGATOR_PERSON_ID = "10000000003";
     private static final String CO_INVESTIGATOR_NAME = "Nicholas Majors";
     private static final String CO_INVESTIGATOR_ROLE_ID = "COI";
-    private static final String CORRESPONDENT_ROLE_ID = "CRC";
-    
+
     
     @Before
     public void setUp() throws Exception {

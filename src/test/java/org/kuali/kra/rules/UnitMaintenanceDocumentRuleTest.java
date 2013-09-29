@@ -23,8 +23,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
@@ -32,20 +30,17 @@ import org.springframework.util.AutoPopulatingList;
 public class UnitMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private UnitMaintenanceDocumentRule rule = null;
 
-    private LookupService lookupService;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         rule = new UnitMaintenanceDocumentRule();
-        lookupService = KRADServiceLocatorWeb.getLookupService();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     @After
     public void tearDown() throws Exception {
         rule = null;
-        lookupService=null;
         super.tearDown();
     }
 

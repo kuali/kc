@@ -35,7 +35,6 @@ public class FinEntitiesDataMatrixMaintenanceDocumentRuleTest extends Maintenanc
     private static final String GROUP_ID_FIELD_NAME = "dataGroupId";
     
     private static final Integer GROUP_ID_1 = 1;
-    private static final Integer GROUP_ID_2 = 2;
     private static final Integer SORT_ID_1 = 1;
     private static final String COLUMN_NAME = "Test";
     private static final String COLUMN_NAME_1 = "Test1";

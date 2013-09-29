@@ -28,21 +28,7 @@ public final class ContactRoleFixtureFactory {
     public static final ContactRole MOCK_PI = getProposalPersonRole(ContactRole.PI_CODE, "Principal Investigator");
     public static final ContactRole MOCK_COI = getProposalPersonRole(ContactRole.COI_CODE, "Co-Investigator");
     public static final ContactRole MOCK_KEY_PERSON = getProposalPersonRole(ContactRole.KEY_PERSON_CODE, "Key Person");
-    
-    static final ContactRole MOCK_ACCOUNTANT = getUnitAdministratorType("11", "Accountant", UnitContactType.CONTACT);
-    static final ContactRole MOCK_ADMIN_ASSISTANT = getUnitAdministratorType("12", "Admin Assistant", UnitContactType.CONTACT); 
-    static final ContactRole MOCK_BUSINESS_MANAGER = getUnitAdministratorType("13", "Business Manager", UnitContactType.CONTACT);
-    
-    static final ContactRole MOCK_SENIOR_ACCOUNTANT = getContactType("16", "Senior Accountant");
-    static final ContactRole MOCK_ADMINISTRATIVE_CONTACT1 = getContactType("17", "Administrative Contact - 1");
-    static final ContactRole MOCK_ADMINISTRATIVE_CONTACT2 = getContactType("18", "Administrative Contact - 2");    
-    static final ContactRole MOCK_AWARD_OFFICE_CONTACT1 = getContactType("19", "Award Office Contact - 1");
-    static final ContactRole MOCK_AWARD_OFFICE_CONTACT2 = getContactType("20", "Award Office Contact - 2");
-    static final ContactRole MOCK_CLOSEOUT_CONTACT = getContactType("21", "Closeout Contact");
-    
-    static final ContactRole MOCK_AUDITOR = getUnitAdministratorType("14", "Auditor", UnitContactType.ADMINISTRATOR);
-    static final ContactRole MOCK_FUND_ACCOUNTANT = getUnitAdministratorType("15", "Fund Accountant", UnitContactType.ADMINISTRATOR);
-    
+
     private ContactRoleFixtureFactory() {
         
     }
