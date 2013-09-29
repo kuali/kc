@@ -26,7 +26,6 @@ import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationContext;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.service.NegotiationService;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -56,7 +55,6 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     private List<NegotiationUnassociatedDetail> negotiationUnassociatedDetailsToDelete;
     private NegotiationActivityHelper negotiationActivityHelper;
     private NegotiationAssociatedDetailBean negotiationAssociatedDetailBean;
-    private CustomDataHelper negotiationCustomDataFormHelper;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private NotificationHelper<NegotiationCloseNotificationContext> notificationHelper;
     private String filterActivities;
@@ -72,7 +70,6 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
         negotiationUnassociatedDetailsToDelete = new ArrayList<NegotiationUnassociatedDetail>();
         negotiationActivityHelper = new NegotiationActivityHelper(this);
         medusaBean = new MedusaBean();
-        negotiationCustomDataFormHelper = new CustomDataHelper(this);
         notificationHelper = new NotificationHelper<NegotiationCloseNotificationContext>();
         filterActivities = "All";
         init();
@@ -82,10 +79,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     {
         getCustomDataHelper().prepareCustomData();
     }
-    
-    /**
-     * @see org.kuali.kra.common.customattributes.CustomDataForm#getCustomDataHelper()
-     */
+
     public CustomDataHelper getCustomDataHelper() {
         return customDataHelper;
     }
@@ -132,10 +126,6 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     protected void setSaveDocumentControl(Map editMode) {
         getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
 
-    }
-
-    private TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
     
     public BusinessObjectService getBusinessObjectService() {
