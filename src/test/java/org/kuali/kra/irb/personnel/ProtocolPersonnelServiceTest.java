@@ -45,8 +45,6 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
     protected static final String PRINCIPAL_INVESTIGATOR_UNIT = "IN-CARD";
     protected static final String PRINCIPAL_INVESTIGATOR_PERSON_ID = "10000000001";
     protected static final String PRINCIPAL_INVESTIGATOR_NAME = "Joe Tester";
-    protected static final String CORRESPONDENT_ROLE_ID = "CRC";
-    protected static final String PERSON_ID = "personId";
     private ProtocolPersonTrainingService protocolPersonTrainingService;
     private ProtocolPersonnelServiceImpl protocolPersonnelService;
     private ProtocolPersonnelService service;
@@ -338,12 +336,6 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
      */
     private Integer getStudentAffiliationType() {
         return Constants.AFFILIATION_STUDENT_INVESTIGATOR_TYPE;
-    }
-    
-    private Protocol buildProtocol(){
-        Protocol myProto = new Protocol();
-        myProto.setObjectId("a;lkjdfiahiudhbnvak");
-        return myProto;
     }
 
 }

@@ -107,12 +107,6 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
         return reportCodes;
     }
     
-    protected List<KeyValue> getFrequencyCodes(String reportClassCode, String reportCode){        
-        List<KeyValue> frequencyCodes = new ArrayList<KeyValue>();
-        frequencyCodes.add(new ConcreteKeyValue("5", "Final"));
-        return frequencyCodes;
-    }
-    
     protected List<KeyValue> getFrequencyBaseCodes(String frequencyCode){        
         List<KeyValue> frequencyBaseCodes = new ArrayList<KeyValue>();
         frequencyBaseCodes.add(new ConcreteKeyValue("5", "Final"));

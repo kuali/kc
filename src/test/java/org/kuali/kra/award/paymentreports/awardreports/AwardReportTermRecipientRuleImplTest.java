@@ -27,13 +27,11 @@ import java.util.List;
 
 public class AwardReportTermRecipientRuleImplTest {
 
-    AwardReportTermRecipient awardReportTermRecipient;
     AwardReportTermRecipientRuleImpl awardReportTermRecipientRuleImpl;
     List<AwardReportTermRecipient> awardReportTermRecipientItems;
     
     @Before
     public void setUp() throws Exception {
-        awardReportTermRecipient = new AwardReportTermRecipient();
         awardReportTermRecipientRuleImpl = new AwardReportTermRecipientRuleImpl();
         awardReportTermRecipientItems = new ArrayList<AwardReportTermRecipient>();
         GlobalVariables.setMessageMap(new MessageMap());
@@ -41,7 +39,6 @@ public class AwardReportTermRecipientRuleImplTest {
 
     @After
     public void tearDown() throws Exception {
-        awardReportTermRecipient = null;
         awardReportTermRecipientRuleImpl = null;
         awardReportTermRecipientItems = null;
     }

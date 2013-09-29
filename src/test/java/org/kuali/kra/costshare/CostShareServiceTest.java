@@ -23,7 +23,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 @NAMESPACE(namespace=Constants.KC_GENERIC_PARAMETER_NAMESPACE)
 @COMPONENT(component=Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE)
@@ -31,11 +30,9 @@ public class CostShareServiceTest extends KcUnitTestBase {
     
     private CostShareService costShareService;
     private CostShareServiceImpl costShareServiceImpl;
-    private ParameterService ps;
 
     @Before
     public void setUp() throws Exception {
-        ps = KraServiceLocator.getService(ParameterService.class);
         costShareService = KraServiceLocator.getService(CostShareService.class);
         costShareServiceImpl = (CostShareServiceImpl) KraServiceLocator.getService(CostShareService.class);
     }
@@ -44,7 +41,6 @@ public class CostShareServiceTest extends KcUnitTestBase {
     public void tearDown() throws Exception {
         costShareService = null;
         costShareServiceImpl = null;
-        ps = null;
     }
 
     @Test

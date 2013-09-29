@@ -46,22 +46,6 @@ public class QuestionVersioningTest {
 
         verifyVersioning(originalQuestion, versionedQuestion);
     }
-
-//  This test fails due to the refreshReferenceObject which accessed the database in Question.java    
-//    @Test
-    public void testQuestionExplanationVersioning() throws Exception {
-        originalQuestion.setExplanation("Explanation text");
-        originalQuestion.setPolicy("Policy text");
-        originalQuestion.setRegulation("Regulation text");
-        
-        Question versionedQuestion = (Question) versioningService.createNewVersion(originalQuestion);
-
-        verifyVersioning(originalQuestion, versionedQuestion);
-
-        assertEquals(originalQuestion.getExplanation(), versionedQuestion.getExplanation());
-        assertEquals(originalQuestion.getPolicy(), versionedQuestion.getPolicy());
-        assertEquals(originalQuestion.getRegulation(), versionedQuestion.getRegulation());
-    }
     
     private Question createQuestion(Integer questionId, String questionText) {
         Question question = new Question();

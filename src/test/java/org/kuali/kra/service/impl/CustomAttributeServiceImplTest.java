@@ -29,7 +29,6 @@ import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -49,11 +48,9 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
 
     private DocumentService documentService = null;
     private CustomAttributeService customAttributeService = null;
-    private BusinessObjectService businessObjectService = null;
     private ProposalDevelopmentService proposalDevelopmentService;
     
     private static final String TEST_DOCUMENT_TYPE_CODE = "PRDV";
-    private static final String TEST_DOCUMENT_NUMBER = "2000";
 
     @Before
     public void setUp() throws Exception {
@@ -62,7 +59,6 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
         testCustomAttributeDocuments = CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments();
         documentService = KRADServiceLocatorWeb.getDocumentService();
         customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
@@ -72,7 +68,6 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
         testCustomAttributeDocuments = null;
         documentService = null;
         customAttributeService = null;
-        businessObjectService = null;
         super.tearDown();
     }
 
@@ -227,7 +222,7 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
      * @param document ProposalDevelopmentDocument to set fields for
      * @param title String title to set
      * @param requestedStartDateInitial Date start date to set
-     * @param requestedEndDateInitila Date end date to set
+     * @param requestedEndDateInitial Date end date to set
      * @param activityTypeCode String activity type code to set
      * @param proposalTypeCode String proposal type code to set
      * @param ownedByUnit String owned-by unit to set

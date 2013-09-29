@@ -18,7 +18,6 @@ package org.kuali.kra.award.home.approvedsubawards;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -39,15 +38,12 @@ public class AwardApprovedSubawardRuleTest {
     public static final int TEN_THOUSAND = 10000;
     public static final int TWENTY_THOUSAND = 20000;
     public static final int THIRTY_THOUSAND = 30000;
-    public static final int TWENTY_FIVE_THOUSAND = 25000;
-    public static final int NEGATIVE_VALUE = -250;
-    
+
     
     AwardApprovedSubawardRuleImpl awardApprovedSubawardRule;
     AwardApprovedSubaward awardApprovedSubawardOne;
     AwardApprovedSubaward awardApprovedSubawardTwo;
     AwardApprovedSubaward awardApprovedSubawardTest;
-    AwardDocument awardDocument;
     List<AwardApprovedSubaward> awardApprovedSubawards;
     
     /**

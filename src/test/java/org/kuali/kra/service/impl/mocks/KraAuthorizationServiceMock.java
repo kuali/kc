@@ -29,44 +29,41 @@ public class KraAuthorizationServiceMock implements KraAuthorizationService {
     public KraAuthorizationServiceMock(boolean hasPermission) {
         this.hasPermission = hasPermission;
     }
-    
+    @Override
     public void addRole(String username, String roleName, Permissionable permissionable) {
      
     }
-
+    @Override
     public List<RolePersons> getAllRolePersons(Permissionable permissionable) {
         return null;
     }
-
+    @Override
     public List<KcPerson> getPersonsInRole(Permissionable permissionable, String roleName) {
         return null;
     }
-
+    @Override
     public List<String> getRoles(String username, Permissionable permissionable) {
         return null;
     }
-
+    @Override
     public List<String> getUserNames(Permissionable permissionable, String roleName) {
         return null;
     }
-
+    @Override
     public boolean hasPermission(String username, Permissionable permissionable, String permissionName) {
         return hasPermission;
     }
-
+    @Override
     public boolean hasRole(String username, Permissionable permissionable, String roleName) {
         return false;
     }
-
+    @Override
     public void removeRole(String username, String roleName, Permissionable permissionable) {
         
     }
-
+    @Override
     public boolean hasRole(String userId, String namespace, String roleName) {
         return false;
-    }
-
-    public void forceFlushRoleCaches() {
     }
 
     @Override

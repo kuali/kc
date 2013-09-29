@@ -29,7 +29,6 @@ import org.kuali.kra.printing.util.PrintingTestUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
@@ -112,12 +111,6 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         questionnaire.setQuestionnaireQuestions(questions);
         */
         return questionnaire;
-    }
-    private Question createQuestion(Integer questionId, String questionText) {
-        Question question = new Question();
-        question.setQuestionIdFromInteger(questionId);
-        question.setQuestion(questionText);
-        return question;
     }
 
     /**

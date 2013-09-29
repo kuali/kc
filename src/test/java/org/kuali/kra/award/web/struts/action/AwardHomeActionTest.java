@@ -29,9 +29,6 @@ public class AwardHomeActionTest {
     AwardHomeAction awardHomeAction;
     Award award;
     AwardApprovedSubaward awardApprovedSubaward;
-    public static final String MOCK_FORWARD_STRING = "FORWARD_STRING";
-    public static final String MOCK_DOC_ID_REQUEST_PARAMETER = "21";
-    public static final String MOCK_EXPECTED_RESULT_STRING = "FORWARD_STRING?docId=21";
     public static final int ZERO = 0;
     
     /**

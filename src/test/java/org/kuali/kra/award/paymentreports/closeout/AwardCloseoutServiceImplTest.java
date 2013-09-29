@@ -16,9 +16,7 @@
 package org.kuali.kra.award.paymentreports.closeout;
 
 
-import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -40,18 +38,15 @@ public class AwardCloseoutServiceImplTest {
 
     public static final String REPORT_CLASS_CODE_FINANCIAL_REPORT = "1";
     public static final String REPORT_CLASS_CODE_PATENT= "3";
-    public static final String REPORT_CLASS_CODE_USER_DEFINED = "UD";
-    
+
     AwardCloseoutServiceImpl service; 
     List<AwardReportTerm> awardReportTermItems;
     Map<String, Object> closeoutDueDates;
     AwardReportTerm newAwardReportTerm;
     Report newReport;
     Frequency newFrequency;
-    java.util.Date dateCalculatedUsingFinalInvoiceDue;
-    
-    private Mockery context = new JUnit4Mockery();
-    
+
+
     /**
      * 
      * This method gets executed before every unit test.
@@ -66,7 +61,6 @@ public class AwardCloseoutServiceImplTest {
         newAwardReportTerm = new AwardReportTerm();
         newReport = new Report();
         newFrequency = new Frequency();
-        dateCalculatedUsingFinalInvoiceDue = new java.util.Date();
     }
     
     /**
@@ -84,51 +78,6 @@ public class AwardCloseoutServiceImplTest {
         newReport = null;
         newFrequency = null;
     }
-    
-    /**
-     * 
-     * This method tests the updateCloseoutDueDateWhenFilteredListSizeIsZero method of AwardCloseoutBean
-     * for the case where Report Class is Financial Report.
-     *
-     */
-//    @Test
-//    public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsFinancialReport(){
-//        
-//        final ConfigurationService kualiConfigurationService = context.mock(ConfigurationService.class);        
-//        final Parameter parameter = new Parameter();        
-//        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
-//        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
-//        context.checking(new Expectations() {{
-//            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
-//        }});        
-//        service.setKualiConfigurationService(kualiConfigurationService);
-//                
-//        dateCalculatedUsingFinalInvoiceDue.setTime(100000000);
-//        service.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_FINANCIAL_REPORT);
-//        Assert.assertEquals(dateCalculatedUsingFinalInvoiceDue.getTime(), ((java.util.Date)closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT)).getTime());
-//    }
-    
-    /**
-     * 
-     * This method tests the updateCloseoutDueDateWhenFilteredListSizeIsZero method of AwardCloseoutBean
-     * for the case where Report Class is not Financial Report.
-     *
-     */
-//    @Test
-//    public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsNotFinancialReport(){
-//        final ConfigurationService kualiConfigurationService = context.mock(ConfigurationService.class);        
-//        final Parameter parameter = new Parameter();        
-//        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
-//        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
-//        context.checking(new Expectations() {{
-//            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
-//        }});        
-//        service.setKualiConfigurationService(kualiConfigurationService);
-//        
-//        dateCalculatedUsingFinalInvoiceDue.setTime(100000000);
-//        service.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_PATENT);
-//        Assert.assertEquals(null, closeoutDueDates.get(REPORT_CLASS_CODE_PATENT));
-//    }
     
     /**
      * 

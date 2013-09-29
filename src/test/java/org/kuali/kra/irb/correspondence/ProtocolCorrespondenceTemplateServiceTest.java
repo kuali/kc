@@ -23,9 +23,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.io.IOException;
@@ -108,45 +106,6 @@ public class ProtocolCorrespondenceTemplateServiceTest {
             allowing(mockedFile).getFileData();
             will(returnValue(new byte[] { (byte) 1, (byte) 2, (byte) 3 }));
         }});
-    }
-
-    @SuppressWarnings("serial")
-    private ProtocolCorrespondenceType createCorrespondenceType() {
-        ProtocolCorrespondenceType correspondenceType = new ProtocolCorrespondenceType();
-        ProtocolCorrespondenceTemplate correspondenceTemplate = new ProtocolCorrespondenceTemplate() {
-            @Override
-            public int compareTo(ProtocolCorrespondenceTemplateBase arg) {
-                return this.getCommitteeId().compareTo(arg.getCommitteeId());
-            }
-        };
-        correspondenceTemplate.setProtoCorrespTypeCode("5");
-        correspondenceTemplate.setCommitteeId(Constants.DEFAULT_CORRESPONDENCE_TEMPLATE);
-        correspondenceTemplate.setFileName("defaultTemplate.xml");
-        correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
-
-        correspondenceTemplate = new ProtocolCorrespondenceTemplate(){
-            @Override
-            public int compareTo(ProtocolCorrespondenceTemplateBase arg) {
-                return this.getCommitteeId().compareTo(arg.getCommitteeId());
-            }
-        };
-        correspondenceTemplate.setProtoCorrespTypeCode("5");
-        correspondenceTemplate.setCommitteeId("Committee1");
-        correspondenceTemplate.setFileName("committee1Template.xml");
-        correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
-
-        correspondenceTemplate = new ProtocolCorrespondenceTemplate(){
-            @Override
-            public int compareTo(ProtocolCorrespondenceTemplateBase arg) {
-                return this.getCommitteeId().compareTo(arg.getCommitteeId());
-            }
-        };
-        correspondenceTemplate.setProtoCorrespTypeCode("5");
-        correspondenceTemplate.setCommitteeId("Committee2");
-        correspondenceTemplate.setFileName("committee2Template.xml");
-        correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
-        
-        return correspondenceType;
     }
 
     @Test

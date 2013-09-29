@@ -33,7 +33,6 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.util.ValuesFinderUtility;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -60,7 +59,6 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
     public static final String DUMMY_REPORT_CODE = "1";
     public static final String DUMMY_FREQUNCY_CODE = "1";
     
-    AwardReportsService awardReportsService;
     List<KeyValue> KeyValueList;
     Map<String, Object> hashMap;
     Award award;
@@ -70,7 +68,6 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
     @Before
     public void setUp() throws Exception {
         award = new Award();
-        awardReportsService = new AwardReportsServiceImpl();
         KeyValueList = new ArrayList<KeyValue>();
         hashMap = new HashMap<String, Object>();
         KeyValueList.add(new ConcreteKeyValue("1", "test1"));
@@ -84,7 +81,6 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
     @After
     public void tearDown() throws Exception {
         award = null;
-        awardReportsService = null;
         hashMap = null;
     }
 
