@@ -38,7 +38,6 @@ import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -48,8 +47,6 @@ import java.sql.Date;
 import java.util.List;
 
 public abstract class UndoLastActionServiceImplBase implements UndoLastActionService {
-    protected static final String AMEND = "A";
-    protected static final String RENEW = "R";
     
     private ProtocolActionService protocolActionService;
     private DocumentService documentService;
@@ -58,7 +55,6 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
     private ReviewCommentsService reviewCommentsService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     private RouteHeaderService routeHeaderService;
-    private IdentityService identityManagementService;
     private ProtocolCopyService protocolCopyService;
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
@@ -328,10 +324,6 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
         this.routeHeaderService = routeHeaderService;
     }
 
-    public void setIdentityManagementService(IdentityService identityManagementService) {
-        this.identityManagementService = identityManagementService;
-    }
-
     protected ProtocolCopyService getProtocolCopyService() {
         return protocolCopyService;
     }
@@ -366,10 +358,6 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
 
     protected RouteHeaderService getRouteHeaderService() {
         return routeHeaderService;
-    }
-
-    protected IdentityService getIdentityManagementService() {
-        return identityManagementService;
     }
     
 }

@@ -21,7 +21,6 @@ import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -31,7 +30,6 @@ import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -120,14 +118,6 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
     @Override
     public void doActionTaken( ActionTakenEvent event ) {
         super.doActionTaken(event);
-    }
-    
-    private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
-    }
-    
-    private ReviewCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(ReviewCommentsService.class);
     }
 
     @Override

@@ -27,7 +27,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.Answer;
@@ -322,26 +321,6 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
 		}
 		return humanSubjectsSupplement;
 	}
-
-    /**
-     * 
-     * This method is used to get the answer for ProposalYnq
-     * 
-     * @param questionId
-     * @return proposalYnq
-     */
-    private ProposalYnq getAnswer(String questionId, ProposalDevelopmentDocument pdDoc) {
-        String question;
-        ProposalYnq ynQ = null;
-        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
-            question = proposalYnq.getQuestionId();
-            if (question != null && question.equals(questionId)) {
-                ynQ =  proposalYnq;
-                break;
-            }
-        }
-        return ynQ;
-    }
     
     /**
      * 

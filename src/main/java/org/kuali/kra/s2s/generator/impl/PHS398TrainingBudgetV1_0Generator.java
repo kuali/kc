@@ -1094,16 +1094,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     }
 
-    private Integer getParentQuestionId(Integer parentQuestionNumber) {
-        Map<String, Object> qMap = new HashMap<String, Object>();
-        qMap.put("questionNumber", parentQuestionNumber);
-        List<QuestionnaireQuestion> parentQuestionnaireQuestions = (List) businessObjectService.findMatching(QuestionnaireQuestion.class, qMap);
-        return parentQuestionnaireQuestions.isEmpty() ? null : parentQuestionnaireQuestions.get(0).getQuestion().getQuestionIdAsInteger();
-    }
-
     private boolean isPreDocParentQuestionFromPeriodExists(QuestionnaireQuestion questionnaireQuestion, BudgetPeriod budgetPeriod) {
-//        Integer parentQuestionId = getParentQuestionId(questionnaireQuestion.getParentQuestionNumber());
-//        return parentQuestionId != null &&
           return Arrays.asList(getPreDocParentQuestionsForPeriod(budgetPeriod)).contains(questionnaireQuestion.getParentQuestionNumber());
     }
     private BigDecimal getStipendAmount(BudgetPeriod budgetPeriod, String careerLevel, int experienceLevel, int numPeople) {

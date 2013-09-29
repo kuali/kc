@@ -57,7 +57,6 @@ import java.util.*;
  * This class is used to make web service call to grants.gov
  */
 public class S2SConnectorServiceBase implements S2SConnectorService {
-    private static final String JKS_TYPE = "JKS";
     protected static final Log LOG = LogFactory.getLog(S2SConnectorServiceBase.class);
     private S2SUtilService s2SUtilService;
     private BusinessObjectService businessObjectService;

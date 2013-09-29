@@ -16,7 +16,6 @@
 package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -521,15 +520,6 @@ public abstract class NotesAttachmentsHelperBase {
                 attachment.setNewFile(null);
             }
         }
-    }
-    
-    /**
-     * Creates the next doc number from a passed in doc number.  If null 1 is returned.
-     * @param docNumber the doc number to base the new number off of.
-     * @return the new doc number.
-     */
-    private static Integer createNextDocNumber(final Integer docNumber) {
-        return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber.intValue() + 1);
     }
     
     /**

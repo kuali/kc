@@ -16,7 +16,6 @@
 package org.kuali.kra.protocol.questionnaire;
 
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -207,20 +206,6 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
             throw new IllegalArgumentException("invalid (null) ProtocolDocumentBase in ProtocolFormBase");
         }
         return document.getProtocol();
-    }
-
- 
-    
-    private Integer getNextSubmissionNumber(ProtocolBase protocol) {
-        Integer propNextValue = 1;
-        String propertyName = "submissionNumber";
-        // search for property and get the latest number - increment for next call
-        for (DocumentNextvalue documentNextvalue : protocol.getProtocolDocument().getDocumentNextvalues()) {
-            if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
-                propNextValue = documentNextvalue.getNextValue();
-            }
-        }
-        return propNextValue;
     }
 
     public String getProtocolNumber() {

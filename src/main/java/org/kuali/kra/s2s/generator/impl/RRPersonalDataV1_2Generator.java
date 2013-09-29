@@ -18,8 +18,6 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.rrPersonalData12V12.DirectorType;
 import gov.grants.apply.forms.rrPersonalData12V12.RRPersonalData12Document;
 import gov.grants.apply.forms.rrPersonalData12V12.RRPersonalData12Document.RRPersonalData12;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -35,8 +33,6 @@ import java.util.List;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class RRPersonalDataV1_2Generator extends RRPersonalDataBaseGenerator {
-	private static final Log LOG = LogFactory
-			.getLog(RRPersonalDataV1_2Generator.class);
 
 	/**
 	 * 

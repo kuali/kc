@@ -69,22 +69,6 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
     protected static final String QUESTION_TEXT = "A new version of the budget will be created based on version ";
     
     /**
-     * This method looks for the version corresponding to finalBudgetVersion in the list, then marks that version as final.
-     * 
-     * @param finalBudgetVersion
-     * @param budgetVersions
-     */
-    protected void setFinalBudgetVersion(Integer finalBudgetVersion, List<BudgetVersionOverview> budgetVersions) {
-        for (BudgetVersionOverview budgetVersion: budgetVersions) {
-            if (budgetVersion.getBudgetVersionNumber().equals(finalBudgetVersion)) {
-                budgetVersion.setFinalVersionFlag(true);
-            } else {
-                budgetVersion.setFinalVersionFlag(false);
-            }
-        }
-    }
-    
-    /**
      * This method looks at the list of budgetVersions for the final version, then returns the version number.
      * 
      * @param budgetVersions

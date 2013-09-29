@@ -66,11 +66,6 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
     protected String getKeyFieldName() {
         return "protocolOnlineReviewId";
     }
-    
-    protected String getUserIdentifier() {
-        return GlobalVariables.getUserSession().getPrincipalId();
-   }
-
 
    /**
     * 

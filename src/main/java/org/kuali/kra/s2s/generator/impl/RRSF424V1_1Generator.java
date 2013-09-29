@@ -716,29 +716,6 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		applicantType.setApplicantTypeCode(applicantTypeCode);
 		return applicantType;
 	}
-
-	/**
-	 * 
-	 * This method is used to get the answer for ProposalYnq
-	 * 
-	 * @param questionId
-	 *            for which the proposalYnq has to be found.
-	 * @return proposalYnq corresponding to the questionId.
-	 */
-	private ProposalYnq getAnswer(String questionId,
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		String question;
-		ProposalYnq ynq = null;
-		for (ProposalYnq proposalYnq : proposalDevelopmentDocument
-				.getDevelopmentProposal().getProposalYnqs()) {
-			question = proposalYnq.getQuestionId();
-			if (question != null && question.equals(questionId)) {
-				ynq = proposalYnq;
-				break;
-			}
-		}
-		return ynq;
-	}
 	
 	/**
      * 

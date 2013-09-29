@@ -48,7 +48,6 @@ public class PHS398CoverPageSupplementV1_1Generator extends
 		PHS398CoverPageSupplementBaseGenerator {
 		
     List<AnswerHeader> answerHeaders;
-	private static final String OSP_ADMINISTRATOR = "2";
 
 	/**
 	 * 

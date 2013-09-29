@@ -72,7 +72,6 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	private static final String ATTACHMENT_TYPE_BUDGET_DETAILS = "3";
 	private static final String ATTACHMENT_TYPE_STATEMENT_OF_COMMITMENT_DOC = "4";
 	protected static final int MAX_KEY_PERSON_COUNT = 8;
-    private static final String HIERARCHY_GOVERNMENT_AGENCY = "GOVERNMENT AGENCY";
 
 	List<ProposalPerson> extraPersons = new ArrayList<ProposalPerson>();
 
