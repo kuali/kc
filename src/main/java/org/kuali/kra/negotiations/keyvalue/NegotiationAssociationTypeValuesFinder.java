@@ -19,7 +19,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -32,8 +31,6 @@ import java.util.List;
 public class NegotiationAssociationTypeValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
     
     private BusinessObjectService businessObjectService;
-    private NegotiationService negotiationService;
-
     /**
      * Filter results based on whether the association is enabled.
      * @see org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder#getKeyValues()
@@ -65,16 +62,5 @@ public class NegotiationAssociationTypeValuesFinder extends ExtendedPersistableB
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    protected NegotiationService getNegotiationService() {
-        if (negotiationService == null) {
-            negotiationService = KraServiceLocator.getService(NegotiationService.class);
-        }
-        return negotiationService;
-    }
-
-    public void setNegotiationService(NegotiationService negotiationService) {
-        this.negotiationService = negotiationService;
     }
 }
