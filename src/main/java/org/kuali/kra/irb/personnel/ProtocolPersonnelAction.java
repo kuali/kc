@@ -28,10 +28,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
@@ -53,12 +51,10 @@ import java.util.Map;
  */
 public class ProtocolPersonnelAction extends ProtocolAction {
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelAction.class);
-    
+
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
     private static final String CONFIRM_NO_DELETE = "";
-    private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
 
 
     private ProtocolAttachmentService protocolAttachmentService;
@@ -315,21 +311,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /**
-     * This method for Watermark Service. 
-     */
-    private WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);  
-    }
-    
-    /**
-     * 
-     * This method for get Protocol Service.
-     * @return
-     */
-    private ProtocolPrintingService getProtocolPrintingService() {
-        return KraServiceLocator.getService(ProtocolPrintingService.class);
-    }
     /**
      * This method is to get selected person index.
      * Each person data is displayed in individual panel.

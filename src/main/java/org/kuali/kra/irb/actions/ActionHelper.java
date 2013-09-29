@@ -51,7 +51,6 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.print.ProtocolQuestionnairePrintingService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
@@ -170,7 +169,7 @@ public class ActionHelper extends ActionHelperBase {
     private ProtocolGenericActionBean protocolDeferBean;
     private ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
     private transient ProtocolSubmitActionService protocolSubmitActionService;
-    private transient ProtocolActionService protocolActionService;
+
     /*
      * Identifies the protocol "document" to print.
      */
@@ -552,13 +551,7 @@ public class ActionHelper extends ActionHelperBase {
         }
         return protocolSubmitActionService;
     }
-    
-    private ProtocolActionService getProtocolActionService() {
-        if (protocolActionService == null) {
-            protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        }
-        return protocolActionService;
-    }
+
     
     private boolean hasNotifyIrbPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB, (Protocol) getProtocol());
