@@ -60,7 +60,6 @@ public class AwardScheduleGenerationServiceImplTest {
     private static final String SF_269_EXPENDITURE_REPORT_CODE = "33";
     
     Award award;
-    List<AwardReportTerm> awardReportTerms;
     AwardReportTerm newAwardReportTerm;
     Frequency frequency;
     AwardScheduleGenerationServiceImpl awardScheduleGenerationServiceImpl;
@@ -74,8 +73,7 @@ public class AwardScheduleGenerationServiceImplTest {
     public void setUp() throws Exception {
         award = new Award();        
         frequency = new Frequency();        
-        awardReportTerms = new ArrayList<AwardReportTerm>();        
-        newAwardReportTerm = new AwardReportTerm();  
+        newAwardReportTerm = new AwardReportTerm();
         awardScheduleGenerationServiceImpl = new AwardScheduleGenerationServiceImpl();
         awardScheduleGenerationServiceImpl.setAwardAmountInfoService(new AwardAmountInfoServiceImpl());
         calendar = new GregorianCalendar();
@@ -90,7 +88,6 @@ public class AwardScheduleGenerationServiceImplTest {
     public void tearDown() throws Exception {
         frequency = null;
         newAwardReportTerm = null;
-        awardReportTerms = null;
         awardScheduleGenerationServiceImpl = null;
         newAwardReportTerm = null;
         calendar = null;

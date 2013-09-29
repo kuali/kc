@@ -29,12 +29,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
-
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  *  Base class for testing <code>{@link MaintenanceDocument}</code> instances
@@ -103,38 +98,6 @@ public abstract class MaintenanceRuleTestBase extends KcUnitTestBase {
     }
 
     /**
-     * This method creates a new instance of the specified ruleClass, injects the businessObject(s). With this method, the
-     * oldMaintainable will be set to null.
-     * 
-     * @param newBo - the populated businessObject for the newMaintainble
-     * @param ruleClass - the class of rule to instantiate
-     * @return a populated and ready-to-test rule, of the specified class
-     * @throws Exception 
-     */
-    protected <T extends MaintenanceDocumentRule> T setupMaintDocRule(PersistableBusinessObject newBo, Class<T> ruleClass) throws Exception {
-        MaintenanceDocument maintDoc = newMaintDoc(newBo);
-        return setupMaintDocRule(maintDoc, ruleClass);
-    }
-
-    /**
-     * This method first creates a new MaintenanceDocument with the BusinessObject(s) passed in. Note that the maintDoc is created
-     * and destroyed internally, and is never returned. This method then creates a new instance of the specified ruleClass, injects
-     * the businessObject(s).
-     * 
-     * @param oldBo - the populated businessObject for the oldMaintainable
-     * @param newBo - the populated businessObject for the newMaintainable
-     * @param ruleClass - the class of rule to instantiate
-     * @return a populated and ready-to-test rule, of the specified class
-     * @throws Exception 
-     */
-    protected <T extends MaintenanceDocumentRule> T setupMaintDocRule(PersistableBusinessObject oldBo, PersistableBusinessObject newBo, Class<T> ruleClass) throws Exception {
-
-        MaintenanceDocument maintDoc = newMaintDoc(oldBo, newBo);
-
-        return setupMaintDocRule(maintDoc, ruleClass);
-    }
-
-    /**
      * This method creates a new instance of the specified ruleClass, and then injects the maintenanceDocument and associated
      * business objects.
      * 
@@ -163,32 +126,6 @@ public abstract class MaintenanceRuleTestBase extends KcUnitTestBase {
         return rule;
     }
 
-    protected void testDefaultExistenceCheck(PersistableBusinessObject bo, String fieldName, boolean shouldFail) {
-
-        // init the error path
-        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
-
-        // run the dataDictionary validation
-        getDictionaryValidationService().validateDefaultExistenceChecks(bo);
-
-        // clear the error path
-        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
-
-        // assert that the existence of the error is what is expected
-        assertFieldErrorExistence(fieldName, "error.existence", shouldFail);
-
-    }
-
-    /**
-     * This method tests whether the expected number of errors exists in the errorMap. The assert will fail if this expected number
-     * isnt what is returned.
-     * 
-     * @param expectedErrorCount - the number of errors expected
-     */
-    protected void assertErrorCount(int expectedErrorCount) {
-        assertEquals(expectedErrorCount, GlobalVariables.getMessageMap().getErrorCount());
-    }
-
     /**
      * This method tests whether the field error exists and returns the result of this test.
      * 
@@ -214,19 +151,6 @@ public abstract class MaintenanceRuleTestBase extends KcUnitTestBase {
     }
 
     /**
-     * This method tests whether a given combination of fieldName and errorKey does NOT exist in the GlobalVariables.getMessageMap().
-     * The assert will fail if the fieldName & errorKey combination DOES exist. NOTE that fieldName should NOT include the prefix
-     * errorPath.
-     * 
-     * @param fieldName - fieldName as it would be provided when adding the error
-     * @param errorKey - errorKey as it would be provided when adding the error
-     */
-    protected void assertFieldErrorDoesNotExist(String fieldName, String errorKey) {
-        boolean result = doesFieldErrorExist(fieldName, errorKey);
-        assertTrue("FieldName (" + fieldName + ") should NOT contain errorKey: " + errorKey, !result);
-    }
-
-    /**
      * This method tests whether a given combination of fieldName and errorKey exists in the GlobalVariables.getMessageMap(). The
      * assert will fail if the fieldName & errorKey combination doesnt exist. NOTE that fieldName should NOT include the prefix
      * errorPath.
@@ -237,53 +161,6 @@ public abstract class MaintenanceRuleTestBase extends KcUnitTestBase {
     protected void assertFieldErrorExists(String fieldName, String errorKey) {
         boolean result = GlobalVariables.getMessageMap().fieldHasMessage(MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX + fieldName, errorKey);
         assertTrue("FieldName (" + fieldName + ") should contain errorKey: " + errorKey, result);
-    }
-
-    /**
-     * This method tests whether a given errorKey exists on the document itself (ie, not tied to a specific field). The assert will
-     * fail if the errorKey already exists on the document.
-     * 
-     * @param errorKey - errorKey as it would be provided when adding the error
-     */
-    protected void assertGlobalErrorExists(String errorKey) {
-        boolean result = GlobalVariables.getMessageMap().fieldHasMessage(DOCUMENT_ERRORS, errorKey);
-        assertTrue("Document should contain errorKey: " + errorKey, result);
-    }
-
-
-    /**
-     * This method is used during debugging to dump the contents of the error map, including the key names. It is not used by the
-     * application in normal circumstances at all.
-     */
-    protected void showErrorMap() {
-
-        if (GlobalVariables.getMessageMap().hasNoErrors()) {
-            return;
-        }
-
-        for (Iterator i = GlobalVariables.getMessageMap().getErrorMessages().entrySet().iterator(); i.hasNext();) {
-            Map.Entry e = (Map.Entry) i.next();
-
-            AutoPopulatingList errorList = (AutoPopulatingList) e.getValue();
-            for (Iterator j = errorList.iterator(); j.hasNext();) {
-                ErrorMessage em = (ErrorMessage) j.next();
-
-                if (em.getMessageParameters() == null) {
-                    LOG.error(e.getKey().toString() + " = " + em.getErrorKey());
-                }
-                else {
-                    StringBuffer messageParams = new StringBuffer();
-                    String delim = "";
-                    for (int k = 0; k < em.getMessageParameters().length; k++) {
-                        messageParams.append(delim + "'" + em.getMessageParameters()[k] + "'");
-                        if ("".equals(delim)) {
-                            delim = ", ";
-                        }
-                    }
-                    LOG.error(e.getKey().toString() + " = " + em.getErrorKey() + " : " + messageParams.toString());
-                }
-            }
-        }
     }
     
     /**

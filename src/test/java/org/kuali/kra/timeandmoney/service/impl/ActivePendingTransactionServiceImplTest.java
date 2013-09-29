@@ -119,11 +119,6 @@ public class ActivePendingTransactionServiceImplTest {
                 
     }
     
-    //@Test
-    public void testProcessPendingTransaction(){
-        //activePendingTransactionsServiceImpl.processPendingTransaction(doc, newAwardAmountTransaction, updatedPendingTransactions, parentNode, transactionDetailItems, awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, sourceAwardNode, destinationAwardNode);
-    }
-    
     @Test
     public void testUpdateAmountFields(){        
         AwardAmountInfo aai = new AwardAmountInfo();        
@@ -187,7 +182,8 @@ public class ActivePendingTransactionServiceImplTest {
         Assert.assertEquals(TEN_THOUSAND, nai.getAnticipatedChange());       
         
     }
-    
+
+    @Test
     public void testValidateAntiDistributableAmount(){
         AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
         pt.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);

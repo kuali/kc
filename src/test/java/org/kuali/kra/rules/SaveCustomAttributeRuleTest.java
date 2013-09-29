@@ -32,7 +32,6 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -46,21 +45,18 @@ import java.util.UUID;
 // need more generic class for extension, so we can test other modules, such as budget too
 public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase {
     private CustomDataRule rule = null;
-    private BusinessObjectService bos;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
         rule = new CustomDataRule();
-        bos = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
     @Override
     @After
     public void tearDown() throws Exception {
         rule = null;
-        bos = null;
         super.tearDown();
     }
 

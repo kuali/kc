@@ -30,12 +30,10 @@ import java.util.Map;
 public class KcPersonServiceImplTest extends KcUnitTestBase {
     
     private KcPersonService service;
-    private KcPersonServiceImpl service2;
 
     @Before
     public void getServices() throws Exception {
         service = KraServiceLocator.getService(KcPersonService.class);
-        service2 = (KcPersonServiceImpl)KraServiceLocator.getService(KcPersonService.class);
     }
     
     @Test

@@ -30,7 +30,6 @@ import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -48,7 +47,6 @@ import static org.hamcrest.core.IsNot.not;
  */
 public class ProtocolVersioningTest extends KcUnitTestBase {
     
-    private BusinessObjectService bos;
     private DocumentService documentService;
     private VersioningService versioningService;
     private ProtocolDocument ver1;
@@ -188,7 +186,6 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
     
     private void locateServices() {
         documentService = KraServiceLocator.getService(DocumentService.class);
-        bos = KraServiceLocator.getService(BusinessObjectService.class);
         versioningService = KraServiceLocator.getService(VersioningService.class);
     }
     

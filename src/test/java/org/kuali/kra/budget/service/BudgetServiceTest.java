@@ -19,7 +19,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.core.BudgetCommonService;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
@@ -42,7 +41,6 @@ import java.util.UUID;
  */
 public class BudgetServiceTest extends KcUnitTestBase {
     
-    private BudgetService budgetService;
     private BudgetCommonService budgetCommonService;
     private ProposalDevelopmentService proposalDevelopmentService;
     
@@ -50,7 +48,6 @@ public class BudgetServiceTest extends KcUnitTestBase {
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        budgetService = getService(BudgetService.class);
         budgetCommonService = getService(ProposalBudgetService.class);
         proposalDevelopmentService = getService(ProposalDevelopmentService.class);
     }
@@ -58,7 +55,6 @@ public class BudgetServiceTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        budgetService = null;
         super.tearDown();
     }
     

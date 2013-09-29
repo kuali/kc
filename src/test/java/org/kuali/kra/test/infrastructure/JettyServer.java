@@ -194,15 +194,4 @@ public class JettyServer implements Lifecycle {
                                         .append("servletClass", servletClass)
 	                                    .toString();
 	}
-
-    public static void main(String[] args) {
-        int port = args.length > 0 ? Integer.parseInt(args[0]) : 8080;
-        String contextName = args.length > 1 ? args[1] : null;
-        String relativeWebappRoot = args.length > 2 ? args[2] : null;
-        try {
-            new JettyServer(port, contextName, relativeWebappRoot).start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

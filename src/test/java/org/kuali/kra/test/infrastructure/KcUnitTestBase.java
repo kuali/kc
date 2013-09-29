@@ -37,7 +37,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.HashMap;
 
 /**
@@ -245,17 +244,6 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
      */
     protected final <T> T getService(Class<T> serviceClass) {
         return KraServiceLocator.getService(serviceClass);
-    }
-    
-    /**
-     * Gets the path of a given class file.
-     * @param clazz the class
-     * @return the path
-     */
-    protected String getFilePath(Class<?> clazz) {
-        URL fileUrl = getClass().getResource("/" + clazz.getCanonicalName().replaceAll("\\.", "/") + ".class");
-        assertNotNull(fileUrl);
-        return fileUrl.getPath();
     }
 
     protected void updateParameterForTesting(Class componentClass, String parameterName, String newValue) {

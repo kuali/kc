@@ -19,7 +19,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -41,9 +40,7 @@ public class AwardCostShareRuleTest extends KcUnitTestBase {
     private static final Integer COMMITMENT_AMOUNT = 10000;
     AwardCostShareRuleImpl awardCostShareRule;
     AwardCostShare awardCostShare;
-    AwardDocument awardDocument;
-    AwardCostShareRuleEvent awardCostShareRuleEvent;
-    
+
     /**
      * This method...
      * @throws java.lang.Exception

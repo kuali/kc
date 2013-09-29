@@ -40,7 +40,6 @@ public class InstitutionalProposalCreditSplitBeanTest {
     private InstitutionalProposal institutionalProposal;
     private InstitutionalProposalCreditSplitBean bean;
     private static final KualiDecimal MAX_VALUE = new KualiDecimal("100.00");
-    private static final KualiDecimal ZERO_VALUE = new KualiDecimal("0.00");
     private static final String ERROR_MSG_PATTERN = "Error on Person : %s Role: %s: %s";
 
     @SuppressWarnings("serial")

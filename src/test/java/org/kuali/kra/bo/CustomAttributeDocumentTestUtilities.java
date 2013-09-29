@@ -30,8 +30,7 @@ public class CustomAttributeDocumentTestUtilities {
     public static final String BILLING_ELEMENT_VALUE = "This is billing element";
     public static final String GRADUATE_STUDENT_COUNT_VALUE = "5";
     public static final String LOCAL_REVIEW_DATE_VALUE = "02/08/2008";
-    public static final String TENURED_VALUE = "tdurkin";
-    
+
     // custom attriutes
     public static Map<String, CustomAttributeDocument> setupTestCustomAttributeDocuments() {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();

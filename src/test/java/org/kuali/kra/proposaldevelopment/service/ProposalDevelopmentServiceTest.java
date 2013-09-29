@@ -32,8 +32,7 @@ public class ProposalDevelopmentServiceTest extends KcUnitTestBase {
     private ProposalDevelopmentService proposalDevelopmentService;
     private BudgetService budgetService;
     private ProposalDevelopmentDocument document;
-    private DevelopmentProposal proposal;
-    
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -41,7 +40,6 @@ public class ProposalDevelopmentServiceTest extends KcUnitTestBase {
         budgetService = KraServiceLocator.getService(BudgetService.class);
         document = ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT.getDocument();
         document.getDevelopmentProposal().setPrimeSponsorCode("000120");
-        proposal = document.getDevelopmentProposal();
     }
     
     @After

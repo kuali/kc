@@ -41,7 +41,6 @@ public class AwardDirectFandADistributionRuleTest {
     private static final int EIGHT = 8;
     AwardDirectFandADistributionRuleImpl awardDirectFandADistributionRuleImpl;
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
-    AwardDirectFandADistribution awardDirectFandADistribution;
     Award award;
     
     /**
@@ -51,7 +50,6 @@ public class AwardDirectFandADistributionRuleTest {
     @Before
     public void setUp() throws Exception {
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
-        awardDirectFandADistribution = new AwardDirectFandADistribution();
         awardDirectFandADistributionRuleImpl = new AwardDirectFandADistributionRuleImpl();
         award = new Award();
         setAwardDatesToDefault();
@@ -68,7 +66,6 @@ public class AwardDirectFandADistributionRuleTest {
     @After
     public void tearDown() throws Exception {
         awardDirectFandADistributions = null;
-        awardDirectFandADistribution = null;
         awardDirectFandADistributionRuleImpl = null;
         award = null;
     }
@@ -200,16 +197,6 @@ public class AwardDirectFandADistributionRuleTest {
         calendar.add(Calendar.MONTH, SIX);
         calendar.add(Calendar.YEAR, 1);
         award.getAwardDirectFandADistributions().get(0).setEndDate(new Date(calendar.getTime().getTime()));
-    }
-    
-    /**
-     * This method creates and returns a Date object prior to the Award start date.
-     * @return
-     */
-    public Date getDatePriorToProjectStartDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, NEGATIVE_THREE);
-        return new Date(calendar.getTime().getTime());
     }
     
     /**

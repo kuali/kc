@@ -19,7 +19,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 
@@ -38,10 +37,7 @@ public abstract class PersistableBusinessObjectValuesFinderTestBase extends KcUn
         testKeyValues = new ArrayList<KeyValue>();
         addKeyValues();
     }
-    
-    protected void addKeyValue(String typeCode, String typeValue) {
-        testKeyValues.add(new ConcreteKeyValue(typeCode, typeValue));
-    }
+
     
     /**
      * This method should be overridden by subclasses

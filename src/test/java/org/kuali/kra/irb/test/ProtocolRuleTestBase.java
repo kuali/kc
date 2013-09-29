@@ -42,7 +42,6 @@ public abstract class ProtocolRuleTestBase extends KcUnitTestBase {
 
     protected DocumentService documentService = null;
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";
-    protected static final String PROTOCOL_STATUS_STR = "100"; //test of option "Pending/In Progress";
     protected static final String PROTOCOL_TYPE_CODE_STR = "1";//test of option "Standard";
     protected static final String PROTOCOL_TITLE_STR = "New protocol test";
     protected static final String PRINCIPAL_INVESTIGATOR_ID = "10000000001";
