@@ -28,19 +28,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public abstract class InstitutionalProposalBaseStream implements XmlStream {
 	protected DateTimeService dateTimeService;
 	protected BusinessObjectService businessObjectService = null;
-	protected String personName;
-	public static final String PERSON_ID = "personId";
-	
-	protected static final int PROPOSAL_TYPE_NEW = 1;
-	protected static final int PROPOSAL_TYPE_CONTINUATION = 2;
-	protected static final int PROPOSAL_TYPE_RESUBMISSION = 4;
-	protected static final int PROPOSAL_TYPE_REVISION = 5;
-	protected static final int PROPOSAL_TYPE_TASK_ORDER = 6;
-	protected static final int PROPOSAL_TYPE_CODE_8 = 8;
-	protected static final int PROPOSAL_STATUS_PENDING = 1;
-	protected static final int PROPOSAL_STATUS_REVISION_REQUESTED = 6;
-	protected static final int AWARD_STATUS_ACTIVE = 1;
-	protected static final int AWARD_STATUS_PENDING = 3;
 
 	
 

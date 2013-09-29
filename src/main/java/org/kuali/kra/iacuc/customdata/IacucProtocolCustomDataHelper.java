@@ -45,14 +45,7 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase<
     public IacucProtocolCustomDataHelper(IacucProtocolForm form) {
         super(form);
     }
-    
-    protected String getCanModifyOthersTaskNameHook() {
-        return TaskName.MODIFY_IACUC_PROTOCOL_OTHERS;
-    }
-//  /**
-//  * @see org.kuali.kra.common.customattributes.CustomDataHelperBase#canModifyCustomData()
-//  */
-// @Override
+
     public boolean canModifyCustomData() {
         ProtocolTaskBase task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_OTHERS, (IacucProtocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);

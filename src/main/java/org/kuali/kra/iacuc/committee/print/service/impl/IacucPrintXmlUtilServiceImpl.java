@@ -43,7 +43,6 @@ import java.util.Map;
 
 public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
-    private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ReviewCommentsService reviewCommentsService;
     
@@ -265,16 +264,6 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
                 }
             }  
         }
-    }
-   
-        
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /**

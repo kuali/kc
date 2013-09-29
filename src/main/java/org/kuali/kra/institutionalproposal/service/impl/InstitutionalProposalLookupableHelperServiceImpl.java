@@ -52,9 +52,6 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     private static final String MERGE_PROPOSAL_LOG_ACTION = "mergeProposalLog.do";
     private static final String AWARD_HOME_ACTION = "awardHome.do";
     private static final String OPEN = "open";
-    private static final String STAT_PENDING = "1";  // Pending
-    private static final String STAT_FUNDED  = "2";  // Funded
-    private static final String STAT_REV_REQ = "6";  // Revision Requested
     
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
@@ -270,12 +267,6 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
             devProposals.add(devProp);
         }
         return devProposals;
-    }
-    
-    private String getDevelopmentProposalDocumentNumberFromDescription(String proposalDescription) {
-        String[] splitProposalDescription = proposalDescription.split(" ");
-        String returnVal = splitProposalDescription[splitProposalDescription.length - 1];
-        return returnVal;
     }
 
     protected Map<String, Object> getFieldValues(String key, Object value){

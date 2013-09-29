@@ -50,8 +50,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**
@@ -292,21 +290,6 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
             }
         }    
         return complete;
-    }   
-    
-    /**
-     * This method splits the string into object code and person id.
-     * @param person
-     * @return
-     * @throws Exception
-     */
-    protected String[] getElements(String person) throws Exception {
-        if (person.contains(",")) {
-            String[] personElements = person.split(",");
-            return personElements;
-        }
-        LOG.error("The string is not in the format objectCode,personId  . Unable to retrieve object code.");
-        throw new Exception("The string " + person + "is not in the format objectCode,personId  . Unable to retrieve object code.");
     }
     
     /**
@@ -485,35 +468,6 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         }
         
     }
-
-    /**
-     * This method gets the parameter list which is in the form key=financialSystemCode, checks if the kcCode
-     * is found and returns the corresponding financial code.
-     * @param parameterName
-     * @param kcCode
-     * @return
-     */
-    protected String getParameterValue(String parameterName, String key) {
-        Collection<String> parameterValues = parameterService.getParameterValuesAsString(
-                                                            Constants.PARAMETER_MODULE_AWARD, 
-                                                            Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                                                            parameterName);
-        String REGEX = "(.+)\\s*=\\s*(.+)";
-        String parameterValue = "";
-        Pattern pattern = Pattern.compile(REGEX);
-        for (String value : parameterValues) {
-            Matcher matcher = pattern.matcher(value);
-            if (matcher.find()) {
-                if (matcher.group(1).equalsIgnoreCase(key)) {
-                    parameterValue = matcher.group(2);
-                }
-            } else {
-                // Throw error on console too
-                LOG.error("Did not find = in the parameter values. Invalid parameter values.");
-            }
-        }   
-        return parameterValue;
-    }
   
     
     /**
@@ -524,10 +478,6 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     protected String getAwardChart(AwardBudgetDocument awardBudgetDocument) {
         Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
         return award.getFinancialChartOfAccountsCode();
-    }
-    
-    protected String getProjectCode() {
-        return "";    
     }
    
     /**

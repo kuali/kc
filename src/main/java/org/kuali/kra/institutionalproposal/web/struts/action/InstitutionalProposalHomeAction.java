@@ -17,8 +17,6 @@ package org.kuali.kra.institutionalproposal.web.struts.action;
 
 import org.apache.commons.httpclient.auth.AuthenticationException;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -70,7 +68,6 @@ import java.util.Map;
  * This class...
  */
 public class InstitutionalProposalHomeAction extends InstitutionalProposalAction {
-    private static final Log LOG = LogFactory.getLog(InstitutionalProposalHomeAction.class);
     private static final String VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
 
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;

@@ -46,7 +46,6 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
     static final String PERSON_TOTALS_KEY = "personTotalsKey";
     
     private static Log LOGGER = LogFactory.getLog(InstitutionalProposalCreditSplitBean.class);
-    private static final String PARM_TYPE_CODE = "D";
     private static final String YES = "Y";
     private static final String PROPOSAL_CREDIT_SPLIT_PARM_NAME = "institutionalproposal.creditsplit.enabled";
     private static final KualiDecimal ZERO_VALUE = new KualiDecimal(0);

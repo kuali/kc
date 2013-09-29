@@ -36,7 +36,6 @@ import java.util.*;
 public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionService {
     
     private static final String PROTOCOL_NUMBER = "protocolNumber";
-    private static final String SUBMISSION_NUMBER = "submissionNumber";
 
     private static final String SUBMIT_TO_IRB = "Submitted to IRB";
     

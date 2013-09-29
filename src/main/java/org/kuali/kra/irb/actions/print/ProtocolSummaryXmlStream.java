@@ -49,7 +49,6 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryXmlStreamBase;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -713,11 +712,6 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
     public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
         this.institutionalProposalService = institutionalProposalService;
-    }
-
-    protected final boolean hasPermission(String userId, Protocol protocol, String permissionName) {
-        
-        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(userId, protocol, permissionName);
     }
  
     public AwardService getAwardService() {

@@ -15,30 +15,11 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 public class IacucProtocolAssignToCmtUnavailableAuthorizer extends IacucProtocolAuthorizer {
-    
-    /**
-     * Find the submission.  It is the submission that is either currently pending or
-     * already submitted to a committee. 
-     * @param protocol
-     * @return
-     */
-    private ProtocolSubmissionBase findSubmission(ProtocolBase protocol) {
-        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.PENDING) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return submission;
-            }
-        }
-        return null;
-    }
 
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {

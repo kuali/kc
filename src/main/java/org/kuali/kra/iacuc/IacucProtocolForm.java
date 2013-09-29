@@ -167,10 +167,6 @@ public class IacucProtocolForm extends ProtocolFormBase {
         return new IacucQuestionnaireHelper(form);
     }
 
-    protected IacucActionHelper createNewActionHelper(ProtocolFormBase protocolForm) throws Exception {
-        return new IacucActionHelper(protocolForm);
-    }
-
     @Override
     public String getModuleCode() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;

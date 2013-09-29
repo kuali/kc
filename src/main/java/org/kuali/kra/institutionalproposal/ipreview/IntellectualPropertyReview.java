@@ -77,8 +77,6 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
 
     private Long proposalIdToLink;
 
-    private KcPerson person;
-
     private transient ParameterService parameterService;
 
     private transient KcPersonService kcPersonService;
