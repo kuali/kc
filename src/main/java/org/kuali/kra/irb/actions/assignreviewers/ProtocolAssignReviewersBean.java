@@ -86,10 +86,6 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
         }
     }
     
-    private ProtocolAssignReviewersService getProtocolAssignReviewersService() {
-        return KraServiceLocator.getService(ProtocolAssignReviewersService.class);
-    }
-    
     private CommitteeService getCommitteeService() {
         return KraServiceLocator.getService(CommitteeService.class);
     }

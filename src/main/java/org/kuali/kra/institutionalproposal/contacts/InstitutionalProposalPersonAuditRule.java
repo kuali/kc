@@ -137,16 +137,5 @@ public class InstitutionalProposalPersonAuditRule implements DocumentAuditRule {
         }
         return principalInvestigators; 
     }
-    
-    protected List<InstitutionalProposalPersonUnit> getPIUnits(List<InstitutionalProposalPerson> projectPersons) {
-        List<InstitutionalProposalPersonUnit> units = new ArrayList<InstitutionalProposalPersonUnit>();
-        for(InstitutionalProposalPerson p: projectPersons) {
-            if(p.isPrincipalInvestigator() ) {
-                for(InstitutionalProposalPersonUnit apu: p.getUnits()) {
-                    units.add(apu);
-                }
-            }
-        }
-        return units; 
-    }
+
 }

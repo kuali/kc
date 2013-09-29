@@ -20,7 +20,6 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -97,30 +96,6 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
     
     private boolean isProjectPersonInvestigator(InstitutionalProposalPerson projectPerson) {
         return projectPerson.isCoInvestigator() || projectPerson.isPrincipalInvestigator();
-    }
-    /**
-     * verify no duplicate units for a person
-     * @param projectPersons
-     * @return
-     */
-    boolean checkForDuplicateUnits(List<InstitutionalProposalPerson> projectPersons) {
-        boolean valid = true;
-        for(InstitutionalProposalPerson p: projectPersons) {
-            Set<Unit> uniqueUnits = new HashSet<Unit>();
-            List<Unit> tempUnits = new ArrayList<Unit>();
-            for(InstitutionalProposalPersonUnit apu: p.getUnits()) {
-                uniqueUnits.add(apu.getUnit());
-                tempUnits.add(apu.getUnit());
-            }
-            
-            valid &= tempUnits.size() == uniqueUnits.size();
-            if(!valid) {
-                removeUniqueUnitsFromAllUnits(uniqueUnits, tempUnits);
-                reportDuplicateUnits(p, tempUnits);
-            }
-        }
-        
-        return valid;
     }
 
     private void reportDuplicateUnits(InstitutionalProposalPerson p, List<Unit> tempUnits) {

@@ -24,8 +24,6 @@ import org.kuali.kra.rule.BusinessRuleInterface;
  */
 public class AddIacucProtocolPersonnelEvent extends AddProtocolPersonnelEventBase {
     
-    private IacucProtocolPerson protocolPerson;
-    
     /**
      * Constructs a AddProtocolPersonnelEventBase.
      * @param errorPathPrefix The error path prefix

@@ -23,7 +23,6 @@ import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -245,10 +244,6 @@ public class ProtocolDocument extends ProtocolDocumentBase {
             }
             getBusinessObjectService().save(newDocPaToUse);
         }   
-    }    
-    
-    private KcNotificationService getKcNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
     }
     
     private boolean isEligibleForMerging(String status, Protocol otherProtocol) {

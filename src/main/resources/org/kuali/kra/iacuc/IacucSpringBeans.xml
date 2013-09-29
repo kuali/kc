@@ -891,38 +891,7 @@
 		p:callbackService-ref="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeService" 
 		p:localServiceName="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
-    
-    <!-- Protocol Print -->
-<!-- 	<bean id="iacucPrintXmlUtilService" -->
-<!-- 		class="org.kuali.kra.iacuc.committee.print.service.impl.IacucPrintXmlUtilServiceImpl"> -->
-<!-- 		<property name="businessObjectService" ref="businessObjectService" /> -->
-<!-- 		<property name="dateTimeService" ref="dateTimeService" />   -->
-<!-- 		<property name="reviewCommentsService" ref="iacucReviewCommentsService" /> -->
-		
-<!-- 	</bean> -->
-	
-    
-<!-- 	<bean id="iacucScheduleXmlStream" class="org.kuali.kra.iacuc.committee.print.IacucScheduleXmlStream" -->
-<!-- 		parent="printBaseXmlStream"> -->
-<!-- 		<property name="printXmlUtilService"> -->
-<!-- 			<ref bean="iacucPrintXmlUtilService" /> -->
-<!-- 		</property> -->
-<!-- 		<property name="committeeMembershipService"> -->
-<!-- 			<ref bean="iacucCommitteeMembershipService" /> -->
-<!-- 		</property> -->
-<!-- 		<property name="kcPersonService"> -->
-<!-- 			<ref bean="kcPersonService" /> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-    
-<!-- 	<bean id="iacucCommitteeXmlStream" class="org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream" parent="printBaseXmlStream"> -->
-<!-- 		<property name="scheduleXmlStream"> -->
-<!-- 			<ref bean="iacucScheduleXmlStream" /> -->
-<!-- 		</property> -->
-<!-- 		<property name="printXmlUtilService"> -->
-<!-- 			<ref bean="iacucPrintXmlUtilService" /> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
+
     
     <bean id="iacucProtocolXmlStream"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolXmlStream" parent="printBaseXmlStream">

@@ -16,8 +16,6 @@
 package org.kuali.kra.institutionalproposal.proposallog.printing;
 
 import noNamespace.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -41,7 +39,6 @@ import java.util.Map;
  */
 public class ProposalLogXmlStream implements XmlStream {
 	
-	private final static Log LOG=LogFactory.getLog(ProposalLogXmlStream.class);
 	private DateTimeService dateTimeService;
 	private BusinessObjectService businessObjectService = null;
 

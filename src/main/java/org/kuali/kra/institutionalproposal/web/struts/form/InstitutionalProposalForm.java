@@ -42,7 +42,6 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -314,15 +313,6 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
      */
     public void setSelectedLeadUnit(String unitName) {
         projectPersonnelBean.setSelectedLeadUnit(unitName);
-    }
-
-    /**
-     * 
-     * This method is a wrapper method for getting DataDictionary Service using the Service Locator.
-     * @return
-     */
-    protected DataDictionaryService getDataDictionaryService(){
-        return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
     }
     
     /**

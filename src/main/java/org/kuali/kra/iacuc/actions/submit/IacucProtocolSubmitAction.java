@@ -71,10 +71,6 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
         super(actionHelper);
     }
 
-    protected Class<? extends ProtocolReviewerBeanBase> getProtocolReviewerBeanClassHook() {
-        return IacucProtocolReviewerBean.class;        
-    }
-
     /**
      * Prepare the Submit for Review for rendering with JSP.
      */

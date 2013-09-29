@@ -278,14 +278,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         setFiscalMonth(monthString);
         setFiscalYear(this.getFiscalYearMonthService().getCurrentFiscalYear().toString());
     }
-
-    /**
-     * This method returns a business object service
-     * @return
-     */
-    protected BusinessObjectService getKraBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
-    }
     
     /**
      * Gets the institutionalProposalDocument attribute. 
@@ -1658,26 +1650,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
             }
         }
         return commentMap;
-    }
-
-    /**
-     * 
-     * This method retrieves PROPOSAL_LOG.INST_PROPOSAL_NUMBER
-     * from the DB for the current proposal number
-     */
-    void retrieveInstProposalNumberFromDB()
-    {
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("proposalNumber", proposalNumber);
-        ProposalLog proposalLog = (ProposalLog)getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
-        if (proposalLog == null)
-        {
-            instProposalNumber = null;
-        }
-        else
-        {
-            instProposalNumber = proposalLog.getInstProposalNumber();
-        }
     }
     
     public void setLookupUnit(Unit lookupUnit) {

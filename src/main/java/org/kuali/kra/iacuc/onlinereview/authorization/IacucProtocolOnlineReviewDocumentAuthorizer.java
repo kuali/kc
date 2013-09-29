@@ -26,7 +26,6 @@ import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -47,7 +46,6 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     public static final String CAN_EDIT_DETERMINATION = "canEditDetermination";
     public static final String CAN_SAVE = "canSave";
 
-    private transient KraWorkflowService kraWorkflowService;
     private transient IacucCommitteeScheduleService committeeScheduleService;
     
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {

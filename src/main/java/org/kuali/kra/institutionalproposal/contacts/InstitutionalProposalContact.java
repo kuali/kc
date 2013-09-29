@@ -41,7 +41,6 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
 
-    private static final String PERSON_ID_FIELD_NAME = "personId";
 
     /**
      * These field are OJB hacks. Because anonymous access wouldn't work for more than one field, the institutionalProposal,
