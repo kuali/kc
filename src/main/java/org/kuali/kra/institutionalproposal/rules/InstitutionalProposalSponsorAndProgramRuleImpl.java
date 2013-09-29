@@ -38,11 +38,6 @@ import java.util.Map;
 public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocumentRuleBase implements
         InstitutionalProposalSponsorAndProgramRule {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -4913188586827287608L;
-
 
     /**
      * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalSponsorAndProgramRule#processInstitutionalProposalSponsorAndProgramRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddUnrecoveredFandARuleEvent)

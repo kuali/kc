@@ -114,32 +114,6 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
         return isValid;
     }
     
-    protected boolean isValidIdcRate(Award award) {
-        List<AwardFandaRate> rates = award.getAwardFandaRate();
-        boolean isValid = true;
-        if (ObjectUtils.isNull(rates) || rates.size() == 0) {
-            GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, 
-                                                    KeyConstants.AWARD_F_AND_A_RATE_NOT_SPECIFIED);
-            isValid = false;
-        } else {
-            for (AwardFandaRate rate : rates) {
-                String rateClassCode = rate.getFandaRateType().getRateClassCode();
-                String rateTypeCode = rate.getFandaRateType().getRateTypeCode();
-                FinancialIndirectCostRecoveryTypeCode icrCostTypeCode = getIndirectCostRecoveryTypeCode(rateClassCode, rateTypeCode);
-                String icrRateCode = getIcrRateCode(rate);
-                if (ObjectUtils.isNull(icrCostTypeCode) || StringUtils.isEmpty(icrCostTypeCode.getIcrTypeCode())) {
-                    String errorParameter = "(" + rateClassCode + ", " + rateTypeCode + ")";
-                    GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, KeyConstants.AWARD_ICR_RATE_TYPE_CODE_EMPTY, errorParameter);
-                    isValid &= false;
-                }
-                if (ObjectUtils.isNull(icrRateCode) || StringUtils.isEmpty(icrRateCode)) {
-                    GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, KeyConstants.AWARD_ICR_RATE_CODE_EMPTY, rate.getApplicableFandaRate()+"");
-                }
-            }
-        }
-        return isValid;
-    }
-    
     protected FinancialIndirectCostRecoveryTypeCode getIndirectCostRecoveryTypeCode(String rateClassCode, String rateTypeCode) {
         Map <String, Object> criteria = new HashMap<String, Object>();
         criteria.put("rateClassCode", rateClassCode);

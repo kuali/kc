@@ -47,7 +47,6 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    private static final String SUBMISSION_NUMBER = "submissionNumber";
     private static final String SUBMISSION_QUESTIONNAIRE = "submissionQuestionnaire";
 
     @Override

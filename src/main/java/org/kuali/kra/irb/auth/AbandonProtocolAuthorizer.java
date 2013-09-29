@@ -18,23 +18,11 @@ package org.kuali.kra.irb.auth;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 
  * This class to check whether user has authorization to abandon protocol
  */
 public class AbandonProtocolAuthorizer extends ProtocolAuthorizer {
-
-    private static final List<String> APPROVE_ACTION_TYPES;
-    static {
-        final List<String> codes = new ArrayList<String>();     
-        codes.add(ProtocolActionType.APPROVED);
-        codes.add(ProtocolActionType.EXPEDITE_APPROVAL);
-        codes.add(ProtocolActionType.GRANT_EXEMPTION);
-        APPROVE_ACTION_TYPES = codes;
-    }
 
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)

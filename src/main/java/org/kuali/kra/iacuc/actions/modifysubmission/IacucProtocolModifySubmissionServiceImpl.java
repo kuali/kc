@@ -180,20 +180,6 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         }
     }
     
-    protected ProtocolSubmissionBase findSubmission(ProtocolBase protocol) {
-        // need to loop thru to find the last submission.
-        // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
-        ProtocolSubmissionBase protocolSubmission = null;
-        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.PENDING) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                protocolSubmission = submission;
-            }
-        }
-        return protocolSubmission;
-
-    }
-    
     protected void removeReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase protocolReviewBean,String annotation) {
         //We need to send the notification prior to the online review being removed in order to satisfy the kim role recipients requirements
         ProtocolOnlineReviewDocumentBase onlineReviewDocument = 

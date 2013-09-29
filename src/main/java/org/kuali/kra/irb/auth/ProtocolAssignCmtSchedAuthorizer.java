@@ -19,9 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
@@ -38,21 +36,5 @@ public class ProtocolAssignCmtSchedAuthorizer extends ProtocolAuthorizer {
                !StringUtils.equals(ProtocolSubmissionStatus.APPROVED, protocol.getProtocolSubmission().getSubmissionStatusCode()) &&
                !StringUtils.equals(ProtocolSubmissionStatus.EXEMPT, protocol.getProtocolSubmission().getSubmissionStatusCode()) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
-    }
-    
-    /**
-     * Find the submission.  It is the submission that is either currently pending or
-     * already submitted to a committee. 
-     * @param protocol
-     * @return
-     */
-    private ProtocolSubmission findSubmission(Protocol protocol) {
-        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return (ProtocolSubmission) submission;
-            }
-        }
-        return null;
     }
 }

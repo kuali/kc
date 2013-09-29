@@ -114,29 +114,6 @@ public class ProtocolActionServiceImpl extends ProtocolActionServiceImplBase imp
         rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
                 .getRightId()) : false;
-    } 
-
-
-    /**
-     * This method is to check if user has permission in committee home unit
-     */
-    protected boolean hasPermissionAsCommitteeMember(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
-        rightMapper.setActionTypeCode(actionTypeCode);
-        rightMapper.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
-        rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
-        rulesList.get(PERMISSIONS_COMMITTEEMEMBERS_RULE).executeRules(rightMapper);
-        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-                KC_PROTOCOL, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO) : false;
-    }
-
-    /**
-     * This method is to check if user has permission for special cases.
-     */
-    protected boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
-        rightMapper.setActionTypeCode(actionTypeCode);
-        rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
-        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
-                KC_PROTOCOL, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
     
     /**

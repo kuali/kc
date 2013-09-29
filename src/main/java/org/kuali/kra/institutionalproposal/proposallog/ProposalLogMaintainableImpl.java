@@ -34,8 +34,6 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     private static final long serialVersionUID = 4690638717398206040L;
     private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
     
-    private static final int FISCAL_YEAR_OFFSET = 6;
-    
     private transient DateTimeService dateTimeService;
     private transient FiscalYearMonthService fiscalYearMonthService;
     private transient InstitutionalProposalService institutionalProposalService;

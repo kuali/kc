@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.notifyiacuc;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubRevType;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
@@ -59,29 +57,5 @@ public class SubmissionReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
         }
         
         return keyValues;
-    }
-
-    /**
-     * There are many submission qualifier types but only a few are available
-     * for a Notify IRB request.
-     * @param submissionQualifierType the submission qualifier type
-     * @return true if applicable; otherwise false
-     */
-    private boolean isAllowed(IacucProtocolSubmissionQualifierType submissionQualifierType) {
-        String typeCodes[] = { IacucProtocolSubmissionQualifierType.AE_UADE,
-                IacucProtocolSubmissionQualifierType.ANNUAL_REPORT,
-                IacucProtocolSubmissionQualifierType.ANNUAL_REPORT,
-                IacucProtocolSubmissionQualifierType.COMPLAINT,
-                IacucProtocolSubmissionQualifierType.DEVIATION,
-                IacucProtocolSubmissionQualifierType.IACUC_PROTOCOL_RELATED_COI_PROJECT,
-                IacucProtocolSubmissionQualifierType.ELIGIBILITY_EXCEPTIONS_PROTOCOL_DEVIATIONS,
-                IacucProtocolSubmissionQualifierType.SELF_REPORT_FOR_NONCOMPLIANCE };
-        
-        for (String typeCode : typeCodes) {
-            if (StringUtils.equals(typeCode, submissionQualifierType.getSubmissionQualifierTypeCode())) {
-                return true;
-            }
-        }
-        return false;
     }
 }

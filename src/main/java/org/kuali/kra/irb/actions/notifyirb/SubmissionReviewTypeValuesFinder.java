@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.irb.actions.notifyirb;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ValidProtoSubRevType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -58,29 +56,5 @@ public class SubmissionReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
         }
         
         return keyValues;
-    }
-
-    /**
-     * There are many submission qualifier types but only a few are available
-     * for a Notify IRB request.
-     * @param submissionQualifierType the submission qualifier type
-     * @return true if applicable; otherwise false
-     */
-    private boolean isAllowed(ProtocolSubmissionQualifierType submissionQualifierType) {
-        String typeCodes[] = { ProtocolSubmissionQualifierType.AE_UADE,
-                               ProtocolSubmissionQualifierType.DSMB_REPORT,
-                               ProtocolSubmissionQualifierType.ANNUAL_REPORT,
-                               ProtocolSubmissionQualifierType.COMPLAINT,
-                               ProtocolSubmissionQualifierType.DEVIATION,
-                               ProtocolSubmissionQualifierType.COI_REPORT,
-                               ProtocolSubmissionQualifierType.REQUEST_FOR_ELIGIBILITY_EX,
-                               ProtocolSubmissionQualifierType.SELF_REPORT_NON_COMPLIANCE };
-        
-        for (String typeCode : typeCodes) {
-            if (StringUtils.equals(typeCode, submissionQualifierType.getSubmissionQualifierTypeCode())) {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -17,8 +17,6 @@ package org.kuali.kra.institutionalproposal.printing.xmlstream;
 
 import noNamespace.*;
 import noNamespace.InstituteProposalDocument.InstituteProposal;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
@@ -56,11 +54,8 @@ import java.util.*;
 public class InstitutionalProposalXmlStream extends
 		InstitutionalProposalBaseStream {
     
-    private static final Log LOG = LogFactory.getLog(InstitutionalProposalXmlStream.class);
-	
+
 	private static final String PROPOSAL_SUMMARY_COMMENT_CODE;
-	private static final String COST_SHARING_COMMENT_CODE;
-	private static final String INDIRECT_COST_COMMENT_CODE;
 	private static final String PROTOCOL_NUMBER = "protocolNumber";
 	private static final String SPECIAL_REVIEW_APPROVAL_CODE = "5";
 	private static final String SPONSOR_CODE = "sponsorCode";
@@ -75,8 +70,6 @@ public class InstitutionalProposalXmlStream extends
 	static{
 		//FIXME below hardcoded values to be fixed once InstituteProposalComments BO is fully integrated
 		PROPOSAL_SUMMARY_COMMENT_CODE = "21";
-		COST_SHARING_COMMENT_CODE = "22";
-		INDIRECT_COST_COMMENT_CODE = "23";
 	}
 	
 	
