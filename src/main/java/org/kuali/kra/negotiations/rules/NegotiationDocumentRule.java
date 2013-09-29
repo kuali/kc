@@ -25,7 +25,6 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -144,24 +143,6 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
                     negotiation.getNegotiationAssociationType().getDescription());
         }
         return valid;
-    }
-    
-    /**
-     * 
-     * Take the error key and expand as would happen when displaying error
-     * to the client.
-     * @param errorKey
-     * @param params
-     * @return
-     */
-    protected String expandErrorString(String errorKey, String[] params) {
-        ConfigurationService kualiConfiguration = getKualiConfigurationService();
-        String questionText = kualiConfiguration.getPropertyValueAsString(errorKey);
-
-        for (int i = 0; i < params.length; i++) {
-            questionText = StringUtils.replace(questionText, "{" + i + "}", params[i]);
-        }
-        return questionText;    
     }
 
     
