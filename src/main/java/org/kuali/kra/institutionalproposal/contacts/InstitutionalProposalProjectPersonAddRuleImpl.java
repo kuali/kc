@@ -15,14 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * This class...
@@ -47,7 +42,7 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
     
     /**
      * Verify a PI exists
-     * @param award
+     * @param institutionalProposal
      * @param newProjectPerson
      * @return
      */
@@ -71,7 +66,7 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
 
     /**
      * Verify no duplicate person
-     * @param award
+     * @param institutionalProposal
      * @param newProjectPerson
      * @return
      */
@@ -96,21 +91,5 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
     
     private boolean isProjectPersonInvestigator(InstitutionalProposalPerson projectPerson) {
         return projectPerson.isCoInvestigator() || projectPerson.isPrincipalInvestigator();
-    }
-
-    private void reportDuplicateUnits(InstitutionalProposalPerson p, List<Unit> tempUnits) {
-        Set<Unit> duplicateUnits = new HashSet<Unit>(tempUnits);
-        for(Unit dupeUnit: duplicateUnits) {
-            GlobalVariables.getMessageMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, 
-                                                    ERROR_PROPOSAL_PROJECT_PERSON_DUPLICATE_UNITS, 
-                                                    dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
-                                                    p.getFullName());
-        }
-    }
-
-    private void removeUniqueUnitsFromAllUnits(Set<Unit> uniqueUnits, List<Unit> tempUnits) {
-        for(Unit u: uniqueUnits) {
-            tempUnits.remove(u);
-        }
     }
 }
