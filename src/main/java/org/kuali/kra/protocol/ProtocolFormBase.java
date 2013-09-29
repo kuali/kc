@@ -47,7 +47,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -78,8 +77,7 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
 //     */
     protected static final boolean HIDE_ONLINE_REVIEW_WHEN_DISABLED = true;
     protected static final String ONLINE_REVIEW_NAV_TO = "onlineReview";
-    protected static final String CUSTOM_DATA_NAV_TO = "customData";
-    
+
     
     private ProtocolHelperBase protocolHelper;
     private PermissionsHelperBase permissionsHelper;
@@ -156,15 +154,6 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     protected abstract PersonnelHelperBase createNewPersonnelHelperInstanceHook(ProtocolFormBase protocolForm);
     protected abstract QuestionnaireHelperBase createNewQuestionnaireHelper(ProtocolFormBase protocolForm);
     protected abstract NotesAttachmentsHelperBase createNewNotesAttachmentsHelperInstanceHook(ProtocolFormBase protocolForm);
-
-    /**
-     * 
-     * This method is a wrapper method for getting DataDictionary Service using the Service Locator.
-     * @return
-     */
-    protected DataDictionaryService getDataDictionaryService(){
-        return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-    }
 
     @SuppressWarnings("deprecation")
     @Override

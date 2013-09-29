@@ -71,7 +71,6 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private static final String COUNTRY_CODE_USA = "USA";
     private static final String COUNTRY_CODE_PUERTO_RICO = "PRI";
     private static final String COUNTRY_CODE_VIRGIN_ISLANDS = "VIR";
-    private static final int MAX_PROPOSAL_PERSON_COUNT = 40;
     private static final String NOT_ANSWERED = "No";
     
     private static final int FISCAL_YEAR_2006 = 2006;
@@ -439,31 +438,6 @@ public class NASAOtherProjectInformationV1_0Generator extends
             }
         }
         return answerList;
-    }
-    /*
-     * This method checks whether the Proposal Person is Foreign
-     */
-    private boolean isProposalPersonForeign(ProposalPerson proposalPerson) {
-        boolean isForeign = false;
-        if (proposalPerson.getPersonId() != null) {
-            // Person is MIT person
-            if (proposalPerson.getCountryOfCitizenship() != null) {
-                if (proposalPerson.getCountryOfCitizenship().equals(
-                        COUNTRY_CODE_PUERTO_RICO)
-                        || proposalPerson.getCountryOfCitizenship().equals(
-                                COUNTRY_CODE_USA)
-                        || proposalPerson.getCountryOfCitizenship().equals(
-                                COUNTRY_CODE_VIRGIN_ISLANDS)) {
-                    isForeign = false;
-                } else {
-                    isForeign = true;
-                }
-            }
-        } else {
-            // Person is Rolodex person
-            isForeign = isRolodexPersonForeign(proposalPerson);
-        }
-        return isForeign;
     }
 
     /*

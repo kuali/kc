@@ -21,14 +21,11 @@ import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.document.Document;
 
@@ -73,15 +70,6 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
     public void setDocument(Document document) {
         super.setDocument(document);
         this.setDocTypeName(getDefaultDocumentTypeName());
-    }
-    
-    /**
-     * 
-     * This method is a wrapper method for getting DataDictionary Service using the Service Locator.
-     * @return
-     */
-    protected DataDictionaryService getDataDictionaryService(){
-        return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
     }
 
     @Override

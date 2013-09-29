@@ -20,7 +20,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRule;
-import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
@@ -30,8 +29,6 @@ public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KraDocumentEven
 
     private static final Log LOG = LogFactory.getLog(TimeAndMoneyAwardAmountTransactionSaveEvent.class);
     private static final String AWARD_AMOUNT_TRANSACTION = "Award Amount Transaction";
-    
-    AwardAmountTransaction awardAmountTransaction;
     
     /**
      * Constructor for rule event for save rules.
@@ -54,15 +51,6 @@ public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KraDocumentEven
     }
     
     /**
-     * This method returns the awardDirectFandADistribution for validation
-     * @return
-     */
-    public AwardAmountTransaction getAwardAmountTransactionForValidation() {
-        return awardAmountTransaction;
-    }
-    
-    
-    /**
      * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
      */
     @Override
@@ -70,17 +58,11 @@ public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KraDocumentEven
         LOG.info("Logging AwardAmountTransactionRuleEvent");
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return TimeAndMoneyAwardAmountTransactionRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((TimeAndMoneyAwardAmountTransactionRule) rule).processSaveAwardAmountTransactionBusinessRules(this);
     }

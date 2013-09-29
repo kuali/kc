@@ -19,8 +19,6 @@ import gov.grants.apply.forms.rrPerformanceSiteV11.RRPerformanceSiteDocument;
 import gov.grants.apply.forms.rrPerformanceSiteV11.RRPerformanceSiteDocument.RRPerformanceSite;
 import gov.grants.apply.forms.rrPerformanceSiteV11.SiteLocationDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -39,7 +37,6 @@ import java.util.List;
  */
 public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerator {
 
-    private static final Log LOG = LogFactory.getLog(RRPerformanceSiteV1_0Generator.class);
 
     /**
      * 

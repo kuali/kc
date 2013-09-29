@@ -33,7 +33,6 @@ import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
-import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -53,7 +52,7 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 	private static final Log LOG = LogFactory
 			.getLog(NasaPIandAORSupplementalDataSheetV1_0Generator.class);
 	private S2SUtilService s2sUtilService;
-	private S2SBudgetCalculatorService s2sBudgetCalculatorService;
+
 	private static final String PI_PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION = "112";
 	private static final String PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT = "113";
 	private static final String PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT = "111";
@@ -67,8 +66,6 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 	 */
 	public NasaPIandAORSupplementalDataSheetV1_0Generator() {
 		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-		s2sBudgetCalculatorService = KraServiceLocator
-				.getService(S2SBudgetCalculatorService.class);
 	}
 
 	/**

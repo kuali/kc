@@ -27,7 +27,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
@@ -137,21 +136,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         protocolForm.getQuestionnaireHelper().populateAnswers();
         protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return branchToPanelOrNotificationEditor(mapping, protocolForm, getQuestionnaireForwardNameHook());
-    }
-    
-    protected ProtocolSubmissionBeanBase getSubmissionBean(ActionForm form,String submissionActionType) {
-        ProtocolSubmissionBeanBase submissionBean = null;
-        return submissionBean;
-    }
-
-    protected String getSubmitActionType(HttpServletRequest request) {
-        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String actionTypeCode = "";
-        if (StringUtils.isNotBlank(parameterName)) {
-            actionTypeCode = StringUtils.substringBetween(parameterName, ".actionType", ".");
-        }
-
-        return actionTypeCode;
     }
 
     /**

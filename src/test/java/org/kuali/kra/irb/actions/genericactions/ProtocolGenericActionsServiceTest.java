@@ -22,7 +22,6 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -30,7 +29,6 @@ import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -61,10 +59,8 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         service = new ProtocolGenericActionServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
-        service.setProtocolActionCorrespondenceGenerationService(getMockProtocolActionCorrespondenceGenerationService());
         service.setProtocolOnlineReviewService(getMockProtocolOnlineReviewService());
         service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
-        service.setKcNotificationService(getMockKcNotificationService());
     }
 
     @Override
@@ -302,16 +298,6 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         assertNotSame(unexpectedDocumentNumber, newDocument.getDocumentNumber());
     }
     
-    private ProtocolActionCorrespondenceGenerationService getMockProtocolActionCorrespondenceGenerationService() {
-        final ProtocolActionCorrespondenceGenerationService service = context.mock(ProtocolActionCorrespondenceGenerationService.class);
-        
-        context.checking(new Expectations() {{
-            ignoring(service);
-        }});
-        
-        return service;
-    }
-    
     private ProtocolOnlineReviewService getMockProtocolOnlineReviewService() {
         final ProtocolOnlineReviewService service = context.mock(ProtocolOnlineReviewService.class);
         
@@ -360,16 +346,6 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         }});
 
         return action;
-    }
-    
-    private KcNotificationService getMockKcNotificationService() {
-        final KcNotificationService service = context.mock(KcNotificationService.class);
-        
-        context.checking(new Expectations() {{
-            ignoring(service);
-        }});
-        
-        return service;
     }
 
 }

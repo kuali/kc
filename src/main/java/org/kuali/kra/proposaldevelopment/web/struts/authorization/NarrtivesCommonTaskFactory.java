@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.web.struts.authorization;
 
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
@@ -34,10 +33,4 @@ public class NarrtivesCommonTaskFactory extends NarrativeTaskFactory {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         return new ProposalTask(getTaskName(), proposalDevelopmentForm.getProposalDevelopmentDocument());
     }
-
-    protected Narrative getNarrative(ActionForm form, HttpServletRequest request) {
-        // TODO Not sure what to do with this.
-        return new Narrative();
-    }
-
 }

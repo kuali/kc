@@ -12,7 +12,6 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.util.*;
 
@@ -107,63 +106,6 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
           
         }
         return pendingReportCEColumnNames;
-	}
-	/*
-	 * This method set the values to pending support xml object attributes and
-	 * finally returns the Pending support xml object.
-	 */
-	private PendingSupport getPendingSupportProposals(
-			InstitutionalProposal instituteProposal,
-			Map<String, Object> reportParameters) {
-		PendingSupport pendingSupport = PendingSupport.Factory.newInstance();
-		String persionId = null;
-//		if (reportParameters != null && !reportParameters.isEmpty()
-//				&& reportParameters.get(PERSON_ID) != null) {
-//			persionId = (String) reportParameters.get(PERSON_ID);
-//		}
-//		if (instituteProposal.getTitle() != null) {
-//			pendingSupport.setTitle(instituteProposal.getTitle());
-//		}
-//		setPendingSupportProposalsFromProposalPersons(instituteProposal,
-//				pendingSupport, persionId);
-//		KualiDecimal totalCost = getTotalCost(instituteProposal);
-//		if (totalCost != null) {
-//			pendingSupport.setTotalRequested(totalCost.bigDecimalValue());
-//		}
-//		if (instituteProposal.getProposalNumber() != null) {
-//			pendingSupport.setProposalNumber(instituteProposal
-//					.getProposalNumber());
-//		}
-//		if (instituteProposal.getRequestedEndDateInitial() != null) {
-//			pendingSupport
-//					.setEndDate(dateTimeService.getCalendar(instituteProposal
-//							.getRequestedEndDateInitial()));
-//		}
-//		if (instituteProposal.getRequestedStartDateInitial() != null) {
-//			pendingSupport.setEffectiveDate(dateTimeService
-//					.getCalendar(instituteProposal
-//							.getRequestedStartDateInitial()));
-//		}
-//		if (instituteProposal.getSponsorName() != null) {
-//			pendingSupport.setAgency(instituteProposal.getSponsorName());
-//		}
-		return pendingSupport;
-	}
-
-	/*
-	 * This method will return the sum of total direct cost and total indirect
-	 * cost.
-	 */
-	private KualiDecimal getTotalCost(InstitutionalProposal instituteProposal) {
-		KualiDecimal totalDirectCostTotal = instituteProposal
-				.getTotalDirectCostTotal();
-		KualiDecimal totalIndirectCostTotal = instituteProposal
-				.getTotalIndirectCostTotal();
-		KualiDecimal totalCost = null;
-		if (totalIndirectCostTotal != null && totalIndirectCostTotal != null) {
-			totalCost = totalDirectCostTotal.add(totalIndirectCostTotal);
-		}
-		return totalCost;
 	}
 
 	private PendingSupport[] getPendingSupportInformation(List<PendingReportBean> pendingReportBeans) {

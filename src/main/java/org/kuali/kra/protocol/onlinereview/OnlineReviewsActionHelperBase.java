@@ -30,11 +30,8 @@ import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.PessimisticLockService;
@@ -72,8 +69,7 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     private List<ReviewAttachmentsBeanBase> reviewAttachmentsBeans;
     private boolean initComplete = false;
 
-    private transient KcPersonService kcPersonService;
-    
+
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(OnlineReviewsActionHelperBase.class);
     private boolean hideReviewerName;
     private boolean hideReviewerNameForAttachment;
@@ -437,19 +433,8 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
         return getDocumentIndexByReviewer(GlobalVariables.getUserSession().getPrincipalId(),false);
     }
     
-    private KcPersonService getKcPersonService() {
-        if (kcPersonService == null) {
-            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-        }
-        return kcPersonService;
-    }
-    
     private DocumentHelperService getDocumentHelperService() {
         return KraServiceLocator.getService(DocumentHelperService.class);
-    }
-    
-    private DataDictionaryService getDataDictionaryService() {
-        return KraServiceLocator.getService(DataDictionaryService.class);
     }
     
     protected Map convertSetToMap(Set s){
@@ -464,10 +449,6 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     
     private PessimisticLockService getPessimisticLockService() {
         return KraServiceLocator.getService(PessimisticLockService.class);
-    }
-    
-    private RolodexService getRolodexService() {
-        return KraServiceLocator.getService(RolodexService.class);
     }
     
     protected void populateAuthorizationFields(ProtocolOnlineReviewFormBase form, ProtocolOnlineReviewDocumentBase document) {

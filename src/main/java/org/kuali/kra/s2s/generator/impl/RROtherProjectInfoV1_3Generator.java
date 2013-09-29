@@ -20,8 +20,6 @@ import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Docume
 import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.*;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
@@ -29,7 +27,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.Answer;
@@ -53,9 +50,6 @@ import java.util.List;
 public class RROtherProjectInfoV1_3Generator extends
 		RROtherProjectInfoBaseGenerator {
 	private static final String HISTORIC_DESTIONATION_YNQ = "125";
-	private static final String EMPTY_STRING = " ";
-	private static final Log LOG = LogFactory
-			.getLog(RROtherProjectInfoV1_3Generator.class);
 	List<AnswerHeader> answerHeaders;
 
 	/*
@@ -572,25 +566,6 @@ public class RROtherProjectInfoV1_3Generator extends
 				.newInstance();
 		otherAttachments.setOtherAttachmentArray(getAttachedFileDataTypes());
 		rrOtherProjectInfo.setOtherAttachments(otherAttachments);
-	}
-
-	/*
-	 * 
-	 * This method is used to get the answer for ProposalYnq
-	 * 
-	 */
-	private ProposalYnq getAnswer(String questionId) {
-		String question;
-		ProposalYnq ynQ = null;
-		for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal()
-				.getProposalYnqs()) {
-			question = proposalYnq.getQuestionId();
-			if (question != null && question.equals(questionId)) {
-				ynQ = proposalYnq;
-				break;
-			}
-		}
-		return ynQ;
 	}
 
 	/*

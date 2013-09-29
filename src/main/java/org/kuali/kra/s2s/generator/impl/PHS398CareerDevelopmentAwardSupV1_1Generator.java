@@ -46,7 +46,6 @@ import java.util.List;
  */
 public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 		PHS398CareerDevelopmentAwardSupBaseGenerator {
-	private static final String PI_CUSTOM_DATA = "PI_CITIZENSHIP_FROM_CUSTOM_DATA";
 	private static final String PROPOSAL_TYPE_TASK_ORDER = "6";
 
 	private XmlObject getPHS398CareerDevelopmentAwardSup() {

@@ -56,8 +56,7 @@ SubAwardFundingSourceRule {
     private static final String SITEINVESTIGATOR =".siteInvestigatorId";
     private static final String AMOUNT_INFO_OBLIGATED_AMOUNT = "newSubAwardAmountInfo.obligatedChange";
     private static final String AMOUNT_INFO_ANTICIPATED_AMOUNT = "newSubAwardAmountInfo.anticipatedChange";
-    private static final String AMOUNT_INFO_ERRORS = "subAwardAmountInfoErrors";
-    
+
     private static final String ROLODEX_ID="newSubAwardContact.rolodex.fullName";
     private static final String CONTACT_TYPE_CODE="newSubAwardContact.contactTypeCode";
     

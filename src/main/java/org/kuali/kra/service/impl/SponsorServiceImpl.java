@@ -480,13 +480,6 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         GlobalVariables.getUserSession().removeObject(sessionKey);
     }
 
-    protected String findNihIndicatorForSponsorHierarchyLevel() {
-        return parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_LEVEL_HIERARCHY);
-    }
-
-    protected String findSponsorHierarchyName() {
-        return parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_HIERARCHY_NAME );
-    }
 
     public boolean isSponsorNihMultiplePi(Sponsorable sponsorable) {
         return isSponsorInHierarchy(sponsorable, Constants.SPONSOR_HIERARCHY_NIH_MULT_PI);

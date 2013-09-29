@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -74,14 +73,6 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
         keyMap.put(Constants.PROPOSAL_NUMBER, proposalNumber);
         ProposalBudgetStatus proposalStatus = (ProposalBudgetStatus) boService.findByPrimaryKey(ProposalBudgetStatus.class, keyMap);
         return proposalStatus;
-    }
-    
-    protected BudgetVersionOverview getBudgetVersion(BudgetVersionOverview version) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put("budgetId", version.getBudgetId());
-        BudgetVersionOverview dbVersion = (BudgetVersionOverview) boService.findByPrimaryKey(BudgetVersionOverview.class, keyMap);
-        return dbVersion;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

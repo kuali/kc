@@ -63,7 +63,6 @@
 		<property name="awardAmountInfoService" ref="awardAmountInfoService" />
 		<property name="awardVersionService" ref="awardVersionService" />
 		<property name="personService" ref="personService" />        
-		<property name="versionHistoryService" ref="versionHistoryService" />
     </bean>
     
     <bean id="timeAndMoneyDao" parent="platformAwareDao" class="org.kuali.kra.timeandmoney.dao.impl.TimeAndMoneyDaoOjb" />

@@ -68,7 +68,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
     private static final String PROTOCOL_DOC_LUN_FORM_ELEMENT = "document.protocolList[0].leadUnitNumber";
-    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.protocolList[0].specialReviews";
     private static final String SEPERATOR = ".";
     private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.protocolList[0].protocolResearchAreas.inactive";
     

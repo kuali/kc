@@ -25,8 +25,6 @@ import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.Add
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.BioSketchsAttached;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
@@ -55,7 +53,6 @@ import java.util.List;
  */
 public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
 
-	private static final Log LOG = LogFactory.getLog(RRKeyPersonV1_1Generator.class);
 	Rolodex rolodex;
     /**
      * 

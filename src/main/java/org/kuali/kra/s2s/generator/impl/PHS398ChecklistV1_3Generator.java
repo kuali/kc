@@ -53,7 +53,6 @@ import static org.kuali.kra.s2s.util.S2SConstants.FORMVERSION_1_3;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
-	private static final int ZERO = 0;
 	private static final String YNQANSWER_121 = "121";
 	private static final Log LOG = LogFactory
 			.getLog(PHS398ChecklistV1_3Generator.class);

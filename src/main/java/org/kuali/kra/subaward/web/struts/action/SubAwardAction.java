@@ -23,7 +23,6 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -330,15 +329,6 @@ ActionForm form, HttpServletRequest request, HttpServletResponse response) {
  */
 protected VersionHistoryService getVersionHistoryService() {
     return KraServiceLocator.getService(VersionHistoryService.class);
-}
-
-/**
- *
- * This method...
- * @return
- */
-protected KeywordsService getKeywordService() {
-    return KraServiceLocator.getService(KeywordsService.class);
 }
 
 /**.
