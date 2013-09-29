@@ -113,19 +113,6 @@ public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnai
         getProtocolAuditErrors("questionnaireHelper", usage.getQuestionnaireLabel(), answerHeaderIndex).add(new AuditError(errorKey, messageKey, getAuditErrorLink()));
     }
     
-    
-    private QuestionnaireUsage getQuestionnaireUsage(String moduleItemCode, List<QuestionnaireUsage> questionnaireUsages) {
-        QuestionnaireUsage usage = null;
-        int version = 0;
-        for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
-            if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version)) {
-                version = questionnaireUsage.getQuestionnaireSequenceNumber();
-                usage = questionnaireUsage;
-            }            
-        }
-        return usage;
-    }
-    
     protected void addMandatoryQuestionnaireErrorToAuditErrors(Integer answerHeaderIndex, QuestionnaireUsage usage) {
         String errorKey = String.format(PROTOCOL_QUESTIONNAIRE_KEY, answerHeaderIndex);
         String messageKey = KeyConstants.ERROR_MANDATORY_QUESTIONNAIRE;

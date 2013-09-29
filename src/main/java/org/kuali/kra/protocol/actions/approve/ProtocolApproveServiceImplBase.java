@@ -17,7 +17,6 @@ package org.kuali.kra.protocol.actions.approve;
 
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
@@ -36,8 +35,7 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
          
-    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
-    
+
     protected ProtocolOnlineReviewService protocolOnlineReviewService;
     
     /**
@@ -126,13 +124,6 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
         this.protocolActionService = protocolActionService;
     }
 
-         
-    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
-        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-    }
-
-    
-    
     public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
         return protocolOnlineReviewService;
     }
@@ -141,22 +132,12 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
         this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
 
-
-
     protected DocumentService getDocumentService() {
         return documentService;
     }
 
-
-
     protected ProtocolActionService getProtocolActionService() {
         return protocolActionService;
     }
-
-
-
-    protected ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-        return protocolActionCorrespondenceGenerationService;
-    } 
     
 }

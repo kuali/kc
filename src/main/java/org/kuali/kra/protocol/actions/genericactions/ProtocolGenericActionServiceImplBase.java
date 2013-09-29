@@ -17,7 +17,6 @@ package org.kuali.kra.protocol.actions.genericactions;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -25,7 +24,6 @@ import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolActionRequestService;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaService;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -48,16 +46,13 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     private ProtocolActionService protocolActionService;
     private DocumentService documentService;
       
-    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
-    
     private ProtocolActionRequestService protocolActionRequestService;
     
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     private ProtocolVersionService protocolVersionService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private BusinessObjectService businessObjectService;
-    private KcNotificationService kcNotificationService;    
-    
+
     /**
      * Performs the generic action, which includes a state change, action date, and a comment, that's it!
      * @param protocol
@@ -91,9 +86,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     protected abstract ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission, String protocolActionType);
     
     protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondenceHook(String protocolActionType);
-       
-    
-    
+
     protected void performDisapprove(ProtocolBase protocol) throws Exception {
         if (protocol.getProtocolDocument() != null) {
             WorkflowDocument currentWorkflowDocument = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
@@ -102,15 +95,11 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
             }
         }        
     }
-    
-    
+
     protected ProtocolDocumentBase getReturnedVersionedDocument(ProtocolBase protocol) throws Exception {
         documentService.cancelDocument(protocol.getProtocolDocument(), "ProtocolBase document cancelled - protocol has been returned for revisions.");        
         return getVersionedDocument(protocol);
     }
-    
-    
-
 
     @Override
     public void recordDisapprovedInRoutingActionAndUpdateStatuses(ProtocolBase protocol, ActionTakenValue latestCurrentActionTakenVal) {
@@ -200,10 +189,6 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-  
-    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
-        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-    }
 
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
@@ -220,65 +205,29 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
-    public void setKcNotificationService(KcNotificationService kcNotificationService) {
-        this.kcNotificationService = kcNotificationService;
-    }
-
-
-
 
     protected ProtocolActionService getProtocolActionService() {
         return protocolActionService;
     }
 
-
-
-
     protected DocumentService getDocumentService() {
         return documentService;
     }
-
-
-
-
-    protected ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-        return protocolActionCorrespondenceGenerationService;
-    }
-
-
-
 
     protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
         return protocolOnlineReviewService;
     }
 
-
-
-
     protected ProtocolVersionService getProtocolVersionService() {
         return protocolVersionService;
     }
-
-
-
 
     protected ProtocolAssignToAgendaService getProtocolAssignToAgendaService() {
         return protocolAssignToAgendaService;
     }
 
-
-
-
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
-    }
-
-
-
-
-    protected KcNotificationService getKcNotificationService() {
-        return kcNotificationService;
     }
 
     public ProtocolActionRequestService getProtocolActionRequestService() {

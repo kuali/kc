@@ -78,16 +78,6 @@ public class SubAwardServiceImpl implements SubAwardService {
     }
 
     /**.
-     * This method is for getting hashMap
-     * @param subAwardNumber
-     * @return map
-     */
-    protected Map<String, String> getHashMap(String subAwardNumber) {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("sequenceOwnerVersionNameValue", subAwardNumber);
-        return map;
-    }
-    /**.
      * This method is for  getVersioningService
      * @return versioningService...
      *

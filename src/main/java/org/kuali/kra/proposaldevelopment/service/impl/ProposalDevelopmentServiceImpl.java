@@ -146,24 +146,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     /**
-     * Gets units for the given names. Useful when you know what you want.
-     * 
-     * @param unitNumbers varargs representation of unitNumber array
-     * @return Collection<Unit>
-     */
-    protected Collection<Unit> getUnitsWithNumbers(String... unitNumbers) {
-        Collection<Unit> retval = new ArrayList<Unit>();
-
-        for (String unitNumber : unitNumbers) {
-            Map<String, String> query_map = new HashMap<String, String>();
-            query_map.put("unitNumber", unitNumber);
-            retval.add((Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, query_map));
-        }
-
-        return retval;
-    }
-
-    /**
      * Accessor for <code>{@link BusinessObjectService}</code>
      * 
      * @param bos BusinessObjectService
@@ -229,40 +211,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         return currentBudget;
     }
-
-    protected String getLookupDisplayValue(String lookupClassName, String value, String displayAttributeName) {
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        List<String> lookupClassPkFields = null;
-        Class lookupClass = null;
-        String displayValue = "";
-        String returnValue = "";
-        PersistableBusinessObject businessObject = null;
-
-        if (StringUtils.isNotEmpty(lookupClassName)) {
-            try {
-                lookupClass = Class.forName(lookupClassName);
-                lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
-            }
-            catch (ClassNotFoundException e) {
-            }
-
-            if (CollectionUtils.isNotEmpty(lookupClassPkFields)) {
-                returnValue = StringUtils.isNotEmpty(lookupClassPkFields.get(0)) ? lookupClassPkFields.get(0) : "";
-
-                if (StringUtils.isNotEmpty(value)) {
-                    primaryKeys.put(lookupClassPkFields.get(0), value);
-                    businessObject = (PersistableBusinessObject) businessObjectService.findByPrimaryKey(lookupClass, primaryKeys);
-                    if (businessObject != null) {
-                        displayValue = getPropertyValue(businessObject, displayAttributeName);
-                        displayValue = StringUtils.isNotEmpty(displayValue) ? displayValue : "";
-                    }
-                }
-            }
-        }
-
-        return returnValue + "," + displayAttributeName + "," + displayValue;
-    }
-
 
     public String getDataOverrideLookupDisplayReturnValue(String lookupClassName) {
         List<String> lookupClassPkFields = null;

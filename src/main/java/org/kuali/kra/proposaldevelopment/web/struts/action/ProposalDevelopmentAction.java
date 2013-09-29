@@ -25,7 +25,6 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.BudgetRate;
@@ -83,7 +82,6 @@ import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -125,8 +123,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
     private ProposalHierarcyActionHelper hierarchyHelper;
     private KcNotificationService notificationService;
-    private BudgetService budgetService;
-    private S2SBudgetCalculatorService s2SBudgetCalculatorService;
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -617,60 +613,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         return false;
     }
-    
-    @SuppressWarnings("unchecked")
-    private void fixVersionNumbers(Object srcObject, Object object, List<Object> list) throws Exception {
-        Class[] setterParamTypes = {Long.class};
-        if (object != null && object instanceof PersistableBusinessObject) {
-            if (list.contains(object)) return;
-            list.add(object);
-            
-            Method getterMethod = object.getClass().getMethod("getVersionNumber");
-            if(getterMethod != null) {
-                Long currentVersionNumber = null;
-                if(srcObject != null) 
-                    currentVersionNumber = (Long) getterMethod.invoke(srcObject, new Object[]{});
-                else
-                    currentVersionNumber = (Long) getterMethod.invoke(object, new Object[]{});
-                
-                Method setterMethod = object.getClass().getMethod("setVersionNumber", setterParamTypes);
-                if(currentVersionNumber != null) {
-                    setterMethod.invoke(object, currentVersionNumber);
-                }
-            }
-            
-            Method[] methods = object.getClass().getDeclaredMethods();
-            for (Method method : methods) {
-                if (isPropertyGetterMethod(method, methods)) {
-                    Object srcValue = null;
-                    if(srcObject != null) {
-                        srcValue = method.invoke(srcObject);
-                    }
-                    Object value = method.invoke(object);
-                    if (value != null && value instanceof Collection) {
-                        Collection c = (Collection) value;
-                        Object[] srcC = c.toArray();
-                        if(srcValue != null) {
-                            srcC = ((Collection) srcValue).toArray();
-                        } 
-                        
-                        Iterator iter = c.iterator();
-                        int count = 0;
-                        while (iter.hasNext()) {
-                            Object srcEntry = null;
-                            if(srcC.length > count) 
-                                srcEntry = srcC[count];
-                            Object entry = iter.next();
-                            fixVersionNumbers(srcEntry, entry, list);
-                            count++;
-                        }
-                    } else {
-                        fixVersionNumbers(srcValue, value, list);
-                    }   
-                }
-            }
-        }
-    }
 
     protected ProposalDevelopmentDocument getProposalDoc(String pdDocumentNumber) throws Exception {
         ProposalDevelopmentDocument newCopy;
@@ -915,22 +857,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         
         ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
         proposalRoleTemplateService.addUsers(doc);
-    } 
-    
-    /**
-     * Get the name of the action.  Every Proposal Action class has the
-     * naming convention of
-     * 
-     *      ProposalDevelopment<name>Action
-     * 
-     * This method extracts the <name> from the above class name.
-     * 
-     * @return the action's name
-     */
-    protected String getActionName() {
-        String name = getClass().getSimpleName();
-        int endIndex = name.lastIndexOf("Action");
-        return name.substring(19, endIndex);
     }
     
     protected void loadDocumentInForm(HttpServletRequest request, ProposalDevelopmentForm proposalDevelopmentForm)
@@ -1514,21 +1440,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         
         return forward;
     }
-    
-    /**
-     * 
-     * @return
-     */
-   private BudgetService getBudgetService() {
-       return KraServiceLocator.getService(BudgetService.class);
-   }
-   /**
-    * 
-    * @param budgetService
-    */
-   private void setBudgetService(BudgetService budgetService) {
-       this.budgetService = budgetService;
-   }
    
    /**
     * 
@@ -1537,14 +1448,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
    public S2SBudgetCalculatorService getS2SBudgetCalculatorService() {
        return KraServiceLocator.getService(S2SBudgetCalculatorService.class);
    }
-   /**
-    * 
-    * @param s2sBudgetCalculatorService
-    */
-   public void setS2SBudgetCalculatorService(
-           S2SBudgetCalculatorService s2sBudgetCalculatorService) {
-       s2SBudgetCalculatorService = s2sBudgetCalculatorService;
-   }
+
    /**
     * Quick method to get the RoleService
     * @return RoleService reference

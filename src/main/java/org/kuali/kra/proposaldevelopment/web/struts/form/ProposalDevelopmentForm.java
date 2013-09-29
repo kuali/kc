@@ -45,7 +45,6 @@ import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBe
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.*;
@@ -1871,26 +1870,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         this.proposalDevelopmentS2sQuestionnaireHelper = proposalDevelopmentS2sQuestionnaireHelper;
     }
 
-    /*
-     * For submission questionnaire, it is a popup and not a session document.
-     * so, it has to be retrieved, then populate with the new data.
-     */
-    private void initAnswerList(HttpServletRequest request) {
-        //This was copied from protocol initially, commenting out until ready to implement 
-        //our version of it.
-//        String protocolNumber = request.getParameter("questionnaireHelper.protocolNumber");
-//        String submissionNumber = request.getParameter("questionnaireHelper.submissionNumber");
-//        if (StringUtils.isNotBlank(protocolNumber) && protocolNumber.endsWith("T")) {
-//            ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, false);
-//            this.getQuestionnaireHelper().setAnswerHeaders(
-//                    getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-//        }
-    }
-    
-    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
-    }
-    
     public List<ProposalPersonQuestionnaireHelper> getProposalPersonQuestionnaireHelpers() {
         return this.proposalPersonQuestionnaireHelpers;
     }

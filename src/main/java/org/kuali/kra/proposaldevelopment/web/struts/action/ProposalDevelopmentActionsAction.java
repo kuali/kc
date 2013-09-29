@@ -117,7 +117,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentActionsAction.class);
     private static final String DOCUMENT_APPROVE_QUESTION = "DocApprove";
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
-    private static final String DOCUMENT_REJECT_QUESTION="DocReject";
     private static final String DOCUMENT_DELETE_QUESTION="ProposalDocDelete";
     
     private static final String CONFIRM_SUBMISSION_WITH_WARNINGS_KEY = "submitApplication";

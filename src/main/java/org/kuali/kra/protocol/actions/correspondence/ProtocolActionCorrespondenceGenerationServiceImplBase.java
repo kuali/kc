@@ -40,7 +40,6 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
     
     private BusinessObjectService businessObjectService;
     private PrintingService printingService;
-    private ProtocolActionTypeToCorrespondenceTemplateService protocolActionTypeToCorrespondenceTemplateService;
     private DateTimeService dateTimeService;
 
     private static final Log LOG = LogFactory.getLog(ProtocolActionCorrespondenceGenerationServiceImplBase.class);
@@ -59,10 +58,6 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
     
     protected PrintingService getPrintingService() {
         return printingService;
-    }
-    
-    public void setProtocolActionTypeToCorrespondenceTemplateService(ProtocolActionTypeToCorrespondenceTemplateService protocolActionTypeToCorrespondenceTemplateService) {
-        this.protocolActionTypeToCorrespondenceTemplateService = protocolActionTypeToCorrespondenceTemplateService;
     }
     
     protected abstract ProtocolCorrespondence getNewProtocolCorrespondenceHook();

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
@@ -29,8 +27,6 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 public abstract class RRKeyPersonExpandedBaseGenerator extends
 		RRKeyPersonBase {
 
-	private static final Log LOG = LogFactory
-			.getLog(RRKeyPersonExpandedBaseGenerator.class);
 
 	protected static final String OTHER = "Other (Specify)";
 	protected static final String BIOSKETCH = "BIOSKETCH";

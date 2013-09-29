@@ -25,11 +25,9 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -46,8 +44,7 @@ public class PHS398CoverPageSupplementV1_4Generator extends
 		PHS398CoverPageSupplementBaseGenerator {
     
     List<AnswerHeader> answerHeaders;
-    private transient QuestionnaireAnswerService questionnaireAnswerService;
-    
+
 	/**
 	 * 
 	 * This method gives information of Cover Page Supplement such as PDPI
@@ -85,12 +82,6 @@ public class PHS398CoverPageSupplementV1_4Generator extends
 		ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		pdpi.setPDPIName(globLibV20Generator.getHumanNameDataType(PI));
 		return pdpi;
-	}
-
-	private YesNoDataType.Enum getProposalYnQAnswer(ProposalYnq proposalYnq) {
-		return proposalYnq.getAnswer().equals(
-				S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-				: YesNoDataType.N_NO;
 	}
 	
 

@@ -18,11 +18,6 @@ package org.kuali.kra.subaward.bo;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.krad.service.BusinessObjectService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SubAwardContact extends SubAwardAssociate { 
 
@@ -457,26 +452,6 @@ public class SubAwardContact extends SubAwardAssociate {
     protected void refreshRolodex() {
         this.refreshReferenceObject("rolodex");
     
-    }
-
-    /**
-     * Build an identifier map for the BOS lookup
-     * @param identifierField
-     * @param identifierValue
-     * @return
-     */
-    protected Map<String, Object> getIdentifierMap(String identifierField, Object identifierValue) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(identifierField, identifierValue);
-        return map;
-    }
-
-    /**
-     * This method looks up BOS
-     * @return
-     */
-    protected BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
     }
     
 }

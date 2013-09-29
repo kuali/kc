@@ -63,11 +63,6 @@ public abstract class UndoLastActionBeanHelperBase implements Serializable {
         return true;
     }
     
-    protected ProtocolActionBase getPrevToLastPerformedAction(List<ProtocolActionBase> actionsPerformed) {
-        sortActions(actionsPerformed);
-        return actionsPerformed.size() > 1 ? actionsPerformed.get(1) : null;
-    }
-    
     protected void sortActions(List<ProtocolActionBase> actionsPerformed) {
         Collections.sort(actionsPerformed, new Comparator<ProtocolActionBase>() {
             public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {

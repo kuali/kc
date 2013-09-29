@@ -46,7 +46,6 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     
 
     private static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
-    private static final String REFERENCE_PERSON = "person";
     private static final String REFERENCE_ROLODEX = "rolodex";
     private static final String REFERENCE_UNIT = "unit";
     private static final String PROTOCOL_ATTACHMENT_TYPE = "type";
@@ -56,10 +55,6 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     private static final int COI_CHANGED = 1;
     private static final int ROLE_UNCHANGED = -1;
     private static final int RESET_SELECTED_UNIT_FOR_PERSON = 0;
-    
-    private static final int AFFILIATION_TYPE_OTHER = 0;
-    private static final int AFFILIATION_TYPE_STUDENT_INVESTIGATOR = 1;
-    private static final int AFFILIATION_TYPE_FACULTY_SUPERVISOR = 2;
     
     
     /**

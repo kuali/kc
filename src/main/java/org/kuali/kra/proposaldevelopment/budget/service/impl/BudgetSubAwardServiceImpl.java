@@ -29,7 +29,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
@@ -67,9 +66,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     private BusinessObjectService businessObjectService;
 
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService#populateBudgetSubAwardFiles(org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards)
-     */
     public void populateBudgetSubAwardFiles(Budget budget, BudgetSubAwards subAward, String newFileName, byte[] newFileData) {
         subAward.setSubAwardStatusCode(1);
         BudgetSubAwardFiles newSubAwardFile = new BudgetSubAwardFiles();
@@ -212,7 +208,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         if (detail != null && detail.getBudgetSubAwardDetailId() != null) {
             Map primaryKeys = new HashMap();
             primaryKeys.put("SUBAWARD_PERIOD_DETAIL_ID", detail.getBudgetSubAwardDetailId());
-            BudgetSubAwardPeriodDetail dbDetail = KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(BudgetSubAwardPeriodDetail.class, primaryKeys);
+            BudgetSubAwardPeriodDetail dbDetail = getBusinessObjectService().findByPrimaryKey(BudgetSubAwardPeriodDetail.class, primaryKeys);
             if (checkDirect) {
                 changed = !BudgetDecimal.returnZeroIfNull(detail.getDirectCost()).equals(BudgetDecimal.returnZeroIfNull(dbDetail.getDirectCost()));
             } else {
