@@ -22,7 +22,7 @@ import org.junit.Test;
 
 public class IntellectualPropertyReviewTest {
     
-    private static final int INTELLECTUAL_PROPERTY_REVIEW_ATTRIBUTES_COUNT = 23;
+    private static final int INTELLECTUAL_PROPERTY_REVIEW_ATTRIBUTES_COUNT = 22;
     
     private IntellectualPropertyReview intellectualPropertyReview;
     
