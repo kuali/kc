@@ -190,20 +190,7 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
-    
-    /**
-     * Clip the last character from the string buffer. The last character, if there is one, is always a separator that must be
-     * removed.
-     * 
-     * @param ajaxList
-     * @return
-     */
-    protected String clipLastChar(StringBuffer ajaxList) {
-        if (ajaxList.length() == 0) {
-            return ajaxList.toString();
-        }
-        return ajaxList.substring(0, ajaxList.length() - 1);
-    }
+
     public ProtocolActionAjaxService getProtocolAjaxService() {
         return KraServiceLocator.getService(IacucProtocolActionAjaxService.class);
     }
