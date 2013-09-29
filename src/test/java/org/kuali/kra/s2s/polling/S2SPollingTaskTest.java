@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.polling;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -84,6 +85,6 @@ public class S2SPollingTaskTest extends KcUnitTestBase {
 		mailInfoList.add(mailInfo);
 		s2sPollingTask.setMailInfoList(mailInfoList);
 		s2sPollingTask.execute();
-		assert true;
-	}
+        Assert.assertTrue(true);
+    }
 }

@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 
 import java.util.Map;
 
-public class ScheduleDataTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class ScheduleDataTest {
     
     public static final String RECURRENCE_TYPE = "WEEKLY";
     

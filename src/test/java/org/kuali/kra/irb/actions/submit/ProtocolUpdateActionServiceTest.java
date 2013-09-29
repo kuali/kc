@@ -346,46 +346,7 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
         protocolActionService.updateProtocolStatus(action, protocol);        
         assertEquals("201", protocol.getProtocolStatusCode());
     }
-    
-    @Test
-    public void testActionTypeCode104() { 
-        action.setProtocolActionTypeCode(ATC104);
-        protocolActionService.updateProtocolStatus(action, protocol);       
-//        assertEquals("108",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
-//        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
-//        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatusCode());
-//        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
-    }
-    
-    @Test
-    public void testActionTypeCode106() { 
-        action.setProtocolActionTypeCode(ATC106);
-        protocolActionService.updateProtocolStatus(action, protocol);       
-//        assertEquals("110",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
-//        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
-//        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatusCode());
-//        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
-    }
-    
-    @Test
-    public void testActionTypeCode105() { 
-        action.setProtocolActionTypeCode(ATC105);
-        protocolActionService.updateProtocolStatus(action, protocol);       
-//        assertEquals("109",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
-//        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
-//        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatusCode());
-//        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
-    }
-    
-    @Test
-    public void testActionTypeCode108() { 
-        action.setProtocolActionTypeCode(ATC108);
-        protocolActionService.updateProtocolStatus(action, protocol);       
-//        assertEquals("111",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
-//        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
-//        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatusCode());
-//        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
-    }
+
     
     @Test
     public void testActionTypeCode208ProtocolARNumber() {
@@ -409,37 +370,7 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
         protocolActionService.updateProtocolStatus(action, protocol);        
         assertEquals("212", protocol.getProtocolSubmission().getSubmissionStatusCode());
     }
-    
-    @Test
-    public void testActionTypeCode114() { 
-        action.setProtocolActionTypeCode(ATC114);
-        protocolActionService.updateProtocolStatus(action, protocol);       
-//        assertEquals("113",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
-//        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
-//        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatusCode());
-//        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
-    }
-    
-    @Test
-    public void testActionTypeCode115() { 
-        action.setProtocolActionTypeCode(ATC115);
-        protocolActionService.updateProtocolStatus(action, protocol);       
-//        assertEquals("114",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
-//        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
-//        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatusCode());
-//        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
-    }
-    
-    @Test
-    public void testActionTypeCode116() { 
-        action.setProtocolActionTypeCode(ATC116);
-        protocolActionService.updateProtocolStatus(action, protocol);    
-        // notify irb service already handled the new submission, so this submission can not be tested.
-//        assertEquals("112",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
-//        assertEquals("7",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
-//        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatusCode());
-//        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
-    }
+
     
     @Test
     public void testActionTypeCode211SubmissionTypeCode111() {         
