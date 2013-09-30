@@ -50,8 +50,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     private static final String SPACE = " ";
     public static final String UNIT_NUMBER_KEY = "unitNumber";
     public static final String ACTIVITY_TYPE_CODE_KEY = "activityTypeCode";
-    public static final String BUDGET_ID_KEY = "budgetId";
-    
+
     private BusinessObjectService businessObjectService;
     private UnitService unitService;
 

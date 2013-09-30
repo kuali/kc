@@ -330,8 +330,7 @@
     
     <bean id="awardHierarchyUIService" class="org.kuali.kra.service.impl.AwardHierarchyUIServiceImpl" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="activePendingTransactionsService" ref="activePendingTransactionsService" />
-        <property name="awardHierarchyService" ref="awardHierarchyService" />        
+        <property name="awardHierarchyService" ref="awardHierarchyService" />
     </bean>
     
     <bean id="awardInvestigatorsRoleTypeService" class="org.kuali.kra.award.AwardInvestigatorDerivedRoleTypeServiceImpl">

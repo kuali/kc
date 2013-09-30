@@ -165,19 +165,6 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
     }
 
     /**
-     * This method is to check if Principal Investigator exists in the list
-     * @throws Exception
-     */
-    @Test
-    public void testIsPIExists() throws Exception {
-        List<ProtocolPersonBase> protocolPersons = new ArrayList<ProtocolPersonBase>();
-        protocolPersons.add(getPrincipalInvestigatorPerson());
-        protocolPersons.add(getCoInvestigatorPerson());
-        boolean piExists = service.isPIExists(protocolPersons);
-        assertTrue(piExists);
-    }
-
-    /**
      * This method is to check for duplicate person
      * @throws Exception
      */

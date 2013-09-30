@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeBase;

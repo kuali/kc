@@ -46,6 +46,7 @@ import java.util.*;
  * changing the API. JF 
  */
 public class BudgetRatesServiceTest extends KcUnitTestBase {
+    public static final String BUDGET_ID_KEY = "budgetId";
     private static final String TRACK_AFFECTED_PERIOD_1 = "|1|";
     private static final String TRACK_AFFECTED_PERIOD_2 = "|2|";
     private static final double DOUBLE_VALUE_ERROR_LIMIT = 0.01;
@@ -454,7 +455,7 @@ public class BudgetRatesServiceTest extends KcUnitTestBase {
         }  
         
         private Collection findMatchingBudgetPersons(Map fieldValues) {
-            Integer bvNumber = (Integer) fieldValues.get(BudgetRatesServiceImpl.BUDGET_ID_KEY);
+            Integer bvNumber = (Integer) fieldValues.get(BUDGET_ID_KEY);
             
             List<BudgetPerson> budgetPersons = new ArrayList<BudgetPerson>();
             for(BudgetPerson budgetPerson: budgetPersons) {

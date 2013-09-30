@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import org.kuali.kra.logging.TraceLogProxyFactory;
-import org.kuali.kra.logging.Traceable;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -41,7 +39,7 @@ import static org.kuali.kra.logging.BufferedLogger.info;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.11 $
  */
-public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
+public class CreditSplitValidator {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidator.class);
     private static final KualiDecimal CREDIT_UPBOUND = new KualiDecimal(100.00);
     private static final KualiDecimal CREDIT_LOWBOUND = KualiDecimal.ZERO;
@@ -368,18 +366,6 @@ public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
         }
         
         return null;
-    }
-    
-    public static CreditSplitValidator getInstance() {
-        return TraceLogProxyFactory.getProxyFor(CreditSplitValidator.class);
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.logging.Traceable#getProxy(java.lang.Object)
-     */
-    public CreditSplitValidator getProxy(CreditSplitValidator archetype) {
-        return TraceLogProxyFactory.getProxyFor(archetype);
     }
 }
 

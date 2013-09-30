@@ -22,11 +22,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 public class KcPersonServiceImplTest extends KcUnitTestBase {
     
     private KcPersonService service;
@@ -39,22 +34,6 @@ public class KcPersonServiceImplTest extends KcUnitTestBase {
     @Test
     public void testCorrectClass(){
         assertTrue("Should be the same", service.getClass().equals(KcPersonServiceImpl.class));
-    }
-
-    @Test
-    public void testGetKcPersons() {
-        Map<String,String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("names.nameCode", "PRFR"); 
-        List<KcPerson> kcPersons = service.getKcPersons(fieldValues);
-        Iterator<KcPerson> i = kcPersons.iterator();
-        boolean foundExpectedPerson = false;
-        while(i.hasNext()){
-            KcPerson person = i.next();
-            if("admin".equals(person.getUserName())){
-                foundExpectedPerson = true;
-            }
-        }
-        assertTrue("Should have found 'admin'", foundExpectedPerson);
     }
 
     @Test
