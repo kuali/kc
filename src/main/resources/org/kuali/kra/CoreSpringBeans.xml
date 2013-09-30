@@ -79,6 +79,10 @@
         <property name="listItem" value="classpath:org/kuali/kra/dwr-kra.xml" />
     </bean>
     
+    <bean id="attachmentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="attachmentService" />
+    </bean>
+    
     <bean id="businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="businessObjectService" />
     </bean>
@@ -822,6 +826,11 @@
     
     <bean id="institutionalProposalService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="institutionalProposalService" />
+    </bean>
+    
+    <bean id="institutionalProposalNoteAttachmentService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalNoteAttachmentServiceImpl">
+        <property name="noteService" ref="noteService" />
+        <property name="attachmentService" ref="attachmentService" />
     </bean>
     
     <bean id="negotiationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">

@@ -16,16 +16,16 @@
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
 import org.apache.commons.httpclient.auth.AuthenticationException;
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.apache.struts.upload.FormFile;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.*;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
@@ -33,6 +33,7 @@ import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteAddEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteEventBase.ErrorType;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalNoteAttachmentService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
@@ -42,19 +43,13 @@ import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Attachment;
-import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.NoteType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,6 +69,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     private KcAttachmentService kcAttachmentService;
     private ParameterService parameterService;
     private InstitutionalProposalService institutionalProposalService;
+    private InstitutionalProposalNoteAttachmentService institutionalProposalNoteAttachmentService;
 
     /**
      * Constructs a InstitutionalProposalHomeAction.java.
@@ -95,60 +91,13 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        if (applyRules(new InstitutionalProposalNoteAddEvent(Constants.EMPTY_STRING, ((InstitutionalProposalForm) form)
-                .getDocument(), institutionalProposalForm.getInstitutionalProposalNotepadBean()
-                .getNewInstitutionalProposalNotepad(), ErrorType.HARDERROR))) {
-            InstitutionalProposalNotepad notepad = institutionalProposalForm.getInstitutionalProposalNotepadBean().getNewInstitutionalProposalNotepad();
-            BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry("org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad");
-            if (institutionalProposalForm.getAttachmentFile() != null) {
-                if (!businessObjectEntry.isBoNotesEnabled()) {
-                    throw new RuntimeException("to add attachments, the DD file for InstitutionalProposalNotepad must be configured for boNotesEnabled=true");
-                }
-                else {
-                    // FIXME: Rice 2.0 upgrade.  since this is a new bo, there is no objid generated yet.
-                    // so noteservice.getByRemoteObjectId should not work.  there is no other option to get this list, and it seemed that there should be no list.
-                    /*
-                   List<Note> boNotes = notepad.getBoNotes();
-                    if (!boNotes.isEmpty()) {
-                        throw new IllegalStateException("IP already has an attachment for the note"); 
-                    }
-                    */
-                    
-                    FormFile attachmentFile = institutionalProposalForm.getAttachmentFile();
-                    if (attachmentFile == null) {
-                        GlobalVariables.getMessageMap().putError(
-                                String.format("%s.%s",
-                                        KRADConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME,
-                                        KRADConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
-                                RiceKeyConstants.ERROR_UPLOADFILE_NULL);
-                    }
-
-                    Note newNote = new Note();
-                    newNote.setNoteText("Default text, will never be shown to user.");
-                    newNote.setNoteTypeCode(NoteType.BUSINESS_OBJECT.getCode());
-                    newNote.setNotePostedTimestampToCurrent();
-                    Attachment attachment = null;
-                    if (attachmentFile != null && !StringUtils.isBlank(attachmentFile.getFileName())) {
-                        if (attachmentFile.getFileSize() == 0) {
-                            GlobalVariables.getMessageMap().putError(
-                                    String.format("%s.%s",
-                                            KRADConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME,
-                                            KRADConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
-                                    RiceKeyConstants.ERROR_UPLOADFILE_EMPTY,
-                                    attachmentFile.getFileName());
-                        }
-                        else {
-                            String attachmentType = null;
-                            attachment = getAttachmentService().createAttachment(notepad, attachmentFile.getFileName(), attachmentFile.getContentType(), attachmentFile.getFileSize(), attachmentFile.getInputStream(), attachmentType);
-                        }
-                        // create a new note from the data passed in
-                        Note tmpNote = getNoteService().createNote(newNote, notepad, GlobalVariables.getUserSession().getPrincipalId());
-                        tmpNote.addAttachment(attachment);
-                        notepad.getAttachments().add(tmpNote);
-                    }
-                }
+        ApplicationTask task = new ApplicationTask(TaskName.ADD_IACUC_PROTOCOL_NOTES);
+        if (isAuthorized(task)) {
+            if (applyRules(new InstitutionalProposalNoteAddEvent(Constants.EMPTY_STRING, ((InstitutionalProposalForm) form)
+                    .getDocument(), institutionalProposalForm.getInstitutionalProposalNotepadBean()
+                    .getNewInstitutionalProposalNotepad(), ErrorType.HARDERROR))) {
+                return getInstitutionalProposalNoteAttachmentService().addNote(mapping, institutionalProposalForm);
             }
-            institutionalProposalNotepadBean.addNote(((InstitutionalProposalForm) form).getInstitutionalProposalNotepadBean());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -180,30 +129,12 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
      * @throws Exception
      */
     public ActionForward deleteNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        int selection = getLineToDelete(request);
-        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
-        InstitutionalProposalNotepad ipNotepad = document.getInstitutionalProposal().getInstitutionalProposalNotepads().get(selection);
-        Note attachmentNote;
-        if (ipNotepad.getAttachments().size() > 0) {
-            attachmentNote = ipNotepad.getAttachments().get(0);
-            Attachment attachment = attachmentNote.getAttachment();
-
-            if (attachment != null) { // only do this if the note has been persisted
-                //All references for the business object Attachment are auto-update="none",
-                //so refreshNonUpdateableReferences() should work the same as refresh()
-                if (attachmentNote.getNoteIdentifier() != null) { 
-                    attachment.refreshNonUpdateableReferences();
-                }
-                getAttachmentService().deleteAttachmentContents(attachment);
-            }
-            // delete the note if the document is already saved
-            if (!document.getDocumentHeader().getWorkflowDocument().isInitiated()) {
-                getNoteService().deleteNote(attachmentNote);
-            }
+        ApplicationTask task = new ApplicationTask(TaskName.ADD_IACUC_PROTOCOL_NOTES);
+        if (isAuthorized(task)) {
+            int selection = getLineToDelete(request);
+            InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+            return getInstitutionalProposalNoteAttachmentService().deleteNote(mapping, institutionalProposalForm, selection);
         }
-        document.getInstitutionalProposal().getInstitutionalProposalNotepads().remove(selection);
-
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
@@ -510,6 +441,13 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return KraServiceLocator.getService(ProposalLogService.class);
     }
     
+    public InstitutionalProposalNoteAttachmentService getInstitutionalProposalNoteAttachmentService() {
+        if (institutionalProposalNoteAttachmentService == null) {
+            institutionalProposalNoteAttachmentService = KraServiceLocator.getService(InstitutionalProposalNoteAttachmentService.class);
+        }
+        return institutionalProposalNoteAttachmentService;
+    }
+
     /**
      * This method gets the attachment service
      * @return
