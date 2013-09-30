@@ -57,9 +57,6 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     }
 
     protected void populateBudgetPersonData(Budget budget, BudgetPerson budgetPerson) {
-        
-//        budgetPerson.setProposalNumber(budget.getProposalNumber());
-//        budgetPerson.setBudgetVersionNumber(budget.getBudgetVersionNumber());
         budgetPerson.setBudgetId(budget.getBudgetId());
         budgetPerson.setPersonSequenceNumber(budget.getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
         
@@ -208,8 +205,6 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     @Override
     public BudgetPerson findBudgetPerson(BudgetPersonnelDetails budgetPersonnelDetails) {
         Map queryMap = new HashMap();
-//        queryMap.put("proposalNumber", budgetPersonnelDetails.getProposalNumber());
-//        queryMap.put("budgetVersionNumber", budgetPersonnelDetails.getBudgetVersionNumber());
         queryMap.put("budgetId", budgetPersonnelDetails.getBudgetId());
         queryMap.put("personSequenceNumber", budgetPersonnelDetails.getPersonSequenceNumber());
         return (BudgetPerson)businessObjectService.findByPrimaryKey(BudgetPerson.class, queryMap);

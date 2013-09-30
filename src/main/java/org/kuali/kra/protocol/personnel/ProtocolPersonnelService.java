@@ -79,14 +79,6 @@ public interface ProtocolPersonnelService {
      */
     public void selectProtocolUnit(List<ProtocolPersonBase> protocolPersons);
     
-    /**
-     * This method is to check if Principal Investigator already exists.
-     * Only one Principal Investigator may be assigned to each protocol
-     * @param protocolPersons
-     * @return true / false
-     */
-    public boolean isPIExists(List<ProtocolPersonBase> protocolPersons);    
-    
     
     /**
      * This method is to check for duplicate person.

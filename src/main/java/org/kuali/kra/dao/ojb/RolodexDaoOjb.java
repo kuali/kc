@@ -68,11 +68,8 @@ public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
         }
         return new CollectionIncomplete(searchResults, matchingResultsCount);    
     }
-    
-    /**
-     * @see org.kuali.kra.dao.RolodexDao#getNonOrganizationalRolodexCriteria(java.lang.Class, java.util.Map, boolean)
-     */
-    public Criteria getNonOrganizationalRolodexCriteria(Class businessObjectClass, Map fieldValues, boolean usePrimaryKeys) {
+
+    protected Criteria getNonOrganizationalRolodexCriteria(Class businessObjectClass, Map fieldValues, boolean usePrimaryKeys) {
         Criteria retval;
         
         if (usePrimaryKeys) {

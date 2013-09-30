@@ -28,18 +28,6 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
     
     private BusinessObjectService businessObjectService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.service.KcNotificationModuleRoleService#addNotificationModuleRole(java.lang.String, java.lang.String)
-     */
-    public NotificationModuleRole addNotificationModuleRole(String moduleCode, String roleName) {
-        NotificationModuleRole moduleRole = new NotificationModuleRole();
-        moduleRole.setModuleCode(moduleCode);
-        moduleRole.setRoleName(roleName);
-        
-        getBusinessObjectService().save(moduleRole);
-        return moduleRole;
-    }
 
     /**
      * {@inheritDoc}
