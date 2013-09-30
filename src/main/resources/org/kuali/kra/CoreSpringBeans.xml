@@ -314,10 +314,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
     </bean>
-    
-    <bean id="argValueLookupService" class="org.kuali.kra.service.impl.ArgValueLookupServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
 
     <bean id="awardAccountValidationService" class="org.kuali.kra.external.award.impl.AwardAccountValidationServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

@@ -27,7 +27,6 @@ htmlFormAction="reporting">
         <script type="text/javascript" language="javascript" src="scripts/kuali_application.js"></script>
         <script type="text/javascript" language="javascript" src="scripts/core.js"></script>
 		<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
-        <script language="javascript" src="dwr/interface/BirtReportService.js"></script>
 
 	<kul:tabTop tabTitle="Generate Report" defaultOpen="true" tabErrorKey="custReportDetails.reportLabelDisplay">
 		 <div class="tab-container" align="center">

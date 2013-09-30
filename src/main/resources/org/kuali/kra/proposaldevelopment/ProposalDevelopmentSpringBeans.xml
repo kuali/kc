@@ -207,10 +207,6 @@
     <bean id="versionHistoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="versionHistoryService" />
     </bean>
-    
-    <bean id="argValueLookupService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="argValueLookupService" />
-    </bean>
 
     <bean id="ynqService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="ynqService" />
