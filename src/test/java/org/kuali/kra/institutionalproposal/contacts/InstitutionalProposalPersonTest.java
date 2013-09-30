@@ -47,21 +47,6 @@ public class InstitutionalProposalPersonTest {
     }
     
     @Test
-    public void testAddingUnits() throws Exception {
-        Assert.assertEquals(0, contact.getUnits().size());
-        contact.add(new InstitutionalProposalPersonUnit(contact, unitA, InstitutionalProposalPersonUnit.IS_NOT_LEAD_UNIT));
-        contact.add(new InstitutionalProposalPersonUnit(contact, unitB, InstitutionalProposalPersonUnit.IS_LEAD_UNIT));
-        Assert.assertEquals(2, contact.getUnits().size());        
-    }
-    
-    @Test
-    public void testFindingLeadUnit() throws Exception {
-        contact.add(new InstitutionalProposalPersonUnit(contact, unitA, InstitutionalProposalPersonUnit.IS_NOT_LEAD_UNIT));
-        contact.add(new InstitutionalProposalPersonUnit(contact, unitB, InstitutionalProposalPersonUnit.IS_LEAD_UNIT));
-        Assert.assertEquals(unitB.getUnitName(), contact.findLeadUnit().getUnitName());
-    }
-    
-    @Test
     public void testFindingPrincipalInvestigator() {
         contact.setContactRole(ContactRoleFixtureFactory.MOCK_COI);
         Assert.assertFalse("PI misidentified", contact.isPrincipalInvestigator());

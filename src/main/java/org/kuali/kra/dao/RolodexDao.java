@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.dao;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -39,15 +38,4 @@ public interface RolodexDao {
      * @return Collection of <code>{@link Rolodex}</code> instances
      */
     public List<? extends BusinessObject> getNonOrganizationalRolodexResults(Map fieldValues, boolean usePrimaryKeys);
-    
-    /**
-     * Create <code>{@link Criteria}</code> instance for the Persistance Broker to search for <code>{@link NonOrganizationalRolodex}</code>
-     * instances.
-     * 
-     * @param businessObjectClass
-     * @param fieldValues
-     * @param usePrimaryKeys indicates whether to simplify the search due to criteria restricted to primary keys
-     * @return Criteria
-     */
-    public Criteria getNonOrganizationalRolodexCriteria(Class businessObjectClass, Map fieldValues, boolean usePrimaryKeys);
 }

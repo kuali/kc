@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.common.committee.meeting.AlternateForValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;

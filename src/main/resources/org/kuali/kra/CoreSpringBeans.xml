@@ -585,7 +585,6 @@
     
     <bean id="kcPersonService" class="org.kuali.kra.service.impl.KcPersonServiceImpl">
        <property name="identityService" ref="identityService" />
-       <property name="personService" ref="personService" />
        <property name="parameterService" ref="parameterService" />
        <property name="multiCampusIdentityService" ref="multiCampusIdentityService" /> 
     </bean>

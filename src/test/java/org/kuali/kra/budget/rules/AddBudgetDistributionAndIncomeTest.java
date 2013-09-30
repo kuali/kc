@@ -39,11 +39,7 @@ public abstract class AddBudgetDistributionAndIncomeTest {
     protected abstract Object generateEmptyArtifact();
     protected abstract Object generateRuleEvent(Object artifact);
     protected abstract boolean processRules(Object ruleEvent);
-    
-    /**
-     * 
-     * @see junit.framework.TestCase#setUp()
-     */
+
     @Before
     public void setUp() {
         GlobalVariables.setMessageMap(new MessageMap());
@@ -52,10 +48,6 @@ public abstract class AddBudgetDistributionAndIncomeTest {
         addArtifactToDocument(generateReferenceArtifact());
     }
 
-    /**
-     * 
-     * @see junit.framework.TestCase#tearDown()
-     */
     @After
     public void tearDown() {
         GlobalVariables.clear();
