@@ -37,10 +37,6 @@ public interface AwardPaymentAndInvoicesService {
     public List<ValidBasisMethodPayment> getValidBasisMethodPaymentByBasisCode( String basisOfPaymentCode );
     
     public ValidAwardBasisPayment getValidAwardBasisPayment(Integer validAwardBasisPaymentId);
-
-    public String getAwardMethodOfPaymentDescription( String awardMethodOfPaymentId );
-    
-    public String getAwardBasisOfPaymentDescription( String awardBasisOfPaymentId );
     
     /**
      * Return a delimited string representation of the getValidAwardBasisPaymentsByAwardTypeCode method.

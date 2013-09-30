@@ -26,9 +26,9 @@ import java.io.IOException;
 
 public interface ResearchAreasServiceBase {
     /**
-     * 
+     *
      * This method to get children research area codes of 'researchAreaCode'.
-     * 
+     *
      * @param researchAreaCode
      * @param activeOnly - if true show only active research areas
      * @return

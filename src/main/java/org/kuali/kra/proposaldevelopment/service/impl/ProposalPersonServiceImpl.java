@@ -21,9 +21,12 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.lookup.keyvalue.KCStateValuesFinder;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.kra.util.ValuesFinderUtility;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -98,4 +101,11 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         }
         return personDivisionName;
     }
+
+    @Override
+    public String getNewStateList(String countryCode) {
+        List<KeyValue> values = KCStateValuesFinder.getKeyValues(countryCode.trim());
+        return ValuesFinderUtility.processKeyValueList(values);
+    }
+
 }
