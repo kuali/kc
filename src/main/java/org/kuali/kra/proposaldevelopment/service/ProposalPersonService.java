@@ -33,4 +33,12 @@ public interface ProposalPersonService {
      * @return divisionName based on the 4th level node on the Unit hierarchy.
      */
     public String getProposalPersonDivisionName(ProposalPerson proposalPerson);
+
+    /**
+     *
+     * This method will be used by person.tag to rebuild the state select list after a country has been changed.
+     * @param countryCode
+     * @return
+     */
+    public String getNewStateList(String countryCode);
 }
