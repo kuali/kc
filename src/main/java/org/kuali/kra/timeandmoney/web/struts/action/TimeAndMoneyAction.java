@@ -728,7 +728,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     private Award getCurrentAward(TimeAndMoneyDocument timeAndMoneyDocument) {
         Award tmpAward = timeAndMoneyDocument.getAward();
         if(tmpAward == null) {
-           // tmpAward = getActivePendingTransactionsService().getWorkingAwardVersion(timeAndMoneyDocument.getAwardNumber());
             tmpAward = getAwardVersionService().getWorkingAwardVersion(timeAndMoneyDocument.getAwardNumber());
         }
         

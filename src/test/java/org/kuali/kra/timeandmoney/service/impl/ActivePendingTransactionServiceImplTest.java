@@ -20,7 +20,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
@@ -117,70 +116,6 @@ public class ActivePendingTransactionServiceImplTest {
         Assert.assertEquals(awardNumber2, parent.getAwardNumber());
      
                 
-    }
-    
-    @Test
-    public void testUpdateAmountFields(){        
-        AwardAmountInfo aai = new AwardAmountInfo();        
-        aai.setAmountObligatedToDate(TEN_THOUSAND);
-        aai.setAntDistributableAmount(TEN_THOUSAND);
-        aai.setObliDistributableAmount(TEN_THOUSAND);
-        aai.setAnticipatedTotalAmount(TEN_THOUSAND);
-        
-        AwardAmountInfo nai = new AwardAmountInfo();        
-        nai.setAmountObligatedToDate(TEN_THOUSAND);
-        nai.setAntDistributableAmount(TEN_THOUSAND);
-        nai.setObliDistributableAmount(TEN_THOUSAND);
-        nai.setAnticipatedTotalAmount(TEN_THOUSAND);
-        
-        pt.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
-        pt.setDestinationAwardNumber(awardNumber1);
-        pt.setObligatedAmount(TEN_THOUSAND);
-        pt.setAnticipatedAmount(TEN_THOUSAND);
-        activePendingTransactionsServiceImpl.updateAmountFields(false, false, pt, aai, nai);
-        Assert.assertEquals(TEN_THOUSAND, nai.getAntDistributableAmount());
-        Assert.assertEquals(TWENTY_THOUSAND, nai.getAnticipatedTotalAmount());
-        Assert.assertEquals(TWENTY_THOUSAND, nai.getAmountObligatedToDate());
-        Assert.assertEquals(TEN_THOUSAND, nai.getObliDistributableAmount());
-        Assert.assertEquals(TEN_THOUSAND, nai.getObligatedChange());
-        Assert.assertEquals(TEN_THOUSAND, nai.getAnticipatedChange());
-        
-        pt.setSourceAwardNumber(awardNumber1);
-        pt.setDestinationAwardNumber(awardNumber3);
-        pt.setObligatedAmount(TEN_THOUSAND);
-        pt.setAnticipatedAmount(TEN_THOUSAND);
-        activePendingTransactionsServiceImpl.updateAmountFields(false, false, pt, aai, nai);
-        Assert.assertEquals(TEN_THOUSAND, nai.getAntDistributableAmount());
-        Assert.assertEquals(TEN_THOUSAND, nai.getAnticipatedTotalAmount());
-        Assert.assertEquals(TEN_THOUSAND, nai.getAmountObligatedToDate());
-        Assert.assertEquals(TEN_THOUSAND, nai.getObliDistributableAmount());
-        Assert.assertEquals(ZERO, nai.getObligatedChange());
-        Assert.assertEquals(ZERO, nai.getAnticipatedChange());       
-        
-        pt.setSourceAwardNumber(awardNumber1);
-        pt.setDestinationAwardNumber(awardNumber3);
-        pt.setObligatedAmount(TEN_THOUSAND);
-        pt.setAnticipatedAmount(TEN_THOUSAND);
-        activePendingTransactionsServiceImpl.updateAmountFields(true, true, pt, aai, nai);
-        Assert.assertEquals(TWENTY_THOUSAND, nai.getAntDistributableAmount());
-        Assert.assertEquals(TWENTY_THOUSAND, nai.getAnticipatedTotalAmount());
-        Assert.assertEquals(TWENTY_THOUSAND, nai.getAmountObligatedToDate());
-        Assert.assertEquals(TWENTY_THOUSAND, nai.getObliDistributableAmount());
-        Assert.assertEquals(TEN_THOUSAND, nai.getObligatedChange());
-        Assert.assertEquals(TEN_THOUSAND, nai.getAnticipatedChange());
-        
-        pt.setSourceAwardNumber(awardNumber1);
-        pt.setDestinationAwardNumber(awardNumber3);
-        pt.setObligatedAmount(TEN_THOUSAND);
-        pt.setAnticipatedAmount(TEN_THOUSAND);
-        activePendingTransactionsServiceImpl.updateAmountFields(true, false, pt, aai, nai);
-        Assert.assertEquals(ZERO, nai.getAntDistributableAmount());
-        Assert.assertEquals(TEN_THOUSAND, nai.getAnticipatedTotalAmount());
-        Assert.assertEquals(TEN_THOUSAND, nai.getAmountObligatedToDate());
-        Assert.assertEquals(ZERO, nai.getObliDistributableAmount());
-        Assert.assertEquals(TEN_THOUSAND, nai.getObligatedChange());
-        Assert.assertEquals(TEN_THOUSAND, nai.getAnticipatedChange());       
-        
     }
     
     @Test

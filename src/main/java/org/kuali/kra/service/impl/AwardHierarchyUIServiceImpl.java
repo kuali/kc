@@ -23,7 +23,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -50,7 +49,6 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     private static final String DOC_NON_FINAL_STATUS_CODE = "N"; 
     
     private BusinessObjectService businessObjectService;    
-    private ActivePendingTransactionsService activePendingTransactionsService;
     private AwardHierarchyService awardHierarchyService;
     private Map<String, AwardHierarchyNode> awardHierarchyNodes;
     
@@ -388,22 +386,6 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      */
     public void setAwardHierarchyNodes(Map<String, AwardHierarchyNode> awardHierarchyNodes) {
         this.awardHierarchyNodes = awardHierarchyNodes;
-    }
-
-    /**
-     * Gets the activePendingTransactionsService attribute. 
-     * @return Returns the activePendingTransactionsService.
-     */
-    public ActivePendingTransactionsService getActivePendingTransactionsService() {
-        return activePendingTransactionsService;
-    }
-
-    /**
-     * Sets the activePendingTransactionsService attribute value.
-     * @param activePendingTransactionsService The activePendingTransactionsService to set.
-     */
-    public void setActivePendingTransactionsService(ActivePendingTransactionsService activePendingTransactionsService) {
-        this.activePendingTransactionsService = activePendingTransactionsService;
     }
 
     /**
