@@ -27,8 +27,6 @@
     headerTabActive="disclosure"
     >
 
-<link type="text/css" rel="stylesheet" href="krad/plugins/fancybox/jquery.fancybox-1.3.4.css"></link>
-     	<script type="text/javascript" src="krad/plugins/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
     <link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
         
         

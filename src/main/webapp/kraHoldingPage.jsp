@@ -15,8 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<script language="JavaScript" type="text/javascript" src="../../../krad/plugins/blockUI/jquery.blockUI.js"></script>
-<script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
+<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
     var jq = jQuery.noConflict();
     jq(document).ready(function(){
