@@ -53,8 +53,6 @@
 </c:forEach>
 
        <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script> 
-       <link type="text/css" rel="stylesheet" href="krad/plugins/fancybox/jquery.fancybox-1.3.4.css"></link>
-       <script type="text/javascript" src="krad/plugins/fancybox/jquery.fancybox-1.3.4.pack.js"></script>     
        <script type="text/javascript">
         
             var $j = jQuery.noConflict();          
