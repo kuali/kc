@@ -35,6 +35,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
     
@@ -109,7 +110,7 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
         int originalNumberOfChildrenOnTargetNode = targetParentNode.getChildren().size();
         AwardHierarchy newNode = service.copyAwardAsChildOfAnAwardInAnotherHierarchy(sourceNode, targetParentNode);
         Assert.assertEquals(targetParentNode, newNode.getParent());
-        Assert.assertEquals(originalNumberOfChildrenOnTargetNode + 1, targetParentNode.childCount());
+        Assert.assertEquals(originalNumberOfChildrenOnTargetNode + 1, targetParentNode.getChildren().size());
     }
 
     @Test
@@ -120,8 +121,8 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
         AwardHierarchy newNode = service.copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(sourceNode, targetParentNode);
         Assert.assertEquals(targetParentNode, newNode.getParent());
         Assert.assertTrue(newNode.hasChildren());
-        Assert.assertEquals(sourceNode.childCount(), newNode.childCount());
-        Assert.assertEquals(originalNumberOfChildrenOnTargetNode + 1, newNode.getParent().childCount());
+        Assert.assertEquals(sourceNode.getChildren().size(), newNode.getChildren().size());
+        Assert.assertEquals(originalNumberOfChildrenOnTargetNode + 1, newNode.getParent().getChildren().size());
         Assert.assertEquals(newNode.getAward().getTitle(), sourceNode.getAward().getTitle());
     }
 
@@ -129,14 +130,14 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
     public void testCopyingAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy() {
         AwardHierarchy sourceNode = rootNodeA.getChildren().get(1);
         AwardHierarchy targetParentNode = rootNodeA.getChildren().get(2).getChildren().get(1);
-        int originalNumberOfChildrenOnTargetNode = targetParentNode.childCount();
+        int originalNumberOfChildrenOnTargetNode = targetParentNode.getChildren().size();
         AwardHierarchy newBranchNode = service.copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy(sourceNode, targetParentNode);
         Assert.assertEquals(targetParentNode, newBranchNode.getParent());
         Assert.assertTrue(newBranchNode.hasChildren());
-        Assert.assertEquals(originalNumberOfChildrenOnTargetNode + 1, newBranchNode.getParent().childCount());
-        Assert.assertEquals(sourceNode.childCount(), newBranchNode.childCount());
+        Assert.assertEquals(originalNumberOfChildrenOnTargetNode + 1, newBranchNode.getParent().getChildren().size());
+        Assert.assertEquals(sourceNode.getChildren().size(), newBranchNode.getChildren().size());
         Assert.assertEquals(newBranchNode.getAward().getTitle(), sourceNode.getAward().getTitle());
-        for(int i = 0; i < sourceNode.childCount(); i++) {
+        for(int i = 0; i < sourceNode.getChildren().size(); i++) {
             Assert.assertEquals(sourceNode.getChildren().get(i).getAward().getTitle(), newBranchNode.getChildren().get(i).getAward().getTitle());
         }
     }
@@ -161,7 +162,7 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
         int originalNumberOfChildrenOnTargetNode = targetParentNode.getChildren().size();
         AwardHierarchy newNode = service.copyAwardAsChildOfAnAwardInCurrentHierarchy(sourceNode, targetParentNode);
         Assert.assertEquals(targetParentNode, newNode.getParent());
-        Assert.assertEquals(originalNumberOfChildrenOnTargetNode + 1, targetParentNode.childCount());
+        Assert.assertEquals(originalNumberOfChildrenOnTargetNode + 1, targetParentNode.getChildren().size());
     }
 
     @Test
@@ -236,9 +237,18 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
         assertNull(service.loadAwardHierarchy(null));
     }
 
+    public static Map<String, AwardHierarchy> getMapOfNodesInHierarchy(AwardHierarchy rootNode) {
+        Map<String, AwardHierarchy> nodeMap = new TreeMap<String, AwardHierarchy>();
+        List<AwardHierarchy> nodes = rootNode.getFlattenedListOfNodesInHierarchy();
+        for (AwardHierarchy node : nodes) {
+            nodeMap.put(node.getAwardNumber(), node);
+        }
+        return nodeMap;
+    }
+
     @Test
     public void testGettingHierarchyAsMap_UsingVarunification() {
-        Map<String, AwardHierarchy> refMap = rootNodeA.getMapOfNodesInHierarchy();
+        Map<String, AwardHierarchy> refMap = getMapOfNodesInHierarchy(rootNodeA);
         List<String> awardNumbers = new ArrayList<String>();
         Map<String, AwardHierarchy> nodeMap = service.getAwardHierarchy(rootNodeA.getAwardNumber(), awardNumbers);
         Assert.assertEquals(awardNumbers.size(), nodeMap.size());

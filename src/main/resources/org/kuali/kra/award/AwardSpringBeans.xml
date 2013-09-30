@@ -323,7 +323,6 @@
         <property name="versioningService" ref="versioningService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
         <property name="awardAmountInfoService" ref="awardAmountInfoService" />
-        <property name="activePendingTransactionsService" ref="activePendingTransactionsService" />
         <property name="parameterService" ref="parameterService" />
         <property name="awardService" ref="awardService" />
         <property name="awardVersionService" ref="awardVersionService" />
@@ -353,7 +352,6 @@
     
     <bean id="awardNumberService" class="org.kuali.kra.award.AwardNumberServiceImpl">
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
-        <property name="kraLookupDao" ref="kraLookupDao" />
     </bean>
     
     <bean id="awardPersonDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.AwardPersonDaoOjb">
@@ -478,7 +476,6 @@
     </bean>     
     
     <bean id="reportTrackingLookupableHelperService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingLookupableHelperServiceImpl" parent="parentLookupableHelperService" scope="prototype">
-        <property name="reportTrackingDao" ref="reportTrackingDao" />
     </bean>
 
     <bean id="reportTrackingDao" parent="platformAwareDao" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDaoOjb">

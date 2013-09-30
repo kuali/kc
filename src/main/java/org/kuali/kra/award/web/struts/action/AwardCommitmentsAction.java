@@ -19,7 +19,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.commitments.*;
+import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
+import org.kuali.kra.award.commitments.AwardFandaRate;
+import org.kuali.kra.award.commitments.AwardFandaRateRule;
+import org.kuali.kra.award.commitments.AwardFandaRateSaveEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
@@ -103,19 +106,6 @@ public class AwardCommitmentsAction extends AwardAction {
     }
     
     /**
-     * 
-     * This method is a convenience method for adding an <code>AwardCostShare</code> to
-     * <code>Award</code> business object.This way the add functionality can be tested
-     * independently using a JUnit Test.
-     * @param award
-     * @param awardCostShare
-     * @return
-     */
-    boolean addCostShareToAward(Award award, AwardCostShare awardCostShare){
-        return award.getAwardCostShares().add(awardCostShare);
-    }
-    
-    /**
      * This method is used to delete an Award Cost Share
      * 
      * @param mapping
@@ -130,20 +120,6 @@ public class AwardCommitmentsAction extends AwardAction {
         int delCostShare = getLineToDelete(request);
         return confirm(buildDeleteCostShareConfirmationQuestion(mapping, form, request, response,
                 delCostShare+1), CONFIRM_DELETE_COST_SHARE, "");
-    }
-    
-    /**
-     * 
-     * This method is a convenience method for deleting an <code>AwardFandaRate</code> from
-     * <code>Award</code> business object. This way the delete functionality can be tested
-     * independently using a JUnit Test.
-     * @param award
-     * @param lineToDelete
-     * @return
-     */
-    boolean deleteCostShareFromAward(Award award, int lineToDelete){
-        award.getAwardCostShares().remove(lineToDelete);
-        return true;
     }
     
     /**

@@ -25,11 +25,4 @@ public interface AwardNumberService {
      * @return
      */
     String getNextAwardNumber();
-    
-    /**
-     * This method...
-     * @param awardNumber
-     * @return
-     */
-    String getNextAwardNumberInHierarchy(String awardNumber);
 }

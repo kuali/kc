@@ -26,7 +26,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -195,14 +194,6 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     public BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
-    }
-    
-    /**
-     * Gets the ActivePendingTransactionsService attribute. 
-     * @return Returns the ActivePendingTransactionsService.
-     */
-    public ActivePendingTransactionsService getActivePendingTransactionsService() {
-        return KraServiceLocator.getService(ActivePendingTransactionsService.class);
     }
     
     public AwardVersionService getAwardVersionService() {

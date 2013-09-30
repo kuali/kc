@@ -91,17 +91,4 @@ public class AwardCommitmentsActionTest {
         awardCommitmentsAction.deleteFandaRateFromAward(award, 0);
         Assert.assertEquals(ZERO, award.getAwardFandaRate().size());        
     }
-    
-    @Test
-    public void testAddCostShare(){
-        Assert.assertTrue(awardCommitmentsAction.addCostShareToAward(award, awardCostShare));
-    }
-    
-    @Test
-    public void testDeleteCostShareFromAward(){        
-        awardCommitmentsAction.addCostShareToAward(award, awardCostShare);        
-        awardCommitmentsAction.deleteCostShareFromAward(award, 0);
-        Assert.assertEquals(ZERO, award.getAwardCostShares().size());        
-    }
-
 }
