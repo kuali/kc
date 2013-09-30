@@ -41,8 +41,6 @@
 
 	<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
 		
-	<script language="JavaScript" type="text/javascript" src="dwr/interface/AwardHierarchyUIService.js"></script>	
-
 	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />

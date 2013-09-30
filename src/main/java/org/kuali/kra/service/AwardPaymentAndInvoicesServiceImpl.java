@@ -109,20 +109,4 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-
-
-
-    @Override
-    public String getAwardBasisOfPaymentDescription(String awardBasisOfPaymentId) {
-        AwardBasisOfPayment basisOfPayment = (AwardBasisOfPayment)businessObjectService.findByPrimaryKey(AwardBasisOfPayment.class, ServiceHelper.getInstance().buildCriteriaMap(AWARDBASISOFPAYMENT_CODE, awardBasisOfPaymentId));
-        return basisOfPayment!=null?basisOfPayment.getDescription():"";
-    }
-
-    @Override
-    public String getAwardMethodOfPaymentDescription(String awardMethodOfPaymentId) {
-        AwardMethodOfPayment awardMethodOfPayment = (AwardMethodOfPayment)businessObjectService.findByPrimaryKey(AwardMethodOfPayment.class, ServiceHelper.getInstance().buildCriteriaMap(AWARDMETHODOFPAYMENT_CODE, awardMethodOfPaymentId));
-        return awardMethodOfPayment!=null?awardMethodOfPayment.getDescription():"";
-    }
-  
 }

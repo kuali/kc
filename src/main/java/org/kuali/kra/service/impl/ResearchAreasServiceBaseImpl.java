@@ -69,10 +69,10 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     private static final String NEW_PARENT = "NewParent";
     private BusinessObjectService businessObjectService;
     private ResearchAreaReferencesDao researchAreaReferencesDao;
-    
-   
+
+
     /**
-     * 
+     *
      * @see org.kuali.kra.irb.service.ResearchAreasService#getSubResearchAreasForTreeView(java.lang.String)
      */
     public String getSubResearchAreasForTreeView(String researchAreaCode, boolean activeOnly) {
@@ -80,11 +80,11 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         for (ResearchAreaBase researchArea : getSubResearchAreas(researchAreaCode, activeOnly)) {
             researchAreas = researchAreas + researchArea.getResearchAreaCode() +KRADConstants.BLANK_SPACE+COLUMN_CODE_1+KRADConstants.BLANK_SPACE+ researchArea.getDescription() +KRADConstants.BLANK_SPACE+COLUMN_CODE_2+KRADConstants.BLANK_SPACE+ researchArea.isActive()+"</h3><h3>";
         }
-        researchAreas = researchAreas.substring(0, researchAreas.length() - 4);        
+        researchAreas = researchAreas.substring(0, researchAreas.length() - 4);
         return researchAreas;
-        
+
     }
-   
+
     /*
      * call businessobjectservice to get a list of sub research areas of 'researchareacode'
      */

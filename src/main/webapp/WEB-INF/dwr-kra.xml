@@ -39,7 +39,21 @@
 		<convert converter="bean" match="org.kuali.kra.bo.Rolodex">
 			<param name="include" value="fullName,rolodexId,unit,emailAddress,phoneNumber,organization,addressLine1,addressLine2,addressLine3,city,state,countryCode,postalCode" />
 		</convert>
-
+        <convert converter="bean" match="org.kuali.kra.bo.Organization">
+            <param name="include" value="organizationId,organizationName" />
+        </convert>
+        <convert converter="bean" match="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource">
+            <param name="include" value="fundingSourceTitle,fundingSourceName,fundingSourceLookupable" />
+        </convert>
+        <convert converter="bean" match="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource">
+            <param name="include" value="fundingSourceTitle,fundingSourceName,fundingSourceLookupable" />
+        </convert>
+        <convert converter="bean" match="org.kuali.rice.location.framework.state.StateEbo">
+            <param name="include" value="code,name,countryCode" />
+        </convert>
+        <convert converter="bean" match="org.kuali.rice.location.api.state.State">
+            <param name="include" value="code,name,countryCode" />
+        </convert>
 						
 		<create creator="spring" javascript="SponsorService">
 			<param name="beanName" value="sponsorService" />
@@ -58,16 +72,9 @@
 			<include method="getUnitName" />
 			<include method="getSubUnitsForTreeView" />
 		</create>
-		<create creator="spring" javascript="BirtReportService">
-			<param name="beanName" value="birtReportService" />
-			<include method="getInputParametersFromTemplateFile" />			
-		</create>
 		<create creator="spring" javascript="KraPersonService">
 			<param name="beanName" value="kcPersonService" />
 			<include method="getKcPersonByUserName" />
-			<include method="getEmailAddress" />
-			<include method="getPhoneNumber" />
-			<include method="getPersonId" />			
 		</create>
 		<create creator="spring" javascript="CustomAttributeService">
 			<param name="beanName" value="customAttributeService" />
@@ -87,90 +94,55 @@
 			<param name="beanName" value="jobCodeService" />
 			<include method="findJobCodeTitle" />
 		</create>
-		<create creator="spring" javascript="ResearchAreasService">
-			<param name="beanName" value="researchAreasService" />
-			<include method="getSubResearchAreasForTreeView" />
-			<include method="getAscendantList" />			
-		</create>
-		<create creator="spring" javascript="AwardHierarchyUIService">
-			<param name="beanName" value="awardHierarchyUIService" />								
-		</create>
 		<create creator="spring" javascript="AwardFandaRateService">
 			<param name="beanName" value="awardFandaRateService" />			
 			<include method="getStartAndEndDatesBasedOnFiscalYear" />
 		</create>
-		<convert converter="bean" match="org.kuali.kra.bo.Organization">
-			<param name="include" value="organizationId,organizationName" />
-		</convert>
 		<create creator="spring" javascript="OrganizationService">
 			<param name="beanName" value="organizationService" />
 			<include method="getOrganizationName" />
 		</create>
- 
-       
         <create creator="spring" javascript="ProtocolFundingSourceService">
             <param name="beanName" value="protocolFundingSourceService" />
             <include method="updateProtocolFundingSource" />
             <include method="isEditable" />
             <include method="isLookupable" />
         </create>
-        <convert converter="bean" match="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource">
-            <param name="include" value="fundingSourceTitle,fundingSourceName,fundingSourceLookupable" />          
-        </convert>
-        
         <create creator="spring" javascript="IacucProtocolFundingSourceService">
             <param name="beanName" value="iacucProtocolFundingSourceService" />
             <include method="updateProtocolFundingSource" />
             <include method="isEditable" />
             <include method="isLookupable" />
         </create>
-        
-        <convert converter="bean" match="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource">
-            <param name="include" value="fundingSourceTitle,fundingSourceName,fundingSourceLookupable" />          
-        </convert>
-        
 		<create creator="spring" javascript="AwardReportsService">
 			<param name="beanName" value="awardReportsService" />			
 			<include method="getFrequencyCodes" />
 			<include method="getFrequencyBaseCodes" />
-		</create>	
-		
+		</create>
 		<create creator="spring" javascript="ProposalPersonService">
             <param name="beanName" value="proposalPersonService" />
             <include method="getNewStateList" />
-        </create> 	
-		
+        </create>
 		<create creator="spring" javascript="AwardPaymentAndInvoicesService">
 			<param name="beanName" value="awardPaymentAndInvoicesService" />			
 			<include method="getEncodedValidAwardBasisPaymentsByAwardTypeCode" />
 			<include method="getEncodedValidBasisMethodPaymentsByBasisCode" />
-			<include method="getAwardBasisOfPaymentDescription"/>
-			<include method="getAwardMethodOfPaymentDescription"/>
-		</create>		
-		
+		</create>
 		<create creator="spring" javascript="ProtocolActionAjaxService">
 		    <param name="beanName" value="protocolActionAjaxService" />
 			<include method="getValidCommitteeDates" />
 			<include method="getReviewers" />
 			<include method="getReviewerTypes" />
 		</create>
-		
 		<create creator="spring" javascript="IacucProtocolActionAjaxService">
 		    <param name="beanName" value="iacucProtocolActionAjaxService" />
 			<include method="getDefaultCommitteeReviewTypeCode" />
 		</create>
-		
 		<create creator="spring" javascript="BudgetService">
 			<param name="beanName" value="budgetService" />
 			<include method="getApplicableCostElementsForAjaxCall" />
-			<include method="populateBudgetPersonSalaryDetailsInPeriods" />		
-			<include method="getUnitFormulatedCost" />		
+			<include method="populateBudgetPersonSalaryDetailsInPeriods" />
 		</create>
-		
-		<create creator="spring" javascript="ArgValueLookupService">
-            <param name="beanName" value="argValueLookupService" />
-            <include method="getArgumentNames" />
-        </create>
 		<create creator="spring" javascript="MeetingService">
 			<param name="beanName" value="meetingService" />
 			<include method="getStandardReviewComment" />
@@ -192,14 +164,9 @@
 		<create creator="spring" javascript="RolodexService">
 			<param name="beanName" value="rolodexService" />
 			<include method="getRolodex" />
-			<include method="getRolodexId" />
-			<include method="getEmailAddress" />
-			<include method="getPhoneNumber" />
-            <include method="getOrganization" />
 		</create>
         <create creator="spring" javascript="KcNotificationModuleRoleService">
             <param name="beanName" value="kcNotificationModuleRoleService" />
-            <include method="getNotificationModuleRoles" />
             <include method="getNotificationModuleRolesString" />
         </create> 
         <create creator="spring" javascript="SubAwardService">
@@ -209,17 +176,10 @@
 		<create creator="spring" javascript="StateService">
             <param name="beanName" value="stateService" />
             <include method="findAllStatesInCountryByAltCode" />
-            <include method="findAllStatesInCountry" />
         </create>
 		<create creator="spring" javascript="BudgetRatesService">
 			<param name="beanName" value="budgetRatesService" />
 			<include method="getUnitFormulatedCost" />		
 		</create>
-        <convert converter="bean" match="org.kuali.rice.location.framework.state.StateEbo">
-            <param name="include" value="code,name,countryCode" />
-        </convert>
-        <convert converter="bean" match="org.kuali.rice.location.api.state.State">
-            <param name="include" value="code,name,countryCode" />
-        </convert>
 	</allow>
 </dwr>
