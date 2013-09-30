@@ -20,13 +20,11 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.AwardNumberServiceImpl;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
@@ -79,18 +77,6 @@ public class AwardNumberServiceTest {
         assertTrue(StringUtils.isNumeric(first6Chars));
         String last6chars = awardNumber.substring(6, 12);
         assertEquals("-00001", last6chars);
-    }
-    
-    @Test
-    public final void testGenerateNextNodeNumber() {
-        final KraLookupDao MOCKED_KRA_LOOKUP_DAO;
-        MOCKED_KRA_LOOKUP_DAO = context.mock(KraLookupDao.class);
-        context.checking(new Expectations() {{
-            one(MOCKED_KRA_LOOKUP_DAO).findCollectionUsingWildCard(Award.class, "awardNumber", "000001%", true); 
-            will(returnValue(awardList));
-        }});
-        awardNumberServiceImpl.setKraLookupDao(MOCKED_KRA_LOOKUP_DAO);
-        Assert.assertTrue(awardNumberServiceImpl.getNextAwardNumberInHierarchy(rootAward.getAwardNumber()).equals("000001-00004"));
     }
 
     /**

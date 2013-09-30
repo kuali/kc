@@ -21,7 +21,6 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -111,14 +110,6 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getUnits());
         return managedLists;
-    }
-
-    /**
-     * This method finds the lead unit for an AwardPerson
-     * @return
-     */
-    public Unit findLeadUnit() {
-        return AwardPersonUnit.findLeadUnit(units);
     }
 
     /**

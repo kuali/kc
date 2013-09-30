@@ -46,21 +46,6 @@ public class AwardPersonTest {
     }
     
     @Test
-    public void testAddingUnits() throws Exception {
-        Assert.assertEquals(0, contact.getUnits().size());
-        contact.add(new AwardPersonUnit(contact, unitA, AwardPersonUnit.IS_NOT_LEAD_UNIT));
-        contact.add(new AwardPersonUnit(contact, unitB, AwardPersonUnit.IS_LEAD_UNIT));
-        Assert.assertEquals(2, contact.getUnits().size());        
-    }
-    
-    @Test
-    public void testFindingLeadUnit() throws Exception {
-        contact.add(new AwardPersonUnit(contact, unitA, AwardPersonUnit.IS_NOT_LEAD_UNIT));
-        contact.add(new AwardPersonUnit(contact, unitB, AwardPersonUnit.IS_LEAD_UNIT));
-        Assert.assertEquals(unitB.getUnitName(), contact.findLeadUnit().getUnitName());
-    }
-    
-    @Test
     public void testFindingPrincipalInvestigator() {
         contact.setContactRole(ContactRoleFixtureFactory.MOCK_COI);
         Assert.assertFalse("PI misidentified", contact.isPrincipalInvestigator());

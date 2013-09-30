@@ -46,7 +46,6 @@ import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.ObjectCopyUtils;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -73,7 +72,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     VersioningService versioningService;
     VersionHistoryService versionHistoryService; 
     AwardAmountInfoService awardAmountInfoService;
-    ActivePendingTransactionsService activePendingTransactionsService;
     ParameterService parameterService;
     private AwardService awardService;
     AwardVersionService awardVersionService;
@@ -796,22 +794,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      */
     public void setAwardAmountInfoService(AwardAmountInfoService awardAmountInfoService) {
         this.awardAmountInfoService = awardAmountInfoService;
-    }
-
-    /**
-     * Gets the activePendingTransactionsService attribute. 
-     * @return Returns the activePendingTransactionsService.
-     */
-    public ActivePendingTransactionsService getActivePendingTransactionsService() {
-        return activePendingTransactionsService;
-    }
- 
-    /**
-     * Sets the activePendingTransactionsService attribute value.
-     * @param activePendingTransactionsService The activePendingTransactionsService to set.
-     */
-    public void setActivePendingTransactionsService(ActivePendingTransactionsService activePendingTransactionsService) {
-        this.activePendingTransactionsService = activePendingTransactionsService;
     }
 
     public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
