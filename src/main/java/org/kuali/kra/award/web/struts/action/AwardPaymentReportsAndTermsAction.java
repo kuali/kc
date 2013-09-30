@@ -555,20 +555,6 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
     /**
      * 
-     * This method is a convenience method for adding an <code>AwardSponsorTerm</code> to
-     * <code>Award</code> business object.This way the add functionality can be tested
-     * independently using a JUnit Test.
-     * @param award
-     * @param awardSponsorTerm
-     * @return
-     */
-    boolean addAwardSponsorTermToAward(Award award, AwardSponsorTerm awardSponsorTerm){
-        return award.getAwardSponsorTerms().add(awardSponsorTerm);
-    }
-    
-    
-    /**
-     * 
      * This method deletes a AwardSponsorTerms from the list of AwardSponsorTerms objects.
      * 
      * 
@@ -644,21 +630,6 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-    }
-
-    
-    /**
-     * 
-     * This method is a convenience method for deleting an <code>AwardSponsorTerm</code> from
-     * <code>Award</code> business object. This way the delete functionality can be tested
-     * independently using a JUnit Test.
-     * @param award
-     * @param lineToDelete
-     * @return
-     */
-    boolean deleteAwardSponsorTermFromAward(Award award, int lineToDelete){
-        award.getAwardSponsorTerms().remove(lineToDelete);
-        return true;
     }
     
     protected AwardCloseoutService getAwardCloseoutService(){

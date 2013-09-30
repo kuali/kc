@@ -109,14 +109,6 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Convenience method to get child count
-     * @return
-     */
-    public int childCount() {
-        return getChildren().size();
-    }
-
-    /**
      * Factory method for creating a root node from an Award
      * @param award
      * @return
@@ -228,15 +220,6 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
         List<AwardHierarchy> list = new ArrayList<AwardHierarchy>();
         addNodeToFlattenedList(list, findRootNode());
         return list;
-    }
-
-    public Map<String, AwardHierarchy> getMapOfNodesInHierarchy() {
-        Map<String, AwardHierarchy> nodeMap = new TreeMap<String, AwardHierarchy>();
-        List<AwardHierarchy> nodes = getFlattenedListOfNodesInHierarchy();
-        for (AwardHierarchy node : nodes) {
-            nodeMap.put(node.getAwardNumber(), node);
-        }
-        return nodeMap;
     }
 
     /**

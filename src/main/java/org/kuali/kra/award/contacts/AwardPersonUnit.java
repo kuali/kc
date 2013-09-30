@@ -34,10 +34,6 @@ import java.util.*;
  */
 public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements Comparable<AwardPersonUnit>, SequenceAssociate<Award> {
 
-    public static final boolean IS_LEAD_UNIT = Boolean.TRUE;
-
-    public static final boolean IS_NOT_LEAD_UNIT = Boolean.FALSE;
-
     private static final long serialVersionUID = 3550317176047537585L;
 
     private Long awardPersonUnitId;

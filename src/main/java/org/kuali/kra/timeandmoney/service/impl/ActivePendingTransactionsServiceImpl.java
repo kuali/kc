@@ -1101,43 +1101,6 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             }
         }
     }
-   
-    
-
-
-    /*
-     * This method will update the amount fields on newAwardAmountInfo object based on various conditions.
-     * 
-     */
-    protected void updateAmountFields(boolean updateAmounts, boolean addOrSubtract, PendingTransaction pendingTransaction, AwardAmountInfo awardAmountInfo
-            , AwardAmountInfo newAwardAmountInfo) {
-
-        newAwardAmountInfo.setObliDistributableAmount(processAmounts(awardAmountInfo.getObliDistributableAmount(), pendingTransaction.getObligatedAmount(),addOrSubtract, updateAmounts));            
-        newAwardAmountInfo.setAntDistributableAmount(processAmounts(awardAmountInfo.getAntDistributableAmount(), pendingTransaction.getAnticipatedAmount(),addOrSubtract, updateAmounts));
-        
-        if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(), Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-            newAwardAmountInfo.setAnticipatedTotalAmount(processAmounts(awardAmountInfo.getAnticipatedTotalAmount(), pendingTransaction.getAnticipatedAmount(),true, true));
-            newAwardAmountInfo.setAmountObligatedToDate(processAmounts(awardAmountInfo.getAmountObligatedToDate(), pendingTransaction.getObligatedAmount(),true, true));
-        }
-        else if(addOrSubtract){            
-            newAwardAmountInfo.setAnticipatedTotalAmount(processAmounts(awardAmountInfo.getAnticipatedTotalAmount(), pendingTransaction.getAnticipatedAmount(),addOrSubtract, updateAmounts));
-            newAwardAmountInfo.setAmountObligatedToDate(processAmounts(awardAmountInfo.getAmountObligatedToDate(), pendingTransaction.getObligatedAmount(),addOrSubtract, updateAmounts));
-        }else{            
-            newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
-            newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
-        }
-        
-        if(updateAmounts){
-            newAwardAmountInfo.setObligatedChange(pendingTransaction.getObligatedAmount());
-            newAwardAmountInfo.setAnticipatedChange(pendingTransaction.getAnticipatedAmount());    
-        }else if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(), Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-            newAwardAmountInfo.setObligatedChange(pendingTransaction.getObligatedAmount());
-            newAwardAmountInfo.setAnticipatedChange(pendingTransaction.getAnticipatedAmount());
-        }else{
-            newAwardAmountInfo.setObligatedChange(new KualiDecimal(0));
-            newAwardAmountInfo.setAnticipatedChange(new KualiDecimal(0));
-        }
-    }
     
     /*
      * This is a helper method to add awardAmountTransaction information.

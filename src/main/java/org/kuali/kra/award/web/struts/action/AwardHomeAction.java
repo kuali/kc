@@ -23,7 +23,6 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.FundingSourceType;
@@ -94,19 +93,6 @@ public class AwardHomeAction extends AwardAction {
     }
     
     /**
-     * 
-     * This method is a convenience method for adding an <code>AwardApprovedSubaward</code> to
-     * <code>Award</code> business object.This way the add functionality can be tested
-     * independently using a JUnit Test.
-     * @param award
-     * @param awardApprovedSubaward
-     * @return
-     */
-    boolean addApprovedSubawardToAward(Award award, AwardApprovedSubaward awardApprovedSubaward){
-        return award.getAwardApprovedSubawards().add(awardApprovedSubaward);
-    }
-    
-    /**
      * This method is used to delete an Award Cost Share
      * 
      * @param mapping
@@ -126,20 +112,6 @@ public class AwardHomeAction extends AwardAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
      
-    }
-    
-    /**
-     * 
-     * This method is a convenience method for deleting an <code>AwardApprovedSubaward</code> from
-     * <code>Award</code> business object. This way the delete functionality can be tested
-     * independently using a JUnit Test.
-     * @param award
-     * @param lineToDelete
-     * @return
-     */
-    boolean deleteApprovedSubawardFromAward(Award award, int lineToDelete){
-        award.getAwardApprovedSubawards().remove(lineToDelete);
-        return true;
     }
     
     /**
