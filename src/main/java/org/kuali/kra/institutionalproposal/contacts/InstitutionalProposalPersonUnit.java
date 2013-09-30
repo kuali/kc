@@ -36,10 +36,6 @@ import java.util.List;
  */
 public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjectBase implements Comparable<InstitutionalProposalPersonUnit>, SequenceAssociate<InstitutionalProposal> {
 
-    public static final boolean IS_LEAD_UNIT = Boolean.TRUE;
-
-    public static final boolean IS_NOT_LEAD_UNIT = Boolean.FALSE;
-
     /**
      * Comment for <code>serialVersionUID</code>
      */

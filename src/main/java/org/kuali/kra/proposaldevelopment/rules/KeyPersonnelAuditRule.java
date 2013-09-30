@@ -329,7 +329,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         boolean retval = true;
         
         if (getKeyPersonnelService().isCreditSplitEnabled()) {
-            CreditSplitValidator validator = CreditSplitValidator.getInstance();
+            CreditSplitValidator validator = new CreditSplitValidator();
             retval &= validator.validate(document);
         }
         

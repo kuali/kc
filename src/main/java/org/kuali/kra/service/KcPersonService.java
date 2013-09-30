@@ -25,14 +25,6 @@ import java.util.Map;
  * Service for working with KcPerson objects.
  */
 public interface KcPersonService {
-
-    /**
-     * Gets a list of KcPerson based on KcPerson fieldValues.
-     * @param fieldValues the field values.
-     * @return the list of KcPersons.  Will never return a null list.
-     * @throws IllegalArgumentException if the fieldValues is null
-     */
-    List<KcPerson> getKcPersons(Map<String, String> fieldValues);
     
     /**
      * Gets a KcPerson from a user name (kim principal name).

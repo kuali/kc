@@ -23,7 +23,6 @@ import org.kuali.kra.service.MultiCampusIdentityService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -38,25 +37,10 @@ public class KcPersonServiceImpl implements KcPersonService {
     
     private IdentityService identityService;
     
-    @SuppressWarnings("unchecked")
-    private PersonService personService;
-    
     private ParameterService parameterService;
     
     private MultiCampusIdentityService multiCampusIdentityService;
-    
-    /** {@inheritDoc} */
-    public List<KcPerson> getKcPersons(final Map<String, String> fieldValues) {
-        if (fieldValues == null) {
-            throw new IllegalArgumentException("the fieldValues are null");
-        }
-        
-        this.modifyFieldValues(fieldValues);
-        
-        final List<Person> people = personService.findPeople(fieldValues, true);
-        
-        return this.createKcPersonsFromPeople(people);
-    }
+
     
     /**
      * Modifies field values so that different field keys can be used for a lookup.
@@ -148,10 +132,6 @@ public class KcPersonServiceImpl implements KcPersonService {
      */
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
-    }
-    
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
     }
 
     public void setParameterService(ParameterService parameterService) {

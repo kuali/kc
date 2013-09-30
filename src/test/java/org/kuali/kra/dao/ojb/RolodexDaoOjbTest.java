@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao;
+package org.kuali.kra.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.junit.After;
@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.dao.RolodexDao;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 import java.util.HashMap;
@@ -87,7 +88,7 @@ public class RolodexDaoOjbTest extends KcUnitTestBase {
         assertFalse(-1 == criteria.toString().indexOf("lastName IS NOT NULL"));
     }
     
-    private RolodexDao getRolodexDao() {
-        return getService(RolodexDao.class);
+    private RolodexDaoOjb getRolodexDao() {
+        return (RolodexDaoOjb) getService(RolodexDao.class);
     }
 }

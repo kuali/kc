@@ -37,7 +37,7 @@ public class ProposalColumnsToAlterMaintainableImpl extends KraMaintainableImpl 
         validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern", "DATE");
         validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern", "NUMBER");
     }    
-    
+    @Override
     public void prepareForSave() {
         super.prepareForSave();
         ProposalColumnsToAlter proposalCol = (ProposalColumnsToAlter)businessObject;

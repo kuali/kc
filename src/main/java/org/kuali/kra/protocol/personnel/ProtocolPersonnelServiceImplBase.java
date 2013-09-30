@@ -381,20 +381,6 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
             }
         }
     }
-    
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#isPIExists()
-     */
-    public boolean isPIExists(List<ProtocolPersonBase> protocolPersons) {
-        boolean investigatorExists = false;
-        for(ProtocolPersonBase protocolPerson : protocolPersons) {
-            if(protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(getPrincipalInvestigatorRole())){
-                investigatorExists = true;
-                break;
-            }
-        }
-        return investigatorExists;
-    }
 
     
     /**

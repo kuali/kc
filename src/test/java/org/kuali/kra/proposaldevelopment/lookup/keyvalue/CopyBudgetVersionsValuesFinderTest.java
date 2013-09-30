@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;

@@ -21,9 +21,7 @@ import org.junit.Test;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 import java.util.List;
@@ -40,15 +38,6 @@ public class KcNotificationModuleRoleServiceTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         kcNotificationModuleRoleService = null;
-    }    
-    
-    @Test
-    public void testAddNotificationModuleRole() {
-        NotificationModuleRole moduleRole = 
-            kcNotificationModuleRoleService.addNotificationModuleRole(CoeusModule.IRB_MODULE_CODE, 
-                    Constants.MODULE_NAMESPACE_PROTOCOL + ":" + RoleConstants.PROTOCOL_VIEWER); 
-
-        assertTrue(moduleRole.getNotificationModuleRoleId().intValue() > 0);
     }
     
     @Test

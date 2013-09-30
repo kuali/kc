@@ -47,7 +47,6 @@ public class CreditSplitValidatorTest extends KcUnitTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         KNSGlobalVariables.setAuditErrorMap(new HashMap());
         validator = new CreditSplitValidator();
-        validator = validator.getProxy(validator);
         document = NORMAL_DOCUMENT.getDocument();
     }
     
