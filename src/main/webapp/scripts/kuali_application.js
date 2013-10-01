@@ -485,14 +485,6 @@ function selectAllKeywords(document, keywordsArray) {
 	}
 }
 
-function viewCommentPop(fieldName,label){
-  url=window.location.href
-  pathname=window.location.pathname
-  idx1=url.indexOf(pathname);
-  idx2=url.indexOf("/",idx1+1);
-  extractUrl=url.substr(0,idx2)
-  window.open(extractUrl+"/viewComment.do?&commentFieldName="+fieldName+"&commentFieldLabel="+label, "_blank", "width=640, height=600, scrollbars=yes");
-}
 
 function setComment() {
   passData=document.location.search.substring(1);
@@ -503,38 +495,6 @@ function setComment() {
   document.getElementById(fieldName).value = text;
   
 
-}
-
-// dwr functions
-// this is a sample function for sponsor code
-function loadSponsorCode( sponsorCodeFieldName) {
-	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
-
-	//if (sponsorCode == "") {
-	//	clearRecipients( sponsorCodeFieldName, "" );
-	//} else {
-		var dwrReply = {
-			callback:function(data) {
-			if ( data != null ) {
-				if ( sponsorCodeFieldName != null && sponsorCodeFieldName != "" ) {
-					setRecipientValue( sponsorCodeFieldName, data );
-				}
-			} else {
-				if ( sponsorCodeFieldName != null && sponsorCodeFieldName != "" ) {
-					setRecipientValue( sponsorCodeFieldName, "" );
-				}
-			} },
-			errorHandler:function( errorMessage ) {
-				window.status = errorMessage;
-				if ( sponsorCodeFieldName != null && sponsorCodeFieldName != "" ) {
-					setRecipientValue( sponsorCodeFieldName, "" );
-				}
-			}
-		};
-
-		SponsorService.getSponsorCode(sponsorCode,dwrReply);
-
-	//}
 }
 
 /*
@@ -601,19 +561,6 @@ function populateSelect(methodToCall, firstSelectId, secondSelectId) {
 	);
 }
 
-function callAjaxWithQueryString(url, methodToCall, queryString, successCallback, errorCallback) {
-	$j.ajax( {
-		url : url,
-		type : 'POST',
-		dataType : 'html',
-		data : 'methodToCall='+methodToCall+queryString,
-		cache : false,
-		async : false,
-		timeout : 5000,
-		error : errorCallback,
-		success : successCallback
-	});
-}
 function checkGrantsGovStatusOnSponsorChange(proposalNumber, sponsorCodeFieldName) {
 	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
 	var dwrReply = {
@@ -660,35 +607,7 @@ function hideStatusDetails(){
 	//alert(data);
 	changeObjectVisibility("s2s_status_popup","none");
 }
-/*
- * Load the Budget Category Code based on Object Code(Cost Element)
- */ 
-function loadBudgetCategoryCode(objectCode,budgetCategoryCode){
-	var objectCodeValue = dwr.util.getValue( objectCode );
 
-	if (objectCodeValue=='') {
-		clearRecipients( budgetCategoryCode, "" );
-	} else {
-		var dwrReply = {
-			callback:function(data) {
-				if ( data != null ) {
-					if ( objectCode != null && objectCode != "" ) {
-						setRecipientValue( budgetCategoryCode, data );
-					}
-				} else {
-					if ( objectCode != null && objectCode != "" ) {
-						setRecipientValue(  budgetCategoryCode, wrapError( "not found" ), true );
-					}
-				}
-			},
-			errorHandler:function( errorMessage ) {
-				window.status = errorMessage;
-				setRecipientValue( budgetCategoryCode, wrapError( "not found" ), true );
-			}
-		};
-		ObjectCodeToBudgetCategoryCodeService.getBudgetCategoryCodeForCostElment(objectCodeValue,dwrReply);
-	}
-}
 
 /*
  * Load Start and End Dates based on the Fiscal Year
@@ -814,20 +733,6 @@ function loadJobCodeTitle(jobCodeFieldName, jobCodeTitleFieldName ) {
 	}
 }
 
-function loadSponsorCode_1( sponsorCodeFieldName) {
-    // alternative, delete later
-	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
-	//alert(sponsorCodeFieldName+" "+sponsorCode)
-	//SponsorService.getSponsorCode(sponsorCode,function(data) {
-    //dwr.util.setValue(sponsorCodeFieldName, data);});
-	SponsorService.getSponsorCode(sponsorCode,loadinfo);
-
-}
-
-function loadinfo(data) {
-  //alert("loadinfo "+data)
-  dwr.util.setValue("document.sponsorCode", data);
-}
 var propAttRightWindow;
 function proposalAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
   var documentWebScope
@@ -857,14 +762,7 @@ function proposalInstituteAttachmentRightsPop(lineNumber,docFormKey, sessionDocu
     }
   }
 }
-var fileBrowseWindow;
-function openNewFileBrowseWindow(filePropertyName,fileFieldLabel,htmlFormAction,methodToCall,methodToSave,lineNumber){
-  if (fileBrowseWindow && fileBrowseWindow.open && !fileBrowseWindow.closed){
-  	fileBrowseWindow.focus();
-  }else{
-    fileBrowseWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall="+methodToCall+"&methodToSave="+methodToSave+"&line="+lineNumber+"&filePropertyName="+filePropertyName+"&fileFieldLabel="+fileFieldLabel, "mywindow", "width=800, height=300, scrollbars=yes");
-  }
-}
+
 function extractUrlBase(){
   url=window.location.href;
   pathname=window.location.pathname;
@@ -928,31 +826,6 @@ function changeObjectVisibility(objectId, newVisibility) {
     }
 }
 
-/**
- * Display the Proposal's set of Roles and their Rights.
- * The roles are Aggregator, Budget Creator, etc.
- */
-var propRoleRightsWindow = null;
-
-function proposalRoleRightsPop(docFormKey, sessionDocument) {
-
-	var documentWebScope = "";
-	if (sessionDocument == true) {
-		documentWebScope = "session";
-	}
-
-	if (propRoleRightsWindow != null) {
-	    propRoleRightsWindow.close();
-	} 
-
-    propRoleRightsWindow = window.open(extractUrlBase() +
-    	                               "/proposalDevelopmentPermissions.do?methodToCall=getPermissionsRoleRights" +
-    	                               "&docFormKey=" + docFormKey + 
-    	                               "&documentWebScope=" + documentWebScope, 
-    	                               "permissionsRoleRights", 
-    	                               "width=800, height=750, scrollbars=yes, resizable=yes");
-    
-}
 
 /**
  * Display the Edit Roles popup window.  This window allows users
@@ -2184,113 +2057,6 @@ function toggleFinalCheckboxesAndDisable(document) {
 	
 }
 
-function setupVersionsPage(document) {
-	var completed = false;
-	var toggledElement;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'select-one' && e.value == '1') {
-	  	completed = true;
-	  	toggledElement = e;
-	  }
-	}
-	if (completed) {
-		for (var i = 0; i < document.KualiForm.elements.length; i++) {
-			var el = document.KualiForm.elements[i];
-			if (el.type == 'checkbox') {
-				var elStatus = document.KualiForm.elements[i - 1];
-				if (elStatus != toggledElement) {
-					el.disabled = true;
-					elStatus.disabled = true;
-					elStatusHidden.disabled = false;
-				} else {
-					var elHidden = document.KualiForm.elements[i + 2];
-					elHidden.value = true;
-					elHidden.disabled = false;
-					el.disabled = true;
-				}
-			}
-		}
-	} else {
-		for (var i = 0; i < document.KualiForm.elements.length; i++) {
-			var el = document.KualiForm.elements[i];
-			var elHidden = document.KualiForm.elements[i + 2];
-			if (el.type == 'checkbox') {
-				elHidden.disabled = true;
-				el.disabled = false;
-				var elStatus = document.KualiForm.elements[i - 1];
-				elStatus.disabled
-			}
-		}
-	}
-}
-
-function selectAllBudgetForms(document) {
-    var j = 0;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {
-	    //alert(e.name)
-	  	if (e.name == 'selectedBudgetPrintFormId') {
- 		    if(e.disabled == false){
- 		    	e.checked = true;
- 		    }
-	  		j++; 
-	  	}
-	  }
-	}
-}
-
-function unselectAllBudgetForms(document) {
-    var j = 0;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {
-	  	if (e.name == 'selectedBudgetPrintFormId') {
- 		    if(e.disabled == false){
- 		    	e.checked = false;
- 		    }
-	  		j++; 
-	  	}
-	  }
-	}
-}
-//CustomAttributeService.js - put it in kc-config.xml
-//function CustomAttributeService() { }
-// CustomAttributeService._path = '../dwr'; 
-// CustomAttributeService.getLookupReturnsForAjaxCall = function(p0, callback) { DWREngine._execute(CustomAttributeService._path, 'CustomAttributeService', 'getLookupReturnsForAjaxCall', p0, callback); } 
-
-/*
- * Copyright 2005-2013 The Kuali Foundation
- * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.osedu.org/licenses/ECL-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
-
-function selectAllResearchAreas(document) {
-    var j = 0;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {
-	  	var name = 'document.protocol.protocolResearchAreas[' + j + '].selectResearchArea';
-	  	if (e.name == name) {
- 		    e.checked = true;
-	  		j++; 
-	  	}
-	  }
-	}
-}
-
 
 //For Award module
 function selectAllAwardKeywords(document) {
@@ -2655,31 +2421,6 @@ function onlyLoadScheduleDates(committeeElementId, protocolId, scheduleElementId
 	ProtocolActionAjaxService.getValidCommitteeDates(committeeId, protocolId, dwrReply);
 }
 
-var protocolCheckListItemDescriptionWindow = null;
-
-/*
- * Display a description for a Check List item in a popup window.
- */
-function protocolCheckListItemPop(methodName, lineNum, docFormKey, sessionDocument) {
-
-	var documentWebScope = "";
-	if (sessionDocument == true) {
-		documentWebScope = "session";
-	}
-
-	if (protocolCheckListItemDescriptionWindow != null) {
-	    protocolCheckListItemDescriptionWindow.close();
-	} 
-
-    protocolCheckListItemDescriptionWindow = window.open(extractUrlBase() +
-    	                               "/protocolProtocolActions.do?methodToCall=" + methodName +
-    	                               "&docFormKey=" + docFormKey + 
-    	                               "&documentWebScope=" + documentWebScope +
-    	                               "&line=" + lineNum,
-    	                               "CheckListItem", 
-    	                               "width=500, height=350, scrollbars=yes, resizable=yes");   
-}
-
 /*
  * The Expedited Review and Exempt Studies CheckList are embedded within the
  * web page but are initially invisible.  Based upon what is selected, either
@@ -2699,13 +2440,6 @@ function updateCheckList(protocolReviewTypeCodeElementId) {
 	else {
 	    document.getElementById('exemptStudiesCheckList').style.display = 'none';
 	}
-}
-
-/*
- * Grab appropriate review types without Expedited and Exempt checklists 
- */
-function updateIacucReviewTypes(protocolReviewTypeCodeElementId) {
-	var protocolReviewTypeCode = dwr.util.getValue(protocolReviewTypeCodeElementId);
 }
 
 /**
@@ -3037,39 +2771,6 @@ function enableJavaScript() {
 	element.value = "1";
 }
 
-//Budget Personnel UI-1.1
-var personnelRatesWindow;
-function personnelRatesPopup(budgetPeriod, lineNumber, rateClassCode, rateTypeCode, docFormKey, sessionDocument){
-var documentWebScope
-  if (sessionDocument == "true") {
-      documentWebScope="session";
-  }
-  if (personnelRatesWindow && personnelRatesWindow.open && !personnelRatesWindow.closed){
-  	personnelRatesWindow.focus();
-  }else{
-    personnelRatesWindow = window.open(extractUrlBase()+"/budgetPersonnel.do?methodToCall=personnelRates&budgetPeriod="+budgetPeriod+"&line="+lineNumber+"&rateClassCode="+rateClassCode+"&rateTypeCode="+rateTypeCode+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "personnelRatesWindow", "width=800, height=300, scrollbars=yes");
-    if (window.focus) {
-         personnelRatesWindow.focus();
-    }
-  }
-}
-
-var personnelRateCostSharingWindow;
-function personnelRateCostSharingPopup(fieldNameInd, budgetPeriod, lineNumber, rateClassCode, rateTypeCode, docFormKey, sessionDocument){
-var documentWebScope
-  if (sessionDocument == "true") {
-      documentWebScope="session";
-  }
-  if (personnelRateCostSharingWindow && personnelRateCostSharingWindow.open && !personnelRateCostSharingWindow.closed){
-  	personnelRateCostSharingWindow.focus();
-  }else{
-    personnelRateCostSharingWindow = window.open(extractUrlBase()+"/budgetPersonnel.do?methodToCall=personnelRates&fieldName="+fieldNameInd+"&budgetPeriod="+budgetPeriod+"&line="+lineNumber+"&rateClassCode="+rateClassCode+"&rateTypeCode="+rateTypeCode+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "personnelRateCostSharingWindow", "width=800, height=300, scrollbars=yes");
-    if (window.focus) {
-         personnelRateCostSharingWindow.focus();
-    }
-  }
-}
-
 var personnelDetailsWindow;
 function personnelDetailsPopup(budgetPeriod, lineNumber, personNumber, docFormKey, sessionDocument){
 var documentWebScope;
@@ -3362,106 +3063,6 @@ function questionnairePop(protocolNumber, submissionNumber, docFormKey, sessionD
 	}
 }
 
-function ajaxLoadQn(protocolNumber, submissionNumber,  docFormKey, documentWebScope, summary, qnIdx) {
-    var methodToCall = 'submissionQuestionnaireAjax';
-    var subItemKey = '&submissionNumber=';
-    
-	if (summary == true) {
-	    methodToCall = 'summaryQuestionnaireAjax';
-	    subItemKey = '&sequenceNumber=';
-	}
-	$j.ajax( {
-		url : 'questionnaire.do',
-		type : 'POST',
-		dataType : 'html',
-		data : 'methodToCall='+methodToCall+'&docFormKey=' + docFormKey+'&documentWebScope=' + documentWebScope
-		+subItemKey + submissionNumber+'&protocolNumber=' + protocolNumber,
-		cache : false,
-		async : false,
-		timeout : 1000,
-		error : function() {
-			alert('Error loading XML document');
-		},
-		success : function(xml) {
-			//alert(xml)
-			var qnhtml;
-			$j(xml).find('h5').each(function() {
-				//alert($j(this).html());
-				
-				qnhtml = $j(this).html();
-				qnhtml = qnhtml.replace(/questionpanelcontrol/g, "questionpanelcontrol" + qnIdx);
-				qnhtml = qnhtml.replace(/questionpanelcontent/g, "questionpanelcontent" + qnIdx);
-
-				$j('#qnhistory'+qnIdx+'Content').html(qnhtml);
-//			    $j(".questionpanel").toggle(
-//			            function()
-//			            {
-//			            	var headerIdx = $j(this).attr("id").substring(20);
-//			                var panelcontentid = "questionpanelcontent"+headerIdx;
-//			                $j("#"+panelcontentid).slideDown(500);
-//			                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-//			                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
-//			            },function(){
-//			            	var headerIdx = $j(this).attr("id").substring(20);
-//			                var panelcontentid = "questionpanelcontent"+headerIdx;
-//			                $j("#"+panelcontentid).slideUp(500);
-//			                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-//			                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
-//			            }
-//			        );
-//			    $j("#questionpanelcontrol0").click();
-
-				});
-			$j(".questionpanel").toggle(
-		            function()
-		            {
-		            	var headerIdx = $j(this).attr("id").substring(20);
-		                var panelcontentid = "questionpanelcontent"+headerIdx;
-		                var dynClass = panelcontentid.replace(/:/g,"");		                
-		                document.getElementById(panelcontentid).className = dynClass;
-		                $j("."+dynClass).slideUp();		               
-		                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-		                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
-		            },function(){
-		            	var headerIdx = $j(this).attr("id").substring(20);
-		                var panelcontentid = "questionpanelcontent"+headerIdx; 
-		                var dynClass = panelcontentid.replace(/:/g,"");		                
-		                document.getElementById(panelcontentid).className = dynClass;
-		                $j("."+dynClass).slideDown();		                
-		                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-		                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
-		            }
-		        );
-		    var firstQn = true;
-			$j(qnhtml).find('div[id^=questionpanelcontent]').each(function() {
-				//alert('hide')
-				if (firstQn) {
-					var controlid = $j(this).attr("id").replace("content","control");
-					firstQn = false;
-				    $j('#'+controlid).click();
-				} else {
-					$j('#'+$j(this).attr("id")).hide();
-				}
-			});
-			$j(".Qmoreinfocontrol").parent().next().hide();
-			$j(".Qmoreinfocontrol").toggle(
-				function()
-				{
-					$j(this).parent().next().slideDown(400);
-					$j(this).html("Less Information...");
-				},function(){
-					$j(this).parent().next().slideUp(400);
-					$j(this).html("More Information...");
-				}
-			);
-
-
-		}
-	}); // end ajax
-
-    return false;
-}
-
 function closeQuestionnairePop() {
 	if (viewQuestionnaireWindow != null) {
 		viewQuestionnaireWindow.close();
@@ -3511,22 +3112,6 @@ function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
 	  }); //end callAjax method call.
 
     return false;
-}
-
-function enableDisableReadOnlyDynamicHtmlControl(readOnly, ids) {
-	if (readOnly) {
-		for (var i = 0; i < ids.length; i++) {
-			changeObjectVisibility(ids[i] + ".read.div", "inline");
-			changeObjectVisibility(ids[i] + ".edit.div", "none");
-			changeObjectVisibility(ids[i] + ".error.div", "none");
-		}
-	} else {
-		for (var i = 0; i < ids.length; i++) {
-			changeObjectVisibility(ids[i] + ".read.div", "none");
-			changeObjectVisibility(ids[i] + ".edit.div", "inline");
-			changeObjectVisibility(ids[i] + ".error.div", "none");
-		}
-	}
 }
 
 /**

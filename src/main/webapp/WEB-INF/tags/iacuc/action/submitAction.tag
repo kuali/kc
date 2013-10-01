@@ -252,9 +252,6 @@
             </tbody>
         </table>
     </div>
-    
-<%--    <script>
-        updateIacucReviewTypes('actionHelper.iacucProtocolSubmitAction.protocolReviewTypeCode');
-    </script> --%>
+
 </kul:innerTab>
 </kra:permission>
