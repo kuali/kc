@@ -8,13 +8,7 @@
 #approver_top {
    height: relative;
 }
-#approver_top #text_container {
-   height: relative;
-   width:620px;
-   height:65px;
-   margin:0;
-   text-align:left;
-}
+
 #approver_top #buttons_container {
    width:315px;
    height:40px;
@@ -66,9 +60,7 @@
 	display: block; 
 	margin: 0px 0px 0px 0px;
 }
-#text_container p {
-	font-size:.9em;
-}	
+
 #approver_table_container {
     width:890px;
     background-color:#fff;

@@ -175,7 +175,6 @@
             			</c:when>
 						<c:otherwise>
     				    	<html:image property="methodToCall.addBudgetVersion" styleClass="addButton" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-new38.gif' />
-    				    	<%-- <html:image property="methodToCall.rebudget" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-rebudget.gif' /> --%>
     					</c:otherwise>
 					</c:choose>
 					</div>
