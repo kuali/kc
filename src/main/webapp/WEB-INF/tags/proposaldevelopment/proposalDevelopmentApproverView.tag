@@ -10,17 +10,6 @@
         
         <div id="approver_wrapper">
 		<div id="approver_top">
-
-		<%-- <c:if test="${not KualiForm.requireCertificateInApproverView}">
- 		<div id="text_container">
-		<p>
-			By signing as Department Chair, Dean, or Director, of a participating unit on this proposal, 
-			I provide my assurance that the department/unit and Responsibility Center assume responsibility 
-			for all resources identified in this proposal (e.g., personnel, space, equipment, and cost-sharing) 
-			unless otherwise documented.
-		</p>
-		</div>
-		</c:if>--%>
         
         <div id="buttons_container">
 			<p>
@@ -147,34 +136,6 @@ transactionalDocument="true"
 </div>
 
 </div>
-
-<%-- <div id="approver_bottom">
-</div>
-
-<c:if test="${KualiForm.requireCertificateInApproverView}">
-
-  <kul:tabTop tabTitle="Approver View" defaultOpen="true" tabErrorKey="approverView*">
-
-<div class="tab-container" align="center">
-    	
-    	 
-  			<h3>
-    			<span class="subhead-left">Certification</span>
-  			</h3>
-  	  
-<table cellpadding="7">
-  	<tr>
-  		<td width="810" align="center">
-  		    <c:set var="proposalPersonProperty" value="document.developmentProposalList[0].proposalPersons[${KualiForm.approverViewDO.proposalPersonIndex}]" />
-  			<kra-pd:approverViewPersonYnq proposalPerson="${proposalPersonProperty}"  personIndex="${KualiForm.approverViewDO.proposalPersonIndex}"/> 		
-  	    </td>
-     </tr>    
-  </table>
-  </div>
-	</kul:tabTop>
-	
-	<kul:panelFooter />
-</c:if>--%>
 
 </div>
 

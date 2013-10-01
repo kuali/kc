@@ -21,17 +21,11 @@
     action="/maintenanceQn.do" enctype=""
     onsubmit="return hasFormAlreadyBeenSubmitted();">
 	<h3>
-	<%--<div style="margin-top: 2px; display: block;" class="hierarchydetail"
-		id="listcontent${qidx}"> --%>
 	<table width="100%" cellspacing="0" cellpadding="0" class="subelement">
 		<thead>
 			<tr>
 				<th align="left"
 					style="background: none repeat scroll 0% 0% rgb(147, 147, 147); height: 18px; color: rgb(255, 255, 255); text-align: left; padding-left: 4px;">
-					<%--<a
-					class="hidedetail" href="#"><img height="15" width="45"
-					border="0" align="absmiddle"
-					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif"></a> --%>${KualiForm.question.question}(${KualiForm.question.sequenceNumber})</th>
 			</tr>
 		</thead>
 		<tbody>
