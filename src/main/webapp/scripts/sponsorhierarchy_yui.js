@@ -71,13 +71,7 @@ function sponsorHierarchy() {
         
     	return rootNode.description;
     }
-    
-    function getNodeDescription(node) {
-       //alert ("getnodedesc "+node)
-        var label = node.data;
-        var startIdx = label.indexOf("px\">", label.indexOf("<tr>"));
-        return label.substring(startIdx + 4, label.indexOf("</td>"));    
-    }
+
     
     function setSponsorCode(sponsorCode) {   
     	document.getElementById("sponsorCode").value=sponsorCode;
@@ -589,21 +583,6 @@ function sponsorHierarchy() {
 		hideWait();
 	
 
-    }
-    
-    function isSubgroup(node) {
-    //alert(node)
-       var idx = getNodeseq(node);
-       idx = idx + ''; //convert to string
-       //alert("subgroups "+subgroupNodes+" node " +node)
-       if (subgroupNodes.indexOf(";"+idx+";") < 0) {
-          //alert("return false "+node);
-          return false;
-       } else {
-          //alert("return true"+node);
-          return true;
-       }   
-    
     }
     
     	function changeGroupName(node, oldLabel) {
