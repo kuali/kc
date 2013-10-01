@@ -66,13 +66,7 @@ function expandAll(requestTracker) {
 
 var pendingRequests = [];
 var activeRequest;
-function findPendingRequest(liNode) {
-	if (jQuery.inArray(liNode, pendingRequests) != -1) {
-		return pendingRequests[jQuery.inArray(liNode, pendingRequests)];
-	} else {
-		return null;
-	}
-}
+
 var forceLoadingMessage = null;
 function showLoading() {
 	jQuery('#loading span.statusMessage').html('Loading ' + (pendingRequests.length) + ' items');
