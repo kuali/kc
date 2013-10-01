@@ -88,7 +88,6 @@
                                 <div class="Qdiv" >
                                     <div class="Qquestiondiv">
                                         <span class="Qmoreinfocontrol">More Information...</span>
-                                        <!--<span class="Qnumber">1.0.0</span>-->
                                         <span class="Qquestion">${answer.question.question}</span>
         
                                     </div>

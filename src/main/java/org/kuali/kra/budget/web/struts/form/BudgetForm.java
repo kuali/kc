@@ -315,10 +315,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
-        //String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
-        //addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
-        
+
         return extraButtons;
     }
     public List<ExtraButton> getRatesExtraButtons() {
@@ -337,9 +335,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        
-//        String syncToProposalImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_synctoprop.gif"; 
-//        addExtraButton("methodToCall.synchToProposal", syncToProposalImage, "Synch to Proposal");
+
         String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
         String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
