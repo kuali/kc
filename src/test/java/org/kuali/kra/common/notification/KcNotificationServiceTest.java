@@ -378,6 +378,10 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
             allowing(parameterService).getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                                                              "EMAIL_NOTIFICATIONS_ENABLED"); 
             will(returnValue(true));
+            
+            allowing(parameterService).getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+                                                            "KcNotificationDocumentTypeName"); 
+            will(returnValue("KcNotificationDocument"));
         }});
         return parameterService;
     }
