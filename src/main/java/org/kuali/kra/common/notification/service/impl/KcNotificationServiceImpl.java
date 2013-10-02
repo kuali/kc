@@ -58,6 +58,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private static final String DOCUMENT_NUMBER = "documentNumber";
     
     private static final Log LOG = LogFactory.getLog(KcNotificationServiceImpl.class);
+    private static final String KC_NOTIFICATION_DOC_TYPE_NAME = "KcNotificationDocumentTypeName";
     
     protected NotificationChannel kcNotificationChannel;
     protected NotificationProducer systemNotificationProducer;
@@ -83,7 +84,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
      * {@inheritDoc}
      * @see org.kuali.kra.common.notification.service.KcNotificationService#getNotificationType(java.lang.String, java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     public NotificationType getNotificationType(String moduleCode, String actionTypeCode) {
         NotificationType notificationType = null;
         
@@ -133,7 +133,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
      * {@inheritDoc}
      * @see org.kuali.kra.common.notification.service.KcNotificationService#getNotifications(java.lang.String, java.lang.String, java.util.Set)
      */
-    @SuppressWarnings("unchecked")
     public List<KcNotification> getNotifications(String documentNumber, String moduleCode, Set<String> actionCodes) {
         List<KcNotification> notifications = new ArrayList<KcNotification>();
         
@@ -217,7 +216,16 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     }
     
     public void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients) {
+        sendNotification(contextName, subject, message, notificationRecipients, null);
+    }
+
+    public void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients, String docTypeName) {
         LOG.info("Sending Notification [" + contextName + "]");
+        
+        // if doc type name is not specified we default to the KC notification doc type
+        if(docTypeName == null) {
+            docTypeName = getKCNotificationDocTypeName();
+        }
         
         Notification.Builder notification = getNotification();
         
@@ -225,9 +233,16 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         notification.setContent(NotificationConstants.XML_MESSAGE_CONSTANTS.CONTENT_SIMPLE_OPEN + NotificationConstants.XML_MESSAGE_CONSTANTS.MESSAGE_OPEN 
                 + message + NotificationConstants.XML_MESSAGE_CONSTANTS.MESSAGE_CLOSE + NotificationConstants.XML_MESSAGE_CONSTANTS.CONTENT_CLOSE);
         
-        notification.setRecipients(new ArrayList(notificationRecipients));
+        notification.setRecipients(new ArrayList<NotificationRecipient.Builder>(notificationRecipients));
+        notification.setDocTypeName(docTypeName);
         
         sendNotificationService.sendNotification(notification.build());
+    }
+    
+    private String getKCNotificationDocTypeName() {
+        return parameterService.getParameterValueAsString(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+                KC_NOTIFICATION_DOC_TYPE_NAME);
     }
     
     private Notification.Builder getNotification() {
