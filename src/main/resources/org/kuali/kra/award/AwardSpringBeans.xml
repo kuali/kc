@@ -458,6 +458,12 @@
     <bean id="awardBudgetHistoryTransactionXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardBudgetHistoryTransactionXmlStream" 
           parent="awardBudgetBaseStream" />
 
+    <bean id="timeAndMoneyVersionService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyVersionServiceImpl" scope="prototype">
+        <property name="awardVersionService" ref="awardVersionService" />
+        <property name="documentService" ref="documentService" />
+    </bean>
+
+
     <!-- Award Reporting Services -->
     
     <bean id="reportTrackingService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingServiceImpl">
