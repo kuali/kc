@@ -315,7 +315,7 @@ end
 rule "IACUC review not required"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "207",  protocolStatusCode == "101", submissionStatusCode in ("102","103"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "207",  protocolStatusCode == "101", submissionStatusCode == "101", protocolReviewTypeCode == "6")
 then    
     setAction(protocolAction, true);
 end

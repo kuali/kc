@@ -34,6 +34,8 @@ public class IacucProtocolReviewType extends ProtocolReviewTypeBase {
 
     public static final String RESPONSE = "5";
 
+    public static final String IACUC_REVIEW_NOT_REQUIRED = "6";
+
     /**
      * Constructs a ProtocolReviewType.
      */

@@ -153,7 +153,7 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
      * condition specified in rule.
      */
     public boolean canPerformAction(String actionTypeCode, ProtocolBase protocol) {
-        getLOGHook().info(actionTypeCode);
+// is this really necessary any more??   getLOGHook().info(actionTypeCode);
         String submissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
         String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();
         String protocolReviewTypeCode = protocol.getProtocolSubmission().getProtocolReviewTypeCode();
