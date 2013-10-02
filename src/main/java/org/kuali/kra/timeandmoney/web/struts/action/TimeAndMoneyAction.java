@@ -15,6 +15,18 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.struts.action.ActionForm;
@@ -38,6 +50,7 @@ import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyVersionService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.kra.timeandmoney.transactions.TransactionRuleImpl;
@@ -59,12 +72,6 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
-import java.util.*;
-import java.util.Map.Entry;
-
 public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
     private static final String OBLIGATED_START_COMMENT = "Obligated Start";
@@ -76,6 +83,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     private ParameterService parameterService;
     TransactionRuleImpl transactionRuleImpl;
     private ActivePendingTransactionsService activePendingTransactionsService;
+    private TimeAndMoneyVersionService timeAndMoneyVersionService;
     
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -1133,30 +1141,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
     public ActionForward editOrVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ActionForward forward;
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm)form;
         TimeAndMoneyDocument doc = timeAndMoneyForm.getTimeAndMoneyDocument();
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         String rootAwardNumber = doc.getRootAwardNumber();
-        //Award rootAward = getWorkingAwardVersion(rootAwardNumber);
-        Award rootAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);
-        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
-        timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
-        timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
-        timeAndMoneyDocument.setAwardNumber(rootAward.getAwardNumber());
-        timeAndMoneyDocument.setAward(rootAward);
-        AwardAmountTransaction aat = new AwardAmountTransaction();
-        aat.setAwardNumber("000000-00000");//need to initialize one element in this collection because the doc is saved on creation.
-        aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
-        aat.setTransactionTypeCode(null);
-        timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
-        documentService.saveDocument(timeAndMoneyDocument);
- 
-        String routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
+        TimeAndMoneyDocument finalTandM = getTimeAndMoneyVersionService().findOpenedTimeAndMoney(rootAwardNumber);
+        String routeHeaderId = finalTandM.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forwardString = buildForwardUrl(routeHeaderId);
-        forward = new ActionForward(forwardString, true);
-        
-        return forward;
+        return new ActionForward(forwardString, true);
     }
     
     /**
@@ -1211,6 +1202,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         }
         
     }
- 
+
+    public TimeAndMoneyVersionService getTimeAndMoneyVersionService() {
+        if (timeAndMoneyVersionService == null) {
+            timeAndMoneyVersionService = KraServiceLocator.getService(TimeAndMoneyVersionService.class);
+        }
+        return timeAndMoneyVersionService;
+    }
+
+    public void setTimeAndMoneyVersionService(TimeAndMoneyVersionService timeAndMoneyVersionService) {
+        this.timeAndMoneyVersionService = timeAndMoneyVersionService;
+    }
+
 }
 

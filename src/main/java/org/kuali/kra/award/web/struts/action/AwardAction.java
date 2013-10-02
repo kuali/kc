@@ -782,8 +782,7 @@ public class AwardAction extends BudgetParentActionBase {
             Collections.sort(timeAndMoneyDocuments);
             
             Award rootAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);   
-            AwardAmountInfo rootAAI = rootAward.getLastAwardAmountInfo();
-            //this logic so we set Transaction Type on new T&M doc.  Defaults to "new" on first creation of T&M doc of a Root Award.
+            // check for existing finalized T & M document before creating a new one.
             TimeAndMoneyDocument timeAndMoneyDocument = getLastFinalTandMDocument(timeAndMoneyDocuments);
             if(timeAndMoneyDocuments.size() > 0 && timeAndMoneyDocument != null) {
                 firstTimeAndMoneyDocCreation = Boolean.FALSE;
