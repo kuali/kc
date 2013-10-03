@@ -7,8 +7,20 @@
 			<label>KC Notification</label>
 			<parent>KualiNotification</parent>
 			<security>
-        		<securityAttribute class="org.kuali.kra.authorization.KcNotificationSecurityAttribute"/>
+        		<securityAttribute name="KcNotificationSecurityAttribute"/>
     		</security>
 		</documentType>
-	</documentTypes>	
+	</documentTypes>
+	
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+   			<name>KcNotificationSecurityAttribute</name>
+   			<className>org.kuali.kra.authorization.KcNotificationSecurityAttribute</className>
+   			<label>KC Notification Security Attribute</label>
+   			<description>KC Notification Security Attribute</description>
+   			<type>DocumentSecurityAttribute</type>
+   			<applicationId>KC</applicationId>
+ 		</ruleAttribute>
+ 	</ruleAttributes>
 </data>
