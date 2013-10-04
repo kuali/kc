@@ -19,7 +19,7 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +27,10 @@ import java.util.List;
 /**
  * Defines the values finder for the role qualifiers field in notifications
  */
-public class NotificationModuleRoleQualifierValuesFinder extends KeyValuesBase {
-    
+public class NotificationModuleRoleQualifierValuesFinder extends UifKeyValuesFinderBase {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> documentList = new ArrayList<KeyValue>();
         documentList.add(new ConcreteKeyValue(KcKimAttributes.UNIT_NUMBER, "Unit Number"));

@@ -17,7 +17,7 @@ package org.kuali.kra.lookup.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +26,13 @@ import java.util.List;
  * 
  * This class for storing the details of watermark Color.
  */
-public class WatermarkColorValuesFinder extends KeyValuesBase {
+public class WatermarkColorValuesFinder extends UifKeyValuesFinderBase {
     /**
      * This method for storing lookup keyvalues of watermark font Color.
      * 
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("LIGHT_GRAY", "LIGHT_GRAY"));

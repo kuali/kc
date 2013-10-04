@@ -18,12 +18,12 @@ package org.kuali.kra.lookup.keyvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RolodexAddressFlagValuesFinder extends KeyValuesBase {
+public class RolodexAddressFlagValuesFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues() {

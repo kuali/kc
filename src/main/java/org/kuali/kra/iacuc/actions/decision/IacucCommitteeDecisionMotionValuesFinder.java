@@ -18,13 +18,12 @@ package org.kuali.kra.iacuc.actions.decision;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeDecisionMotionValuesFinder;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.document.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,9 +113,9 @@ public class IacucCommitteeDecisionMotionValuesFinder extends CommitteeDecisionM
 
     private IacucProtocol getProtocol() {
         IacucProtocol retVal = null;
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form != null && form instanceof IacucProtocolForm) {
-            retVal = (IacucProtocol) ((IacucProtocolForm) form).getProtocolDocument().getProtocol();
+        Document document = getDocument();
+        if (document != null && document instanceof IacucProtocolDocument) {
+            retVal = (IacucProtocol) ((IacucProtocolDocument) document).getProtocol();
         }
         
         return retVal;

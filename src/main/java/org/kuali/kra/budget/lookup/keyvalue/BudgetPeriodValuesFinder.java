@@ -18,14 +18,11 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +33,7 @@ import java.util.List;
  * 
  * @author KRADEV team
  */
-public class BudgetPeriodValuesFinder extends KeyValuesBase {
+public class BudgetPeriodValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
     
     /**
@@ -51,17 +48,15 @@ public class BudgetPeriodValuesFinder extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> KeyValues = null;
-        
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if(form instanceof KualiDocumentFormBase) {
-            Document doc = ((KualiDocumentFormBase) form).getDocument();
-            if(doc instanceof BudgetDocument) {
-                List<BudgetPeriod> budgetPeriods = ((BudgetDocument)doc).getBudget().getBudgetPeriods();
-                if (budgetPeriods.size() > 0) {
-                    KeyValues = buildKeyValues(budgetPeriods);
-                }
+
+        Document doc = getDocument();
+        if(doc instanceof BudgetDocument) {
+            List<BudgetPeriod> budgetPeriods = ((BudgetDocument)doc).getBudget().getBudgetPeriods();
+            if (budgetPeriods.size() > 0) {
+                KeyValues = buildKeyValues(budgetPeriods);
             }
         }
         

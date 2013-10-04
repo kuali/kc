@@ -19,8 +19,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.keyvalue.PersistableBusinessObjectValuesFinderTestBase;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 
 /**
  * This class tests DeadlineTypeValuesFinder.
@@ -28,7 +28,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 public class DeadlineTypeValuesFinderTest extends PersistableBusinessObjectValuesFinderTestBase{
     
     public DeadlineTypeValuesFinderTest() {
-        setValuesFinderClass(ExtendedPersistableBusinessObjectValuesFinder.class);
+        setValuesFinderClass(PersistableBusinessObjectValuesFinder.class);
         setBusinessObjectClass(org.kuali.kra.proposaldevelopment.bo.DeadlineType.class);
         setKeyAttributeName("deadlineTypeCode");
         setLabelAttributeName("description");

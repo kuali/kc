@@ -15,26 +15,25 @@
  */
 package org.kuali.kra.coi.lookup.keyvalue;
 
-import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoiDisclosureFinancialEntitiesValuesFinder extends KeyValuesBase {
+public class CoiDisclosureFinancialEntitiesValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
 
     @Override
-    public List getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
-        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) KNSGlobalVariables.getKualiForm();
-        String personId = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getDisclosureReporter().getPersonId();
+        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) getDocument();
+        String personId = coiDisclosureDocument.getCoiDisclosure().getDisclosureReporter().getPersonId();
         keyLabels.add(new ConcreteKeyValue("", "select"));
         List<PersonFinIntDisclosure> financialEntities = getAllFinancialEntities(personId);
         for (PersonFinIntDisclosure fe : financialEntities) {
@@ -44,7 +43,6 @@ public class CoiDisclosureFinancialEntitiesValuesFinder extends KeyValuesBase {
     }
 
     public List<PersonFinIntDisclosure> getAllFinancialEntities(String userId) {
-       // String userId = GlobalVariables.getUserSession().getPrincipalId();
         List<PersonFinIntDisclosure> finEntities = getFinancialEntityService().getFinancialEntities(userId, true);
         return finEntities;
     }

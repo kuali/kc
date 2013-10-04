@@ -17,11 +17,9 @@ package org.kuali.kra.common.committee.lookup.keyvalue;
 
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import java.util.List;
 
@@ -31,7 +29,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public abstract class CommitteeScheduleValuesFinderBase extends KeyValuesBase {
+public abstract class CommitteeScheduleValuesFinderBase extends FormViewAwareUifKeyValuesFinderBase {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -41,8 +39,8 @@ public abstract class CommitteeScheduleValuesFinderBase extends KeyValuesBase {
     /**
      * @return the list of &lt;key, value&gt; pairs of committees.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         return getCommitteeService().getAvailableCommitteeDates(getCommitteeId());
     }
@@ -66,9 +64,9 @@ public abstract class CommitteeScheduleValuesFinderBase extends KeyValuesBase {
      */
     private String getCommitteeId() {
         String committeeId = "";
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form instanceof ProtocolFormBase) {
-            ProtocolFormBase protocolForm = (ProtocolFormBase) form;
+        Object formOrView = getFormOrView();
+        if (formOrView instanceof ProtocolFormBase) {
+            ProtocolFormBase protocolForm = (ProtocolFormBase) formOrView;
             committeeId = protocolForm.getActionHelper().getProtocolSubmitAction().getCommitteeId();
         }
         return committeeId;

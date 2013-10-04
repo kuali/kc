@@ -23,14 +23,15 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BudgetColumnsValuesFinder extends KeyValuesBase {
+public class BudgetColumnsValuesFinder extends UifKeyValuesFinderBase {
     private DataDictionaryService dataDictionaryService;
+    @Override
     public List<KeyValue> getKeyValues() {
         BusinessObjectEntry proposalEntry = 
             (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Budget.class.getName());

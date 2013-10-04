@@ -21,15 +21,14 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.document.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +44,7 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
      */
     private static final long serialVersionUID = -7110160295510181062L;
 
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
@@ -80,9 +80,9 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
     }
 
     private Protocol getProtocol() {
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form != null && form instanceof ProtocolForm) {
-            return ((ProtocolForm) form).getProtocolDocument().getProtocol();
+        Document document = getDocument();
+        if (document instanceof ProtocolDocument) {
+            return ((ProtocolDocument) document).getProtocol();
         }
         return null;
     }

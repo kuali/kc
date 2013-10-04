@@ -20,13 +20,13 @@ import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoiDisclosureManualEventTypesValuesFinder extends KeyValuesBase {
+public class CoiDisclosureManualEventTypesValuesFinder extends UifKeyValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

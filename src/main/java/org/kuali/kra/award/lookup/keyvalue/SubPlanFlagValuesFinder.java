@@ -17,7 +17,7 @@ package org.kuali.kra.award.lookup.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +27,13 @@ import java.util.List;
  * This class is a values finder for subPlanFlag of Award business object.
  */
 @SuppressWarnings("unchecked")
-public class SubPlanFlagValuesFinder extends KeyValuesBase {
+public class SubPlanFlagValuesFinder extends UifKeyValuesFinderBase {
     
     /**
      * This method adds 3 pre-determined values to a key values pair and returns it.
      * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

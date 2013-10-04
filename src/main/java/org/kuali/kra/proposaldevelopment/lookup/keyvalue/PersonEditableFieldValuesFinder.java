@@ -22,7 +22,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +38,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.5 $
  */
-public class PersonEditableFieldValuesFinder extends KeyValuesBase {
+public class PersonEditableFieldValuesFinder extends UifKeyValuesFinderBase {
     List<AttributeDefinition> attributes; 
     
     /**
@@ -49,10 +49,8 @@ public class PersonEditableFieldValuesFinder extends KeyValuesBase {
         super();
         attributes = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ProposalPerson.class.getName()).getAttributes();
     }
-    
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> retval = new ArrayList<KeyValue>();
         retval.add(new ConcreteKeyValue("", "select"));

@@ -18,7 +18,7 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import org.kuali.kra.infrastructure.AwardOnOffCampusFlagConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +28,9 @@ import java.util.List;
  * This is a values finder class used in AwardIndirectCostRate.xml for populating
  * On-Off CampusContractContractContract Flag Select box.
  */
-public class AwardOnOffCampusValuesFinder extends KeyValuesBase {
-    
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+public class AwardOnOffCampusValuesFinder extends UifKeyValuesFinderBase {
+
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 

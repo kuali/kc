@@ -21,7 +21,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardPaymentAndInvoicesService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.List;
  * 
  * This class is a values finder for <code>Frequency</code> business object.
  */
-public class ValidMethodOfPaymentValuesFinder extends KeyValuesBase {
+public class ValidMethodOfPaymentValuesFinder extends UifKeyValuesFinderBase {
     
     private String basisOfPaymentCode;
     private AwardPaymentAndInvoicesService awardPaymentAndInvoicesService;
@@ -61,7 +61,7 @@ public class ValidMethodOfPaymentValuesFinder extends KeyValuesBase {
      * is always &lt;"", "select"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("all")
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
         keyLabels.add( new ConcreteKeyValue( "", "select" ));

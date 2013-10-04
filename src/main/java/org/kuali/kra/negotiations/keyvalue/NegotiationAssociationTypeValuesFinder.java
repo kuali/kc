@@ -16,27 +16,27 @@
 package org.kuali.kra.negotiations.keyvalue;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class NegotiationAssociationTypeValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
+public class NegotiationAssociationTypeValuesFinder extends UifKeyValuesFinderBase {
     
     private BusinessObjectService businessObjectService;
     /**
      * Filter results based on whether the association is enabled.
      * @see org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("unchecked")
-    public List<KeyValue> getKeyValues(){
+    @Override
+    public List<KeyValue> getKeyValues() {
         List<ConcreteKeyValue> labels = new ArrayList<ConcreteKeyValue>();
         Collection<NegotiationAssociationType> associations = getBusinessObjectService().findAll(NegotiationAssociationType.class);
         for (NegotiationAssociationType type : associations) {

@@ -19,19 +19,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.*;
 
-public class CoeusSubModuleValuesFinder extends KeyValuesBase {
+public class CoeusSubModuleValuesFinder extends UifKeyValuesFinderBase {
     List<KeyValue> subModuleCodes = null;
     private String moduleCode;
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    @SuppressWarnings("unchecked")
+    @Override
     public List<KeyValue> getKeyValues() {
 
         if (subModuleCodes == null) {

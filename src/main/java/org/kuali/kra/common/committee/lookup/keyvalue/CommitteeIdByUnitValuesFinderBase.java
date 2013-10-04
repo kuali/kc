@@ -27,8 +27,8 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
@@ -60,7 +60,7 @@ import java.util.*;
  * unit is at or below their qualified node in the Org tree.
  * 
  */
-public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBase<CMT, ?, ?> > extends KeyValuesBase {
+public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBase<CMT, ?, ?> > extends UifKeyValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

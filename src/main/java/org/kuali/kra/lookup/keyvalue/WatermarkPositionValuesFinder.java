@@ -18,13 +18,14 @@ package org.kuali.kra.lookup.keyvalue;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WatermarkPositionValuesFinder extends KeyValuesBase{
-    
+public class WatermarkPositionValuesFinder extends UifKeyValuesFinderBase {
+
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("HEADER", WatermarkConstants.WATERMARK_POSITION_HEADER));

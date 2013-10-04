@@ -43,8 +43,6 @@ import java.util.Map;
  * 
  * Then just use the wrapped KeyValuesFinder within a custom finder.
  */
-//TODO: we may consider creating a builder for these wrappers similar to Google's Collection builder
-//in the Google Collections API
 public final class PrefixValuesFinder implements KeyValuesFinder {
 
     private static final String PREFIX_KEY = "";
@@ -82,10 +80,8 @@ public final class PrefixValuesFinder implements KeyValuesFinder {
         this.finder = finder;
         this.prefixValue = prefixValue;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
+    @Override
     public String getKeyLabel(final String key) {
         if (PREFIX_KEY.equals(key)) {
             return this.prefixValue;
@@ -94,9 +90,7 @@ public final class PrefixValuesFinder implements KeyValuesFinder {
         return this.finder.getKeyLabel(key);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Map<String, String> getKeyLabelMap() {
         @SuppressWarnings("unchecked")
         final Map<String, String> map = this.finder.getKeyLabelMap();
@@ -104,11 +98,8 @@ public final class PrefixValuesFinder implements KeyValuesFinder {
         return map;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
-        @SuppressWarnings("unchecked")
         final List<KeyValue> list = this.finder.getKeyValues();
         list.add(0, new ConcreteKeyValue(PREFIX_KEY, this.prefixValue));
         return list;
@@ -129,20 +120,16 @@ public final class PrefixValuesFinder implements KeyValuesFinder {
     public static String getDefaultPrefixValue() {
         return DEFAULT_PREFIX_VALUE;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
+    @Override
     public List<KeyValue> getKeyValues(boolean includeActiveOnly) {
         @SuppressWarnings("unchecked")
         final List<KeyValue> list = this.finder.getKeyValues(includeActiveOnly);
         list.add(0, new ConcreteKeyValue(PREFIX_KEY, this.prefixValue));
         return list;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
+    @Override
     public void clearInternalCache() {
         this.finder.clearInternalCache();
     }

@@ -17,9 +17,9 @@ package org.kuali.kra.protocol.actions;
 
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KeyValuesService;
 
@@ -28,7 +28,7 @@ import org.kuali.rice.krad.service.KeyValuesService;
  * This class should be extended by protocol values finder classes.  It creates a single function to get a 
  * BusinessObjectService, so each class need not do that it self.
  */
-public abstract class ProtocolActionsKeyValuesBase extends KeyValuesBase {
+public abstract class ProtocolActionsKeyValuesBase extends FormViewAwareUifKeyValuesFinderBase {
     /**
      * Comment for <code>serialVersionUID</code>
      */

@@ -18,7 +18,7 @@ package org.kuali.kra.coi.disclosure;
 import org.kuali.kra.infrastructure.DisclosureEventTypeConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +27,14 @@ import java.util.List;
  * 
  * This class creates a drop down list for Event type for undisclosed events criteria.
  */
-public class CoiUndisclosedEventTypeValuesFinder extends KeyValuesBase {
+public class CoiUndisclosedEventTypeValuesFinder extends UifKeyValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -2596141537553819058L;
 
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
