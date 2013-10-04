@@ -19,8 +19,8 @@ import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,14 +30,15 @@ import java.util.List;
 /**
  * This class is the Values Finder for Notice of Opportunity.
  */
-public class NoticeOfOpportunityValuesFinder extends KeyValuesBase {
+public class NoticeOfOpportunityValuesFinder extends UifKeyValuesFinderBase {
 
     /**
      * Returns the key/values list (code/description) for Notice of Opportunity.
      *
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
+    @Override
+    public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection noticesOfOpportunity = keyValuesService.findAll(NoticeOfOpportunity.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

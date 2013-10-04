@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.paymentreports;
 
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +25,13 @@ import java.util.List;
 /**
  * Report RegenerationType values finder class.
  */
-public class ReportRegenerationTypeValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
+public class ReportRegenerationTypeValuesFinder extends UifKeyValuesFinderBase {
    
     /**
      * Get the report regeneration types and use the name as the key in the label.
-     * @see org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder#getKeyValues()
      */
-    public List<KeyValue> getKeyValues(){
+    @Override
+    public List<KeyValue> getKeyValues() {
         List<KeyValue> labels = new ArrayList<KeyValue>();
         for (ReportRegenerationType type : ReportRegenerationType.values()) {
             labels.add(new ConcreteKeyValue(type.name(), type.getDescription()));

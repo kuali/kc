@@ -19,7 +19,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
@@ -28,15 +28,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CountryCodeValuesFinder extends KeyValuesBase{
+public class CountryCodeValuesFinder extends UifKeyValuesFinderBase {
 
         private String getDefaultCountryCode() {
             String postalCountryCode = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(KRADConstants.KNS_NAMESPACE,
             KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_COUNTRY);
             return postalCountryCode;
         }
-        
-        public List<KeyValue> getKeyValues() {
+
+    @Override
+    public List<KeyValue> getKeyValues() {
             CountryService countryService = KraServiceLocator.getService(CountryService.class);
             List<Country> countries = countryService.findAllCountries();
             Country defaultCountry = countryService.getCountry(getDefaultCountryCode());;

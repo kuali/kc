@@ -23,8 +23,8 @@ import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeGroupBase;
 import org.kuali.kra.protocol.noteattachment.TypedAttachment;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class IacucProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttachmentBase & TypedAttachment> 
-        extends KeyValuesBase {
+        extends UifKeyValuesFinderBase {
     private static final long serialVersionUID = -4314458177687918434L;
 
     private static final String GROUP_CODE_NAME = "groupCode";
@@ -51,7 +51,8 @@ public class IacucProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolA
      * </p>
      * @return a list of {@link KeyValue KeyValue}
      */
-    public List<KeyValue> getKeyValues() {   
+    @Override
+    public List<KeyValue> getKeyValues() {
         this.validateRequiredProperties();
         
         @SuppressWarnings("unchecked")

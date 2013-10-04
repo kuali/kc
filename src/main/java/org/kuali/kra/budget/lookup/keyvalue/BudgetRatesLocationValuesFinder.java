@@ -18,14 +18,15 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BudgetRatesLocationValuesFinder extends KeyValuesBase{
+public class BudgetRatesLocationValuesFinder extends UifKeyValuesFinderBase {
 
-    public List getKeyValues() {
+    @Override
+    public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "View All"));
         keyValues.add(new ConcreteKeyValue(Constants.ON_CAMUS_FLAG, "On CampusContractContract"));

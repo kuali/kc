@@ -22,7 +22,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
@@ -38,12 +38,10 @@ import java.util.List;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class LeadUnitValuesFinder extends KeyValuesBase {
-    
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    public List getKeyValues() {
+public class LeadUnitValuesFinder extends UifKeyValuesFinderBase {
+
+    @Override
+    public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         

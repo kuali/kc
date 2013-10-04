@@ -68,7 +68,7 @@ public class FormViewAwareUifKeyValuesFinderBase extends UifKeyValuesFinderBase 
      * @param model the viewModel or null
      */
     private void storeViewModelFormKey(ViewModel model) {
-        if (model != null && model instanceof UifFormBase) {
+        if (model instanceof UifFormBase) {
             GlobalVariables.getUserSession().addObject(VIEW_MODEL_FORM_KEY, ((UifFormBase) model).getFormKey());
         }
     }
@@ -78,7 +78,7 @@ public class FormViewAwareUifKeyValuesFinderBase extends UifKeyValuesFinderBase 
      * @param model the viewModel or null
      */
     private void removeViewModelFormKey(ViewModel model) {
-        if (model != null && model instanceof UifFormBase) {
+        if (model instanceof UifFormBase) {
             GlobalVariables.getUserSession().removeObject(VIEW_MODEL_FORM_KEY);
         }
     }

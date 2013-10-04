@@ -17,14 +17,12 @@ package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.InquiryForm;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.*;
@@ -32,7 +30,7 @@ import java.util.*;
 /**
  * This class...
  */
-public class ProposalLogStatusValuesFinder extends KeyValuesBase {
+public class ProposalLogStatusValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
     /**
      * Returns valid status choices based on the current ProposalLog's Type.  Choices are selected as follows:<br />
@@ -50,12 +48,13 @@ public class ProposalLogStatusValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> retval = new ArrayList<KeyValue>(); 
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection<ProposalLogStatus> statuses = keyValuesService.findAll(ProposalLogStatus.class);
         Set<String> validStatuses = new HashSet<String>();
-        KualiForm form = KNSGlobalVariables.getKualiForm();
+        Object form = getFormOrView();
         retval.add(new ConcreteKeyValue("", "select"));
         boolean filterResults = true;
         if (form instanceof LookupForm || form instanceof InquiryForm) {

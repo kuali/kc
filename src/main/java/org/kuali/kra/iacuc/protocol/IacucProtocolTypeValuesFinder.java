@@ -18,15 +18,15 @@ package org.kuali.kra.iacuc.protocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class IacucProtocolTypeValuesFinder extends KeyValuesBase {
+public class IacucProtocolTypeValuesFinder extends UifKeyValuesFinderBase {
 
     private static final long serialVersionUID = -3626497316348500710L;
 
@@ -42,6 +42,7 @@ public class IacucProtocolTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
 
+    @Override
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection protocolTypes = keyValuesService.findAllOrderBy(IacucProtocolType.class,"description",true);

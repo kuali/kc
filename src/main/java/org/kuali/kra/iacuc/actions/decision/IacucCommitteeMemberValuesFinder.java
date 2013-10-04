@@ -29,8 +29,6 @@ import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,9 +79,9 @@ public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase 
     }
 
     private ProtocolBase getProtocol() {
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form != null && form instanceof ProtocolFormBase) {
-            return ((ProtocolFormBase) form).getProtocolDocument().getProtocol();
+        Object formOrView = getFormOrView();
+        if (formOrView != null && formOrView instanceof ProtocolFormBase) {
+            return ((ProtocolFormBase) formOrView).getProtocolDocument().getProtocol();
         }
         return null;
     }

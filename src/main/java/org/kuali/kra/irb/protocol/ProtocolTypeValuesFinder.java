@@ -23,8 +23,8 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class ProtocolTypeValuesFinder extends KeyValuesBase {
+public class ProtocolTypeValuesFinder extends UifKeyValuesFinderBase {
     /**
      * Constructs the list of Protocol Types.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
@@ -46,6 +46,7 @@ public class ProtocolTypeValuesFinder extends KeyValuesBase {
      */
     private PermissionService permissionService;
     private static final String PERMISSION_NAME = "View Active Protocol Types";
+    @Override
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection protocolTypes = keyValuesService.findAllOrderBy(ProtocolType.class,"description",true);

@@ -16,12 +16,13 @@
 package org.kuali.kra.common.committee.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Month extends KeyValuesBase {
+public class Month extends UifKeyValuesFinderBase {
 
     public static final String JANUARY = "JANUARY";
     
@@ -52,11 +53,10 @@ public class Month extends KeyValuesBase {
 
     /**
      * Creates and return List of months.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("unchecked")
-    public List getKeyValues() {
-        List keyValues = new ArrayList();
+    @Override
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(JANUARY,JANUARY));
         keyValues.add(new ConcreteKeyValue(FEBRUARY,FEBRUARY));
         keyValues.add(new ConcreteKeyValue(MARCH,MARCH));

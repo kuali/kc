@@ -17,18 +17,17 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.ValidNarrForms;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -48,11 +47,11 @@ import java.util.*;
  * infrastructure into protected methods to allow unit tests to override with mocks and stub out 
  * database and service lookups. 
  */
-public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObjectValuesFinder {
+public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValuesFinderBase {
     private static final String NO = "N";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalNarrativeTypeValuesFinder.class);
     private ParameterService parameterService;
-    
+
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
@@ -119,11 +118,9 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
             String proposalNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
             Map<String,String> queryMap = new HashMap<String,String>();
             queryMap.put("narrativeTypeGroup", proposalNarrativeTypeGroup);
-//            queryMap.put("systemGenerated", "N");
             List<ValidNarrForms> validNarrativeForms = (List<ValidNarrForms>)getBusinessObjectService().findAll(ValidNarrForms.class);
-            List<NarrativeType> allNarrativeTypes = (List)getBusinessObjectService().findMatching(getBusinessObjectClass(), queryMap);
+            List<NarrativeType> allNarrativeTypes = (List)getBusinessObjectService().findMatching(NarrativeType.class, queryMap);
             validS2SFormNarratives = removeValidNarrativeForms(allNarrativeTypes,validNarrativeForms);
-            //return boService.findMatchingOrderBy(getBusinessObjectClass(), queryMap, "narrativeTypeCode", true);
         }
         return validS2SFormNarratives;
     }
@@ -188,21 +185,12 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
         return false;
     }
     String proposalNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
-    /**
-     * This method...
-     * @param validNarrForms
-     * @param proposalNarrativeTypeGroup
-     * @return
-     */
+
     private boolean isProposalGroup(ValidNarrForms validNarrForms) {
         return proposalNarrativeTypeGroup.equals(validNarrForms.getNarrativeType().getNarrativeTypeGroup());
     }
 
-    /**
-     * This method...
-     * @param developmentProposal
-     * @param validS2SFormNarratives 
-     */
+
     private void populateValidNarrativeTypeFromParentProposal(DevelopmentProposal developmentProposal, List<NarrativeType> validaNarrativeTypes) {
         if(developmentProposal.isInHierarchy()){
             String hierarchyProposalNumber = developmentProposal.getHierarchyParentProposalNumber();
@@ -211,12 +199,7 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
         }
     }
 
-    /**
-     * This method...
-     * @param developmentProposal 
-     * @param validaNarrativeTypes
-     * @return
-     */
+
     private Map<String, String> populateGenericValidNarrativeTypes(List<NarrativeType> validaNarrativeTypes) {
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("formName", "ALL");
@@ -230,16 +213,10 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
     }
 
     protected ProposalDevelopmentDocument getDocumentFromForm() {
-        return ((ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm()).getProposalDevelopmentDocument();
+        return (ProposalDevelopmentDocument) getDocument();
     }
     
-    /**
-     * Used to compare which Narrative Types already exist in the document.
-     * 
-     * @param document
-     * @param narrativeTypeCode <code>{@link NarrativeType}</code> code
-     * @return true if the narrative type is in the document and false otherwise
-     */
+
     protected boolean filterCondition(NarrativeType documentNarrativeType, NarrativeType narrativeType) {
         return documentNarrativeType.getNarrativeTypeCode().equals(narrativeType.getNarrativeTypeCode()) && multiplesNotAllowed(narrativeType);
     }

@@ -21,12 +21,12 @@ import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.*;
 
-public class CostElementValuesFinder extends KeyValuesBase{
+public class CostElementValuesFinder extends UifKeyValuesFinderBase {
     
     private String budgetCategoryTypeCode;
     
@@ -42,6 +42,7 @@ public class CostElementValuesFinder extends KeyValuesBase{
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = KraServiceLocator.getService("keyValuesService");
         List<KeyValue> keyValues = new ArrayList<KeyValue>();        

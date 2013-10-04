@@ -20,10 +20,8 @@ import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import java.util.List;
 
@@ -34,7 +32,7 @@ import java.util.List;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 @SuppressWarnings("deprecation")
-public class IacucProtocolModifySubmissionScheduleValuesFinder extends KeyValuesBase {
+public class IacucProtocolModifySubmissionScheduleValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -44,8 +42,9 @@ public class IacucProtocolModifySubmissionScheduleValuesFinder extends KeyValues
     /**
      * @return the list of &lt;key, value&gt; pairs of committees.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     *
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         return getCommitteeService().getAvailableCommitteeDates(getCommitteeId());
     }
@@ -67,7 +66,7 @@ public class IacucProtocolModifySubmissionScheduleValuesFinder extends KeyValues
      */
     private String getCommitteeId() {
         String committeeId = "";
-        KualiForm form = KNSGlobalVariables.getKualiForm();
+        Object form = getFormOrView();
         if (form instanceof IacucProtocolForm) {
             IacucProtocolForm protocolForm = (IacucProtocolForm) form;
             committeeId = ((IacucActionHelper) protocolForm.getActionHelper()).getIacucProtocolModifySubmissionBean().getCommitteeId();

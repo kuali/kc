@@ -17,7 +17,7 @@ package org.kuali.kra.irb.correspondence;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,9 @@ import java.util.List;
  * 
  * This class returns the qualifiers that CorrespondentType can have.
  */
-public class CorrespondentTypeQualifierValuesFinder extends KeyValuesBase {
+public class CorrespondentTypeQualifierValuesFinder extends UifKeyValuesFinderBase {
 
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 

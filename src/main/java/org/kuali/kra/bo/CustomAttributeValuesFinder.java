@@ -20,7 +20,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,14 +29,12 @@ import java.util.List;
 /*
  * This is for Custom Attribute document types.
  */
-public class CustomAttributeValuesFinder extends KeyValuesBase {
+public class CustomAttributeValuesFinder extends UifKeyValuesFinderBase {
     private List<KeyValue> documentTypeParams;
 
     private static final String EQUAL_CHAR = "=";
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
         if (documentTypeParams == null) {
             Collection<String> validTypes = KraServiceLocator.getService(ParameterService.class).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,

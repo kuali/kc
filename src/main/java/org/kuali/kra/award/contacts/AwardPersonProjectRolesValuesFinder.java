@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -24,7 +23,6 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,9 +37,10 @@ import static org.kuali.kra.logging.BufferedLogger.info;
 public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRoleValuesFinder {
     private KeyPersonnelService keyPersonnelService;
 
-    public List getKeyValues() {
-        @SuppressWarnings("unchecked") final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
-        final AwardDocument awardDocument = ((AwardForm) KNSGlobalVariables.getKualiForm()).getAwardDocument();
+    @Override
+    public List<KeyValue> getKeyValues() {
+        final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
+        final AwardDocument awardDocument = (AwardDocument) getDocument();
 
         Sponsorable sponsorable = awardDocument.getAward();
         Map<String, String> roleDescriptions = getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(sponsorable.isSponsorNihMultiplePi());
@@ -50,12 +49,6 @@ public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRol
         keyValues.add(new ConcreteKeyValue("", "select"));
         for (ProposalPersonRole role : roles) {
             boolean showRole = true;
-
-             // TODO: JF - Investigate why this is done this way in ProposalPersonRoleValuesFinder. Also tied to proposalPersonRole.tag
-            // If the person has already been added, then exclude Key Person
-//            if (isPersonAdded()) {
-//                showRole = !KEY_PERSON_ROLE.equals(role.getProposalPersonRoleId());
-//            }
 
             info("showRole = ", showRole);
 

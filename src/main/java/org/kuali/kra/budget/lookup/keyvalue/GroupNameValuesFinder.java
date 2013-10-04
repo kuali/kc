@@ -22,17 +22,15 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.*;
 
-public class GroupNameValuesFinder extends KeyValuesBase{
+public class GroupNameValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     /**
      * Constructs the list of existing Group Names.  
@@ -41,19 +39,18 @@ public class GroupNameValuesFinder extends KeyValuesBase{
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         List<KeyValue> keyValues = new ArrayList<KeyValue>();        
         keyValues.add(new ConcreteKeyValue("", "select"));
 
         Set<String> distinctGroupNames = new HashSet<String>();
-        
-        KualiForm form = KNSGlobalVariables.getKualiForm();        
-        BudgetForm budgetForm = (BudgetForm) form;
+
+        BudgetForm budgetForm = (BudgetForm) getFormOrView();
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         
         Map fieldValues = new HashMap();
-//        DevelopmentProposal proposal = budgetDocument.getParentDocument().getDevelopmentProposal();
         fieldValues.put("budgetId", budgetDocument.getBudget().getBudgetId());
         
         int budgetPeriodNumber = -1;

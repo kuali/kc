@@ -19,16 +19,17 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.bo.S2sSubmissionType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class S2sSubmissionTypeValuesFinderForResubmission extends KeyValuesBase{
+public class S2sSubmissionTypeValuesFinderForResubmission extends UifKeyValuesFinderBase {
 
+    @Override
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection S2SSubmissionTypes = keyValuesService.findAllOrderBy(S2sSubmissionType.class,"sortId",true);

@@ -20,15 +20,15 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class IacucSpeciesValuesFinder extends KeyValuesBase {
+public class IacucSpeciesValuesFinder extends UifKeyValuesFinderBase {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -42,6 +42,7 @@ public class IacucSpeciesValuesFinder extends KeyValuesBase {
      * @return the list of &lt;key, value&gt; pairs of abstract types. The first entry is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         Collection<IacucSpecies> iacucSpeciesList = getKeyValuesService().findAllOrderBy(IacucSpecies.class,
                 "speciesCode", true);

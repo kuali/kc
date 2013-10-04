@@ -15,19 +15,19 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.FundingProposalMergeType;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FundingProposalMergeTypeValuesFinder extends PersistableBusinessObjectValuesFinder {
+public class FundingProposalMergeTypeValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> values = new ArrayList<KeyValue>();
         if (isNewAward()) {
@@ -43,7 +43,7 @@ public class FundingProposalMergeTypeValuesFinder extends PersistableBusinessObj
     }
     
     protected boolean isNewAward() {
-        Award award = ((AwardForm)KNSGlobalVariables.getKualiForm()).getAwardDocument().getAward();
+        Award award = ((AwardDocument) getDocument()).getAward();
         return award.isNew() && award.getSequenceNumber() <= 1 && award.getFundingProposals().isEmpty();
     }
 

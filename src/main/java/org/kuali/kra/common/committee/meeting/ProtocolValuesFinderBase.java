@@ -19,8 +19,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.*;
 
@@ -28,7 +28,7 @@ import java.util.*;
  * 
  * This class is to find protocols submitted to this committee schedule.
  */
-public abstract class ProtocolValuesFinderBase extends KeyValuesBase {
+public abstract class ProtocolValuesFinderBase extends UifKeyValuesFinderBase {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -36,9 +36,7 @@ public abstract class ProtocolValuesFinderBase extends KeyValuesBase {
     
     private String scheduleId;
 
-    /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
 
         // note: the following will overwrite existing elements in the tree; that's the whole point.  We

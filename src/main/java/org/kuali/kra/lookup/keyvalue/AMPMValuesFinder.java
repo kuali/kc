@@ -16,12 +16,13 @@
 package org.kuali.kra.lookup.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AMPMValuesFinder extends KeyValuesBase {
+public class AMPMValuesFinder extends UifKeyValuesFinderBase {
     
     public static final String AM = "AM";
     public static final String PM = "PM";
@@ -29,9 +30,9 @@ public class AMPMValuesFinder extends KeyValuesBase {
     public AMPMValuesFinder() {
     }
 
-    @SuppressWarnings("unchecked")
-    public List getKeyValues() {
-        List keyValues = new ArrayList();
+    @Override
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(AM, AM));
         keyValues.add(new ConcreteKeyValue(PM, PM));
         return keyValues;

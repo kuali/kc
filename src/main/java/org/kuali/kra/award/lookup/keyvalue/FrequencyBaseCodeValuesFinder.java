@@ -20,8 +20,8 @@ import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
@@ -30,7 +30,7 @@ import java.util.*;
  * 
  * This class is a values finder for <code>Frequency</code> business object.
  */
-public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
+public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
 
     private String frequencyCode;
     private KeyValuesService keyValuesService;
@@ -59,9 +59,9 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
      * frequency base code and the "value" is the textual description that is viewed by a user.
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types. The first entry is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     *
      */
-    @SuppressWarnings("all")
+    @Override
     public List<KeyValue> getKeyValues() {
         if (GlobalVariables.getUserSession().retrieveObject("awfreqbase" + getFrequencyCode()) != null) {
             return (List<KeyValue>) GlobalVariables.getUserSession().retrieveObject("awfreqbase" + getFrequencyCode());

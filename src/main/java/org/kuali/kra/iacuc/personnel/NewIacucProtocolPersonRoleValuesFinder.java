@@ -19,14 +19,14 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class NewIacucProtocolPersonRoleValuesFinder extends KeyValuesBase {
+public class NewIacucProtocolPersonRoleValuesFinder extends UifKeyValuesFinderBase {
 
     
     /**
@@ -45,8 +45,9 @@ public class NewIacucProtocolPersonRoleValuesFinder extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = KraServiceLocator.getService(KeyValuesService.class);
         Collection<IacucProtocolPersonRole> protocolPersonRoles = keyValuesService.findAllOrderBy(IacucProtocolPersonRole.class,"description",true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));

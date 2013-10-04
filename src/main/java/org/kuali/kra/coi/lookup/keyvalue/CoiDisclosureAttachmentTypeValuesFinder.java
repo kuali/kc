@@ -19,20 +19,21 @@ import org.kuali.kra.coi.CoiAttachmentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CoiDisclosureAttachmentTypeValuesFinder extends KeyValuesBase {
+public class CoiDisclosureAttachmentTypeValuesFinder extends UifKeyValuesFinderBase {
 
     private static KeyValuesService keyValuesService;
 
     /*
      * get list of COI attachment types
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));

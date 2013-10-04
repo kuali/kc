@@ -17,7 +17,7 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +26,10 @@ import java.util.List;
  * 
  * This class create a dropdown list for FE data matrix gui type
  */
-public class DataMatrixGuiTypeValuesFinder extends KeyValuesBase {
+public class DataMatrixGuiTypeValuesFinder extends UifKeyValuesFinderBase {
 
-        public List<KeyValue> getKeyValues() {
+    @Override
+    public List<KeyValue> getKeyValues() {
             List<KeyValue> keyValues = new ArrayList<KeyValue>();
             keyValues.add(new ConcreteKeyValue("CHECKBOX", "CheckBox"));
             keyValues.add(new ConcreteKeyValue("DROPDOWN", "DropDown"));

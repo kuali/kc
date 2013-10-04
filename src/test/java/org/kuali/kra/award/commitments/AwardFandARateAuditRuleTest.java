@@ -19,10 +19,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -40,11 +41,16 @@ public class AwardFandARateAuditRuleTest {
     public void setUp() throws Exception {
         KNSGlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
         rule = new AwardFandARateAuditRule();
-        rule.setFinder(new ExtendedPersistableBusinessObjectValuesFinder() {
+        rule.setFinder(new KeyValuesBase() {
             @Override
             public String getKeyLabel(String key) {
                 return key.equals("5") ? "A" : "B";
-            }            
+            }
+
+            @Override
+            public List<KeyValue> getKeyValues() {
+                return null;
+            }
         });
         
         award = new Award();

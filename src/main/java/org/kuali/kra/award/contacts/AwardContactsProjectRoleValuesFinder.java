@@ -17,9 +17,9 @@ package org.kuali.kra.award.contacts;
 
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.ArrayList;
@@ -29,16 +29,13 @@ import java.util.List;
 /**
  * This class finds Project Roles for an Award contact 
  */
-public abstract class AwardContactsProjectRoleValuesFinder extends KeyValuesBase {
+public abstract class AwardContactsProjectRoleValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     private static final String EMPTY_STR = "";
     private static final String KEY_VALUES_SERVICE_NAME = "keyValuesService";
 
-    /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    @SuppressWarnings("unchecked")
-    public List getKeyValues() {
+    @Override
+    public List<KeyValue> getKeyValues() {
         return buildKeyValues(getKeyValuesService().findAll(getRoleType()));
     }
 

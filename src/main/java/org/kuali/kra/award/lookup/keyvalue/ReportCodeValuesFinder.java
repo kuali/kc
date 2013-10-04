@@ -21,8 +21,8 @@ import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
@@ -31,7 +31,7 @@ import java.util.*;
  * 
  * This class is a values finder for <code>Report</code> business object.
  */
-public class ReportCodeValuesFinder extends KeyValuesBase {
+public class ReportCodeValuesFinder extends UifKeyValuesFinderBase {
     
     KeyValuesService keyValuesService;
     
@@ -64,7 +64,7 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("all")
+    @Override
     public List<KeyValue> getKeyValues() {
         if (GlobalVariables.getUserSession().retrieveObject("awreport"+getReportClassCode()) != null) {
             return (List<KeyValue>)GlobalVariables.getUserSession().retrieveObject("awreport"+getReportClassCode());

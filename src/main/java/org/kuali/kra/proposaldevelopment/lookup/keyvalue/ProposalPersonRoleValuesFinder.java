@@ -16,16 +16,14 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.ArrayList;
@@ -36,13 +34,7 @@ import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.info;
 
-/**
- * Temporary class until this can be gotten working via table.
- *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.16 $
- */
-public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
+public class ProposalPersonRoleValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     private String forAddedPerson;
     private ParameterService parameterService;
     
@@ -62,7 +54,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
-        final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm()).getProposalDevelopmentDocument();
+        final ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocument();
         final DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
 
         final boolean hasPrincipalInvestigator = getKeyPersonnelService().hasPrincipalInvestigator(document);
@@ -120,7 +112,6 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         return new Boolean(getForAddedPerson());
     }
 
-    // START SNIPPET: ProposalPersonRoleValuesFinder#properties
     public String getForAddedPerson() {
         return forAddedPerson;
     }
@@ -128,5 +119,4 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     public void setForAddedPerson(String forAddedPerson) {
         this.forAddedPerson = forAddedPerson;
     }
-    // END SNIPPET: ProposalPersonRoleValuesFinder#properties
 }

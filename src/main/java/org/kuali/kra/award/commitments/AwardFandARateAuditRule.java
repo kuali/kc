@@ -20,13 +20,13 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 import java.util.ArrayList;
@@ -163,8 +163,7 @@ public class AwardFandARateAuditRule implements DocumentAuditRule {
      */
     KeyValuesFinder getFinder() {
         if(finder == null) {
-            ExtendedPersistableBusinessObjectValuesFinder extendedFinder = new ExtendedPersistableBusinessObjectValuesFinder();
-            extendedFinder = new ExtendedPersistableBusinessObjectValuesFinder();
+            PersistableBusinessObjectValuesFinder extendedFinder = new PersistableBusinessObjectValuesFinder();
             extendedFinder.setBusinessObjectClass(FandaRateType.class);
             extendedFinder.setKeyAttributeName("fandaRateTypeCode");
             extendedFinder.setLabelAttributeName("description");

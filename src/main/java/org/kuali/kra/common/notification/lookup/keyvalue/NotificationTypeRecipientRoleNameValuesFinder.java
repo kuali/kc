@@ -20,13 +20,10 @@ import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.ArrayList;
@@ -36,27 +33,21 @@ import java.util.List;
 /**
  * Provides a value finder for the Notification Type Recipient Role Namespace and Role name combination.
  */
-public class NotificationTypeRecipientRoleNameValuesFinder extends KeyValuesBase {
+public class NotificationTypeRecipientRoleNameValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     private KeyValuesService keyValuesService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    @SuppressWarnings("unchecked")
+    @Override
     public List<KeyValue> getKeyValues() {
 
         String moduleCode = null;
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if ((form != null) && (form instanceof KualiDocumentFormBase)) {
-            Document doc = ((KualiDocumentFormBase)form).getDocument();
-            if (doc != null) {
-                NotificationType notificationType = (NotificationType) doc.getNoteTarget();
-                if (notificationType != null) {
-                    moduleCode = notificationType.getModuleCode();
-                }
-            }  
+
+        Document doc = getDocument();
+        if (doc != null) {
+            NotificationType notificationType = (NotificationType) doc.getNoteTarget();
+            if (notificationType != null) {
+                moduleCode = notificationType.getModuleCode();
+            }
         }
         
         List<KeyLabelSortByValue> keyValues = new ArrayList<KeyLabelSortByValue>();

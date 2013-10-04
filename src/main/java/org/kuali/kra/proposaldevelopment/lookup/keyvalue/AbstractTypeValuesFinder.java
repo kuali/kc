@@ -16,14 +16,12 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.ArrayList;
@@ -36,7 +34,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class AbstractTypeValuesFinder extends KeyValuesBase {
+public class AbstractTypeValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     /**
      * Constructs the list of Proposal Abstract Types.  Each entry
@@ -57,8 +55,9 @@ public class AbstractTypeValuesFinder extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
-        ProposalDevelopmentDocument doc = getDocument();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument();
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection<AbstractType> abstractTypes = keyValuesService.findAll(AbstractType.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
@@ -69,21 +68,6 @@ public class AbstractTypeValuesFinder extends KeyValuesBase {
             }
         }
         return keyValues;
-    }
-    
-    /**
-     * Get the Proposal Development Document for the current session.  The
-     * document is within the current form.
-     * 
-     * @return the current document or null if not found
-     */
-    private ProposalDevelopmentDocument getDocument() {
-        ProposalDevelopmentDocument doc = null;
-        ProposalDevelopmentForm form = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
-        if (form != null) {
-            doc = form.getProposalDevelopmentDocument();
-        }
-        return doc;
     }
     
     /**

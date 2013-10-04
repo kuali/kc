@@ -21,15 +21,15 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BudgetModularIDCRateTypeValuesFinder extends KeyValuesBase {
-    
-    public List getKeyValues() {
+public class BudgetModularIDCRateTypeValuesFinder extends UifKeyValuesFinderBase {
+    @Override
+    public List<KeyValue> getKeyValues() {
         KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("rateClassType", "O");
@@ -42,13 +42,6 @@ public class BudgetModularIDCRateTypeValuesFinder extends KeyValuesBase {
         }
         keyValueList.remove(KeyValueSelect);
         return keyValueList;
-
-        /*
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("1", "MTDC"));
-        keyValues.add(new ConcreteKeyValue("2", "TDC"));
-        return keyValues;
-        */
         
     }
 }

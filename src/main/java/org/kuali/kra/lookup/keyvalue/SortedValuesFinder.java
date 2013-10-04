@@ -45,8 +45,6 @@ import java.util.Map;
  * 
  * Then just use the wrapped KeyValuesFinder within a custom finder.
  */
-//TODO: we may consider creating a builder for these wrappers similar to Google's Collection builder
-//in the Google Collections API
 public final class SortedValuesFinder implements KeyValuesFinder {
 
     private static final Comparator<KeyValue> DEFAULT_COMPARATOR = KeyValueComparator.getInstance();
@@ -83,26 +81,20 @@ public final class SortedValuesFinder implements KeyValuesFinder {
         this.finder = finder;
         this.comparator = comparator;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
+    @Override
     public String getKeyLabel(final String key) {
         return this.finder.getKeyLabel(key);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Map<String, String> getKeyLabelMap() {
         @SuppressWarnings("unchecked")
         final Map<String, String> map = this.finder.getKeyLabelMap();
         return map;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
         @SuppressWarnings("unchecked")
         final List<KeyValue> list = this.finder.getKeyValues();
@@ -117,10 +109,8 @@ public final class SortedValuesFinder implements KeyValuesFinder {
     public static Comparator<KeyValue> getDefaultComparator() {
         return DEFAULT_COMPARATOR;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
+    @Override
     public List<KeyValue> getKeyValues(boolean includeActiveOnly) {
         @SuppressWarnings("unchecked")
         final List<KeyValue> list = this.finder.getKeyValues(includeActiveOnly);
@@ -128,9 +118,7 @@ public final class SortedValuesFinder implements KeyValuesFinder {
         return list;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void clearInternalCache() {
         this.finder.clearInternalCache();
     }

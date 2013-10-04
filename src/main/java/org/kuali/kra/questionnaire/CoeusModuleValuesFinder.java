@@ -19,9 +19,9 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,13 +30,13 @@ import java.util.List;
 /*
  * This is for questionnaire maintenance.  Only list the codes that user has permission to associate
  */
-public class CoeusModuleValuesFinder extends KeyValuesBase {
+public class CoeusModuleValuesFinder extends UifKeyValuesFinderBase {
     List<KeyValue> moduleCodes = null;
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("unchecked")
+    @Override
     public List<KeyValue> getKeyValues() {
         List<String> validCodes = KraServiceLocator.getService(QuestionnaireService.class).getAssociateModules();
         if (moduleCodes == null) {

@@ -16,13 +16,12 @@
 package org.kuali.kra.coi.disclosure;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -35,22 +34,20 @@ import java.util.Map;
  * 
  * This class is to serve as a values finder for coi disclosure actions - 'Approve'/'Disapprove'/'Set Disclosure Status'
  */
-public class CoiDispositionStatusValuesFinder extends KeyValuesBase {
+public class CoiDispositionStatusValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     private static final long serialVersionUID = -6465897852646872789L;
     private transient BusinessObjectService businessObjectService;
-    
-    /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
-     */
-    public List getKeyValues() {
-        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) KNSGlobalVariables.getKualiForm();
-        String personId = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getDisclosureReporter().getPersonId();
+
+    @Override
+    public List<KeyValue> getKeyValues() {
+        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) getDocument();
+        String personId = coiDisclosureDocument.getCoiDisclosure().getDisclosureReporter().getPersonId();
         List<CoiDispositionStatus> statuses;
         if (StringUtils.equals(personId, GlobalVariables.getUserSession().getPrincipalId()) 
-                && !coiDisclosureForm.getCoiDisclosureDocument().isViewOnly() 
-                && !coiDisclosureForm.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isEnroute()
-                && !coiDisclosureForm.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isFinal()) {
+                && !coiDisclosureDocument.isViewOnly()
+                && !coiDisclosureDocument.getDocumentHeader().getWorkflowDocument().isEnroute()
+                && !coiDisclosureDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
             Map<String, Object> values = new HashMap<String, Object>();
             values.put("displayToReporter", true);
             statuses = (List<CoiDispositionStatus>) getBusinessObjectService().findMatchingOrderBy(CoiDispositionStatus.class, values, "coiDispositionCode", true);

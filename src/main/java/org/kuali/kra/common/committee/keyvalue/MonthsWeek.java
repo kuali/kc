@@ -16,12 +16,13 @@
 package org.kuali.kra.common.committee.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonthsWeek extends KeyValuesBase {
+public class MonthsWeek extends UifKeyValuesFinderBase {
 
     public static final String FIRST =  "first";
     
@@ -38,11 +39,10 @@ public class MonthsWeek extends KeyValuesBase {
 
     /**
      * Creates and return List of week of month.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("unchecked")
-    public List getKeyValues() {
-        List keyValues = new ArrayList();
+    @Override
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(FIRST, FIRST));
         keyValues.add(new ConcreteKeyValue(SECOND, SECOND));
         keyValues.add(new ConcreteKeyValue(THIRD, THIRD));

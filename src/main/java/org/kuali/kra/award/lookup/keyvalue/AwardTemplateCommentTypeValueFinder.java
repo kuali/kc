@@ -19,15 +19,15 @@ import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.*;
 
 /**
  * This class is used to get the Frequency BO for AwardProposalDue control
  */
-public class AwardTemplateCommentTypeValueFinder  extends KeyValuesBase {
+public class AwardTemplateCommentTypeValueFinder  extends UifKeyValuesFinderBase {
     
     /**
      * Constructs the list of Comment BOs.  Each entry
@@ -41,6 +41,7 @@ public class AwardTemplateCommentTypeValueFinder  extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      *
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Map<String, Object> fieldValues = new HashMap<String, Object>();

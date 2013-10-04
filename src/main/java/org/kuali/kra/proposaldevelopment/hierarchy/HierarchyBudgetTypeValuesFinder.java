@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.hierarchy;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +25,9 @@ import java.util.List;
 /**
  * This class...
  */
-public class HierarchyBudgetTypeValuesFinder extends KeyValuesBase {
+public class HierarchyBudgetTypeValuesFinder extends UifKeyValuesFinderBase {
 
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 

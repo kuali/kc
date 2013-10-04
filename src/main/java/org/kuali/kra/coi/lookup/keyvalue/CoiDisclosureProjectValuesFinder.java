@@ -19,22 +19,21 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.disclosure.CoiDisclosureProjectBean;
 import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
+public class CoiDisclosureProjectValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
 
-    @SuppressWarnings("all")
-    public List getKeyValues() {
+    @Override
+    public List<KeyValue> getKeyValues() {
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
-        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) KNSGlobalVariables.getKualiForm();
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) getFormOrView();
 
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();

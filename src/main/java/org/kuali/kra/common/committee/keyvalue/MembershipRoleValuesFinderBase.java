@@ -19,15 +19,15 @@ import org.kuali.kra.common.committee.bo.MembershipRole;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class MembershipRoleValuesFinderBase extends KeyValuesBase {
+public abstract class MembershipRoleValuesFinderBase extends UifKeyValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -39,12 +39,11 @@ public abstract class MembershipRoleValuesFinderBase extends KeyValuesBase {
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
         keyLabels.add(new ConcreteKeyValue("", "select"));
 
-        List<? extends MembershipRole> roles = new ArrayList<MembershipRole>();
         Map<String, String> criteria = new HashMap<String, String>();
         
         criteria.put("committeeTypeCode", getCommitteeTypeCodeHook());
-        
-        roles = (List<? extends MembershipRole>) getBusinessObjectService().findMatching(MembershipRole.class, criteria);
+
+        List<? extends MembershipRole> roles = (List<? extends MembershipRole>) getBusinessObjectService().findMatching(MembershipRole.class, criteria);
 
         for(MembershipRole role : roles) {
             keyLabels.add(new ConcreteKeyValue(role.getMembershipRoleCode(), role.getDescription()));

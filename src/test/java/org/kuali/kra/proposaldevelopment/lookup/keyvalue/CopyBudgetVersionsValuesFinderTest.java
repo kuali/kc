@@ -43,7 +43,7 @@ public class CopyBudgetVersionsValuesFinderTest {
 
         this.finalVerFinder = new CopyBudgetVersionsValuesFinder() {
             @Override
-            ProposalDevelopmentDocument getDocument() {
+            protected ProposalDevelopmentDocument getDocument() {
                 List<BudgetDocumentVersion> overviews = new ArrayList<BudgetDocumentVersion>();
                 overviews.add(new BudgetDocumentVersion());
                 BudgetDocumentVersion o = new BudgetDocumentVersion();
@@ -66,7 +66,7 @@ public class CopyBudgetVersionsValuesFinderTest {
 
         this.nonFinalVerFinder = new CopyBudgetVersionsValuesFinder() {
             @Override
-            ProposalDevelopmentDocument getDocument() {
+            protected ProposalDevelopmentDocument getDocument() {
                 List<BudgetDocumentVersion> overviews = new ArrayList<BudgetDocumentVersion>();
                 overviews.add(new BudgetDocumentVersion());
                 BudgetDocumentVersion o = new BudgetDocumentVersion();

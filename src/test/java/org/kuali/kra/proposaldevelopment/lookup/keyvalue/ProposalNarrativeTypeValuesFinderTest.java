@@ -95,11 +95,7 @@ public class ProposalNarrativeTypeValuesFinderTest extends KcUnitTestBase {
 
     private ProposalNarrativeTypeValuesFinder getFinder() {
         ProposalNarrativeTypeValuesFinder finder = new MockProposalNarrativeTypeValuesFinder();
-        finder.setBusinessObjectClass(NarrativeType.class);
-        finder.setIncludeKeyInDescription(false);
-        finder.setKeyAttributeName("narrativeTypeCode");
-        finder.setLabelAttributeName("description");
-        
+
         return finder;
     }
     

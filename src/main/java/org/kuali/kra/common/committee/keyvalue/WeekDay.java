@@ -16,12 +16,13 @@
 package org.kuali.kra.common.committee.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeekDay extends KeyValuesBase {
+public class WeekDay extends UifKeyValuesFinderBase {
 
     public static final String SUNDAY = "Sunday";
     
@@ -42,11 +43,10 @@ public class WeekDay extends KeyValuesBase {
 
     /**
      * Creates and return List of week days.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("unchecked")
-    public List getKeyValues() {
-        List keyValues = new ArrayList();
+    @Override
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(SUNDAY, SUNDAY));
         keyValues.add(new ConcreteKeyValue(MONDAY, MONDAY));
         keyValues.add(new ConcreteKeyValue(TUESDAY, TUESDAY));

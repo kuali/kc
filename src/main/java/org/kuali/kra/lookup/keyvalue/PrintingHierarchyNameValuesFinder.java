@@ -21,17 +21,18 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrintingHierarchyNameValuesFinder extends KeyValuesBase {
+public class PrintingHierarchyNameValuesFinder extends UifKeyValuesFinderBase {
 
     private SponsorService sponsorService;
     private ParameterService parameterService;
-    
-    public List getKeyValues() {
+
+    @Override
+    public List<KeyValue> getKeyValues() {
         List<KeyValue> result = new ArrayList<KeyValue>();
         String hierarchyName = getParameterService().getParameterValueAsString(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 

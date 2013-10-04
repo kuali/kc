@@ -18,15 +18,13 @@ package org.kuali.kra.award.awardhierarchy.sync.keyvalue;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncDescendantValues;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllActiveValueFinder extends KeyValuesBase {
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+public class AllActiveValueFinder extends UifKeyValuesFinderBase {
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> activeLabels = new ArrayList<KeyValue>();
 

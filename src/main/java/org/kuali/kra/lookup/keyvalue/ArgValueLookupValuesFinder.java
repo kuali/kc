@@ -20,18 +20,16 @@ import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.*;
 
-public class ArgValueLookupValuesFinder extends KeyValuesBase {
+public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
 
     private String argName;
 
-    /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
 
         Map<String, String> fieldValues = new HashMap<String, String>();

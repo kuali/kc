@@ -22,8 +22,8 @@ import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,7 +36,7 @@ import static java.util.Collections.sort;
  * 
  * This class is to create key/values pair of active committees.
  */
-public abstract class CommitteeIdValuesFinderBase extends KeyValuesBase {
+public abstract class CommitteeIdValuesFinderBase extends UifKeyValuesFinderBase {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -88,7 +88,7 @@ public abstract class CommitteeIdValuesFinderBase extends KeyValuesBase {
      * @return the list of &lt;key, value&gt; pairs of committees. The first entry is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("unchecked")
+    @Override
     public List<KeyValue> getKeyValues() {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

@@ -26,9 +26,9 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
@@ -36,7 +36,7 @@ import java.util.*;
 /**
  * Provides a value finder for module-specific configuration of Special Review Types.
  */
-public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
+public abstract class SpecialReviewTypeValuesFinder extends UifKeyValuesFinderBase {
 
     private static final String MODULE_CODE_NAME = "moduleCode";
     private static final String PERMISSION_NAME = "View Active Special Review Types";
