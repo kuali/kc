@@ -62,7 +62,7 @@ public abstract class PersistableBusinessObjectValuesFinderTestBase extends KcUn
         persistableBusinessObjectValuesFinder.setKeyAttributeName(getKeyAttributeName());
         persistableBusinessObjectValuesFinder.setLabelAttributeName(getLabelAttributeName());
         persistableBusinessObjectValuesFinder.getKeyValues();
-        assertEquals(testKeyValues.size(), persistableBusinessObjectValuesFinder.getKeyValues().size());
+        assertEquals("expected:\n" + testKeyValues + "\nactual:\n" + persistableBusinessObjectValuesFinder.getKeyValues(), testKeyValues.size(), persistableBusinessObjectValuesFinder.getKeyValues().size());
         for (int i=0; i<testKeyValues.size(); i++) {
             assertEquals(testKeyValues.get(i).getValue(), persistableBusinessObjectValuesFinder.getKeyLabel(testKeyValues.get(i).getKey().toString()));
         }
