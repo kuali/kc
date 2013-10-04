@@ -51,7 +51,6 @@ public class NsfCodeValuesFinderTest extends PersistableBusinessObjectValuesFind
 
     @Override
     protected void addKeyValues() {
-        testKeyValues.add(new ConcreteKeyValue("", "select"));
         testKeyValues.add(new ConcreteKeyValue("J.02","Law - Non-Science and Engineering Fields: J.02"));
         testKeyValues.add(new ConcreteKeyValue("A.01","Aeronautical and Astronautical - Engineering: A.01"));
         testKeyValues.add(new ConcreteKeyValue("F.01","Agricultural - Life Sciences: F.01"));

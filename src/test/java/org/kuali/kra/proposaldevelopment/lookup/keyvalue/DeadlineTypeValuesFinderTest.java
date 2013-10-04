@@ -50,7 +50,6 @@ public class DeadlineTypeValuesFinderTest extends PersistableBusinessObjectValue
     }
     
     protected void addKeyValues() {
-        testKeyValues.add(new ConcreteKeyValue("", "select"));
         testKeyValues.add(new ConcreteKeyValue("P", "Postmark"));
         testKeyValues.add(new ConcreteKeyValue("R", "Receipt"));
         testKeyValues.add(new ConcreteKeyValue("T", "Target"));
