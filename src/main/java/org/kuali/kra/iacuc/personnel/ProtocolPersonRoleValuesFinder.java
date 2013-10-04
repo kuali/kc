@@ -20,7 +20,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMappingBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,14 +33,12 @@ import java.util.List;
  * person role mapping. Include source role first and then start adding
  * target roles to the list.
  */
-public class ProtocolPersonRoleValuesFinder extends KeyValuesBase {
+public class ProtocolPersonRoleValuesFinder extends UifKeyValuesFinderBase {
     private String sourceRoleId;
     private String sourceRoleReferenceObject = "sourceRole";
     private String targetRoleReferenceObject = "targetRole";
 
-    /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
         final List<ProtocolPersonRoleMappingBase> validPersonRoles = getProtocolPersonnelService().getPersonRoleMapping(getSourceRoleId());
         

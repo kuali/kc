@@ -69,6 +69,7 @@ internal attachements.  We are just going to loop through the narratives and see
 
 
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
+
 <kul:tabTop tabTitle="Proposal Attachments (${proposalAttachementCount})" defaultOpen="false" tabErrorKey="newNarrative*,document.developmentProposalList[0].narrative*">
 	<div class="tab-container" align="center">
 	    <kra:section permission="addNarratives">
@@ -90,6 +91,7 @@ internal attachements.  We are just going to loop through the narratives and see
 	                	<html:file property="newNarrative.narrativeFile" styleId="newNarrative.narrativeFile"/>
 					</td>
 	          	</tr>
+
 	          	<tr>
 	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}"/></div></th>
 	                <td align="left" valign="middle">
@@ -139,7 +141,7 @@ internal attachements.  We are just going to loop through the narratives and see
 	            </tr>
 	            </tbody>
             </kra:section>
-            
+
  
             <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].narratives) > 0}">
             <tr>
@@ -167,7 +169,6 @@ internal attachements.  We are just going to loop through the narratives and see
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}"/></div></th>
 			                <td align="left" valign="middle">
-			                <%-- %><c:if test="${(!empty narrative.fileName)}">--%>
 				                <div id="replaceDiv${status.index}" style="display:block;">
 				                    <kra:fileicon attachment="${narrative}"/>
 					                <kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].fileName" 
@@ -178,7 +179,6 @@ internal attachements.  We are just going to loop through the narratives and see
 									<html:image property="methodToCall.replaceProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 								</div>
-				            <%-- </c:if> --%>
 							</td>
 			          	</tr>
 			          	<tr>
@@ -265,5 +265,6 @@ internal attachements.  We are just going to loop through the narratives and see
         </table>
     </div>
 </kul:tabTop>
+
 <% endTime = System.currentTimeMillis();
                LOG.info("JSP Narrative Time = " + (endTime - startTime)); %>

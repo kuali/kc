@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ import java.util.Map;
 /**
  * This class...
  */
-public class IacucProtocolSpeciesAndGroupsValuesFinder extends KeyValuesBase {
+public class IacucProtocolSpeciesAndGroupsValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -48,9 +47,10 @@ public class IacucProtocolSpeciesAndGroupsValuesFinder extends KeyValuesBase {
      * @return the list of &lt;key, value&gt; pairs of abstract types. The first entry is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         
-        Long protocolId = ((IacucProtocolForm) KNSGlobalVariables.getKualiForm()).getIacucProtocolDocument().getProtocol().getProtocolId();
+        Long protocolId = ((IacucProtocolDocument) getDocument()).getProtocol().getProtocolId();
         Map<String, Object> keyMap = new HashMap<String, Object> ();
         keyMap.put("protocolId", protocolId);
         List<IacucProtocolSpecies> protocolSpeciesList = (List<IacucProtocolSpecies>)getKeyValuesService().findMatching(IacucProtocolSpecies.class, keyMap);

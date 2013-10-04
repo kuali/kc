@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.meeting;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +26,14 @@ import java.util.List;
  * 
  * This class is to set up the 'Alternate For' drop down list for members who have 'Alternate' role.
  */
-public class AlternateForValuesFinder extends KeyValuesBase {
+public class AlternateForValuesFinder extends UifKeyValuesFinderBase {
 
     private static final String MEMBER_SEPARATOR = "#m#";
     private static final String FIELD_SEPARATOR = "#f#";
     private String absenteeList;
-    
-    /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
-     */
-    public List getKeyValues() {
+
+    @Override
+    public List<KeyValue> getKeyValues() {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (String idName : absenteeList.split(MEMBER_SEPARATOR)) {

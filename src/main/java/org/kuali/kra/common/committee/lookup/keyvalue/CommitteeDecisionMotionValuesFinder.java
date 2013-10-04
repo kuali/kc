@@ -17,9 +17,9 @@ package org.kuali.kra.common.committee.lookup.keyvalue;
 
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Returns all possible values for the CommitteeBase Decision Motion dropdown box.
  */
-public class CommitteeDecisionMotionValuesFinder extends KeyValuesBase {
+public class CommitteeDecisionMotionValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -37,12 +37,8 @@ public class CommitteeDecisionMotionValuesFinder extends KeyValuesBase {
     private static final long serialVersionUID = 3729912964388818340L;
     
     private KeyValuesService keyValuesService;
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    @SuppressWarnings("unchecked")
+
+    @Override
     public List<KeyValue> getKeyValues() {
         Collection<CommitteeDecisionMotionType> motionTypes = getKeyValuesService().findAll(CommitteeDecisionMotionType.class);
         

@@ -20,11 +20,10 @@ import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,18 +42,16 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
      */
     private static final long serialVersionUID = -4743158845190302163L;
 
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        ProtocolFormBase pf = (ProtocolFormBase) KNSGlobalVariables.getKualiForm();
-        if (pf != null) {
-            ProtocolBase protocol = pf.getProtocolDocument().getProtocol();
+        ProtocolDocument pd = (ProtocolDocument) getDocument();
+        if (pd != null) {
+            ProtocolBase protocol = pd.getProtocol();
             Collection<IacucProtocolSubmissionType> submissionTypes = this.getKeyValuesService().findAll(IacucProtocolSubmissionType.class);
-            String currentStatus  = pf.getProtocolDocument().getProtocol().getProtocolStatusCode();
+            String currentStatus  = pd.getProtocol().getProtocolStatusCode();
             for (IacucProtocolSubmissionType submissionType : submissionTypes) {
                 if (validStatusSubmissionTypePair(submissionType, currentStatus, protocol)) {
                     keyValues.add(new ConcreteKeyValue(submissionType.getSubmissionTypeCode(), submissionType.getDescription()));

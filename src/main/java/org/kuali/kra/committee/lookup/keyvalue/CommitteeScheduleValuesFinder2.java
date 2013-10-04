@@ -18,10 +18,8 @@ package org.kuali.kra.committee.lookup.keyvalue;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import java.util.List;
 
@@ -33,12 +31,11 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class CommitteeScheduleValuesFinder2 extends KeyValuesBase {
+public class CommitteeScheduleValuesFinder2 extends FormViewAwareUifKeyValuesFinderBase {
     
     /**
      * @return the list of &lt;key, value&gt; pairs of committees.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyValue> getKeyValues() {
         return getCommitteeService().getAvailableCommitteeDates(getCommitteeId());
@@ -61,7 +58,7 @@ public class CommitteeScheduleValuesFinder2 extends KeyValuesBase {
      */
     private String getCommitteeId() {
         String committeeId = "";
-        KualiForm form = KNSGlobalVariables.getKualiForm();
+        Object form = getFormOrView();
         if (form instanceof ProtocolForm) {
             ProtocolForm protocolForm = (ProtocolForm) form;
             committeeId = protocolForm.getActionHelper().getAssignCmtSchedBean().getCommitteeId();

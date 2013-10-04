@@ -17,13 +17,14 @@ package org.kuali.kra.lookup.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class YnqDummyAnswersValuesFinder extends KeyValuesBase{
+public class YnqDummyAnswersValuesFinder extends UifKeyValuesFinderBase {
 
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("Y", "Yes"));

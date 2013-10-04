@@ -17,13 +17,14 @@ package org.kuali.kra.irb.correspondence;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SendCorrespondenceValuesFinder extends KeyValuesBase {
+public class SendCorrespondenceValuesFinder extends UifKeyValuesFinderBase {
 
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(BatchCorrespondence.SEND_CORRESPONDENCE_BEFORE_EVENT, "Before"));

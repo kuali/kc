@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.service.AwardPaymentAndInvoicesService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ import java.util.List;
  * Values Finder for Invoice Instructions Indicator Values.
  * 
  */
-public class ValidAwardBasisPaymentValueFinder extends KeyValuesBase {
+public class ValidAwardBasisPaymentValueFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     private transient AwardPaymentAndInvoicesService awardPaymentInfoService;
     
@@ -42,15 +41,15 @@ public class ValidAwardBasisPaymentValueFinder extends KeyValuesBase {
         return awardPaymentInfoService;
     }
 
-    @SuppressWarnings("all")
-    public List getKeyValues() {
+    @Override
+    public List<KeyValue> getKeyValues() {
        List<KeyValue> keyLabels = new ArrayList<KeyValue>();
-       AwardForm awardForm = (AwardForm)KNSGlobalVariables.getKualiForm();
+       AwardDocument awardDocument = (AwardDocument) getDocument();
        keyLabels.add( new ConcreteKeyValue( "", "select" ));
-       if( awardForm.getAwardDocument() != null && awardForm.getAwardDocument().getAward() != null
-               && awardForm.getAwardDocument().getAward() != null && awardForm.getAwardDocument().getAward().getAwardTypeCode() != null ) { 
+       if( awardDocument != null && awardDocument.getAward() != null
+               && awardDocument.getAward().getAwardTypeCode() != null ) {
          
-           List<ValidAwardBasisPayment> results =  getAwardPaymentAndInvoicesService().getValidAwardBasisPaymentsByAwardTypeCode(awardForm.getAwardDocument().getAward().getAwardTypeCode());
+           List<ValidAwardBasisPayment> results =  getAwardPaymentAndInvoicesService().getValidAwardBasisPaymentsByAwardTypeCode(awardDocument.getAward().getAwardTypeCode());
            for( ValidAwardBasisPayment awardBasisPayment : results ) {
                awardBasisPayment.refresh();
                keyLabels.add( new ConcreteKeyValue( awardBasisPayment.getBasisOfPaymentCode(), awardBasisPayment.getBasisOfPayment().getDescription()));

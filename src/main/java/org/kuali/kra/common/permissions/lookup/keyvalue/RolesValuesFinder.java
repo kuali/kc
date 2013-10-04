@@ -17,10 +17,8 @@ package org.kuali.kra.common.permissions.lookup.keyvalue;
 
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import java.util.List;
 
@@ -31,7 +29,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class RolesValuesFinder extends KeyValuesBase {
+public class RolesValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     /**
      * This Value Finder is different from a typical one.  This is
@@ -45,10 +43,10 @@ public class RolesValuesFinder extends KeyValuesBase {
      * specific to a document type, it can properly build the list
      * of role names.
      * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
-        KualiForm form = KNSGlobalVariables.getKualiForm();
+        Object form = getFormOrView();
         
         if (form instanceof PermissionsForm) {
             PermissionsForm tabSupport = (PermissionsForm) form;

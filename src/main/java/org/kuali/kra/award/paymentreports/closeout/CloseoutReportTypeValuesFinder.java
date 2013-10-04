@@ -22,8 +22,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +33,7 @@ import java.util.List;
  * 
  * This class is a values finder for <code>ReportClass</code> business object.
  */
-public class CloseoutReportTypeValuesFinder extends KeyValuesBase {
+public class CloseoutReportTypeValuesFinder extends UifKeyValuesFinderBase {
     
     private ParameterService parameterService;
     
@@ -42,9 +42,9 @@ public class CloseoutReportTypeValuesFinder extends KeyValuesBase {
      * Each entry in the list is a &lt;key, value&gt; pair, where the "key" is the unique
      * report class code and the "value" is the textual description that is viewed
      * by a user.
-     * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
-     */    
+     *
+     */
+    @Override
     public List<KeyValue> getKeyValues() {
         Collection<CloseoutReportType> closeoutReportTypes = (Collection<CloseoutReportType>)getKeyValuesService().findAll(CloseoutReportType.class);
         

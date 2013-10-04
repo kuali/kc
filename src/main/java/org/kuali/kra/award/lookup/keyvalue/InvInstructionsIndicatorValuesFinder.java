@@ -18,7 +18,7 @@ package org.kuali.kra.award.lookup.keyvalue;
 import org.kuali.kra.award.home.InvInstructionsIndicatorConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +27,11 @@ import java.util.List;
  * Values Finder for Invoice Instructions Indicator Values.
  * 
  */
-public class InvInstructionsIndicatorValuesFinder extends KeyValuesBase {
+public class InvInstructionsIndicatorValuesFinder extends UifKeyValuesFinderBase {
     
     private List<KeyValue> labels;
 
+    @Override
     public List<KeyValue> getKeyValues() {
         if( labels!=null ) return labels;
         labels = new ArrayList<KeyValue>();

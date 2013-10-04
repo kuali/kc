@@ -1,13 +1,12 @@
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Contactable;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.TreeSet;
 /**
  *
  */
-public class ApprovedForeignTravelerValuesFinder extends KeyValuesBase {
+public class ApprovedForeignTravelerValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     /**
      * Default c'tor
      */
@@ -25,7 +24,7 @@ public class ApprovedForeignTravelerValuesFinder extends KeyValuesBase {
 
     }
 
-    // @Override - bug in JDK 5 fixed in JDK 6. See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6399361
+    @Override
     public List<KeyValue> getKeyValues() {
         Award award = getAward();
         List<KeyValue> list = new ArrayList<KeyValue>();
@@ -42,7 +41,7 @@ public class ApprovedForeignTravelerValuesFinder extends KeyValuesBase {
     }
 
     protected Award getAward() {
-        return ((AwardForm) KNSGlobalVariables.getKualiForm()).getAwardDocument().getAward();
+        return ((AwardDocument) getDocument()).getAward();
     }
 
     private void addEligibleTravelerToList(List<KeyValue> list, Set<String> listNames, Contactable contact) {

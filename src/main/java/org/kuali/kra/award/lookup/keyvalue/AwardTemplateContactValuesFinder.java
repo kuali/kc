@@ -19,19 +19,17 @@ import org.drools.core.util.StringUtils;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
+public class AwardTemplateContactValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
     /**
      * 
@@ -39,8 +37,9 @@ public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusines
      * and roleCode
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
-        MaintenanceDocument doc = getDocument();
+        MaintenanceDocument doc = (MaintenanceDocument) getDocument();
         AwardTemplate awardTemplate = (AwardTemplate) doc.getNoteTarget();
         List<AwardTemplateContact> contacts = awardTemplate.getTemplateContacts();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
@@ -65,20 +64,5 @@ public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusines
         }
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         return keyValues;
-    }
-    
-    /**
-     * Get the Award Document for the current session.  The
-     * document is within the current form.
-     * 
-     * @return the current document or null if not found
-     */
-    private MaintenanceDocument getDocument() {
-        MaintenanceDocument doc = null;
-        KualiMaintenanceForm form = (KualiMaintenanceForm) KNSGlobalVariables.getKualiForm();
-        if (form != null) {
-            doc = (MaintenanceDocument) form.getDocument();
-        }
-        return doc;
     }
 }

@@ -18,7 +18,7 @@ package org.kuali.kra.negotiations.sorting;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +26,10 @@ import java.util.List;
 /**
  * Values finder that includes key and labels from the ActitivySortingType enum.
  */
-public class ActivitySortingTypeValuesFinder extends KeyValuesBase {
+public class ActivitySortingTypeValuesFinder extends UifKeyValuesFinderBase {
 
     @Override
-    public List getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<KeyValue> values = new ArrayList<KeyValue>();
         values.add(new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         for (ActivitySortingType type : ActivitySortingType.values()) {

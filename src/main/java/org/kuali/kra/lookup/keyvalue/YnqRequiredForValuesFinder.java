@@ -18,29 +18,19 @@ package org.kuali.kra.lookup.keyvalue;
 import org.kuali.kra.infrastructure.YnqConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class YnqRequiredForValuesFinder extends KeyValuesBase {
+public class YnqRequiredForValuesFinder extends UifKeyValuesFinderBase {
 
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (YnqConstants ynqConstants : YnqConstants.values()) {
             keyValues.add(new ConcreteKeyValue(ynqConstants.code(), ynqConstants.description()));
         }
-    
-        /*
-        keyValues.add(new ConcreteKeyValue("Y", "Yes"));
-        keyValues.add(new ConcreteKeyValue("N", "No"));
-        keyValues.add(new ConcreteKeyValue("A", "NA"));
-        keyValues.add(new ConcreteKeyValue("YN", "Yes,No"));
-        keyValues.add(new ConcreteKeyValue("YNA", "Yes,No,N/A"));
-        keyValues.add(new ConcreteKeyValue("YA", "Yes,NA"));
-        keyValues.add(new ConcreteKeyValue("NNA", "No,NA"));
-        keyValues.add(new ConcreteKeyValue(null, "None"));
-        */
         return keyValues;
     }
 }

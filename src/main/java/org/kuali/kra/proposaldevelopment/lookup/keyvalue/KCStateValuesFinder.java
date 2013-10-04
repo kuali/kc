@@ -17,12 +17,11 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.proposaldevelopment.service.ProposalCountryService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 import org.kuali.rice.location.api.state.State;
 
@@ -31,7 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class KCStateValuesFinder extends KeyValuesBase {
+public class KCStateValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     private String countryCode = "";
 
@@ -120,7 +119,7 @@ public class KCStateValuesFinder extends KeyValuesBase {
     }
     
     protected void findCurrentPersonCountryCode() {
-        ProposalDevelopmentForm pdf = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
+        ProposalDevelopmentForm pdf = (ProposalDevelopmentForm) getFormOrView();
         if (pdf != null) {
             String currentPersonCountryCode = pdf.getCurrentPersonCountryCode();
             if (StringUtils.isNotEmpty(currentPersonCountryCode)) {

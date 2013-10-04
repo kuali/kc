@@ -17,18 +17,19 @@ package org.kuali.kra.protocol.correspondence;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SendCorrespondenceValuesFinderBase extends KeyValuesBase {
+public abstract class SendCorrespondenceValuesFinderBase extends UifKeyValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -9029045379411708867L;
 
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(BatchCorrespondenceBase.SEND_CORRESPONDENCE_BEFORE_EVENT, "Before"));
