@@ -9,6 +9,7 @@
 			<security>
         		<securityAttribute name="KcNotificationSecurityAttribute"/>
     		</security>
+    		<applicationId>KC</applicationId>
 		</documentType>
 	</documentTypes>
 	
