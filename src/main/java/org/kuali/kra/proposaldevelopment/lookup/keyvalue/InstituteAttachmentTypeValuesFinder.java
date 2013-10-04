@@ -22,7 +22,7 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.Map;
  * 
  * This class is to get the drop down list of institute attachment type.
  */
-public class InstituteAttachmentTypeValuesFinder  extends KeyValuesBase {
+public class InstituteAttachmentTypeValuesFinder  extends UifKeyValuesFinderBase {
     
     private transient ParameterService parameterService;
     
@@ -48,7 +48,8 @@ public class InstituteAttachmentTypeValuesFinder  extends KeyValuesBase {
     }
     
     private KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
-        public List<KeyValue> getKeyValues() {
+    @Override
+    public List<KeyValue> getKeyValues() {
             String instituteNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INSTITUTE_NARRATIVE_TYPE_GROUP);
             Map<String,String> queryMap = new HashMap<String,String>();
             queryMap.put("narrativeTypeGroup", instituteNarrativeTypeGroup);

@@ -18,12 +18,12 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BudgetOnOffCampusValuesFinder extends KeyValuesBase {
+public class BudgetOnOffCampusValuesFinder extends UifKeyValuesFinderBase {
     
     /**
      * Constructs the list of Budget Fiscal Years.  Each entry
@@ -38,18 +38,13 @@ public class BudgetOnOffCampusValuesFinder extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 
         for (OnOffCampusFlagConstants onOffCampusFlagConstants : OnOffCampusFlagConstants.values()) {
             KeyValues.add(new ConcreteKeyValue(onOffCampusFlagConstants.code(), onOffCampusFlagConstants.description()));
         }
-
-        /*
-        KeyValues.add(new ConcreteKeyValue(Constants.DEFALUT_CAMUS_FLAG, "Default"));
-        KeyValues.add(new ConcreteKeyValue(Constants.ON_CAMUS_FLAG, "All On"));
-        KeyValues.add(new ConcreteKeyValue(Constants.OFF_CAMUS_FLAG, "All Off"));
-        */
         
         return KeyValues; 
     }

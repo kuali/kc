@@ -17,9 +17,9 @@ package org.kuali.kra.award.paymentreports;
 
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingSearchViews;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +28,14 @@ import java.util.List;
 /**
  * ReportTracking views values finder class.
  */
-public class ReportTrackingViewValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
+public class ReportTrackingViewValuesFinder extends UifKeyValuesFinderBase {
     
     private ReportTrackingSearchViews reportTrackingSearchViews;
    
     /**
      * Get the report regeneration types and use the name as the key in the label.
-     * @see org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> labels = new ArrayList<KeyValue>();
         for (int i = 0; i < getReportTrackingSearchViews().getReportTrackingViews().size(); i++) {

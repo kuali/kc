@@ -17,12 +17,11 @@ package org.kuali.kra.iacuc.onlinereview;
 
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,9 +38,10 @@ public class IacucProtocolOnlineReviewDeterminationRecommendationValuesFinder ex
      */
     private static final long serialVersionUID = -1177665298157090424L;
 
+    @Override
     public List<KeyValue> getKeyValues() {
-        IacucProtocolForm iacucProtocolForm = (IacucProtocolForm)KNSGlobalVariables.getKualiForm();
-        String reviewType = iacucProtocolForm.getIacucProtocolDocument().getIacucProtocol().getProtocolSubmission().getProtocolReviewTypeCode();
+        IacucProtocolDocument iacucProtocolDocument = (IacucProtocolDocument) getDocument();
+        String reviewType = iacucProtocolDocument.getIacucProtocol().getProtocolSubmission().getProtocolReviewTypeCode();
         Collection<IacucProtocolOnlineReviewDeterminationRecommendation> recommendations = this.getKeyValuesService().findAll(IacucProtocolOnlineReviewDeterminationRecommendation.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));

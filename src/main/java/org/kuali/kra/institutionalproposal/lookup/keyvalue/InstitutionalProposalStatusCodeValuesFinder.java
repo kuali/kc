@@ -18,11 +18,9 @@ package org.kuali.kra.institutionalproposal.lookup.keyvalue;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ import java.util.List;
 /**
  * Builds a key/value pair of available Institutional Proposal Status Codes.
  */
-public class InstitutionalProposalStatusCodeValuesFinder extends KeyValuesBase {
+public class InstitutionalProposalStatusCodeValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
     /**
      * If this is being called from the InstitutionalProposalForm, lookup all proposal status's except for Funded.  
@@ -41,14 +39,14 @@ public class InstitutionalProposalStatusCodeValuesFinder extends KeyValuesBase {
      * only be done from the Award module.  If the lookup is from elsewhere, Funded should be included.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("unchecked")
-    public List getKeyValues() {
+    @Override
+    public List<KeyValue> getKeyValues() {
         Collection<ProposalStatus> proposalStatusList = getKeyValuesService().findAll(ProposalStatus.class);
         
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         boolean includeFunded = true;
-        KualiForm form = KNSGlobalVariables.getKualiForm();
+        Object form = getFormOrView();
         if (form instanceof InstitutionalProposalForm) {
             includeFunded = false;
         }

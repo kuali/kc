@@ -23,7 +23,7 @@ import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
@@ -33,10 +33,11 @@ import java.util.List;
  * 
  * This class get a list of lookup fileds for the selected lookup class
  */
-public class LookupReturnValuesFinder extends KeyValuesBase {
+public class LookupReturnValuesFinder extends UifKeyValuesFinderBase {
     private static final Log LOG = LogFactory.getLog(LookupReturnValuesFinder.class);
     private static final String ARGVALUELOOKUPE_CLASS = "org.kuali.kra.bo.ArgValueLookup";
 
+    @Override
     public List<KeyValue> getKeyValues() {
         // this will be called twice for each maintenancedocument page load
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

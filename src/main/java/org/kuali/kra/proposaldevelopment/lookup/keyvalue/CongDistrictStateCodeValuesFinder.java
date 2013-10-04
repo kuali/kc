@@ -17,18 +17,28 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.location.framework.state.StateValuesFinder;
 
 import java.util.List;
 
-public class CongDistrictStateCodeValuesFinder extends StateValuesFinder {
+public class CongDistrictStateCodeValuesFinder extends UifKeyValuesFinderBase {
+
+    private String countryCode = "";
 
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> labels = super.getKeyValues();
+        StateValuesFinder svf = new StateValuesFinder();
+        svf.setCountryCode(countryCode);
+
+        List<KeyValue> labels = svf.getKeyValues();
         labels.add(1, new ConcreteKeyValue("US", "US"));
         labels.add(2, new ConcreteKeyValue("00", "00"));
         
         return labels;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 }

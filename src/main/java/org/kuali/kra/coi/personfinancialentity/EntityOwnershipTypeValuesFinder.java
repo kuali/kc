@@ -17,7 +17,7 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,9 @@ import java.util.List;
  * 
  * This class creates a drop down list for ownership type.
  */
-public class EntityOwnershipTypeValuesFinder extends KeyValuesBase {
+public class EntityOwnershipTypeValuesFinder extends UifKeyValuesFinderBase {
 
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("P", "Public"));

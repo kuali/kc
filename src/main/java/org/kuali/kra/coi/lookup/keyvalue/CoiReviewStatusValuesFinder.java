@@ -19,14 +19,14 @@ import org.kuali.kra.coi.CoiReviewStatus;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CoiReviewStatusValuesFinder extends KeyValuesBase {
+public class CoiReviewStatusValuesFinder extends UifKeyValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -37,6 +37,7 @@ public class CoiReviewStatusValuesFinder extends KeyValuesBase {
     /*
      * get list of COI review status
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));

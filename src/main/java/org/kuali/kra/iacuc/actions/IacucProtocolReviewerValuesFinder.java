@@ -25,8 +25,6 @@ import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +37,7 @@ public class IacucProtocolReviewerValuesFinder extends IacucActionsKeyValuesBase
      */
     private static final long serialVersionUID = 8186396635481365939L;
 
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
@@ -68,9 +67,9 @@ public class IacucProtocolReviewerValuesFinder extends IacucActionsKeyValuesBase
     }
 
     private ProtocolBase getProtocol() {
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form != null && form instanceof IacucProtocolForm) {
-            return ((IacucProtocolForm) form).getProtocolDocument().getProtocol();
+        Object formOrView = getFormOrView();
+        if (formOrView != null && formOrView instanceof IacucProtocolForm) {
+            return ((IacucProtocolForm) formOrView).getProtocolDocument().getProtocol();
         }
         return null;
     }

@@ -18,7 +18,7 @@ package org.kuali.kra.negotiations.sorting;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +26,10 @@ import java.util.List;
 /**
  * Values Finder that returns key and labels from the AttachmentSortingType enum.
  */
-public class AttachmentSortingTypeValuesFinder extends KeyValuesBase {
+public class AttachmentSortingTypeValuesFinder extends UifKeyValuesFinderBase {
 
     @Override
-    public List getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<KeyValue> values = new ArrayList<KeyValue>();
         values.add(new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         for (AttachmentSortingType type : AttachmentSortingType.values()) {

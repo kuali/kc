@@ -17,12 +17,11 @@ package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,10 +34,8 @@ import java.util.List;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
-    
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+
+    @Override
     public List<KeyValue> getKeyValues() {
        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
@@ -74,19 +71,19 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     private Collection<String> getValidSubmissionTypes() {
         Collection<String> types = new ArrayList<String>();
-        ProtocolForm pf = (ProtocolForm) KNSGlobalVariables.getKualiForm();
-        if (pf != null) {
-            String currentStatus  = pf.getProtocolDocument().getProtocol().getProtocolStatusCode();
+        ProtocolDocument pd = (ProtocolDocument) getDocument();
+        if (pd != null) {
+            String currentStatus  = pd.getProtocol().getProtocolStatusCode();
             if (displayInitialSubmission(currentStatus)) {
                 types.add(ProtocolSubmissionType.INITIAL_SUBMISSION);
             }
-            if (displayAmendment(currentStatus, pf.getProtocolDocument().getProtocol())) {
+            if (displayAmendment(currentStatus, pd.getProtocol())) {
                 types.add(ProtocolSubmissionType.AMENDMENT);
             }
-            if (displayContinuation(currentStatus, pf.getProtocolDocument().getProtocol())) {
+            if (displayContinuation(currentStatus, pd.getProtocol())) {
                 types.add(ProtocolSubmissionType.CONTINUATION);
             }
-            if (displayContinuationWithAmendment(currentStatus, pf.getProtocolDocument().getProtocol())) {
+            if (displayContinuationWithAmendment(currentStatus, pd.getProtocol())) {
                 types.add(ProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT);
             }
             if (displayResponseToPrevIRBNotication(currentStatus)) {

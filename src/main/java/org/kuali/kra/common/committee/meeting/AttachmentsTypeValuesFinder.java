@@ -18,15 +18,15 @@ package org.kuali.kra.common.committee.meeting;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AttachmentsTypeValuesFinder extends KeyValuesBase {
-
+public class AttachmentsTypeValuesFinder extends UifKeyValuesFinderBase {
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for ( AttachmentsEntryType attachmentsEntryType : getAttachmentsEntryTypes()) {

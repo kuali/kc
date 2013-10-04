@@ -19,8 +19,8 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +30,7 @@ import java.util.List;
  * 
  * This class is a values finder for <code>ReportClass</code> business object.
  */
-public class ReportClassValuesFinder extends KeyValuesBase {
+public class ReportClassValuesFinder extends UifKeyValuesFinderBase {
     
     /**
      * Constructs the list of Report Classes using KeyValuesService.  
@@ -38,8 +38,8 @@ public class ReportClassValuesFinder extends KeyValuesBase {
      * report class code and the "value" is the textual description that is viewed
      * by a user.
      * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
-     */    
+     */
+    @Override
     public List<KeyValue> getKeyValues() {
         Collection<ReportClass> reportClasses = (Collection<ReportClass>)getKeyValuesService().findAll(ReportClass.class);
         

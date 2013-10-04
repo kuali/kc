@@ -18,10 +18,9 @@ package org.kuali.kra.award.lookup.keyvalue;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.lookup.AwardTransactionLookupService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ import java.util.Map;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class AwardTransactionValuesFinder extends KeyValuesBase {
+public class AwardTransactionValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     private AwardTransactionLookupService transactionLookupService;
     
@@ -49,6 +48,7 @@ public class AwardTransactionValuesFinder extends KeyValuesBase {
      * @return the list of &lt;key, value&gt; pairs of the current award tranaction ids
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         AwardForm form = getAwardForm();
         
@@ -75,7 +75,7 @@ public class AwardTransactionValuesFinder extends KeyValuesBase {
      * @return the current document or null if not found
      */
     private AwardForm getAwardForm() {
-        return (AwardForm) KNSGlobalVariables.getKualiForm();
+        return (AwardForm) getFormOrView();
     }
 
     public void setTransactionLookupService(AwardTransactionLookupService transactionLookupService) {

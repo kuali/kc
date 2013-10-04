@@ -18,22 +18,19 @@ package org.kuali.kra.lookup.keyvalue;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class PersonEditableFieldModuleValuesFinder extends KeyValuesBase {
+public class PersonEditableFieldModuleValuesFinder extends UifKeyValuesFinderBase {
     List<KeyValue> moduleCodes = null;
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    @SuppressWarnings("unchecked")
+    @Override
     public List<KeyValue> getKeyValues() {
         List<String> validCodes = Arrays.asList(new String[] {CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, CoeusModule.IRB_MODULE_CODE});
         if (moduleCodes == null) {

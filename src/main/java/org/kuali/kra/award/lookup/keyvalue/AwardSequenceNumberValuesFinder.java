@@ -15,14 +15,12 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.*;
@@ -33,7 +31,7 @@ import java.util.*;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class AwardSequenceNumberValuesFinder extends KeyValuesBase {
+public class AwardSequenceNumberValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     /**
      * Searches for all awards with the same award id and grabs all sequence numbers
@@ -43,8 +41,9 @@ public class AwardSequenceNumberValuesFinder extends KeyValuesBase {
      * @return the list of &lt;key, value&gt; pairs of the current award sequence numbers
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
-        AwardDocument doc = getDocument();
+        AwardDocument doc = (AwardDocument) getDocument();
         String awardNumber = doc.getAward().getAwardNumber();
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Map<String, Object> idMatch = new HashMap<String, Object>();
@@ -60,20 +59,5 @@ public class AwardSequenceNumberValuesFinder extends KeyValuesBase {
                 keyValues.add(new ConcreteKeyValue(num.toString(), num.toString()));
         }
         return keyValues;
-    }
-    
-    /**
-     * Get the Award Document for the current session.  The
-     * document is within the current form.
-     * 
-     * @return the current document or null if not found
-     */
-    private AwardDocument getDocument() {
-        AwardDocument doc = null;
-        AwardForm form = (AwardForm) KNSGlobalVariables.getKualiForm();
-        if (form != null) {
-            doc = form.getAwardDocument();
-        }
-        return doc;
     }
 }

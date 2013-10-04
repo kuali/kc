@@ -17,7 +17,7 @@ package org.kuali.kra.lookup.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +26,14 @@ import java.util.List;
  * 
  * This class for storing the details of watermark Font.
  */
-public class WatermarkFontValuesFinder extends KeyValuesBase {
+public class WatermarkFontValuesFinder extends UifKeyValuesFinderBase {
     /**
      * This method for storing lookup keyvalues of watermark font size.
      * Watermark Font Size: 20 - 100.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    
-       public List<KeyValue> getKeyValues() {
+    @Override
+    public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for(Integer fontValue=20;fontValue<=100;fontValue+=5){
             keyValues.add(new ConcreteKeyValue(fontValue.toString(),fontValue.toString().concat(" %"))); 

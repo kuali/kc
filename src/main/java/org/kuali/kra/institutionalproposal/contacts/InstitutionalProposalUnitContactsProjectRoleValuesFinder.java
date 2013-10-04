@@ -18,21 +18,20 @@ package org.kuali.kra.institutionalproposal.contacts;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class InstitutionalProposalUnitContactsProjectRoleValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
-    
+public class InstitutionalProposalUnitContactsProjectRoleValuesFinder extends UifKeyValuesFinderBase {
+
     @Override
-    @SuppressWarnings("unchecked")
-    public List<KeyValue> getKeyValues(){
+    public List<KeyValue> getKeyValues() {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Collection<UnitAdministratorType> types = (Collection<UnitAdministratorType>) boService.findAll(UnitAdministratorType.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

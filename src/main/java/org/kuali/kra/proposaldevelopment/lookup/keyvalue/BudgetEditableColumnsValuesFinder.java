@@ -19,13 +19,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.List;
 
-public class BudgetEditableColumnsValuesFinder extends KeyValuesBase {
+public class BudgetEditableColumnsValuesFinder extends UifKeyValuesFinderBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
-
+    @Override
     public List<KeyValue> getKeyValues() {
         return keyValueFinderService.getKeyValues(BudgetColumnsToAlter.class, "columnName", "columnLabel");
     }

@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.keyvalue.PersistableBusinessObjectValuesFinderTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 
 /**
  * This class tests NsfCodeValuesFinder.
@@ -27,7 +28,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 public class NsfCodeValuesFinderTest extends PersistableBusinessObjectValuesFinderTestBase {
 
     public NsfCodeValuesFinderTest() {
-        setValuesFinderClass(ExtendedPersistableBusinessObjectValuesFinder.class);
+        setValuesFinderClass(PersistableBusinessObjectValuesFinder.class);
         setBusinessObjectClass(org.kuali.kra.bo.NsfCode.class);
         setKeyAttributeName("nsfCode");
         setLabelAttributeName("description");

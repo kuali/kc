@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.noteattachment;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +27,9 @@ import java.util.List;
  * This class provides a values finder for the fields used to sort
  * attachment tables.  
  */
-public class SortByValuesFinder extends KeyValuesBase {
+public class SortByValuesFinder extends UifKeyValuesFinderBase {
 
-    /**
-     * 
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
         
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

@@ -21,8 +21,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -32,7 +32,7 @@ import java.util.*;
  * This class allows you to specify conditions used for retrieving key-value pairs.
  * @param <T> the clazz type.
  */
-public class ConditionValuesFinder<T extends PersistableBusinessObject> extends KeyValuesBase {
+public class ConditionValuesFinder<T extends PersistableBusinessObject> extends UifKeyValuesFinderBase {
 
     private final KeyValuesService service;
     private Class<T> clazz;
@@ -59,7 +59,7 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
         this.service = service;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public List<KeyValue> getKeyValues() {
 
         this.validateRequiredProperties();

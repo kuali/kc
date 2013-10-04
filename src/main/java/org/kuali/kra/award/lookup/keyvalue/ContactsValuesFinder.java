@@ -16,13 +16,12 @@
 package org.kuali.kra.award.lookup.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.*;
@@ -32,7 +31,7 @@ import java.util.*;
  * This class is a values finder for Sponsor Contacts.
  * 
  */
-public class ContactsValuesFinder extends KeyValuesBase {
+public class ContactsValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     /**
      * This method retrieves a Collection of AwardSponsorContact objects and puts them in a key-label pair in a particular pattern.
@@ -42,15 +41,14 @@ public class ContactsValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("all")
+    @Override
     public List<KeyValue> getKeyValues() {
         
-//        Collection<AwardSponsorContact> awardSponsorContacts = getKeyValuesService().findAll(AwardSponsorContact.class);
-        
+
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select "));
         
-        Long awardId = ((AwardForm) KNSGlobalVariables.getKualiForm()).getAwardDocument().getAward().getAwardId();
+        Long awardId = ((AwardDocument) getDocument()).getAward().getAwardId();
         
         Map keyMap = new HashMap ();
         keyMap.put("awardId", awardId);

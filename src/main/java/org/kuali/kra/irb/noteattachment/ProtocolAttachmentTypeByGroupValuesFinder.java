@@ -21,8 +21,8 @@ import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,7 +54,7 @@ import java.util.List;
  * 
  * See {@link #getKeyValues()}.
  */
-public class ProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttachmentBase & org.kuali.kra.protocol.noteattachment.TypedAttachment> extends KeyValuesBase {
+public class ProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttachmentBase & org.kuali.kra.protocol.noteattachment.TypedAttachment> extends UifKeyValuesFinderBase {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -76,7 +76,8 @@ public class ProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttach
      * </p>
      * @return a list of {@link KeyValue KeyValue}
      */
-    public List<KeyValue> getKeyValues() {   
+    @Override
+    public List<KeyValue> getKeyValues() {
         this.validateRequiredProperties();
         
         @SuppressWarnings("unchecked")

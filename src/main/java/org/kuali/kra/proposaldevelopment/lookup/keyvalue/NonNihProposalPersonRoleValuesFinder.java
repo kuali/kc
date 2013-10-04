@@ -16,12 +16,6 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 
-/**
- * Temporary class until this can be gotten working via table.
- *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.2 $
- */
 public class NonNihProposalPersonRoleValuesFinder extends ProposalPersonRoleValuesFinder {
 
 }

@@ -18,11 +18,11 @@ package org.kuali.kra.common.notification.lookup.keyvalue;
 import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.List;
 
-public class NotificationRoleSubQualifierValuesFinder extends KeyValuesBase {
+public class NotificationRoleSubQualifierValuesFinder extends UifKeyValuesFinderBase {
     
     private static final long serialVersionUID = 8109336340804375108L;
     private NotificationRoleSubQualifierFinders finders;
