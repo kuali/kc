@@ -26,7 +26,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="kc_project" target="1.6" />
+      <module name="kc_project" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
