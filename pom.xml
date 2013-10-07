@@ -2071,7 +2071,7 @@ module of int tests -->
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
         <jetty8.version>8.1.13.v20130916</jetty8.version>
         <jetty9.version>9.0.5.v20130815</jetty9.version>
-        <jetty.version>${jetty8.version}</jetty.version>
+        <jetty.version>${jetty9.version}</jetty.version>
         <jmock.version>2.6.0</jmock.version>
         <jsp-api.version>2.1</jsp-api.version>
         <jstl.version>1.2</jstl.version>
