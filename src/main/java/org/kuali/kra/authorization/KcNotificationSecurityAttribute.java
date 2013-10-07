@@ -31,6 +31,7 @@ public class KcNotificationSecurityAttribute implements DocumentSecurityAttribut
      */
     private static final long serialVersionUID = 3547172238972658576L;
 
+    private ActionListService actionListService;
     
     /**
      * This method checks if the supplied document is in the current user's action list and returns true if so, otherwise returns false.
@@ -41,9 +42,8 @@ public class KcNotificationSecurityAttribute implements DocumentSecurityAttribut
     public boolean isAuthorizedForDocument(String principalId, Document document) {
         boolean retVal= false;
         String documentId = document.getDocumentId();
-        ActionListService actionListService = KewApiServiceLocator.getActionListService();
         // get the action items for this document and check if any of them have the same principal id as the current user
-        List<ActionItem> actionItemsForDocument = actionListService.getAllActionItems(documentId);
+        List<ActionItem> actionItemsForDocument = this.getActionListService().getAllActionItems(documentId);
         for(ActionItem actionItem: actionItemsForDocument) {
             if(StringUtils.equals(principalId, actionItem.getPrincipalId())) {
                 retVal = true;
@@ -51,5 +51,16 @@ public class KcNotificationSecurityAttribute implements DocumentSecurityAttribut
             }
         }
         return retVal;
+    }
+    
+    protected ActionListService getActionListService() {
+        if(this.actionListService == null) {
+            this.actionListService = KewApiServiceLocator.getActionListService();
+        }
+        return this.actionListService;
+    }
+
+    public void setActionListService(ActionListService actionListService) {
+        this.actionListService = actionListService;
     }
 }

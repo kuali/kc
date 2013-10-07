@@ -1054,5 +1054,14 @@
 
     <bean id="personSignatureLookupableHelperService" class="org.kuali.kra.service.impl.PersonSignatureLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
+          
+    <bean id="kcNotificationDocumentSecurityTypeService" class="org.kuali.kra.authorization.KcNotificationSecurityAttribute">
+    	<property name="actionListService" ref="actionListService" />
+    </bean> 
+          
+    <bean id="kcNotificationDocumentSecurityTypeServiceCallback" parent="kcCallbackService"
+      p:callbackService-ref="kcNotificationDocumentSecurityTypeService"
+      p:localServiceName="kcNotificationDocumentSecurityTypeService"
+      p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute"/>     
      
 </beans>
