@@ -15,6 +15,12 @@
  */
 package org.kuali.kra.authorization;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionItem;
+import org.kuali.rice.kew.api.actionlist.ActionListService;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute;
 
@@ -25,10 +31,25 @@ public class KcNotificationSecurityAttribute implements DocumentSecurityAttribut
      */
     private static final long serialVersionUID = 3547172238972658576L;
 
+    
+    /**
+     * This method checks if the supplied document is in the current user's action list and returns true if so, otherwise returns false.
+     * 
+     * @see org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute#isAuthorizedForDocument(java.lang.String, org.kuali.rice.kew.api.document.Document)
+     */
     @Override
     public boolean isAuthorizedForDocument(String principalId, Document document) {
-        // always return false, if this method is called back from rice, this means that the current user did not have
-        // the unrestricted search permission and therefore must not see any notifications.
-        return false;
+        boolean retVal= false;
+        String documentId = document.getDocumentId();
+        ActionListService actionListService = KewApiServiceLocator.getActionListService();
+        // get the action items for this document and check if any of them have the same principal id as the current user
+        List<ActionItem> actionItemsForDocument = actionListService.getAllActionItems(documentId);
+        for(ActionItem actionItem: actionItemsForDocument) {
+            if(StringUtils.equals(principalId, actionItem.getPrincipalId())) {
+                retVal = true;
+                break;                    
+            }
+        }
+        return retVal;
     }
 }
