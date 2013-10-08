@@ -20,7 +20,7 @@ import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -47,7 +47,7 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        ProtocolDocument pd = (ProtocolDocument) getDocument();
+        IacucProtocolDocument pd = (IacucProtocolDocument) getDocument();
         if (pd != null) {
             ProtocolBase protocol = pd.getProtocol();
             Collection<IacucProtocolSubmissionType> submissionTypes = this.getKeyValuesService().findAll(IacucProtocolSubmissionType.class);
