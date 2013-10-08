@@ -9,7 +9,6 @@
 			<security>
         		<securityAttribute name="KcNotificationDocumentSecurityAttribute"/>
     		</security>
-    		<serviceNamespace>KC</serviceNamespace>
 		</documentType>
 	</documentTypes>
 	
