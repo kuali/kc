@@ -38,6 +38,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
+import org.kuali.kra.iacuc.notification.IacucRejectReviewNotificationRenderer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -659,8 +660,14 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                 getDocumentService().saveDocument(prDoc);
                 getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
                 
-                ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
-                ProtocolOnlineReviewBase protocolOnlineReview = prDoc.getProtocolOnlineReview();
+                IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
+                IacucProtocolOnlineReview protocolOnlineReview = (IacucProtocolOnlineReview)prDoc.getProtocolOnlineReview();
+               
+                protocolForm.getOnlineReviewsActionHelper().init(true);
+                IacucRejectReviewNotificationRenderer renderer = new IacucRejectReviewNotificationRenderer((IacucProtocol)protocol, reason);
+                IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, protocolOnlineReview, IacucProtocolActionType.REVIEW_REJECTED, "Return to Reviewer",  prDoc.getDocumentNumber(), "Reject");               
+                
+                return checkToSendNotificationWithHoldingPage(mapping, null, (IacucProtocolForm)protocolForm, renderer, notificationBean);                            
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

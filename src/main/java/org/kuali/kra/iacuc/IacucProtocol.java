@@ -105,7 +105,9 @@ public class IacucProtocol extends ProtocolBase {
 
     public IacucProtocol() {         
         setCreateTimestamp(new Timestamp(new java.util.Date().getTime()));
-        setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
+        if (GlobalVariables.getUserSession() != null) {
+            setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
+        }
         setScientificJustifIndicator("no");
         setSpecialReviewIndicator("no");
         setSpeciesStudyGroupIndicator("no");
