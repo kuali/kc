@@ -31,6 +31,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddProposalUserEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalUserEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.EditUserProposalRolesEvent;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPermissionsService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -66,7 +67,9 @@ import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAM
  */
 public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAction {
     
-
+    private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
+    private PersonService personService;
+    
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -77,17 +80,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         List<ProposalUserRoles> currentProposalUsers = proposalDevelopmentForm.getCurrentProposalUserRoles();
         List<ProposalUserRoles> proposalUsers = proposalDevelopmentForm.getProposalUserRoles();
 
-        List<ProposalUserRoles> proposalUsersToDelete = new ArrayList<ProposalUserRoles>(currentProposalUsers);
-        proposalUsersToDelete.removeAll(proposalUsers);
-        for (ProposalUserRoles proposalUser : proposalUsersToDelete) {
-            deleteProposalUser(proposalUser, doc);
-        }
-        
-        List<ProposalUserRoles> proposalUsersToAdd = new ArrayList<ProposalUserRoles>(proposalUsers);
-        proposalUsersToAdd.removeAll(currentProposalUsers);
-        for (ProposalUserRoles proposalUser : proposalUsersToAdd) {
-            saveProposalUser(proposalUser, doc);
-        }
+        getProposalDevelopmentPermissionsService().savePermissions(doc, currentProposalUsers, proposalUsers);
         
         return super.save(mapping, form, request, response);
     }
@@ -106,64 +99,14 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
      * @throws Exception
      */
     @Override
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        getProposalDevelopmentPermissionsService().savePermissions(doc, proposalDevelopmentForm.getCurrentProposalUserRoles(), 
+                proposalDevelopmentForm.getProposalUserRoles());
 
-        // only want to prompt them to save if they already can save
-        if (docForm.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE)) {
-            Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            ConfigurationService kualiConfiguration = CoreApiServiceLocator.getKualiConfigurationService();
-
-            // logic for close question
-            if (question == null) {
-                // ask question if not already asked
-                return this.performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyValueAsString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CLOSE, "");
-            }
-            else {
-                Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-                if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                    // if yes button clicked - save the doc
-                    List<ProposalUserRoles> proposalUsers = proposalDevelopmentForm.getCurrentProposalUserRoles();
-                    for (ProposalUserRoles proposalUser : proposalUsers) {
-                        deleteProposalUser(proposalUser, doc);
-                    }
-                    
-                    proposalUsers = proposalDevelopmentForm.getProposalUserRoles();
-                    for (ProposalUserRoles proposalUser : proposalUsers) {
-                        saveProposalUser(proposalUser, doc);
-                    }
-                }
-                // else go to close logic below
-            }
-        }
-
-        return super.close(mapping, form, request, response);
-    }
-    
-    private void deleteProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
-        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        List<String> roleNames = proposalUser.getRoleNames();
-        for (String roleName :roleNames) {
-            kraAuthorizationService.removeRole(getPersonId(proposalUser.getUsername()), roleName, doc); 
-        }
-    }
-    
-    private String getPersonId(String username) {
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
-        Person person = personService.getPersonByPrincipalName(username);
-        return person.getPrincipalId();
-    }
-    
-    private void saveProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
-        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        // Assign the user to the new roles for the proposal.
-        
-        List<String> roleNames = proposalUser.getRoleNames();
-        for (String roleName :roleNames) {
-            kraAuthorizationService.addRole(getPersonId(proposalUser.getUsername()), roleName, doc);
-        }
+        return super.saveOnClose(mapping, form, request, response);
     }
     
     /**
@@ -277,7 +220,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             // Remove the user from all of the Narratives.
             
             NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
-            narrativeService.deletePerson(getPersonId(proposalUserRoles.getUsername()), doc); 
+            narrativeService.deletePerson(getPersonService().getPersonByPrincipalName(proposalUserRoles.getUsername()).getPrincipalId(), doc); 
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -419,7 +362,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             // be down-graded.
             
             NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
-            narrativeService.readjustRights(getPersonId(proposalUserRoles.getUsername()), doc, roleNames); 
+            narrativeService.readjustRights(getPersonService().getPersonByPrincipalName(proposalUserRoles.getUsername()).getPrincipalId(), doc, roleNames); 
        
             // If Javascript was enabled, we can simply cause the pop-up window to close.
             // If not, then we must return the user to the Permissions page.
@@ -523,10 +466,37 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
                         continue OUTER;
                     }
                 }
-                saveProposalUser(proposalUser, doc);
+                getProposalDevelopmentPermissionsService().saveProposalUser(proposalUser, doc);
             }
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+
+    protected ProposalDevelopmentPermissionsService getProposalDevelopmentPermissionsService() {
+        if (proposalDevelopmentPermissionsService == null) {
+            proposalDevelopmentPermissionsService = KraServiceLocator.getService(ProposalDevelopmentPermissionsService.class);
+        }
+        return proposalDevelopmentPermissionsService;
+    }
+
+
+
+    public void setProposalDevelopmentPermissionsService(ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService) {
+        this.proposalDevelopmentPermissionsService = proposalDevelopmentPermissionsService;
+    }
+
+
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 }

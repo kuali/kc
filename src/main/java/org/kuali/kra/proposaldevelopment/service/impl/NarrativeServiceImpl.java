@@ -22,6 +22,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
@@ -439,6 +440,13 @@ public class NarrativeServiceImpl implements NarrativeService {
 
             }
         }
+    
+    public void setNarrativeTimeStampUser(DevelopmentProposal proposal) {
+        List<Narrative> narratives = new ArrayList<Narrative> ();
+        narratives.addAll(proposal.getNarratives());
+        narratives.addAll(proposal.getInstituteAttachments());
+        setNarrativeTimeStampUser(narratives);
+    }
     
     /**
      * 

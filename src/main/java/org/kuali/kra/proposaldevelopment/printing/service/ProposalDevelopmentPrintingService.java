@@ -20,6 +20,7 @@ import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 import java.util.List;
 import java.util.Map;
@@ -83,5 +84,6 @@ public interface ProposalDevelopmentPrintingService {
     List<SponsorFormTemplate> getSponsorFormTemplates(
             List<SponsorFormTemplateList> sponsorFormTemplateLists);
 	
+    AttachmentDataSource printPersonCertificationQuestionnaire(List<ProposalPerson> person) throws PrintingException;
 	
 }

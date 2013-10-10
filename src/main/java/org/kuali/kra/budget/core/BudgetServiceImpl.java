@@ -910,6 +910,26 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         String[] formulatedCEs = formulatedCEsValue==null?new String[0]:formulatedCEsValue.split(",");
         return Arrays.asList(formulatedCEs);
     }
+    
+    /**
+     * @see org.kuali.kra.budget.core.BudgetService#setBudgetStatuses(org.kuali.kra.budget.document.BudgetParentDocument)
+     */
+    public void setBudgetStatuses(BudgetParentDocument<T> parentDocument) {
+        
+        String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
+                BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+        
+        for (BudgetDocumentVersion budgetDocumentVersion: parentDocument.getBudgetDocumentVersions()) {
+            BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
+            if (budgetVersion.isFinalVersionFlag()) {
+                budgetVersion.setBudgetStatus(parentDocument.getBudgetParent().getBudgetStatus());
+            }
+            else {
+                budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
+            }
+        }
+    }
+
 
     protected DocumentService getDocumentService() {
         return documentService;

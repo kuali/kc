@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
@@ -25,6 +26,7 @@ import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -35,6 +37,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.*;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+import static org.kuali.kra.logging.BufferedLogger.info;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
 
@@ -47,6 +52,8 @@ import static org.kuali.kra.logging.FormattedLogger.info;
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "personrole.readonly.roles";
+    private static final String ADDED_PERSON_MSG  = "Added Proposal Person with proposalNumber = %s and proposalPersonNumber = %s";
+    private static final String ROLODEX_PERSON = "Unknown";
     private static final String NIH_PARM_KEY = "nih.";
 
     private BusinessObjectService businessObjectService;
@@ -160,6 +167,65 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 document.getDevelopmentProposal().getInvestigators().add(person);
             }
         }
+    }
+    
+    public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document) {
+        Map<String, String> keys = new HashMap<String, String>();
+        keys.put("personId", proposalPerson.getPersonId());
+        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.getBusinessObjectService().
+            findByPrimaryKey(KcPersonExtendedAttributes.class, keys);
+        if (kcPersonExtendedAttributes != null) {
+            ProposalPersonExtendedAttributes proposalPersonExtendedAttributes = new ProposalPersonExtendedAttributes(
+                    proposalPerson, kcPersonExtendedAttributes);
+            proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
+        } else {
+            ProposalPersonExtendedAttributes proposalPersonExtendedAttributes = new ProposalPersonExtendedAttributes(proposalPerson);
+            proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
+        }
+        document.getDevelopmentProposal().addProposalPerson(proposalPerson);
+        
+        info(ADDED_PERSON_MSG, document.getDevelopmentProposal().getProposalNumber(), proposalPerson.getProposalPersonNumber());
+        // handle lead unit for investigators respective to coi or pi
+        if (isPrincipalInvestigator(proposalPerson)) {
+            assignLeadUnit(proposalPerson, document.getDevelopmentProposal().getOwnedByUnitNumber());
+        } else {
+            // Lead Unit information needs to be removed in case the person used to be a PI
+            ProposalPersonUnit unit = proposalPerson.getUnit(document.getDevelopmentProposal().getOwnedByUnitNumber());
+            if (unit != null) {
+                unit.setLeadUnit(false);
+            }                
+        }
+        if(proposalPerson.getHomeUnit()!=null){
+            ProposalPersonService proposalPersonService = KraServiceLocator.getService(ProposalPersonService.class);
+            String divisionName = proposalPersonService.getProposalPersonDivisionName(proposalPerson);
+            proposalPerson.setDivision(divisionName);
+        }
+        else
+        {   
+            proposalPerson.setDivision(ROLODEX_PERSON);
+        } 
+        if (proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
+            if (isNotBlank(proposalPerson.getHomeUnit()) && isValidHomeUnit(proposalPerson, proposalPerson.getHomeUnit())){
+                addUnitToPerson(proposalPerson,createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));
+            }
+        }
+        
+        populateProposalPerson(proposalPerson, document);
+    }
+    
+    /**
+     * Determines whether the person has valid unit
+     * 
+     * @param proposalperson
+     * @return boolean
+     */
+    @SuppressWarnings("unchecked")
+    public boolean isValidHomeUnit(ProposalPerson person, String unitId){
+        Map valueMap = new HashMap();
+        valueMap.put("unitNumber", unitId);
+        Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
+        
+        return CollectionUtils.isNotEmpty(units);
     }
 
     /**

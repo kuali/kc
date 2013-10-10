@@ -18,14 +18,20 @@ package org.kuali.kra.proposaldevelopment.printing.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint;
 import org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.print.QuestionnairePrint;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -213,6 +219,26 @@ public class ProposalDevelopmentPrintingServiceImpl implements
         Collections.sort(printFormTemplates);
         resetSelectedFormList(sponsorFormTemplateLists);
         return printFormTemplates;
+    }
+    
+    public AttachmentDataSource printPersonCertificationQuestionnaire(List<ProposalPerson> persons) throws PrintingException {
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        List<Printable> printables = new ArrayList<Printable> ();
+        
+        for (ProposalPerson person : persons) {
+            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
+            AnswerHeader header = helper.getAnswerHeaders().get(0);            
+            reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());
+            reportParameters.put("template", header.getQuestionnaire().getTemplate());            
+            AbstractPrint printable = KraServiceLocator.getService(QuestionnairePrint.class);
+            if (printable != null) {
+                printable.setPrintableBusinessObject(person);
+                printable.setReportParameters(reportParameters);
+            }
+            printables.add(printable);
+        }
+        return getPrintingService().print(printables);
+
     }
 
 	/**

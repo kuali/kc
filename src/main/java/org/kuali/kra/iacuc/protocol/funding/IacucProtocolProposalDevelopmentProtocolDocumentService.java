@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.iacuc.protocol.funding;
 
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 
-public interface IacucProtocolProposalDevelopmentProtocolDocumentService extends ProposalDevelopmentProtocolDocumentService {
+public interface IacucProtocolProposalDevelopmentProtocolDocumentService extends ProposalDevelopmentProtocolDocumentService<IacucProtocolDocument> {
 
 }

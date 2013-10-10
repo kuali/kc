@@ -1202,22 +1202,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public void setCreditSplitEnabled(boolean creditSplitEnabled) {
         this.creditSplitEnabled = creditSplitEnabled;
     }
-
-    public String getOptInUnitDetails() {
-        return optInUnitDetails;
-    }
-
-    public void setOptInUnitDetails(String optInUnitDetails) {
-        this.optInUnitDetails = optInUnitDetails;
-    }
-
-    public String getOptInCertificationStatus() {
-        return optInCertificationStatus;
-    }
-
-    public void setOptInCertificationStatus(String optInCertificationStatus) {
-        this.optInCertificationStatus = optInCertificationStatus;
-    }
     
     public ProposalChangedData getNewProposalChangedData() {
         return newProposalChangedData;

@@ -26,6 +26,8 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.rice.kns.util.AuditError;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -98,6 +100,16 @@ public interface S2SService {
 	 */
 	public AttachmentDataSource printForm(ProposalDevelopmentDocument pdDoc)
 			throws S2SException,PrintingException;
+
+	/**
+	 * Return the file saved to the local filesystem.
+	 * @param pdDoc
+	 * @return
+	 * @throws IOException
+	 */
+    public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
+            throws IOException;
+	
 
 	/**
 	 * 

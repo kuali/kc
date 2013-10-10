@@ -87,4 +87,12 @@ public class KeyPersonnelServiceAdapter implements KeyPersonnelService {
     public String getPersonnelRoleDesc(PersonRolodex person) {
         return null;
     }
+    @Override
+    public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document) {
+        
+    }
+    @Override
+    public boolean isValidHomeUnit(ProposalPerson person, String unitId) {
+        return false;
+    }
 }
