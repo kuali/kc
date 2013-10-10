@@ -23,9 +23,13 @@ import org.kuali.kra.proposaldevelopment.bo.CoPiInfoDO;
 import org.kuali.kra.proposaldevelopment.bo.CostShareInfoDO;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProposalDevelopmentService {
     
@@ -90,4 +94,57 @@ public interface ProposalDevelopmentService {
 
     public InstitutionalProposal getInstitutionalProposal(String devProposalNumber);
     
+    public boolean canSaveProposalXml(ProposalDevelopmentDocument document);
+    
+    public Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity) throws S2SException;
+    
+    public static final String PROPOSAL_NARRATIVE_TYPE_GROUP = "proposalNarrativeTypeGroup";
+    public static final String DELIVERY_INFO_DISPLAY_INDICATOR = "deliveryInfoDisplayIndicator";
+    public static final String PROPOSAL_SUMMARY_INDICATOR = "enableProposalSummaryPanel";
+    public static final String BUDGET_SUMMARY_INDICATOR = "enableBudgetSummaryPanel";
+    public static final String KEY_PERSONNEL_INDICATOR = "enableKeyPersonnelPanel";
+    public static final String SPECIAL_REVIEW_INDICATOR = "enableSpecialReviewPanel";
+    public static final String SUMMARY_PRINT_FORMS_INDICATOR = "enableSummaryPrintPanel";
+    public static final String CUSTOM_DATA_INFO_INDICATOR = "enableCustomDataInfoPanel";
+    public static final String SUMMARY_QUESTIONS_INDICATOR = "enableSummaryQuestionsPanel";
+    public static final String SUMMARY_ATTACHMENTS_INDICATOR = "enableSummaryAttachmentsPanel";
+    public static final String SUMMARY_KEYWORDS_INDICATOR = "enableSummaryKeywordsPanel";
+    public static final String PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR = "propSummaryDisclaimerText";
+    public static final String SUMMARY_DATA_VALIDATION_INDICATOR = "enableSummaryDataValidationPanel";
+    public static final String SUMMARY_SPECIAL_REVIEW_LIST = "proposal.summary.validSpecialReviewCodes";
+    public static final String PROPOSAL_NARRATIVE_TYPE_GROUP2 = "proposalNarrativeTypeGroup";
+
+    public Map<String, Parameter> getProposalDevelopmentParameters();
+    
+    public static final String ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI = "ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI";
+    
+    public void updateNIHDescriptions(DevelopmentProposal proposal);
+    
+    public static enum ProposalLockingRegion {
+        GENERAL, BUDGET, ATTACHMENTS;
+    }
+    
+    public static final String PROPOSAL_ATTACHMENT_TYPE_GROUP_CODE = "P";
+    
+    public ProposalDevelopmentDocument updateProposalDocument(ProposalDevelopmentDocument pdDocument, ProposalLockingRegion region) throws Exception;
+    
+    /**
+     * 
+     * Called to load all necessary elements in the proposal development document
+     * @param document
+     */
+    public void loadDocument(ProposalDevelopmentDocument document);
+    
+    /**
+     * This method produces a list of strings containg the methodToCall to be registered for each of the 
+     * ProposalColumnsToAlter lookup buttons that can be rendered on the Proposal Data Override tab. The execute method in this class
+     * puts this list into the form.  The Proposal Data Override tag file then calls registerEditableProperty on each when rendering the tab.
+     * 
+     * @param proposalNumber The proposal number for which we are generating the list for.
+     * @return Possible editable properties that can be called from the page.
+     */
+    public List<String> constructColumnsToAlterLookupMTCs(String proposalNumber);
+    
+    public void sortS2sForms(DevelopmentProposal proposal);
+
 }

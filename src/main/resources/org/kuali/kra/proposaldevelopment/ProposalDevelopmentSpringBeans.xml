@@ -214,6 +214,9 @@
     <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kcKrmsJavaFunctionTermService"/>
     </bean>
+    <bean id="s2SService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="s2SService"/>
+    </bean>    
     
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
@@ -237,6 +240,10 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="versionHistoryService" ref="versionHistoryService" />
 		<property name="documentService" ref="documentService" />
+		<property name="roleService" ref="roleService" />
+		<property name="s2sService" ref="s2SService" />
+		<property name="sponsorService" ref="sponsorService" />
+		<property name="keyPersonnelService" ref="keyPersonnelService" />
 	</bean>
 
 	<bean id="proposalDevelopmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -853,6 +860,31 @@
 
 	<bean id="proposalCountryService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalCountryServiceImpl">
 		 <property name="countryService" ref="countryService" />
+	</bean>
+	
+	<bean id="proposalDevelopmentProtocolDocumentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+  	<property name="serviceName" value="proposalDevelopmentProtocolDocumentService" />
+  </bean>
+	<bean id="iacucProtocolProposalDevelopmentProtocolDocumentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+  	<property name="serviceName" value="iacucProtocolProposalDevelopmentProtocolDocumentService" />
+  </bean>
+  <bean id="protocolSpecialReviewService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+  	<property name="serviceName" value="protocolSpecialReviewService" />
+  </bean>
+	<bean id="iacucProtocolSpecialReviewService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+  	<property name="serviceName" value="iacucProtocolSpecialReviewService" />
+  </bean>  
+	
+	<bean id="proposalDevelopmentSpecialReviewService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentSpecialReviewServiceImpl">
+		<property name="proposalDevelopmentProtocolDocumentService" ref="proposalDevelopmentProtocolDocumentService"/>
+		<property name="iacucProtocolProposalDevelopmentProtocolDocumentService" ref="iacucProtocolProposalDevelopmentProtocolDocumentService" />
+		<property name="protocolSpecialReviewService" ref="protocolSpecialReviewService" />
+		<property name="iacucProtocolSpecialReviewService" ref="iacucProtocolSpecialReviewService" />
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="proposalDevelopmentPermissionsService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentPermissionsServiceImpl">
+		<property name="kraAuthorizationService" ref="kraAuthorizationService" />
 	</bean>
 		
 </beans>

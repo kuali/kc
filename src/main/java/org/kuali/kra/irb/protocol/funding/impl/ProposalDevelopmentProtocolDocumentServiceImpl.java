@@ -15,197 +15,150 @@
  */
 package org.kuali.kra.irb.protocol.funding.impl;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
-import org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl;
 import org.kuali.kra.irb.protocol.ProtocolNumberService;
 import org.kuali.kra.irb.protocol.funding.ProposalDevelopmentProtocolDocumentService;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.SystemAuthorizationService;
-import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
+import org.kuali.kra.protocol.protocol.funding.impl.ProposalDevelopmentProtocolDocumentServiceImplBase;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.SequenceAccessorService;
-import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.List;
 
 /**
  * 
  * This service creates Proposal Development Document from Protocol for users authorized to create proposal. This created
  * proposal is then added to Protocol Funding sources. 
  */
-public class ProposalDevelopmentProtocolDocumentServiceImpl implements ProposalDevelopmentProtocolDocumentService {
-    private DocumentService documentService;
-    private SystemAuthorizationService systemAuthorizationService;
-    private KraAuthorizationService kraAuthorizationService;
+public class ProposalDevelopmentProtocolDocumentServiceImpl 
+        extends ProposalDevelopmentProtocolDocumentServiceImplBase<ProtocolDocument> 
+        implements ProposalDevelopmentProtocolDocumentService {
+    
     private ProtocolNumberService protocolNumberService;
-    private SequenceAccessorService sequenceAccessorService;
+    private ProtocolPersonnelService protocolPersonnelService;
+    private ProtocolFundingSourceService protocolFundingSourceService;
 
+    protected static final String PROTOCOL_CREATED = "Protocol created";
+    protected static final String DEFAULT_PROTOCOL_TYPE = "1";
+    
+    @Override
+    protected ProtocolDocument getProtocolDocumentNewInstanceHook(DocumentService documentService) throws WorkflowException
+    {
+        return (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
+    }
+    
+    @Override
+    protected ProtocolNumberService getProtocolNumberServiceHook() {
+        return getProtocolNumberService();
+    }
 
     @Override
-    public ProtocolDocument createProtocolDocument(ProposalDevelopmentForm proposalDevelopmentForm) throws Exception
-    {
-        ProtocolDocument protocolDocument = null;
-        DevelopmentProposal developmentProposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal();
-         if(isAuthorizedCreateProtocol(proposalDevelopmentForm.getSpecialReviewHelper()))
-        {
-            protocolDocument = (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
-            populateDocumentOverview(developmentProposal, protocolDocument);
-            populateRequiredFields(developmentProposal, protocolDocument);
-            populateProtocolPerson_Investigator(developmentProposal, protocolDocument);
-            populateProtocolFundingSource(developmentProposal, protocolDocument);
-            documentService.saveDocument(protocolDocument);
-            initializeAuthorization(protocolDocument);        
-        }
-        return protocolDocument;
+    protected String getProtocolActionProtocolCreatedCodeHook() {
+        return ProtocolActionType.PROTOCOL_CREATED;
     }
 
+    @Override
+    protected ProtocolAction getProtocolActionNewInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission,
+            String protocolActionTypeCode) {
+        return new ProtocolAction((Protocol) protocol, (ProtocolSubmission) protocolSubmission, protocolActionTypeCode);
+    }
 
-    /**
-     * Set the Document Service.
-     * @param documentService
-     */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
+    @Override
+    protected String getProtocolAggregatorHook() {
+        return RoleConstants.PROTOCOL_AGGREGATOR;
+    }
+
+    @Override
+    protected String getProtocolApproverHook() {
+        return RoleConstants.PROTOCOL_APPROVER;
+    }
+
+    @Override
+    protected String getProtocolRoleTypeHook() {
+        return RoleConstants.PROTOCOL_ROLE_TYPE;
+    }
+
+    @Override
+    protected String getProtocolNameSpaceHook() {
+        return Constants.MODULE_NAMESPACE_PROTOCOL;
+    }
+
+    @Override
+    protected String getProtocolCreatedHook() {
+        return PROTOCOL_CREATED;
+    }
+
+    @Override
+    protected String getSequenceNumberNameHook() {
+        return "SEQ_IACUC_PROTOCOL_ID";
     }
     
-    /**
-     * Set the System Authorization Service.
-     * @param systemAuthorizationService
-     */
-    public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
-        this.systemAuthorizationService = systemAuthorizationService;
+    protected String getCreateProposalTaskNameHook() {
+        return ProposalTask.CREATE_IRB_PROTOCOL_FROM_PROPOSAL;
     }
-    
-    /**
-     * Set the Kra Authorization Service.
-     * @param kraAuthorizationService
-     */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
+
+    @Override
+    protected ProtocolPersonBase getProtocolPersonNewInstanceHook() {
+        return new ProtocolPerson();
     }
-    
-    /**
-     * Set the Protocol Number Service
-     * @param protocolNumberService the Protocol Number Service
-     */
+
+    @Override
+    protected ProtocolPersonnelService getProtocolPersonnelServiceHook() {
+        return getProtocolPersonnelService();
+    }
+
+    @Override
+    protected ProtocolFundingSourceService getProtocolFundingSourceServiceHook() {
+        return getProtocolFundingSourceService(); 
+    }
+
+    @Override
+    protected String getProtocolTypeCodeHook() {
+        return DEFAULT_PROTOCOL_TYPE;
+    }
+
+    @Override
+    protected void populateProtocolSpecificFieldsHook(ProtocolBase protocol) {
+
+    }
+
+    protected ProtocolNumberService getProtocolNumberService() {
+        return protocolNumberService;
+    }
+
     public void setProtocolNumberService(ProtocolNumberService protocolNumberService) {
         this.protocolNumberService = protocolNumberService;
     }
 
-    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
-        this.sequenceAccessorService = sequenceAccessorService;
+    protected ProtocolPersonnelService getProtocolPersonnelService() {
+        return protocolPersonnelService;
     }
 
-    protected void populateDocumentOverview(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument)
-    {
-        ProposalDevelopmentDocument proposalDocument = developmentProposal.getProposalDocument();
-        DocumentHeader proposalDocumentHeader = proposalDocument.getDocumentHeader();
-        DocumentHeader protocolDocumentHeader = protocolDocument.getDocumentHeader();
-      
-        protocolDocumentHeader.setDocumentDescription("IRB - " + proposalDocumentHeader.getDocumentDescription());
-        protocolDocumentHeader.setExplanation("Document created from Proposal - "+proposalDocumentHeader.getDocumentNumber());
-        protocolDocumentHeader.setOrganizationDocumentNumber(proposalDocumentHeader.getOrganizationDocumentNumber());
-
+    public void setProtocolPersonnelService(ProtocolPersonnelService protocolPersonnelService) {
+        this.protocolPersonnelService = protocolPersonnelService;
     }
 
-    protected void populateRequiredFields(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument)
-    throws Exception
-    {
-        Protocol protocol = protocolDocument.getProtocol();
-
-        protocol.setProtocolNumber(protocolNumberService.generateProtocolNumber());
-        protocol.setSequenceNumber(0);
-        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
-        protocol.setProtocolId(nextProtocolId);
-
-        protocol.setTitle(developmentProposal.getTitle());
-        protocol.setLeadUnitNumber(developmentProposal.getOwnedByUnitNumber());
-        protocol.setPrincipalInvestigatorId(developmentProposal.getPrincipalInvestigator().getPersonId());
-
-        org.kuali.kra.irb.actions.ProtocolAction protocolAction = 
-                new org.kuali.kra.irb.actions.ProtocolAction(protocol, null, ProtocolActionType.PROTOCOL_CREATED);
-          protocolAction.setComments(PROTOCOL_CREATED);
-          protocol.getProtocolActions().add(protocolAction);
-
-    }
-
-    /**
-     * Initialize the Authorizations for a new proposal.  The initiator/creator
-     * is assigned the Aggregator role.
-     * @param protocolDocument the protocol Document
-     */
-    protected void initializeAuthorization(ProtocolDocument protocolDocument) {
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
-        kraAuthorizationService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
-        kraAuthorizationService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, protocolDocument.getProtocol());
-
-        List<Role> roles = systemAuthorizationService.getRoles(RoleConstants.PROTOCOL_ROLE_TYPE);
-        for (Role role : roles) {
-            List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(protocolDocument.getProtocol(), role.getName());
-            for (KcPerson person : persons) {
-                if (!StringUtils.equals(person.getPersonId(), userId)) {
-                    kraAuthorizationService.addRole(person.getPersonId(), role.getName(), protocolDocument.getProtocol()); 
-                }
-            }
+    protected ProtocolFundingSourceService getProtocolFundingSourceService() {
+        if (protocolFundingSourceService == null) {
+            protocolFundingSourceService = KraServiceLocator.getService(ProtocolFundingSourceService.class);
         }
-
+        return protocolFundingSourceService;
     }
 
-   protected void populateProtocolPerson_Investigator(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument)
-    {
-        ProtocolPerson protocolPerson = new ProtocolPerson();
-        Protocol protocol = protocolDocument.getProtocol();
-        
-        protocolPerson.setPersonId(protocol.getPrincipalInvestigatorId());
-        protocolPerson.setPersonName(developmentProposal.getPrincipalInvestigatorName());
-        protocolPerson.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-
-        ProtocolPersonnelServiceImpl protocolPersonnelService = (ProtocolPersonnelServiceImpl) KraServiceLocator.getService(ProtocolPersonnelService.class);
-        protocolPersonnelService.addProtocolPerson(protocol, protocolPerson);
-    
+    public void setProtocolFundingSourceService(ProtocolFundingSourceService protocolFundingSourceService) {
+        this.protocolFundingSourceService = protocolFundingSourceService;
     }
 
-    protected boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper) {
-        boolean canCreateProposal = specialReviewHelper.isCanCreateIrbProtocol();
-        return canCreateProposal;
-    }
-
-    /**
-     * This method is to get protocol location service
-     * 
-     * @return ProtocolFundingSourceService
-     */
-    private ProtocolFundingSourceService getProtocolFundingSourceService() {
-        return (ProtocolFundingSourceService) KraServiceLocator.getService(ProtocolFundingSourceService.class);
-    }
-
-    protected void populateProtocolFundingSource(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument) {
-        Protocol protocol = protocolDocument.getProtocol();
-
-        List<ProtocolFundingSourceBase> protocolFundingSources = protocol.getProtocolFundingSources();
-        ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (ProtocolFundingSourceServiceImpl) getProtocolFundingSourceService(); 
-        ProtocolFundingSource protocolFundingSource = (ProtocolFundingSource) protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.SPONSOR, developmentProposal.getSponsorCode(), developmentProposal.getSponsorName());
-        protocolFundingSource.setProtocol(protocolDocument.getProtocol());
-        protocolFundingSources.add(protocolFundingSource);
-        
-    }
 }

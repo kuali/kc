@@ -191,4 +191,8 @@ public interface KeyPersonnelService {
     public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih);
 
     public String getPersonnelRoleDesc(PersonRolodex person);
+    
+    public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document);
+    
+    public boolean isValidHomeUnit(ProposalPerson person, String unitId);
 }

@@ -146,56 +146,6 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
     }
 
-    /**
-     * 
-     * This method is called to print forms
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward printSponsorForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
-        String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
-
-        List<SponsorFormTemplateList> sponsorFormTemplateLists = proposalDevelopmentForm.getSponsorFormTemplates();
-        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
-        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();  
-        printFormTemplates = printService.getSponsorFormTemplates(sponsorFormTemplateLists); 
-        Map<String,Object> reportParameters = new HashMap<String,Object>();
-        reportParameters.put(ProposalDevelopmentPrintingService.SELECTED_TEMPLATES, printFormTemplates);
-
-        try {
-            AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(proposalDevelopmentDocument.getDevelopmentProposal(), 
-                    ProposalDevelopmentPrintingService.PRINT_PROPOSAL_SPONSOR_FORMS, reportParameters);
-            streamToResponse(dataStream, response);
-            return null;
-
-        }
-        catch (NullPointerException npe) {
-            LOG.error("Error generating print stream for proposal forms", npe);
-            GlobalVariables.getMessageMap().putError("print.nofield", KeyConstants.ERROR_PRINTING_UNKNOWN);
-            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-        }
-
-
-    }
-    public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNumber() == null) {
-            loadDocumentInForm(request, proposalDevelopmentForm);
-        }
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
-        printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
-        return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
-    }
-
     public ActionForward viewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
     throws Exception {
 

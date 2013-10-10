@@ -16,10 +16,10 @@
 package org.kuali.kra.irb.protocol.funding;
 
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
-public interface ProposalDevelopmentProtocolDocumentService {
-    public static final String PROTOCOL_CREATED = "Protocol created";
+public interface ProposalDevelopmentProtocolDocumentService 
+        extends org.kuali.kra.protocol.protocol.funding.ProposalDevelopmentProtocolDocumentService<ProtocolDocument>{
 
-    public ProtocolDocument createProtocolDocument(ProposalDevelopmentForm proposalDevelopmentForm) throws Exception;
 }

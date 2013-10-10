@@ -33,6 +33,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentSpecialReviewService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -51,6 +52,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
     
     private SpecialReviewService specialReviewService;
+    private ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -105,12 +107,10 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
         boolean isProtocolLinkingEnabled = false;
-        if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) )
-        {
+        if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
             isProtocolLinkingEnabled =  proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ;
         }
-        else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()) )
-        {
+        else if (SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode())) {
             isProtocolLinkingEnabled =  proposalDevelopmentForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
         }
         proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
@@ -280,80 +280,24 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
         boolean protocolLinkingEnabled = false;
+        if (getProposalDevelopmentSpecialReviewService().createProtocol(specialReview, document)) {
+            proposalDevelopmentForm.getSpecialReviewHelper().setNewSpecialReview(new ProposalSpecialReview());
+        }
         
-        if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) )
-        {
-            protocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
-            if ( protocolLinkingEnabled)
-            {
-                ProposalDevelopmentProtocolDocumentService service = getProposalDevelopmentProtocolDocumentService(); 
-                org.kuali.kra.irb.ProtocolDocument protocolDocument = service.createProtocolDocument(proposalDevelopmentForm);
-                if (protocolDocument != null )
-                {
-                    specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
-                    Integer specialReviewNumber = document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER);
-                    specialReview.setSpecialReviewNumber(specialReviewNumber);
-                    specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
-                    specialReview.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
-                    specialReview.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-                    specialReview.setProtocolStatus(protocolDocument.getProtocol().getProtocolStatus().getDescription());
-                    specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
 
-                    proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
-                    KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
-                    if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, specialReviews, protocolLinkingEnabled))) {
-                        specialReviews.add(specialReview);
-                        proposalDevelopmentForm.getSpecialReviewHelper().setNewSpecialReview(new ProposalSpecialReview());
-                    }
-                }
-            }
-        }
-        else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()) )
-        {
-            protocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
-            if ( protocolLinkingEnabled)
-            {
-                IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl service = getIacucProtocolProposalDevelopmentProtocolDocumentService(); 
-                org.kuali.kra.protocol.ProtocolDocumentBase protocolDocument = service.createProtocolDocument(proposalDevelopmentForm);
-                if (protocolDocument != null )
-                {
-                    specialReview.setSpecialReviewTypeCode(SpecialReviewType.ANIMAL_USAGE);
-                    Integer specialReviewNumber = document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER);
-                    specialReview.setSpecialReviewNumber(specialReviewNumber);
-                    specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
-                    specialReview.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
-                    specialReview.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-                    specialReview.setProtocolStatus(protocolDocument.getProtocol().getProtocolStatus().getDescription());
-                    specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
-        
-                    proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
-                    KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
-                    if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, specialReviews, protocolLinkingEnabled))) {
-                        specialReviews.add(specialReview);
-                        proposalDevelopmentForm.getSpecialReviewHelper().setNewSpecialReview(new ProposalSpecialReview());
-                    }
-                }
-            }
-        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /**
-     * This method is to return Protocol service
-     * 
-     * @return ProposalDevelopmentProtocolDocumentService
-     */
-    private ProposalDevelopmentProtocolDocumentService getProposalDevelopmentProtocolDocumentService() {
-        return (ProposalDevelopmentProtocolDocumentService) KraServiceLocator.getService(ProposalDevelopmentProtocolDocumentService.class);
+    public ProposalDevelopmentSpecialReviewService getProposalDevelopmentSpecialReviewService() {
+        if (proposalDevelopmentSpecialReviewService == null) {
+            proposalDevelopmentSpecialReviewService = KraServiceLocator.getService(ProposalDevelopmentSpecialReviewService.class);
+        }
+        return proposalDevelopmentSpecialReviewService;
     }
 
-    /**
-     * This method is to return Iacuc Protocol service
-     * 
-     * @return IacucProtocolProposalDevelopmentProtocolDocumentService
-     */
-    private IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl getIacucProtocolProposalDevelopmentProtocolDocumentService() {
-        return (IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl) KraServiceLocator.getService(IacucProtocolProposalDevelopmentProtocolDocumentService.class);
+    public void setProposalDevelopmentSpecialReviewService(
+            ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService) {
+        this.proposalDevelopmentSpecialReviewService = proposalDevelopmentSpecialReviewService;
     }
 
 }
