@@ -19,6 +19,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
 import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -42,6 +43,8 @@ public class BudgetParentActionBase extends KraTransactionalDocumentActionBase {
     protected static final String COPY_BUDGET_PERIOD_QUESTION = "copyBudgetQuestion";
     protected static final String QUESTION_TYPE = "copyPeriodsQuestion";
     protected static final String QUESTION_TEXT = "A new version of the budget will be created based on version ";
+    
+    private BudgetService budgetService;
     
     /**
      * This method looks at the list of budgetVersions for the final version, then returns the version number.
@@ -77,21 +80,11 @@ public class BudgetParentActionBase extends KraTransactionalDocumentActionBase {
      * as indicated in the proposal development document.
      * 
      * @param parentDocument
+     * @deprecated use BudgetService.setBudgetStatuses
      */
+    @Deprecated
     protected void setBudgetStatuses(BudgetParentDocument parentDocument) {
-        
-        String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
-                BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-        
-        for (BudgetDocumentVersion budgetDocumentVersion: parentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
-            if (budgetVersion.isFinalVersionFlag()) {
-                budgetVersion.setBudgetStatus(parentDocument.getBudgetParent().getBudgetStatus());
-            }
-            else {
-                budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
-            }
-        }
+        getBudgetService().setBudgetStatuses(parentDocument);
     }
     
     /**
@@ -133,6 +126,17 @@ public class BudgetParentActionBase extends KraTransactionalDocumentActionBase {
 
     protected void populateTabState(KualiForm form, String tabTitle) {
         form.getTabStates().put(WebUtils.generateTabKey(tabTitle), "OPEN");
+    }
+
+    public BudgetService getBudgetService() {
+        if (budgetService == null) {
+            budgetService = KraServiceLocator.getService(BudgetService.class);
+        }
+        return budgetService;
+    }
+
+    public void setBudgetService(BudgetService budgetService) {
+        this.budgetService = budgetService;
     }
     
     

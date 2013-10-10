@@ -39,6 +39,13 @@ public class MedusaBean implements Serializable{
         setMedusaViewRadio("0");
     }
     
+    public void init(String moduleName, Long moduleIdentifier) {
+        setMedusaViewRadio("0");
+        setModuleName(moduleName);
+        setModuleIdentifier(moduleIdentifier);
+        generateParentNodes();
+    }
+    
     /**
      * Gets the medudaViewRadio attribute. 
      * @return Returns the medudaViewRadio.
