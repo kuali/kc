@@ -20,6 +20,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -42,7 +43,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
 
     private ProposalPerson proposalPerson;
     
-    private ProposalDevelopmentForm proposalDevelopmentForm;
+    private DevelopmentProposal developmentProposal;
     
     private QuestionnaireService questionnaireService;
 
@@ -51,10 +52,16 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      * @param form
      */
     public ProposalPersonQuestionnaireHelper(ProposalDevelopmentForm form, ProposalPerson proposalPerson) {
-        this.proposalDevelopmentForm = form;
+        this.developmentProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
         this.setProposalPerson(proposalPerson);
         this.populateAnswers();
-    }    
+    }
+    
+    public ProposalPersonQuestionnaireHelper(ProposalPerson proposalPerson) {
+        this.developmentProposal = proposalPerson.getDevelopmentProposal();
+        this.proposalPerson = proposalPerson;
+        this.populateAnswers();
+    }
     
     
     public ProposalPerson getProposalPerson() {
@@ -108,27 +115,11 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      * @return
      */
     protected ProposalDevelopmentDocument getProposalDevelopmentDocument() {
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = developmentProposal.getProposalDocument();
         if (document == null || document.getDevelopmentProposal() == null) {
             throw new IllegalArgumentException("invalid (null) ProposalDevelopmentDocument in ProposalDevelopmentForm");
         }
         return document;
-    }
-    
-    /**
-     * Gets the proposalDevelopmentForm attribute. 
-     * @return Returns the proposalDevelopmentForm.
-     */
-    public ProposalDevelopmentForm getProposalDevelopmentForm() {
-        return proposalDevelopmentForm;
-    }
-
-    /**
-     * Sets the proposalDevelopmentForm attribute value.
-     * @param proposalDevelopmentForm The proposalDevelopmentForm to set.
-     */
-    public void setProposalDevelopmentForm(ProposalDevelopmentForm proposalDevelopmentForm) {
-        this.proposalDevelopmentForm = proposalDevelopmentForm;
     }
     
     public String getNamespaceCd() {
@@ -164,5 +155,15 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
 
     public void setQuestionnaireService(QuestionnaireService questionnaireService) {
         this.questionnaireService = questionnaireService;
+    }
+
+
+    public DevelopmentProposal getDevelopmentProposal() {
+        return developmentProposal;
+    }
+
+
+    public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+        this.developmentProposal = developmentProposal;
     }
 }

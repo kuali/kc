@@ -106,11 +106,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
 
         return mapping.findForward(Constants.MAPPING_BASIC); 
     }
-    
-    @SuppressWarnings("unchecked")
-    private BudgetService getBudgetService() {
-        return KraServiceLocator.getService(BudgetService.class);
-    }
 
     /**
      * This method opens a particular budget version.

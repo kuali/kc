@@ -26,6 +26,7 @@ import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
@@ -41,13 +42,17 @@ import org.kuali.rice.krad.service.DocumentService;
  * proposal is then added to ProtocolBase Funding sources. 
  */
 public class IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl 
-    extends ProposalDevelopmentProtocolDocumentServiceImplBase 
+    extends ProposalDevelopmentProtocolDocumentServiceImplBase<IacucProtocolDocument>
     implements IacucProtocolProposalDevelopmentProtocolDocumentService {
     
     public static final String IACUC_PROTOCOL_CREATED = "IACUC ProtocolBase created";
     public final static String IACUC_PROTOCOL_TYPE_CODE_DEFAULT = "iacuc.protocol.type.code.default";
     public final static String IACUC_PROTOCOL_LAY_STATEMENT1_DEFAULT = "iacuc.protocol.lay.statement1.default";
-    ParameterService parameterService;    
+    private ParameterService parameterService;    
+    private IacucProtocolPersonnelService iacucProtocolPersonnelService;
+    private IacucProtocolFundingSourceService iacucProtocolFundingSourceService;
+    private IacucProtocolNumberService iacucProtocolNumberService;
+    
     @Override
     protected IacucProtocolDocument getProtocolDocumentNewInstanceHook(DocumentService documentService) throws WorkflowException
     {
@@ -56,7 +61,7 @@ public class IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl
     
     @Override
     protected IacucProtocolNumberService getProtocolNumberServiceHook() {
-        return (IacucProtocolNumberService)KraServiceLocator.getService("iacucProtocolNumberService");
+        return getIacucProtocolNumberService();
     }
 
     @Override
@@ -99,6 +104,10 @@ public class IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl
     protected String getSequenceNumberNameHook() {
         return "SEQ_IACUC_PROTOCOL_ID";
     }
+    
+    protected String getCreateProposalTaskNameHook() {
+        return ProposalTask.CREATE_IACUC_PROTOCOL_FROM_PROPOSAL;
+    }
 
     @Override
     protected ProtocolPersonBase getProtocolPersonNewInstanceHook() {
@@ -107,33 +116,60 @@ public class IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl
 
     @Override
     protected ProtocolPersonnelService getProtocolPersonnelServiceHook() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService(IacucProtocolPersonnelService.class);
+        return getIacucProtocolPersonnelService();
     }
 
     @Override
     protected IacucProtocolFundingSourceService getProtocolFundingSourceServiceHook() {
-        return (IacucProtocolFundingSourceService)KraServiceLocator.getService(IacucProtocolFundingSourceService.class);
+        return getIacucProtocolFundingSourceService();
     }
 
     @Override
     protected String getProtocolTypeCodeHook() {
-        if ( parameterService ==null)
-        {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
-        }
         String parameter= parameterService.getParameterValueAsString(IacucProtocolDocument.class, IACUC_PROTOCOL_TYPE_CODE_DEFAULT);
         return parameter;
     }
 
     @Override
     protected void populateProtocolSpecificFieldsHook(ProtocolBase protocol) {
-        if ( parameterService ==null)
-        {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
-        }
         String parameter= parameterService.getParameterValueAsString(IacucProtocolDocument.class, IACUC_PROTOCOL_LAY_STATEMENT1_DEFAULT);
         IacucProtocol iacucProtocol = (IacucProtocol)protocol;
         iacucProtocol.setLayStatement1(parameter);
+    }
+
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    protected IacucProtocolPersonnelService getIacucProtocolPersonnelService() {
+        return iacucProtocolPersonnelService;
+    }
+
+    public void setIacucProtocolPersonnelService(IacucProtocolPersonnelService iacucProtocolPersonnelService) {
+        this.iacucProtocolPersonnelService = iacucProtocolPersonnelService;
+    }
+
+    protected IacucProtocolFundingSourceService getIacucProtocolFundingSourceService() {
+        if (iacucProtocolFundingSourceService == null) {
+            iacucProtocolFundingSourceService = KraServiceLocator.getService(IacucProtocolFundingSourceService.class);
+        }
+        return iacucProtocolFundingSourceService;
+    }
+
+    public void setIacucProtocolFundingSourceService(IacucProtocolFundingSourceService iacucProtocolFundingSourceService) {
+        this.iacucProtocolFundingSourceService = iacucProtocolFundingSourceService;
+    }
+
+    protected IacucProtocolNumberService getIacucProtocolNumberService() {
+        return iacucProtocolNumberService;
+    }
+
+    public void setIacucProtocolNumberService(IacucProtocolNumberService iacucProtocolNumberService) {
+        this.iacucProtocolNumberService = iacucProtocolNumberService;
     }
 
     

@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 
-public interface ProposalDevelopmentProtocolDocumentService <GenericProtocolDocument extends ProtocolDocumentBase> {
+public interface ProposalDevelopmentProtocolDocumentService<GenericProtocolDocument extends ProtocolDocumentBase> {
 
-    public ProtocolDocumentBase createProtocolDocument(ProposalDevelopmentForm proposalDevelopmentForm) throws Exception;
+    public GenericProtocolDocument createProtocolDocument(ProposalDevelopmentDocument document) throws Exception;
+    
+    public boolean isAuthorizedCreateProtocol(ProposalDevelopmentDocument document);
 }

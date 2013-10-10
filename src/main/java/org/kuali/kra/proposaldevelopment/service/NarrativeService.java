@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -68,5 +69,6 @@ public interface NarrativeService {
      * @param narratives
      */
     public void setNarrativeTimeStampUser(List<Narrative> narratives);
+    public void setNarrativeTimeStampUser(DevelopmentProposal proposal);
 
 }
