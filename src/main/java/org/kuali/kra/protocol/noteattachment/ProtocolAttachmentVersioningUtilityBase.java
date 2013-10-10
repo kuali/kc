@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.noteattachment;
 
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -326,8 +327,13 @@ public abstract class ProtocolAttachmentVersioningUtilityBase {
             } else {
                 newVersion = null;
             }
+            // nullify the protocol back reference before deep copying and restore it right after
+            ProtocolBase parentProtocol = attachment.getProtocol();
+            attachment.setProtocol(null);
             newAttachment = (ProtocolAttachmentProtocolBase) ObjectUtils.deepCopy(attachment);
-            // newAttachment.setSequenceNumber(newAttachment.getSequenceNumber()+1);
+            attachment.setProtocol(parentProtocol);
+            newAttachment.setProtocol(parentProtocol);
+            
         }
         catch (final VersionException e) {
             throw new VersionCreationExeption(e);
