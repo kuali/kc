@@ -15,19 +15,19 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Finds the available set of Submission Types when a protocol
@@ -47,7 +47,7 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        IacucProtocolDocument pd = (IacucProtocolDocument) getDocument();
+        ProtocolDocumentBase pd = (ProtocolDocumentBase) getDocument();
         if (pd != null) {
             ProtocolBase protocol = pd.getProtocol();
             Collection<IacucProtocolSubmissionType> submissionTypes = this.getKeyValuesService().findAll(IacucProtocolSubmissionType.class);
