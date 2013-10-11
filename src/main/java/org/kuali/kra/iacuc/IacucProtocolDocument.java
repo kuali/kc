@@ -371,7 +371,6 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     
     protected void mergeProtocolNotifications(ProtocolDocumentBase newProtocolDocument, String protocolActionType) {
         /**
-         * This is a hack, copied from ProtocolDocument.mergeProtocolCorrespondenceAndNotification.
          * We need to find the last instance of an IACUC Protocol Action of type IacucProtocolActionType.APPROVED and copy that action's 
          * notifications.
         */  
