@@ -399,6 +399,23 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     }
 
     
+    
+    /**
+     * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#updateCommitteeForProtocolSubmissions(org.kuali.kra.common.committee.bo.CommitteeBase)
+     */
+    @Override
+    public void updateCommitteeForProtocolSubmissions(CMT committee) {
+        // loop thru all the schedules for the committee and update each schedule's submissions if any
+        for(CS committeeSchedule : committee.getCommitteeSchedules()) {
+            for(PS protocolSubmission : committeeSchedule.getProtocolSubmissions()) {
+                protocolSubmission.setCommitteeIdFk(committee.getId());
+                protocolSubmission.setCommittee(committee);
+                getBusinessObjectService().save(protocolSubmission); 
+            }
+        }
+    }
+    
+    
     @Override
     public CMT getLightVersion(String committeeId) throws Exception{
         CMT committee = getCommitteeById(committeeId);
