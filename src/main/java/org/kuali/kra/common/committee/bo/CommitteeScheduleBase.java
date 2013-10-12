@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.common.committee.bo;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.committee.meeting.*;
@@ -135,6 +136,21 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
         this.viewStartTime = sourceSchedule.getViewStartTime();
         this.viewEndTime = sourceSchedule.getViewEndTime();
     }
+        
+    /*
+     * check if there is any meeting data in this schedule.
+     */
+    public boolean hasMeetingData() {
+        boolean retVal = false; 
+        retVal = retVal || CollectionUtils.isNotEmpty(this.getCommitteeScheduleAttendances());
+        retVal = retVal || CollectionUtils.isNotEmpty(this.getCommitteeScheduleMinutes());
+        retVal = retVal || CollectionUtils.isNotEmpty(this.getCommScheduleActItems());
+        retVal = retVal || CollectionUtils.isNotEmpty(this.getMinuteDocs());
+        retVal = retVal || CollectionUtils.isNotEmpty(this.getScheduleAgendas());
+        retVal = retVal || CollectionUtils.isNotEmpty(this.getLatestProtocolSubmissions());
+        return retVal;
+    }
+
     
 	
     public Long getId() {
