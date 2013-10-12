@@ -64,12 +64,13 @@ public abstract class DeleteCommitteeScheduleRuleBase  extends ResearchDocumentR
      * check if the matching schedule contain meeting data which also include whether protocol submitted to this schedule.
      */
     private boolean canNotDelete(List<CommitteeScheduleBase> schedules, String scheduleId) {
+        boolean retVal = false;
         for (CommitteeScheduleBase committeeSchedule : schedules) {
             if (StringUtils.equals(committeeSchedule.getScheduleId(), scheduleId)) {
-                return isNotEmptyData(committeeSchedule);
+                retVal = committeeSchedule.hasMeetingData();
             }
         }
-        return false;
+        return retVal;
     }
 
     private CommitteeServiceBase getCommitteeService() {
@@ -78,17 +79,5 @@ public abstract class DeleteCommitteeScheduleRuleBase  extends ResearchDocumentR
     
     protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();
 
-    /*
-     * check if there is any meeting data in this schedule.
-     */
-    private boolean isNotEmptyData(CommitteeScheduleBase schedule) {
-        return CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleAttendances())
-                || CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleMinutes())
-                || CollectionUtils.isNotEmpty(schedule.getCommScheduleActItems())
-                || CollectionUtils.isNotEmpty(schedule.getMinuteDocs())
-                || CollectionUtils.isNotEmpty(schedule.getScheduleAgendas())
-                || CollectionUtils.isNotEmpty(schedule.getLatestProtocolSubmissions());
-
-    }
-
+    
 }
