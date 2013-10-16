@@ -439,5 +439,9 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements Copyab
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return new ArrayList();
     }
+
+    public String getDocumentBoNumber() {
+      return "TIME AND MONEY-" + getAwardNumber();
+    }
     
 }
