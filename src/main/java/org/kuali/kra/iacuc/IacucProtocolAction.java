@@ -29,6 +29,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -195,12 +196,12 @@ public class IacucProtocolAction extends ProtocolActionBase {
 
     @Override
     protected String getProtocolOnlineReviewMappingNameHoook() {
-        return IACUC_PROTOCOL_ONLINE_REVIEW_HOOK;
+        return Constants.MAPPING_PROTOCOL_ONLINE_REVIEW;
     }
 
     @Override
     protected String getProtocolActionsMappingNameHoook() {
-        return IACUC_PROTOCOL_ACTIONS_HOOK;
+        return Constants.MAPPING_PROTOCOL_ACTIONS;
     }
 
     protected IacucProtocol getIacucProtocol(ActionForm form) {
