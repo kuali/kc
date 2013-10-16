@@ -667,9 +667,8 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                 IacucRejectReviewNotificationRenderer renderer = new IacucRejectReviewNotificationRenderer((IacucProtocol)protocol, reason);
                 IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, protocolOnlineReview, IacucProtocolActionType.REVIEW_REJECTED, "Return to Reviewer",  prDoc.getDocumentNumber(), "Reject");               
                 
-                ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-                
-                return checkToSendNotificationWithHoldingPage(mapping, forward, (IacucProtocolForm)protocolForm, renderer, notificationBean);                            
+                return checkToSendNotificationWithHoldingPage(mapping, null, (IacucProtocolForm)protocolForm, renderer, notificationBean);
+                                            
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
