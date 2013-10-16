@@ -237,4 +237,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
         return isComplete;
     }
 
+    public String getDocumentBoNumber() {
+        return getCommitteeId();
+    }
 }

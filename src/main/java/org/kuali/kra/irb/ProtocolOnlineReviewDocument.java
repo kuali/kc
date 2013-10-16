@@ -298,4 +298,9 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return new ArrayList();
     }
+    
+    public String getDocumentBoNumber() {
+        return getProtocolOnlineReview().getProtocolId().toString();
+    }
+
 }

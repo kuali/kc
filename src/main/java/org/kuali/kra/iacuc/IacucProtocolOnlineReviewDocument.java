@@ -270,4 +270,8 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return null;
     }
+    
+    public String getDocumentBoNumber() {
+        return getProtocolOnlineReview().getProtocolId().toString();
+    }
 }
