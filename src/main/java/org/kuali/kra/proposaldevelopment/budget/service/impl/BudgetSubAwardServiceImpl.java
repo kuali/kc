@@ -444,7 +444,13 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         for (int i = 0; i < budgetYearList.getLength(); i++) {
             Node budgetYear = budgetYearList.item(i);
             Node startDateNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriodStartDate");
+            if (startDateNode == null) {
+                startDateNode = XPathAPI.selectSingleNode(budgetYear, "PeriodStartDate");
+            }
             Node endDateNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriodEndDate");
+            if(endDateNode == null) {
+                endDateNode = XPathAPI.selectSingleNode(budgetYear, "PeriodEndDate");
+            }
             Date startDate = dateFormat.parse(startDateNode.getTextContent());
             Date endDate = dateFormat.parse(endDateNode.getTextContent());
             //attempt to find a matching budget period
