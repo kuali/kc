@@ -66,7 +66,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     private String EXEMPT_ACTION_TYPE_CODE = "206";
     private String FOLLOW_UP_ACTION_CODE = "109";
 
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        Committee committee = (Committee)printableBusinessObject;
+    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        
+        Committee committee = (Committee)printableBusinessObject;
         String scheduleId = (String)reportParameters.get("scheduleId");
         CommitteeSchedule committeeSchedule = findCommitteeSchedule(committee,scheduleId);
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
@@ -78,10 +79,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
 
-    private CommitteeSchedule findCommitteeSchedule(
-	Committee committee, String scheduleId) {
-        List<CommitteeSchedule> committeeSchedules =
-	committee.getCommitteeSchedules();
+    private CommitteeSchedule findCommitteeSchedule(Committee committee, String scheduleId) {
+        List<CommitteeSchedule> committeeSchedules = committee.getCommitteeSchedules();
         for (CommitteeSchedule committeeSchedule : committeeSchedules) {
             if(committeeSchedule.getScheduleId().equals(scheduleId)){
                 return committeeSchedule;
@@ -90,8 +89,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         return null;
     }
 
-    public Schedule getSchedule(
-     CommitteeSchedule committeeSchedule) {
+    public Schedule getSchedule(CommitteeSchedule committeeSchedule) {
         Schedule schedule = Schedule.Factory.newInstance();
         setScheduleMasterData(committeeSchedule, schedule.addNewScheduleMasterData());
         PreviousSchedule prevSchedule = schedule.addNewPreviousSchedule();
@@ -102,17 +100,12 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         getIrbPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject("protocolSubmissions");
-        List<org.kuali.kra.irb.actions.submit.ProtocolSubmission> submissions 
-        = committeeSchedule.getLatestProtocolSubmissions();
+        List<org.kuali.kra.irb.actions.submit.ProtocolSubmission> submissions = committeeSchedule.getLatestProtocolSubmissions();
         for (org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission : submissions) {
         	
-//            protocolSubmission.refreshNonUpdateableReferences();
-            ProtocolSubmission protocolSubmissionType = 
-                schedule.addNewProtocolSubmission();
-            
+            ProtocolSubmission protocolSubmissionType = schedule.addNewProtocolSubmission();            
             SubmissionDetails protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
-            ProtocolSummary protocolSummary = 
-                protocolSubmissionType.addNewProtocolSummary();
+            ProtocolSummary protocolSummary = protocolSubmissionType.addNewProtocolSummary();
 			ProtocolMasterData protocolMaster = protocolSummary.addNewProtocolMasterData();
 			String followUpAction = null;
 			String actionTypeCode = null;
@@ -129,21 +122,14 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
                     }
                     break;
                 }
-            }
-            if ((actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE) || actionTypeCode.equals(EXEMPT_ACTION_TYPE_CODE))
-                    && followUpAction == null) {
+            }            
+            if (actionTypeCode.equals(EXEMPT_ACTION_TYPE_CODE) && followUpAction == null) {
                 continue;
             } 
 
-//            protocol.refreshNonUpdateableReferences();
             protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
             protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
             protocolMaster.setProtocolTitle(protocol.getTitle());
-            // where is applicationDate?
-            // if (protocol.getApplicationDate() != null)
-            // {
-            // protocolMaster.setApplicationDate() ;
-            // }
             protocolMaster.setProtocolStatusCode(new BigInteger(String.valueOf(protocol.getProtocolStatusCode())));
             protocolMaster.setProtocolStatusDesc(protocol.getProtocolStatus().getDescription());
             protocolMaster.setProtocolTypeCode(new BigInteger(String.valueOf(protocol.getProtocolTypeCode())));
@@ -160,8 +146,6 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             if (protocol.getExpirationDate() != null) {
                 protocolMaster.setExpirationDate(getDateTimeService().getCalendar(protocol.getExpirationDate()));
             }
-            // where is
-            // protocolMaster.setBillableFlag(protocol.isBillableFlag()) ;
 
             if (protocol.getFdaApplicationNumber() != null) {
                 protocolMaster.setFdaApplicationNumber(protocol.getFdaApplicationNumber());
@@ -187,30 +171,25 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
                 protocolSubmissionDetail.setProtocolReviewTypeDesc(protocolSubmission.getProtocolReviewType().getDescription());
             }
             if (protocolSubmission.getSubmissionTypeCode() != null) {
-                protocolSubmissionDetail.setSubmissionTypeCode(new BigInteger(String.valueOf(protocolSubmission
-                        .getSubmissionTypeCode())));
+                protocolSubmissionDetail.setSubmissionTypeCode(new BigInteger(String.valueOf(protocolSubmission.getSubmissionTypeCode())));
             }
             if (protocolSubmission.getProtocolSubmissionType() != null) {
                 protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
             }
             if (protocolSubmission.getSubmissionNumber() != null) {
-                protocolSubmissionDetail.setSubmissionNumber(new BigInteger(String
-                        .valueOf(protocolSubmission.getSubmissionNumber())));
+                protocolSubmissionDetail.setSubmissionNumber(new BigInteger(String.valueOf(protocolSubmission.getSubmissionNumber())));
             }
             if (protocolSubmission.getSubmissionStatusCode() != null) {
-                protocolSubmissionDetail.setSubmissionStatusCode(new BigInteger(String.valueOf(protocolSubmission
-                        .getSubmissionStatusCode())));
+                protocolSubmissionDetail.setSubmissionStatusCode(new BigInteger(String.valueOf(protocolSubmission.getSubmissionStatusCode())));
             }
             if (protocolSubmission.getSubmissionStatus() != null) {
                 protocolSubmissionDetail.setSubmissionStatusDesc(protocolSubmission.getSubmissionStatus().getDescription());
             }
             if (protocolSubmission.getSubmissionTypeQualifierCode() != null) {
-                protocolSubmissionDetail.setSubmissionTypeQualifierCode(new BigInteger(protocolSubmission
-                        .getSubmissionTypeQualifierCode()));
+                protocolSubmissionDetail.setSubmissionTypeQualifierCode(new BigInteger(protocolSubmission.getSubmissionTypeQualifierCode()));
             }
             if (protocolSubmission.getProtocolSubmissionQualifierType() != null) {
-                protocolSubmissionDetail.setSubmissionTypeQualifierDesc(protocolSubmission.getProtocolSubmissionQualifierType()
-                        .getDescription());
+                protocolSubmissionDetail.setSubmissionTypeQualifierDesc(protocolSubmission.getProtocolSubmissionQualifierType().getDescription());
             }
             if (protocolSubmission.getYesVoteCount() != null) {
                 protocolSubmissionDetail.setYesVote(BigInteger.valueOf(protocolSubmission.getYesVoteCount()));
@@ -234,8 +213,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
             setProtocolSubmissionAction(protocolSubmission, protocolSubmissionDetail);
             if (protocolSubmission.getSubmissionDate() != null) {
-                protocolSubmissionDetail
-                        .setSubmissionDate(getDateTimeService().getCalendar(protocolSubmission.getSubmissionDate()));
+                protocolSubmissionDetail.setSubmissionDate(getDateTimeService().getCalendar(protocolSubmission.getSubmissionDate()));
             }
             setSubmissionCheckListinfo(protocolSubmission, protocolSubmissionDetail);
             setProtocolSubmissionReviewers(protocolSubmission, protocolSubmissionDetail);
@@ -252,9 +230,9 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             }
             List<ProtocolRiskLevel> cvRiskLevels = protocol.getProtocolRiskLevels();
             for(ProtocolRiskLevel protocolRiskLevelBean:cvRiskLevels){
-           	 edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.RiskLevels riskLevelType =  protocolSummary.addNewRiskLevels();
-           	 riskLevelType.setRiskLevelDescription(protocolRiskLevelBean.getRiskLevel().getDescription());
-           	 riskLevelType.setComments(protocolRiskLevelBean.getComments());
+           	    edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.RiskLevels riskLevelType =  protocolSummary.addNewRiskLevels();
+           	    riskLevelType.setRiskLevelDescription(protocolRiskLevelBean.getRiskLevel().getDescription());
+           	    riskLevelType.setComments(protocolRiskLevelBean.getComments());
            	}
              
             List<ProtocolFundingSource> vecFundingSource = (List) protocol.getProtocolFundingSources();
@@ -262,8 +240,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             String fundingSourceName, fundingSourceCode;
             for (ProtocolFundingSource protocolFundingSourceBean : vecFundingSource) {
                 protocolFundingSourceBean.refreshNonUpdateableReferences();
-                edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.FundingSource fundingSource = protocolSummary
-                        .addNewFundingSource();
+                edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.FundingSource fundingSource = protocolSummary.addNewFundingSource();
                 fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
                 fundingSourceTypeCode = Integer.valueOf(protocolFundingSourceBean.getFundingSourceTypeCode());
                 fundingSourceName = getFundingSourceNameForType(fundingSourceTypeCode, fundingSourceCode);
@@ -378,8 +355,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         for (ProtocolExemptStudiesCheckListItem protocolExemptStudiesCheckListBean : protocolExemptCheckList) {
             Checklists checkListItem = submissionChecklistInfo.addNewChecklists();
             checkListItem.setChecklistCode(protocolExemptStudiesCheckListBean.getExemptStudiesCheckListCode());
-            checkListItem.setChecklistDescription(protocolExemptStudiesCheckListBean.getExemptStudiesCheckListItem()
-                    .getDescription());
+            checkListItem.setChecklistDescription(protocolExemptStudiesCheckListBean.getExemptStudiesCheckListItem().getDescription());
             formattedCode = formattedCode + "(" + protocolExemptStudiesCheckListBean.getExemptStudiesCheckListCode() + ") ";
         }
         if (formattedCode.length() > 0) {
@@ -390,8 +366,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         for (ProtocolExpeditedReviewCheckListItem protocolReviewTypeCheckListBean : vecExpeditedCheckList) {
             Checklists checkListItem = submissionChecklistInfo.addNewChecklists();
             checkListItem.setChecklistCode(protocolReviewTypeCheckListBean.getExpeditedReviewCheckListCode());
-            checkListItem.setChecklistDescription(protocolReviewTypeCheckListBean.getExpeditedReviewCheckListItem()
-                    .getDescription());
+            checkListItem.setChecklistDescription(protocolReviewTypeCheckListBean.getExpeditedReviewCheckListItem().getDescription());
             formattedCode = formattedCode + "(" + protocolReviewTypeCheckListBean.getExpeditedReviewCheckListCode() + ") ";
         }
 
@@ -409,11 +384,6 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             }
         }
         return null;
-//        Map<String, Object> param = new HashMap<String, Object>();
-//        param.put("scheduleIdFk", protocolSubmission.getScheduleIdFk());
-//        List<ProtocolAction> actions = (List) getBusinessObjectService().findMatchingOrderBy(ProtocolAction.class, param,
-//                "actionId", true);
-//        return actions.isEmpty() ? null : actions.get(0);
     }
 
     private void setAttendance(CommitteeSchedule committeeSchedule, Schedule schedule) {
@@ -429,8 +399,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
         List<CommitteeMembershipBase> committeeMemberships = committeeSchedule.getParentCommittee().getCommitteeMemberships();
         for (CommitteeMembershipBase committeeMembership : committeeMemberships) {
-            if (!getCommitteeMembershipService().isMemberAttendedMeeting(committeeMembership,
-                    committeeSchedule.getParentCommittee().getCommitteeId())) {
+            if (!getCommitteeMembershipService().isMemberAttendedMeeting(committeeMembership, committeeSchedule.getParentCommittee().getCommitteeId())) {
                 Attendents attendents = schedule.addNewAttendents();
                 attendents.setAttendentName(committeeMembership.getPersonName());
                 attendents.setAlternateFlag(false);
@@ -466,21 +435,18 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             currentSchedule.setPlace(scheduleDetailsBean.getPlace());
 
             if (scheduleDetailsBean.getProtocolSubDeadline() != null) {
-                currentSchedule.setProtocolSubDeadline(getDateTimeService().getCalendar(
-                        scheduleDetailsBean.getProtocolSubDeadline()));
+                currentSchedule.setProtocolSubDeadline(getDateTimeService().getCalendar(scheduleDetailsBean.getProtocolSubDeadline()));
             }
             if (scheduleDetailsBean.getMeetingDate() != null) {
                 currentSchedule.setMeetingDate(getDateTimeService().getCalendar(scheduleDetailsBean.getMeetingDate()));
             }
 
             if (scheduleDetailsBean.getStartTime() != null) {
-                currentSchedule.setStartTime(getDateTimeService().getCalendar(
-                        getDateTimeService().convertToSqlDate(scheduleDetailsBean.getStartTime())));
+                currentSchedule.setStartTime(getDateTimeService().getCalendar(getDateTimeService().convertToSqlDate(scheduleDetailsBean.getStartTime())));
             }
 
             if (scheduleDetailsBean.getEndTime() != null) {
-                currentSchedule.setEndTime(getDateTimeService().getCalendar(
-                        getDateTimeService().convertToSqlDate(scheduleDetailsBean.getEndTime())));
+                currentSchedule.setEndTime(getDateTimeService().getCalendar(getDateTimeService().convertToSqlDate(scheduleDetailsBean.getEndTime())));
             }
             if (scheduleDetailsBean.getAgendaProdRevDate() != null) {
                 currentSchedule.setAgendaProdRevDate(getDateTimeService().getCalendar(scheduleDetailsBean.getAgendaProdRevDate()));
@@ -523,7 +489,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     private CommitteeSchedule getNextOrPreviousSchedule(CommitteeSchedule scheduleDetailsBean, boolean nextFlag) {
         Map<String, String> scheduleParam = new HashMap<String, String>();
         scheduleParam.put("committeeIdFk", scheduleDetailsBean.getParentCommittee().getId().toString());
-        List<CommitteeSchedule> schedules = (List) getBusinessObjectService().findMatchingOrderBy(CommitteeSchedule.class,
+        List<CommitteeSchedule> schedules = (List) getBusinessObjectService().findMatchingOrderBy(CommitteeSchedule.class, 
                 scheduleParam, "scheduledDate", false);
         if (!schedules.isEmpty()) {
             int size = schedules.size();
