@@ -1195,6 +1195,12 @@ module of int tests -->
 			<version>${rrsubawardbudget10-1.3-gg.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>rrsubawardbudget1_3-1.3-gg</artifactId>
+			<version>${rrsubawardbudget1_3-1.3-gg.version}</version>
+		</dependency>
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>s2sform</artifactId>
@@ -2063,7 +2069,7 @@ module of int tests -->
         <gg-forms5.version>1.0</gg-forms5.version>
         <gg-forms6.version>1.0</gg-forms6.version>
         <gg-forms7.version>1.0.1</gg-forms7.version>
-        <gg-forms8.version>2.5</gg-forms8.version>
+        <gg-forms8.version>2.6</gg-forms8.version>
         <gg-system.version>1.0</gg-system.version>
         <hamcrest-library.version>1.3</hamcrest-library.version>
         <itext.version>2.1.7</itext.version>
@@ -2093,6 +2099,7 @@ module of int tests -->
         <phs398researchtrainingprogramplan-2.0-gg.version>1.0</phs398researchtrainingprogramplan-2.0-gg.version>
         <phsfellowshipsupplemental-2.0-gg.version>1.0</phsfellowshipsupplemental-2.0-gg.version>
         <rrsubawardbudget10-1.3-gg.version>1.0</rrsubawardbudget10-1.3-gg.version>
+        <rrsubawardbudget1_3-1.3-gg.version>1.0</rrsubawardbudget1_3-1.3-gg.version>
         <rrbudget10-1.3-gg.version>1.0</rrbudget10-1.3-gg.version>
         <log4j.version>1.2.16</log4j.version>
         <mail.version>1.4.4</mail.version>
@@ -2104,7 +2111,7 @@ module of int tests -->
         <phs398modularbudget-1.2-gg.version>1.0.5</phs398modularbudget-1.2-gg.version>
         <rice.version>2.3.2-r41737</rice.version>
         <servlet.version>2.5</servlet.version>
-        <s2sform.version>1.1.7</s2sform.version>
+        <s2sform.version>1.1.8</s2sform.version>
         <sf424-2.1-gg.version>1.0</sf424-2.1-gg.version>
         <slf4j.version>1.6.4</slf4j.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
