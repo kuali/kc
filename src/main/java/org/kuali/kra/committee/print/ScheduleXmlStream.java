@@ -123,9 +123,6 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
                     break;
                 }
             }            
-            if (actionTypeCode.equals(EXEMPT_ACTION_TYPE_CODE) && followUpAction == null) {
-                continue;
-            } 
 
             protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
             protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
