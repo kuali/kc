@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
-import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class IacucProtocolStudyGroupDetailBean extends KraPersistableBusinessObjectBase {
 
@@ -38,9 +37,6 @@ public class IacucProtocolStudyGroupDetailBean extends KraPersistableBusinessObj
     Integer totalSpeciesCount;
     Integer maxPainCategoryCode;
     
-    /* These fields are for group display in tag */
-    // list that holds species and groups description
-    List<String> speciesAndGroupsText;
     // max pain category for selected species group
     String maxPainCategory;
     Integer maxPainLevel;
@@ -49,34 +45,10 @@ public class IacucProtocolStudyGroupDetailBean extends KraPersistableBusinessObj
     private IacucSpecies iacucSpecies;
     private IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean;
 
-    private List<IacucProtocolStudyGroup> iacucProtocolStudyGroups;
     private List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible;
-    private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
-    private List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList;
-
-    private IacucProcedurePersonResponsible newIacucProcedurePersonResponsible;
-    private IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation;
     
     public IacucProtocolStudyGroupDetailBean() {
-        setSpeciesAndGroupsText(new ArrayList<String>());
         setIacucProcedurePersonsResponsible(new ArrayList<IacucProcedurePersonResponsible>());
-        setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroup>());
-        setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
-        setIacucProtocolStudyCustomDataList(new ArrayList<IacucProtocolStudyCustomData>());
-    }
-    
-    public List<String> getSpeciesAndGroupsText() {
-        if(speciesAndGroupsText.isEmpty()) {
-            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : getIacucProtocolStudyGroups()) {
-                IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
-                speciesAndGroupsText.add(protocolSpecies.getGroupAndSpecies());
-            }
-        }
-        return speciesAndGroupsText;
-    }
-
-    public void setSpeciesAndGroupsText(List<String> speciesAndGroupsText) {
-        this.speciesAndGroupsText = speciesAndGroupsText;
     }
 
     public String getMaxPainCategory() {
@@ -98,36 +70,12 @@ public class IacucProtocolStudyGroupDetailBean extends KraPersistableBusinessObj
         this.totalSpeciesCount = totalSpeciesCount;
     }
 
-    public List<IacucProtocolStudyGroup> getIacucProtocolStudyGroups() {
-        return iacucProtocolStudyGroups;
-    }
-
-    public void setIacucProtocolStudyGroups(List<IacucProtocolStudyGroup> iacucProtocolStudyGroups) {
-        this.iacucProtocolStudyGroups = iacucProtocolStudyGroups;
-    }
-    
     public List<IacucProcedurePersonResponsible> getIacucProcedurePersonsResponsible() {
         return iacucProcedurePersonsResponsible;
     }
 
     public void setIacucProcedurePersonsResponsible(List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible) {
         this.iacucProcedurePersonsResponsible = iacucProcedurePersonsResponsible;
-    }
-
-    public List<String> getListOfPersonsResponsible() {
-        List<String> formattedPersonsResponsible = new ArrayList<String>();
-        for(IacucProcedurePersonResponsible personResponsible : getIacucProcedurePersonsResponsible()) {
-            formattedPersonsResponsible.add(personResponsible.getPersonName());
-        }
-        return formattedPersonsResponsible;
-    }
-
-    public IacucProcedurePersonResponsible getNewIacucProcedurePersonResponsible() {
-        return newIacucProcedurePersonResponsible;
-    }
-
-    public void setNewIacucProcedurePersonResponsible(IacucProcedurePersonResponsible newIacucProcedurePersonResponsible) {
-        this.newIacucProcedurePersonResponsible = newIacucProcedurePersonResponsible;
     }
 
     public Integer getMaxPainCategoryCode() {
@@ -146,22 +94,6 @@ public class IacucProtocolStudyGroupDetailBean extends KraPersistableBusinessObj
         this.maxPainLevel = maxPainLevel;
     }
 
-    public List<IacucProtocolStudyGroupLocation> getIacucProtocolStudyGroupLocations() {
-        return iacucProtocolStudyGroupLocations;
-    }
-
-    public void setIacucProtocolStudyGroupLocations(List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations) {
-        this.iacucProtocolStudyGroupLocations = iacucProtocolStudyGroupLocations;
-    }
-
-    public IacucProtocolStudyGroupLocation getNewIacucProtocolStudyGroupLocation() {
-        return newIacucProtocolStudyGroupLocation;
-    }
-
-    public void setNewIacucProtocolStudyGroupLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation) {
-        this.newIacucProtocolStudyGroupLocation = newIacucProtocolStudyGroupLocation;
-    }
-
     public Integer getSpeciesCode() {
         return speciesCode;
     }
@@ -176,14 +108,6 @@ public class IacucProtocolStudyGroupDetailBean extends KraPersistableBusinessObj
 
     public void setMaxIacucPainCategory(IacucPainCategory maxIacucPainCategory) {
         this.maxIacucPainCategory = maxIacucPainCategory;
-    }
-
-    public List<IacucProtocolStudyCustomData> getIacucProtocolStudyCustomDataList() {
-        return iacucProtocolStudyCustomDataList;
-    }
-
-    public void setIacucProtocolStudyCustomDataList(List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList) {
-        this.iacucProtocolStudyCustomDataList = iacucProtocolStudyCustomDataList;
     }
 
     public Integer getIacucProtocolStudyGroupDetailId() {

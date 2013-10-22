@@ -55,8 +55,7 @@ public class AddProtocolStudyGroupRule extends ResearchDocumentRuleBase implemen
         boolean studyGroupValid = true;
         IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean = event.getProcedureBean();
         List<String> protocolSpeciesAndGroups =  selectedIacucProtocolStudyGroupBean.getProtocolSpeciesAndGroups(); 
-        List<String> protocolPersonsResponsible =  selectedIacucProtocolStudyGroupBean.getProtocolPersonsResponsible(); 
-        if(ObjectUtils.isNull(protocolSpeciesAndGroups) || ObjectUtils.isNull(protocolPersonsResponsible)) {
+        if(ObjectUtils.isNull(protocolSpeciesAndGroups)) {
             GlobalVariables.getMessageMap().putError(getErrorPath(event), 
                     KeyConstants.ERROR_IACUC_VALIDATION_STUDY_GROUP_VALID);                
             studyGroupValid = false;
@@ -75,13 +74,11 @@ public class AddProtocolStudyGroupRule extends ResearchDocumentRuleBase implemen
         List<String> protocolSpeciesAndGroups =  procedureBean.getProtocolSpeciesAndGroups(); 
         for(String iacucProtocolSpeciesId : protocolSpeciesAndGroups) {
             Integer newProtocolSpeciesId = Integer.parseInt(iacucProtocolSpeciesId);
-            for(IacucProtocolStudyGroupDetailBean detailBean : procedureBean.getIacucProtocolStudyGroupDetailBeans()) {
-                for(IacucProtocolStudyGroup studyGroup : detailBean.getIacucProtocolStudyGroups()) {
-                    if(studyGroup.getIacucProtocolSpeciesId().equals(newProtocolSpeciesId)) {
-                        GlobalVariables.getMessageMap().putError(getErrorPath(event), 
-                                KeyConstants.ERROR_IACUC_VALIDATION_DUPLICATE_STUDY_GROUP);                
-                        duplicateStudyGroup = true;
-                    }
+            for(IacucProtocolStudyGroup studyGroup : procedureBean.getIacucProtocolStudyGroups()) {
+                if(studyGroup.getIacucProtocolSpeciesId().equals(newProtocolSpeciesId)) {
+                    GlobalVariables.getMessageMap().putError(getErrorPath(event), 
+                            KeyConstants.ERROR_IACUC_VALIDATION_DUPLICATE_STUDY_GROUP);                
+                    duplicateStudyGroup = true;
                 }
             }
         }

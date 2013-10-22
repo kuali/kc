@@ -15,19 +15,33 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import org.kuali.kra.iacuc.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.kuali.kra.iacuc.IacucPersonTraining;
+import org.kuali.kra.iacuc.IacucProcedureCategoryCustomData;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonTrainingService;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesService;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.util.*;
 
-
+/**
+ * This class...
+ */
 public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedureService {
 
     private BusinessObjectService businessObjectService;
@@ -72,114 +86,16 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      */
     public void createNewStudyGroups(IacucProtocol iacucProtocol, List<IacucProtocolStudyGroupBean> sourceStudyGroupBeans, 
             HashMap<Integer, Integer> protocolSpeciesIdMapping) {
-        iacucProtocol.setIacucProtocolStudyGroupBeans(new ArrayList<IacucProtocolStudyGroupBean>());
-        iacucProtocol.setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroupBean>());
-        for(IacucProtocolStudyGroupBean studyGroupBean : sourceStudyGroupBeans) {
-            IacucProtocolStudyGroupBean newStudyGroupBean = getNewCopyOfStudyGroupBean(studyGroupBean);
-            newStudyGroupBean.setIacucProtocolStudyGroupDetailBeans(new ArrayList<IacucProtocolStudyGroupDetailBean>());
-            setAttributesForNewStudyGroupBean(newStudyGroupBean, iacucProtocol);
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                IacucProtocolStudyGroupDetailBean newStudyGroupDetailBean = getNewCopyOfStudyGroupDetailBean(studyGroupDetailBean);
-                newStudyGroupDetailBean.setIacucProtocolStudyCustomDataList(new ArrayList<IacucProtocolStudyCustomData>());
-                newStudyGroupDetailBean.setIacucProcedurePersonsResponsible(new ArrayList<IacucProcedurePersonResponsible>());
-                newStudyGroupDetailBean.setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
-
-                newStudyGroupDetailBean.setIacucProtocolStudyGroupDetailId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_DETAIL_SEQUENCE_ID));
-                newStudyGroupDetailBean.setIacucProtocolStudyGroupHeaderId(newStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
-
-                List<IacucProtocolStudyGroup> studyGroups = new ArrayList<IacucProtocolStudyGroup>();
-                for(IacucProtocolStudyGroup protocolStudyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    IacucProtocolStudyGroup newProtocolStudyGroup = getNewCopyOfProtocolStudyGroup(protocolStudyGroup);
-                    newProtocolStudyGroup.setIacucProtocolStudyCustomDataList(new ArrayList<IacucProtocolStudyCustomData>());
-                    newProtocolStudyGroup.setIacucProcedurePersonsResponsible(new ArrayList<IacucProcedurePersonResponsible>());
-                    newProtocolStudyGroup.setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
-                    setAttributesForNewProtocolStudyGroup(newProtocolStudyGroup, newStudyGroupDetailBean, iacucProtocol);
-                    Integer newProtocolSpeciesId = protocolSpeciesIdMapping.get(newProtocolStudyGroup.getIacucProtocolSpeciesId());
-                    if(newProtocolSpeciesId == null) {
-                        newProtocolSpeciesId = newProtocolStudyGroup.getIacucProtocolSpeciesId();
-                    }
-                    newProtocolStudyGroup.setIacucProtocolSpeciesId(newProtocolSpeciesId);
-                    studyGroups.add(newProtocolStudyGroup);
-                    
-                    for(IacucProcedurePersonResponsible procedurePersonResponsible : protocolStudyGroup.getIacucProcedurePersonsResponsible()) {
-                        IacucProcedurePersonResponsible newPersonResponsible = getNewCopyOfPersonResponsible(procedurePersonResponsible);
-                        setAttributesForNewProcedurePersonResponsible(newPersonResponsible, newProtocolStudyGroup, newStudyGroupBean);
-                        newProtocolStudyGroup.getIacucProcedurePersonsResponsible().add(newPersonResponsible);
-                    }
-                    
-                    for(IacucProtocolStudyGroupLocation studyGroupLocation : protocolStudyGroup.getIacucProtocolStudyGroupLocations()) {
-                        IacucProtocolStudyGroupLocation newStudyGroupLocation = getNewCopyOfStudyGroupLocation(studyGroupLocation);
-                        updateAttributesForNewProcedureLocation(newStudyGroupLocation, newProtocolStudyGroup, iacucProtocol);
-                        newProtocolStudyGroup.getIacucProtocolStudyGroupLocations().add(newStudyGroupLocation);
-                    }
-                    
-                    for(IacucProtocolStudyCustomData studyGroupCustomData : protocolStudyGroup.getIacucProtocolStudyCustomDataList()) {
-                        IacucProtocolStudyCustomData newStudyCustomData = getNewCopyOfStudyCustomData(studyGroupCustomData);
-                        updateAttributesForNewProcedureCustomData(newStudyCustomData, iacucProtocol, newProtocolStudyGroup);
-                        newProtocolStudyGroup.getIacucProtocolStudyCustomDataList().add(newStudyCustomData);
-                    }
-                    
-                }
-                newStudyGroupDetailBean.setIacucProtocolStudyGroups(studyGroups);
-                newStudyGroupBean.getIacucProtocolStudyGroupDetailBeans().add(newStudyGroupDetailBean);
-            }
-            iacucProtocol.getIacucProtocolStudyGroups().add(newStudyGroupBean);
-        }
+        // for copy procedures
     }
 
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#addProtocolStudyGroup(org.kuali.kra.iacuc.IacucProtocolForm)
-     */
-    public void addProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, IacucProtocol iacucProtocol) {
-        boolean isNewCategoryBean = ObjectUtils.isNull(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
-        List<String> protocolSpeciesAndGroups =  selectedProtocolStudyGroupBean.getProtocolSpeciesAndGroups(); 
-        List<String> protocolPersonsResponsible =  selectedProtocolStudyGroupBean.getProtocolPersonsResponsible(); 
-        if(isNewCategoryBean) {
-            setAttributesForNewStudyGroupBean(selectedProtocolStudyGroupBean, iacucProtocol);
-        }
-        List<IacucProtocolStudyGroupDetailBean> newDetailBeans = addStudyGroupBeans(protocolSpeciesAndGroups, selectedProtocolStudyGroupBean, iacucProtocol);
-        List<IacucProcedurePersonResponsible> procedurePersonsResponsible = addPersonsResponsible(protocolPersonsResponsible);
-        addPersonToDetailBean(newDetailBeans, procedurePersonsResponsible,selectedProtocolStudyGroupBean, iacucProtocol);
-        addProcedureCustomData(selectedProtocolStudyGroupBean, newDetailBeans, iacucProtocol);
-        if(isNewCategoryBean) {
-            iacucProtocol.getIacucProtocolStudyGroups().add(selectedProtocolStudyGroupBean);
-        }else {
-            IacucProtocolStudyGroupBean selectedProtocolStudyGroup = getProtocolStudyGroup(iacucProtocol, selectedProtocolStudyGroupBean);
-            selectedProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans().addAll(getAllDetailBeansThatDoesNotExist(newDetailBeans, selectedProtocolStudyGroup));
-        }
-    }
-
-    private List<IacucProtocolStudyGroupDetailBean> getAllDetailBeansThatDoesNotExist(List<IacucProtocolStudyGroupDetailBean> newDetailBeans, IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean) {
-        List<IacucProtocolStudyGroupDetailBean> newBeansToAdd = new ArrayList<IacucProtocolStudyGroupDetailBean>();
-        newBeansToAdd.addAll(newDetailBeans);
-        newBeansToAdd.removeAll(iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans());
-        return newBeansToAdd;
-    }
-    
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProtocolStudyGroup(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean, org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean)
-     */
-    public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, 
-            IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, IacucProtocol iacucProtocol) {
-        selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans().remove(selectedProcedureDetailBean);
-        IacucProtocolStudyGroupBean selectedProtocolStudyGroup = getProtocolStudyGroup(iacucProtocol, selectedProtocolStudyGroupBean);
-        if(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans().size() == 0) {
-            iacucProtocol.getIacucProtocolStudyGroups().remove(selectedProtocolStudyGroup);
-            selectedProtocolStudyGroupBean.setIacucProtocolStudyGroupHeaderId(null);
-        }else {
-            selectedProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans().remove(selectedProcedureDetailBean);
-        }
-    }
     
     /**
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProcedurePersonResponsible(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean, org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible, org.kuali.kra.iacuc.IacucProtocol)
      */
     public void deleteProcedurePersonResponsible(IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, 
             IacucProcedurePersonResponsible selectedPersonResponsible, IacucProtocol iacucProtocol) {
-        for(IacucProtocolStudyGroup beanProtocolStudyGroup : selectedProcedureDetailBean.getIacucProtocolStudyGroups()) {
-            beanProtocolStudyGroup.getIacucProcedurePersonsResponsible().remove(selectedPersonResponsible);
-        }
-        selectedProcedureDetailBean.getIacucProcedurePersonsResponsible().remove(selectedPersonResponsible);
+        // for delete procedure person
     }
     
        
@@ -188,10 +104,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      */
     public void deleteStudyGroupLocation(IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, 
             IacucProtocolStudyGroupLocation selectedStudyGroupLocation, IacucProtocol iacucProtocol) {
-        for(IacucProtocolStudyGroup beanProtocolStudyGroup : selectedProcedureDetailBean.getIacucProtocolStudyGroups()) {
-            beanProtocolStudyGroup.getIacucProtocolStudyGroupLocations().remove(selectedStudyGroupLocation);
-        }
-        selectedProcedureDetailBean.getIacucProtocolStudyGroupLocations().remove(selectedStudyGroupLocation);
+        // for delete study location
     }
     
     /**
@@ -199,119 +112,17 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      */
     public void addProcedurePersonResponsible(IacucProcedurePersonResponsible newIacucProcedurePersonResponsible, 
             IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean) {
-        List<String> protocolPersonsResponsible =  newIacucProcedurePersonResponsible.getProtocolPersonsResponsible(); 
-        List<IacucProcedurePersonResponsible> procedurePersonsResponsible = addNewPersonResponsible(protocolPersonsResponsible, newIacucProcedurePersonResponsible);
-        addPersonToStudyGroupAndDetailBean(selectedProcedureDetailBean, procedurePersonsResponsible, selectedProtocolStudyGroupBean);
+        // for add person procedures - outside of procedure panel
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#addProcedureLocation(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation, org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean)
-     */
-    public void addProcedureLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation, IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, 
-            IacucProtocol protocol) {
-        int locationGroupIndex = selectedProcedureDetailBean.getIacucProtocolStudyGroupLocations().size()+1;
-        newIacucProtocolStudyGroupLocation.setLocationGroupIndex(locationGroupIndex);
-        selectedProcedureDetailBean.getIacucProtocolStudyGroupLocations().add(newIacucProtocolStudyGroupLocation);
-        for(IacucProtocolStudyGroup protocolStudyGroup : selectedProcedureDetailBean.getIacucProtocolStudyGroups()) {
-            IacucProtocolStudyGroupLocation newStudyGroupLocation = (IacucProtocolStudyGroupLocation)ObjectUtils.deepCopy(newIacucProtocolStudyGroupLocation);
-            newStudyGroupLocation.setLocationGroupIndex(locationGroupIndex);
-            updateAttributesForNewProcedureLocation(newStudyGroupLocation, protocolStudyGroup, protocol);
-            protocolStudyGroup.getIacucProtocolStudyGroupLocations().add(newStudyGroupLocation);
-        }
-    }
 
     /**
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#resetProcedurePanel(org.kuali.kra.iacuc.IacucProtocol)
      */
     public void resetProcedurePanel(IacucProtocol protocol) {
-        List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans = protocol.getIacucProtocolStudyGroups();
-        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : iacucProtocolStudyGroupBeans) {
-            for(IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                iacucProtocolStudyGroupDetailBean.resetPersistenceState();
-                for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    iacucProtocolStudyGroup.resetPersistenceState();
-                    for(IacucProcedurePersonResponsible protocolPersonResponsible : iacucProtocolStudyGroup.getIacucProcedurePersonsResponsible()) {
-                        protocolPersonResponsible.resetPersistenceState();
-                    }
-                    for(IacucProtocolStudyGroupLocation protocolLocation : iacucProtocolStudyGroup.getIacucProtocolStudyGroupLocations()) {
-                        protocolLocation.resetPersistenceState();
-                    }
-                    for(IacucProtocolStudyCustomData protocolCustomData : iacucProtocolStudyGroup.getIacucProtocolStudyCustomDataList()) {
-                        protocolCustomData.resetPersistenceState();
-                    }
-                }
-            }
-        }
+        // for reset persistent state
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#setIacucProtocolStudyGroupReferences(org.kuali.kra.iacuc.IacucProtocol)
-     */
-    public void setIacucProtocolStudyGroupReferences(IacucProtocol protocol) {
-        List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans = protocol.getIacucProtocolStudyGroupBeans();
-        HashMap<Integer, Integer> newSpeciesIdMapping = new HashMap<Integer, Integer>();
-        if(isSpeciesAndProcedureExists(protocol)) {
-            newSpeciesIdMapping = getIacucProtocolSpeciesService().getNewProtocolSpeciesMap(protocol);
-        }
-        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : iacucProtocolStudyGroupBeans) {
-            for(IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    Integer newProtocolSpeciesId = newSpeciesIdMapping.get(iacucProtocolStudyGroup.getIacucProtocolSpeciesId());
-                    iacucProtocolStudyGroup.setIacucProtocolSpeciesId(newProtocolSpeciesId);
-                    setStudyGoupPersonResponsibleReferences(iacucProtocolStudyGroup.getIacucProcedurePersonsResponsible(), protocol);
-                    setStudyGoupCustomDataReferences(iacucProtocolStudyGroup.getIacucProtocolStudyCustomDataList(), protocol);
-                    setStudyGoupLocationReferences(iacucProtocolStudyGroup.getIacucProtocolStudyGroupLocations(), protocol);
-                }
-            }
-        }
-    }
-    
-    private boolean isSpeciesAndProcedureExists(IacucProtocol protocol) {
-        return protocol.getIacucProtocolSpeciesList().size() > 0 && protocol.getIacucProtocolStudyGroups().size() > 0;
-    }
-    
-    private void setStudyGoupPersonResponsibleReferences(List<IacucProcedurePersonResponsible> personsResponsible, IacucProtocol protocol) {
-        for(IacucProcedurePersonResponsible protocolPersonResponsible : personsResponsible) {
-            protocolPersonResponsible.setProtocolId(protocol.getProtocolId());
-            protocolPersonResponsible.setProtocolNumber(protocol.getProtocolNumber());
-            protocolPersonResponsible.setSequenceNumber(protocol.getSequenceNumber());
-        }
-    }
-    
-    private void setStudyGoupCustomDataReferences(List<IacucProtocolStudyCustomData> beanCustomDataList, IacucProtocol protocol) {
-        for(IacucProtocolStudyCustomData protocolCustomData : beanCustomDataList) {
-            protocolCustomData.setProtocolId(protocol.getProtocolId());
-            protocolCustomData.setProtocolNumber(protocol.getProtocolNumber());
-            protocolCustomData.setSequenceNumber(protocol.getSequenceNumber());
-        }
-    }
-    
-    private void setStudyGoupLocationReferences(List<IacucProtocolStudyGroupLocation> beanLocations, IacucProtocol protocol) {
-        for(IacucProtocolStudyGroupLocation protocolLocation : beanLocations) {
-            protocolLocation.setProtocolId(protocol.getProtocolId());
-            protocolLocation.setProtocolNumber(protocol.getProtocolNumber());
-            protocolLocation.setSequenceNumber(protocol.getSequenceNumber());
-        }
-    }
-    
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#updateIacucProtocolStudyGroup(org.kuali.kra.iacuc.IacucProtocol)
-     */
-    public void updateIacucProtocolStudyGroup(IacucProtocol protocol) {
-        List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans = protocol.getIacucProtocolStudyGroupBeans();
-        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : iacucProtocolStudyGroupBeans) {
-            for(IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                updateExistingStudyGroupPersonResponsible(iacucProtocolStudyGroupDetailBean.getIacucProcedurePersonsResponsible(), 
-                        iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups());
-                updateExistingStudyGroupLocation(iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroupLocations(), 
-                        iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups());
-                updateExistingStudyGroupCustomData(iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyCustomDataList(), 
-                        iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups());
-            }
-        }
-    }
-
-
     /**
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#getRevisedStudyGroupBeans(java.util.List)
      */
@@ -325,95 +136,6 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             }
         }
        return studyGroupBeans;
-    }
-    
-    /**
-     * This method is to update individual study group records that are part of the grouped category.
-     * Here attributes linked to person responsible are updated.
-     * @param beanStudyGroups
-     */
-    private void updateExistingStudyGroupPersonResponsible(List<IacucProcedurePersonResponsible> beanPersonsResponsible, List<IacucProtocolStudyGroup> iacucProtocolStudyGroups) {
-        for(IacucProcedurePersonResponsible beanPersonResponsible : beanPersonsResponsible) {
-            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroups) {
-                for(IacucProcedurePersonResponsible protocolPersonResponsible : iacucProtocolStudyGroup.getIacucProcedurePersonsResponsible()) {
-                    if(protocolPersonResponsible.getPersonId().equalsIgnoreCase(beanPersonResponsible.getPersonId())) {
-                        protocolPersonResponsible.setPersonResponsibleDescription(beanPersonResponsible.getPersonResponsibleDescription());
-                    }
-                }
-            }
-        }
-    }
-    
-    /**
-     * This method is to update individual study group records that are part of the grouped category.
-     * Here attributes linked to study group location are updated.
-     * @param beanStudyGroupLocations
-     */
-    private void updateExistingStudyGroupLocation(List<IacucProtocolStudyGroupLocation> beanLocations, List<IacucProtocolStudyGroup> iacucProtocolStudyGroups) {
-        for(IacucProtocolStudyGroupLocation beanLocation : beanLocations) {
-            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroups) {
-                for(IacucProtocolStudyGroupLocation protocolLocation : iacucProtocolStudyGroup.getIacucProtocolStudyGroupLocations()) {
-                    if(protocolLocation.getLocationGroupIndex().equals(beanLocation.getLocationGroupIndex())) { 
-                        protocolLocation.setLocationId(beanLocation.getLocationId());
-                        protocolLocation.setLocationTypeCode(beanLocation.getLocationTypeCode());
-                        protocolLocation.setLocationRoom(beanLocation.getLocationRoom());
-                        protocolLocation.setStudyGroupLocationDescription(beanLocation.getStudyGroupLocationDescription());
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * This method is to update individual study group records that are part of the grouped category.
-     * Here attributes linked to study group custom data are updated.
-     * @param beanCustomDataList
-     * @param iacucProtocolStudyGroups
-     */
-    private void updateExistingStudyGroupCustomData(List<IacucProtocolStudyCustomData> beanCustomDataList, List<IacucProtocolStudyGroup> iacucProtocolStudyGroups) {
-        for(IacucProtocolStudyCustomData beanCustomData : beanCustomDataList) {
-            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroups) {
-                for(IacucProtocolStudyCustomData protocolCustomData : iacucProtocolStudyGroup.getIacucProtocolStudyCustomDataList()) {
-                    if(protocolCustomData.getProcedureCustomAttributeId().equals(beanCustomData.getProcedureCustomAttributeId())) { 
-                        protocolCustomData.setValue(beanCustomData.getValue());
-                    }
-                }
-            }
-        }
-    }
-    
-    /**
-     * This method is to set study group reference
-     * @param newIacucProtocolStudyGroupLocation
-     * @param protocolStudyGroup
-     * @param protocol
-     */
-    private void updateAttributesForNewProcedureLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation, IacucProtocolStudyGroup protocolStudyGroup, 
-            IacucProtocol protocol) { 
-        newIacucProtocolStudyGroupLocation.setStudyGroupLocationId(getNextStudyGroupLocationId(protocolStudyGroup));
-        newIacucProtocolStudyGroupLocation.setIacucProtocolStudyGroupId(protocolStudyGroup.getIacucProtocolStudyGroupId());
-        newIacucProtocolStudyGroupLocation.setIacucProtocolStudyGroupLocationId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_LOCATION_SEQUENCE_ID));
-        newIacucProtocolStudyGroupLocation.setProtocolId(protocol.getProtocolId());
-        newIacucProtocolStudyGroupLocation.setProtocolNumber(protocol.getProtocolNumber());
-        newIacucProtocolStudyGroupLocation.setSequenceNumber(protocol.getSequenceNumber());
-    }
-
-    /**
-     * This method is to get the protocol study group for a given bean
-     * @param protocol
-     * @param selectedStudyGroupBean
-     * @return
-     */
-    private IacucProtocolStudyGroupBean getProtocolStudyGroup(IacucProtocol protocol, IacucProtocolStudyGroupBean selectedStudyGroupBean) {
-        List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroups = protocol.getIacucProtocolStudyGroups();
-        IacucProtocolStudyGroupBean selectedProtocolStudyGroup = null;
-        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroup : iacucProtocolStudyGroups) {
-            if(selectedStudyGroupBean.getProcedureCategoryCode().equals(iacucProtocolStudyGroup.getProcedureCategoryCode()) && 
-                    selectedStudyGroupBean.getProcedureCode().equals(iacucProtocolStudyGroup.getProcedureCode())) {
-                selectedProtocolStudyGroup = iacucProtocolStudyGroup;
-            }
-        }
-        return selectedProtocolStudyGroup;
     }
     
     /**
@@ -433,13 +155,12 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
                     iacucProtocolStudyGroupBean.setProtocolId(iacucProtocolStudyGroup.getProtocolId());
                     iacucProtocolStudyGroupBean.setProtocolNumber(iacucProtocolStudyGroup.getProtocolNumber());
                     iacucProtocolStudyGroupBean.setSequenceNumber(iacucProtocolStudyGroup.getSequenceNumber());
-                    iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans().addAll(iacucProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans());
+                    iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups().addAll(iacucProtocolStudyGroup.getIacucProtocolStudyGroups());
                     selectUsedProcedureCategory(allProcedures, iacucProtocolStudyGroup.getProcedureCode());
                     break;
                 }
             }
         }
-        syncStudyGroupAndBeans(iacucProtocolStudyGroupBeans);
     }
     
     /**
@@ -456,356 +177,11 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         }
     }
     
-    /**
-     * This method is to sync study groups beans and protocol study groups
-     * @param studyGroupBeans
-     */
-    private void syncStudyGroupAndBeans(List<IacucProtocolStudyGroupBean> studyGroupBeans) {
-        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : studyGroupBeans) {
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                syncPersonsResposible(studyGroupDetailBean);
-                syncStudyGroupLocation(studyGroupDetailBean);
-                syncStudyGroupCustomData(studyGroupDetailBean);
-            }
-        }
-    }
-    
-    
-    /**
-     * This method is to sync detail bean and study group persons responsible
-     * @param studyGroupDetailBean
-     */
-    private void syncPersonsResposible(IacucProtocolStudyGroupDetailBean studyGroupDetailBean) {
-        List<IacucProcedurePersonResponsible> protocolPersonsResponsible = getDistinctPersonsResponsibleForDetailBean(studyGroupDetailBean);
-        for(IacucProcedurePersonResponsible personResponsible : protocolPersonsResponsible) {
-            IacucProcedurePersonResponsible newPersonResponsible = getNewCopyOfPersonResponsible(personResponsible);
-            newPersonResponsible.setTrainings(getIacucPersonTrainingDetails(newPersonResponsible.getPersonId()));
-            studyGroupDetailBean.getIacucProcedurePersonsResponsible().add(newPersonResponsible);
-        }
-    }
-
-    /**
-     * This method is to sync detail bean and study group locations
-     * @param studyGroupDetailBean
-     */
-    private void syncStudyGroupLocation(IacucProtocolStudyGroupDetailBean studyGroupDetailBean) {
-        List<IacucProtocolStudyGroupLocation> protocolGroupLocations = getDistinctGroupLocationsForDetailBean(studyGroupDetailBean);
-        for(IacucProtocolStudyGroupLocation groupLocation : protocolGroupLocations) {
-            IacucProtocolStudyGroupLocation newStudyGroupLocation = (IacucProtocolStudyGroupLocation)ObjectUtils.deepCopy(groupLocation);
-            studyGroupDetailBean.getIacucProtocolStudyGroupLocations().add(newStudyGroupLocation);
-        }
-    }
-    
-    /**
-     * This method is to sync detail bean and study group custom data
-     * @param studyGroupDetailBean
-     */
-    private void syncStudyGroupCustomData(IacucProtocolStudyGroupDetailBean studyGroupDetailBean) {
-        List<IacucProtocolStudyCustomData> protocolStudyCustomDataList = getDistinctGroupCustomDataListForDetailBean(studyGroupDetailBean);
-        for(IacucProtocolStudyCustomData groupCustomData : protocolStudyCustomDataList) {
-            IacucProtocolStudyCustomData newIacucProtocolStudyCustomData = (IacucProtocolStudyCustomData)ObjectUtils.deepCopy(groupCustomData);
-            studyGroupDetailBean.getIacucProtocolStudyCustomDataList().add(newIacucProtocolStudyCustomData);
-        }
-    }
-
-    /**
-     * This method is to get a list of distinct list of persons responsible and
-     * add to the corresponding detail bean so that it gets populated correctly in the tab
-     * @param studyGroupDetailBean
-     * @return
-     */
-    private List<IacucProcedurePersonResponsible> getDistinctPersonsResponsibleForDetailBean(IacucProtocolStudyGroupDetailBean studyGroupDetailBean) {
-        Set<String> distinctPersonIds = new HashSet<String>();
-        List<IacucProcedurePersonResponsible> beanPersonsResponsible = new ArrayList<IacucProcedurePersonResponsible>();
-        for(IacucProtocolStudyGroup protocolStudyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-            for(IacucProcedurePersonResponsible personResponsible : protocolStudyGroup.getIacucProcedurePersonsResponsible()) {
-                if(!distinctPersonIds.contains(personResponsible.getPersonId())) {
-                    distinctPersonIds.add(personResponsible.getPersonId());
-                    beanPersonsResponsible.add(personResponsible);
-                }
-            }
-        }
-        return beanPersonsResponsible;
-    }
-    
-    /**
-     * This method is to get a list of distinct list of locations and
-     * add to the corresponding detail bean so that it gets populated correctly in the tab
-     * @param studyGroupDetailBean
-     * @return
-     */
-    private List<IacucProtocolStudyGroupLocation> getDistinctGroupLocationsForDetailBean(IacucProtocolStudyGroupDetailBean studyGroupDetailBean) {
-        Set<Integer> distinctLocationIndexes = new HashSet<Integer>();
-        List<IacucProtocolStudyGroupLocation> beanGroupLocations = new ArrayList<IacucProtocolStudyGroupLocation>();
-        for(IacucProtocolStudyGroup protocolStudyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-            for(IacucProtocolStudyGroupLocation groupLocation : protocolStudyGroup.getIacucProtocolStudyGroupLocations()) {
-                if(!distinctLocationIndexes.contains(groupLocation.getLocationGroupIndex())) {
-                    distinctLocationIndexes.add(groupLocation.getLocationGroupIndex());
-                    beanGroupLocations.add(groupLocation);
-                }
-            }
-        }
-        return beanGroupLocations;
-    }
-    
-    /**
-     * This method is to get a list of distinct list of custom data and
-     * add to the corresponding detail bean so that it gets populated correctly in the tab
-     * @param studyGroupDetailBean
-     * @return
-     */
-    private List<IacucProtocolStudyCustomData> getDistinctGroupCustomDataListForDetailBean(IacucProtocolStudyGroupDetailBean studyGroupDetailBean) {
-        Set<Integer> distinctCustomIds = new HashSet<Integer>();
-        List<IacucProtocolStudyCustomData> beanGroupCustomDataList = new ArrayList<IacucProtocolStudyCustomData>();
-        for(IacucProtocolStudyGroup protocolStudyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-            for(IacucProtocolStudyCustomData groupCustomData : protocolStudyGroup.getIacucProtocolStudyCustomDataList()) {
-                if(!distinctCustomIds.contains(groupCustomData.getProcedureCustomAttributeId())) {
-                    distinctCustomIds.add(groupCustomData.getProcedureCustomAttributeId());
-                    beanGroupCustomDataList.add(groupCustomData);
-                }
-            }
-        }
-        return beanGroupCustomDataList;
-    }
-    
-    /**
-     * This method is invoked 
-     * when responsible person is added under each group - section Persons Responsible
-     * @param protocolPersonsResponsible
-     * @param newIacucProcedurePersonResponsible
-     * @return
-     */
-    private List<IacucProcedurePersonResponsible> addNewPersonResponsible(List<String> protocolPersonsResponsible, 
-            IacucProcedurePersonResponsible newIacucProcedurePersonResponsible) {
-        List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible = addPersonsResponsible(protocolPersonsResponsible);
-        for(IacucProcedurePersonResponsible personResponsible : iacucProcedurePersonsResponsible) {
-            String description =  newIacucProcedurePersonResponsible.getPersonResponsibleDescription();
-            personResponsible.setPersonResponsibleDescription(description);
-        }
-        return iacucProcedurePersonsResponsible;
-    }
-    
-    /**
-     * This method is to update the bean detail collection
-     * update bean details - persons responsible
-     * Since user can select multiple person responsible, create new person responsible 
-     * for each detail
-     * add study group bean to the list
-     * @param iacucProcedurePersonsResponsible
-     * @param iacucProtocolStudyGroupBean
-     */
-    private void addPersonToDetailBean(List<IacucProtocolStudyGroupDetailBean> studyGroupDetailBeans, 
-            List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible, 
-            IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, IacucProtocol iacucProtocol) {
-        for(IacucProtocolStudyGroupDetailBean detailBean : studyGroupDetailBeans) {
-            addPersonToStudyGroupAndDetailBean(detailBean, iacucProcedurePersonsResponsible, selectedProtocolStudyGroupBean);
-        }
-    }
-
-    /**
-     * This method is to add new person to study group list and set it in the bean detail.
-     * @param detailBean
-     * @param iacucProcedurePersonsResponsible
-     */
-    private void addPersonToStudyGroupAndDetailBean(IacucProtocolStudyGroupDetailBean detailBean, 
-            List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible, 
-            IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean) {
-        detailBean.setNewIacucProcedurePersonResponsible(new IacucProcedurePersonResponsible());
-        for(IacucProcedurePersonResponsible personResponsible : iacucProcedurePersonsResponsible) {
-            IacucProcedurePersonResponsible newPersonResponsible = getNewCopyOfPersonResponsible(personResponsible);
-            detailBean.getIacucProcedurePersonsResponsible().add(newPersonResponsible);
-        }
-        addNewStudyGroupPersonResponsible(detailBean, iacucProcedurePersonsResponsible, selectedProtocolStudyGroupBean);
-    }
-    
-    /**
-     * This method is to add new responsible person information to study group collection.
-     * @param detailBean
-     * @param iacucProcedurePersonsResponsible
-     */
-    private void addNewStudyGroupPersonResponsible(IacucProtocolStudyGroupDetailBean detailBean, 
-            List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean) {
-        for(IacucProtocolStudyGroup protocolStudyGroup : detailBean.getIacucProtocolStudyGroups()) {
-            for(IacucProcedurePersonResponsible personResponsible : iacucProcedurePersonsResponsible) {
-                IacucProcedurePersonResponsible newPersonResponsible = getNewCopyOfPersonResponsible(personResponsible);
-                setAttributesForNewProcedurePersonResponsible(newPersonResponsible, protocolStudyGroup, selectedProtocolStudyGroupBean);
-                protocolStudyGroup.getIacucProcedurePersonsResponsible().add(newPersonResponsible);
-            }
-        }
-    }
-    
-    /**
-     * This method is to set values to reference attributes in person responsible entity
-     * Basically set all information required for a new record
-     * Also set the protocol references to record information in database.
-     * @param personResponsible
-     * @param studyGroup
-     */
-    private void setAttributesForNewProcedurePersonResponsible(IacucProcedurePersonResponsible personResponsible, 
-            IacucProtocolStudyGroup studyGroup, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean) {
-        personResponsible.setIacucProcedurePersonResponsibleId(getNextSequenceNumber(PROTOCOL_PERSON_RESPONSIBLE_SEQUENCE_ID));
-        personResponsible.setIacucProtocolStudyGroupId(studyGroup.getIacucProtocolStudyGroupId());
-        personResponsible.setProtocolNumber(selectedProtocolStudyGroupBean.getProtocolNumber());
-        personResponsible.setSequenceNumber(selectedProtocolStudyGroupBean.getSequenceNumber());
-        personResponsible.setProtocolId(selectedProtocolStudyGroupBean.getProtocolId());
-    }
-    
-    /**
-     * This method is to add person responsible to each study group.
-     * This method is invoked when user select group/species and responsible persons
-     * @param protocol
-     * @param protocolPersonsResponsible
-     * @return
-     */
-    private List<IacucProcedurePersonResponsible> addPersonsResponsible(List<String> protocolPersonsResponsible) {
-        List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible = new ArrayList<IacucProcedurePersonResponsible>();
-        for(String personKey : protocolPersonsResponsible) {
-            IacucProcedurePersonResponsible iacucProcedurePersonResponsible = new IacucProcedurePersonResponsible();
-            String personId = null;
-            String personName = null;
-            StringTokenizer personInfo = new StringTokenizer(personKey, Constants.IACUC_PROCEDURE_PERSON_RESPONSIBLE_DELIMITER); 
-            while(personInfo.hasMoreTokens()) { 
-                personId = personInfo.nextToken(); 
-                personName = personInfo.nextToken(); 
-            } 
-            iacucProcedurePersonResponsible.setPersonId(personId);
-            iacucProcedurePersonResponsible.setPersonName(personName);
-            iacucProcedurePersonResponsible.setTrainings(getIacucPersonTrainingDetails(personId));
-            iacucProcedurePersonsResponsible.add(iacucProcedurePersonResponsible);
-        }
-        return iacucProcedurePersonsResponsible;
-    }
     
     protected List<IacucPersonTraining> getIacucPersonTrainingDetails(String personId) {
         return getIacucProtocolPersonTrainingService().getIacucPersonTrainingDetails(personId);
     }
     
-    /**
-     * This method is to add protocol study group bean and format display values.
-     * Return a list of original study group detail beans
-     * @param protocol
-     * @param protocolSpeciesAndGroups
-     * @param iacucProtocolStudyGroupBean
-     * @return
-     */
-    private List<IacucProtocolStudyGroupDetailBean> addStudyGroupBeans(List<String> protocolSpeciesAndGroups, 
-            IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, IacucProtocol protocol) {
-        List<IacucProtocolStudyGroupDetailBean> updatedDetailBeans = new ArrayList<IacucProtocolStudyGroupDetailBean>();
-        HashMap<Integer, List<IacucProtocolStudyGroup>> studiesGroupedBySpecies = getNewProcedureStudyGroupedBySpecies(protocolSpeciesAndGroups);
-        for (Map.Entry<Integer, List<IacucProtocolStudyGroup>> entry : studiesGroupedBySpecies.entrySet()) {
-            Integer speciesCode = entry.getKey();
-            List<IacucProtocolStudyGroup> studyGroups = entry.getValue();
-            IacucProtocolStudyGroupDetailBean selectedDetailBean = null;
-            selectedDetailBean = addNewStudyGroupDetailBean(studyGroups, selectedProtocolStudyGroupBean, speciesCode, protocol);
-            updatedDetailBeans.add(selectedDetailBean);
-        }
-        return updatedDetailBeans;
-    }
-    
-    /**
-     * This method is to add a new study group detail bean
-     * Detail bean is grouped by species and all study groups linked to this group
-     * are stored here.
-     * @param studyGroups
-     * @param selectedProtocolStudyGroupBean
-     */
-    private IacucProtocolStudyGroupDetailBean addNewStudyGroupDetailBean(List<IacucProtocolStudyGroup> studyGroups, 
-            IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, Integer speciesCode, IacucProtocol protocol) {
-        IacucProtocolStudyGroupDetailBean newIacucProtocolStudyGroupDetailBean = new IacucProtocolStudyGroupDetailBean();
-        addIacucProtocolStudyGroups(selectedProtocolStudyGroupBean, studyGroups, newIacucProtocolStudyGroupDetailBean, 
-                speciesCode, protocol);
-        selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans().add(newIacucProtocolStudyGroupDetailBean);
-        return newIacucProtocolStudyGroupDetailBean;
-    }
-    
-    /**
-     * This method is to add protocol study group and update group detail bean for changes
-     * to protocol study groups
-     * @param studyGroups
-     * @param iacucProtocolStudyGroupDetailBean
-     * @param speciesCode
-     */
-    private void addIacucProtocolStudyGroups(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, List<IacucProtocolStudyGroup> studyGroups, 
-            IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean, Integer speciesCode, IacucProtocol protocol) {
-        Integer speciesCount = 0;
-        TreeSet<IacucPainCategory> painCategory = new TreeSet<IacucPainCategory>();
-        List<String> speciesAndGroups = new ArrayList<String>();
-        for(IacucProtocolStudyGroup iacucProtocolStudyGroup : studyGroups) {
-            IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
-            painCategory.add(protocolSpecies.getIacucPainCategory());
-            speciesCount = speciesCount + protocolSpecies.getSpeciesCount();
-            speciesAndGroups.add(protocolSpecies.getGroupAndSpecies());
-            iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups().add(iacucProtocolStudyGroup);
-        }
-        iacucProtocolStudyGroupDetailBean.setIacucProtocolStudyGroupDetailId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_DETAIL_SEQUENCE_ID));
-        iacucProtocolStudyGroupDetailBean.setIacucProtocolStudyGroupHeaderId(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
-        iacucProtocolStudyGroupDetailBean.setSpeciesCode(speciesCode);
-        iacucProtocolStudyGroupDetailBean.setMaxPainCategory(painCategory.last().getPainCategory());
-        iacucProtocolStudyGroupDetailBean.setMaxPainCategoryCode(painCategory.last().getPainCategoryCode());
-        iacucProtocolStudyGroupDetailBean.setMaxIacucPainCategory(painCategory.last());
-        iacucProtocolStudyGroupDetailBean.setSpeciesAndGroupsText(speciesAndGroups);
-        iacucProtocolStudyGroupDetailBean.setTotalSpeciesCount(speciesCount);
-        setAttributesForNewProtocolStudyGroups(studyGroups, iacucProtocolStudyGroupDetailBean, protocol);
-    }
-    
-    /**
-     * This method is to update the study group information found in the group bean.
-     * set all information required for existing record
-     * Also set the protocol references to record information in database.
-     * @param studyGroups
-     * @param studyGroupDetailBean
-     */
-    private void setAttributesForNewProtocolStudyGroups(List<IacucProtocolStudyGroup> studyGroups, 
-            IacucProtocolStudyGroupDetailBean studyGroupDetailBean, IacucProtocol protocol) {
-        for(IacucProtocolStudyGroup iacucProtocolStudyGroup : studyGroups) {
-            setAttributesForNewProtocolStudyGroup(iacucProtocolStudyGroup, studyGroupDetailBean, protocol);
-        }
-    }
-
-    private void setAttributesForNewProtocolStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup, 
-            IacucProtocolStudyGroupDetailBean studyGroupDetailBean, IacucProtocol protocol) {
-        iacucProtocolStudyGroup.setIacucProtocolStudyGroupId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_SEQUENCE_ID));
-        iacucProtocolStudyGroup.setIacucProtocolStudyGroupDetailId(studyGroupDetailBean.getIacucProtocolStudyGroupDetailId());
-        iacucProtocolStudyGroup.setStudyGroupId(getNextStudyGroupId(protocol));
-        iacucProtocolStudyGroup.setPainCategory(studyGroupDetailBean.getMaxPainCategory());
-        iacucProtocolStudyGroup.setPainCategoryCode(studyGroupDetailBean.getMaxPainCategoryCode());
-        iacucProtocolStudyGroup.setCount(studyGroupDetailBean.getTotalSpeciesCount());
-    }
-    
-    /**
-     * This method is to get the next study group location id.
-     * It is just a serial number generated based on the list of study group locations
-     * @param iacucProtocolStudyGroup
-     * @return
-     */
-    private Integer getNextStudyGroupLocationId(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
-        int totalStudyGroupLocs = iacucProtocolStudyGroup.getIacucProtocolStudyGroupLocations().size();
-        Integer nextStudyGroupLocationId = 1;
-        if(totalStudyGroupLocs > 0) {
-            List<IacucProtocolStudyGroupLocation> sortedStudyGroupLocations = getSortedStudyGroupLocations(iacucProtocolStudyGroup);
-            IacucProtocolStudyGroupLocation studyGroupLocation = sortedStudyGroupLocations.get(totalStudyGroupLocs - 1);
-            nextStudyGroupLocationId = studyGroupLocation.getStudyGroupLocationId() + 1;
-        }
-        return nextStudyGroupLocationId;
-    }
-    
-    /**
-     * This method is to get the next study group id.
-     * It is just a serial number generated based on the list of study groups
-     * @param protocol
-     * @return
-     */
-    private Integer getNextStudyGroupId(IacucProtocol protocol) {
-        int totalStudyGroups = getTotalStudyGroups(protocol);
-        Integer nextStudyGroupId = 1;
-        if(totalStudyGroups > 0) {
-            List<IacucProtocolStudyGroup> sortedStudyGroups = getSortedStudyGroups(protocol);
-            IacucProtocolStudyGroup studyGroup = sortedStudyGroups.get(totalStudyGroups - 1);
-            nextStudyGroupId = studyGroup.getStudyGroupId() + 1;
-        }
-        return nextStudyGroupId;
-    }
-
     /**
      * This method is to find total study groups available
      * @param protocol
@@ -814,98 +190,9 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     private int getTotalStudyGroups(IacucProtocol protocol) {
         int totalStudyGroups = 0;
         for(IacucProtocolStudyGroupBean studyGroupBean : protocol.getIacucProtocolStudyGroupBeans()) {
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                totalStudyGroups = totalStudyGroups + studyGroupDetailBean.getIacucProtocolStudyGroups().size();
-            }
+            totalStudyGroups = totalStudyGroups + studyGroupBean.getIacucProtocolStudyGroups().size();
         }
         return totalStudyGroups;
-    }
-    
-    /**
-     * This method is to get a sorted list of current study groups.
-     * @param protocol
-     * @return
-     */
-    private List<IacucProtocolStudyGroup> getSortedStudyGroups(IacucProtocol protocol) {
-        List<IacucProtocolStudyGroup> protocolStudyGroups = new ArrayList<IacucProtocolStudyGroup>();
-        for(IacucProtocolStudyGroupBean studyGroupBean : protocol.getIacucProtocolStudyGroupBeans()) {
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                for (IacucProtocolStudyGroup studyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    protocolStudyGroups.add((IacucProtocolStudyGroup) ObjectUtils.deepCopy(studyGroup));
-                }
-            }
-        }
-        Collections.sort(protocolStudyGroups, new Comparator<IacucProtocolStudyGroup>() {
-            public int compare(IacucProtocolStudyGroup group1, IacucProtocolStudyGroup group2) {
-                return group1.getStudyGroupId().compareTo(group2.getStudyGroupId());
-            }
-        });
-        return protocolStudyGroups;
-    }
-    
-    /**
-     * This method is to get a sorted list of current study group locations.
-     * @param iacucProtocolStudyGroup
-     * @return
-     */
-    private List<IacucProtocolStudyGroupLocation> getSortedStudyGroupLocations(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
-        List<IacucProtocolStudyGroupLocation> protocolStudyGroupLocations = new ArrayList<IacucProtocolStudyGroupLocation>();
-        for (IacucProtocolStudyGroupLocation studyGroupLocation : iacucProtocolStudyGroup.getIacucProtocolStudyGroupLocations()) {
-            protocolStudyGroupLocations.add((IacucProtocolStudyGroupLocation) ObjectUtils.deepCopy(studyGroupLocation));
-        }
-        Collections.sort(protocolStudyGroupLocations, new Comparator<IacucProtocolStudyGroupLocation>() {
-            public int compare(IacucProtocolStudyGroupLocation location1, IacucProtocolStudyGroupLocation location2) {
-                return location1.getStudyGroupLocationId().compareTo(location2.getStudyGroupLocationId());
-            }
-        });
-        return protocolStudyGroupLocations;
-    }
-    
-    /**
-     * This method is to build studies grouped by species.
-     * We have a list of protocol species and groups as defined in the protocol and we group them
-     * by species.
-     * @param protocolSpeciesAndGroups
-     * @return
-     */
-    private HashMap<Integer, List<IacucProtocolStudyGroup>> getNewProcedureStudyGroupedBySpecies(List<String> protocolSpeciesAndGroups) {
-        HashMap<Integer, List<IacucProtocolStudyGroup>> studiesGroupedBySpecies = new HashMap<Integer, List<IacucProtocolStudyGroup>>();
-        List<IacucProtocolStudyGroup> studyGroups = null;
-        for(String iacucProtocolSpeciesId : protocolSpeciesAndGroups) {
-            IacucProtocolStudyGroup iacucProtocolStudyGroup = new IacucProtocolStudyGroup();
-            iacucProtocolStudyGroup.setIacucProtocolSpeciesId(Integer.parseInt(iacucProtocolSpeciesId));
-            Integer speciesCode = getSpeciesCodeFromIacucProtocolSpecies(iacucProtocolStudyGroup);
-            studyGroups = studiesGroupedBySpecies.get(speciesCode) == null ? new ArrayList<IacucProtocolStudyGroup>() : studiesGroupedBySpecies.get(speciesCode);
-            studyGroups.add(iacucProtocolStudyGroup);
-            studiesGroupedBySpecies.put(speciesCode, studyGroups);
-        }
-        return studiesGroupedBySpecies;
-    }
-    
-    /**
-     * This method is to get species code from iacuc protocol species
-     * @param iacucProtocolStudyGroup
-     * @return
-     */
-    private Integer getSpeciesCodeFromIacucProtocolSpecies(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
-        iacucProtocolStudyGroup.refreshReferenceObject("iacucProtocolSpecies");
-        IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
-        protocolSpecies.refreshReferenceObject("iacucPainCategory");
-        protocolSpecies.refreshReferenceObject("iacucSpecies");
-        IacucSpecies iacucSpecies = protocolSpecies.getIacucSpecies();
-        return iacucSpecies.getSpeciesCode();
-    }
-    
-    /**
-     * This method is to set attribute values for new study group
-     * @param selectedIacucProtocolStudyGroupBean
-     * @param protocol
-     */
-    private void setAttributesForNewStudyGroupBean(IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean, IacucProtocol protocol) {
-        selectedIacucProtocolStudyGroupBean.setIacucProtocolStudyGroupHeaderId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_HEADER_SEQUENCE_ID));
-        selectedIacucProtocolStudyGroupBean.setProtocolId(protocol.getProtocolId());
-        selectedIacucProtocolStudyGroupBean.setProtocolNumber(protocol.getProtocolNumber());
-        selectedIacucProtocolStudyGroupBean.setSequenceNumber(protocol.getSequenceNumber());
     }
     
     /**
@@ -920,92 +207,9 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             IacucProtocolStudyGroupBean newIacucProtocolStudyGroupBean = new IacucProtocolStudyGroupBean();
             newIacucProtocolStudyGroupBean.setProcedureCategoryCode(iacucProcedure.getProcedureCategoryCode());
             newIacucProtocolStudyGroupBean.setProcedureCode(iacucProcedure.getProcedureCode());
-            newIacucProtocolStudyGroupBean.setProcedureDescription(iacucProcedure.getProcedureDescription());
-            newIacucProtocolStudyGroupBean.setProcedureCategory(iacucProcedure.getIacucProcedureCategory().getProcedureCategory());
             studyGroupBeans.add(newIacucProtocolStudyGroupBean);
         }
         return studyGroupBeans;
-    }
-    
- 
-    /**
-     * This method is to add procedure custom data in detail bean.
-     * Custom data attributes are added based on attributes configured for each procedure code.
-     * @param selectedIacucProtocolStudyGroupBean
-     * @param newStudyGroupDetailBeans
-     */
-    private void addProcedureCustomData(IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean, 
-            List<IacucProtocolStudyGroupDetailBean> newStudyGroupDetailBeans, IacucProtocol protocol) {
-        List<IacucProcedureCategoryCustomData> procedureCustomDataList = getIacucProcedureCustomData(selectedIacucProtocolStudyGroupBean.getProcedureCategoryCode());
-        for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : newStudyGroupDetailBeans) {
-            List<IacucProtocolStudyCustomData> protocolStudyCustomDataList = new ArrayList<IacucProtocolStudyCustomData>();
-            for(IacucProcedureCategoryCustomData procedureCategoryCustomData : procedureCustomDataList) {
-                if(procedureCategoryCustomData.isActive()) {
-                    IacucProtocolStudyCustomData newIacucProtocolStudyCustomData = new IacucProtocolStudyCustomData();
-                    newIacucProtocolStudyCustomData.setProcedureCustomAttributeId(procedureCategoryCustomData.getId());
-                    newIacucProtocolStudyCustomData.setIacucProcedureCategoryCustomData(procedureCategoryCustomData);
-                    protocolStudyCustomDataList.add(newIacucProtocolStudyCustomData);
-                }
-            }
-            for(IacucProtocolStudyCustomData iacucProtocolStudyCustomData : protocolStudyCustomDataList) {
-                if(!isCustomDataExists(iacucProtocolStudyCustomData, studyGroupDetailBean.getIacucProtocolStudyCustomDataList())) {
-                    studyGroupDetailBean.getIacucProtocolStudyCustomDataList().add(iacucProtocolStudyCustomData);
-                }
-            }
-            addProcedureCustomDataInProtocolStudyGroup(studyGroupDetailBean, protocolStudyCustomDataList, protocol);
-        }
-    }
-    
-    /**
-     * This method is to check if we have already added custom attributes to the group
-     * @param procedureCategoryCustomData
-     * @param studyGroupDetailBean
-     * @return
-     */
-    private boolean isCustomDataExists(IacucProtocolStudyCustomData newIacucProtocolStudyCustomData, 
-            List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList) {
-        boolean customDataExists = false;
-        for(IacucProtocolStudyCustomData iacucProtocolStudyCustomData : iacucProtocolStudyCustomDataList) {
-            if(iacucProtocolStudyCustomData.getProcedureCustomAttributeId().equals(newIacucProtocolStudyCustomData.getProcedureCustomAttributeId())) {
-                customDataExists = true;
-                break;
-            }
-        }
-        return customDataExists;
-    }
-
-    /**
-     * This method is to add procedure custom data in original protocol study group
-     * @param studyGroupDetailBean
-     * @param protocolStudyCustomDataList
-     * @param protocol
-     */
-    private void addProcedureCustomDataInProtocolStudyGroup(IacucProtocolStudyGroupDetailBean studyGroupDetailBean,
-            List<IacucProtocolStudyCustomData> protocolStudyCustomDataList, IacucProtocol protocol) {
-        for(IacucProtocolStudyGroup protocolStudyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-            for(IacucProtocolStudyCustomData studyGroupCustomData : protocolStudyCustomDataList) {
-                if(!isCustomDataExists(studyGroupCustomData, protocolStudyGroup.getIacucProtocolStudyCustomDataList())) {
-                    IacucProtocolStudyCustomData newIacucProtocolStudyCustomData = (IacucProtocolStudyCustomData)ObjectUtils.deepCopy(studyGroupCustomData);
-                    protocolStudyGroup.getIacucProtocolStudyCustomDataList().add(newIacucProtocolStudyCustomData);
-                    updateAttributesForNewProcedureCustomData(newIacucProtocolStudyCustomData, protocol, protocolStudyGroup);
-                }
-            }
-        }
-    }
-    
-    /**
-     * This method is to set reference attributes and primary key value for new custom data
-     * @param newIacucProtocolStudyCustomData
-     * @param protocol
-     * @param protocolStudyGroup
-     */
-    private void updateAttributesForNewProcedureCustomData(IacucProtocolStudyCustomData newIacucProtocolStudyCustomData, 
-            IacucProtocol protocol, IacucProtocolStudyGroup protocolStudyGroup) { 
-        newIacucProtocolStudyCustomData.setIacucProtocolStudyCustomDataId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_CUSTOM_DATA_SEQUENCE_ID));
-        newIacucProtocolStudyCustomData.setProtocolId(protocol.getProtocolId());
-        newIacucProtocolStudyCustomData.setProtocolNumber(protocol.getProtocolNumber());
-        newIacucProtocolStudyCustomData.setSequenceNumber(protocol.getSequenceNumber());
-        newIacucProtocolStudyCustomData.setIacucProtocolStudyGroupId(protocolStudyGroup.getIacucProtocolStudyGroupId());
     }
     
     /**
@@ -1035,60 +239,6 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         this.sequenceAccessorService = sequenceAccessorService;
     }
     
-    /**
-     * This method is to get a copy of person responsible
-     * @param personResponsible
-     * @return
-     */
-    private IacucProcedurePersonResponsible getNewCopyOfPersonResponsible(IacucProcedurePersonResponsible personResponsible) {
-        return (IacucProcedurePersonResponsible)ObjectUtils.deepCopy(personResponsible);
-    }
-
-    /**
-     * This method is to get a copy of study group bean
-     * @param protocolStudyGroupBean
-     * @return
-     */
-    private IacucProtocolStudyGroupBean getNewCopyOfStudyGroupBean(IacucProtocolStudyGroupBean protocolStudyGroupBean) {
-        return (IacucProtocolStudyGroupBean)ObjectUtils.deepCopy(protocolStudyGroupBean);
-    }
-    
-    /**
-     * This method is to get a copy of study group detail bean
-     * @param protocolStudyGroupDetailBean
-     * @return
-     */
-    private IacucProtocolStudyGroupDetailBean getNewCopyOfStudyGroupDetailBean(IacucProtocolStudyGroupDetailBean protocolStudyGroupDetailBean) {
-        return (IacucProtocolStudyGroupDetailBean)ObjectUtils.deepCopy(protocolStudyGroupDetailBean);
-    }
-
-    /**
-     * This method is to get a copy of study group location
-     * @param protocolStudyGroupLocation
-     * @return
-     */
-    private IacucProtocolStudyGroupLocation getNewCopyOfStudyGroupLocation(IacucProtocolStudyGroupLocation protocolStudyGroupLocation) {
-        return (IacucProtocolStudyGroupLocation)ObjectUtils.deepCopy(protocolStudyGroupLocation);
-    }
-    
-    /**
-     * This method is to get a copy of study group custom data
-     * @param protocolStudyCustomData
-     * @return
-     */
-    private IacucProtocolStudyCustomData getNewCopyOfStudyCustomData(IacucProtocolStudyCustomData protocolStudyCustomData) {
-        return (IacucProtocolStudyCustomData)ObjectUtils.deepCopy(protocolStudyCustomData);
-    }
-
-    /**
-     * This method is to get a copy of study group
-     * @param protocolStudyGroup
-     * @return
-     */
-    private IacucProtocolStudyGroup getNewCopyOfProtocolStudyGroup(IacucProtocolStudyGroup protocolStudyGroup) {
-        return (IacucProtocolStudyGroup)ObjectUtils.deepCopy(protocolStudyGroup);
-    }
-    
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -1113,4 +263,505 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         this.iacucProtocolSpeciesService = iacucProtocolSpeciesService;
     }
 
+    /**
+     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#addProtocolStudyGroup(org.kuali.kra.iacuc.IacucProtocolForm)
+     */
+    public void addProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, IacucProtocol iacucProtocol) {
+        boolean isNewCategoryBean = ObjectUtils.isNull(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
+        List<String> protocolSpeciesAndGroups =  selectedProtocolStudyGroupBean.getProtocolSpeciesAndGroups(); 
+        if(isNewCategoryBean) {
+            setAttributesForNewStudyGroupBean(selectedProtocolStudyGroupBean, iacucProtocol);
+            iacucProtocol.getIacucProtocolStudyGroups().add(selectedProtocolStudyGroupBean);
+        }
+        List<IacucProtocolStudyGroup> newStudyGroups = getNewProtocolStudyGroups(protocolSpeciesAndGroups, iacucProtocol);
+        addProcedureCustomData(selectedProtocolStudyGroupBean, newStudyGroups, iacucProtocol);
+        selectedProtocolStudyGroupBean.getIacucProtocolStudyGroups().addAll(newStudyGroups);
+        addNewResponsibleProceduresForAllProtocolPersons(iacucProtocol, selectedProtocolStudyGroupBean, newStudyGroups);
+        addNewResponsibleProceduresForAllProcedureLocations(iacucProtocol, selectedProtocolStudyGroupBean, newStudyGroups);
+    }
+    
+    
+    /**
+     * This method is to get a list of new protocol study groups.
+     * @param protocol
+     * @param protocolSpeciesAndGroups
+     * @param iacucProtocolStudyGroupBean
+     * @return a new set of protocol study groups based on selected group and species
+     */
+    private List<IacucProtocolStudyGroup> getNewProtocolStudyGroups(List<String> protocolSpeciesAndGroups, 
+            IacucProtocol protocol) {
+        List<IacucProtocolStudyGroup> protocolStudyGroups = new ArrayList<IacucProtocolStudyGroup>();
+        for(String iacucProtocolSpeciesId : protocolSpeciesAndGroups) {
+            IacucProtocolStudyGroup iacucProtocolStudyGroup = new IacucProtocolStudyGroup();
+            iacucProtocolStudyGroup.setIacucProtocolSpeciesId(Integer.parseInt(iacucProtocolSpeciesId));
+            iacucProtocolStudyGroup.setStudyGroupId(getNextStudyGroupId(protocol));
+            protocolStudyGroups.add(iacucProtocolStudyGroup);
+        }
+        return protocolStudyGroups;
+    }
+    
+    /**
+     * This method is to get the next study group id.
+     * It is just a serial number generated based on the list of study groups
+     * @param protocol
+     * @return
+     */
+    private Integer getNextStudyGroupId(IacucProtocol protocol) {
+        int totalStudyGroups = getTotalStudyGroups(protocol);
+        Integer nextStudyGroupId = 1;
+        if(totalStudyGroups > 0) {
+            List<IacucProtocolStudyGroup> sortedStudyGroups = getSortedStudyGroups(protocol);
+            IacucProtocolStudyGroup studyGroup = sortedStudyGroups.get(totalStudyGroups - 1);
+            nextStudyGroupId = studyGroup.getStudyGroupId() + 1;
+        }
+        return nextStudyGroupId;
+    }
+    
+    /**
+     * This method is to get a sorted list of current study groups.
+     * @param protocol
+     * @return
+     */
+    private List<IacucProtocolStudyGroup> getSortedStudyGroups(IacucProtocol protocol) {
+        List<IacucProtocolStudyGroup> protocolStudyGroups = new ArrayList<IacucProtocolStudyGroup>();
+        for(IacucProtocolStudyGroupBean studyGroupBean : protocol.getIacucProtocolStudyGroupBeans()) {
+            for (IacucProtocolStudyGroup studyGroup : studyGroupBean.getIacucProtocolStudyGroups()) {
+                protocolStudyGroups.add((IacucProtocolStudyGroup) ObjectUtils.deepCopy(studyGroup));
+            }
+        }
+        Collections.sort(protocolStudyGroups, new Comparator<IacucProtocolStudyGroup>() {
+            public int compare(IacucProtocolStudyGroup group1, IacucProtocolStudyGroup group2) {
+                return group1.getStudyGroupId().compareTo(group2.getStudyGroupId());
+            }
+        });
+        return protocolStudyGroups;
+    }
+    
+    /**
+     * This method is to add procedure custom data to each new study group.
+     * Custom data attributes are added based on attributes configured for each procedure code.
+     * @param selectedIacucProtocolStudyGroupBean
+     * @param newStudyGroups
+     */
+    private void addProcedureCustomData(IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean, 
+            List<IacucProtocolStudyGroup> newStudyGroups, IacucProtocol protocol) {
+        List<IacucProcedureCategoryCustomData> procedureCustomDataList = getIacucProcedureCustomData(selectedIacucProtocolStudyGroupBean.getProcedureCategoryCode());
+        for(IacucProtocolStudyGroup iacucProtocolStudyGroup : newStudyGroups) {
+            List<IacucProtocolStudyCustomData> protocolStudyCustomDataList = new ArrayList<IacucProtocolStudyCustomData>();
+            for(IacucProcedureCategoryCustomData procedureCategoryCustomData : procedureCustomDataList) {
+                if(procedureCategoryCustomData.isActive()) {
+                    IacucProtocolStudyCustomData newIacucProtocolStudyCustomData = new IacucProtocolStudyCustomData();
+                    newIacucProtocolStudyCustomData.setProcedureCustomAttributeId(procedureCategoryCustomData.getId());
+                    newIacucProtocolStudyCustomData.setIacucProcedureCategoryCustomData(procedureCategoryCustomData);
+                    updateAttributesForNewProcedureCustomData(newIacucProtocolStudyCustomData, protocol, iacucProtocolStudyGroup);
+                    protocolStudyCustomDataList.add(newIacucProtocolStudyCustomData);
+                }
+            }
+            iacucProtocolStudyGroup.getIacucProtocolStudyCustomDataList().addAll(protocolStudyCustomDataList);
+        }
+    }
+    
+    /**
+     * This method is to set reference attributes and primary key value for new custom data
+     * @param newIacucProtocolStudyCustomData
+     * @param protocol
+     * @param protocolStudyGroup
+     */
+    private void updateAttributesForNewProcedureCustomData(IacucProtocolStudyCustomData newIacucProtocolStudyCustomData, 
+            IacucProtocol protocol, IacucProtocolStudyGroup protocolStudyGroup) { 
+        newIacucProtocolStudyCustomData.setProtocolId(protocol.getProtocolId());
+        newIacucProtocolStudyCustomData.setProtocolNumber(protocol.getProtocolNumber());
+        newIacucProtocolStudyCustomData.setSequenceNumber(protocol.getSequenceNumber());
+    }
+    
+    /**
+     * This method is to set attribute values for new study group bean (header)
+     * @param selectedIacucProtocolStudyGroupBean
+     * @param protocol
+     */
+    private void setAttributesForNewStudyGroupBean(IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean, IacucProtocol protocol) {
+        selectedIacucProtocolStudyGroupBean.setIacucProtocolStudyGroupHeaderId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_HEADER_SEQUENCE_ID));
+        selectedIacucProtocolStudyGroupBean.setProtocolId(protocol.getProtocolId());
+        selectedIacucProtocolStudyGroupBean.setProtocolNumber(protocol.getProtocolNumber());
+        selectedIacucProtocolStudyGroupBean.setSequenceNumber(protocol.getSequenceNumber());
+    }
+    
+    /**
+     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProtocolStudyGroup(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean, org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean)
+     */
+    public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, 
+            IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, IacucProtocol iacucProtocol) {
+        // for delete study group
+    }
+    
+    /**
+     * This method is to add new procedure and corresponding details for each protocol person
+     * @param protocol
+     */
+    private void addNewResponsibleProceduresForAllProtocolPersons(IacucProtocol protocol, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean,
+            List<IacucProtocolStudyGroup> newStudyGroups) {
+        List<ProtocolPersonBase> protocolPersons = protocol.getProtocolPersons();
+        for(ProtocolPersonBase protocolPerson : protocolPersons) {
+            IacucProtocolPerson iacucProtocolPerson = (IacucProtocolPerson)protocolPerson;
+            addPersonResponsibleProcedures(iacucProtocolPerson, protocol, selectedProtocolStudyGroupBean, newStudyGroups);
+        }
+    }
+
+    /**
+     * This method is to add study group details for a protocol person
+     * Person procedure details are recorded based on species.
+     * We need to get distinct species from protocol species and set procedure
+     * details for each person 
+     * @param protocolPerson
+     * @param protocol
+     * @param selectedProtocolStudyGroupBean
+     * @param selectedStudyGroups
+     */
+    private void addPersonResponsibleProcedures(IacucProtocolPerson protocolPerson, IacucProtocol protocol, 
+            IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, List<IacucProtocolStudyGroup> selectedStudyGroups) {
+        HashMap<Integer, IacucProtocolStudyGroupSpecies> studyGroupSpeciesList = getProtocolStudyGroupSpeciesList(protocol);
+        HashMap<Integer, IacucProcedurePersonResponsible> personStudyProcedures = getPersonProcedureStudy(protocolPerson);
+        for(IacucProtocolStudyGroup protocolStudyGroup : selectedStudyGroups) {
+            Integer speciesCode = protocolStudyGroup.getIacucProtocolSpecies().getSpeciesCode();
+            IacucProtocolStudyGroupSpecies studyGroupSpecies = studyGroupSpeciesList.get(speciesCode);
+            if(ObjectUtils.isNull(studyGroupSpecies)) {
+                studyGroupSpecies = getNewProtocolStudyGroupSpecies(protocol, protocolStudyGroup.getIacucProtocolSpecies());
+                studyGroupSpeciesList.put(speciesCode, studyGroupSpecies);
+                protocol.getIacucProtocolStudyGroupSpeciesList().add(studyGroupSpecies);
+            }
+            IacucProcedurePersonResponsible newResposibleProcedure = personStudyProcedures.get(studyGroupSpecies.getIacucProtocolStudyGroupSpeciesId());
+            if(ObjectUtils.isNull(newResposibleProcedure)) {
+                newResposibleProcedure = getNewPersonResponsibleProcedure(protocolPerson, studyGroupSpecies, protocol);
+                protocolPerson.getProcedureDetails().add(newResposibleProcedure);
+                personStudyProcedures.put(studyGroupSpecies.getIacucProtocolStudyGroupSpeciesId(), newResposibleProcedure);
+            }
+            addPersonResponsibleProcedureDetails(selectedProtocolStudyGroupBean, newResposibleProcedure);
+        }
+    }
+    
+    /**
+     * This method is to get all procedure study (species and linked procedures)
+     * handled by a given person
+     * Map it with the distinct species code to identify whether details exists for that species
+     * @param iacucProtocolPerson
+     * @return
+     */
+    private HashMap<Integer, IacucProcedurePersonResponsible> getPersonProcedureStudy(IacucProtocolPerson iacucProtocolPerson) {
+        List<IacucProcedurePersonResponsible> personProcedures = iacucProtocolPerson.getProcedureDetails();
+        HashMap<Integer, IacucProcedurePersonResponsible> personStudyProcedures = new HashMap<Integer, IacucProcedurePersonResponsible>();
+        for(IacucProcedurePersonResponsible procedureResponsible : personProcedures) {
+            Integer iacucProtocolStudyGroupSpeciesId = procedureResponsible.getIacucProtocolStudyGroupSpeciesId();
+            personStudyProcedures.put(iacucProtocolStudyGroupSpeciesId, procedureResponsible);
+        }
+        return personStudyProcedures;
+    }
+    
+    /**
+     * This method is to get a new person responsible procedure information
+     * Person responsibility for a procedure is recorded based on species
+     * @param protocolPerson
+     * @param studyGroupSpecies
+     * @param protocol
+     * @return
+     */
+    private IacucProcedurePersonResponsible getNewPersonResponsibleProcedure(IacucProtocolPerson protocolPerson, 
+            IacucProtocolStudyGroupSpecies studyGroupSpecies, IacucProtocol protocol) {
+        IacucProcedurePersonResponsible resposibleProcedure = new IacucProcedurePersonResponsible();
+        resposibleProcedure.setProtocolPersonId(protocolPerson.getProtocolPersonId());
+        resposibleProcedure.setIacucProtocolStudyGroupSpeciesId(studyGroupSpecies.getIacucProtocolStudyGroupSpeciesId());
+        resposibleProcedure.setIacucProtocolStudyGroupSpecies(studyGroupSpecies);
+        resposibleProcedure.setProtocolNumber(protocol.getProtocolNumber());
+        resposibleProcedure.setSequenceNumber(protocol.getSequenceNumber());
+        return resposibleProcedure;
+    }
+    
+    /**
+     * This method is to add procedure details for recorded species.
+     * It has all procedures performed on a species.
+     * @param selectedProtocolStudyGroupBean
+     * @param newResposibleProcedure
+     */
+    private void addPersonResponsibleProcedureDetails(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean,
+            IacucProcedurePersonResponsible newResposibleProcedure) {
+        boolean isProcedureExists = isPersonResponsibleProcedureExists(selectedProtocolStudyGroupBean, newResposibleProcedure);
+        if(!isProcedureExists) {
+            IacucPersonProcedureDetail resposibleProcedureDetail = new IacucPersonProcedureDetail();
+            resposibleProcedureDetail.setIacucProtocolStudyGroupHeaderId(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
+            resposibleProcedureDetail.setIacucProtocolStudyGroupBean(selectedProtocolStudyGroupBean);
+            newResposibleProcedure.getResponsibleProcedures().add(resposibleProcedureDetail);
+        }
+    }
+    
+    /**
+     * This method is to check whether new procedure already exists.
+     * Procedures are linked to species
+     * @param selectedProtocolStudyGroupBean
+     * @param newResposibleProcedure
+     * @return
+     */
+    private boolean isPersonResponsibleProcedureExists(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, 
+            IacucProcedurePersonResponsible newResposibleProcedure) {
+        boolean isProcedureExists = false;
+        if(!newResposibleProcedure.getResponsibleProcedures().isEmpty()) {
+            for(IacucPersonProcedureDetail iacucPersonProcedureDetail : newResposibleProcedure.getResponsibleProcedures()) {
+                if(iacucPersonProcedureDetail.getIacucProtocolStudyGroupHeaderId().equals(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId())) {
+                    isProcedureExists = true;
+                    break;
+                }
+            }
+        }
+        return isProcedureExists;
+    }
+    
+    /**
+     * This method is to check whether new procedure already exists.
+     * Procedures are linked to species
+     * @param selectedProtocolStudyGroupBean
+     * @param newResposibleProcedure
+     * @return
+     */
+    private boolean isLocationResponsibleProcedureExists(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, 
+            IacucProcedureLocationDetail resposibleProcedure) {
+        boolean isProcedureExists = false;
+        if(!resposibleProcedure.getResponsibleProcedures().isEmpty()) {
+            for(IacucProtocolLocationProcedure iacucProtocolLocationProcedure : resposibleProcedure.getResponsibleProcedures()) {
+                if(iacucProtocolLocationProcedure.getIacucProtocolStudyGroupHeaderId().equals(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId())) {
+                    isProcedureExists = true;
+                    break;
+                }
+            }
+        }
+        return isProcedureExists;
+    }
+    
+    /**
+     * This method is to get a new protocol study group species
+     * @param protocol
+     * @param iacucProtocolSpecies
+     * @return
+     */
+    private IacucProtocolStudyGroupSpecies getNewProtocolStudyGroupSpecies(IacucProtocol protocol, IacucProtocolSpecies iacucProtocolSpecies) {
+        IacucProtocolStudyGroupSpecies newProtocolStudyGroupSpecies = new IacucProtocolStudyGroupSpecies();
+        newProtocolStudyGroupSpecies.setIacucProtocolStudyGroupSpeciesId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_LOCATION_SEQUENCE_ID));
+        newProtocolStudyGroupSpecies.setSpeciesCode(iacucProtocolSpecies.getSpeciesCode());
+        newProtocolStudyGroupSpecies.setProtocolId(protocol.getProtocolId());
+        newProtocolStudyGroupSpecies.setProtocolNumber(protocol.getProtocolNumber());
+        newProtocolStudyGroupSpecies.setSequenceNumber(protocol.getSequenceNumber());
+        protocol.getIacucProtocolStudyGroupSpeciesList().add(newProtocolStudyGroupSpecies);
+        return newProtocolStudyGroupSpecies;
+    }
+    
+    /**
+     * This method is to get a list of distinct species handled in this study
+     * @param protocol
+     * @param iacucProtocolSpecies
+     * @return
+     */
+    private HashMap<Integer, IacucProtocolStudyGroupSpecies> getProtocolStudyGroupSpeciesList(IacucProtocol protocol) {
+        HashMap<Integer, IacucProtocolStudyGroupSpecies> studyGroupSpecies = new HashMap<Integer, IacucProtocolStudyGroupSpecies>();
+        for(IacucProtocolStudyGroupSpecies protocolStudyGroupSpecies : protocol.getIacucProtocolStudyGroupSpeciesList()) {
+            Integer speciesCode = protocolStudyGroupSpecies.getSpeciesCode();
+            studyGroupSpecies.put(speciesCode, protocolStudyGroupSpecies);
+        }
+        return studyGroupSpecies;
+    }
+    
+    /**
+     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#addProcedureLocation(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation, org.kuali.kra.iacuc.IacucProtocol)
+     */
+    public void addProcedureLocation(IacucProtocolStudyGroupLocation newStudyGroupLocation, IacucProtocol protocol) {
+        updateAttributesForNewProcedureLocation(newStudyGroupLocation, protocol);
+        HashMap<Integer, IacucProtocolStudyGroupSpecies> studyGroupSpeciesList = getProtocolStudyGroupSpeciesList(protocol);
+        HashMap<Integer, IacucProcedureLocationDetail> speciesAndProcedureLocations = new HashMap<Integer, IacucProcedureLocationDetail>();
+        addLocationProcedureDetails(speciesAndProcedureLocations, protocol, newStudyGroupLocation, studyGroupSpeciesList);
+        protocol.getIacucProtocolStudyGroupLocations().add(newStudyGroupLocation);
+    }
+    
+    /**
+     * This method is to add procedure details to a specific location.
+     * We need to maintain distinct species linked to multiple procedures
+     * @param speciesAndProcedureLocations
+     * @param protocol
+     * @param newStudyGroupLocation
+     */
+    private void addLocationProcedureDetails(HashMap<Integer, IacucProcedureLocationDetail> speciesAndProcedureLocations, IacucProtocol protocol, 
+            IacucProtocolStudyGroupLocation studyGroupLocation, HashMap<Integer, IacucProtocolStudyGroupSpecies> studyGroupSpeciesList) {
+        List<IacucProtocolStudyGroupBean> studyGroupBeans = protocol.getIacucProtocolStudyGroupBeans();
+        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : studyGroupBeans) {
+            for(IacucProtocolStudyGroup protocolStudyGroup : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups()) {
+                Integer speciesCode = protocolStudyGroup.getIacucProtocolSpecies().getSpeciesCode();
+                IacucProtocolStudyGroupSpecies studyGroupSpecies = studyGroupSpeciesList.get(speciesCode);
+                IacucProcedureLocationDetail resposibleProcedure = speciesAndProcedureLocations.get(studyGroupSpecies.getIacucProtocolStudyGroupSpeciesId());
+                if(ObjectUtils.isNull(resposibleProcedure)) {
+                    resposibleProcedure = new IacucProcedureLocationDetail();
+                    resposibleProcedure.setIacucProtocolStudyGroupSpeciesId(studyGroupSpecies.getIacucProtocolStudyGroupSpeciesId());
+                    resposibleProcedure.setIacucProtocolStudyGroupSpecies(studyGroupSpecies);
+                    speciesAndProcedureLocations.put(studyGroupSpecies.getIacucProtocolStudyGroupSpeciesId(), resposibleProcedure);
+                    studyGroupLocation.getProcedureDetails().add(resposibleProcedure);
+                }
+                addLocationProcedures(iacucProtocolStudyGroupBean, resposibleProcedure);
+            }
+        }
+    }
+    
+    /**
+     * This method is to add procedures handled at a specific location
+     * @param iacucProtocolStudyGroupBean
+     * @param resposibleProcedure
+     */
+    private void addLocationProcedures(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean, IacucProcedureLocationDetail resposibleProcedure) {
+        boolean isProcedureExists = isLocationResponsibleProcedureExists(iacucProtocolStudyGroupBean, resposibleProcedure);
+        if(!isProcedureExists) {
+            IacucProtocolLocationProcedure locationProcedure = new IacucProtocolLocationProcedure();
+            locationProcedure.setIacucProtocolStudyGroupHeaderId(iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
+            locationProcedure.setIacucProtocolStudyGroupBean(iacucProtocolStudyGroupBean);
+            resposibleProcedure.getResponsibleProcedures().add(locationProcedure);
+        }
+    }
+ 
+
+    /**
+     * This method is to set study group reference
+     * @param newIacucProtocolStudyGroupLocation
+     * @param protocolStudyGroup
+     * @param protocol
+     */
+    private void updateAttributesForNewProcedureLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation, 
+            IacucProtocol protocol) { 
+        newIacucProtocolStudyGroupLocation.setStudyGroupLocationId(getNextStudyGroupLocationId(protocol));
+        newIacucProtocolStudyGroupLocation.setIacucProtocolStudyGroupLocationId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_LOCATION_SEQUENCE_ID));
+        newIacucProtocolStudyGroupLocation.setProtocolId(protocol.getProtocolId());
+        newIacucProtocolStudyGroupLocation.setProtocolNumber(protocol.getProtocolNumber());
+        newIacucProtocolStudyGroupLocation.setSequenceNumber(protocol.getSequenceNumber());
+    }
+ 
+    /**
+     * This method is to get the next study group location id.
+     * It is just a serial number generated based on the list of study group locations
+     * @param iacucProtocol
+     * @return
+     */
+    private Integer getNextStudyGroupLocationId(IacucProtocol iacucProtocol) {
+        int totalStudyGroupLocs = iacucProtocol.getIacucProtocolStudyGroupLocations().size();
+        Integer nextStudyGroupLocationId = totalStudyGroupLocs + 1;
+        return nextStudyGroupLocationId;
+    }
+ 
+    /**
+     * This method is to add new procedure and corresponding details for each protocol person
+     * @param protocol
+     */
+    private void addNewResponsibleProceduresForAllProcedureLocations(IacucProtocol protocol, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean,
+            List<IacucProtocolStudyGroup> newStudyGroups) {
+        List<IacucProtocolStudyGroupLocation> procedureLocations = protocol.getIacucProtocolStudyGroupLocations();
+        HashMap<Integer, IacucProtocolStudyGroupSpecies> studyGroupSpeciesList = getProtocolStudyGroupSpeciesList(protocol);
+        for(IacucProtocolStudyGroupLocation procedureLocation : procedureLocations) {
+            HashMap<Integer, IacucProcedureLocationDetail> speciesAndProcedureLocations = getLocationProcedureStudy(procedureLocation);
+            addLocationProcedureDetails(speciesAndProcedureLocations, protocol, procedureLocation, studyGroupSpeciesList);
+        }
+    }
+ 
+    /**
+     * This method is to get all procedure study (species and linked procedures) 
+     * handled at a specific location
+     * @param procedureLocation
+     * @return
+     */
+    private HashMap<Integer, IacucProcedureLocationDetail> getLocationProcedureStudy(IacucProtocolStudyGroupLocation procedureLocation) {
+        List<IacucProcedureLocationDetail> locationProcedures = procedureLocation.getProcedureDetails();
+        HashMap<Integer, IacucProcedureLocationDetail> locationStudyProcedures = new HashMap<Integer, IacucProcedureLocationDetail>();
+        for(IacucProcedureLocationDetail procedureResponsible : locationProcedures) {
+            Integer iacucProtocolStudyGroupSpeciesId = procedureResponsible.getIacucProtocolStudyGroupSpeciesId();
+            locationStudyProcedures.put(iacucProtocolStudyGroupSpeciesId, procedureResponsible);
+        }
+        return locationStudyProcedures;
+    }
+    
+    /**
+     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#setProcedureSummaryGroupedBySpecies(org.kuali.kra.iacuc.IacucProtocol)
+     */
+    public void setProcedureSummaryGroupedBySpecies(IacucProtocol protocol) {
+        for(IacucProtocolStudyGroupSpecies protocolStudyGroupSpecies : protocol.getIacucProtocolStudyGroupSpeciesList()) {
+            protocolStudyGroupSpecies.setProtocolStudyProcedures(new ArrayList<IacucProtocolStudyGroupBean>());
+            Integer speciesCode = protocolStudyGroupSpecies.getSpeciesCode();
+            for(IacucProtocolStudyGroupBean protocolStudyGroupBean : protocol.getIacucProtocolStudyGroups()) {
+                for(IacucProtocolStudyGroup iacucProtocolStudyGroup : protocolStudyGroupBean.getIacucProtocolStudyGroups()) {
+                    if(iacucProtocolStudyGroup.getIacucProtocolSpecies().getSpeciesCode().equals(speciesCode)) {
+                        protocolStudyGroupSpecies.getProtocolStudyProcedures().add(protocolStudyGroupBean);
+                    }
+                }
+            }
+        }
+        for(IacucProtocolStudyGroupBean protocolStudyGroupBean : protocol.getIacucProtocolStudyGroups()) {
+            protocolStudyGroupBean.setIacucProtocolStudyGroupPersons(getAllStudyGroupPersonsForProcedure(protocol, protocolStudyGroupBean));
+            protocolStudyGroupBean.setIacucProtocolStudyGroupLocations(getAllStudyGroupLocationsForProcedure(protocol, protocolStudyGroupBean));
+            protocolStudyGroupBean.setIacucProtocolStudyCustomDataList(getAllStudyGroupCustomDataForProcedure(protocol, protocolStudyGroupBean));
+        }
+    }
+   
+    /**
+     * This method is to get person study group details based on a procedure
+     * @param protocol
+     * @param protocolStudyGroupBean
+     * @return
+     */
+    private List<IacucProcedurePersonResponsible> getAllStudyGroupPersonsForProcedure(IacucProtocol protocol, IacucProtocolStudyGroupBean protocolStudyGroupBean) {
+        List<IacucProcedurePersonResponsible> iacucProtocolStudyGroupPersons = new ArrayList<IacucProcedurePersonResponsible>(); 
+        for(ProtocolPersonBase protocolPersonBase : protocol.getProtocolPersons()) {
+            IacucProtocolPerson iacucProtocolPerson = (IacucProtocolPerson)protocolPersonBase;
+            for(IacucProcedurePersonResponsible personResponsibleProcedure : iacucProtocolPerson.getProcedureDetails()) {
+                for(IacucPersonProcedureDetail responsibleProcedure : personResponsibleProcedure.getResponsibleProcedures()) {
+                    if(responsibleProcedure.getIacucProtocolStudyGroupHeaderId().equals(protocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId()) &&
+                            responsibleProcedure.isStudyProcedureActive()) {
+                        iacucProtocolStudyGroupPersons.add(personResponsibleProcedure);
+                        break;
+                    }
+                }
+                
+            }
+        }
+        return iacucProtocolStudyGroupPersons;
+    }
+
+    /**
+     * This method is to get location study group based on a procedure
+     * @param protocol
+     * @param protocolStudyGroupBean
+     * @return
+     */
+    private List<IacucProtocolStudyGroupLocation> getAllStudyGroupLocationsForProcedure(IacucProtocol protocol, IacucProtocolStudyGroupBean protocolStudyGroupBean) {
+        List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations = new ArrayList<IacucProtocolStudyGroupLocation>(); 
+        for(IacucProtocolStudyGroupLocation iacucProtocolStudyGroupLocation : protocol.getIacucProtocolStudyGroupLocations()) {
+            for(IacucProcedureLocationDetail locationResponsibleProcedure : iacucProtocolStudyGroupLocation.getProcedureDetails()) {
+                for(IacucProtocolLocationProcedure responsibleProcedure : locationResponsibleProcedure.getResponsibleProcedures()) {
+                    if(responsibleProcedure.getIacucProtocolStudyGroupHeaderId().equals(protocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId()) &&
+                            responsibleProcedure.isStudyProcedureActive()) {
+                        iacucProtocolStudyGroupLocations.add(iacucProtocolStudyGroupLocation);
+                        break;
+                    }
+                }
+                
+            }
+        }
+        return iacucProtocolStudyGroupLocations;
+    }
+
+    /**
+     * This method is to get custom data study group based on a procedure
+     * @param protocol
+     * @param protocolStudyGroupBean
+     * @return
+     */
+    private List<IacucProtocolStudyCustomData> getAllStudyGroupCustomDataForProcedure(IacucProtocol protocol, IacucProtocolStudyGroupBean protocolStudyGroupBean) {
+        List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList = new ArrayList<IacucProtocolStudyCustomData>(); 
+        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : protocol.getIacucProtocolStudyGroups()) {
+            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups()) {
+                if(iacucProtocolStudyGroup.getIacucProtocolStudyGroupHeaderId().equals(protocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId())) {
+                    iacucProtocolStudyCustomDataList.addAll(iacucProtocolStudyGroup.getIacucProtocolStudyCustomDataList());
+                }
+            }
+        }
+        return iacucProtocolStudyCustomDataList;
+    }
+    
 }

@@ -15,6 +15,14 @@
  */
 package org.kuali.kra.iacuc;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.bo.KcNotification;
@@ -29,13 +37,23 @@ import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentFilter;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
-import org.kuali.kra.iacuc.procedures.*;
+import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupSpecies;
 import org.kuali.kra.iacuc.protocol.IacucProtocolProjectType;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
-import org.kuali.kra.iacuc.summary.*;
+import org.kuali.kra.iacuc.summary.IacucAlternateSearchSummary;
+import org.kuali.kra.iacuc.summary.IacucProcedureSummary;
+import org.kuali.kra.iacuc.summary.IacucProtocolExceptionSummary;
+import org.kuali.kra.iacuc.summary.IacucProtocolSpeciesSummary;
+import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
+import org.kuali.kra.iacuc.summary.IacucThreeRsSummary;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
@@ -56,9 +74,6 @@ import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.sql.Timestamp;
-import java.util.*;
 
 /**
  * 
@@ -97,7 +112,11 @@ public class IacucProtocol extends ProtocolBase {
 
     private List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroups;
     private List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans;
+    private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
+    private List<IacucProtocolStudyGroupSpecies> iacucProtocolStudyGroupSpeciesList;
     
+    
+        
     // lookup field
     private Integer speciesCode; 
     private Integer exceptionCategoryCode; 
@@ -122,7 +141,8 @@ public class IacucProtocol extends ProtocolBase {
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
         setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroupBean>());
         setIacucProtocolStudyGroupBeans(new ArrayList<IacucProtocolStudyGroupBean>());
-        
+        setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
+        setIacucProtocolStudyGroupSpeciesList(new ArrayList<IacucProtocolStudyGroupSpecies>());
         initIacucPrinciples();
     } 
     
@@ -135,19 +155,7 @@ public class IacucProtocol extends ProtocolBase {
         managedLists.add(getIacucAlternateSearches());
 
         List<IacucProtocolStudyGroupDetailBean> studyGroupDetails = new ArrayList<IacucProtocolStudyGroupDetailBean>();
-        List<IacucProtocolStudyGroupLocation> studyGroupLocations = new ArrayList<IacucProtocolStudyGroupLocation>();
-        List<IacucProcedurePersonResponsible> personsResponsible = new ArrayList<IacucProcedurePersonResponsible>();
-        for(IacucProtocolStudyGroupBean studyGroupBean : getIacucProtocolStudyGroups()) {
-            studyGroupDetails.addAll(studyGroupBean.getIacucProtocolStudyGroupDetailBeans());
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                for (IacucProtocolStudyGroup studyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    studyGroupLocations.addAll(studyGroup.getIacucProtocolStudyGroupLocations());
-                    personsResponsible.addAll(studyGroup.getIacucProcedurePersonsResponsible());
-                }
-            }
-        }
-        managedLists.add(studyGroupLocations);
-        managedLists.add(personsResponsible);
+        managedLists.add(getIacucProtocolStudyGroupLocations());
         managedLists.add(studyGroupDetails);
         managedLists.add(getIacucProtocolStudyGroups());
         managedLists.add(getIacucProtocolExceptions());
@@ -514,14 +522,11 @@ public class IacucProtocol extends ProtocolBase {
 
     protected void addProceduresSummaries(IacucProtocolSummary protocolSummary) {
         protocolSummary.setProcedureOverviewSummary(overviewTimeline);
-        
         for(IacucProtocolStudyGroupBean studyGroupBean : getIacucProtocolStudyGroups()) {
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                for (IacucProtocolStudyGroup studyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    IacucProcedureSummary newSummary = new IacucProcedureSummary(studyGroup, studyGroupBean.getIacucProcedureCategory(),
-                            studyGroupBean.getIacucProcedure());
-                    protocolSummary.getProcedureSummaries().add(newSummary);
-                }
+            for (IacucProtocolStudyGroup studyGroup : studyGroupBean.getIacucProtocolStudyGroups()) {
+                IacucProcedureSummary newSummary = new IacucProcedureSummary(studyGroup, studyGroupBean.getIacucProcedureCategory(),
+                        studyGroupBean.getIacucProcedure());
+                protocolSummary.getProcedureSummaries().add(newSummary);
             }
         }
     }
@@ -732,7 +737,6 @@ public class IacucProtocol extends ProtocolBase {
     @Override
     protected void prePersist() {
         super.prePersist();
-        getProtocolProcedureService().setIacucProtocolStudyGroupReferences(this);
     }
 
     protected IacucProtocolProcedureService getProtocolProcedureService() {
@@ -756,6 +760,22 @@ public class IacucProtocol extends ProtocolBase {
     @Override
     protected Class<? extends ProtocolAttachmentProtocolBase> getProtocolAttachmentProtocolClassHook() {
         return IacucProtocolAttachmentProtocol.class;
+    }
+
+    public List<IacucProtocolStudyGroupLocation> getIacucProtocolStudyGroupLocations() {
+        return iacucProtocolStudyGroupLocations;
+    }
+
+    public void setIacucProtocolStudyGroupLocations(List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations) {
+        this.iacucProtocolStudyGroupLocations = iacucProtocolStudyGroupLocations;
+    }
+
+    public List<IacucProtocolStudyGroupSpecies> getIacucProtocolStudyGroupSpeciesList() {
+        return iacucProtocolStudyGroupSpeciesList;
+    }
+
+    public void setIacucProtocolStudyGroupSpeciesList(List<IacucProtocolStudyGroupSpecies> iacucProtocolStudyGroupSpeciesList) {
+        this.iacucProtocolStudyGroupSpeciesList = iacucProtocolStudyGroupSpeciesList;
     }
 
 }

@@ -112,7 +112,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         ProtocolDocumentBase protocolDocument = protocolForm.getProtocolDocument();
 
-        boolean rulePassed =  applyRules(new DeleteIacucProtocolPersonnelEvent(Constants.EMPTY_STRING, (IacucProtocolDocument)protocolDocument)); 
+        boolean rulePassed =  true; 
 
         if(rulePassed) {
             getProtocolPersonnelService().deleteProtocolPerson(protocolDocument.getProtocol());

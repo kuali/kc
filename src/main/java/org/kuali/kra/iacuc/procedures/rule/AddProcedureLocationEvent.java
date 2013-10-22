@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.procedures.rule;
 
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
@@ -25,16 +25,13 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
  */
 public class AddProcedureLocationEvent extends KraDocumentEventBaseExtension {
 
-    private IacucProtocolStudyGroupDetailBean procedureDetailBean;
-    private Integer procedureBeanIndex;
-    private Integer procedureDetailBeanIndex;
+    private IacucProtocolStudyGroupLocation iacucProtocolStudyGroupLocation;
+    private IacucProtocolDocument iacucProtocolDocument;
     
-    public AddProcedureLocationEvent(IacucProtocolDocument document, IacucProtocolStudyGroupDetailBean procedureDetailBean, 
-            Integer procedureBeanIndex, Integer procedureDetailBeanIndex) {
+    public AddProcedureLocationEvent(IacucProtocolDocument document, IacucProtocolStudyGroupLocation iacucProtocolStudyGroupLocation) { 
         super("Add Procedure Location", "", document);
-        this.procedureDetailBean = procedureDetailBean;
-        this.procedureBeanIndex = procedureBeanIndex;
-        this.procedureDetailBeanIndex = procedureDetailBeanIndex;
+        this.iacucProtocolStudyGroupLocation = iacucProtocolStudyGroupLocation;
+        this.iacucProtocolDocument = document;
     }
 
     @SuppressWarnings("rawtypes")
@@ -43,28 +40,21 @@ public class AddProcedureLocationEvent extends KraDocumentEventBaseExtension {
         return new AddProcedureLocationRule();
     }
 
-    public IacucProtocolStudyGroupDetailBean getProcedureDetailBean() {
-        return procedureDetailBean;
+    public IacucProtocolStudyGroupLocation getIacucProtocolStudyGroupLocation() {
+        return iacucProtocolStudyGroupLocation;
     }
 
-    public void setProcedureDetailBean(IacucProtocolStudyGroupDetailBean procedureDetailBean) {
-        this.procedureDetailBean = procedureDetailBean;
+    public void setIacucProtocolStudyGroupLocation(IacucProtocolStudyGroupLocation iacucProtocolStudyGroupLocation) {
+        this.iacucProtocolStudyGroupLocation = iacucProtocolStudyGroupLocation;
     }
 
-    public Integer getProcedureDetailBeanIndex() {
-        return procedureDetailBeanIndex;
+    public IacucProtocolDocument getIacucProtocolDocument() {
+        return iacucProtocolDocument;
     }
 
-    public void setProcedureDetailBeanIndex(Integer procedureDetailBeanIndex) {
-        this.procedureDetailBeanIndex = procedureDetailBeanIndex;
+    public void setIacucProtocolDocument(IacucProtocolDocument iacucProtocolDocument) {
+        this.iacucProtocolDocument = iacucProtocolDocument;
     }
 
-    public Integer getProcedureBeanIndex() {
-        return procedureBeanIndex;
-    }
-
-    public void setProcedureBeanIndex(Integer procedureBeanIndex) {
-        this.procedureBeanIndex = procedureBeanIndex;
-    }
 
 }
