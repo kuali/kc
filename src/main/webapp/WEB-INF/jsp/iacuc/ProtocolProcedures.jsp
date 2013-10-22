@@ -15,14 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<script type="text/javascript">
-   var $j = jQuery.noConflict();
-   $j(document).ready(function() {
-	   populateSelect('getIacucProcedureLocationNames', 'locationTypeCode', 'locationId');
-   });
-</script>
-
-
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="iacucProtocolProcedures"
@@ -37,20 +29,10 @@
   	
 	<div id="workarea">
 		<kra-iacuc:protocolProcedureOverviewAndTimeline businessObjectClassName="org.kuali.kra.iacuc.IacucProtocol"/>
-		<kul:panelFooter />
+		<kra-iacuc:iacucProtocolProcedures/>
+		<kul:panelFooter/>
 	</div>
 
-
-	<script type="text/javascript">
-	   var $j = jQuery.noConflict();
-	</script>
-	
-	<SCRIPT type="text/javascript">
-	var kualiForm = document.forms['KualiForm'];
-	var kualiElements = kualiForm.elements;
-	</SCRIPT>
 	<script language="javascript" src="scripts/kuali_application.js"></script>
-	<!--   <script language="javascript" src="dwr/interface/UnitService.js"></script> -->
-
 	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" />
 </kul:documentPage>

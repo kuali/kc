@@ -99,31 +99,6 @@ public interface IacucProtocolProcedureService {
             IacucProtocolStudyGroupLocation selectedStudyGroupLocation, IacucProtocol iacucProtocol);
     
     /**
-     * This method is to update original iacuc protocol study group records
-     * based on grouped beans
-     * @param protocol
-     */
-    public void updateIacucProtocolStudyGroup(IacucProtocol protocol);
-    
-    /**
-     * This method is to set references for protocol study group
-     * @param protocol
-     */
-    public void setIacucProtocolStudyGroupReferences(IacucProtocol protocol);
-    
-    
-    /**
-     * This method is to add location to study group
-     * Since it is grouped, we have to add the same location to list of locations
-     * under each study group linked to the study group detail bean (this is where it is grouped)
-     * @param newIacucProtocolStudyGroupLocation
-     * @param selectedProcedureDetailBean
-     * @param protocol
-     */
-    public void addProcedureLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation, IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, 
-            IacucProtocol protocol);
-
-    /**
      * This method is to create a new set of study groups based on existing list
      * This method is invoked during copy protocol so that we a new instance of the study group is created
      * and all its corresponding collections are set with appropriate reference.
@@ -143,5 +118,19 @@ public interface IacucProtocolProcedureService {
      * @param protocol
      */
     public void resetProcedurePanel(IacucProtocol protocol);
+
     
+    /**
+     * This method is to add a new location to study group
+     * @param newStudyGroupLocation
+     * @param protocol
+     */
+    public void addProcedureLocation(IacucProtocolStudyGroupLocation newStudyGroupLocation, IacucProtocol protocol);
+    
+    /**
+     * This method is to set procedure summary tab details
+     * @param protocol
+     */
+    public void setProcedureSummaryGroupedBySpecies(IacucProtocol protocol);
+
 }

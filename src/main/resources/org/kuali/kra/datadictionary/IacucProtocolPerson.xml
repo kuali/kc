@@ -106,7 +106,7 @@
         		<ref bean="IacucProtocolPerson-county" />
         		<ref bean="IacucProtocolPerson-state" />
         		<ref bean="IacucProtocolPerson-countryOfCitizenship" />
-        		
+        		<ref bean="IacucProtocolPerson-procedureQualificationDescription" />
 			</list>
 		</property>
 	</bean>
@@ -554,6 +554,28 @@
   <bean id="IacucProtocolPerson-countryOfCitizenship-parentBean" abstract="true" parent="KraAttributeReferenceDummy-countryCode">
     <property name="name" value="countryOfCitizenship" />
   </bean>
+
+
+	<bean id="IacucProtocolPerson-procedureQualificationDescription" parent="IacucProtocolPerson-procedureQualificationDescription-parentBean" />
+	<bean id="IacucProtocolPerson-procedureQualificationDescription-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="procedureQualificationDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Qualifications" />
+		<property name="shortLabel" value="Qualifications" />
+		<property name="maxLength" value="2000" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+    	<property name="required" value="false" />
+		<property name="control" >
+      		<bean parent="TextareaControlDefinition"
+            	p:rows="5"
+            	p:cols="120" />
+		</property>
+		<property name="summary" value="Qualification Description" />
+		<property name="description" value="Qualification Description" />
+	</bean>
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="IacucProtocolPerson-inquiryDefinition" parent="IacucProtocolPerson-inquiryDefinition-parentBean" />
