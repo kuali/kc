@@ -21,12 +21,17 @@ import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 public class PendingTransactionComparator implements Comparator<PendingTransaction> {
 
     public int compare(PendingTransaction arg0, PendingTransaction arg1) {
-        if (arg0.getTransactionId() != null && arg1.getTransactionId() != null){
-            return arg0.getTransactionId().compareTo(arg1.getTransactionId());    
-        } else if (arg0.getTransactionId() == null && arg1.getTransactionId() == null) {
+        // transactions ids are not generated until a save happens so there are going
+        // to be null values in them.
+        if (arg0.getTransactionId() == null && arg1.getTransactionId() == null){
             return 0;
-        } else {
+        }
+        else if (arg0.getTransactionId() != null && arg1.getTransactionId() != null){
+            return arg0.getTransactionId().compareTo(arg1.getTransactionId());    
+        } else if (arg0.getTransactionId() == null) {
             return -1;
+        } else {
+            return 1;
         }
     }
 }
