@@ -15,19 +15,20 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class IacucProtocolProceduresHelper implements Serializable{
 
@@ -41,10 +42,15 @@ public class IacucProtocolProceduresHelper implements Serializable{
     protected IacucProtocolStudyGroup newIacucProtocolStudyGroup;
     protected IacucProtocolStudyGroupBean newIacucProtocolStudyGroupBean;
     protected IacucProcedurePersonResponsible newIacucProcedurePersonResponsible;
+    private IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation;
     
     private List<IacucProcedure> allProcedures;
   
     protected int MAX_CATEGORY_COLUMNS = 3;
+    
+    private IacucProcedureNavigation currentProcedureDetailTab;
+
+    protected IacucProtocolPerson selectedProtocolPerson;
     
     public IacucProtocolProceduresHelper(IacucProtocolForm form) {
         setForm(form); 
@@ -53,6 +59,8 @@ public class IacucProtocolProceduresHelper implements Serializable{
         setNewIacucProcedurePersonResponsible(new IacucProcedurePersonResponsible());
         setAllProcedures(new ArrayList<IacucProcedure>());
         initializeIncludedProceduresAndCategories();
+        setCurrentProcedureDetailTab(IacucProcedureNavigation.PROCEDURES);
+        setNewIacucProtocolStudyGroupLocation(new IacucProtocolStudyGroupLocation());
     }    
     
     
@@ -138,6 +146,36 @@ public class IacucProtocolProceduresHelper implements Serializable{
 
     public void setNewIacucProcedurePersonResponsible(IacucProcedurePersonResponsible newIacucProcedurePersonResponsible) {
         this.newIacucProcedurePersonResponsible = newIacucProcedurePersonResponsible;
+    }
+
+    public IacucProcedureNavigation[] getProcedureNavigationTabs() {
+        return IacucProcedureNavigation.values();
+    }
+
+    public IacucProcedureNavigation getCurrentProcedureDetailTab() {
+        return currentProcedureDetailTab;
+    }
+
+    public void setCurrentProcedureDetailTab(IacucProcedureNavigation currentProcedureDetailTab) {
+        this.currentProcedureDetailTab = currentProcedureDetailTab;
+    }
+
+    public IacucProtocolPerson getSelectedProtocolPerson() {
+        return selectedProtocolPerson;
+    }
+
+    public void setSelectedProtocolPerson(IacucProtocolPerson selectedProtocolPerson) {
+        this.selectedProtocolPerson = selectedProtocolPerson;
+    }
+
+
+    public IacucProtocolStudyGroupLocation getNewIacucProtocolStudyGroupLocation() {
+        return newIacucProtocolStudyGroupLocation;
+    }
+
+
+    public void setNewIacucProtocolStudyGroupLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation) {
+        this.newIacucProtocolStudyGroupLocation = newIacucProtocolStudyGroupLocation;
     }
 
 }

@@ -789,7 +789,6 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
     private void setProcedures(IacucProtocol protocol, ProtocolType protocolType) {
 
         List<StudyGroupType> studyGroupTypeList = new ArrayList<StudyGroupType>();
-        IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean = null;
         IacucProtocolStudyGroup iacucProtocolStudyGroups = null;
         
         for (IacucProtocolStudyGroupBean iacucProtocolStudyGroup : protocol.getIacucProtocolStudyGroups()) {
@@ -803,11 +802,9 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             if (iacucProcedure != null) {
                 studyGroupType.setProcedureDesc(iacucProcedure.getProcedureDescription());
             }            
-            if (iacucProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans().size() > 0) {
-                iacucProtocolStudyGroupDetailBean = iacucProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans().get(0);
-            }
-            if (iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups().size() >0){
-                iacucProtocolStudyGroups =iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups().get(0); 
+            
+            if (iacucProtocolStudyGroup.getIacucProtocolStudyGroups().size() >0){
+                iacucProtocolStudyGroups =iacucProtocolStudyGroup.getIacucProtocolStudyGroups().get(0); 
             }
             if (iacucProtocolStudyGroup.getIacucProcedureCategory() != null) {
                 studyGroupType.setProcedureCategoryCode(iacucProtocolStudyGroup.getIacucProcedureCategory().getProcedureCategoryCode());
@@ -816,13 +813,11 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             if (iacucProtocolStudyGroups.getIacucProtocolSpecies() != null) {
                 studyGroupType.setSpeciesGroup(iacucProtocolStudyGroups.getIacucProtocolSpecies().getSpeciesGroup());
             }
-            if (iacucProtocolStudyGroupDetailBean.getIacucSpecies() != null) {
-                studyGroupType.setSpeciesDesc(iacucProtocolStudyGroupDetailBean.getIacucSpecies().getSpeciesName()); 
-            }
+            
             if (iacucProtocolStudyGroups.getIacucPainCategory() != null) {
                 studyGroupType.setPainCategoryDesc(iacucProtocolStudyGroups.getIacucPainCategory().getPainCategory());
             }             
-            studyGroupType.setCount(iacucProtocolStudyGroupDetailBean.getTotalSpeciesCount());  
+
             studyGroupTypeList.add(studyGroupType);
         }
         protocolType.setStudyGroupArray(studyGroupTypeList.toArray(new StudyGroupType[0]));

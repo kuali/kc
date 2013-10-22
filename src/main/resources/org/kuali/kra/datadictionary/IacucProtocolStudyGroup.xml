@@ -42,7 +42,7 @@
 		<property name="attributes" >
 			<list>
 			    <ref bean="IacucProtocolStudyGroup-iacucProtocolStudyGroupId" />
-			    <ref bean="IacucProtocolStudyGroup-iacucProtocolStudyGroupDetailId" />
+			    <ref bean="IacucProtocolStudyGroup-iacucProtocolStudyGroupHeaderId" />
 				<ref bean="IacucProtocolStudyGroup-iacucProtocolSpeciesId" />
 				<ref bean="IacucProtocolStudyGroup-studyGroupId" />
 				<ref bean="IacucProtocolStudyGroup-painCategoryCode" />
@@ -72,7 +72,7 @@
         <property name="description" value="Protocol Study Group Id" />
     </bean>
 
-    <bean id="IacucProtocolStudyGroup-iacucProtocolStudyGroupDetailId" parent="IacucProtocolStudyGroupDetailBean-iacucProtocolStudyGroupDetailId-parentBean" />
+    <bean id="IacucProtocolStudyGroup-iacucProtocolStudyGroupHeaderId" parent="IacucProtocolStudyGroupBean-iacucProtocolStudyGroupHeaderId-parentBean" />
 
 	<bean id="IacucProtocolStudyGroup-iacucProtocolSpeciesId" parent="IacucProtocolStudyGroup-iacucProtocolSpeciesId-parentBean" />
 	<bean id="IacucProtocolStudyGroup-iacucProtocolSpeciesId-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -141,9 +141,10 @@
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="4" />
-		</property>
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.iacuc.species.IacucPainCategoryValuesFinder" 
+                p:includeKeyInLabel="false" />
+        </property>
 		<property name="summary" value="Pain Category" />
 		<property name="description" value="Pain Category" />
 	</bean>
