@@ -1041,6 +1041,7 @@ public final class KeyConstants {
     public static final String ERROR_IACUC_VALIDATION_DUPLICATE_STUDY_GROUP_LOCATION = "error.iacuc.validation.duplicate.studyGroup.location";
     public static final String ERROR_IACUC_VALIDATION_STUDY_GROUP_VALID = "error.iacuc.validation.studyGroup.valid";
     public static final String ERROR_IACUC_VALIDATION_DUPLICATE_STUDY_GROUP = "error.iacuc.validation.duplicate.studyGroup";
+    public static final String QUESTION_PROCEDURE_LOCATION_DELETE_CONFIRMATION = "question.iacuc.procedure.location.delete.confirmation";
 
     // IACUC person training
     public static final String ERROR_IACUC_VALIDATION_INVALID_PERSON_TRAINING = "error.iacuc.validation.invalid.person.training";

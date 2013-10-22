@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.IacucLocationType;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
@@ -24,7 +27,6 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
     private static final long serialVersionUID = 1L;
 
     private Integer iacucProtocolStudyGroupLocationId; 
-    private Integer iacucProtocolStudyGroupId; 
     private Integer studyGroupLocationId; 
     private Integer locationTypeCode; 
     private Integer locationId; 
@@ -34,12 +36,10 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
     private IacucLocationType iacucLocationType; 
     private IacucLocationName iacucLocationName; 
     
-    private IacucProtocolStudyGroup iacucProtocolStudyGroup; 
-    
-    private Integer locationGroupIndex;
+    private List<IacucProcedureLocationDetail> procedureDetails;
     
     public IacucProtocolStudyGroupLocation() { 
-
+        setProcedureDetails(new ArrayList<IacucProcedureLocationDetail>());
     } 
     
     public Integer getIacucProtocolStudyGroupLocationId() {
@@ -117,30 +117,6 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
         this.setIacucProtocolStudyGroupLocationId(null);        
     }
 
-    public Integer getIacucProtocolStudyGroupId() {
-        return iacucProtocolStudyGroupId;
-    }
-
-    public void setIacucProtocolStudyGroupId(Integer iacucProtocolStudyGroupId) {
-        this.iacucProtocolStudyGroupId = iacucProtocolStudyGroupId;
-    }
-
-    public IacucProtocolStudyGroup getIacucProtocolStudyGroup() {
-        return iacucProtocolStudyGroup;
-    }
-
-    public void setIacucProtocolStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
-        this.iacucProtocolStudyGroup = iacucProtocolStudyGroup;
-    }
-
-    public Integer getLocationGroupIndex() {
-        return locationGroupIndex;
-    }
-
-    public void setLocationGroupIndex(Integer locationGroupIndex) {
-        this.locationGroupIndex = locationGroupIndex;
-    }
-
     /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
@@ -169,6 +145,14 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
             return false;
         }
         return true;
+    }
+
+    public List<IacucProcedureLocationDetail> getProcedureDetails() {
+        return procedureDetails;
+    }
+
+    public void setProcedureDetails(List<IacucProcedureLocationDetail> procedureDetails) {
+        this.procedureDetails = procedureDetails;
     }
 
 }

@@ -494,6 +494,9 @@
 
       <action path="/iacucProtocolProcedures" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolProcedures.jsp" type="org.kuali.kra.iacuc.procedures.IacucProtocolProceduresAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolProcedures.jsp" />
+        <forward name="personnel" path="/WEB-INF/jsp/iacuc/ProtocolProcedurePersonnel.jsp" />
+        <forward name="location" path="/WEB-INF/jsp/iacuc/ProtocolProcedureLocation.jsp" />
+        <forward name="summary" path="/WEB-INF/jsp/iacuc/ProtocolProcedureSummary.jsp" />
         &iacuc_forwards;
       </action>
 

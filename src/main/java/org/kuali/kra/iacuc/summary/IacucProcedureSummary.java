@@ -52,13 +52,8 @@ public class IacucProcedureSummary implements Serializable {
         procedureCategory = iacucProcedureCategory.getProcedureCategory() + " - " + iacucProcedure.getProcedureDescription();
         
         personSummaries = new ArrayList<IacucProcedurePersonSummary>();  
-        for (IacucProcedurePersonResponsible person: studyGroup.getIacucProcedurePersonsResponsible()) {
-            personSummaries.add(new IacucProcedurePersonSummary(person));
-        }
+
         locationSummaries = new ArrayList<IacucProcedureLocationSummary>();
-        for (IacucProtocolStudyGroupLocation location: studyGroup.getIacucProtocolStudyGroupLocations()) {
-            locationSummaries.add(new IacucProcedureLocationSummary(location));
-        }
         customDataSummaries = new ArrayList<IacucProcedureCustomDataSummary>();
         for (IacucProtocolStudyCustomData customDataItem: studyGroup.getIacucProtocolStudyCustomDataList()) {
             customDataSummaries.add(new IacucProcedureCustomDataSummary(customDataItem));

@@ -150,10 +150,8 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Ia
      */
     private void mergeProtocolProcedureSpecies(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
         for(IacucProtocolStudyGroupBean studyGroupBean : destProtocol.getIacucProtocolStudyGroups()) {
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                for(IacucProtocolStudyGroup studyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    setNewProtocolSpeciesForStudyGroup(studyGroup, destProtocol.getIacucProtocolSpeciesList());
-                }
+            for(IacucProtocolStudyGroup studyGroup : studyGroupBean.getIacucProtocolStudyGroups()) {
+                setNewProtocolSpeciesForStudyGroup(studyGroup, destProtocol.getIacucProtocolSpeciesList());
             }
         }
     }
@@ -272,31 +270,16 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Ia
             iacucProtocolStudyGroupBean.setProtocolId(destProtocol.getProtocolId());
             iacucProtocolStudyGroupBean.setProtocolNumber(destProtocol.getProtocolNumber());
             iacucProtocolStudyGroupBean.setSequenceNumber(destProtocol.getSequenceNumber());
-            for(IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                iacucProtocolStudyGroupDetailBean.setIacucProtocolStudyGroupDetailId(null);
-                iacucProtocolStudyGroupDetailBean.setIacucProtocolStudyGroupHeaderId(null);
-                for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    iacucProtocolStudyGroup.setIacucProtocolStudyGroupId(null);
-                    iacucProtocolStudyGroup.setIacucProtocolStudyGroupDetailId(null);
-                    setNewProtocolSpeciesForStudyGroup(iacucProtocolStudyGroup, destProtocol.getIacucProtocolSpeciesList());
-                    for(IacucProcedurePersonResponsible iacucProcedurePersonResponsible : iacucProtocolStudyGroup.getIacucProcedurePersonsResponsible()) {
-                        iacucProcedurePersonResponsible.setIacucProcedurePersonResponsibleId(null);
-                        iacucProcedurePersonResponsible.setIacucProtocolStudyGroupId(null);
-                    }
-                    for(IacucProtocolStudyGroupLocation iacucProtocolStudyGroupLocation : iacucProtocolStudyGroup.getIacucProtocolStudyGroupLocations()) {
-                        iacucProtocolStudyGroupLocation.setIacucProtocolStudyGroupLocationId(null);
-                        iacucProtocolStudyGroupLocation.setIacucProtocolStudyGroupId(null);
-                        iacucProtocolStudyGroupLocation.setProtocolId(destProtocol.getProtocolId());
-                        iacucProtocolStudyGroupLocation.setProtocolNumber(destProtocol.getProtocolNumber());
-                        iacucProtocolStudyGroupLocation.setSequenceNumber(destProtocol.getSequenceNumber());
-                    }
-                    for(IacucProtocolStudyCustomData iacucProtocolStudyCustomData : iacucProtocolStudyGroup.getIacucProtocolStudyCustomDataList()) {
-                        iacucProtocolStudyCustomData.setIacucProtocolStudyCustomDataId(null);
-                        iacucProtocolStudyCustomData.setIacucProtocolStudyGroupId(null);
-                        iacucProtocolStudyCustomData.setProtocolId(destProtocol.getProtocolId());
-                        iacucProtocolStudyCustomData.setProtocolNumber(destProtocol.getProtocolNumber());
-                        iacucProtocolStudyCustomData.setSequenceNumber(destProtocol.getSequenceNumber());
-                    }
+            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups()) {
+                iacucProtocolStudyGroup.setIacucProtocolStudyGroupId(null);
+                iacucProtocolStudyGroup.setIacucProtocolStudyGroupHeaderId(null);
+                setNewProtocolSpeciesForStudyGroup(iacucProtocolStudyGroup, destProtocol.getIacucProtocolSpeciesList());
+                for(IacucProtocolStudyCustomData iacucProtocolStudyCustomData : iacucProtocolStudyGroup.getIacucProtocolStudyCustomDataList()) {
+                    iacucProtocolStudyCustomData.setIacucProtocolStudyCustomDataId(null);
+                    iacucProtocolStudyCustomData.setIacucProtocolStudyGroupId(null);
+                    iacucProtocolStudyCustomData.setProtocolId(destProtocol.getProtocolId());
+                    iacucProtocolStudyCustomData.setProtocolNumber(destProtocol.getProtocolNumber());
+                    iacucProtocolStudyCustomData.setSequenceNumber(destProtocol.getSequenceNumber());
                 }
             }
         }

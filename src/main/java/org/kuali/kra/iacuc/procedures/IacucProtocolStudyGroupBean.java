@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import org.kuali.kra.protocol.ProtocolAssociateBase;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
 
@@ -34,27 +34,31 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
 
     // these fields are for header display in tag
     private List<String> protocolSpeciesAndGroups;
-    private List<String> protocolPersonsResponsible;
-    private String procedureDescription; 
-    private String procedureCategory; 
-    
+
     private IacucProcedureCategory iacucProcedureCategory;
     private IacucProcedure iacucProcedure;
 
-    private List<IacucProtocolStudyGroupDetailBean> iacucProtocolStudyGroupDetailBeans;
+    private List<IacucProtocolStudyGroup> iacucProtocolStudyGroups;
+
+    // used for summary
+    private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
+    private List<IacucProcedurePersonResponsible> iacucProtocolStudyGroupPersons;
+    private List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList;
     
     public IacucProtocolStudyGroupBean() {
+        setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroup>());
+        setIacucProtocolStudyGroupPersons(new ArrayList<IacucProcedurePersonResponsible>());
+        setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
+        setIacucProtocolStudyCustomDataList(new ArrayList<IacucProtocolStudyCustomData>());
         resetStudyGroupItems();
     }
     
     public void resetStudyGroupItems() {
         initializeStudyGroupItems();
-        setIacucProtocolStudyGroupDetailBeans(new ArrayList<IacucProtocolStudyGroupDetailBean>());
     }
     
     public void initializeStudyGroupItems() {
         setProtocolSpeciesAndGroups(new ArrayList<String>());
-        setProtocolPersonsResponsible(new ArrayList<String>());
     }
     
     public List<String> getProtocolSpeciesAndGroups() {
@@ -65,14 +69,6 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
         this.protocolSpeciesAndGroups = protocolSpeciesAndGroups;
     }
     
-    public List<String> getProtocolPersonsResponsible() {
-        return protocolPersonsResponsible;
-    }
-    
-    public void setProtocolPersonsResponsible(List<String> protocolPersonsResponsible) {
-        this.protocolPersonsResponsible = protocolPersonsResponsible;
-    }
-
     public Integer getProcedureCategoryCode() {
         return procedureCategoryCode;
     }
@@ -92,32 +88,11 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
 
 
     public String getProcedureDescription() {
-        return procedureDescription;
+        return getIacucProcedure().getProcedureDescription();
     }
-
-
-    public void setProcedureDescription(String procedureDescription) {
-        this.procedureDescription = procedureDescription;
-    }
-
 
     public String getProcedureCategory() {
-        return procedureCategory;
-    }
-
-
-    public void setProcedureCategory(String procedureCategory) {
-        this.procedureCategory = procedureCategory;
-    }
-
-
-    public List<IacucProtocolStudyGroupDetailBean> getIacucProtocolStudyGroupDetailBeans() {
-        return iacucProtocolStudyGroupDetailBeans;
-    }
-
-
-    public void setIacucProtocolStudyGroupDetailBeans(List<IacucProtocolStudyGroupDetailBean> iacucProtocolStudyGroupDetailBeans) {
-        this.iacucProtocolStudyGroupDetailBeans = iacucProtocolStudyGroupDetailBeans;
+        return getIacucProcedureCategory().getProcedureCategory();
     }
 
     public Integer getIacucProtocolStudyGroupHeaderId() {
@@ -183,6 +158,38 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
             return false;
         }
         return true;
+    }
+
+    public List<IacucProtocolStudyGroup> getIacucProtocolStudyGroups() {
+        return iacucProtocolStudyGroups;
+    }
+
+    public void setIacucProtocolStudyGroups(List<IacucProtocolStudyGroup> iacucProtocolStudyGroups) {
+        this.iacucProtocolStudyGroups = iacucProtocolStudyGroups;
+    }
+
+    public List<IacucProtocolStudyGroupLocation> getIacucProtocolStudyGroupLocations() {
+        return iacucProtocolStudyGroupLocations;
+    }
+
+    public void setIacucProtocolStudyGroupLocations(List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations) {
+        this.iacucProtocolStudyGroupLocations = iacucProtocolStudyGroupLocations;
+    }
+
+    public List<IacucProcedurePersonResponsible> getIacucProtocolStudyGroupPersons() {
+        return iacucProtocolStudyGroupPersons;
+    }
+
+    public void setIacucProtocolStudyGroupPersons(List<IacucProcedurePersonResponsible> iacucProtocolStudyGroupPersons) {
+        this.iacucProtocolStudyGroupPersons = iacucProtocolStudyGroupPersons;
+    }
+
+    public List<IacucProtocolStudyCustomData> getIacucProtocolStudyCustomDataList() {
+        return iacucProtocolStudyCustomDataList;
+    }
+
+    public void setIacucProtocolStudyCustomDataList(List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList) {
+        this.iacucProtocolStudyCustomDataList = iacucProtocolStudyCustomDataList;
     }
 
 }

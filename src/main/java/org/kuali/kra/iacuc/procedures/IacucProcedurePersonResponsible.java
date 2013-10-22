@@ -15,32 +15,31 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import org.kuali.kra.iacuc.IacucPersonTraining;
-import org.kuali.kra.protocol.ProtocolAssociateBase;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.kra.iacuc.IacucPersonTraining;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 public class IacucProcedurePersonResponsible extends ProtocolAssociateBase { 
     
     private static final long serialVersionUID = 1L;
 
     private Integer iacucProcedurePersonResponsibleId; 
-    private Integer iacucProtocolStudyGroupId; 
-    private String personId;
-    private String personName;
-    private String personResponsibleDescription;
+    private Integer iacucProtocolStudyGroupSpeciesId; 
+    private Integer protocolPersonId;
+    
+    private IacucProtocolPerson protocolPerson;
     private List<String> trainingDetails;
     
-    private List<String> protocolPersonsResponsible;
-    
-    private IacucProtocolStudyGroup iacucProtocolStudyGroup; 
+    private IacucProtocolStudyGroupSpecies iacucProtocolStudyGroupSpecies; 
     
     private List<IacucPersonTraining> trainings;
+    private List<IacucPersonProcedureDetail> responsibleProcedures;
 
     public IacucProcedurePersonResponsible() { 
-        setProtocolPersonsResponsible(new ArrayList<String>());
-
+        setResponsibleProcedures(new ArrayList<IacucPersonProcedureDetail>());
     } 
     
     public Integer getIacucProcedurePersonResponsibleId() {
@@ -51,28 +50,8 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
         this.iacucProcedurePersonResponsibleId = iacucProcedurePersonResponsibleId;
     }
 
-    public Integer getIacucProtocolStudyGroupId() {
-        return iacucProtocolStudyGroupId;
-    }
-
-    public void setIacucProtocolStudyGroupId(Integer iacucProtocolStudyGroupId) {
-        this.iacucProtocolStudyGroupId = iacucProtocolStudyGroupId;
-    }
-
     public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    public IacucProtocolStudyGroup getIacucProtocolStudyGroup() {
-        return iacucProtocolStudyGroup;
-    }
-
-    public void setIacucProtocolStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
-        this.iacucProtocolStudyGroup = iacucProtocolStudyGroup;
+        return getProtocolPerson().getPersonId();
     }
 
     @Override
@@ -117,32 +96,13 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
     }
 
     public String getPersonResponsibleDescription() {
-        if (personResponsibleDescription == null) {
-            refreshReferenceObject("personResponsibleDescription");
-        }
-        return personResponsibleDescription;
-    }
-
-    public void setPersonResponsibleDescription(String personResponsibleDescription) {
-        this.personResponsibleDescription = personResponsibleDescription;
-    }
-
-    public List<String> getProtocolPersonsResponsible() {
-        return protocolPersonsResponsible;
-    }
-
-    public void setProtocolPersonsResponsible(List<String> protocolPersonsResponsible) {
-        this.protocolPersonsResponsible = protocolPersonsResponsible;
+        return getProtocolPerson().getProcedureQualificationDescription();
     }
 
     public String getPersonName() {
-        return personName;
+        return getProtocolPerson().getPersonName();
     }
 
-    public void setPersonName(String personName) {
-        this.personName = personName;
-    }
-   
     /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
@@ -156,21 +116,68 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
             return false;
         }
         IacucProcedurePersonResponsible other = (IacucProcedurePersonResponsible) obj;
-        if (this.iacucProtocolStudyGroupId == null) {
-            if (other.iacucProtocolStudyGroupId != null) {
+        if (this.iacucProtocolStudyGroupSpeciesId == null) {
+            if (other.iacucProtocolStudyGroupSpeciesId != null) {
                 return false;
             }
-        } else if (!this.iacucProtocolStudyGroupId.equals(other.iacucProtocolStudyGroupId)) {
+        } else if (!this.iacucProtocolStudyGroupSpeciesId.equals(other.iacucProtocolStudyGroupSpeciesId)) {
             return false;
         }
-        if (this.personId == null) {
-            if (other.personId != null) {
+        if (this.protocolPersonId == null) {
+            if (other.protocolPersonId != null) {
                 return false;
             }
-        } else if (!this.personId.equals(other.personId)) {
+        } else if (!this.protocolPersonId.equals(other.protocolPersonId)) {
             return false;
         }
         return true;
     }
+
+    public Integer getProtocolPersonId() {
+        return protocolPersonId;
+    }
+
+    public void setProtocolPersonId(Integer protocolPersonId) {
+        this.protocolPersonId = protocolPersonId;
+    }
+
+    public IacucProtocolPerson getProtocolPerson() {
+        if (this.protocolPerson == null) {
+            refreshReferenceObject("protocolPerson");
+        }
+        return protocolPerson;
+    }
+
+    public void setProtocolPerson(IacucProtocolPerson protocolPerson) {
+        this.protocolPerson = protocolPerson;
+    }
+
+    public List<IacucPersonProcedureDetail> getResponsibleProcedures() {
+        return responsibleProcedures;
+    }
+
+    public void setResponsibleProcedures(List<IacucPersonProcedureDetail> responsibleProcedures) {
+        this.responsibleProcedures = responsibleProcedures;
+    }
+
+    public Integer getIacucProtocolStudyGroupSpeciesId() {
+        return iacucProtocolStudyGroupSpeciesId;
+    }
+
+    public void setIacucProtocolStudyGroupSpeciesId(Integer iacucProtocolStudyGroupSpeciesId) {
+        this.iacucProtocolStudyGroupSpeciesId = iacucProtocolStudyGroupSpeciesId;
+    }
+
+    public IacucProtocolStudyGroupSpecies getIacucProtocolStudyGroupSpecies() {
+        if (iacucProtocolStudyGroupSpecies == null) {
+            refreshReferenceObject("iacucProtocolStudyGroupSpecies");
+        }
+        return iacucProtocolStudyGroupSpecies;
+    }
+
+    public void setIacucProtocolStudyGroupSpecies(IacucProtocolStudyGroupSpecies iacucProtocolStudyGroupSpecies) {
+        this.iacucProtocolStudyGroupSpecies = iacucProtocolStudyGroupSpecies;
+    }
+
 
 }

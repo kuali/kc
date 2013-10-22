@@ -145,8 +145,9 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
     protected boolean isProtocolProcedureValid(List<IacucProtocolStudyGroupBean> protocolStudyGroups, Set<Integer> protocolSpecies) {
         Set<Integer> procedureSpecies = new HashSet<Integer>();
         for(IacucProtocolStudyGroupBean studyGroupBean : protocolStudyGroups) {
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                procedureSpecies.add(studyGroupDetailBean.getSpeciesCode());
+            for(IacucProtocolStudyGroup studyGroup : studyGroupBean.getIacucProtocolStudyGroups()) {
+                Integer speciesCode = studyGroup.getIacucProtocolSpecies().getSpeciesCode();
+                procedureSpecies.add(speciesCode);
             }
         }
         procedureSpecies.removeAll(protocolSpecies);
@@ -188,11 +189,9 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
     protected boolean isProtocolProcedureSpeciesGroupValid(List<IacucProtocolStudyGroupBean> protocolStudyGroups, Set<String> protocolSpeciesGroups) {
         List<String> speciesGroups = new ArrayList<String>();
         for(IacucProtocolStudyGroupBean studyGroupBean : protocolStudyGroups) {
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                for(IacucProtocolStudyGroup iacucProtocolStudyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
-                    speciesGroups.add(protocolSpecies.getSpeciesGroup());
-                }
+            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : studyGroupBean.getIacucProtocolStudyGroups()) {
+                IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
+                speciesGroups.add(protocolSpecies.getSpeciesGroup());
             }
         }
         boolean invalidSpeciesReference = false;

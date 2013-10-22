@@ -1,0 +1,172 @@
+<!--
+/*
+ * Copyright 2005-2013 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="IacucProtocolStudyGroupSpecies" parent="IacucProtocolStudyGroupSpecies-parentBean" />
+	<bean id="IacucProtocolStudyGroupSpecies-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupSpecies" />
+		<property name="objectLabel" value="Protocol Procedure Species" />
+		<property name="inquiryDefinition" >
+			<ref bean="IacucProtocolStudyGroupSpecies-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="IacucProtocolStudyGroupSpecies-lookupDefinition" />
+		</property>
+		
+
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="iacucProtocolSpeciesGroupsHelp" p:parameterDetailType="Document" />
+        </property>
+        
+		<property name="titleAttribute" value="iacucProtocolStudyGroupSpeciesId" />
+		<property name="attributes" >
+			<list>
+			    <ref bean="IacucProtocolStudyGroupSpecies-iacucProtocolStudyGroupSpeciesId" />
+				<ref bean="IacucProtocolStudyGroupSpecies-protocolId" />
+				<ref bean="IacucProtocolStudyGroupSpecies-speciesCode" />
+				<ref bean="IacucProtocolStudyGroupSpecies-versionNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+    <bean id="IacucProtocolStudyGroupSpecies-iacucProtocolStudyGroupSpeciesId" parent="IacucProtocolStudyGroupSpecies-iacucProtocolStudyGroupSpeciesId-parentBean" />
+    <bean id="IacucProtocolStudyGroupSpecies-iacucProtocolStudyGroupSpeciesId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="iacucProtocolStudyGroupSpeciesId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Protocol Procedure Species Id" />
+        <property name="shortLabel" value="Protocol Procedure Species Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Protocol Procedure Species Id" />
+        <property name="description" value="Protocol Procedure Species Id" />
+    </bean>
+
+	<bean id="IacucProtocolStudyGroupSpecies-protocolId" parent="IacucProtocolStudyGroupSpecies-protocolId-parentBean" />
+	<bean id="IacucProtocolStudyGroupSpecies-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Id" />
+		<property name="shortLabel" value="Protocol Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Id" />
+		<property name="description" value="Protocol Id" />
+	</bean>
+
+	<bean id="IacucProtocolStudyGroupSpecies-speciesCode" parent="IacucProtocolStudyGroupSpecies-speciesCode-parentBean" />
+	<bean id="IacucProtocolStudyGroupSpecies-speciesCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="speciesCode" />
+		<property name="required" value="true" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Species" />
+		<property name="shortLabel" value="Species" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.iacuc.species.IacucSpeciesValuesFinder" 
+                p:includeKeyInLabel="false" />
+        </property>
+		<property name="summary" value="Species Code" />
+		<property name="description" value="Species Code" />
+	</bean>
+
+	<bean id="IacucProtocolStudyGroupSpecies-versionNumber" parent="IacucProtocolStudyGroupSpecies-versionNumber-parentBean" />
+	<bean id="IacucProtocolStudyGroupSpecies-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="IacucProtocolStudyGroupSpecies-inquiryDefinition" parent="IacucProtocolStudyGroupSpecies-inquiryDefinition-parentBean" />
+	<bean id="IacucProtocolStudyGroupSpecies-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Protocol Species" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Protocol Species" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="iacucProtocolStudyGroupSpeciesId" 
+								p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="protocolId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="speciesCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="IacucProtocolStudyGroupSpecies-lookupDefinition" parent="IacucProtocolStudyGroupSpecies-lookupDefinition-parentBean" />
+	<bean id="IacucProtocolStudyGroupSpecies-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Protocol Species Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="iacucProtocolStudyGroupSpeciesId" 
+					p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="speciesCode" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="iacucProtocolStudyGroupSpeciesId"
+					p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="speciesCode" />
+			</list>
+		</property>
+	</bean>
+</beans>
