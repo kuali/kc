@@ -1200,6 +1200,12 @@ module of int tests -->
 			<artifactId>rrsubawardbudget1_3-1.3-gg</artifactId>
 			<version>${rrsubawardbudget1_3-1.3-gg.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>rrsubawardbudget10_30-1.3-gg</artifactId>
+			<version>${rrsubawardbudget10_30-1.3-gg.version}</version>
+		</dependency>
 
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
@@ -2100,6 +2106,7 @@ module of int tests -->
         <phsfellowshipsupplemental-2.0-gg.version>1.0</phsfellowshipsupplemental-2.0-gg.version>
         <rrsubawardbudget10-1.3-gg.version>1.0</rrsubawardbudget10-1.3-gg.version>
         <rrsubawardbudget1_3-1.3-gg.version>1.0</rrsubawardbudget1_3-1.3-gg.version>
+        <rrsubawardbudget10_30-1.3-gg.version>1.0</rrsubawardbudget10_30-1.3-gg.version>
         <rrbudget10-1.3-gg.version>1.0</rrbudget10-1.3-gg.version>
         <log4j.version>1.2.16</log4j.version>
         <mail.version>1.4.4</mail.version>
