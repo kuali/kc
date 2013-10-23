@@ -43,6 +43,7 @@
 			    <ref bean="IacucProtocolStudyGroupSpecies-iacucProtocolStudyGroupSpeciesId" />
 				<ref bean="IacucProtocolStudyGroupSpecies-protocolId" />
 				<ref bean="IacucProtocolStudyGroupSpecies-speciesCode" />
+				<ref bean="IacucProtocolStudyGroupSpecies-usageCount" />
 				<ref bean="IacucProtocolStudyGroupSpecies-versionNumber" />
 			</list>
 		</property>
@@ -104,6 +105,24 @@
         </property>
 		<property name="summary" value="Species Code" />
 		<property name="description" value="Species Code" />
+	</bean>
+
+	<bean id="IacucProtocolStudyGroupSpecies-usageCount" parent="IacucProtocolStudyGroupSpecies-usageCount-parentBean" />
+	<bean id="IacucProtocolStudyGroupSpecies-usageCount-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="usageCount" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Usage Count" />
+		<property name="shortLabel" value="Usage Count" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Usage Count" />
+		<property name="description" value="Usage Count" />
 	</bean>
 
 	<bean id="IacucProtocolStudyGroupSpecies-versionNumber" parent="IacucProtocolStudyGroupSpecies-versionNumber-parentBean" />

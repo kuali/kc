@@ -1042,6 +1042,9 @@ public final class KeyConstants {
     public static final String ERROR_IACUC_VALIDATION_STUDY_GROUP_VALID = "error.iacuc.validation.studyGroup.valid";
     public static final String ERROR_IACUC_VALIDATION_DUPLICATE_STUDY_GROUP = "error.iacuc.validation.duplicate.studyGroup";
     public static final String QUESTION_PROCEDURE_LOCATION_DELETE_CONFIRMATION = "question.iacuc.procedure.location.delete.confirmation";
+    public static final String QUESTION_PROCEDURE_STUDY_GROUP_DELETE_CONFIRMATION = "question.iacuc.procedure.study.group.delete.confirmation";
+    public static final String IACUC_PROCEDURE_STUDY_GROUP_SPECIES_PAIN_CATEGORY_REQUIRED = "error.iacuc.procedure.study.group.species.painCategory.required";
+    public static final String IACUC_PROCEDURE_STUDY_GROUP_SPECIES_COUNT_REQUIRED = "error.iacuc.procedure.study.group.species.count.required";
 
     // IACUC person training
     public static final String ERROR_IACUC_VALIDATION_INVALID_PERSON_TRAINING = "error.iacuc.validation.invalid.person.training";

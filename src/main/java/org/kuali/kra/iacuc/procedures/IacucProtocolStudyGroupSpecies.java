@@ -30,6 +30,7 @@ public class IacucProtocolStudyGroupSpecies extends ProtocolAssociateBase {
 
     private Integer iacucProtocolStudyGroupSpeciesId; 
     private Integer speciesCode;
+    private Integer usageCount;
 
     private IacucSpecies iacucSpecies;
 
@@ -53,6 +54,9 @@ public class IacucProtocolStudyGroupSpecies extends ProtocolAssociateBase {
     }
 
     public IacucSpecies getIacucSpecies() {
+        if (iacucSpecies == null) {
+            refreshReferenceObject("iacucSpecies");
+        }
         return iacucSpecies;
     }
 
@@ -113,6 +117,16 @@ public class IacucProtocolStudyGroupSpecies extends ProtocolAssociateBase {
 
     public void setProtocolStudyProcedures(List<IacucProtocolStudyGroupBean> protocolStudyProcedures) {
         this.protocolStudyProcedures = protocolStudyProcedures;
+    }
+
+
+    public Integer getUsageCount() {
+        return usageCount;
+    }
+
+
+    public void setUsageCount(Integer usageCount) {
+        this.usageCount = usageCount;
     }
 
 
