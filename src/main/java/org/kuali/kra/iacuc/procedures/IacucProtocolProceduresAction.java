@@ -37,8 +37,10 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class IacucProtocolProceduresAction extends IacucProtocolAction {
 
     private static final String BEAN_FIND_PARAM_START = "iacucProtocolStudyGroupBeans[";
+    private static final String BEAN_STUDY_GROUP_FIND_PARAM_START = "iacucProtocolStudyGroups[";
     private static final String FIND_PARAM_END = "].";
     private static final String CONFIRM_DELETE_PROCEDURE_LOCATION_KEY = "confirmDeleteProcedureLocation";
+    private static final String CONFIRM_DELETE_PROCEDURE_STUDY_GROUP_KEY = "confirmDeleteProcedureStudyGroup";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -55,6 +57,29 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         if (applyRules(new AddProtocolStudyGroupEvent(protocolForm.getIacucProtocolDocument(), selectedIacucProtocolStudyGroupBean, groupBeanIndex))) {
             getIacucProtocolProcedureService().addProtocolStudyGroup(selectedIacucProtocolStudyGroupBean, getIacucProtocol(form));
             selectedIacucProtocolStudyGroupBean.initializeStudyGroupItems() ;
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteProtocolStudyGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean = getSelectedProcedureBean(request, protocolForm.getIacucProtocolDocument());
+        IacucProtocolStudyGroup selectedStudyGroup = getSelectedStudyGroup(request, selectedIacucProtocolStudyGroupBean);
+        String procedureCategory = selectedIacucProtocolStudyGroupBean.getIacucProcedureCategory().getProcedureCategory();
+        String procedure = selectedIacucProtocolStudyGroupBean.getIacucProcedure().getProcedureDescription();
+        String speciesAndGroups = selectedStudyGroup.getIacucProtocolSpecies().getGroupAndSpecies();
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROCEDURE_STUDY_GROUP_KEY,
+                KeyConstants.QUESTION_PROCEDURE_STUDY_GROUP_DELETE_CONFIRMATION, new String[]{procedureCategory,procedure,speciesAndGroups}), CONFIRM_DELETE_PROCEDURE_STUDY_GROUP_KEY, "");
+    }
+    
+    public ActionForward confirmDeleteProcedureStudyGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+    throws Exception {
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_PROCEDURE_STUDY_GROUP_KEY.equals(question)) {
+            IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+            IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean = getSelectedProcedureBean(request, protocolForm.getIacucProtocolDocument());
+            IacucProtocolStudyGroup selectedStudyGroup = getSelectedStudyGroup(request, selectedIacucProtocolStudyGroupBean);
+            getIacucProtocolProcedureService().deleteProtocolStudyGroup(selectedIacucProtocolStudyGroupBean, selectedStudyGroup, getIacucProtocol(form));
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -124,6 +149,11 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
         return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+    }
+
+    protected IacucProtocolStudyGroup getSelectedStudyGroup(HttpServletRequest request, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean) {
+        int selectedStudyGroupIndex = getSelectedBeanIndex(request, BEAN_STUDY_GROUP_FIND_PARAM_START, FIND_PARAM_END);
+        return selectedProtocolStudyGroupBean.getIacucProtocolStudyGroups().get(selectedStudyGroupIndex);
     }
 
     /**

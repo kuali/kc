@@ -128,39 +128,10 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      */
     public List<IacucProtocolStudyGroupBean> getRevisedStudyGroupBeans(IacucProtocol iacucProtocol, List<IacucProcedure> allProcedures) {
         List<IacucProtocolStudyGroupBean> studyGroupBeans = iacucProtocol.getIacucProtocolStudyGroupBeans();
-        List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroups = iacucProtocol.getIacucProtocolStudyGroups();
         if(studyGroupBeans.isEmpty()) {
-            studyGroupBeans = getNewListOfStudyGroupBeans();
-            if(!iacucProtocolStudyGroups.isEmpty()) {
-                groupProtocolStudyAndBeans(iacucProtocol, studyGroupBeans, allProcedures);
-            }
+            studyGroupBeans = getNewListOfStudyGroupBeans(iacucProtocol, allProcedures);
         }
        return studyGroupBeans;
-    }
-    
-    /**
-     * This method is to group the display and persisted objects
-     * @param protocol
-     * @param iacucProtocolStudyGroupBeans
-     */
-    private void groupProtocolStudyAndBeans(IacucProtocol protocol, List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans, 
-            List<IacucProcedure> allProcedures) {
-        List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroups = protocol.getIacucProtocolStudyGroups();
-        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : iacucProtocolStudyGroupBeans) {
-            for(IacucProtocolStudyGroupBean iacucProtocolStudyGroup : iacucProtocolStudyGroups) {
-                if(iacucProtocolStudyGroupBean.getProcedureCategoryCode().equals(iacucProtocolStudyGroup.getProcedureCategoryCode()) && 
-                        iacucProtocolStudyGroupBean.getProcedureCode().equals(iacucProtocolStudyGroup.getProcedureCode())) {
-                    iacucProtocolStudyGroupBean.setIacucProtocolStudyGroupHeaderId(iacucProtocolStudyGroup.getIacucProtocolStudyGroupHeaderId());
-                    iacucProtocolStudyGroupBean.setProtocol(iacucProtocolStudyGroup.getProtocol());
-                    iacucProtocolStudyGroupBean.setProtocolId(iacucProtocolStudyGroup.getProtocolId());
-                    iacucProtocolStudyGroupBean.setProtocolNumber(iacucProtocolStudyGroup.getProtocolNumber());
-                    iacucProtocolStudyGroupBean.setSequenceNumber(iacucProtocolStudyGroup.getSequenceNumber());
-                    iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups().addAll(iacucProtocolStudyGroup.getIacucProtocolStudyGroups());
-                    selectUsedProcedureCategory(allProcedures, iacucProtocolStudyGroup.getProcedureCode());
-                    break;
-                }
-            }
-        }
     }
     
     /**
@@ -197,19 +168,41 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     
     /**
      * This method is to get all procedure categories and format study group bean to display in ui
-     * This method is invoked initially when there are no procedures added to the protocol
      * A study group bean is created for each procedure/category code
      * @return
      */
-    private List<IacucProtocolStudyGroupBean> getNewListOfStudyGroupBeans() {
+    private List<IacucProtocolStudyGroupBean> getNewListOfStudyGroupBeans(IacucProtocol protocol, List<IacucProcedure> allProcedures) {
         List<IacucProtocolStudyGroupBean> studyGroupBeans = new ArrayList<IacucProtocolStudyGroupBean>();
         for(IacucProcedure iacucProcedure : getAllProcedures()) {
-            IacucProtocolStudyGroupBean newIacucProtocolStudyGroupBean = new IacucProtocolStudyGroupBean();
-            newIacucProtocolStudyGroupBean.setProcedureCategoryCode(iacucProcedure.getProcedureCategoryCode());
-            newIacucProtocolStudyGroupBean.setProcedureCode(iacucProcedure.getProcedureCode());
-            studyGroupBeans.add(newIacucProtocolStudyGroupBean);
+            IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean = getCurrentStudyGroupForProcedure(allProcedures, protocol, iacucProcedure);
+            if(ObjectUtils.isNull(iacucProtocolStudyGroupBean)) {
+                iacucProtocolStudyGroupBean = new IacucProtocolStudyGroupBean();
+                iacucProtocolStudyGroupBean.setProcedureCategoryCode(iacucProcedure.getProcedureCategoryCode());
+                iacucProtocolStudyGroupBean.setProcedureCode(iacucProcedure.getProcedureCode());
+            }
+            studyGroupBeans.add(iacucProtocolStudyGroupBean);
         }
         return studyGroupBeans;
+    }
+    
+    /**
+     * This method is to get matching study group for a given procedure
+     * @param protocol
+     * @param iacucProcedure
+     * @return
+     */
+    private IacucProtocolStudyGroupBean getCurrentStudyGroupForProcedure(List<IacucProcedure> allProcedures, IacucProtocol protocol, IacucProcedure iacucProcedure) {
+        List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroups = protocol.getIacucProtocolStudyGroups();
+        IacucProtocolStudyGroupBean currentStudyGroup = null;
+        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroup : iacucProtocolStudyGroups) {
+            if(iacucProtocolStudyGroup.getProcedureCategoryCode().equals(iacucProcedure.getProcedureCategoryCode()) && 
+                    iacucProtocolStudyGroup.getProcedureCode().equals(iacucProcedure.getProcedureCode())) {
+                currentStudyGroup = iacucProtocolStudyGroup;
+                selectUsedProcedureCategory(allProcedures, iacucProtocolStudyGroup.getProcedureCode());
+                break;
+            }
+        }
+        return currentStudyGroup;
     }
     
     /**
@@ -278,6 +271,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         selectedProtocolStudyGroupBean.getIacucProtocolStudyGroups().addAll(newStudyGroups);
         addNewResponsibleProceduresForAllProtocolPersons(iacucProtocol, selectedProtocolStudyGroupBean, newStudyGroups);
         addNewResponsibleProceduresForAllProcedureLocations(iacucProtocol, selectedProtocolStudyGroupBean, newStudyGroups);
+        updateProtocolStudyGroupSpeciesUsage(iacucProtocol, newStudyGroups);
     }
     
     
@@ -390,9 +384,47 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProtocolStudyGroup(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean, org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean)
      */
     public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, 
-            IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, IacucProtocol iacucProtocol) {
-        // for delete study group
+            IacucProtocolStudyGroup deletedIacucProtocolStudyGroup, IacucProtocol iacucProtocol) {
+        IacucProtocolStudyGroupSpecies updatedStudyGroupSpecies = getIacucProtocolStudyGroupSpeciesForStudyGroup(deletedIacucProtocolStudyGroup, iacucProtocol);
+        updatedStudyGroupSpecies.setUsageCount(updatedStudyGroupSpecies.getUsageCount()-1);
+        if(updatedStudyGroupSpecies.getUsageCount() == 0) {
+            iacucProtocol.getIacucProtocolStudyGroupSpeciesList().remove(updatedStudyGroupSpecies);
+        }
+        selectedProtocolStudyGroupBean.getIacucProtocolStudyGroups().remove(deletedIacucProtocolStudyGroup);
     }
+    
+    /**
+     * This method is to get iacuc protocol study group species based on given study group
+     * This is required to keep track of species usage in the study group.
+     * @param iacucProtocolStudyGroup
+     * @param iacucProtocol
+     * @return
+     */
+    private IacucProtocolStudyGroupSpecies getIacucProtocolStudyGroupSpeciesForStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup, IacucProtocol iacucProtocol) {
+        IacucProtocolStudyGroupSpecies updatedStudyGroupSpecies = null;
+        for(IacucProtocolStudyGroupSpecies iacucProtocolStudyGroupSpecies : iacucProtocol.getIacucProtocolStudyGroupSpeciesList()) {
+            if(iacucProtocolStudyGroupSpecies.getSpeciesCode().equals(iacucProtocolStudyGroup.getIacucProtocolSpecies().getSpeciesCode())) {
+                updatedStudyGroupSpecies = iacucProtocolStudyGroupSpecies;
+            }
+        }
+        return updatedStudyGroupSpecies;
+    }
+    
+    /**
+     * This method is to update the usage count of species based on group species in protocol study.
+     * @param protocol
+     * @param newStudyGroups
+     */
+    private void updateProtocolStudyGroupSpeciesUsage(IacucProtocol protocol, List<IacucProtocolStudyGroup> newStudyGroups) {
+        for(IacucProtocolStudyGroup iacucProtocolStudyGroup : newStudyGroups) {
+            for(IacucProtocolStudyGroupSpecies iacucProtocolStudyGroupSpecies : protocol.getIacucProtocolStudyGroupSpeciesList()) {
+                if(iacucProtocolStudyGroup.getIacucProtocolSpecies().getSpeciesCode().equals(iacucProtocolStudyGroupSpecies.getSpeciesCode())) {
+                    iacucProtocolStudyGroupSpecies.setUsageCount(iacucProtocolStudyGroupSpecies.getUsageCount() + 1);
+                }
+            }
+        }
+    }
+            
     
     /**
      * This method is to add new procedure and corresponding details for each protocol person
@@ -544,6 +576,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         IacucProtocolStudyGroupSpecies newProtocolStudyGroupSpecies = new IacucProtocolStudyGroupSpecies();
         newProtocolStudyGroupSpecies.setIacucProtocolStudyGroupSpeciesId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_LOCATION_SEQUENCE_ID));
         newProtocolStudyGroupSpecies.setSpeciesCode(iacucProtocolSpecies.getSpeciesCode());
+        newProtocolStudyGroupSpecies.setUsageCount(0);
         newProtocolStudyGroupSpecies.setProtocolId(protocol.getProtocolId());
         newProtocolStudyGroupSpecies.setProtocolNumber(protocol.getProtocolNumber());
         newProtocolStudyGroupSpecies.setSequenceNumber(protocol.getSequenceNumber());
