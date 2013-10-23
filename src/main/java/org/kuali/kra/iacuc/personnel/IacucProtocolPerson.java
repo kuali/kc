@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.personnel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
@@ -28,10 +29,12 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
     private static final long serialVersionUID = 6676849646094141708L;
     private String procedureQualificationDescription;
     private List<IacucProcedurePersonResponsible> procedureDetails;
+    private List<IacucPersonTraining> iacucPersonTrainings;
     
     public IacucProtocolPerson() {
         super();
         setProcedureDetails(new ArrayList<IacucProcedurePersonResponsible>());
+        setIacucPersonTrainings(new ArrayList<IacucPersonTraining>());
     }
     
     public IacucProtocol getIacucProtocol() {
@@ -52,6 +55,14 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
 
     public void setProcedureDetails(List<IacucProcedurePersonResponsible> procedureDetails) {
         this.procedureDetails = procedureDetails;
+    }
+
+    public List<IacucPersonTraining> getIacucPersonTrainings() {
+        return iacucPersonTrainings;
+    }
+
+    public void setIacucPersonTrainings(List<IacucPersonTraining> iacucPersonTrainings) {
+        this.iacucPersonTrainings = iacucPersonTrainings;
     }
 
 }
