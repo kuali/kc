@@ -72,13 +72,14 @@ public interface IacucProtocolProcedureService {
     public List<IacucProtocolStudyGroupBean> getRevisedStudyGroupBeans(IacucProtocol iacucProtocol, List<IacucProcedure> allProcedures);
 
     /**
-     * This method is to remove a selected study group section
+     * This method is to remove a selected protocol study group
+     * Update the study group species usage count
      * @param selectedProtocolStudyGroupBean
-     * @param selectedProcedureDetailBean
+     * @param deletedIacucProtocolStudyGroup
      * @param iacucProtocol
      */
     public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, 
-            IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, IacucProtocol iacucProtocol);
+            IacucProtocolStudyGroup deletedIacucProtocolStudyGroup, IacucProtocol iacucProtocol);
     
     /**
      * This method is to deleted selected person responsible

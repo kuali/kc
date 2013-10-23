@@ -154,12 +154,17 @@ public class IacucProtocol extends ProtocolBase {
         managedLists.add(getIacucPrinciples());
         managedLists.add(getIacucAlternateSearches());
 
-        List<IacucProtocolStudyGroupDetailBean> studyGroupDetails = new ArrayList<IacucProtocolStudyGroupDetailBean>();
+        List<IacucProtocolStudyGroup> protocolStudyGroups = new ArrayList<IacucProtocolStudyGroup>();
+        for(IacucProtocolStudyGroupBean studyGroupBean : getIacucProtocolStudyGroups()) {
+            protocolStudyGroups.addAll(studyGroupBean.getIacucProtocolStudyGroups());
+        }
+        
         managedLists.add(getIacucProtocolStudyGroupLocations());
-        managedLists.add(studyGroupDetails);
+        managedLists.add(protocolStudyGroups);
         managedLists.add(getIacucProtocolStudyGroups());
         managedLists.add(getIacucProtocolExceptions());
         managedLists.add(getIacucProtocolSpeciesList());
+        managedLists.add(getIacucProtocolStudyGroupSpeciesList());
         
         return managedLists;
     }

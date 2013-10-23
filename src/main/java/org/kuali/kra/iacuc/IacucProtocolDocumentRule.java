@@ -84,12 +84,14 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
     private static final String NEW_PROTOCOL_SPECIES_PATH = "iacucProtocolSpeciesHelper.newIacucProtocolSpecies";
     private static final String PROTOCOL_EXCEPTION = "Exception";
     private static final String PROTOCOL_PROCEDURE = "Procedure";
+    private static final String STUDY_GROUP_PROCEDURE_PATH = "iacucProtocolStudyGroupBeans";
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean valid = super.processCustomSaveDocumentBusinessRules(document);
         if(valid) {
             valid &= processProtocolSpeciesRules((IacucProtocolDocument) document);
+            valid &= isProtocolStudyGroupValid((IacucProtocolDocument) document);
         }
         return valid;
     }
@@ -202,6 +204,33 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
             }
         }
         return !invalidSpeciesReference;
+    }
+    
+    /**
+     * This method is to validate protocol study groups
+     * @param document
+     * @return
+     */
+    public boolean isProtocolStudyGroupValid(IacucProtocolDocument document) {
+        boolean valid = true;
+        int groupIndex = 0;
+        List<IacucProtocolStudyGroupBean> protocolStudyGroups = document.getIacucProtocol().getIacucProtocolStudyGroupBeans();
+        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : protocolStudyGroups) {
+            String studyGroupPath = STUDY_GROUP_PROCEDURE_PATH.concat("[") + groupIndex + "]";
+            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups()) {
+                String groupAndSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies().getGroupAndSpecies();
+                if(iacucProtocolStudyGroup.getPainCategoryCode() == null) {
+                    reportError(studyGroupPath, KeyConstants.IACUC_PROCEDURE_STUDY_GROUP_SPECIES_PAIN_CATEGORY_REQUIRED, new String[] {groupAndSpecies});
+                    valid = false;
+                }
+                if(iacucProtocolStudyGroup.getCount() == null) {
+                    reportError(studyGroupPath, KeyConstants.IACUC_PROCEDURE_STUDY_GROUP_SPECIES_COUNT_REQUIRED, new String[] {groupAndSpecies});
+                    valid = false;
+                }
+            }
+            groupIndex++;
+        }
+        return valid;
     }
     
     @Override
