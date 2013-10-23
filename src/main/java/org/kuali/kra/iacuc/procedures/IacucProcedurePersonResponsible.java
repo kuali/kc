@@ -34,8 +34,6 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
     private List<String> trainingDetails;
     
     private IacucProtocolStudyGroupSpecies iacucProtocolStudyGroupSpecies; 
-    
-    private List<IacucPersonTraining> trainings;
     private List<IacucPersonProcedureDetail> responsibleProcedures;
 
     public IacucProcedurePersonResponsible() { 
@@ -59,14 +57,6 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
         this.setIacucProcedurePersonResponsibleId(null);        
     }
 
-    public List<IacucPersonTraining> getTrainings() {
-        return trainings;
-    }
-
-    public void setTrainings(List<IacucPersonTraining> trainings) {
-        this.trainings = trainings;
-    }
-    
     public String getTrainingDetailsString() {
         String details = new String();
         boolean first = true;
@@ -82,8 +72,9 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
     
     public List<String> getTrainingDetails() {
         this.trainingDetails = new ArrayList<String>();
-        if (getTrainings() != null) {
-            for(IacucPersonTraining iacucPersonTraining : getTrainings()) {
+        List<IacucPersonTraining> iacucPersonTrainings = getProtocolPerson().getIacucPersonTrainings();
+        if (iacucPersonTrainings != null) {
+            for(IacucPersonTraining iacucPersonTraining : iacucPersonTrainings) {
                 StringBuffer trainingInfo = new StringBuffer();
                 trainingInfo.append("Training : " + iacucPersonTraining.getPersonTraining().getTraining().getDescription());
                 trainingInfo.append("\r\nSpecies : " + iacucPersonTraining.getIacucSpecies().getSpeciesName());
