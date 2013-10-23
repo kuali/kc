@@ -134,4 +134,10 @@ public interface IacucProtocolProcedureService {
      */
     public void setProcedureSummaryGroupedBySpecies(IacucProtocol protocol);
 
+    /**
+     * This method is to set training details for all protocol persons 
+     * @param protocol
+     */
+    public void setTrainingDetails(IacucProtocol protocol);
+    
 }
