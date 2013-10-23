@@ -23,6 +23,10 @@
 <script type="text/javascript">
 	jq(document).ready(function() {
     	jq("#editProcedureLink").fancybox();
+		jq("#viewTrainingLink").fancybox({
+		    "width"  : 800,           // set the width
+		    "height" : 200           // set the height
+		});
     });
 </script>
 
@@ -41,6 +45,7 @@
 				</c:if>
           	</tr>     
 			<c:forEach items="${KualiForm.document.protocolList[0].protocolPersons}" var="person" varStatus="status">
+				<c:set var="procedurePersonIndex" value="${status.index}"/>
 	          	<tr>
 					<th class="infoline">
 					   <c:out value="${status.index+1}" />
@@ -49,9 +54,9 @@
 			         	<div align="left">
 							<c:out value="${person.personName}" />
 							</br>
- 							<html:image property="" 
-						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewtrainingdetails.gif' 
-						            styleClass="tinybutton addButton"/>
+							<a href="#training-div${procedurePersonIndex}" id="viewTrainingLink" >
+							    <img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewtrainingdetails.gif" alt="View Training Details" class="tinybutton addButton" />
+							</a>		               	
 			      		</div>
 			      	</td>
 		            <td width="60%" align="left" valign="middle" class="infoline">
@@ -59,7 +64,6 @@
 							<c:out value="${person.procedureQualificationDescription}" />
 		            	</div>
 					</td>
-					<c:set var="procedurePersonIndex" value="${status.index}"/>
 		            <td width="20%" align="left" valign="middle" class="infoline">
 		               	<div align="center">
 								<a href="#content-div${procedurePersonIndex}" id="editProcedureLink" >
@@ -68,6 +72,13 @@
 		            	</div>
 					</td>
 				</tr>
+				<c:set var="displayTrainingTitle" value="Training Details for : ${person.personName}" />
+				<c:set var="trainingCollectionReference" value="${KualiForm.document.protocolList[0].protocolPersons[status.index].iacucPersonTrainings}" />
+   				<kra-iacuc:iacucProtocolPersonTraining
+                    personIndex="${procedurePersonIndex}"
+                    displayTitle="${displayTrainingTitle}"
+                    trainingCollectionReference="${trainingCollectionReference}"/>
+				
 				<c:set var="displayTitle" value="Procedures Conducted by: ${person.personName}" />
 				<c:set var="procedureCollectionReference" value="${KualiForm.document.protocolList[0].protocolPersons[status.index].procedureDetails}" />
 				<c:set var="procedureCollectionProperty" value="document.protocolList[0].protocolPersons" />

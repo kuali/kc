@@ -91,6 +91,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         iacucProtocol.setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(iacucProtocol, 
                 protocolForm.getIacucProtocolProceduresHelper().getAllProcedures()));
+        protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PROCEDURES);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -182,26 +183,32 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     }
 
     public ActionForward updateProcedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        saveProtocolProcedures(getIacucProtocol(form));
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PROCEDURES);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     public ActionForward updatePersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocol iacucProtocol = getIacucProtocol(form);
+        saveProtocolProcedures(iacucProtocol);
+        getIacucProtocolProcedureService().setTrainingDetails(iacucProtocol);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PERSONNEL);
         return mapping.findForward(IacucConstants.PROCEDURE_PERSONNEL);
     }
 
     public ActionForward updateLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        saveProtocolProcedures(getIacucProtocol(form));
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.LOCATION);
         return mapping.findForward(IacucConstants.PROCEDURE_LOCATION);
     }
 
     public ActionForward updateSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        saveProtocolProcedures(getIacucProtocol(form));
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        getIacucProtocolProcedureService().setProcedureSummaryGroupedBySpecies(protocolForm.getIacucProtocolDocument().getIacucProtocol());
+        getIacucProtocolProcedureService().setProcedureSummaryGroupedBySpecies(getIacucProtocol(form));
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.SUMMARY);
         return mapping.findForward(IacucConstants.PROCEDURE_SUMMARY);
     }
@@ -210,9 +217,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     public ActionForward setEditLocationProcedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.LOCATION);
-        IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
-        IacucProtocol protocol = protocolDocument.getIacucProtocol();
-        getBusinessObjectService().save(protocol.getIacucProtocolStudyGroupLocations());
+        getBusinessObjectService().save(getIacucProtocol(form).getIacucProtocolStudyGroupLocations());
         return mapping.findForward(IacucConstants.PROCEDURE_LOCATION);
     }
     
@@ -220,10 +225,17 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     public ActionForward setEditPersonProcedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PERSONNEL);
-        IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
-        IacucProtocol protocol = protocolDocument.getIacucProtocol();
-        getBusinessObjectService().save(protocol.getProtocolPersons());
+        getBusinessObjectService().save(getIacucProtocol(form).getProtocolPersons());
         return mapping.findForward(IacucConstants.PROCEDURE_PERSONNEL);
+    }
+    
+    @SuppressWarnings("deprecation")
+    private void saveProtocolProcedures(IacucProtocol protocol) {
+        getBusinessObjectService().save(protocol.getIacucProtocolStudyGroupSpeciesList());
+        getBusinessObjectService().save(protocol.getIacucProtocolStudyGroups());
+        getBusinessObjectService().save(protocol.getProtocolPersons());
+        getBusinessObjectService().save(protocol.getIacucProtocolStudyGroupLocations());
+        
     }
     
 }

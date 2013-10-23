@@ -35,6 +35,8 @@ public class IacucProtocolStudyGroupSpecies extends ProtocolAssociateBase {
     private IacucSpecies iacucSpecies;
 
     private List<IacucProcedurePersonResponsible> iacucPersonResponsibleProcedures;
+    private List<IacucProcedureLocationDetail> iacucLocationResponsibleProcedures;
+    
 
     // Used to display summary
     private List<IacucProtocolStudyGroupBean> protocolStudyProcedures;
@@ -42,6 +44,7 @@ public class IacucProtocolStudyGroupSpecies extends ProtocolAssociateBase {
     public IacucProtocolStudyGroupSpecies() {
         setIacucPersonResponsibleProcedures(new ArrayList<IacucProcedurePersonResponsible>());
         setProtocolStudyProcedures(new ArrayList<IacucProtocolStudyGroupBean>());
+        setIacucLocationResponsibleProcedures(new ArrayList<IacucProcedureLocationDetail>());
     }
 
 
@@ -127,6 +130,16 @@ public class IacucProtocolStudyGroupSpecies extends ProtocolAssociateBase {
 
     public void setUsageCount(Integer usageCount) {
         this.usageCount = usageCount;
+    }
+
+
+    public List<IacucProcedureLocationDetail> getIacucLocationResponsibleProcedures() {
+        return iacucLocationResponsibleProcedures;
+    }
+
+
+    public void setIacucLocationResponsibleProcedures(List<IacucProcedureLocationDetail> iacucLocationResponsibleProcedures) {
+        this.iacucLocationResponsibleProcedures = iacucLocationResponsibleProcedures;
     }
 
 

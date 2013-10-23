@@ -78,6 +78,9 @@
         <collection-descriptor name="iacucPersonResponsibleProcedures" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="iacucProtocolStudyGroupSpeciesId" />
         </collection-descriptor>
+        <collection-descriptor name="iacucLocationResponsibleProcedures" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProcedureLocationDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="iacucProtocolStudyGroupSpeciesId" />
+        </collection-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup" table="IACUC_PROTOCOL_STUDY_GROUPS">
