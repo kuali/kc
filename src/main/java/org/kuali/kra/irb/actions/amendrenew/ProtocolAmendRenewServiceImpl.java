@@ -158,13 +158,9 @@ public class ProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImpl
             protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_PERMISSIONS);
             amendmentEntry.removeModule(ProtocolModule.PROTOCOL_PERMISSIONS);
         }
-        if (amendmentBean.getQuestionnaire()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.QUESTIONNAIRE));
-        } else {
-            removeEditedQuestionaire(protocol);
-            amendmentEntry.removeModule(ProtocolModule.QUESTIONNAIRE);
-        }
-
+        
+        //Always add the Qnnr module for the Amendment regardless of check box value on the Protocol Actions tabbed panel when amendments are created.
+        amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.QUESTIONNAIRE));
     }
 
     @Override
