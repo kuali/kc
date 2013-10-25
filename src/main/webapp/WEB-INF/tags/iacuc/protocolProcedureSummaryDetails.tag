@@ -15,6 +15,13 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<script type="text/javascript">
+	var saveButtonClicked = false;
+	jq(document).ready(function() {
+		jq("#viewQualificationsLink").fancybox();
+    });
+</script>
+
 <c:set var="parentTabName" value="" />
 
 	<kul:innerTab tabTitle="Summary" parentTab="${parentTabName}" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
@@ -49,19 +56,23 @@
 						<c:forEach items="${studyProcedure.iacucProtocolStudyGroupPersons}" var="procedurePerson" varStatus="personIndex">
                     		<c:out value="${procedurePerson.protocolPerson.personName}"/> <br /> 
                         	Trained: <br/>
-							<a href="#content-div${personIndex}" id="viewQualificationsLink" >
-								<img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewqualifications.gif" alt="View Qualifications" class="tinybutton addButton" />
-							</a>
+							<a href="#qualification-div${status.index}${personIndex.index}" id="viewQualificationsLink" >
+							    <img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewqualifications.gif" alt="View Qualifications" class="tinybutton addButton" />
+							</a>		               	
 							<br/><br/>		               	
+							<div id="qualification-div${status.index}${personIndex.index}" style="display: none;">
+								<div style="text-align:center; background-color:#666; color:#FFF;" align="center"><strong>Qualification</strong></div></br>
+	                    		<c:out value="${procedurePerson.protocolPerson.procedureQualificationDescription}"/> <br /> 
+							</div>
                         </c:forEach>
                     </div>
                     <div align="left" style="border:1px solid #999; padding:10px; margin-top:10px; margin-bottom:10px; margin-right:10px; margin-left:20px;">
                         <strong>Locations</strong><br />
-						<c:forEach items="${studyProcedure.iacucProtocolStudyGroupLocations}" var="procedureLocation" varStatus="locationIndex">
-                    		Location Type: <c:out value="${procedureLocation.iacucLocationType.location}"/> <br /> 
-                    		Location Name: <c:out value="${procedureLocation.iacucLocationName.locationName}"/> <br /> 
-                    		Room: <c:out value="${procedureLocation.locationRoom}"/> <br /> 
-                    		Description: <c:out value="${procedureLocation.studyGroupLocationDescription}"/> <br /> 
+						<c:forEach items="${studyProcedure.iacucProtocolStudyGroupLocations}" var="procedureLocationDetail" varStatus="locationIndex">
+                    		Location Type: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.iacucLocationType.location}"/> <br /> 
+                    		Location Name: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.iacucLocationName.locationName}"/> <br /> 
+                    		Room: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.locationRoom}"/> <br /> 
+                    		Description: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.studyGroupLocationDescription}"/> <br /> 
                         </c:forEach>
                     </div>
                 </div>
