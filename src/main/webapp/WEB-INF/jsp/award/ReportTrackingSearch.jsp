@@ -483,13 +483,20 @@
 					jq("#customSelLink").fancybox({
 						'hideOnContentClick' : false,
 						'width:' : 400,
-						'onClosed' : function() { jq('#onChangeViewClose').click(); },
-						'onStart' : function() { showSearchTable(); }
+						'afterClose' : function() {	jq('#onChangeViewClose').click();	},
+						'beforeShow' : function() { showSearchTable(); },
+					  helpers : {
+					        overlay : {
+					            css : {
+					                'background' : 'rgba(45, 45, 45, 0.8)'
+					            }
+					        }
+					    }
 						 });
 				});
 				jq(document).ready(function() {
 					prepareSortableColumns();
-				}); 				
+				});
 			</script>
 
 <c:choose><c:when test="${KualiForm.viewRawResults}">
