@@ -73,7 +73,7 @@
     		<div id="procedureEdit" class="globalbuttons">
 				<html:image styleId="onProcedureEdit" property="methodToCall.${submitMethod}" 
 			     		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="tinybutton"
-			     		onclick="submitFormToMethod('kualiForm', '${submitMethod}');"/>
+			     		onclick="saveButtonClicked=true;jq.fancybox.close();"/>
 			</div>					
 		</td>
 	</tr>	

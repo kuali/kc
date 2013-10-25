@@ -266,7 +266,7 @@
         <reference-descriptor name="protocolPerson" class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolPersonId"/>
         </reference-descriptor>
-        <collection-descriptor name="responsibleProcedures" element-class-ref="org.kuali.kra.iacuc.procedures.IacucPersonProcedureDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <collection-descriptor name="responsibleProcedures" element-class-ref="org.kuali.kra.iacuc.procedures.IacucPersonProcedureDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="iacucProcedurePersonResponsibleId" />
         </collection-descriptor>
 	</class-descriptor>
@@ -280,8 +280,8 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="iacucProcedurePersonResponsible" class-ref="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="iacucPersonProcedureSpeciesId"/>
+		<reference-descriptor name="iacucProcedurePersonResponsible" class-ref="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="iacucProcedurePersonResponsibleId"/>
 		</reference-descriptor>
 		<reference-descriptor name="iacucProtocolStudyGroupBean" class-ref="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="iacucProtocolStudyGroupHeaderId"/>
