@@ -35,6 +35,7 @@
                 <ref bean="IacucProtocolCorrespondenceType-protoCorrespTypeCode" />
                 <ref bean="IacucProtocolCorrespondenceType-description" />
                 <ref bean="IacucProtocolCorrespondenceType-moduleId" />
+                <ref bean="IacucProtocolCorrespondenceType-moduleDescription" />
                 <ref bean="IacucProtocolCorrespondenceType-versionNumber" />
             </list>
         </property>
@@ -81,6 +82,19 @@
         </property>
         <property name="summary" value="Module Id" />
         <property name="description" value="Module Id" />
+    </bean>
+
+    <bean id="IacucProtocolCorrespondenceType-moduleDescription" parent="IacucProtocolCorrespondenceType-moduleDescription-parentBean" />
+    <bean id="IacucProtocolCorrespondenceType-moduleDescription-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="module.description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Module" />
+        <property name="shortLabel" value="Module" />
+        <property name="control">
+            <bean parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Module" />
+        <property name="description" value="Module" />
     </bean>
 
     <bean id="IacucProtocolCorrespondenceType-versionNumber" parent="IacucProtocolCorrespondenceType-versionNumber-parentBean" />
@@ -141,7 +155,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="moduleId" />
+                    p:attributeName="module.description" />
             </list>
         </property>
     </bean>

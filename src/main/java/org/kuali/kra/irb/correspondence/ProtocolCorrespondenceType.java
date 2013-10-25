@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 
 public class ProtocolCorrespondenceType extends ProtocolCorrespondenceTypeBase {
@@ -35,4 +36,27 @@ public class ProtocolCorrespondenceType extends ProtocolCorrespondenceTypeBase {
     public static final String EXPEDITED_APPROVAL_LETTER = "5";
     public static final String SUSPENSION_NOTICE = "7";
     public static final String TERMINATION_NOTICE = "8";
+    
+    @SuppressWarnings("unused")
+    private transient CorrespondenceTypeModuleIdConstants module;
+
+    /**
+     * 
+     * This method returns the module enum specified by this {@code ProtocolCorrespondenceType}.
+     * @return Matching {@code CorrespondenceTypeModuleIdConstants} specified by the moduleId of this
+     * correspondence type, or CorrespondenceTypeModuleIdConstants.SYSTEM if no matching co
+     */
+    public CorrespondenceTypeModuleIdConstants getModule() {
+        String moduleId = getModuleId();
+        for(CorrespondenceTypeModuleIdConstants module : CorrespondenceTypeModuleIdConstants.values()) {
+            if(StringUtils.equals(module.getCode(),moduleId)) {
+                return module;
+            }
+        }
+        return CorrespondenceTypeModuleIdConstants.SYSTEM;
+    }
+
+    public void setModule(CorrespondenceTypeModuleIdConstants module) {
+        this.module = module;
+    }
 }

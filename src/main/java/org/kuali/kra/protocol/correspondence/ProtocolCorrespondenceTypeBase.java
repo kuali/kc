@@ -43,7 +43,7 @@ public abstract class ProtocolCorrespondenceTypeBase extends KraPersistableBusin
     private String description;
 
     private String moduleId;
-
+    
     private List<ProtocolCorrespondenceTemplateBase> protocolCorrespondenceTemplates;
 
     public ProtocolCorrespondenceTypeBase() {
@@ -111,4 +111,5 @@ public abstract class ProtocolCorrespondenceTypeBase extends KraPersistableBusin
     public void setProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceTemplateBase> protocolCorrespondenceTemplates) {
         this.protocolCorrespondenceTemplates = protocolCorrespondenceTemplates;
     }
+
 }
