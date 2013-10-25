@@ -21,12 +21,16 @@
 <c:set var="protocolPersonAttributes" value="${DataDictionary.IacucProtocolPerson.attributes}" />
 
 <script type="text/javascript">
+	var saveButtonClicked = false;
 	jq(document).ready(function() {
-    	jq("#editProcedureLink").fancybox();
-		jq("#viewTrainingLink").fancybox({
-		    "width"  : 800,           // set the width
-		    "height" : 200           // set the height
-		});
+    	jq("#editProcedureLink").fancybox({
+			'afterClose' : function() {
+				if (saveButtonClicked != false) {
+					jq('#onProcedureEdit').click();
+			    }				
+			}
+    	});
+		jq("#viewTrainingLink").fancybox();
     });
 </script>
 

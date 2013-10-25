@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-
 import java.util.HashMap;
 import java.util.List;
+
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
+import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 
 
 /**
@@ -139,5 +140,12 @@ public interface IacucProtocolProcedureService {
      * @param protocol
      */
     public void setTrainingDetails(IacucProtocol protocol);
+    
+    /**
+     * This method is to add procedure details for a new protocol person
+     * @param protocol
+     * @param protocolPerson
+     */
+    public void addPersonResponsibleProcedures(IacucProtocol protocol, IacucProtocolPerson protocolPerson);
     
 }

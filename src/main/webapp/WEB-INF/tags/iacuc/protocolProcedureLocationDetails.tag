@@ -115,10 +115,17 @@
 		                	                          attributeEntry="${procedureLocationAttributes.locationTypeCode}" 
 		                	                          onchange="populateSelect('getIacucProcedureLocationNames', '${collectionProperty}[${status.index}].locationTypeCode', '${collectionProperty}[${status.index}].locationId');" readOnly="${readOnly}"/>
 							<script type="text/javascript">
+								var saveButtonClicked = false;
  							    var $j = jQuery.noConflict();
 							   	$j(document).ready(function() {
 								   	populateSelect('getIacucProcedureLocationNames', '${collectionProperty}[${status.index}].locationTypeCode', '${collectionProperty}[${status.index}].locationId');
-              						$j("#editProcedureLink").fancybox();
+							    	$j("#editProcedureLink").fancybox({
+										'afterClose' : function() {
+											if (saveButtonClicked != false) {
+												$j('#onProcedureEdit').click();
+										    }				
+										}
+							    	});
 							   	});
 							</script>
 		            	</div>
@@ -167,7 +174,7 @@
 				<c:set var="displayTitle" value="Procedures at ${locationName}, ${protocolLocation.locationRoom}" />
 				<c:set var="procedureCollectionReference" value="${KualiForm.document.protocolList[0].iacucProtocolStudyGroupLocations[status.index].procedureDetails}" />
 				<c:set var="procedureCollectionProperty" value="document.protocolList[0].iacucProtocolStudyGroupLocations" />
-		 		<c:set var="submitMethod" value="setEditLocationProcedures" />
+				<c:set var="submitMethod" value="setEditLocationProcedures" />
    				<kra-iacuc:iacucProtocolEditProcedures
                     procedureIndex="${procedureIndex}"
                     displayTitle="${displayTitle}"
