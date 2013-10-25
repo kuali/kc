@@ -539,6 +539,7 @@
             <ref bean="iacucProtocolPersonTrainingService" />
         </property>         
         <property name="personEditableService" ref="personEditableService" />
+        <property name="iacucProtocolProcedureService" ref="iacucProtocolProcedureService" />
     </bean> 
 
     <bean id="iacucProtocolDao" parent="platformAwareDao" class="org.kuali.kra.iacuc.IacucProtocolDaoOjb">
