@@ -21,9 +21,9 @@ package org.kuali.kra.protocol.correspondence;
  */
 public enum CorrespondenceTypeModuleIdConstants {
     SYSTEM("Y", "System"),
-    PROTOCOL("P", "ProtocolBase"),
+    PROTOCOL("P", "Protocol"),
     SCHEDULE("S", "Schedule"),
-    PROTOCOL_SUBMISSION("U", "ProtocolBase Submission"),
+    PROTOCOL_SUBMISSION("U", "Protocol Submission"),
     COMMITTEE("C", "Committee");
     
     private final String code;   
@@ -33,12 +33,12 @@ public enum CorrespondenceTypeModuleIdConstants {
         this.description = description;
     }
 
-    public String code()   
+    public String getCode()   
     { 
         return code; 
     }
 
-    public String description() 
+    public String getDescription() 
     { 
         return description; 
     }
