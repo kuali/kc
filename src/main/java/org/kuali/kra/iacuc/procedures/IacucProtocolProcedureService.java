@@ -148,4 +148,11 @@ public interface IacucProtocolProcedureService {
      */
     public void addPersonResponsibleProcedures(IacucProtocol protocol, IacucProtocolPerson protocolPerson);
     
+    /**
+     * This method is to set procedure summary tab details
+     * group studies by protocol species group
+     * @param protocol
+     */
+    public void setProcedureSummaryBySpeciesGroup(IacucProtocol protocol);
+    
 }
