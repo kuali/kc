@@ -56,14 +56,26 @@ public class CostShareServiceTest extends KcUnitTestBase {
     
     @Test
     public void testValidateProjectPeriodAsFiscalYear() {
+        String parameterForBackup = getParameterService().getParameterValueAsString(this.getClass(), "CostShareProjectPeriodNameLabel");
+        updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", "Project Period");
+        
         boolean result = costShareService.validateProjectPeriodAsFiscalYear();
         assertFalse(result);
+        
+      //Switch it back
+        updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", parameterForBackup);
     }
     
     @Test
     public void tesValidateProjectPeriodAsProjectPeriod() {
+        String parameterForBackup = getParameterService().getParameterValueAsString(this.getClass(), "CostShareProjectPeriodNameLabel");
+        updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", "Project Period");
+        
         boolean result = costShareService.validateProjectPeriodAsProjectPeriod();
         assertTrue(result);
+        
+      //Switch it back
+      updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", parameterForBackup);
     }
 
     @Test
