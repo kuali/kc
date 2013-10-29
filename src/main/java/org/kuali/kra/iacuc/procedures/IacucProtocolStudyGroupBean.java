@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.protocol.ProtocolAssociateBase;
+import org.kuali.rice.krad.bo.DocumentHeader;
 
 public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
 
@@ -44,6 +45,7 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
     private List<IacucProcedureLocationDetail> iacucProtocolStudyGroupLocations;
     private List<IacucProcedurePersonResponsible> iacucProtocolStudyGroupPersons;
     private List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList;
+    private Integer speciesCount = 0;
     
     public IacucProtocolStudyGroupBean() {
         setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroup>());
@@ -130,6 +132,14 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
         this.iacucProcedure = iacucProcedure;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((iacucProtocolStudyGroupHeaderId == null) ? 0 : iacucProtocolStudyGroupHeaderId.hashCode());
+        return result;
+    }
+    
     /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
@@ -143,6 +153,13 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
             return false;
         }
         IacucProtocolStudyGroupBean other = (IacucProtocolStudyGroupBean) obj;
+        if (this.iacucProtocolStudyGroupHeaderId == null) {
+            if (other.iacucProtocolStudyGroupHeaderId != null) {
+                return false;
+            }
+        } else if (!this.iacucProtocolStudyGroupHeaderId.equals(other.iacucProtocolStudyGroupHeaderId)) {
+            return false;
+        }
         if (this.procedureCode == null) {
             if (other.procedureCode != null) {
                 return false;
@@ -192,4 +209,13 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
         this.iacucProtocolStudyCustomDataList = iacucProtocolStudyCustomDataList;
     }
 
+    public Integer getSpeciesCount() {
+        return speciesCount;
+    }
+
+    public void setSpeciesCount(Integer speciesCount) {
+        this.speciesCount = speciesCount;
+    }
+
+    
 }

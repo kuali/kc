@@ -91,6 +91,9 @@ public class IacucProcedureLocationDetail extends KraPersistableBusinessObjectBa
 
 
     public IacucProtocolStudyGroupLocation getIacucProtocolStudyGroupLocation() {
+        if(iacucProtocolStudyGroupLocation == null) {
+            refreshReferenceObject("iacucProtocolStudyGroupLocation");
+        }
         return iacucProtocolStudyGroupLocation;
     }
 
