@@ -23,6 +23,7 @@ import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.IacucSpeciesCountType;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -53,9 +54,14 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     private transient String groupAndSpecies;
     private transient Integer oldProtocolSpeciesId;
     
+    // Used to display summary (grouped by species group)
+    private List<IacucProtocolStudyGroupBean> protocolStudyProcedures;
+    private Integer totalSpeciesCount = 0;
+    
     public IacucProtocolSpecies() { 
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
         setSpeciesStudyGroups(new ArrayList<IacucProtocolStudyGroup>());
+        setProtocolStudyProcedures(new ArrayList<IacucProtocolStudyGroupBean>());
     } 
     
     public Integer getIacucProtocolSpeciesId() {
@@ -269,6 +275,22 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     
     public boolean isStudyExists() {
         return !speciesStudyGroups.isEmpty();
+    }
+
+    public List<IacucProtocolStudyGroupBean> getProtocolStudyProcedures() {
+        return protocolStudyProcedures;
+    }
+
+    public void setProtocolStudyProcedures(List<IacucProtocolStudyGroupBean> protocolStudyProcedures) {
+        this.protocolStudyProcedures = protocolStudyProcedures;
+    }
+
+    public Integer getTotalSpeciesCount() {
+        return totalSpeciesCount;
+    }
+
+    public void setTotalSpeciesCount(Integer totalSpeciesCount) {
+        this.totalSpeciesCount = totalSpeciesCount;
     }
 
 }
