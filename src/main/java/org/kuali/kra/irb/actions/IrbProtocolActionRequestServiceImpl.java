@@ -707,10 +707,11 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     public String withdrawProtocol(ProtocolForm protocolForm) throws Exception {
         ProtocolDocument pd = (ProtocolDocument) getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(),
                 protocolForm.getActionHelper().getProtocolWithdrawBean());
-        generateActionCorrespondence(ProtocolActionType.WITHDRAWN, protocolForm.getProtocolDocument().getProtocol());
+        Protocol protocol = pd.getProtocol();
+        generateActionCorrespondence(ProtocolActionType.WITHDRAWN, protocol);
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_WITHDRAW, false);
-        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IrbConstants.PROTOCOL_TAB, notificationBean, false));
+        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocol, ProtocolActionType.WITHDRAWN, "Withdrawn");
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocol, IrbConstants.PROTOCOL_TAB, notificationBean, false));
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IrbConstants.PROTOCOL_TAB);
     }
     
