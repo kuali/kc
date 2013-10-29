@@ -106,13 +106,7 @@ public class ProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImplBase
             }
             newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
             documentService.saveDocument(newProtocolDocument);
-            generateCorrespondenceDocumentAndAttach(newProtocolDocument.getProtocol(), withdrawBean);
             return newProtocolDocument;
-        }
-        //This is withdraw submission not protocol.  the withdraw correspondence is for 'protocol' now.
-        //it's not suitable for withdraw protocol submission.        
-        else {
-            generateCorrespondenceDocumentAndAttach(protocol, withdrawBean);
         }
         return protocol.getProtocolDocument();
     }
