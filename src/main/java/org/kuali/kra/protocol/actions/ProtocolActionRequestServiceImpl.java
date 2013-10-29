@@ -278,8 +278,12 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     }    
 
     public ProtocolCorrespondence getProtocolCorrespondence (ProtocolFormBase protocolForm, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
+        return getProtocolCorrespondence(protocolForm.getProtocolDocument().getProtocol(), forwardName, notificationRequestBean, holdingPage);
+    }
+
+    public ProtocolCorrespondence getProtocolCorrespondence (ProtocolBase protocol, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
         Map<String,Object> keyValues = new HashMap<String, Object>();
-        keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
+        keyValues.put("actionIdFk", protocol.getLastProtocolAction().getProtocolActionId());
         List<? extends ProtocolCorrespondence> correspondences = (List<? extends ProtocolCorrespondence>)getBusinessObjectService().findMatching(getProtocolCorrespondenceBOClassHook(), keyValues);
         if (correspondences.isEmpty()) {
             return null;

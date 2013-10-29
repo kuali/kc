@@ -71,6 +71,7 @@ import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireAuditRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -1050,10 +1051,11 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         ProtocolDocumentBase pd = getProtocolWithdrawService().administrativelyWithdraw(protocol, protocolForm.getActionHelper().getProtocolAdminWithdrawBean());
-        generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, protocolForm.getProtocolDocument().getProtocol());
+        IacucProtocol newIacucProtocol = (IacucProtocol)pd.getProtocol();
+        generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, newIacucProtocol);
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_ADMINISTRATIVELY_WITHDRAW, false);
-        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, "Administratively Withdrawn");
-        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false);
+        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(newIacucProtocol, IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, "Administratively Withdrawn");
+        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(newIacucProtocol, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
@@ -1065,10 +1067,11 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         ProtocolDocumentBase pd = getProtocolWithdrawService().withdraw(protocol, protocolForm.getActionHelper().getProtocolWithdrawBean());
-        generateActionCorrespondence(IacucProtocolActionType.IACUC_WITHDRAWN, protocolForm.getProtocolDocument().getProtocol());
+        IacucProtocol newIacucProtocol = (IacucProtocol)pd.getProtocol();
+        generateActionCorrespondence(IacucProtocolActionType.IACUC_WITHDRAWN, newIacucProtocol);
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_WITHDRAW, false);
-        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_WITHDRAWN, "Withdrawn");
-        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false);
+        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(newIacucProtocol, IacucProtocolActionType.IACUC_WITHDRAWN, "Withdrawn");
+        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(newIacucProtocol, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
@@ -1121,10 +1124,11 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     public String administrativelyMarkIncompleteProtocol(IacucProtocolForm protocolForm) throws Exception {
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         ProtocolDocumentBase pd = getProtocolWithdrawService().administrativelyMarkIncomplete(protocol, protocolForm.getActionHelper().getProtocolAdminIncompleteBean());
-        generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, protocolForm.getProtocolDocument().getProtocol());
+        IacucProtocol newIacucProtocol = (IacucProtocol)pd.getProtocol();
+        generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, newIacucProtocol);
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_ADMINISTRATIVELY_INCOMPLETE, false);
-        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, "Administratively Marked Incomplete");
-        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false);
+        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(newIacucProtocol, IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, "Administratively Marked Incomplete");
+        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(newIacucProtocol, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
