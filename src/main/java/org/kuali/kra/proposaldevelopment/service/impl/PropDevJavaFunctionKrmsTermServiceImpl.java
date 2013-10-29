@@ -590,7 +590,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 
     @Override
     public String nonFacultyPi(DevelopmentProposal developmentProposal) {
-        if (developmentProposal.getPrincipalInvestigator()==null || developmentProposal.getPrincipalInvestigator().getFacultyFlag()) {
+        if (developmentProposal.getPrincipalInvestigator()!=null && developmentProposal.getPrincipalInvestigator().getFacultyFlag()) {
             return FALSE;
         } else {
             return TRUE;
