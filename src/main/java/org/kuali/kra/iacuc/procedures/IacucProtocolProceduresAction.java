@@ -87,17 +87,6 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward reload(ActionMapping mapping, ActionForm form, 
-            HttpServletRequest request, HttpServletResponse response) throws Exception { 
-        super.reload(mapping, form, request, response);
-        IacucProtocol iacucProtocol = getIacucProtocol(form);
-        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        iacucProtocol.setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(iacucProtocol, 
-                protocolForm.getIacucProtocolProceduresHelper().getAllProcedures()));
-        protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PROCEDURES);
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     public ActionForward addProcedureLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation = protocolForm.getIacucProtocolProceduresHelper().getNewIacucProtocolStudyGroupLocation();
@@ -221,8 +210,9 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         if(isSaveProcedureValid(form)) {
             saveProtocolProcedures(getIacucProtocol(form));
             IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-            getIacucProtocolProcedureService().setProcedureSummaryGroupedBySpecies(getIacucProtocol(form));
+            getIacucProtocolProcedureService().setProcedureSummaryBySpeciesGroup(getIacucProtocol(form));
             protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.SUMMARY);
+            protocolForm.getIacucProtocolProceduresHelper().setSummaryGroupedBySpecies(false);
             forward = mapping.findForward(IacucConstants.PROCEDURE_SUMMARY);
         }
         return forward;
@@ -259,5 +249,21 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         getBusinessObjectService().save(protocol.getIacucProtocolStudyGroupLocations());
         
     }
+
+    public ActionForward summaryBySpecies(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        getIacucProtocolProcedureService().setProcedureSummaryGroupedBySpecies(getIacucProtocol(form));
+        protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.SUMMARY);
+        protocolForm.getIacucProtocolProceduresHelper().setSummaryGroupedBySpecies(true);
+        return mapping.findForward(IacucConstants.PROCEDURE_SUMMARY);
+    }
     
+    public ActionForward summaryByGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        getIacucProtocolProcedureService().setProcedureSummaryBySpeciesGroup(getIacucProtocol(form));
+        protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.SUMMARY);
+        protocolForm.getIacucProtocolProceduresHelper().setSummaryGroupedBySpecies(false);
+        return mapping.findForward(IacucConstants.PROCEDURE_SUMMARY);
+    }
+
 }

@@ -52,6 +52,8 @@ public class IacucProtocolProceduresHelper implements Serializable{
 
     protected IacucProtocolPerson selectedProtocolPerson;
     
+    boolean summaryGroupedBySpecies = false;
+    
     public IacucProtocolProceduresHelper(IacucProtocolForm form) {
         setForm(form); 
         setNewIacucProtocolStudyGroup(new IacucProtocolStudyGroup());
@@ -176,6 +178,16 @@ public class IacucProtocolProceduresHelper implements Serializable{
 
     public void setNewIacucProtocolStudyGroupLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation) {
         this.newIacucProtocolStudyGroupLocation = newIacucProtocolStudyGroupLocation;
+    }
+
+
+    public boolean isSummaryGroupedBySpecies() {
+        return summaryGroupedBySpecies;
+    }
+
+
+    public void setSummaryGroupedBySpecies(boolean summaryGroupedBySpecies) {
+        this.summaryGroupedBySpecies = summaryGroupedBySpecies;
     }
 
 }
