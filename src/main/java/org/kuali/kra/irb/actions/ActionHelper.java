@@ -84,6 +84,7 @@ import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -1233,12 +1234,12 @@ public class ActionHelper extends ActionHelperBase {
      */
     protected void setAmendmentDetails() throws Exception {
         /*
-         * Check if the user is trying to modify amendment sections, if so, do not setAmendmentDetials.
+         * Check if the user is trying to modify amendment sections, if so, do not setAmendmentDetails.
          * If you set it, the user's data gets refreshed and the amendment details from the currentSubmission
          * will be populated in the protocolAmendmentBean.
          */
         if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS)) {
-            ProtocolAmendmentBean amendmentBean = (ProtocolAmendmentBean) getProtocolAmendmentBean();
+            ProtocolAmendmentBean amendmentSummaryBean = (ProtocolAmendmentBean) getProtocolAmendmentSummaryBean();
             String originalProtocolNumber;
             // Use the submission number to get the correct amendment details
             if (getProtocol().isAmendment()) {
@@ -1251,9 +1252,25 @@ public class ActionHelper extends ActionHelperBase {
             List<ProtocolBase> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
 
             ProtocolAmendRenewal correctAmendment = (ProtocolAmendRenewal) getCorrectAmendment(protocols);
-            // we don't want to do this any more... when a new Amendment is created, we do not want to 
-            // redisplay modules selected for first Amendment. Instead, clear the board...
-            setSubmissionHasNoAmendmentDetails(true);
+            
+            if (ObjectUtils.isNotNull(correctAmendment)) {
+                setSubmissionHasNoAmendmentDetails(false);
+                amendmentSummaryBean.setSummary(correctAmendment.getSummary());
+                amendmentSummaryBean.setGeneralInfo((correctAmendment.hasModule(ProtocolModule.GENERAL_INFO)) ? true : false);
+                amendmentSummaryBean.setProtocolPersonnel((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
+                amendmentSummaryBean.setAreasOfResearch((correctAmendment.hasModule(ProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
+                amendmentSummaryBean.setAddModifyAttachments((correctAmendment.hasModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
+                amendmentSummaryBean.setFundingSource((correctAmendment.hasModule(ProtocolModule.FUNDING_SOURCE)) ? true : false);
+                amendmentSummaryBean.setOthers((correctAmendment.hasModule(ProtocolModule.OTHERS)) ? true : false);
+                amendmentSummaryBean.setProtocolOrganizations((correctAmendment.hasModule(ProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
+                amendmentSummaryBean.setProtocolPermissions((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
+                amendmentSummaryBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(ProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
+                amendmentSummaryBean.setQuestionnaire((correctAmendment.hasModule(ProtocolModule.QUESTIONNAIRE)) ? true : false);
+                amendmentSummaryBean.setSpecialReview((correctAmendment.hasModule(ProtocolModule.SPECIAL_REVIEW)) ? true : false);
+                amendmentSummaryBean.setSubjects((correctAmendment.hasModule(ProtocolModule.SUBJECTS)) ? true : false);
+            } else {
+                setSubmissionHasNoAmendmentDetails(true);
+            }
         }
     } 
     

@@ -208,6 +208,7 @@ public abstract class ActionHelperBase implements Serializable {
     
     protected ProtocolAmendmentBean protocolAmendmentBean;
     protected ProtocolAmendmentBean protocolRenewAmendmentBean;
+    protected ProtocolAmendmentBean protocolAmendmentSummaryBean;
     protected ProtocolDeleteBean protocolDeleteBean;
     protected ProtocolAssignToAgendaBean assignToAgendaBean;   
     private ProtocolApproveBean protocolFullApprovalBean;
@@ -542,8 +543,10 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolAmendmentBean createAmendmentBean() throws Exception {
         protocolAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
         protocolRenewAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
+        protocolAmendmentSummaryBean = getNewProtocolAmendmentBeanInstanceHook(this);
         configureAmendmentBean(protocolAmendmentBean);
         configureAmendmentBean(protocolRenewAmendmentBean);
+        configureAmendmentBean(protocolAmendmentSummaryBean);
         return protocolAmendmentBean;
     }
     
@@ -1233,6 +1236,10 @@ public abstract class ActionHelperBase implements Serializable {
     
     public ProtocolAmendmentBean getProtocolRenewAmendmentBean() {
         return protocolRenewAmendmentBean;
+    }
+    
+    public ProtocolAmendmentBean getProtocolAmendmentSummaryBean() {
+        return protocolAmendmentSummaryBean;
     }
     
     public ProtocolDeleteBean getProtocolDeleteBean() {
