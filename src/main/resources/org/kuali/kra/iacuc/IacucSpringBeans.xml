@@ -1151,4 +1151,11 @@
     	<property name="parameterService" ref="parameterService" />
     </bean>
 
+    <bean id="iacucPersonTrainingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="iacucPersonTrainingLookupableHelperService" />
+    </bean>
+
+    <bean id="iacucPersonTrainingLookupableHelperService" class="org.kuali.kra.iacuc.IacucPersonTrainingLookupableHelperServiceImpl" 
+          parent="parentLookupableHelperService" scope="prototype" />
+
 </beans>
