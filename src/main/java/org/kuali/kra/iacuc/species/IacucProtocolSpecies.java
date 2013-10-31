@@ -49,7 +49,6 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     private IacucPainCategory iacucPainCategory;
     
     private List<IacucProtocolException> iacucProtocolExceptions; 
-    private List<IacucProtocolStudyGroup> speciesStudyGroups; 
     
     private transient String groupAndSpecies;
     private transient Integer oldProtocolSpeciesId;
@@ -60,7 +59,6 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     
     public IacucProtocolSpecies() { 
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
-        setSpeciesStudyGroups(new ArrayList<IacucProtocolStudyGroup>());
         setProtocolStudyProcedures(new ArrayList<IacucProtocolStudyGroupBean>());
     } 
     
@@ -265,16 +263,8 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
         this.oldProtocolSpeciesId = oldProtocolSpeciesId;
     }
 
-    public List<IacucProtocolStudyGroup> getSpeciesStudyGroups() {
-        return speciesStudyGroups;
-    }
-
-    public void setSpeciesStudyGroups(List<IacucProtocolStudyGroup> speciesStudyGroups) {
-        this.speciesStudyGroups = speciesStudyGroups;
-    }
-    
     public boolean isStudyExists() {
-        return !speciesStudyGroups.isEmpty();
+        return !protocolStudyProcedures.isEmpty();
     }
 
     public List<IacucProtocolStudyGroupBean> getProtocolStudyProcedures() {
@@ -292,5 +282,6 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     public void setTotalSpeciesCount(Integer totalSpeciesCount) {
         this.totalSpeciesCount = totalSpeciesCount;
     }
+    
 
 }

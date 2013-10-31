@@ -31,6 +31,9 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
     private List<IacucProcedurePersonResponsible> procedureDetails;
     private List<IacucPersonTraining> iacucPersonTrainings;
     
+    private static final String PERSON_TRAINED_TRUE = "Yes";
+    private static final String PERSON_TRAINED_FALSE = "No";
+    
     public IacucProtocolPerson() {
         super();
         setProcedureDetails(new ArrayList<IacucProcedurePersonResponsible>());
@@ -63,6 +66,10 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
 
     public void setIacucPersonTrainings(List<IacucPersonTraining> iacucPersonTrainings) {
         this.iacucPersonTrainings = iacucPersonTrainings;
+    }
+    
+    public String getPersonTrainedStatus() {
+        return getIacucPersonTrainings().size() > 0 ? PERSON_TRAINED_TRUE : PERSON_TRAINED_FALSE;
     }
 
 }
