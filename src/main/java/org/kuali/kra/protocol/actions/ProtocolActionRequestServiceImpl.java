@@ -131,7 +131,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
      * @return
      */
     protected boolean hasGenericPermission(String genericActionName, ProtocolBase protocol) {
-        ProtocolTaskBase task = getProtocolGenericActionTaskInstanceHook(TaskName.GENERIC_PROTOCOL_ACTION, genericActionName, protocol);
+        ProtocolTaskBase task = getProtocolGenericActionTaskInstanceHook(genericActionName, protocol);
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
     
@@ -343,7 +343,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     protected abstract ProtocolNotification getProtocolNotificationInstanceHook();
     protected abstract ProtocolNotificationContextBase getProtocolNotificationContextHook(ProtocolNotificationRequestBeanBase notificationRequestBean, ProtocolFormBase protocolForm);
     protected abstract ProtocolTaskBase getProtocolTaskInstanceHook(String taskName, ProtocolBase protocol);
-    protected abstract ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String taskName, String genericActionName, ProtocolBase protocol);
+    protected abstract ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String genericActionName, ProtocolBase protocol);
     protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondence(String protocolActionTypeCode);
     protected abstract Class<? extends ProtocolActionTypeBase> getProtocolActionTypeBOClassHook();
     protected abstract String getProtocolCreatedActionTypeHook();
