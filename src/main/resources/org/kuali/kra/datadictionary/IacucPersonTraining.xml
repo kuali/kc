@@ -38,12 +38,12 @@
 				<ref bean="IacucPersonTraining-personTrainingId"/>
 				<ref bean="IacucPersonTraining-personId"/>
 				<ref bean="IacucPersonTraining-speciesCode" />
+        		<ref bean="IacucPersonTraining-iacucSpecies.speciesName" />
 				<ref bean="IacucPersonTraining-procedureCode" />
-				
+        		<ref bean="IacucPersonTraining-iacucProcedure.procedureDescription" />
+        		<ref bean="IacucPersonTraining-person.userName" />
+				<ref bean="IacucPersonTraining-person.fullName" />
 				<ref bean="IacucPersonTraining-versionNumber" />
-				<!--  
-				<ref bean="IacucPersonTraining-active" />
-				-->
 			</list>
 		</property>
 	</bean>
@@ -71,23 +71,48 @@
 	<bean id="IacucPersonTraining-personTrainingId" parent="PersonTraining-personTrainingId-parentBean"/>
 
 	<bean id="IacucPersonTraining-personId" parent="PersonTraining-personId-parentBean"/>
-	
+
+	<bean id="IacucPersonTraining-person.userName" parent="IacucPersonTraining-person.userName-parentBean" />
+    <bean id="IacucPersonTraining-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
+        <property name="name" value="person.userName" />
+        <property name="label" value="KC Person" />
+        <property name="shortLabel" value="Name" />
+        <property name="required" value="false" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="person.fullName"
+                p:universalIdAttributeName="personId"
+                p:userIdAttributeName="person.userName" />
+        </property>
+    </bean>
+
+	<bean id="IacucPersonTraining-person.fullName" parent="IacucPersonTraining-person.fullName-parentBean" />
+    <bean id="IacucPersonTraining-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="person.fullName" />
+        <property name="label" value="Full Name" />
+        <property name="shortLabel" value="Full Name" />
+    </bean>
+
 	<bean id="IacucPersonTraining-speciesCode" parent="IacucSpecies-speciesCode-parentBean" />
+
+	<bean id="IacucPersonTraining-iacucSpecies.speciesName" parent="IacucPersonTraining-iacucSpecies.speciesName-parentBean" />
+    <bean id="IacucPersonTraining-iacucSpecies.speciesName-parentBean" abstract="true" parent="IacucSpecies-speciesName">
+        <property name="name" value="iacucSpecies.speciesName" />
+        <property name="label" value="Species Name" />
+        <property name="shortLabel" value="Species Name" />
+    </bean>
 	
 	<bean id="IacucPersonTraining-procedureCode" parent="IacucProcedure-procedureCode-parentBean" />
 
-	<!--  
-	<bean id="IacucPersonTraining-active" parent="IacucPersonTraining-active-parentBean"/>
-	<bean abstract="true" id="IacucPersonTraining-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
-	    <property name="name" value="active"/>
-	    <property name="label" value="Active"/>
-	    <property name="shortLabel" value="Active"/>
-	    <property name="summary" value="Active"/>
-	    <property name="description" value="Active"/>
-	</bean>
-	-->
-
-
+	<bean id="IacucPersonTraining-iacucProcedure.procedureDescription" parent="IacucPersonTraining-iacucProcedure.procedureDescription-parentBean" />
+    <bean id="IacucPersonTraining-iacucProcedure.procedureDescription-parentBean" abstract="true" parent="IacucProcedure-procedureDescription">
+        <property name="name" value="iacucProcedure.procedureDescription" />
+        <property name="label" value="Procedure Name" />
+        <property name="shortLabel" value="Procedure Name" />
+    </bean>
 
 	<bean id="IacucPersonTraining-versionNumber" parent="IacucPersonTraining-versionNumber-parentBean" />
 	<bean id="IacucPersonTraining-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -111,10 +136,6 @@
 								p:attributeName="speciesCode" />
 							<bean parent="FieldDefinition"
 								p:attributeName="procedureCode" />
-								
-							<!--  	
-							<bean parent="FieldDefinition" p:attributeName="active" />
-							-->
 						</list>
 					</property>
 				</bean>
@@ -126,6 +147,7 @@
 	<bean id="IacucPersonTraining-lookupDefinition" parent="IacucPersonTraining-lookupDefinition-parentBean" />
 	<bean id="IacucPersonTraining-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="IACUC Person Training Lookup" />
+	    <property name="lookupableID" value="iacucPersonTrainingLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
@@ -138,7 +160,7 @@
 					p:attributeName="iacucPersonTrainingId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="personId" />
+					p:attributeName="person.userName" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -147,14 +169,13 @@
 					p:attributeName="iacucPersonTrainingId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="personId" />
+					p:attributeName="person.userName" />
 				<bean parent="FieldDefinition"
-					p:attributeName="speciesCode" />
+					p:attributeName="person.fullName" />
 				<bean parent="FieldDefinition"
-					p:attributeName="procedureCode" />
-				<!--  	
-				<bean parent="FieldDefinition" p:attributeName="active" />
-				-->
+					p:attributeName="iacucSpecies.speciesName" />
+				<bean parent="FieldDefinition"
+					p:attributeName="iacucProcedure.procedureDescription" />
 			</list>
 		</property>
 	</bean>
