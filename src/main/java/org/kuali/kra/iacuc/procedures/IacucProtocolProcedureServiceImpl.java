@@ -129,7 +129,8 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         if(studyGroupBeans.isEmpty()) {
             studyGroupBeans = getNewListOfStudyGroupBeans(iacucProtocol, allProcedures);
         }
-       return studyGroupBeans;
+        setTrainingDetails(iacucProtocol);
+        return studyGroupBeans;
     }
     
     /**
@@ -787,7 +788,6 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#setProcedureSummaryGroupedBySpecies(org.kuali.kra.iacuc.IacucProtocol)
      */
     public void setProcedureSummaryGroupedBySpecies(IacucProtocol protocol) {
-        protocol.refreshReferenceObject("iacucProtocolStudyGroupSpeciesList");
         addStudyGroupProceduresForSpecies(protocol);
         addStudyGroupProcedureDetailsForSpecies(protocol);
     }
@@ -796,7 +796,6 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#setProcedureSummaryBySpeciesGroup(org.kuali.kra.iacuc.IacucProtocol)
      */
     public void setProcedureSummaryBySpeciesGroup(IacucProtocol protocol) {
-        protocol.refreshReferenceObject("iacucProtocolStudyGroupSpeciesList");
         addProceduresForSpeciesGroups(protocol);
         addProcedureDetailsForSpeciesGroups(protocol);
     }
@@ -824,6 +823,8 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             protocolStudyGroupSpecies.setProtocolStudyProcedures(new ArrayList<IacucProtocolStudyGroupBean>());
             Integer speciesCode = protocolStudyGroupSpecies.getSpeciesCode();
             protocolStudyGroupSpecies.getProtocolStudyProcedures().addAll(getStudyGroupProceduresForSpecies(protocol, speciesCode));
+            protocolStudyGroupSpecies.refreshReferenceObject("iacucPersonResponsibleProcedures");
+            protocolStudyGroupSpecies.refreshReferenceObject("iacucLocationResponsibleProcedures");
         }
     }
     
@@ -865,7 +866,8 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
                 protocolStudyGroupBean.setIacucProtocolStudyCustomDataList(getAllStudyGroupCustomDataForProcedure(protocol, protocolStudyGroupBean, protocolStudyGroupSpecies));
                 Integer totalProcSpeciesCount = 0;
                 for(IacucProtocolStudyGroup studyGroup : protocolStudyGroupBean.getIacucProtocolStudyGroups()) {
-                    if(protocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId().equals(studyGroup.getIacucProtocolStudyGroupHeaderId())) {
+                    if(protocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId().equals(studyGroup.getIacucProtocolStudyGroupHeaderId()) &&
+                            studyGroup.getIacucProtocolSpecies().getSpeciesCode().equals(protocolStudyGroupSpecies.getSpeciesCode())) {
                         totalProcSpeciesCount = totalProcSpeciesCount + studyGroup.getCount();
                     }
                 }
@@ -893,7 +895,8 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
                 protocolStudyGroupBean.setIacucProtocolStudyCustomDataList(getAllStudyGroupCustomDataForSpeciesGroup(protocol, protocolStudyGroupBean, iacucProtocolSpecies));
                 Integer totalProcSpeciesCount = 0;
                 for(IacucProtocolStudyGroup studyGroup : protocolStudyGroupBean.getIacucProtocolStudyGroups()) {
-                    if(protocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId().equals(studyGroup.getIacucProtocolStudyGroupHeaderId())) {
+                    if(protocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId().equals(studyGroup.getIacucProtocolStudyGroupHeaderId()) &&
+                            studyGroup.getIacucProtocolSpeciesId().equals(iacucProtocolSpecies.getIacucProtocolSpeciesId())) {
                         totalProcSpeciesCount = totalProcSpeciesCount + studyGroup.getCount();
                     }
                 }
@@ -943,7 +946,6 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
                         break;
                     }
                 }
-                break;
             }
         }
         return iacucProtocolStudyGroupLocations;

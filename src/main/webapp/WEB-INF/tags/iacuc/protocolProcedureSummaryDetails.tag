@@ -54,13 +54,15 @@
   			</c:when>
   			<c:otherwise>
 				<c:forEach items="${KualiForm.document.protocolList[0].iacucProtocolSpeciesList}" var="procedureSpecies" varStatus="status">
-					<c:set var="tabTitle" value="${procedureSpecies.groupAndSpecies}" />
-					<c:set var="studyProcedureCollectionReference" value="${procedureSpecies.protocolStudyProcedures}" />
-					<c:set var="totalSpeciesCount" value="${procedureSpecies.totalSpeciesCount}" />
-		 			<kra-iacuc:procedureSummaryGrouped
-		            	tabTitle="${tabTitle}"
-		            	totalSpeciesCount="${totalSpeciesCount}"
-		                studyProcedureCollectionReference="${studyProcedureCollectionReference}"/>
+					<c:if test="${procedureSpecies.studyExists}">
+						<c:set var="tabTitle" value="${procedureSpecies.groupAndSpecies}" />
+						<c:set var="studyProcedureCollectionReference" value="${procedureSpecies.protocolStudyProcedures}" />
+						<c:set var="totalSpeciesCount" value="${procedureSpecies.totalSpeciesCount}" />
+			 			<kra-iacuc:procedureSummaryGrouped
+			            	tabTitle="${tabTitle}"
+			            	totalSpeciesCount="${totalSpeciesCount}"
+			                studyProcedureCollectionReference="${studyProcedureCollectionReference}"/>
+					</c:if>
 				</c:forEach>
   			</c:otherwise>
   		</c:choose>
