@@ -1354,9 +1354,9 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     }
 
     @Override
-    protected ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String taskName, String genericActionName,
+    protected ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String genericActionName,
             ProtocolBase protocol) {
-        ProtocolTask task = new ProtocolTask(taskName, (Protocol)protocol, genericActionName);
+        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, (Protocol)protocol, genericActionName);
         return task;
     }
 
