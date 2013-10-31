@@ -92,7 +92,8 @@
                             <td align="center" valign="middle">
                                 <div align="center">
                                     <!--  <html:checkbox property="document.developmentProposalList[0].s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" disabled="${!KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms[status.index].available}"/>-->
-                                    <kul:htmlControlAttribute property="document.developmentProposalList[0].s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" disabled="${!KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms[status.index].available}"/>                                                            
+                                    <kul:htmlControlAttribute property="document.developmentProposalList[0].s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" disabled="${!KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms[status.index].available}"
+                                    readOnly="false"/>
                                 </div>
                             </td>
                         </kra:section>
