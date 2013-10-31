@@ -78,26 +78,19 @@ public class IacucPersonTrainingMaintenanceDocumentRule extends KraMaintenanceDo
      * @param newIacucPersonTraining the new person training
      * @return 
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("deprecation")
     private boolean isPersonTrainingValid(IacucPersonTraining newIacucPersonTraining) {
         boolean isValid = true;
-        
-        String iacucTrainingPersonId = newIacucPersonTraining.getPersonId();
         Integer personTrainingId = newIacucPersonTraining.getPersonTrainingId();
-        
         if(ObjectUtils.isNotNull(personTrainingId)) {
             Map<String, Integer> fieldValues = new HashMap<String, Integer>();
             fieldValues.put(PERSON_TRAINING_FIELD_NAME, personTrainingId);
             PersonTraining personTraining = getBusinessObjectService().findByPrimaryKey(PersonTraining.class, fieldValues);
-            if(ObjectUtils.isNotNull(personTraining)) {
-                String trainingPersonId = personTraining.getPersonId();
-                if(!trainingPersonId.equals(iacucTrainingPersonId)) {
-                    isValid = false;
-                    putFieldError(PERSON_TRAINING_FIELD_NAME, KeyConstants.ERROR_IACUC_VALIDATION_MISMATCH_PERSON_TRAINING); 
-                }
-            }else {
+            if(ObjectUtils.isNull(personTraining)) {
                 isValid = false;
                 putFieldError(PERSON_TRAINING_FIELD_NAME, KeyConstants.ERROR_IACUC_VALIDATION_INVALID_PERSON_TRAINING); 
+            }else {
+                newIacucPersonTraining.setPersonId(personTraining.getPersonId());
             }
         }
         return isValid;
