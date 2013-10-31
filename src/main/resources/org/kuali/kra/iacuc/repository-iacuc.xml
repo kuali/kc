@@ -208,7 +208,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.iacuc.IacucPersonTraining" table="IACUC_PERSON_TRAINING">
-		<field-descriptor name="iacucPersonTrainingId" column="IACUC_PERSON_TRAINING_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="iacucPersonTrainingId" column="IACUC_PERSON_TRAINING_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PERSON_TRAINING_ID" autoincrement="true"/>
 		<field-descriptor name="personTrainingId" column="PERSON_TRAINING_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="speciesCode" column="SPECIES_CODE" jdbc-type="INTEGER" />
