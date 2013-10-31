@@ -48,7 +48,7 @@
                     <strong>Procedure Personnel</strong><br />
 					<c:forEach items="${studyProcedure.iacucProtocolStudyGroupPersons}" var="procedurePerson" varStatus="personIndex">
                  		<c:out value="${procedurePerson.protocolPerson.personName}"/> <br /> 
-                     	Trained: <br/>
+                     	Trained : <c:out value="${procedurePerson.protocolPerson.personTrainedStatus}"/> <br/>
 						<a href="#qualification-div${status.index}${personIndex.index}" id="viewQualificationsLink" >
 				    		<img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewqualifications.gif" alt="View Qualifications" class="tinybutton addButton" />
 						</a>		               	
@@ -65,7 +65,8 @@
                  		Location Type: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.iacucLocationType.location}"/> <br /> 
                  		Location Name: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.iacucLocationName.locationName}"/> <br /> 
                  		Room: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.locationRoom}"/> <br /> 
-                 		Description: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.studyGroupLocationDescription}"/> <br /> 
+                 		Description: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.studyGroupLocationDescription}"/> <br />
+                 		<br/><br/> 
                     </c:forEach>
                 </div>
 		</div>
