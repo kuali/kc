@@ -1,0 +1,2 @@
+alter table BUDGET_SUB_AWARD_PERIOD_DETAIL modify SUBAWARD_NUMBER NUMBER(3,0) not null
+/
