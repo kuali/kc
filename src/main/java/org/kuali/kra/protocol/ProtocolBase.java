@@ -997,6 +997,17 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         return protocolActions.get(0);
     }
 
+    public boolean containsAction(String action) {
+        boolean result = false;
+        for (ProtocolActionBase protocolActionBase: getProtocolActions()) {
+            if (protocolActionBase.getProtocolActionTypeCode().equals(action)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+    
     public void setProtocolSubmissions(List<ProtocolSubmissionBase> protocolSubmissions) {
         this.protocolSubmissions = protocolSubmissions;
     }
