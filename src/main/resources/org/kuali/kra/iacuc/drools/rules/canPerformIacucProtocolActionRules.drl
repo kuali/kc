@@ -20,7 +20,7 @@ end
 rule "Assign to Committee" 
 salience 100
 when
-    	protocolAction : IacucProtocolActionMapping(actionTypeCode == "109", submissionStatusCode in ("101","102"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "109", submissionStatusCode in ("101","102"))
 then	
 	setAction(protocolAction, true);
 end
@@ -392,3 +392,29 @@ when
 then    
     setAction(protocolAction, true);
 end
+
+rule "Withdraw Request to Deactivate"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200", "201", "202"), submissionCountCond7rd == true)
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Withdraw Request to Lift Hold"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "132", protocolStatusCode in ("201"), submissionCountCond7rlh == true)
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Withdraw Request for Suspension"
+salience 100
+when
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == "134", protocolStatusCode in ("200","201","202","305","306"), submissionCountCond7rs == true)
+then	
+	setAction(protocolAction, true);
+end
+
+        

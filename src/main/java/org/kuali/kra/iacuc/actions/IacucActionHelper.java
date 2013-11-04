@@ -154,6 +154,13 @@ public class IacucActionHelper extends ActionHelperBase {
     private boolean canAddDeactivateReviewerComments = false;
     private boolean canRemoveFromAgenda = false;
 
+    private boolean canWithdrawRequestToLiftHold = false;
+    private boolean canWithdrawRequestToLiftHoldUnavailable = false;
+    private boolean canWithdrawRequestSuspend = false;
+    private boolean canWithdrawRequestSuspendUnavailable = false;
+    private boolean canWithdrawIacucRequestDeactivate = false;
+    private boolean canWithdrawIacucRequestDeactivateUnavailable = false;
+    
     private boolean canAssignCmt = false;
     private boolean canAssignCmtUnavailable = false;
 
@@ -178,6 +185,9 @@ public class IacucActionHelper extends ActionHelperBase {
     protected IacucProtocolRequestBean iacucProtocolDeactivateRequestBean;
     protected IacucProtocolRequestBean iacucProtocolLiftHoldRequestBean;
     protected IacucProtocolRequestBean iacucProtocolSuspendRequestBean;
+    protected IacucProtocolRequestBean iacucProtocolWithdrawDeactivateRequestBean;
+    protected IacucProtocolRequestBean iacucProtocolWithdrawLiftHoldRequestBean;
+    protected IacucProtocolRequestBean iacucProtocolWithdrawSuspendRequestBean;
     
     protected boolean canCreateContinuation = false;
     protected boolean canCreateContinuationUnavailable = false;
@@ -212,6 +222,12 @@ public class IacucActionHelper extends ActionHelperBase {
                 IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD, "iacucProtocolLiftHoldRequestBean");
         iacucProtocolSuspendRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.IACUC_REQUEST_SUSPEND,
                 IacucProtocolSubmissionType.REQUEST_SUSPEND, "iacucProtocolSuspendRequestBean");
+        iacucProtocolWithdrawDeactivateRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.WITHDRAW_REQUEST_DEACTIVATE,
+                IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE, "iacucWithdrawProtocolDeactivateRequestBean");
+        iacucProtocolWithdrawLiftHoldRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.WITHDRAW_REQUEST_LIFT_HOLD,
+                IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD, "iacucWithdrawProtocolLiftHoldRequestBean");
+        iacucProtocolWithdrawSuspendRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.IACUC_WITHDRAW_REQUEST_SUSPEND,
+                IacucProtocolSubmissionType.REQUEST_SUSPEND, "iacucWithdrawProtocolSuspendRequestBean");
         iacucProtocolRemoveFromAgendaBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolRemoveFromAgendaBean");
         iacucProtocolReviewNotRequiredBean = new IacucProtocolReviewNotRequiredBean(this);
         initIacucSpecificActionBeanTaskMap();
@@ -233,6 +249,9 @@ public class IacucActionHelper extends ActionHelperBase {
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE, iacucProtocolDeactivateRequestBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD, iacucProtocolLiftHoldRequestBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION, iacucProtocolSuspendRequestBean);
+        actionBeanTaskMap.put(TaskName.IACUC_WITHDRAW_REQUEST_DEACTIVATE, iacucProtocolWithdrawDeactivateRequestBean);
+        actionBeanTaskMap.put(TaskName.IACUC_WITHDRAW_REQUEST_LIFT_HOLD, iacucProtocolWithdrawLiftHoldRequestBean);
+        actionBeanTaskMap.put(TaskName.IACUC_WITHDRAW_REQUEST_SUSPENSION, iacucProtocolWithdrawSuspendRequestBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_HOLD, iacucProtocolHoldBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_LIFT_HOLD, iacucProtocolLiftHoldBean);
         actionBeanTaskMap.put(TaskName.REMOVE_FROM_AGENDA, iacucProtocolRemoveFromAgendaBean);
@@ -337,7 +356,14 @@ public class IacucActionHelper extends ActionHelperBase {
         canIacucDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_DEACTIVATE_UNAVAILABLE);
         canIacucRequestDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE);
         canIacucRequestDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE);
-        
+
+        canWithdrawRequestToLiftHold = hasPermission(TaskName.IACUC_WITHDRAW_REQUEST_LIFT_HOLD);
+        canWithdrawRequestToLiftHoldUnavailable = hasPermission(TaskName.IACUC_WITHDRAW_REQUEST_LIFT_HOLD_UNAVAILABLE);
+        canWithdrawRequestSuspend = hasPermission(TaskName.IACUC_WITHDRAW_REQUEST_SUSPENSION);
+        canWithdrawRequestSuspendUnavailable = hasPermission(TaskName.IACUC_WITHDRAW_REQUEST_SUSPENSION_UNAVAILABLE);
+        canWithdrawIacucRequestDeactivate = hasPermission(TaskName.IACUC_WITHDRAW_REQUEST_DEACTIVATE);
+        canWithdrawIacucRequestDeactivateUnavailable = hasPermission(TaskName.IACUC_WITHDRAW_REQUEST_DEACTIVATE_UNAVAILABLE);
+
         canDesignatedMemberApproval = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL);
         canDesignatedMemberApprovalUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL_UNAVAILABLE);
         canLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD);
@@ -568,6 +594,65 @@ public class IacucActionHelper extends ActionHelperBase {
         return new IacucProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, (IacucProtocol) protocol);
     }
     
+    public boolean isCanWithdrawRequestToLiftHold() {
+        return canWithdrawRequestToLiftHold;
+    }
+
+
+    public void setCanWithdrawRequestToLiftHold(boolean canWithdrawRequestToLiftHold) {
+        this.canWithdrawRequestToLiftHold = canWithdrawRequestToLiftHold;
+    }
+
+
+    public boolean isCanWithdrawRequestToLiftHoldUnavailable() {
+        return canWithdrawRequestToLiftHoldUnavailable;
+    }
+
+
+    public void setCanWithdrawRequestToLiftHoldUnavailable(boolean canWithdrawRequestToLiftHoldUnavailable) {
+        this.canWithdrawRequestToLiftHoldUnavailable = canWithdrawRequestToLiftHoldUnavailable;
+    }
+
+
+    public boolean isCanWithdrawRequestSuspend() {
+        return canWithdrawRequestSuspend;
+    }
+
+
+    public void setCanWithdrawRequestSuspend(boolean canWithdrawRequestSuspend) {
+        this.canWithdrawRequestSuspend = canWithdrawRequestSuspend;
+    }
+
+
+    public boolean isCanWithdrawRequestSuspendUnavailable() {
+        return canWithdrawRequestSuspendUnavailable;
+    }
+
+
+    public void setCanWithdrawRequestSuspendUnavailable(boolean canWithdrawRequestSuspendUnavailable) {
+        this.canWithdrawRequestSuspendUnavailable = canWithdrawRequestSuspendUnavailable;
+    }
+
+
+    public boolean isCanWithdrawIacucRequestDeactivate() {
+        return canWithdrawIacucRequestDeactivate;
+    }
+
+
+    public void setCanWithdrawIacucRequestDeactivate(boolean canWithdrawIacucRequestDeactivate) {
+        this.canWithdrawIacucRequestDeactivate = canWithdrawIacucRequestDeactivate;
+    }
+
+
+    public boolean isCanWithdrawIacucRequestDeactivateUnavailable() {
+        return canWithdrawIacucRequestDeactivateUnavailable;
+    }
+
+
+    public void setCanWithdrawIacucRequestDeactivateUnavailable(boolean canWithdrawIacucRequestDeactivateUnavailable) {
+        this.canWithdrawIacucRequestDeactivateUnavailable = canWithdrawIacucRequestDeactivateUnavailable;
+    }
+
 
     @Override
     protected IacucProtocolTask createNewAmendRenewDeleteUnavailableTaskInstanceHook(ProtocolBase protocol) {
@@ -1351,6 +1436,36 @@ public class IacucActionHelper extends ActionHelperBase {
 
     public void setIacucProtocolSuspendRequestBean(IacucProtocolRequestBean iacucProtocolSuspendRequestBean) {
         this.iacucProtocolSuspendRequestBean = iacucProtocolSuspendRequestBean;
+    }
+
+
+    public IacucProtocolRequestBean getIacucProtocolWithdrawDeactivateRequestBean() {
+        return iacucProtocolWithdrawDeactivateRequestBean;
+    }
+
+
+    public void setIacucProtocolWithdrawDeactivateRequestBean(IacucProtocolRequestBean iacucProtocolWithdrawDeactivateRequestBean) {
+        this.iacucProtocolWithdrawDeactivateRequestBean = iacucProtocolWithdrawDeactivateRequestBean;
+    }
+
+
+    public IacucProtocolRequestBean getIacucProtocolWithdrawLiftHoldRequestBean() {
+        return iacucProtocolWithdrawLiftHoldRequestBean;
+    }
+
+
+    public void setIacucProtocolWithdrawLiftHoldRequestBean(IacucProtocolRequestBean iacucProtocolWithdrawLiftHoldRequestBean) {
+        this.iacucProtocolWithdrawLiftHoldRequestBean = iacucProtocolWithdrawLiftHoldRequestBean;
+    }
+
+
+    public IacucProtocolRequestBean getIacucProtocolWithdrawSuspendRequestBean() {
+        return iacucProtocolWithdrawSuspendRequestBean;
+    }
+
+
+    public void setIacucProtocolWithdrawSuspendRequestBean(IacucProtocolRequestBean iacucProtocolWithdrawSuspendRequestBean) {
+        this.iacucProtocolWithdrawSuspendRequestBean = iacucProtocolWithdrawSuspendRequestBean;
     }
 
 

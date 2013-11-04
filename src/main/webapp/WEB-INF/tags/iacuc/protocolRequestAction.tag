@@ -63,40 +63,7 @@
                                           methodToCall="grantFullApproval"
                                           canPerformAction="${KualiForm.actionHelper.canApproveFull}"
                                           defaultOpen="${KualiForm.actionHelper.isApproveOpenForFollowup}" />
-          
-<%--
-            <kra-iacuc-action:assignReviewersAction />
-            
-            <kra-iacuc-action:grantExemptionAction />
-           
-            <kra-iacuc-action:approveAction tabTitle="Expedited Approval"
-                                          bean="${KualiForm.actionHelper.protocolExpeditedApprovalBean}"
-                                          property="actionHelper.protocolExpeditedApprovalBean"
-                                          taskName="protocolExpediteApproval"
-                                          methodToCall="grantExpeditedApproval"
-                                          canPerformAction="${KualiForm.actionHelper.canApproveExpedited}" />
-            <kra-iacuc-action:approveAction tabTitle="Response Approval"
-                                          bean="${KualiForm.actionHelper.protocolResponseApprovalBean}"
-                                          property="actionHelper.protocolResponseApprovalBean"
-                                          taskName="protocolResponseApproval"
-                                          methodToCall="grantResponseApproval"
-                                          canPerformAction="${KualiForm.actionHelper.canApproveResponse}" />
-                                          
---%> 
-                                         
             <kra-iacuc-action:recordCommitteeDecisionAction />
-            
-<%--
-            <kra-iacuc-action:genericAction tabTitle="Defer Action"
-			                              bean="${KualiForm.actionHelper.protocolDeferBean}"
-			                              property="actionHelper.protocolDeferBean"
-			                              taskName="protocolDefer"
-			                              methodToCall="defer"
-			                              canPerformAction="${KualiForm.actionHelper.canDefer}" />
---%>		                              
-
-
-			                              
             <kra-iacuc-action:genericAction tabTitle="Disapprove"
                                           bean="${KualiForm.actionHelper.protocolDisapproveBean}"
                                           property="actionHelper.protocolDisapproveBean"
@@ -153,23 +120,12 @@
             <kra-iacuc-action:createRenewalAction />
             <kra-iacuc-action:createContinuationWithAmendmentAction />
             <kra-iacuc-action:createContinuationAction />
-                                          
-<%--                                           
-            <kra-iacuc-action:notifyCommitteeAction />--%>
             <kra-iacuc-action:genericAction tabTitle="IACUC Acknowledgement"
                                           bean="${KualiForm.actionHelper.iacucAcknowledgeBean}"
                                           property="actionHelper.iacucAcknowledgeBean"
                                           taskName="iacucAcknowledgement"
                                           methodToCall="iacucAcknowledgement"
                                           canPerformAction="${KualiForm.actionHelper.canIacucAcknowledge}" />
-<%--
-            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolCloseRequestBean}"
-                                          permission="${KualiForm.actionHelper.canRequestClose}"
-                                          beanName="protocolCloseRequestBean"
-                                          taskName="protocolRequestClose"
-                                          actionTypeCode="105" 
-                                          tabTitle="Request To Close"/>
---%>                                          
             <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolDeactivateRequestBean}"
                                           permission="${KualiForm.actionHelper.canIacucRequestDeactivate}"
                                           taskName="iacucProtocolRequestDeactivate"
@@ -188,60 +144,26 @@
                                           taskName="iacucProtocolRequestSuspension"
                                           actionTypeCode="311"
                                           tabTitle="Request for Suspension"/>
-<%--             <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolTerminateRequestBean}"
-                                          permission="${KualiForm.actionHelper.canRequestTerminate}"
-                                          beanName="protocolTerminateRequestBean"
-                                          taskName="protocolRequestTerminate"
-                                          actionTypeCode="104"
-                                          tabTitle="Request for Termination"/>
---%>                                          
+            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolWithdrawLiftHoldRequestBean}"
+                                          permission="${KualiForm.actionHelper.canWithdrawRequestToLiftHold}"
+                                          beanName="iacucProtocolWithdrawLiftHoldRequestBean"
+                                          taskName="iacucWithdrawRequestLiftHold"
+                                          actionTypeCode="132"
+                                          tabTitle="Withdraw Request for Lift Hold"/>
+            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolWithdrawSuspendRequestBean}"
+                                          permission="${KualiForm.actionHelper.canWithdrawRequestSuspend}"
+                                          beanName="iacucProtocolWithdrawSuspendRequestBean"
+                                          taskName="iacucWithdrawRequestSuspension"
+                                          actionTypeCode="134"
+                                          tabTitle="Withdraw Request for Suspension"/>
+            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolWithdrawDeactivateRequestBean}"
+                                          permission="${KualiForm.actionHelper.canWithdrawIacucRequestDeactivate}"
+                                          beanName="iacucProtocolWithdrawLiftHoldRequestBean"
+                                          taskName="iacucWithdrawRequestDeactivate"
+                                          actionTypeCode="131"
+                                          tabTitle="Withdraw Request Deactivate"/>
             <kra-protocol-action:deleteAction attributes="${DataDictionary.IacucProtocolDeleteBean.attributes}"
             							  action="iacucProtocolProtocolActions"/>
-<%--            
-            <kra-iacuc-action:genericAction tabTitle="Close Enrollment"
-                                          bean="${KualiForm.actionHelper.protocolCloseEnrollmentBean}"
-                                          property="actionHelper.protocolCloseEnrollmentBean"
-                                          taskName="protocolCloseEnrollment"
-                                          methodToCall="closeEnrollment"
-                                          canPerformAction="${KualiForm.actionHelper.canCloseEnrollment}"
-                                          canAddReviewComments="${KualiForm.actionHelper.canAddCloseEnrollmentReviewerComments}" />
-            <kra-iacuc-action:genericAction tabTitle="Re-open Enrollment"
-                                          bean="${KualiForm.actionHelper.protocolReopenEnrollmentBean}"
-                                          property="actionHelper.protocolReopenEnrollmentBean"
-                                          taskName="protocolReopen"
-                                          methodToCall="reopenEnrollment"
-                                          canPerformAction="${KualiForm.actionHelper.canReopenEnrollment}"
-                                          canAddReviewComments="${KualiForm.actionHelper.canAddReopenEnrollmentReviewerComments}" />
-            <kra-iacuc-action:genericAction tabTitle="Data Analysis Only"
-                                          bean="${KualiForm.actionHelper.protocolPermitDataAnalysisBean}"
-                                          property="actionHelper.protocolPermitDataAnalysisBean"
-                                          taskName="protocolPermitDataAnalysis"
-                                          methodToCall="permitDataAnalysis"
-                                          canPerformAction="${KualiForm.actionHelper.canPermitDataAnalysis}"
-                                          canAddReviewComments="${KualiForm.actionHelper.canAddDataAnalysisReviewerComments}" />
-            <kra-iacuc-action:genericAction tabTitle="Suspend"
-                                          bean="${KualiForm.actionHelper.protocolSuspendBean}"
-                                          property="actionHelper.protocolSuspendBean"
-                                          taskName="protocolSuspend"
-                                          methodToCall="suspend"
-                                          canPerformAction="${KualiForm.actionHelper.canSuspend}"
-                                          canAddReviewComments="${KualiForm.actionHelper.canAddSuspendReviewerComments}" />
-            <kra-iacuc-action:genericAction tabTitle="Suspend By DSMB"
-                                          bean="${KualiForm.actionHelper.protocolSuspendByDsmbBean}"
-                                          property="actionHelper.protocolSuspendByDsmbBean"
-                                          taskName="protocolSuspendByDsmb"
-                                          methodToCall="suspendByDsmb"
-                                          canPerformAction="${KualiForm.actionHelper.canSuspendByDsmb}"
-                                          canAddReviewComments="false" />
-            <kra-iacuc-action:genericAction tabTitle="Close"
-                                          bean="${KualiForm.actionHelper.protocolCloseBean}"
-                                          property="actionHelper.protocolCloseBean"
-                                          taskName="protocolClose"
-                                          methodToCall="closeProtocol"
-                                          canPerformAction="${KualiForm.actionHelper.canClose}"
-                                          canAddReviewComments="${KualiForm.actionHelper.canAddCloseReviewerComments}" />
-            
-            --%>
             <kra-iacuc-action:genericAction tabTitle="Suspend"
                                           bean="${KualiForm.actionHelper.protocolSuspendBean}"
                                           property="actionHelper.protocolSuspendBean"
@@ -270,13 +192,9 @@
                                           canPerformAction="${KualiForm.actionHelper.canAbandon}" 
                                           canAddReviewComments="false"/>
                                         
-           <%-- <kra-iacuc-action:reviewNotRequiredAction />--%>
             <kra-iacuc-action:undoLastAction />
             
             <kra-iacuc-action:manageReviewComments />
-<%--            
-            <kra-iacuc-action:manageNotes />
---%>            
 		</c:if>		
 		<c:if test="${!KualiForm.document.protocol.active and showActions}">		     	     
 		    <table cellpadding="0" cellspacing="0" summary="">
@@ -450,16 +368,6 @@
 				        	                                 reason="Protocol can not be an amendment or renewal or continuation.
 				            	                                     <p>
 				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IACUC, or Expired." />
-
-<%--
-		            <kra-iacuc-action:genericUnavailableAction tabTitle="Request To Close"
-		                                                     canPerformAction="${KualiForm.actionHelper.canRequestCloseUnavailable}"
-					                                         reason="Protocol can not be an amendment or renewal.
-					                                                 <p>
-					                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Suspended by Investigator, or Suspended by IACUC.
-				    	                                             <p>
-				        	                                         Submission Type is Request to Close, Request for Suspension, Request to Close Enrollment, Request for Termination, Request for Data Analysis Only, or Request for Re-open Enrollment." />
---%>
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Request To Deactivate"
 		                                                     canPerformAction="${KualiForm.actionHelper.canIacucRequestDeactivateUnavailable}"
 					                                         reason="Protocol status must be Active, Active - On Hold.
@@ -476,7 +384,16 @@
 				            	                                     <p>
 				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, or Suspended by IACUC.
 				                    	                             <p>
-				                        	                         Submission Type is Request to Close, Request for Suspension, Request to Close Enrollment, Request for Termination, Request for Data Analysis Only, or Request for Re-open Enrollment." />
+				                        	                         Submission Type is Request for Suspension or Request for Termination." />
+	                <kra-iacuc-action:genericUnavailableAction tabTitle="Withdraw Request to Deactivate"
+	                                                     	canPerformAction="${KualiForm.actionHelper.canWithdrawIacucRequestDeactivateUnavailable}"
+				                                         	reason="Submission Type must be Request to Deactivate." />
+	                <kra-iacuc-action:genericUnavailableAction tabTitle="Withdraw Request to Lift Hold"
+	                                                     	canPerformAction="${KualiForm.actionHelper.canWithdrawRequestToLiftHoldUnavailable}"
+				                                         	reason="Submission Type must be Request to Lift Hold." />
+	                <kra-iacuc-action:genericUnavailableAction tabTitle="Withdraw Request for Suspension"
+	                                                     	canPerformAction="${KualiForm.actionHelper.canWithdrawRequestSuspendUnavailable}"
+				                                         	reason="Submission Type must be Request for Suspension." />
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Delete Protocol, Amendment, or Renewal"
 	                	                                     canPerformAction="${KualiForm.actionHelper.canDeleteProtocolAmendRenewUnavailable}"
 	                    	                                 reason="Protocol must be editable.
