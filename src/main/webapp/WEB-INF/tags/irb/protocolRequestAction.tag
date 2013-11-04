@@ -137,6 +137,42 @@
                                           taskName="protocolRequestTerminate"
                                           actionTypeCode="104"
                                           tabTitle="Request for Termination"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolWithdrawCloseRequestBean}"
+                                          permission="${KualiForm.actionHelper.canWithdrawRequestClose}"
+                                          beanName="protocolWithdrawCloseRequestBean"
+                                          taskName="protocolWithdrawRequestClose"
+                                          actionTypeCode="130" 
+                                          tabTitle="Withdraw Request To Close"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolWithdrawSuspendRequestBean}"
+                                          permission="${KualiForm.actionHelper.canWithdrawRequestSuspension}"
+                                          beanName="protocolWithdrawSuspendRequestBean"
+                                          taskName="protocolWithdrawRequestSuspension"
+                                          actionTypeCode="134"
+                                          tabTitle="Withdraw Request for Suspension"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolWithdrawCloseEnrollmentRequestBean}"
+                                          permission="${KualiForm.actionHelper.canWithdrawRequestCloseEnrollment}"
+                                          taskName="protocolWithdrawRequestCloseEnrollment"
+                                          beanName="protocolWithdrawCloseEnrollmentRequestBean"
+                                          actionTypeCode="131"
+                                          tabTitle="Withdraw Request to Close Enrollment"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolWithdrawReOpenEnrollmentRequestBean}"
+                                          permission="${KualiForm.actionHelper.canWithdrawRequestReOpenEnrollment}"
+                                          beanName="protocolWithdrawReOpenEnrollmentRequestBean"
+                                          taskName="protocolWithdrawRequestReOpenEnrollment"
+                                          actionTypeCode="133"
+                                          tabTitle="Withdraw Request to Re-open Enrollment"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolWithdrawDataAnalysisRequestBean}"
+                                          permission="${KualiForm.actionHelper.canWithdrawRequestDataAnalysis}"
+                                          beanName="protocolWithdrawDataAnalysisRequestBean"
+                                          taskName="protocolWithdrawRequestDataAnalysis"
+                                          actionTypeCode="132"
+                                          tabTitle="Withdraw Request for Data Analysis Only"/>
+            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolWithdrawTerminateRequestBean}"
+                                          permission="${KualiForm.actionHelper.canWithdrawRequestTerminate}"
+                                          beanName="protocolWithdrawTerminateRequestBean"
+                                          taskName="protocolWithdrawRequestTerminate"
+                                          actionTypeCode="135"
+                                          tabTitle="Withdraw Request for Termination"/>
             <kra-irb-action:deleteAction />
             <kra-irb-action:makeAdminCorrectionAction />
             <kra-irb-action:genericAction tabTitle="Close Enrollment"
@@ -391,6 +427,24 @@
 				                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, or Suspended by DSMB.
 				                                                 <p>
 				                                                 Submission Type is Request to Close, Request for Suspension, Request to Close Enrollment, Request for Termination, Request for Data Analysis Only, or Request for Re-open Enrollment." />
+	            <kra-irb-action:genericUnavailableAction tabTitle="Withdraw Request to Close"
+	                                                     canPerformAction="${KualiForm.actionHelper.canWithdrawRequestCloseUnavailable}"
+				                                         reason="Protocol must have a Request to Close action." />
+	            <kra-irb-action:genericUnavailableAction tabTitle="Withdraw Request for Suspension"
+	                                                     canPerformAction="${KualiForm.actionHelper.canWithdrawRequestSuspensionUnavailable}"
+				                                         reason="Protocol must have a Request for Suspenstion action." />
+	            <kra-irb-action:genericUnavailableAction tabTitle="Withdraw Request to Close Enrollment"
+	                                                     canPerformAction="${KualiForm.actionHelper.canWithdrawRequestCloseEnrollmentUnavailable}"
+				                                         reason="Protocol must have a Request to Close Enrollment action." />
+	            <kra-irb-action:genericUnavailableAction tabTitle="Withdraw Request To Reopen Enrollment"
+	                                                     canPerformAction="${KualiForm.actionHelper.canWithdrawRequestReOpenEnrollmentUnavailable}"
+				                                         reason="Protocol must have a Request to Reopen Enrollment action." />
+	            <kra-irb-action:genericUnavailableAction tabTitle="Withdraw Request for Data Analysis Only"
+	                                                     canPerformAction="${KualiForm.actionHelper.canWithdrawRequestDataAnalysisUnavailable}"
+				                                         reason="Protocol must have a Request for Data Analysis Only action." />
+	            <kra-irb-action:genericUnavailableAction tabTitle="Withdraw Request To Terminate"
+	                                                     canPerformAction="${KualiForm.actionHelper.canWithdrawRequestTerminateUnavailable}"
+				                                         reason="Protocol must have a Request to Terminate action." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Delete Protocol, Amendment, or Renewal"
 	                                                     canPerformAction="${KualiForm.actionHelper.canDeleteProtocolAmendRenewUnavailable}"
 	                                                     reason="Protocol must be editable.

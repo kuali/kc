@@ -160,7 +160,43 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
         return !submissions.isEmpty() && statusCodes.contains(submissions.get(0).getSubmissionStatusCode());
         
     }
-    
+
+    public boolean getSubmissionCountCond7(String submissionType) {
+        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
+        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
+        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
+        positiveFieldValues.put("submissionTypeCode", submissionType);
+        return businessObjectService.countMatching(ProtocolSubmission.class, positiveFieldValues) != 0;
+    }
+
+    public boolean getSubmissionCountCond7rs() {
+        return getSubmissionCountCond7(ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
+    }
+
+    public boolean getSubmissionCountCond7rt() {
+        return getSubmissionCountCond7(ProtocolSubmissionType.REQUEST_FOR_TERMINATION);
+    }
+
+
+    public boolean getSubmissionCountCond7rc() {
+        return getSubmissionCountCond7(ProtocolSubmissionType.REQUEST_TO_CLOSE);
+    }
+
+
+    public boolean getSubmissionCountCond7rce() {
+        return getSubmissionCountCond7(ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT);
+    }
+
+
+    public boolean getSubmissionCountCond7rre() {
+        return getSubmissionCountCond7(ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT);
+    }
+
+    public boolean getSubmissionCountCond7rda() {
+        return getSubmissionCountCond7(ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
+    }
+
     /**
      * check if this protocol has not been approved
      */

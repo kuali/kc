@@ -67,7 +67,7 @@ public enum ProtocolRequestAction {
                                     TaskName.PROTOCOL_REQUEST_SUSPENSION,
                                     Constants.PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY, 
                                     "protocolSuspendRequestBean", 
-                                    "Request for Suspension"), 
+                                    "Withdraw Request for Suspension"), 
                                   
     /**
      * Request for termination of a Protocol.
@@ -76,7 +76,61 @@ public enum ProtocolRequestAction {
                                     TaskName.PROTOCOL_REQUEST_TERMINATE,
                                     Constants.PROTOCOL_TERMINATE_REQUEST_PROPERTY_KEY, 
                                     "protocolTerminateRequestBean", 
-                                    "Request for Termination");
+                                    "Withdraw Request for Termination"),
+    
+    /**
+     * Request to close a Protocol.
+     */
+    WITHDRAW_REQUEST_TO_CLOSE       (ProtocolActionType.WITHDRAW_REQUEST_TO_CLOSE,
+                                    TaskName.PROTOCOL_WITHDRAW_REQUEST_CLOSE,
+                                    Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, 
+                                    "protocolWithdrawCloseRequestBean", 
+                                    "Withdraw Request to Close"), 
+
+    /**
+     * Request to close enrollment to a Protocol.
+     */
+    WITHDRAW_REQUEST_TO_CLOSE_ENROLLMENT    (ProtocolActionType.WITHDRAW_REQUEST_TO_CLOSE_ENROLLMENT,
+                                    TaskName.PROTOCOL_WITHDRAW_REQUEST_CLOSE_ENROLLMENT,
+                                    Constants.PROTOCOL_CLOSE_ENROLLMENT_REQUEST_PROPERTY_KEY, 
+                                    "protocolWithdrawCloseEnrollmentRequestBean", 
+                                    "Withdraw Request to Close Enrollment"), 
+                                    
+    /**
+     * Request for data analysis only of a Protocol.
+     */
+    WITHDRAW_REQUEST_FOR_DATA_ANALYSIS_ONLY (ProtocolActionType.WITHDRAW_REQUEST_FOR_DATA_ANALYSIS_ONLY, 
+                                    TaskName.PROTOCOL_WITHDRAW_REQUEST_DATA_ANALYSIS,
+                                    Constants.PROTOCOL_DATA_ANALYSIS_REQUEST_PROPERTY_KEY, 
+                                    "protocolWithdrawDataAnalysisRequestBean", 
+                                    "Withdraw Request for Data Analysis Only"),
+    
+    /**
+     * Request to reopen enrollment to a Protocol.
+     */
+    WITHDRAW_REQUEST_TO_REOPEN_ENROLLMENT   (ProtocolActionType.WITHDRAW_REQUEST_TO_REOPEN_ENROLLMENT, 
+                                    TaskName.PROTOCOL_WITHDRAW_REQUEST_REOPEN_ENROLLMENT,
+                                    Constants.PROTOCOL_REOPEN_ENROLLMENT_REQUEST_PROPERTY_KEY, 
+                                    "protocolWithdrawReOpenEnrollmentRequestBean", 
+                                    "Withdraw Request to Re-open Enrollment"), 
+                                  
+    /**
+     * Request for suspension of a Protocol.
+     */
+    WITHDRAW_REQUEST_FOR_SUSPENSION (ProtocolActionType.WITHDRAW_REQUEST_FOR_SUSPENSION, 
+                                    TaskName.PROTOCOL_WITHDRAW_REQUEST_SUSPENSION,
+                                    Constants.PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY, 
+                                    "protocolWithdrawSuspendRequestBean", 
+                                    "Withdraw Request for Suspension"), 
+                                  
+    /**
+     * Request for termination of a Protocol.
+     */
+    WITHDRAW_REQUEST_FOR_TERMINATION (ProtocolActionType.WITHDRAW_REQUEST_FOR_TERMINATION, 
+                                    TaskName.PROTOCOL_WITHDRAW_REQUEST_TERMINATE,
+                                    Constants.PROTOCOL_TERMINATE_REQUEST_PROPERTY_KEY, 
+                                    "protocolWithdrawTerminateRequestBean", 
+                                    "Withdraw Request for Termination");
     
     private final String actionTypeCode;
     private final String taskName;

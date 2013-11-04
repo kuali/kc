@@ -123,6 +123,29 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
         
     }
     
+
+    public boolean getSubmissionCountCond7(String submissionType) {
+        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
+        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
+        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
+        positiveFieldValues.put("submissionTypeCode", submissionType);
+        return businessObjectService.countMatching(IacucProtocolSubmission.class, positiveFieldValues) != 0;
+    }
+
+    public boolean getSubmissionCountCond7rs() {
+        return getSubmissionCountCond7(IacucProtocolSubmissionType.REQUEST_SUSPEND);
+    }
+
+    public boolean getSubmissionCountCond7rlh() {
+        return getSubmissionCountCond7(IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD);
+    }
+
+
+    public boolean getSubmissionCountCond7rd() {
+        return getSubmissionCountCond7(IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE);
+    }
+
     /**
      * 
      * This method Check if protocol has a submission which is in statuscode (100,101,102, 201, 202)  
