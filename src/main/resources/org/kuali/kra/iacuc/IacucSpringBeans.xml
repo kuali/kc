@@ -477,7 +477,31 @@
                 <bean class="org.kuali.kra.iacuc.auth.CreateIacucProtocolCorrespondenceAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="createProtocolCorrespondence" />
                 </bean>  
-                    
+
+                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestDeactivateIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucWithdrawRequestDeactivate" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestDeactivateIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucWithdrawRequestDeactivateUnavailable" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestLiftHoldIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucWithdrawRequestLiftHold" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestLiftHoldIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucWithdrawRequestLiftHoldUnavailable" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestSuspensionIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucWithdrawRequestSuspension" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestSuspensionIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucWithdrawRequestSuspensionUnavailable" />
+                </bean>
+                
            </list>
         </property>
     </bean>

@@ -126,6 +126,12 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canRequestSuspensionUnavailable = false;
     protected boolean canRequestTerminate = false;
     protected boolean canRequestTerminateUnavailable = false;
+    protected boolean canWithdrawRequestClose = false;
+    protected boolean canWithdrawRequestCloseUnavailable = false;
+    protected boolean canWithdrawRequestSuspension = false;
+    protected boolean canWithdrawRequestSuspensionUnavailable = false;
+    protected boolean canWithdrawRequestTerminate = false;
+    protected boolean canWithdrawRequestTerminateUnavailable = false;
     protected boolean canDeleteProtocolAmendRenew = false;
     protected boolean canDeleteProtocolAmendRenewUnavailable = false;
     protected boolean canAssignToAgenda = false;
@@ -202,6 +208,10 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolRequestBean protocolCloseRequestBean;
     protected ProtocolRequestBean protocolSuspendRequestBean;    
     protected ProtocolRequestBean protocolTerminateRequestBean;
+    
+    protected ProtocolRequestBean protocolWithdrawCloseRequestBean;
+    protected ProtocolRequestBean protocolWithdrawSuspendRequestBean;    
+    protected ProtocolRequestBean protocolWithdrawTerminateRequestBean;
     
     protected ProtocolNotifyCommitteeBean protocolNotifyCommitteeBean;
     private List<KeyValue> notifyCmtActionCommitteeIdByUnitKeyValues;
@@ -1222,6 +1232,39 @@ public abstract class ActionHelperBase implements Serializable {
         return this.protocolTerminateRequestBean;
     }
     
+    public ProtocolRequestBean getProtocolWithdrawCloseRequestBean() {
+        return protocolWithdrawCloseRequestBean;
+    }
+
+    public void setProtocolWithdrawCloseRequestBean(ProtocolRequestBean protocolWithdrawCloseRequestBean) {
+        this.protocolWithdrawCloseRequestBean = protocolWithdrawCloseRequestBean;
+    }
+
+    public ProtocolRequestBean getProtocolWithdrawSuspendRequestBean() {
+        return protocolWithdrawSuspendRequestBean;
+    }
+
+    public void setProtocolWithdrawSuspendRequestBean(ProtocolRequestBean protocolWithdrawSuspendRequestBean) {
+        this.protocolWithdrawSuspendRequestBean = protocolWithdrawSuspendRequestBean;
+    }
+
+
+
+
+    public ProtocolRequestBean getProtocolWithdrawTerminateRequestBean() {
+        return protocolWithdrawTerminateRequestBean;
+    }
+
+
+
+
+    public void setProtocolWithdrawTerminateRequestBean(ProtocolRequestBean protocolWithdrawTerminateRequestBean) {
+        this.protocolWithdrawTerminateRequestBean = protocolWithdrawTerminateRequestBean;
+    }
+
+
+
+
     public ProtocolNotifyCommitteeBean getProtocolNotifyCommitteeBean() {
         return protocolNotifyCommitteeBean;
     }
@@ -1366,6 +1409,30 @@ public abstract class ActionHelperBase implements Serializable {
     
     public boolean getcanRequestTerminateUnavailable(){
         return this.canRequestTerminateUnavailable;
+    }
+    
+    public boolean getCanWithdrawRequestSuspension() {
+        return canWithdrawRequestSuspension;
+    }
+    
+    public boolean getCanWithdrawRequestSuspensionUnavailable() {
+        return canWithdrawRequestSuspensionUnavailable;
+    }
+        
+    public boolean getCanWithdrawRequestClose(){
+        return this.canWithdrawRequestClose;
+    }
+    
+    public boolean getCanWithdrawRequestCloseUnavailable(){
+        return this.canWithdrawRequestCloseUnavailable;
+    }
+    
+    public boolean getCanWithdrawRequestTerminate(){
+        return this.canWithdrawRequestTerminate;
+    }
+    
+    public boolean getCanWithdrawRequestTerminateUnavailable(){
+        return this.canWithdrawRequestTerminateUnavailable;
     }
     
     public boolean getCanDeleteProtocolAmendRenew() {

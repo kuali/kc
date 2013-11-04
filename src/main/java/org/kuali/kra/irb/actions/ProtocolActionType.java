@@ -56,6 +56,18 @@ public class ProtocolActionType extends ProtocolActionTypeBase {
 
     public static final String MODIFY_AMENDMENT_SECTION = "125";
 
+    public static final String WITHDRAW_REQUEST_TO_CLOSE = "130";
+    
+    public static final String WITHDRAW_REQUEST_TO_CLOSE_ENROLLMENT = "131";
+    
+    public static final String WITHDRAW_REQUEST_FOR_DATA_ANALYSIS_ONLY = "132";
+    
+    public static final String WITHDRAW_REQUEST_TO_REOPEN_ENROLLMENT = "133";
+    
+    public static final String WITHDRAW_REQUEST_FOR_SUSPENSION = "134";
+    
+    public static final String WITHDRAW_REQUEST_FOR_TERMINATION = "135";
+    
     public static final String ASSIGN_TO_AGENDA = "200";
 
     public static final String DEFERRED = "201";
@@ -117,7 +129,7 @@ public class ProtocolActionType extends ProtocolActionTypeBase {
     //No corresponding actionTypeCode for this in Coeus  
     public static final String MODIFY_PROTOCOL_SUBMISISON = "309";
     
-    // action type to be used only by workflow disapproval post-processpor
+    // action type to be used only by workflow disapproval post-processor
     public static final String REJECTED_IN_ROUTING = "404";
     public static final String RECALLED_IN_ROUTING = "405";
 
