@@ -21,6 +21,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteePrintingService;
+import org.kuali.kra.committee.service.ScheduleCorrespondencePrint;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
 import org.kuali.kra.common.committee.meeting.CommonMeetingService;
@@ -39,6 +40,7 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.questionnaire.printing.CorrespondencePrintingService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -168,5 +170,10 @@ public class MeetingActionsAction extends MeetingActionsActionBase {
     @Override
     protected org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService<?> getReviewerCommentsService() {
         return KraServiceLocator.getService(ReviewCommentsService.class);
+    }
+
+    @Override
+    protected CorrespondencePrintingService getCorrespondencePrintingService() {
+        return KraServiceLocator.getService(ScheduleCorrespondencePrint.class);
     }
 }
