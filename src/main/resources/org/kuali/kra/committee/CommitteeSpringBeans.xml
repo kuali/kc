@@ -115,6 +115,18 @@
 			<ref bean="kcPersonService" />
 		</property>
 	</bean>
+	
+	<bean id="committeeCorrespondencePrint" class="org.kuali.kra.committee.service.impl.CommitteeCorrespondencePrintImpl">
+		<property name="correspondencePrint" ref="protocolCorrespondenceTemplatePrint"/>
+		<property name="printingService" ref="committeePrintingService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
+	
+	<bean id="scheduleCorrespondencePrint" class="org.kuali.kra.committee.service.impl.ScheduleCorrespondencePrintImpl">
+		<property name="correspondencePrint" ref="scheduleTemplatePrint"/>
+		<property name="printingService" ref="committeePrintingService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
 
 	<!-- Committee Task Authorizers -->
 

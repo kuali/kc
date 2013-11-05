@@ -15,6 +15,12 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
@@ -31,7 +37,12 @@ import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.authorization.IacucCommitteeScheduleTask;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
+import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class IacucCommitteeHelper extends CommitteeHelperBase {
 
@@ -75,6 +86,25 @@ public class IacucCommitteeHelper extends CommitteeHelperBase {
     @Override
     protected CommitteeMembershipExpertiseBase getNewCommitteeMembershipExpertiseInstanceHook() {
         return new IacucCommitteeMembershipExpertise();
+    }
+
+    @Override
+    protected void initPrintCorrespondences() {
+        List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
+        Map<String, Object> values = new HashMap<String, Object>();
+        List<IacucProtocolCorrespondenceType> correspondenceTypes = (List<IacucProtocolCorrespondenceType>)
+                KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolCorrespondenceType.class,values);
+        for(IacucProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
+            if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.COMMITTEE.getCode())) {
+                CorrespondencePrintOption printOption = new CorrespondencePrintOption();
+                printOption.setDescription(correspondenceType.getDescription());
+                printOption.setLabel(correspondenceType.getDescription());
+                printOption.setCorrespondenceId(1L);
+                printOption.setProtocolCorrespondenceTemplate(correspondenceType.getDefaultProtocolCorrespondenceTemplate());
+                printOptions.add(printOption);
+            }
+        }
+        setCorrespondencesToPrint(printOptions);
     }
 
 }

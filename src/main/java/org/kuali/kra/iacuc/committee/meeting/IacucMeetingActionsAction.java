@@ -24,6 +24,7 @@ import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
+import org.kuali.kra.iacuc.committee.print.service.IacucScheduleCorrespondencePrint;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
@@ -33,6 +34,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.questionnaire.printing.CorrespondencePrintingService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -119,6 +121,11 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
 
     private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
         return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
+    }
+
+    @Override
+    protected CorrespondencePrintingService getCorrespondencePrintingService() {
+        return KraServiceLocator.getService(IacucScheduleCorrespondencePrint.class);
     }
     
 }

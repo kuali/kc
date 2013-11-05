@@ -15,6 +15,12 @@
  */
 package org.kuali.kra.committee.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
@@ -31,7 +37,12 @@ import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeHelperBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
+import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * The CommitteeHelper corresponds to the Committee tab web page.
@@ -76,5 +87,24 @@ public class CommitteeHelper extends CommitteeHelperBase {
     protected CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee) {
         // creating an anonymous class to avoid task hierarchy issues
         return new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, taskName, (Committee) committee) {};
+    }
+
+    @Override
+    protected void initPrintCorrespondences() {
+        List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
+        Map<String, Object> values = new HashMap<String, Object>();
+        List<ProtocolCorrespondenceType> correspondenceTypes = (List<ProtocolCorrespondenceType>)
+                KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolCorrespondenceType.class,values);
+        for(ProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
+            if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.COMMITTEE.getCode())) {
+                CorrespondencePrintOption printOption = new CorrespondencePrintOption();
+                printOption.setDescription(correspondenceType.getDescription());
+                printOption.setLabel(correspondenceType.getDescription());
+                printOption.setCorrespondenceId(1L);
+                printOption.setProtocolCorrespondenceTemplate(correspondenceType.getDefaultProtocolCorrespondenceTemplate());
+                printOptions.add(printOption);
+            }
+        }
+        setCorrespondencesToPrint(printOptions);
     }
 }
