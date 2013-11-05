@@ -946,7 +946,12 @@
             <property name="protocolXmlStream">
                 <ref bean="iacucProtocolXmlStream" />
             </property>
-        </bean>
+    </bean>
+
+    <bean id="iacucCorrespondencePrint"
+    	parent="correspondencePrint">
+   		<property name="xmlStream" ref="iacucCorrespondenceXmlStream" />
+   	</bean>
 
     <bean id="iacucProtocolFullProtocolPrint"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolFullProtocolPrint" scope="prototype">
@@ -1097,6 +1102,15 @@
                 <ref bean="businessObjectService" />
  		</property>
                 
+	</bean>
+	<bean id="iacucCorrespondencePrintingService" class="org.kuali.kra.iacuc.questionnaire.print.IacucCorrespondencePrintingServiceImpl">
+		<property name="printingService">
+			<ref bean="printingService" />
+		</property>
+		<property name="correspondencePrint" ref="iacucCorrespondencePrint" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 	</bean>
 	
 	<bean id="iacucProtocolActionCorrespondenceGenerationService" class="org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationServiceImpl">

@@ -58,6 +58,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
+import org.kuali.kra.iacuc.questionnaire.print.IacucCorrespondencePrintingService;
 import org.kuali.kra.iacuc.questionnaire.print.IacucQuestionnairePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -741,6 +742,25 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return forward;
     }
     
+    public ActionForward printProtocolCorrespondences(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String fileName = "IACUC_Protocol_Correspondence_Report.pdf";
+        String reportName = protocol.getProtocolNumber() + "-" + "ProtocolCorrespondences";
+        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getIacucCorrespondencePrintingService().getCorrespondencePrintable(protocol, protocolForm.getActionHelper().getCorrespondencesToPrint()));
+        if (dataStream.getContent() != null) {
+            dataStream.setFileName(fileName.toString());
+            PrintingUtils.streamToResponse(dataStream, response);
+            forward = null;
+        }
+        return forward;
+    }
+    
+    private IacucCorrespondencePrintingService getIacucCorrespondencePrintingService() {
+        return KraServiceLocator.getService(IacucCorrespondencePrintingService.class);
+    }
+
     protected IacucQuestionnairePrintingService getIacucQuestionnairePrintingService() {
         return KraServiceLocator.getService(IacucQuestionnairePrintingService.class);
     }

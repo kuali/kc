@@ -381,5 +381,48 @@
                    </div>
             </kul:innerTab>
           </c:if>
+          
+          <c:if test="${fn:length(KualiForm.actionHelper.correspondencesToPrint) > 0}">
+          	<kul:innerTab tabTitle="Correspondences" parentTab="" defaultOpen="false">
+          		<div class="innerTab-container">
+          			<c:set var="cid" value="0"/>
+          			<table cellpadding="0" cellspacing="0" border="0" summary="print forms">
+          				<c:set var = "corLength" value = "${fn:length(KualiForm.actionHelper.correspondencesToPrint)}" />
+          				<c:forEach var="corPrintOption" items="${KualiForm.actionHelper.correspondencesToPrint}" varStatus="status">
+          					<tr>
+          						<td>
+          							<div align="left">
+          								${KualiForm.actionHelper.correspondencesToPrint[status.index].label}
+          							</div>
+          						</td>
+          						<td>
+          							<div align="center">
+          								<kul:htmlControlAttribute property="actionHelper.correspondencesToPrint[${status.index}].selected"
+          												  attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}"
+          												  readOnly="false" styleClass="printQnOptions"/>
+          							</div>
+          						</td>
+          					</tr>
+          				</c:forEach>
+                        <tr>
+                            <td class="infoline">
+                                <div align="center">
+                                    <html:image property="methodToCall.printProtocolCorrespondences.anchor${currentTabIndex}"
+                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
+                                            styleClass="tinybutton" onclick="excludeSubmitRestriction = true;"/>                         
+                                </div>
+                            </td>
+                            <td>
+                                <div align="center">
+                                	  <!-- TODO: .printCorOptions  -->
+                                      <html:image property="methodToCall.selectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$j('.printCorOptions').attr('checked', true);return false;" />
+                                      <html:image property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$j('.printCorOptions').attr('checked', false);return false;" />
+                                </div>                        
+                            </td>
+                        </tr>
+          			</table>
+          		</div>
+          	</kul:innerTab>          	
+          </c:if>
     </div>
 </kul:tab>
