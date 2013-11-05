@@ -61,6 +61,8 @@ import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.IrbProtocolCorrespondenceAuthorizationService;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -73,8 +75,11 @@ import org.kuali.kra.protocol.actions.ProtocolSubmissionDocBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
+import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorizationService;
+import org.kuali.kra.protocol.correspondence.ProtocolModuleCorrespondenceBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -1845,5 +1850,23 @@ public class ActionHelper extends ActionHelperBase {
         return assignCmtSchedActionCommitteeIdByUnitKeyValues;
     }
 
- 
+    @Override
+    protected void initPrintCorrespondence() {
+        List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
+        Map<String, Object> values = new HashMap<String, Object>();
+        List<ProtocolCorrespondenceType> correspondenceTypes = (List<ProtocolCorrespondenceType>)
+                KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolCorrespondenceType.class,values);
+        for(ProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
+            if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.PROTOCOL.getCode())) {
+                CorrespondencePrintOption printOption = new CorrespondencePrintOption();
+                printOption.setDescription(correspondenceType.getDescription());
+                printOption.setLabel(correspondenceType.getDescription());
+                printOption.setCorrespondenceId(1L);
+                printOption.setProtocolCorrespondenceTemplate(correspondenceType.getDefaultProtocolCorrespondenceTemplate());
+                printOptions.add(printOption);
+            }
+        }
+        setCorrespondencesToPrint(printOptions);
+    }
+
 }

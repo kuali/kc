@@ -1102,6 +1102,21 @@
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
     </bean>
  	
+    <bean id="irbCorrespondencePrint"
+    	parent="correspondencePrint">
+   		<property name="xmlStream" ref="correspondenceXmlStream" />
+   	</bean>
+ 	
+	<bean id="irbCorrespondencePrintingService" class="org.kuali.kra.irb.questionnaire.print.IrbCorrespondencePrintingServiceImpl">
+		<property name="printingService">
+			<ref bean="printingService" />
+		</property>
+		<property name="correspondencePrint" ref="irbCorrespondencePrint" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+ 	
     <bean id="irbProtocolActionRequestService" class="org.kuali.kra.irb.actions.IrbProtocolActionRequestServiceImpl">
    		<property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />    
    		<property name="protocolAssignCmtSchedService" ref="protocolAssignCmtSchedService" />    
