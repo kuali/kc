@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrintBase;
@@ -35,6 +36,7 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.questionnaire.printing.CorrespondencePrintingService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -366,13 +368,18 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
     public ActionForward printRosterFutureSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        MeetingFormBase committeeForm = (MeetingFormBase) form;
+        MeetingHelperBase meetingHelper = committeeForm.getMeetingHelper();
+        CommitteeScheduleBase committeeSchedule = meetingHelper.getCommitteeSchedule();
         CommitteeDocumentBase document = 
-            ((CommitteeDocumentBase) getDocumentService().getByDocumentHeaderId(((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule().getParentCommittee().getCommitteeDocument().getDocumentNumber()));
-        Boolean printRooster = ((MeetingFormBase) form).getMeetingHelper().getPrintRooster();
-        Boolean printFutureScheduledMeeting = ((MeetingFormBase) form).getMeetingHelper().getPrintFutureScheduledMeeting();
-        
-
-        if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, document, printRooster, printFutureScheduledMeeting, true))) {
+            ((CommitteeDocumentBase) getDocumentService().getByDocumentHeaderId(committeeSchedule.getParentCommittee().getCommitteeDocument().getDocumentNumber()));
+        Boolean printRooster = meetingHelper.getPrintRooster();
+        Boolean printFutureScheduledMeeting = meetingHelper.getPrintFutureScheduledMeeting();
+        List<Printable> correspondencePrintables = getCorrespondencePrintingService().getCorrespondencePrintable(committeeSchedule, meetingHelper.getCorrespondencesToPrint());
+        Boolean printCorrespondences = !correspondencePrintables.isEmpty();
+        CommitteeActionPrintCommitteeDocumentEvent event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, document, printRooster, printFutureScheduledMeeting, true);
+        event.setPrintCorrespondence(printCorrespondences);
+        if (applyRules(event)) {
             AbstractPrint printable;
             List<Printable> printableArtifactList = new ArrayList<Printable>();
             if (printRooster) {
@@ -380,15 +387,18 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
                 printable.setPrintableBusinessObject(document.getCommittee());
                 document.getCommittee().setPrintRooster(printRooster);
                 printableArtifactList.add(printable);
-                ((MeetingFormBase) form).getMeetingHelper().setPrintRooster(false);
+                meetingHelper.setPrintRooster(false);
             }
             if (printFutureScheduledMeeting) {
                 printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS);
                 printable.setPrintableBusinessObject(document.getCommittee());
                 printableArtifactList.add(printable);
                 document.getCommittee().setPrintRooster(printFutureScheduledMeeting);
-                ((MeetingFormBase) form).getMeetingHelper().setPrintFutureScheduledMeeting(false);
+                meetingHelper.setPrintFutureScheduledMeeting(false);
             }
+            
+            printableArtifactList.addAll(correspondencePrintables);
+            
             AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
             if (dataStream.getContent() != null) {
                 PrintingUtils.streamToResponse(dataStream, response);
@@ -397,6 +407,8 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
         }
         return actionForward;
     }
+    
+    protected abstract CorrespondencePrintingService getCorrespondencePrintingService();
 
     private CommonCommitteeNotificationService getCommitteeNotificationService() {
         return KraServiceLocator.getService(CommonCommitteeNotificationService.class);

@@ -19,6 +19,7 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.committee.service.CommitteeBatchCorrespondenceService;
+import org.kuali.kra.committee.service.CommitteeCorrespondencePrint;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -28,6 +29,7 @@ import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServic
 import org.kuali.kra.common.committee.web.struts.action.CommitteeActionsActionBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.kra.questionnaire.printing.CorrespondencePrintingService;
 
 import java.sql.Date;
 
@@ -70,5 +72,11 @@ public class CommitteeActionsAction extends CommitteeActionsActionBase {
     @Override
     protected String getCommitteeDocumentTypeSimpleNameHook() {
         return "CommitteeDocument";
+    }
+
+    @Override
+    protected CorrespondencePrintingService getCorrespondencePrintingService() {
+        return KraServiceLocator.getService(CommitteeCorrespondencePrint.class);
+
     }
 }

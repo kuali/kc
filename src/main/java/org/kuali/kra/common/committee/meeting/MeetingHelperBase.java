@@ -22,6 +22,7 @@ import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTa
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -72,7 +73,8 @@ public abstract class MeetingHelperBase implements Serializable {
     private static String agendaSentMessage;
     private ProtocolCorrespondence protocolCorrespondence;
     private List<ProtocolCorrespondence> regeneratedCorrespondences;
-    
+    private List<CorrespondencePrintOption> correspondencesToPrint;
+
     private CommitteeScheduleAttachmentsBase newCommitteeScheduleAttachments;
 
     private static final String MESSAGE_COMMITTEESCHEDULE_AGENDASENT = "message.committeeSchedule.agendaSent";
@@ -100,6 +102,7 @@ public abstract class MeetingHelperBase implements Serializable {
         printFutureScheduledMeeting = new Boolean(false);
  //       hideReviewerName = getReviewerCommentsService().isHideReviewerName();
         initDeletedList();
+        initPrintCorrespondence();
     }
 
     protected abstract CommitteeScheduleAttachmentsBase getNewCommitteeScheduleAttachmentsInstanceHook();
@@ -523,5 +526,15 @@ public abstract class MeetingHelperBase implements Serializable {
     }
     
     public abstract boolean isAdmin();
+
+    public List<CorrespondencePrintOption> getCorrespondencesToPrint() {
+        return correspondencesToPrint;
+    }
+
+    public void setCorrespondencesToPrint(List<CorrespondencePrintOption> correspondencesToPrint) {
+        this.correspondencesToPrint = correspondencesToPrint;
+    }
+    
+    protected abstract void initPrintCorrespondence();
 
 }

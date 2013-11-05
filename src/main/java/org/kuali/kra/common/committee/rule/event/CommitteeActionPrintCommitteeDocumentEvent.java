@@ -25,6 +25,7 @@ public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActions
     private Boolean printRooster;
     private Boolean printFutureScheduledMeeting;
     private boolean onMeetingAction;
+    private Boolean printCorrespondence;
     
     public CommitteeActionPrintCommitteeDocumentEvent(String errorPathPrefix, Document document, Boolean printRooster, Boolean printFutureScheduledMeeting) {
         super(MSG + getDocumentId(document), errorPathPrefix, document);
@@ -68,6 +69,14 @@ public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActions
 
     public void setOnMeetingAction(boolean onMeetingAction) {
         this.onMeetingAction = onMeetingAction;
+    }
+
+    public void setPrintCorrespondence(Boolean printCorrespondence) {
+        this.printCorrespondence = printCorrespondence;
+    }
+    
+    public Boolean getPrintCorrespondence() {
+        return printCorrespondence;
     }
 
 }
