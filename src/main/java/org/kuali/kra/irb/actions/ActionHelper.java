@@ -79,7 +79,6 @@ import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorizationService;
-import org.kuali.kra.protocol.correspondence.ProtocolModuleCorrespondenceBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;

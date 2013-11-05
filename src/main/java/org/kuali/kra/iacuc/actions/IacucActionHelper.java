@@ -99,7 +99,6 @@ import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorizationService;
-import org.kuali.kra.protocol.correspondence.ProtocolModuleCorrespondenceBeanBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
