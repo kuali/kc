@@ -46,6 +46,7 @@ import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
+import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
@@ -295,6 +296,8 @@ public abstract class ActionHelperBase implements Serializable {
     // TODO ProtocolSummaryPrintOptions should be refactored into IRB and IACUC subclasses and the below constructor should be replaced with a hook invocation.
     protected ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
     protected List<QuestionnairePrintOption> questionnairesToPrints;
+    protected List<CorrespondencePrintOption> correspondencesToPrint;
+    
     // flag if versioned protocol questionnaire exist
     protected boolean summaryQuestionnaireExist;
     protected boolean hideReviewerName;
@@ -680,6 +683,7 @@ public abstract class ActionHelperBase implements Serializable {
         
         initAmendmentBeans(false);
         initPrintQuestionnaire();
+        initPrintCorrespondence();
     }
     
             
@@ -2401,6 +2405,16 @@ public abstract class ActionHelperBase implements Serializable {
         ModuleQuestionnaireBean moduleQuestionnaireBean = getNewProtocolModuleQuestionnaireBeanInstanceHook(getProtocol());
         List<AnswerHeader> answerHeaders  = getQuestionnaireAnswerService().getAnswerHeadersForProtocol(moduleQuestionnaireBean, getProtocol().getProtocolNumber(),form.getQuestionnaireHelper());
         setupQnPrintOption(answerHeaders);
+    }
+    
+    protected abstract void initPrintCorrespondence();
+
+    public void setCorrespondencesToPrint(List<CorrespondencePrintOption> printOptions) {
+        this.correspondencesToPrint = printOptions;
+    }
+
+    public List<CorrespondencePrintOption> getCorrespondencesToPrint() {
+        return correspondencesToPrint;
     }
 
     /*
