@@ -405,7 +405,6 @@
                             </td>
                             <td>
                                 <div align="center">
-                                	  <!-- TODO: .printCorOptions  -->
                                       <html:image property="methodToCall.selectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$j('.printCorOptions').attr('checked', true);return false;" />
                                       <html:image property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$j('.printCorOptions').attr('checked', false);return false;" />
                                 </div>                        
