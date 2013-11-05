@@ -77,7 +77,6 @@
 						</td>
 						<td>
 							<div align="center">
-								<!-- TODO: .printCorOptions  -->
 								<html:image
 									property="methodToCall.selectAllProtocolPrint.anchor${tabKey}"
 									src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif"
