@@ -28,6 +28,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
+import org.kuali.kra.iacuc.procedures.IacucProcedureNavigation;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -101,6 +102,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         iacucProtocol.setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(iacucProtocol, 
                 protocolForm.getIacucProtocolProceduresHelper().getAllProcedures()));
+        protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PROCEDURES);
         return branchToPanelOrNotificationEditor(mapping, protocolForm, IACUC_PROTOCOL_PROCEDURES);
     }
 

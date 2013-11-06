@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import java.util.HashMap;
 import java.util.List;
 
+import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
@@ -53,17 +53,6 @@ public interface IacucProtocolProcedureService {
      */
     public void addProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, IacucProtocol iacucProtocol);
     
-
-    /**
-     * This method is to add procedure responsible person.
-     * This method is invoked from person responsible section
-     * @param newIacucProcedurePersonResponsible
-     * @param selectedProcedureDetailBean
-     * @param selectedProtocolStudyGroupBean
-     */
-    public void addProcedurePersonResponsible(IacucProcedurePersonResponsible newIacucProcedurePersonResponsible, 
-            IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean);
-    
     /**
      * This method is to format procedure study group data, group by categories for display
      * @param iacucProtocol
@@ -82,45 +71,6 @@ public interface IacucProtocolProcedureService {
     public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, 
             IacucProtocolStudyGroup deletedIacucProtocolStudyGroup, IacucProtocol iacucProtocol);
     
-    /**
-     * This method is to deleted selected person responsible
-     * @param selectedProcedureDetailBean
-     * @param selectedPersonResponsible
-     * @param iacucProtocol
-     */
-    public void deleteProcedurePersonResponsible(IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, 
-            IacucProcedurePersonResponsible selectedPersonResponsible, IacucProtocol iacucProtocol);
-    
-    /**
-     * This method is to deleted selected group location
-     * @param selectedProcedureDetailBean
-     * @param selectedStudyGroupLocation
-     * @param iacucProtocol
-     */
-    public void deleteStudyGroupLocation(IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, 
-            IacucProtocolStudyGroupLocation selectedStudyGroupLocation, IacucProtocol iacucProtocol);
-    
-    /**
-     * This method is to create a new set of study groups based on existing list
-     * This method is invoked during copy protocol so that we a new instance of the study group is created
-     * and all its corresponding collections are set with appropriate reference.
-     * @param iacucProtocol
-     * @param sourceStudyGroupBeans
-     * @param protocolSpeciesIdMapping
-     */
-    public void createNewStudyGroups(IacucProtocol iacucProtocol, List<IacucProtocolStudyGroupBean> sourceStudyGroupBeans, 
-            HashMap<Integer, Integer> protocolSpeciesIdMapping);
-
-    
-    /**
-     * This method is to reset the persistent state in procedure panel.
-     * There are issues when extended from protocol associate since there is no relation with protocol for
-     * some of the sub panels used in procedure. Since these sub panels are extended from persistable business object
-     * we are forcing the reset here.
-     * @param protocol
-     */
-    public void resetProcedurePanel(IacucProtocol protocol);
-
     
     /**
      * This method is to add a new location to study group
@@ -155,4 +105,21 @@ public interface IacucProtocolProcedureService {
      */
     public void setProcedureSummaryBySpeciesGroup(IacucProtocol protocol);
     
+    /**
+     * This method is to fetch iacuc person training details for a person
+     * @param personId
+     * @return
+     */
+    public List<IacucPersonTraining> getIacucPersonTrainingDetails(String personId);
+    
+
+    /**
+     * This method is to create a new set of study groups based on existing list
+     * This method is invoked during copy protocol so that we a new instance of the study group is created
+     * and all its corresponding collections are set with appropriate reference.
+     * @param sourceProtocol
+     * @param destProtocol
+     */
+    public void createNewProtocolStudyProcedures(IacucProtocol sourceProtocol, IacucProtocol destProtocol); 
+
 }
