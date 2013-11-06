@@ -31,7 +31,7 @@ public class CorrespondencePrintOption implements Serializable {
     private String itemCode;
     private String subItemKey;
     private String subItemCode;
-    private boolean selected = true;
+    private boolean selected = false;
     //would be the same across all CorrespondencePrintOptions within a print context. i.e. Committee, [IRB|IACUC] Protocol
     private String moduleId;
 
