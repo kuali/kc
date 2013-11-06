@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.service;
 
-import org.kuali.kra.questionnaire.printing.CorrespondencePrintingService;
+import org.kuali.kra.common.printing.CorrespondencePrintingService;
 
 public interface CommitteeCorrespondencePrint extends CorrespondencePrintingService {
 

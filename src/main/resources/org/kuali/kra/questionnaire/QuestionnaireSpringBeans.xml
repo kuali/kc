@@ -150,7 +150,7 @@
     </bean>
     
     <bean id="correspondencePrint"
-    	class="org.kuali.kra.questionnaire.print.CorrespondencePrint" scope="prototype">
+    	class="org.kuali.kra.common.printing.CorrespondencePrint" scope="prototype">
     	<property name="xmlStream" ref="correspondenceXmlStream" />
     </bean>
 

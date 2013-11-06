@@ -27,9 +27,9 @@ import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.committee.web.struts.action.CommitteeActionsActionBase;
+import org.kuali.kra.common.printing.CorrespondencePrintingService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.questionnaire.printing.CorrespondencePrintingService;
 
 import java.sql.Date;
 
