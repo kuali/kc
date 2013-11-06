@@ -35,7 +35,7 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean implements org.k
     private boolean protocolPersonnel = false;
     private boolean others = false;
     private boolean protocolPermissions = false;
-    private boolean questionnaire = true;
+    private boolean questionnaire = false;
     
     /**
      * Constructs a ProtocolAmendmentBean.

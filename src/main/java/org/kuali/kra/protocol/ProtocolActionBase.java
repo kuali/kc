@@ -25,7 +25,6 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.questionnaire.SaveProtocolQuestionnaireEvent;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
@@ -35,7 +34,6 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
@@ -148,7 +146,8 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
      * @param response Http Response
      * @return the Action Forward
      */
-    public ActionForward noteAndAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward noteAndAttachment(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         ProtocolFormBase protocolForm = (ProtocolFormBase)form;
         protocolForm.getNotesAttachmentsHelper().prepareView();
         return branchToPanelOrNotificationEditor(mapping, protocolForm, getNoteAndAttachmentForwardNameHook());
@@ -191,20 +190,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
        protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
        protocolForm.getActionHelper().prepareView();
        protocolForm.getActionHelper().prepareCommentsView();
-       
-       //When a user selects the Questionnaires tab, empty answerHeaders are generated and saved to the database so that subsequent methods relying
-       //on that persisted data have it available to render panels.  Make Protocol Actions tab work in this same manner so it's sub-tab 
-       //Print ==> Questionnaires will render when a user enters a protocol but does not select the Questionnaire tab to answer the questions.
-       protocolForm.getQuestionnaireHelper().prepareView();
-       protocolForm.getQuestionnaireHelper().populateAnswers();
-       protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
-       Document document = protocolForm.getDocument();
-       List<AnswerHeader> answerHeaders = protocolForm.getQuestionnaireHelper().getAnswerHeaders();       
-       if (applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders)) && applyRules(new SaveProtocolQuestionnaireEvent(document, answerHeaders)) ) {
-           protocolForm.getQuestionnaireHelper().preSave();
-           getBusinessObjectService().save(answerHeaders);
-       }
-       
        return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolActionsForwardNameHook());
     }
     
@@ -519,7 +504,9 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         return rulesService.processUnitValidations(protocolDoc.getProtocol().getLeadUnitNumber(), protocolDoc);
     }
     
-    public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // TODO : this is only available after questionnaire is saved ?
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
@@ -529,9 +516,14 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         String formProperty = StringUtils.substringBetween(methodToCall, ".printQuestionnaireAnswer.", ".line");
         QuestionnaireHelperBase helper = (QuestionnaireHelperBase) BeanUtilsBean.getInstance().getPropertyUtils().getProperty(form, formProperty);
         AnswerHeader answerHeader = helper.getAnswerHeaders().get(answerHeaderIndex);
+        // TODO : a flag to check whether to print answer or not
         // for release 3 : if questionnaire questions has answer, then print answer. 
-        reportParameters.put("questionnaireId", answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger());
-        reportParameters.put("template", answerHeader.getQuestionnaire().getTemplate());
+        reportParameters.put("questionnaireId",
+                answerHeader.getQuestionnaire()
+                        .getQuestionnaireIdAsInteger());
+        reportParameters.put("template",
+                answerHeader.getQuestionnaire()
+                        .getTemplate());
         reportParameters.put("coeusModuleSubItemCode", answerHeader.getModuleSubItemCode());
         
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(protocol, reportParameters);
