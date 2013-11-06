@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.questionnaire.print;
 
-import org.kuali.kra.questionnaire.printing.CorrespondencePrintingService;
+import org.kuali.kra.common.printing.CorrespondencePrintingService;
 
 public interface IrbCorrespondencePrintingService extends CorrespondencePrintingService{
 
