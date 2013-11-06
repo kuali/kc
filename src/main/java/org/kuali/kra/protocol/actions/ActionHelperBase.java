@@ -303,6 +303,8 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean hideReviewerName;
     protected boolean hideSubmissionReviewerName;
     protected boolean hideReviewerNameForAttachment;
+    //flag to hide private final columns/attachments from PI when they are public
+    protected boolean hidePrivateFinalFlagsForPublicCommentsAttachments; 
     protected ProtocolCorrespondence protocolCorrespondence;
     
     // indicator for whether there is submission questionnaire answer exist.
@@ -679,6 +681,7 @@ public abstract class ActionHelperBase implements Serializable {
         
         initProtocolCorrespondenceAuthorizationFlags();
         
+        hidePrivateFinalFlagsForPublicCommentsAttachments = checkToHidePrivateFinalFlagsForPublicCommentsAttachments();
         initSubmissionDetails();
         
         initAmendmentBeans(false);
@@ -2034,8 +2037,10 @@ public abstract class ActionHelperBase implements Serializable {
                 });
                 protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(reviewComments);
                 getReviewerCommentsService().setHideReviewerName(reviewComments);
+                setHidePrivateFinalFlagsForPublicCommentsAttachments(getReviewerCommentsService().isHidePrivateFinalFlagsForPI(reviewComments));
             }
             getReviewerCommentsService().setHideReviewerName(getReviewComments());
+            setHidePrivateFinalFlagsForPublicCommentsAttachments(getReviewerCommentsService().isHidePrivateFinalFlagsForPI(reviewComments));            
         }
         setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         if (CollectionUtils.isNotEmpty(getReviewAttachments())) {
@@ -2449,6 +2454,26 @@ public abstract class ActionHelperBase implements Serializable {
     public void setProtocolAbandonBean(ProtocolGenericActionBean protocolAbandonBean) {
         this.protocolAbandonBean = protocolAbandonBean;
     }
+    
+    public boolean isHidePrivateFinalFlagsForPublicCommentsAttachments() {
+        return hidePrivateFinalFlagsForPublicCommentsAttachments;
+    }
+
+    public void setHidePrivateFinalFlagsForPublicCommentsAttachments(boolean hidePrivateFinalFlagsForPublicCommentsAttachments) {
+        this.hidePrivateFinalFlagsForPublicCommentsAttachments = hidePrivateFinalFlagsForPublicCommentsAttachments;
+    }
+   
+    /*
+     * check whether to display submission details comment (private/final) and attachment (protocol personnel can view) flags.
+     */
+    protected boolean checkToHidePrivateFinalFlagsForPublicCommentsAttachments() {
+        List<CommitteeScheduleMinuteBase> reviewComments = getReviewComments();
+        if (reviewComments == null) {
+            return false;
+        } else {
+            return getReviewCommentsService().isHidePrivateFinalFlagsForPI(reviewComments);
+        }
+    }       
 
     public boolean isHideReviewerName() {
         return hideReviewerName;
