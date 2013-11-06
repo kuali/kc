@@ -24,6 +24,12 @@
 
 <c:set var="parentTabName" value="" />
 
+<c:set var="summaryBySpecies" value="${KualiForm.iacucProtocolProceduresHelper.summaryGroupedBySpecies}"/>
+<c:set var="currentSummaryDisplay" value="(Summary Displayed by Group)" />
+<c:if test="${summaryBySpecies}">
+	<c:set var="currentSummaryDisplay" value="(Summary Displayed by Species)" />
+</c:if>
+
 	<kul:innerTab tabTitle="Summary" parentTab="${parentTabName}" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
 		<h3>
   			<span class="subhead-left">View Summary by : </span>
@@ -37,9 +43,12 @@
 			    <html:image property="methodToCall.summaryBySpecies" title="Summary by species"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-species.gif' styleClass="tinybutton"/>
 	        </span>
+	        <span class="subhead-left">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	        <span class="subhead-left">
+	        	<c:out value="${currentSummaryDisplay}"/>
+	        </span>
   			<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolIncludedCategoriesHelp" altText="Help"/></span>
      	</h3>
-    	<c:set var="summaryBySpecies" value="${KualiForm.iacucProtocolProceduresHelper.summaryGroupedBySpecies}"/>
   		<c:choose>
   			<c:when test="${summaryBySpecies}">
 				<c:forEach items="${KualiForm.document.protocolList[0].iacucProtocolStudyGroupSpeciesList}" var="procedureSpecies" varStatus="status">

@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.iacuc;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRule;
@@ -34,7 +39,6 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolUnitRule;
 import org.kuali.kra.iacuc.personnel.SaveIacucProtocolPersonnelEvent;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceAuditRule;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceRule;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationRule;
@@ -65,11 +69,6 @@ import org.kuali.kra.protocol.protocol.location.ProtocolLocationRuleBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRuleBase;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Main Business Rule class for <code>{@link IacucProtocolDocument}</code>. Responsible for delegating rules to independent rule classes.
