@@ -27,6 +27,7 @@ import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
 import org.kuali.kra.common.committee.meeting.CommonMeetingService;
 import org.kuali.kra.common.committee.meeting.MeetingActionsActionBase;
 import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
+import org.kuali.kra.common.printing.CorrespondencePrintingService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -40,7 +41,6 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.questionnaire.printing.CorrespondencePrintingService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
