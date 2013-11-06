@@ -36,11 +36,15 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentFilter;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
+import org.kuali.kra.iacuc.procedures.IacucPersonProcedureDetail;
+import org.kuali.kra.iacuc.procedures.IacucProcedureLocationDetail;
+import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
+import org.kuali.kra.iacuc.procedures.IacucProtocolLocationProcedure;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupSpecies;
 import org.kuali.kra.iacuc.protocol.IacucProtocolProjectType;
@@ -69,6 +73,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilterBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -111,11 +116,11 @@ public class IacucProtocol extends ProtocolBase {
     private List<IacucProtocolException> iacucProtocolExceptions;
 
     private List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroups;
-    private List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans;
     private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
     private List<IacucProtocolStudyGroupSpecies> iacucProtocolStudyGroupSpeciesList;
     
-    
+    // this collection is to regroup study procedures for UI display
+    private List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans;
         
     // lookup field
     private Integer speciesCode; 
@@ -153,14 +158,22 @@ public class IacucProtocol extends ProtocolBase {
         managedLists.add(getIacucProtocolCustomDataList());
         managedLists.add(getIacucPrinciples());
         managedLists.add(getIacucAlternateSearches());
-
-        List<IacucProtocolStudyGroup> protocolStudyGroups = new ArrayList<IacucProtocolStudyGroup>();
-        for(IacucProtocolStudyGroupBean studyGroupBean : getIacucProtocolStudyGroups()) {
-            protocolStudyGroups.addAll(studyGroupBean.getIacucProtocolStudyGroups());
+        List<IacucProtocolLocationProcedure> locationResponsibleProcedures = new ArrayList<IacucProtocolLocationProcedure>();
+        List<IacucPersonProcedureDetail> personResponsibleProcedures = new ArrayList<IacucPersonProcedureDetail>();
+        for(ProtocolPersonBase protocolPerson : getProtocolPersons()) {
+            IacucProtocolPerson iacucProtocolPerson = (IacucProtocolPerson)protocolPerson;
+            for(IacucProcedurePersonResponsible procedureDetail : iacucProtocolPerson.getProcedureDetails()) {
+                personResponsibleProcedures.addAll(procedureDetail.getResponsibleProcedures());
+            }
         }
-        
+        for(IacucProtocolStudyGroupLocation protocolStudyGroupLocation : getIacucProtocolStudyGroupLocations()) {
+            for(IacucProcedureLocationDetail procedureDetail : protocolStudyGroupLocation.getProcedureDetails()) {
+                locationResponsibleProcedures.addAll(procedureDetail.getResponsibleProcedures());
+            }
+        }
+        managedLists.add(locationResponsibleProcedures);
+        managedLists.add(personResponsibleProcedures);
         managedLists.add(getIacucProtocolStudyGroupLocations());
-        managedLists.add(protocolStudyGroups);
         managedLists.add(getIacucProtocolStudyGroups());
         managedLists.add(getIacucProtocolExceptions());
         managedLists.add(getIacucProtocolSpeciesList());

@@ -16,12 +16,16 @@
 package org.kuali.kra.iacuc.personnel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
+import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 
 public class IacucProtocolPerson extends ProtocolPersonBase {
@@ -72,4 +76,21 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
         return getIacucPersonTrainings().size() > 0 ? PERSON_TRAINED_TRUE : PERSON_TRAINED_FALSE;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {      
+        List<Collection<PersistableBusinessObject>> deleteAwareList = super.buildListOfDeletionAwareLists();
+        deleteAwareList.add((Collection) getProcedureDetails());
+        return deleteAwareList;
+    }
+
+    @Override
+    protected void postLoad() {
+        super.postLoad();
+        setIacucPersonTrainings(getIacucProtocolProcedureService().getIacucPersonTrainingDetails(getPersonId()));
+    }
+
+    protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
+        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+    }
 }

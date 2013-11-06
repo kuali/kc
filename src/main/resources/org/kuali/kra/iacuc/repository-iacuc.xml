@@ -40,29 +40,8 @@
         </collection-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean" table="IACUC_PROTOCOL_STUDY_GROUP_DTL">
-		<field-descriptor name="iacucProtocolStudyGroupDetailId" column="IACUC_PROTO_STUDY_GRP_DTL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROT_STUD_GRP_DTL_ID" autoincrement="true" />
-		<field-descriptor name="iacucProtocolStudyGroupHeaderId" column="IACUC_PROTO_STUDY_GRP_HDR_ID" jdbc-type="INTEGER"/>
-		<field-descriptor name="speciesCode" column="SPECIES_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="totalSpeciesCount" column="TOTAL_SPECIES_COUNT" jdbc-type="INTEGER" />
-		<field-descriptor name="maxPainCategoryCode" column="MAX_PAIN_CATEGORY_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="iacucProtocolStudyGroupBean" class-ref="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="iacucProtocolStudyGroupHeaderId"/>
-		</reference-descriptor>
-        <reference-descriptor name="iacucSpecies" class-ref="org.kuali.kra.iacuc.IacucSpecies" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="speciesCode"/>
-        </reference-descriptor>
-        <reference-descriptor name="maxIacucPainCategory" class-ref="org.kuali.kra.iacuc.IacucPainCategory" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="maxPainCategoryCode"/>
-        </reference-descriptor>
-	</class-descriptor>
-
 	<class-descriptor class="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupSpecies" table="IACUC_PROTO_STUDY_GRP_SPECIES">
-		<field-descriptor name="iacucProtocolStudyGroupSpeciesId" column="IACUC_PROTO_STUDY_GRP_SPC_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROT_STUD_GRP_DTL_ID" autoincrement="true" />
+		<field-descriptor name="iacucProtocolStudyGroupSpeciesId" column="IACUC_PROTO_STUDY_GRP_SPC_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTO_STUDY_GRP_SPC_ID" autoincrement="true" />
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
@@ -75,10 +54,10 @@
         <reference-descriptor name="iacucSpecies" class-ref="org.kuali.kra.iacuc.IacucSpecies" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="speciesCode"/>
         </reference-descriptor>
-        <collection-descriptor name="iacucPersonResponsibleProcedures" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="object">
+        <collection-descriptor name="iacucPersonResponsibleProcedures" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="iacucProtocolStudyGroupSpeciesId" />
         </collection-descriptor>
-        <collection-descriptor name="iacucLocationResponsibleProcedures" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProcedureLocationDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="object">
+        <collection-descriptor name="iacucLocationResponsibleProcedures" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProcedureLocationDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="iacucProtocolStudyGroupSpeciesId" />
         </collection-descriptor>
 	</class-descriptor>
@@ -134,7 +113,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.iacuc.procedures.IacucProcedureLocationDetail" table="IACUC_PROTO_STUDY_GRP_LOC_DTL">
-		<field-descriptor name="iacucProcedureLocationDetailId" column="IACUC_PROC_LOCATION_DTL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROC_PERS_RESP_ID" autoincrement="true"/>
+		<field-descriptor name="iacucProcedureLocationDetailId" column="IACUC_PROC_LOCATION_DTL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROC_LOCATION_DTL_ID" autoincrement="true"/>
 		<field-descriptor name="iacucProtocolStudyGroupLocationId" column="IACUC_PROT_STUD_GROU_LOCS_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="iacucProtocolStudyGroupSpeciesId" column="IACUC_PROTO_STUDY_GRP_SPC_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -153,7 +132,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.iacuc.procedures.IacucProtocolLocationProcedure" table="IACUC_PROTO_STUDY_GRP_LOC_PRC">
-		<field-descriptor name="iacucProtocolLocationProcedureId" column="IACUC_PROTO_LOCATION_PRC_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROC_PERS_RESP_ID" autoincrement="true"/>
+		<field-descriptor name="iacucProtocolLocationProcedureId" column="IACUC_PROTO_LOCATION_PRC_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTO_LOCATION_PRC_ID" autoincrement="true"/>
 		<field-descriptor name="iacucProcedureLocationDetailId" column="IACUC_PROC_LOCATION_DTL_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="iacucProtocolStudyGroupHeaderId" column="IACUC_PROTO_STUDY_GRP_HDR_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="studyProcedureActive" column="STUDY_PROCEDURE_ACTIVE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -272,7 +251,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.iacuc.procedures.IacucPersonProcedureDetail" table="IACUC_PERSON_PROC_DETAIL">
-		<field-descriptor name="iacucPersonProcedureDetailId" column="IACUC_PERS_PROC_DTL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROC_PERS_RESP_ID" autoincrement="true"/>
+		<field-descriptor name="iacucPersonProcedureDetailId" column="IACUC_PERS_PROC_DTL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PERS_PROC_DTL_ID" autoincrement="true"/>
 		<field-descriptor name="iacucProcedurePersonResponsibleId" column="IACUC_PROC_PERS_RESP_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="iacucProtocolStudyGroupHeaderId" column="IACUC_PROTO_STUDY_GRP_HDR_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="studyProcedureActive" column="STUDY_PROCEDURE_ACTIVE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -452,10 +431,6 @@
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
 
-        <collection-descriptor name="iacucProtocolStudyGroups" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
-            <inverse-foreignkey field-ref="protocolId" />
-        </collection-descriptor>
-                
         <collection-descriptor name="protocolReferences" element-class-ref="org.kuali.kra.iacuc.protocol.reference.IacucProtocolReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>   
@@ -493,11 +468,15 @@
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
         
-        <collection-descriptor name="iacucProtocolStudyGroupLocations" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="iacucProtocolStudyGroupSpeciesList" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupSpecies" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
 
-        <collection-descriptor name="iacucProtocolStudyGroupSpeciesList" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupSpecies" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="iacucProtocolStudyGroupLocations" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolId" />
+        </collection-descriptor>
+        
+        <collection-descriptor name="iacucProtocolStudyGroups" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
         

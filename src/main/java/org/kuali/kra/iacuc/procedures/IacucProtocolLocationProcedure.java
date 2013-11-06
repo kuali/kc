@@ -45,6 +45,20 @@ public class IacucProtocolLocationProcedure extends IacucProcedureDetailBase {
             return false;
         }
         IacucProtocolLocationProcedure other = (IacucProtocolLocationProcedure) obj;
+        if (this.getIacucProtocolStudyGroupHeaderId() == null) {
+            if (other.getIacucProtocolStudyGroupHeaderId() != null) {
+                return false;
+            }
+        } else if (!this.getIacucProtocolStudyGroupHeaderId().equals(other.getIacucProtocolStudyGroupHeaderId())) {
+            return false;
+        }
+        if (this.iacucProtocolLocationProcedureId == null) {
+            if (other.iacucProtocolLocationProcedureId != null) {
+                return false;
+            }
+        } else if (!this.iacucProtocolLocationProcedureId.equals(other.iacucProtocolLocationProcedureId)) {
+            return false;
+        }
         if (this.iacucProcedureLocationDetailId == null) {
             if (other.iacucProcedureLocationDetailId != null) {
                 return false;

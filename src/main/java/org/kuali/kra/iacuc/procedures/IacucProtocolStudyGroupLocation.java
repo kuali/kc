@@ -16,11 +16,13 @@
 package org.kuali.kra.iacuc.procedures;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.IacucLocationType;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase { 
     
@@ -155,4 +157,10 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
         this.procedureDetails = procedureDetails;
     }
 
+    @Override
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {      
+        List<Collection<PersistableBusinessObject>> deleteAwareList = super.buildListOfDeletionAwareLists();
+        deleteAwareList.add((Collection) getProcedureDetails());
+        return deleteAwareList;
+    }
 }
