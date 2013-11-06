@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.print;
+package org.kuali.kra.common.printing;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
