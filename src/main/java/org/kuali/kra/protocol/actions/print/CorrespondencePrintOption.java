@@ -19,6 +19,10 @@ import java.io.Serializable;
 
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 
+/**
+ * This class represents a Correspondence available for print within Protocol, Schedule and Committee
+ * print panes.
+ */
 public class CorrespondencePrintOption implements Serializable {
 
     private static final long serialVersionUID = 2254998166111344060L;
@@ -32,7 +36,6 @@ public class CorrespondencePrintOption implements Serializable {
     private String subItemKey;
     private String subItemCode;
     private boolean selected = false;
-    //would be the same across all CorrespondencePrintOptions within a print context. i.e. Committee, [IRB|IACUC] Protocol
     private String moduleId;
 
     private ProtocolCorrespondenceTemplateBase protocolCorrespondenceTemplate;
