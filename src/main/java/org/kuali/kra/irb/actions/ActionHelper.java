@@ -528,6 +528,7 @@ public class ActionHelper extends ActionHelperBase {
         canAddDataAnalysisReviewerComments = hasDataAnalysisRequestLastAction();
         canAddReopenEnrollmentReviewerComments = hasReopenEnrollmentRequestLastAction();
         hideReviewerName = checkToHideReviewName();
+        hidePrivateFinalFlagsForPublicCommentsAttachments = checkToHidePrivateFinalFlagsForPublicCommentsAttachments();        
         undoLastActionBean = createUndoLastActionBean((Protocol) getProtocol());
        
         initSummaryDetails();
@@ -1373,8 +1374,10 @@ public class ActionHelper extends ActionHelperBase {
                 });
                 protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments((List)reviewComments);
                 getReviewerCommentsService().setHideReviewerName(reviewComments);
+                setHidePrivateFinalFlagsForPublicCommentsAttachments(getReviewerCommentsService().isHidePrivateFinalFlagsForPI(reviewComments));                
             }
             getReviewerCommentsService().setHideReviewerName(getReviewComments());
+            setHidePrivateFinalFlagsForPublicCommentsAttachments(getReviewerCommentsService().isHidePrivateFinalFlagsForPI(getReviewComments()));            
         }
         setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         if (CollectionUtils.isNotEmpty(getReviewAttachments())) {

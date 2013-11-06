@@ -162,6 +162,15 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachmentBase>
      * @return
      */
     boolean setHideReviewerName(List<? extends ProtocolReviewableBase> reviewComments);
+    
+    /**
+     * 
+     * This method determines whether the private/final/can-view columns will be displayed for public
+     * comments/attachments when the current user is the PI. 
+     * @param reviewComments
+     * @return true when current user is PI for any public final comment/attachment; otherwise return false
+     */    
+    boolean isHidePrivateFinalFlagsForPI(List<? extends ProtocolReviewableBase> reviewComments);
 
     /**
      * 
