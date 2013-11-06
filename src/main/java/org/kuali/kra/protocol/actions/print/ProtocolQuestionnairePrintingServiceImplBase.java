@@ -91,15 +91,11 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
      */
     private boolean isCurrentAmendRenewalQn(AnswerHeader answerHeader) {
         boolean isCurrentQn = CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())
-                              || CoeusSubModule.AMENDMENT.equals(answerHeader.getModuleSubItemCode())
-                              || CoeusSubModule.RENEWAL.equals(answerHeader.getModuleSubItemCode())
-                              || CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode());
+                || CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode());
         if (isCurrentQn) {
             if (CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode())) {
                 isCurrentQn = isCurrentRegularQn(answerHeader);
-            } else if (CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode()) 
-                       || CoeusSubModule.AMENDMENT.equals(answerHeader.getModuleSubItemCode())
-                       || CoeusSubModule.RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
+            } else if (CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
                 isCurrentQn = isCurrentAorRQn(answerHeader);
             }
         }
@@ -141,14 +137,6 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
                     } else {
                         label = usage.getQuestionnaireLabel() + " - Renewal " + answerHeader.getModuleItemKey().substring(10);
                     }
-                } else if (CoeusSubModule.AMENDMENT.equals(answerHeader.getModuleSubItemCode())) {
-                    if (answerHeader.getModuleItemKey().contains("A")) {
-                        label = usage.getQuestionnaireLabel() + " - Amendment " + answerHeader.getModuleItemKey().substring(10);
-                    } 
-                } else if (CoeusSubModule.RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
-                    if (answerHeader.getModuleItemKey().contains("R")) {                        
-                        label = usage.getQuestionnaireLabel() + " - Renewal " + answerHeader.getModuleItemKey().substring(10);
-                    }    
                 }
             }
         }
