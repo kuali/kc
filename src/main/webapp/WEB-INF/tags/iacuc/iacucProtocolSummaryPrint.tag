@@ -399,7 +399,7 @@
           							<div align="center">
           								<kul:htmlControlAttribute property="actionHelper.correspondencesToPrint[${status.index}].selected"
           												  attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}"
-          												  readOnly="false" styleClass="printQnOptions"/>
+          												  readOnly="false" styleClass="printCorOptions"/>
           							</div>
           						</td>
           					</tr>
