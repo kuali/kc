@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.concurrent.Synchroniser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
@@ -52,7 +51,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     
     private Mockery context = new JUnit4Mockery() {{
         setImposteriser(ClassImposteriser.INSTANCE);
-        setThreadingPolicy(new Synchroniser());
     }};
     
     @Before
@@ -77,7 +75,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     
     @Test
     public void testAmendment() throws Exception {
-        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, false, false, false, false, false, true);
+        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, false, false, false, false, false, false);
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         String docNbr = service.createAmendment(protocolDocument, protocolAmendmentBean);
@@ -87,7 +85,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "A001", amendmentDocument.getProtocol().getProtocolNumber());
         
         verifyAction(protocolDocument.getProtocol(), ProtocolActionType.AMENDMENT_CREATED, "Amendment-001: Created");
-        verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 3);
+        verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 2);
     }
     
     @Test
@@ -105,7 +103,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     
     @Test
     public void testRenewalWithAmendment() throws Exception {
-        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, false, false, false, false, false, true);
+        ProtocolAmendmentBean protocolAmendmentBean = getMockProtocolAmendmentBean(false, false, false, true, false, true, false, false, false, false, false, false);
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         String docNbr = service.createRenewalWithAmendment(protocolDocument, protocolAmendmentBean);
@@ -115,7 +113,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "R001", amendmentDocument.getProtocol().getProtocolNumber());
         
         verifyAction(protocolDocument.getProtocol(), ProtocolActionType.RENEWAL_CREATED, "Renewal-001: Created");
-        verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 3);
+        verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 2);
     }
 
     private void verifyAction(Protocol protocol, String expectedActionType, String expectedComment) {
@@ -139,7 +137,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         if (moduleCount > 0) {
             assertContains(ProtocolModule.ADD_MODIFY_ATTACHMENTS, modules);
             assertContains(ProtocolModule.PROTOCOL_ORGANIZATIONS, modules);
-            assertContains(ProtocolModule.QUESTIONNAIRE, modules);
         }
     }
 
@@ -248,7 +245,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
             
             allowing(bean).getProtocolPermissions();
             will(returnValue(protocolPermissions));
-            
             allowing(bean).getQuestionnaire();
             will(returnValue(questionnaire));
         }});
