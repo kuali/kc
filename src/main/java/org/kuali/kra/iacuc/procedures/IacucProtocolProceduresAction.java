@@ -28,11 +28,13 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.infrastructure.IacucConstants;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.procedures.rule.AddProcedureLocationEvent;
 import org.kuali.kra.iacuc.procedures.rule.AddProtocolStudyGroupEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class IacucProtocolProceduresAction extends IacucProtocolAction {
@@ -173,7 +175,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     }
 
     public ActionForward updateProcedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        saveProtocolProcedures(getIacucProtocol(form));
+        super.save(mapping, form, request, response);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PROCEDURES);
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -182,8 +184,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     public ActionForward updatePersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         if(isSaveProcedureValid(form)) {
-            IacucProtocol iacucProtocol = getIacucProtocol(form);
-            saveProtocolProcedures(iacucProtocol);
+            super.save(mapping, form, request, response);
             IacucProtocolForm protocolForm = (IacucProtocolForm) form;
             protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PERSONNEL);
             forward = mapping.findForward(IacucConstants.PROCEDURE_PERSONNEL);
@@ -194,7 +195,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     public ActionForward updateLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         if(isSaveProcedureValid(form)) {
-            saveProtocolProcedures(getIacucProtocol(form));
+            super.save(mapping, form, request, response);
             IacucProtocolForm protocolForm = (IacucProtocolForm) form;
             protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.LOCATION);
             forward = mapping.findForward(IacucConstants.PROCEDURE_LOCATION);
@@ -205,7 +206,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     public ActionForward updateSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         if(isSaveProcedureValid(form)) {
-            saveProtocolProcedures(getIacucProtocol(form));
+            super.save(mapping, form, request, response);
             IacucProtocolForm protocolForm = (IacucProtocolForm) form;
             getIacucProtocolProcedureService().setProcedureSummaryBySpeciesGroup(getIacucProtocol(form));
             protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.SUMMARY);
@@ -228,6 +229,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PERSONNEL);
         getBusinessObjectService().save(getIacucProtocol(form).getProtocolPersons());
+        getBusinessObjectService().save(getIacucProtocol(form).getIacucProtocolStudyGroupSpeciesList());
         return mapping.findForward(IacucConstants.PROCEDURE_PERSONNEL);
     }
     
@@ -239,14 +241,6 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         return protocolDocumentRule.isProtocolStudyGroupValid(protocolDocument);
     }
     
-    @SuppressWarnings("deprecation")
-    private void saveProtocolProcedures(IacucProtocol protocol) {
-        getBusinessObjectService().save(protocol.getIacucProtocolStudyGroupSpeciesList());
-        getBusinessObjectService().save(protocol.getIacucProtocolStudyGroups());
-        getBusinessObjectService().save(protocol.getProtocolPersons());
-        getBusinessObjectService().save(protocol.getIacucProtocolStudyGroupLocations());
-    }
-
     public ActionForward summaryBySpecies(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         getIacucProtocolProcedureService().setProcedureSummaryGroupedBySpecies(getIacucProtocol(form));

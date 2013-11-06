@@ -15,13 +15,21 @@
  */
 package org.kuali.kra.iacuc.actions.copy;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
-import org.kuali.kra.iacuc.procedures.*;
+import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyCustomData;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesService;
@@ -36,11 +44,6 @@ import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.copy.ProtocolCopyServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<IacucProtocolDocument> implements IacucProtocolCopyService{
 
@@ -289,11 +292,7 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Ia
      * This method is to copy protocol procedures
      */
     protected void addProtocolProcedures(IacucProtocol srcProtocol, IacucProtocol destProtocol) { 
-        destProtocol.setIacucProtocolStudyGroupBeans(new ArrayList<IacucProtocolStudyGroupBean>());
-        destProtocol.setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroupBean>());
-        HashMap<Integer, Integer> newSpeciesIdMapping = getNewProtocolSpeciesMap(destProtocol);
-        List<IacucProtocolStudyGroupBean> sourceProtocolProcedures = srcProtocol.getIacucProtocolStudyGroups();
-        getIacucProtocolProcedureService().createNewStudyGroups(destProtocol, sourceProtocolProcedures, newSpeciesIdMapping);
+        getIacucProtocolProcedureService().createNewProtocolStudyProcedures(srcProtocol, destProtocol);
     }
     
     @Override

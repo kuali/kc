@@ -63,6 +63,20 @@ public class IacucPersonProcedureDetail extends IacucProcedureDetailBase {
             return false;
         }
         IacucPersonProcedureDetail other = (IacucPersonProcedureDetail) obj;
+        if (this.getIacucProtocolStudyGroupHeaderId() == null) {
+            if (other.getIacucProtocolStudyGroupHeaderId() != null) {
+                return false;
+            }
+        } else if (!this.getIacucProtocolStudyGroupHeaderId().equals(other.getIacucProtocolStudyGroupHeaderId())) {
+            return false;
+        }
+        if (this.iacucPersonProcedureDetailId == null) {
+            if (other.iacucPersonProcedureDetailId != null) {
+                return false;
+            }
+        } else if (!this.iacucPersonProcedureDetailId.equals(other.iacucPersonProcedureDetailId)) {
+            return false;
+        }
         if (this.iacucProcedurePersonResponsibleId == null) {
             if (other.iacucProcedurePersonResponsibleId != null) {
                 return false;
