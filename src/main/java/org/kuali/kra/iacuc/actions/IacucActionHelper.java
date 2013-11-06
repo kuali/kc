@@ -386,7 +386,7 @@ public class IacucActionHelper extends ActionHelperBase {
         
         canCreateContinuation = hasCreateContinuationPermission();
         canCreateContinuationUnavailable = hasCreateContinuationUnavailablePermission();
-        
+        hidePrivateFinalFlagsForPublicCommentsAttachments = checkToHidePrivateFinalFlagsForPublicCommentsAttachments();
 
         initSummaryDetails();
         initFilterDatesView();
