@@ -29,7 +29,7 @@ public class IacucProtocolLocationProcedure extends IacucProcedureDetailBase {
     } 
     
     public void resetPersistenceState() {
-        this.setIacucProcedureLocationDetailId(null);        
+        this.setIacucProtocolLocationProcedureId(null);        
     }
 
     /**  {@inheritDoc} */
