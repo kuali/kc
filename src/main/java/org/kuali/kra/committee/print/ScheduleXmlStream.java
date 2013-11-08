@@ -67,14 +67,9 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     private String FOLLOW_UP_ACTION_CODE = "109";
 
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        
-        Committee committee = (Committee)printableBusinessObject;
-        String scheduleId = (String)reportParameters.get("scheduleId");
-        /* 
         CommitteeSchedule committeeSchedule = (CommitteeSchedule)printableBusinessObject;
-        String scheduleId = (String)reportParameters.get("scheduleId");
-        CommitteeSchedule committeeSchedule = findCommitteeSchedule(committee,scheduleId);
-        */
-        CommitteeSchedule committeeSchedule = findCommitteeSchedule(committee,scheduleId);
+
+        //CommitteeSchedule committeeSchedule = findCommitteeSchedule(committee,scheduleId);
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         ScheduleDocument scheduleDocument =
 		ScheduleDocument.Factory.newInstance();

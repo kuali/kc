@@ -57,10 +57,11 @@ public abstract class CorrespondencePrintingServiceImpl implements Correspondenc
                 AbstractPrint printable =  new CorrespondencePrint();
                 printable.setXmlStream(getCorrespondencePrint().getXmlStream());
                 Map<String, Object> reportParameters = new HashMap<String, Object>();
-                if(CoeusModule.COMMITTEE_MODULE_CODE.equals(printOption.getSubItemCode())) {
-                	reportParameters.put("scheduleId",printOption.getScheduleId());
+                if(printOption.getScheduleId() != null) {
+                    reportParameters.put("scheduleId",printOption.getScheduleId());
                 }
-                reportParameters.put("correspondenceId", "1");
+
+               	reportParameters.put("correspondenceId", "1");
                 if(ObjectUtils.isNotNull(printOption.getProtocolCorrespondenceTemplate())) {
                     reportParameters.put("template", printOption.getProtocolCorrespondenceTemplate().getCorrespondenceTemplate());
                 }
