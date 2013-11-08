@@ -11,12 +11,12 @@
 "10019","KC-SYS","Rice Resolve Exception","Rice Document - Resolve Responsibility","Y","2","C041EF59681E6B48E040DC0A1F8A15A8",1
 "1002","KC-WKFLW","Proposal Initial Approval","Proposal Development Document - Initial Approval","Y","1","B6A90093AA2F8D60E040DC0A1F8A1D16",1
 "10020","KC-SYS","KC Resolve Exception","KC - Resolve Responsibility","Y","2","C041EF5968216B48E040DC0A1F8A15A8",1
-"10021","KC-SUBAWARD","SubAwardRequisitionerReview","Subaward Invoice Maintenance Document - Requisitioner Review and Approval","Y","1","DF9006FC8E7895A4E040DC0A1F8A3FF6",1
-"10022","KC-WKFLW","IACUC Admin Approve Review Request","Protocol Online Review Document - IACUC Admin approves online review request made by PI during protocol submission.","Y","1","DF9006FC8EBD95A4E040DC0A1F8A3FF6",1
-"10023","KC-WKFLW","IACUC Reviewer Approve Online Review","Protocol Onlinereview Document - IACUC Reviewer approves online review","Y","1","DF9006FC8EC495A4E040DC0A1F8A3FF6",1
-"10024","KC-WKFLW","IACUC Admin Approve Online Review","Protocol Online Review Document - IACUC Admin approves online review","Y","1","DF9006FC8ECD95A4E040DC0A1F8A3FF6",1
-"10025","KC-WKFLW","IACUCReview","IACUC Protocol Document - IACUCReview","Y","1","DF9006FC8EEC95A4E040DC0A1F8A3FF6",1
-"10026","KC-WKFLW","IACUC Approve","IACUC Protocol Document - IACUCApprove","Y","1","DF9006FC8FFD95A4E040DC0A1F8A3FF6",1
+"10021","KC-SUBAWARD","SubAwardRequisitionerReview","Subaward Invoice Maintenance Document - Requisitioner Review and Approval","Y","1","EAAE523DB679A6E9E040DC0A1F8A0F5D",1
+"10022","KC-WKFLW","IACUC Admin Approve Review Request","Protocol Online Review Document - IACUC Admin approves online review request made by PI during protocol submission.","Y","1","EAAE523DB6BEA6E9E040DC0A1F8A0F5D",1
+"10023","KC-WKFLW","IACUC Reviewer Approve Online Review","Protocol Onlinereview Document - IACUC Reviewer approves online review","Y","1","EAAE523DB6C5A6E9E040DC0A1F8A0F5D",1
+"10024","KC-WKFLW","IACUC Admin Approve Online Review","Protocol Online Review Document - IACUC Admin approves online review","Y","1","EAAE523DB6CEA6E9E040DC0A1F8A0F5D",1
+"10025","KC-WKFLW","IACUCReview","IACUC Protocol Document - IACUCReview","Y","1","EAAE523DB6EDA6E9E040DC0A1F8A0F5D",1
+"10026","KC-WKFLW","IACUC Approve","IACUC Protocol Document - IACUCApprove","Y","1","EAAE523DB7FEA6E9E040DC0A1F8A0F5D",1
 "1003","KC-WKFLW","Proposal OSP Office Approval","Proposal Development Document - OSP Office Approval","Y","1","B6A90093AA348D60E040DC0A1F8A1D16",1
 "1004","KC-WKFLW","Proposal Persons Approval","Proposal Development Document - Key Personnel Approval","Y","1","B6A90093AA398D60E040DC0A1F8A1D16",1
 "1005","KC-WKFLW","Proposal Custom Approval","Proposal Development Document - Custom Approval","Y","1","B6A90093AA3E8D60E040DC0A1F8A1D16",1
