@@ -68,7 +68,7 @@
 "KC2034","KC1032","java.lang.Boolean","Y",1,"is OSP administrator also a personal person","KC-PD"
 "KC2035","KC1034","java.lang.Boolean","Y",1,"is proposal division code null","KC-PD"
 "KC2036","KC1038","java.lang.Boolean","Y",1,"Is agency program code null?","KC-PD"
-"KC2038","KC1042","java.lang.Boolean","Y",1,"Has it submitted to Grants.Gov?","KC-PD"
+"KC2038","KC1042","java.lang.Boolean","Y",1,"Is S2S Submission","KC-PD"
 "KC2039","KC1045","java.lang.Boolean","Y",1,"Check special character in the file name","KC-PD"
 "KC2040","KC1043","java.lang.Boolean","Y",1,"Check specified narrative type","KC-PD"
 "KC2041","KC1033","java.lang.Boolean","Y",1,"Check specified narrative type","KC-PD"
