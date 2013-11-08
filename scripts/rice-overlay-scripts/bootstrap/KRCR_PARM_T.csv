@@ -1,5 +1,4 @@
 "NMSPC_CD","CMPNT_CD","PARM_NM","OBJ_ID","VER_NBR","PARM_TYP_CD","VAL","PARM_DESC_TXT","EVAL_OPRTR_CD","APPL_ID"
-"KR-WKFLW","All","kuali.docHandler.url.prefix","9394e3f4-84a2-4465-8a0e-0520b49a6b75",8,"CONFG","http://127.0.0.1:8080/kc-dev","KC application docHandler prefix","A","KC"
 "KC-AB","All","KIM_SHOW_BLANK_QUALIFIERS","B6A9051D48C4F9D0E040DC0A1F8A1D56",1,"CONFG","N","Whether to show the blank qualifiers in KIM Maintenance Screens","A","KUALI"
 "KC-AB","Document","AWARD_BUDGET_POST_ENABLED","B6A90093AAB08D60E040DC0A1F8A1D16",1,"CONFG","1","This system parameter enables on demand Award Budget Posting","A","KC"
 "KC-AB","Document","awardBudgetDefaultFnARateClassCode","C041EF5965236B48E040DC0A1F8A15A8",1,"CONFG","13","Default budget F&A rate class code used in Award Budget","A","KC"
