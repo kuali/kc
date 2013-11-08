@@ -15,15 +15,23 @@
  */
 package org.kuali.kra.bo;
 
-public class UnitCorrespondent extends Correspondent {
+public class IacucUnitCorrespondent extends Correspondent {
 
     private static final long serialVersionUID = 1L;
-
-	private String unitNumber;
-	
+    
+    private String unitNumber;
+    
     private Unit unit;
 
-    public UnitCorrespondent() {
+    public IacucUnitCorrespondent() {
+    }
+    
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+    
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
     }
 
     public Unit getUnit() {
@@ -32,13 +40,5 @@ public class UnitCorrespondent extends Correspondent {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
-    }
-    
-    public String getUnitNumber() {
-    	return unitNumber;
-    }
-    
-    public void setUnitNumber(String unitNumber) {
-    	this.unitNumber = unitNumber;
     }
 }
