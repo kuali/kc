@@ -1,7 +1,7 @@
 "PROP_ID","DESC_TXT","TYP_ID","DSCRM_TYP_CD","CMPND_OP_CD","RULE_ID","VER_NBR","CMPND_SEQ_NO"
-"KC10000","Compound Proposition",NULL,"C","&","KC10000",1,NULL
-"KC10001","Yes answer to screening question",NULL,"S",NULL,"KC10000",1,1
-"KC10002","No active financial entities",NULL,"S",NULL,"KC10000",1,2
+"KC10000","Compound Proposition",NULL,"C","|","KC10000",1,NULL
+"KC10001","All no answers on screening question",NULL,"S",NULL,"KC10000",1,1
+"KC10002","Has active financial entities",NULL,"S",NULL,"KC10000",1,2
 "KC2001","NasaPIandAORSupplementalDataSheetV1_0",NULL,"S",NULL,"KC141",1,NULL
 "KC2002","RR and SF424 forms (rr 1-1, 1-2) (sf 1-0, 2-0)",NULL,"S",NULL,"KC142",1,NULL
 "KC2003","EDSF424SupplementV1_1",NULL,"S",NULL,"KC143",1,NULL
