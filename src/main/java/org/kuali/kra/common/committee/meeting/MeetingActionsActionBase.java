@@ -104,7 +104,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
     private List<Printable> getPrintableArtifacts(MeetingHelperBase meetingHelper, String protocolCorrespondenceTypeCode) {
         AbstractPrint printable = (AbstractPrint)getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);    
         CommitteeBase committee = meetingHelper.getCommitteeSchedule().getParentCommittee();
-        printable.setPrintableBusinessObject(committee);        
+        printable.setPrintableBusinessObject(meetingHelper.getCommitteeSchedule());        
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put("committeeId", committee.getCommitteeId());
         reportParameters.put("scheduleId", meetingHelper.getCommitteeSchedule().getScheduleId());
