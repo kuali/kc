@@ -232,6 +232,7 @@
 	<class-descriptor class="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible" table="IACUC_PROC_PERSON_RESPONSIBLE">
 		<field-descriptor name="iacucProcedurePersonResponsibleId" column="IACUC_PROC_PERS_RESP_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROC_PERS_RESP_ID" autoincrement="true"/>
 		<field-descriptor name="iacucProtocolStudyGroupSpeciesId" column="IACUC_PROTO_STUDY_GRP_SPC_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="protocolPersonId" column="PROTOCOL_PERSON_ID" jdbc-type="INTEGER" />
