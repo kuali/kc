@@ -15,30 +15,32 @@
  */
 package org.kuali.kra.bo;
 
-public class UnitCorrespondent extends Correspondent {
+public class IacucOrganizationCorrespondent extends Correspondent {
 
     private static final long serialVersionUID = 1L;
 
-	private String unitNumber;
-	
-    private Unit unit;
-
-    public UnitCorrespondent() {
-    }
-
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
+    private String organizationId;
     
-    public String getUnitNumber() {
-    	return unitNumber;
+    private Organization organization;
+
+    public IacucOrganizationCorrespondent() {
+        super();
     }
-    
-    public void setUnitNumber(String unitNumber) {
-    	this.unitNumber = unitNumber;
+
+    public String getOrganizationId() {
+        return organizationId;
     }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
 }
