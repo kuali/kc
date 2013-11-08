@@ -55,7 +55,7 @@
 "KC2027","KC2034",1,"OSP administrator also a personal person"
 "KC2028","KC2035",1,"Is proposal division code null?"
 "KC2029","KC2036",1,"Is agency program code null?"
-"KC2031","KC2038",1,"Has the proposal submitted to Grants.Gov?"
+"KC2031","KC2038",1,"Is S2S Submission"
 "KC2032","KC2039",1,"Check special character in the file name"
 "KC2033","KC2043",1,"Check Investigator Certified"
 "KC2034","KC2049",1,"All protocols"
