@@ -580,9 +580,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     private IacucProcedurePersonResponsible getNewPersonResponsibleProcedure(IacucProtocolPerson protocolPerson, 
             IacucProtocolStudyGroupSpecies studyGroupSpecies, IacucProtocol protocol) {
         IacucProcedurePersonResponsible resposibleProcedure = new IacucProcedurePersonResponsible();
-        resposibleProcedure.setIacucProtocolStudyGroupSpeciesId(studyGroupSpecies.getIacucProtocolStudyGroupSpeciesId());
-        resposibleProcedure.setIacucProtocolStudyGroupSpecies(studyGroupSpecies);
-        setAttributesForPersonResponsibleProcedure(resposibleProcedure, protocolPerson, protocol);
+        setAttributesForPersonResponsibleProcedure(resposibleProcedure, protocolPerson, protocol, studyGroupSpecies);
         return resposibleProcedure;
     }
     
@@ -592,11 +590,14 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * @param protocolPerson
      * @param protocol
      */
-    private void setAttributesForPersonResponsibleProcedure(IacucProcedurePersonResponsible resposibleProcedure, IacucProtocolPerson protocolPerson, IacucProtocol protocol) {
+    private void setAttributesForPersonResponsibleProcedure(IacucProcedurePersonResponsible resposibleProcedure, IacucProtocolPerson protocolPerson, IacucProtocol protocol,
+            IacucProtocolStudyGroupSpecies studyGroupSpecies) {
         resposibleProcedure.setProtocolPersonId(protocolPerson.getProtocolPersonId());
+        resposibleProcedure.setProtocolId(protocol.getProtocolId());
         resposibleProcedure.setProtocolNumber(protocol.getProtocolNumber());
         resposibleProcedure.setSequenceNumber(protocol.getSequenceNumber());
-        
+        resposibleProcedure.setIacucProtocolStudyGroupSpeciesId(studyGroupSpecies.getIacucProtocolStudyGroupSpeciesId());
+        resposibleProcedure.setIacucProtocolStudyGroupSpecies(studyGroupSpecies);
     }
     
     /**
@@ -1039,7 +1040,6 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     /**
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#createNewProtocolStudyProcedures(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.IacucProtocol)
      */
-    @SuppressWarnings("unchecked")
     public void createNewProtocolStudyProcedures(IacucProtocol sourceProtocol, IacucProtocol destProtocol) {
         createNewStudyProcedures(sourceProtocol, destProtocol);
         createNewStudyGroupSpecies(sourceProtocol, destProtocol);
@@ -1147,23 +1147,24 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             IacucProtocolPerson newIacucProtocolPerson = (IacucProtocolPerson)protocolPersonBase;
             for(IacucProcedurePersonResponsible newProcedurePersonResponsible : newIacucProtocolPerson.getProcedureDetails()) {
                 newProcedurePersonResponsible.resetPersistenceState();
-                IacucProtocolStudyGroupSpecies newProtocolStudyGroupSpecies = newStudyGroupSpeciesMapping.get(newProcedurePersonResponsible.getIacucProtocolStudyGroupSpeciesId());
-                newProcedurePersonResponsible.setProtocolId(destProtocol.getProtocolId());
-                newProcedurePersonResponsible.setProtocolNumber(destProtocol.getProtocolNumber());
-                newProcedurePersonResponsible.setSequenceNumber(destProtocol.getSequenceNumber());
-                newProcedurePersonResponsible.setIacucProtocolStudyGroupSpeciesId(newProtocolStudyGroupSpecies.getIacucProtocolStudyGroupSpeciesId());
-                newProcedurePersonResponsible.setIacucProtocolStudyGroupSpecies(newProtocolStudyGroupSpecies);
-                newProcedurePersonResponsible.setProtocolPersonId(newIacucProtocolPerson.getProtocolPersonId());
-                newProcedurePersonResponsible.setProtocolPerson(newIacucProtocolPerson);
-                for(IacucPersonProcedureDetail newPersonProcedureDetail : newProcedurePersonResponsible.getResponsibleProcedures()) {
-                    newPersonProcedureDetail.resetPersistenceState();
-                    IacucProtocolStudyGroupBean newProtocolStudyGroupBean = newProceduresMapping.get(newPersonProcedureDetail.getIacucProtocolStudyGroupHeaderId());
-                    newPersonProcedureDetail.setIacucProtocolStudyGroupHeaderId(newProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
-                    newPersonProcedureDetail.setIacucProtocolStudyGroupBean(newProtocolStudyGroupBean);
-                    newPersonProcedureDetail.setIacucProcedurePersonResponsibleId(newProcedurePersonResponsible.getIacucProcedurePersonResponsibleId());
-                    newPersonProcedureDetail.setIacucProcedurePersonResponsible(newProcedurePersonResponsible);
-                }
+                updatePersonProcedureDetails(newProcedurePersonResponsible, newIacucProtocolPerson, destProtocol, newProceduresMapping, newStudyGroupSpeciesMapping);
             }
+        }
+    }
+    
+    private void updatePersonProcedureDetails(IacucProcedurePersonResponsible newProcedurePersonResponsible, IacucProtocolPerson newIacucProtocolPerson, 
+            IacucProtocol destProtocol, HashMap<Integer, IacucProtocolStudyGroupBean> newProceduresMapping, 
+            HashMap<Integer, IacucProtocolStudyGroupSpecies> newStudyGroupSpeciesMapping) {
+        IacucProtocolStudyGroupSpecies newProtocolStudyGroupSpecies = newStudyGroupSpeciesMapping.get(newProcedurePersonResponsible.getIacucProtocolStudyGroupSpeciesId());
+        setAttributesForPersonResponsibleProcedure(newProcedurePersonResponsible, newIacucProtocolPerson, destProtocol, newProtocolStudyGroupSpecies);
+        newProcedurePersonResponsible.setProtocolPerson(newIacucProtocolPerson);
+        for(IacucPersonProcedureDetail newPersonProcedureDetail : newProcedurePersonResponsible.getResponsibleProcedures()) {
+            newPersonProcedureDetail.resetPersistenceState();
+            IacucProtocolStudyGroupBean newProtocolStudyGroupBean = newProceduresMapping.get(newPersonProcedureDetail.getIacucProtocolStudyGroupHeaderId());
+            newPersonProcedureDetail.setIacucProtocolStudyGroupHeaderId(newProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
+            newPersonProcedureDetail.setIacucProtocolStudyGroupBean(newProtocolStudyGroupBean);
+            newPersonProcedureDetail.setIacucProcedurePersonResponsibleId(newProcedurePersonResponsible.getIacucProcedurePersonResponsibleId());
+            newPersonProcedureDetail.setIacucProcedurePersonResponsible(newProcedurePersonResponsible);
         }
     }
     
@@ -1174,19 +1175,6 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         return obj;
     }
 
-    /**
-     * This method is to get a map of protocol persons
-     * @param protocolPersons
-     * @return
-     */
-    private HashMap<Integer, IacucProtocolPerson> getIacucProtocolPersonMapping(List<ProtocolPersonBase> protocolPersons) {
-        HashMap<Integer, IacucProtocolPerson> iacucProtocolPersons = new HashMap<Integer, IacucProtocolPerson>();
-        for(ProtocolPersonBase protocolPersonBase : protocolPersons) {
-            IacucProtocolPerson iacucProtocolPerson = (IacucProtocolPerson)protocolPersonBase;
-            iacucProtocolPersons.put(iacucProtocolPerson.getProtocolPersonId(), iacucProtocolPerson);
-        }
-        return iacucProtocolPersons;
-    }
     
     /**
      * This method is to get a map of list of protocol species
