@@ -57,8 +57,6 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        
         CommitteeScheduleBase committeeSchedule = (CommitteeScheduleBase)printableBusinessObject;
-/*        String scheduleId = (String)reportParameters.get("scheduleId");
-        CommitteeScheduleBase committeeSchedule = findCommitteeSchedule(committee,scheduleId);*/
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         ScheduleDocument scheduleDocument =
 		ScheduleDocument.Factory.newInstance();
