@@ -1057,6 +1057,15 @@
 		p:callbackService-ref="protocolAffiliateTypeDerivedRoleTypeService" 
 		p:localServiceName="protocolAffiliateTypeDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+	
+    <bean id="iacucCorrespondentDerivedRoleTypeService"
+          class="org.kuali.kra.kim.service.impl.IacucCorrespondentDerivedRoleTypeServiceImpl">
+    </bean>
+	
+	<bean id="iacucCorrespondentDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+		p:callbackService-ref="iacucCorrespondentDerivedRoleTypeService" 
+		p:localServiceName="iacucCorrespondentDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 
     <bean id="irbCorrespondentDerivedRoleTypeService"
           class="org.kuali.kra.kim.service.impl.IrbCorrespondentDerivedRoleTypeServiceImpl">
