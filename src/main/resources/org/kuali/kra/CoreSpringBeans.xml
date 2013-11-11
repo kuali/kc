@@ -326,6 +326,7 @@
     <bean id="coiMessagesService" class="org.kuali.kra.coi.service.impl.CoiMessagesServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
     </bean>
 
     <bean id="costShareService" class="org.kuali.kra.costshare.CostShareServiceImpl">
