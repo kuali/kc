@@ -54,5 +54,5 @@ values (SEQ_VALID_NARR_FORMS_ID.nextVal,'PHS_Fellowship_Supplemental_2_0',134,nu
 /
 INSERT into S2S_FORM_TO_QUESTIONNAIRE (S2S_FORM_TO_QUESTIONNAIRE_ID,OPP_NAME_SPACE,FORM_NAME,QUESTIONNAIRE_ID,UPDATE_TIMESTAMP,UPDATE_USER,OBJ_ID,VER_NBR)
   VALUES (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL,'http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0','PHS_Fellowship_Supplemental_2_0',
-  			4,SYSDATE,'admin',SYS_GUID(),1);
+  			4,SYSDATE,'admin',SYS_GUID(),1)
 /
