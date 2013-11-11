@@ -17,6 +17,7 @@ package org.kuali.kra.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.IacucUnitCorrespondent;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitCorrespondent;
@@ -312,6 +313,17 @@ public class UnitServiceImpl implements UnitService {
         return unitCorrespondents;
     }
     
-
+    /**
+     * @see org.kuali.kra.service.UnitService#retrieveIacucUnitCorrespondentByUnitNumber(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public List<IacucUnitCorrespondent> retrieveIacucUnitCorrespondentsByUnitNumber(String unitNumber) {
+        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(UNIT_NUMBER, unitNumber);
+        List<IacucUnitCorrespondent> unitCorrespondents = 
+            (List<IacucUnitCorrespondent>) getBusinessObjectService().findMatching(IacucUnitCorrespondent.class, queryMap);
+        return unitCorrespondents;
+    }
     
 }
