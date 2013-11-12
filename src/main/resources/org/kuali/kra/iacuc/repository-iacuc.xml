@@ -1798,7 +1798,7 @@
 		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationId"/>
 		</reference-descriptor>
-		<reference-descriptor name="correspondentType" class-ref="org.kuali.kra.irb.correspondence.CorrespondentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="correspondentType" class-ref="org.kuali.kra.iacuc.correspondence.IacucCorrespondentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="correspondentTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -1817,7 +1817,7 @@
 		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
-		<reference-descriptor name="correspondentType" class-ref="org.kuali.kra.irb.correspondence.CorrespondentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="correspondentType" class-ref="org.kuali.kra.iacuc.correspondence.IacucCorrespondentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="correspondentTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>

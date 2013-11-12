@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.kra.iacuc.correspondence.IacucCorrespondentType;
+import org.kuali.kra.protocol.correspondence.CorrespondentType;
+
 public class IacucOrganizationCorrespondent extends Correspondent {
 
     private static final long serialVersionUID = 1L;
@@ -41,6 +44,14 @@ public class IacucOrganizationCorrespondent extends Correspondent {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public IacucCorrespondentType getCorrespondentType() {
+        return (IacucCorrespondentType) correspondentType;
+    }
+
+    public void setCorrespondentType(IacucCorrespondentType correspondentType) {
+        this.correspondentType = (CorrespondentType) correspondentType;
     }
 
 }
