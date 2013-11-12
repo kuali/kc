@@ -144,24 +144,12 @@
                                           taskName="iacucProtocolRequestSuspension"
                                           actionTypeCode="311"
                                           tabTitle="Request for Suspension"/>
-            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolWithdrawLiftHoldRequestBean}"
-                                          permission="${KualiForm.actionHelper.canWithdrawRequestToLiftHold}"
-                                          beanName="iacucProtocolWithdrawLiftHoldRequestBean"
-                                          taskName="iacucWithdrawRequestLiftHold"
-                                          actionTypeCode="132"
-                                          tabTitle="Withdraw Request for Lift Hold"/>
-            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolWithdrawSuspendRequestBean}"
-                                          permission="${KualiForm.actionHelper.canWithdrawRequestSuspend}"
-                                          beanName="iacucProtocolWithdrawSuspendRequestBean"
-                                          taskName="iacucWithdrawRequestSuspension"
-                                          actionTypeCode="134"
-                                          tabTitle="Withdraw Request for Suspension"/>
-            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolWithdrawDeactivateRequestBean}"
-                                          permission="${KualiForm.actionHelper.canWithdrawIacucRequestDeactivate}"
-                                          beanName="iacucProtocolWithdrawLiftHoldRequestBean"
-                                          taskName="iacucWithdrawRequestDeactivate"
+            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolWithdrawSubmissionBean}"
+                                          permission="${KualiForm.actionHelper.canWithdrawSubmission}"
+                                          beanName="iacucProtocolWithdrawSubmissionBean"
+                                          taskName="iacucWithdrawSubmission"
                                           actionTypeCode="131"
-                                          tabTitle="Withdraw Request Deactivate"/>
+                                          tabTitle="Withdraw Submission"/>
             <kra-protocol-action:deleteAction attributes="${DataDictionary.IacucProtocolDeleteBean.attributes}"
             							  action="iacucProtocolProtocolActions"/>
             <kra-iacuc-action:genericAction tabTitle="Suspend"
@@ -385,15 +373,9 @@
 				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, or Suspended by IACUC.
 				                    	                             <p>
 				                        	                         Submission Type is Request for Suspension or Request for Termination." />
-	                <kra-iacuc-action:genericUnavailableAction tabTitle="Withdraw Request to Deactivate"
-	                                                     	canPerformAction="${KualiForm.actionHelper.canWithdrawIacucRequestDeactivateUnavailable}"
-				                                         	reason="Submission Type must be Request to Deactivate." />
-	                <kra-iacuc-action:genericUnavailableAction tabTitle="Withdraw Request to Lift Hold"
-	                                                     	canPerformAction="${KualiForm.actionHelper.canWithdrawRequestToLiftHoldUnavailable}"
-				                                         	reason="Submission Type must be Request to Lift Hold." />
-	                <kra-iacuc-action:genericUnavailableAction tabTitle="Withdraw Request for Suspension"
-	                                                     	canPerformAction="${KualiForm.actionHelper.canWithdrawRequestSuspendUnavailable}"
-				                                         	reason="Submission Type must be Request for Suspension." />
+	                <kra-iacuc-action:genericUnavailableAction tabTitle="Withdraw Submission"
+	                                                     	canPerformAction="${KualiForm.actionHelper.canWithdrawSubmissionUnavailable}"
+				                                         	reason="Submission Type must be Request to Deactivate, Request to Lift Hold, or Request to Suspend." />
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Delete Protocol, Amendment, or Renewal"
 	                	                                     canPerformAction="${KualiForm.actionHelper.canDeleteProtocolAmendRenewUnavailable}"
 	                    	                                 reason="Protocol must be editable.

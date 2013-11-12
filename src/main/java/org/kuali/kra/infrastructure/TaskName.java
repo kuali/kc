@@ -116,18 +116,8 @@ public interface TaskName {
     public static final String PROTOCOL_REQUEST_DATA_ANALYSIS_UNAVAILABLE = "protocolRequestDataAnalysisUnavailable";
     public static final String PROTOCOL_REQUEST_TERMINATE = "protocolRequestTerminate";
     public static final String PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE = "protocolRequestTerminateUnavailable";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_CLOSE = "protocolWithdrawRequestClose";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_CLOSE_UNAVAILABLE = "protocolWithdrawRequestCloseUnavailable";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_SUSPENSION = "protocolWithdrawRequestSuspension";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_SUSPENSION_UNAVAILABLE = "protocolWithdrawRequestSuspensionUnavailable";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_CLOSE_ENROLLMENT = "protocolWithdrawRequestCloseEnrollment";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_CLOSE_ENROLLMENT_UNAVAILABLE = "protocolWithdrawRequestCloseEnrollmentUnavailable";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_REOPEN_ENROLLMENT = "protocolWithdrawRequestReOpenEnrollment";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_REOPEN_ENROLLMENT_UNAVAILABLE = "protocolWithdrawRequestReOpenEnrollmentUnavailable";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_DATA_ANALYSIS = "protocolWithdrawRequestDataAnalysis";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_DATA_ANALYSIS_UNAVAILABLE = "protocolWithdrawRequestDataAnalysisUnavailable";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_TERMINATE = "protocolWithdrawRequestTerminate";
-    public static final String PROTOCOL_WITHDRAW_REQUEST_TERMINATE_UNAVAILABLE = "protocolWithdrawRequestTerminateUnavailable";
+    public static final String PROTOCOL_WITHDRAW_SUBMISSION = "protocolWithdrawRequestSubmission";
+    public static final String PROTOCOL_WITHDRAW_SUBMISSION_UNAVAILABLE = "protocolWithdrawSubmissionUnavailable";
     public static final String PROTOCOL_AMEND_RENEW_DELETE = "protocolAmendRenewDelete";
     public static final String PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE = "protocolAmendRenewDeleteUnavailable";
     public static final String ASSIGN_TO_AGENDA = "protocolAssignToAgenda";
@@ -378,12 +368,8 @@ public interface TaskName {
     public static final String MODIFY_IACUC_PROTOCOL_ONLINEREVIEW_TYPE = "editIacucProtocolOnlineReviewType";
     public static final String MODIFY_IACUC_PROTOCOL_ONLINEREVIEW_DETERMINATION = "editIacucProtocolOnlineReviewDetermination";
     
-    public static final String IACUC_WITHDRAW_REQUEST_DEACTIVATE = "iacucWithdrawRequestDeactivate";
-    public static final String IACUC_WITHDRAW_REQUEST_DEACTIVATE_UNAVAILABLE = "iacucWithdrawRequestDeactivateUnavailable";
-    public static final String IACUC_WITHDRAW_REQUEST_LIFT_HOLD = "iacucWithdrawRequestLiftHold";
-    public static final String IACUC_WITHDRAW_REQUEST_LIFT_HOLD_UNAVAILABLE = "iacucWithdrawRequestLiftHoldUnavailable";
-    public static final String IACUC_WITHDRAW_REQUEST_SUSPENSION = "iacucWithdrawRequestSuspension";
-    public static final String IACUC_WITHDRAW_REQUEST_SUSPENSION_UNAVAILABLE = "iacucWithdrawRequestSuspensionUnavailable";
+    public static final String IACUC_WITHDRAW_SUBMISSION = "iacucWithdrawSubmission";
+    public static final String IACUC_WITHDRAW_SUBMISSION_UNAVAILABLE = "iacucWithdrawSubmissionUnavailable";
     
     /**
      * Generic IACUC Action task
