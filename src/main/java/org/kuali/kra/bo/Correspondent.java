@@ -15,24 +15,24 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.kra.irb.correspondence.CorrespondentType;
+import org.kuali.kra.protocol.correspondence.CorrespondentType;
 
 public abstract class Correspondent extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
     private Integer correspondentId;
-
-    private Integer correspondentTypeCode;
-
+    
     private String personId;
 
     private boolean nonEmployeeFlag;
 
     private String description;
 
-    private CorrespondentType correspondentType;
-
+    private Integer correspondentTypeCode;
+    
+    protected CorrespondentType correspondentType;
+    
     public Correspondent() {
         super();
     }
@@ -43,14 +43,6 @@ public abstract class Correspondent extends KraPersistableBusinessObjectBase {
 
     public void setCorrespondentId(Integer correspondentId) {
         this.correspondentId = correspondentId;
-    }
-
-    public Integer getCorrespondentTypeCode() {
-        return correspondentTypeCode;
-    }
-
-    public void setCorrespondentTypeCode(Integer correspondentTypeCode) {
-        this.correspondentTypeCode = correspondentTypeCode;
     }
 
     public String getPersonId() {
@@ -77,15 +69,23 @@ public abstract class Correspondent extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(personId);
+    }
+
+    public Integer getCorrespondentTypeCode() {
+        return correspondentTypeCode;
+    }
+
+    public void setCorrespondentTypeCode(Integer correspondentTypeCode) {
+        this.correspondentTypeCode = correspondentTypeCode;
+    }
+
     public CorrespondentType getCorrespondentType() {
         return correspondentType;
     }
 
     public void setCorrespondentType(CorrespondentType correspondentType) {
         this.correspondentType = correspondentType;
-    }
-
-    public KcPerson getPerson() {
-        return getKcPersonService().getKcPersonByPersonId(personId);
     }
 }
