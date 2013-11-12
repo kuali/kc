@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.kra.irb.correspondence.CorrespondentType;
+
 public class OrganizationCorrespondent extends Correspondent {
 
     private static final long serialVersionUID = 1L;
@@ -22,7 +24,7 @@ public class OrganizationCorrespondent extends Correspondent {
     private String organizationId;
 
     private Organization organization;
-
+    
     public OrganizationCorrespondent() {
         super();
     }
@@ -46,4 +48,13 @@ public class OrganizationCorrespondent extends Correspondent {
     public KcPerson getPerson() {
         return getKcPersonService().getKcPersonByPersonId(getPersonId());
     }
+    
+    public org.kuali.kra.irb.correspondence.CorrespondentType getCorrespondentType() {
+        return (org.kuali.kra.irb.correspondence.CorrespondentType) correspondentType;
+    }
+
+    public void setCorrespondentType(org.kuali.kra.irb.correspondence.CorrespondentType correspondentType) {
+        this.correspondentType = correspondentType;
+    }
+    
 }

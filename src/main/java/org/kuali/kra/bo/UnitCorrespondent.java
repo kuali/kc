@@ -22,7 +22,7 @@ public class UnitCorrespondent extends Correspondent {
 	private String unitNumber;
 	
     private Unit unit;
-
+    
     public UnitCorrespondent() {
     }
 
@@ -41,4 +41,13 @@ public class UnitCorrespondent extends Correspondent {
     public void setUnitNumber(String unitNumber) {
     	this.unitNumber = unitNumber;
     }
+    
+    public org.kuali.kra.irb.correspondence.CorrespondentType getCorrespondentType() {
+        return (org.kuali.kra.irb.correspondence.CorrespondentType) correspondentType;
+    }
+
+    public void setCorrespondentType(org.kuali.kra.irb.correspondence.CorrespondentType correspondentType) {
+        this.correspondentType = correspondentType;
+    }
+
 }
