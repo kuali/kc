@@ -443,52 +443,10 @@ then
     setAction(protocolAction, true);
 end
 
-rule "Withdraw Request for Termination"
+rule "Withdraw Submission Request"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "135", protocolStatusCode in ("200","201","202","203","300","301","302","308","311"), submissionCountCond7rt == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200","201","202","203","300","301","302","308","311"), submissionCountCond7 == true)
 then	
 	setAction(protocolAction, true);
 end
-
-rule "Withdraw Request to Close"
-salience 100
-when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "130", protocolStatusCode in ("200","201","202","203","302","308","311"), submissionCountCond7rc == true)
-then	
-	setAction(protocolAction, true);
-end
-
-rule "Withdraw Request to Close Enrollment"
-salience 100
-when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200"), submissionCountCond7rce == true)
-then	
-	setAction(protocolAction, true);
-end
-
-rule "Withdraw Request for data-analysis only"
-salience 100
-when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "132",protocolStatusCode in ("200", "201"), submissionCountCond7rda == true)
-then	
-	setAction(protocolAction, true);
-end
-
-rule "Withdraw Request to re-open enrollment"
-salience 100
-when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "133",protocolStatusCode == "201", submissionCountCond7rre == true)
-then	
-	setAction(protocolAction, true);
-end
-
-rule "Withdraw Request for Suspension"
-salience 100
-when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "134", protocolStatusCode in ("200","201","202","203"), submissionCountCond7rs == true)
-then	
-	setAction(protocolAction, true);
-end
-
-        

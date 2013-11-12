@@ -283,54 +283,14 @@
                     <property name="taskName" value="protocolRequestTerminateUnavailable" />
                 </bean>
                 
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestCloseAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestClose" />
+                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawSubmissionAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolWithdrawSubmission" />
                 </bean>
                 
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestCloseUnavailableAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestCloseUnavailable" />
+                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawSubmissionUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolWithdrawSubmissionUnavailable" />
                 </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestCloseEnrollmentAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestCloseEnrollment" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestCloseEnrollmentUnavailableAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestCloseEnrollmentUnavailable" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestReOpenEnrollmentAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestReOpenEnrollment" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestReOpenEnrollmentUnavailableAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestReOpenEnrollmentUnavailable" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestSuspensionAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestSuspension" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestSuspensionUnavailableAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestSuspensionUnavailable" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestDataAnalysisAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestDataAnalysis" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestDataAnalysisUnavailableAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestDataAnalysisUnavailable" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestTerminateAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestTerminate" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawRequestTerminateUnavailableAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawRequestTerminateUnavailable" />
-                </bean>
-                
+
                 <bean class="org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAmendRenewDelete" />
                 </bean>

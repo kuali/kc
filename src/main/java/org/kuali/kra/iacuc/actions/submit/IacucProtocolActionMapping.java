@@ -18,6 +18,8 @@ package org.kuali.kra.iacuc.actions.submit;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionMappingBase;
 
 import java.util.*;
@@ -124,26 +126,19 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
     }
     
 
-    public boolean getSubmissionCountCond7(String submissionType) {
+    /*
+     * look for any submissions of the type "Request xxxx"
+     */
+    public boolean getSubmissionCountCond7() {
+        List <String> submissionTypes = Arrays.asList(new String[] {IacucProtocolSubmissionType.REQUEST_SUSPEND,
+                                                                    IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD,
+                                                                    IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE});
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
         positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
-        positiveFieldValues.put("submissionTypeCode", submissionType);
+        positiveFieldValues.put("submissionTypeCode", submissionTypes);
         return businessObjectService.countMatching(IacucProtocolSubmission.class, positiveFieldValues) != 0;
-    }
-
-    public boolean getSubmissionCountCond7rs() {
-        return getSubmissionCountCond7(IacucProtocolSubmissionType.REQUEST_SUSPEND);
-    }
-
-    public boolean getSubmissionCountCond7rlh() {
-        return getSubmissionCountCond7(IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD);
-    }
-
-
-    public boolean getSubmissionCountCond7rd() {
-        return getSubmissionCountCond7(IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE);
     }
 
     /**
