@@ -478,28 +478,12 @@
                     <property name="taskName" value="createProtocolCorrespondence" />
                 </bean>  
 
-                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestDeactivateIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="iacucWithdrawRequestDeactivate" />
+                <bean class="org.kuali.kra.iacuc.auth.WithdrawSubmissionIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucWithdrawSubmission" />
                 </bean>
                 
-                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestDeactivateIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="iacucWithdrawRequestDeactivateUnavailable" />
-                </bean>
-                
-                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestLiftHoldIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="iacucWithdrawRequestLiftHold" />
-                </bean>
-                
-                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestLiftHoldIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="iacucWithdrawRequestLiftHoldUnavailable" />
-                </bean>
-                
-                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestSuspensionIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="iacucWithdrawRequestSuspension" />
-                </bean>
-                
-                <bean class="org.kuali.kra.iacuc.auth.WithdrawRequestSuspensionIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="iacucWithdrawRequestSuspensionUnavailable" />
+                <bean class="org.kuali.kra.iacuc.auth.WithdrawSubmissionIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucWithdrawSubmissionUnavailable" />
                 </bean>
                 
            </list>

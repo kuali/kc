@@ -393,28 +393,12 @@ then
     setAction(protocolAction, true);
 end
 
-rule "Withdraw Request to Deactivate"
-salience 100
-when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200", "201", "202"), submissionCountCond7rd == true)
-then    
-    setAction(protocolAction, true);
-end
 
-rule "Withdraw Request to Lift Hold"
+rule "Withdraw Submission Request"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "132", protocolStatusCode in ("201"), submissionCountCond7rlh == true)
-then    
-    setAction(protocolAction, true);
-end
-
-rule "Withdraw Request for Suspension"
-salience 100
-when
-	protocolAction : IacucProtocolActionMapping(actionTypeCode == "134", protocolStatusCode in ("200","201","202","305","306"), submissionCountCond7rs == true)
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200","201","202","305","306"), submissionCountCond7 == true)
 then	
 	setAction(protocolAction, true);
 end
-
         

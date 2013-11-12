@@ -129,6 +129,8 @@ public class ActionHelper extends ActionHelperBase {
     private boolean canRequestReOpenEnrollmentUnavailable = false;
     private boolean canRequestDataAnalysis = false;
     private boolean canRequestDataAnalysisUnavailable = false;
+    private boolean canWithdrawSubmission = false;
+    private boolean canWithdrawSubmissionUnavailable = false;
     private boolean canGrantExemption = false;
     private boolean canGrantExemptionUnavailable = false;
     private boolean canApproveExpedited = false;    
@@ -152,20 +154,10 @@ public class ActionHelper extends ActionHelperBase {
     private boolean canAddDataAnalysisReviewerComments;
     private boolean canAddReopenEnrollmentReviewerComments;
 
-    private boolean canWithdrawRequestCloseEnrollment = false;
-    private boolean canWithdrawRequestCloseEnrollmentUnavailable = false;
-    private boolean canWithdrawRequestReOpenEnrollment = false;
-    private boolean canWithdrawRequestReOpenEnrollmentUnavailable = false;
-    private boolean canWithdrawRequestDataAnalysis = false;
-    private boolean canWithdrawRequestDataAnalysisUnavailable = false;
-
-    
     private ProtocolRequestBean protocolCloseEnrollmentRequestBean;
     private ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
     private ProtocolRequestBean protocolDataAnalysisRequestBean;
-    private ProtocolRequestBean protocolWithdrawCloseEnrollmentRequestBean;
-    private ProtocolRequestBean protocolWithdrawReOpenEnrollmentRequestBean;
-    private ProtocolRequestBean protocolWithdrawDataAnalysisRequestBean;
+    private ProtocolRequestBean protocolWithdrawSubmissionBean;
     private ProtocolNotifyIrbBean protocolNotifyIrbBean;
     private ProtocolAssignCmtSchedBean assignCmtSchedBean;
     
@@ -240,18 +232,8 @@ public class ActionHelper extends ActionHelperBase {
                 ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, "protocolDataAnalysisRequestBean");
         protocolTerminateRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_TERMINATION,
                 ProtocolSubmissionType.REQUEST_FOR_TERMINATION, "protocolTerminateRequestBean");
-        protocolWithdrawCloseRequestBean = new ProtocolRequestBean(this, ProtocolActionType.WITHDRAW_REQUEST_TO_CLOSE, 
-                ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
-        protocolWithdrawSuspendRequestBean = new ProtocolRequestBean(this, ProtocolActionType.WITHDRAW_REQUEST_FOR_SUSPENSION, 
-                ProtocolSubmissionType.REQUEST_FOR_SUSPENSION, "protocolSuspendRequestBean");
-        protocolWithdrawCloseEnrollmentRequestBean = new ProtocolRequestBean(this, ProtocolActionType.WITHDRAW_REQUEST_TO_CLOSE_ENROLLMENT, 
-                ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, "protocolCloseEnrollmentRequestBean");
-        protocolWithdrawReOpenEnrollmentRequestBean = new ProtocolRequestBean(this, ProtocolActionType.WITHDRAW_REQUEST_TO_REOPEN_ENROLLMENT,
-                ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT, "protocolReOpenEnrollmentRequestBean");
-        protocolWithdrawDataAnalysisRequestBean = new ProtocolRequestBean(this, ProtocolActionType.WITHDRAW_REQUEST_FOR_DATA_ANALYSIS_ONLY,
-                ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, "protocolDataAnalysisRequestBean");
-        protocolWithdrawTerminateRequestBean = new ProtocolRequestBean(this, ProtocolActionType.WITHDRAW_REQUEST_FOR_TERMINATION,
-                ProtocolSubmissionType.REQUEST_FOR_TERMINATION, "protocolTerminateRequestBean");
+        protocolWithdrawSubmissionBean = new ProtocolRequestBean(this, ProtocolActionType.WITHDRAW_SUBMISSION, 
+                ProtocolSubmissionType.WITHDRAW_SUBMISSION, "protocolWithdrawSubmissionRequestBean");
         toAnswerSubmissionQuestionnaire = hasSubmissionQuestionnaire();
 
         initIRBSpecificActionBeanTaskMap();
@@ -285,12 +267,7 @@ public class ActionHelper extends ActionHelperBase {
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolDataAnalysisRequestBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
-        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW_REQUEST_CLOSE, protocolWithdrawCloseRequestBean);
-        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW_REQUEST_CLOSE_ENROLLMENT, protocolWithdrawCloseEnrollmentRequestBean);
-        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW_REQUEST_REOPEN_ENROLLMENT, protocolWithdrawReOpenEnrollmentRequestBean);
-        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW_REQUEST_DATA_ANALYSIS, protocolWithdrawDataAnalysisRequestBean);
-        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW_REQUEST_SUSPENSION, protocolWithdrawSuspendRequestBean);
-        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW_REQUEST_TERMINATE, protocolWithdrawTerminateRequestBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW_SUBMISSION, protocolWithdrawSubmissionBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, protocolReviewNotRequiredBean);
         actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL_BY_DSMB, protocolSuspendByDsmbBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
@@ -469,21 +446,10 @@ public class ActionHelper extends ActionHelperBase {
         canRequestReOpenEnrollmentUnavailable = hasRequestReOpenEnrollmentUnavailablePermission();
         canRequestDataAnalysis = hasRequestDataAnalysisPermission();
         canRequestDataAnalysisUnavailable = hasRequestDataAnalysisUnavailablePermission();
+        canWithdrawSubmission = hasWithdrawSubmissionPermission();
+        canWithdrawSubmissionUnavailable = hasWithdrawSubmissionUnavailablePermission();
         canRequestTerminate = hasRequestTerminatePermission();
         canRequestTerminateUnavailable = hasRequestTerminateUnavailablePermission();
-
-        canWithdrawRequestClose = hasWithdrawRequestClosePermission();
-        canWithdrawRequestCloseUnavailable = hasWithdrawRequestCloseUnavailablePermission();
-        canWithdrawRequestSuspension = hasWithdrawRequestSuspensionPermission();
-        canWithdrawRequestSuspensionUnavailable = hasWithdrawRequestSuspensionUnavailablePermission();
-        canWithdrawRequestCloseEnrollment = hasWithdrawRequestCloseEnrollmentPermission();
-        canWithdrawRequestCloseEnrollmentUnavailable = hasWithdrawRequestCloseEnrollmentUnavailablePermission();
-        canWithdrawRequestReOpenEnrollment = hasWithdrawRequestReOpenEnrollmentPermission();
-        canWithdrawRequestReOpenEnrollmentUnavailable = hasWithdrawRequestReOpenEnrollmentUnavailablePermission();
-        canWithdrawRequestDataAnalysis = hasWithdrawRequestDataAnalysisPermission();
-        canWithdrawRequestDataAnalysisUnavailable = hasWithdrawRequestDataAnalysisUnavailablePermission();
-        canWithdrawRequestTerminate = hasWithdrawRequestTerminatePermission();
-        canWithdrawRequestTerminateUnavailable = hasWithdrawRequestTerminateUnavailablePermission();
 
         canAssignReviewers = hasAssignReviewersPermission();
         // we will do the workflow-heavy check for reviewer assignment only if the user can submit the protocol
@@ -672,63 +638,13 @@ public class ActionHelper extends ActionHelperBase {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
-    private boolean hasWithdrawRequestClosePermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_CLOSE, (Protocol) getProtocol());
+    private boolean hasWithdrawSubmissionPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_SUBMISSION, (Protocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
-    private boolean hasWithdrawRequestCloseUnavailablePermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_CLOSE_UNAVAILABLE, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasWithdrawRequestSuspensionPermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_SUSPENSION, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasWithdrawRequestSuspensionUnavailablePermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_SUSPENSION_UNAVAILABLE, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasWithdrawRequestCloseEnrollmentPermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_CLOSE_ENROLLMENT, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasWithdrawRequestCloseEnrollmentUnavailablePermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_CLOSE_ENROLLMENT_UNAVAILABLE, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasWithdrawRequestReOpenEnrollmentPermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_REOPEN_ENROLLMENT, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasWithdrawRequestReOpenEnrollmentUnavailablePermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_REOPEN_ENROLLMENT_UNAVAILABLE, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasWithdrawRequestDataAnalysisPermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_DATA_ANALYSIS, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasWithdrawRequestDataAnalysisUnavailablePermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_DATA_ANALYSIS_UNAVAILABLE, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasWithdrawRequestTerminatePermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_TERMINATE, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasWithdrawRequestTerminateUnavailablePermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_REQUEST_TERMINATE_UNAVAILABLE, (Protocol) getProtocol());
+    private boolean hasWithdrawSubmissionUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_SUBMISSION_UNAVAILABLE, (Protocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -1024,16 +940,8 @@ public class ActionHelper extends ActionHelperBase {
         return protocolDataAnalysisRequestBean;
     }
 
-    public ProtocolRequestBean getProtocolWithdrawCloseEnrollmentRequestBean() {
-        return protocolWithdrawCloseEnrollmentRequestBean;
-    }
-
-    public ProtocolRequestBean getProtocolWithdrawReOpenEnrollmentRequestBean() {
-        return protocolWithdrawReOpenEnrollmentRequestBean;
-    }
-    
-    public ProtocolRequestBean getProtocolWithdrawDataAnalysisRequestBean() {
-        return protocolWithdrawDataAnalysisRequestBean;
+    public ProtocolRequestBean getProtocolWithdrawSubmissionBean() {
+        return protocolWithdrawSubmissionBean;
     }
 
     public ProtocolNotifyIrbBean getProtocolNotifyIrbBean() {
@@ -1131,58 +1039,18 @@ public class ActionHelper extends ActionHelperBase {
         return canRequestDataAnalysisUnavailable;
     }    
     
-    public boolean isCanWithdrawRequestCloseEnrollment() {
-        return canWithdrawRequestCloseEnrollment;
-    }
-
-    public void setCanWithdrawRequestCloseEnrollment(boolean canWithdrawRequestCloseEnrollment) {
-        this.canWithdrawRequestCloseEnrollment = canWithdrawRequestCloseEnrollment;
-    }
-
-    public boolean isCanWithdrawRequestCloseEnrollmentUnavailable() {
-        return canWithdrawRequestCloseEnrollmentUnavailable;
-    }
-
-    public void setCanWithdrawRequestCloseEnrollmentUnavailable(boolean canWithdrawRequestCloseEnrollmentUnavailable) {
-        this.canWithdrawRequestCloseEnrollmentUnavailable = canWithdrawRequestCloseEnrollmentUnavailable;
-    }
-
-    public boolean isCanWithdrawRequestReOpenEnrollment() {
-        return canWithdrawRequestReOpenEnrollment;
-    }
-
-    public void setCanWithdrawRequestReOpenEnrollment(boolean canWithdrawRequestReOpenEnrollment) {
-        this.canWithdrawRequestReOpenEnrollment = canWithdrawRequestReOpenEnrollment;
-    }
-
-    public boolean isCanWithdrawRequestReOpenEnrollmentUnavailable() {
-        return canWithdrawRequestReOpenEnrollmentUnavailable;
-    }
-
-    public void setCanWithdrawRequestReOpenEnrollmentUnavailable(boolean canWithdrawRequestReOpenEnrollmentUnavailable) {
-        this.canWithdrawRequestReOpenEnrollmentUnavailable = canWithdrawRequestReOpenEnrollmentUnavailable;
-    }
-
-    public boolean isCanWithdrawRequestDataAnalysis() {
-        return canWithdrawRequestDataAnalysis;
-    }
-
-    public void setCanWithdrawRequestDataAnalysis(boolean canWithdrawRequestDataAnalysis) {
-        this.canWithdrawRequestDataAnalysis = canWithdrawRequestDataAnalysis;
-    }
-
-    public boolean isCanWithdrawRequestDataAnalysisUnavailable() {
-        return canWithdrawRequestDataAnalysisUnavailable;
-    }
-
-    public void setCanWithdrawRequestDataAnalysisUnavailable(boolean canWithdrawRequestDataAnalysisUnavailable) {
-        this.canWithdrawRequestDataAnalysisUnavailable = canWithdrawRequestDataAnalysisUnavailable;
-    }
-
     public boolean getCanGrantExemption() {
         return canGrantExemption;
     }
     
+    public boolean isCanWithdrawSubmission() {
+        return canWithdrawSubmission;
+    }
+
+    public boolean isCanWithdrawSubmissionUnavailable() {
+        return canWithdrawSubmissionUnavailable;
+    }
+
     public boolean getCanGrantExemptionUnavailable() {
         return canGrantExemptionUnavailable;
     }
