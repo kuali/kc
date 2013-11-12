@@ -638,6 +638,7 @@ public interface Constants {
     public static final String PROTOCOL_UNDO_LASTACTION_PROPERTY_KEY = "actionHelper.undoLastActionBean";
     public static final String PROTOCOL_MODIFY_SUBMISSION_KEY = "actionHelper.protocolModifySubmissionBean";
     public static final String PROTOCOL_ABANDON_ACTION_PROPERTY_KEY = "actionHelper.protocolAbandonBean";
+    public static final String PROTOCOL_WITHDRAW_SUBMISSION_PROPERTY_KEY = "actionHelper.protocolWithdrawSubmissionBean";
     
     //Online Review
     public static final String ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW="IRBAdminInitialReview";
@@ -828,6 +829,7 @@ public interface Constants {
     public static final String PARAMETER_MODULE_IACUC_PROTOCOL_REFERENCEID2 = "iacuc.protocol.referenceID2";;
     public static final String IACUC_DEACTIVATE_ACTION_PROPERTY_KEY = "actionHelper.iacucProtocolDeactivateBean";
     public static final String IACUC_REQUEST_LIFT_HOLD_ACTION_PROPERTY_KEY = "actionHelper.iacucProtocolRequestLiftHoldBean";
+    public static final String IACUC_WITHDRAW_SUBMISSION_PROPERTY_KEY = "actionHelper.iacucWithdrawSubmission";
     
     public static final String PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION = "IACUC_COMM_SELECTION_DURING_SUBMISSION";
     public static final String PARAMETER_IACUC_DISPLAY_REVIEWER_NAME = "IACUC_DISPLAY_REVIEWER_NAME";

@@ -52,32 +52,13 @@ public enum IacucProtocolRequestAction {
                                     "Request for Suspension"),
                                   
     /**
-     * Request to deactivate a Protocol.
+     * Withdraw a request to deactivate/suspend/lift hold on a Protocol.
      */
-    WITHDRAW_REQUEST_TO_DEACTIVATE  (IacucProtocolActionType.WITHDRAW_REQUEST_DEACTIVATE,
-                                    TaskName.IACUC_WITHDRAW_REQUEST_DEACTIVATE,
-                                    Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY, 
-                                    "iacucProtocolWithdrawDeactivateRequestBean", 
-                                    "Withdraw Request to Deactivate"), 
-
-    /**
-     * Request to lift a hold on a Protocol.
-     */
-    WITHDRAW_REQUEST_TO_LIFT_HOLD   (IacucProtocolActionType.WITHDRAW_REQUEST_LIFT_HOLD,
-                                    TaskName.IACUC_WITHDRAW_REQUEST_LIFT_HOLD,
-                                    Constants.IACUC_REQUEST_LIFT_HOLD_ACTION_PROPERTY_KEY, 
-                                    "iacucProtocolWithdrawLiftHoldRequestBean", 
-                                    "Withdraw Request to Lift Hold"), 
-
-    /**
-     * Request for suspension of a Protocol.
-     */
-      WITHDRAW_REQUEST_FOR_SUSPENSION (IacucProtocolActionType.IACUC_WITHDRAW_REQUEST_SUSPEND, 
-                                    TaskName.IACUC_WITHDRAW_REQUEST_SUSPENSION,
-                                    Constants.PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY, 
-                                    "iacucProtocolWithdrawSuspendRequestBean", 
-                                    "Withdraw Request for Suspension")
-                                    ;
+    WITHDRAW_SUBMISSION            (IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION,
+                                    TaskName.IACUC_WITHDRAW_SUBMISSION,
+                                    Constants.IACUC_WITHDRAW_SUBMISSION_PROPERTY_KEY, 
+                                    "iacucProtocolWithdrawSubmission", 
+                                    "Withdraw Submission Request");
     
     private final String actionTypeCode;
     private final String taskName;

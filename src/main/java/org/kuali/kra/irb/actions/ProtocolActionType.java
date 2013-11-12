@@ -56,17 +56,7 @@ public class ProtocolActionType extends ProtocolActionTypeBase {
 
     public static final String MODIFY_AMENDMENT_SECTION = "125";
 
-    public static final String WITHDRAW_REQUEST_TO_CLOSE = "130";
-    
-    public static final String WITHDRAW_REQUEST_TO_CLOSE_ENROLLMENT = "131";
-    
-    public static final String WITHDRAW_REQUEST_FOR_DATA_ANALYSIS_ONLY = "132";
-    
-    public static final String WITHDRAW_REQUEST_TO_REOPEN_ENROLLMENT = "133";
-    
-    public static final String WITHDRAW_REQUEST_FOR_SUSPENSION = "134";
-    
-    public static final String WITHDRAW_REQUEST_FOR_TERMINATION = "135";
+    public static final String WITHDRAW_SUBMISSION = "131";
     
     public static final String ASSIGN_TO_AGENDA = "200";
 

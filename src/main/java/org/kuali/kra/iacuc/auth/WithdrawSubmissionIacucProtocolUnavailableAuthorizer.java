@@ -15,22 +15,21 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
- * Is the user allowed to request a suspension of a protocol?
+ * Is the user allowed to withdraw a previously submitted request and the action is currently not available?
  */
-public class WithdrawRequestLiftHoldIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
+public class WithdrawSubmissionIacucProtocolUnavailableAuthorizer extends IacucProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-        return canExecuteAction(task.getProtocol(), IacucProtocolActionType.WITHDRAW_REQUEST_LIFT_HOLD) &&
+        return !canExecuteAction(task.getProtocol(), IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION) &&
                 (hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL)
-                || hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_ANY_IACUC_PROTOCOL)
-                || StringUtils.equals(task.getProtocol().getPrincipalInvestigatorId(), userId));
+                || hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_ANY_IACUC_PROTOCOL));
     }
 }
