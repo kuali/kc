@@ -19,16 +19,16 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
- * Is the user allowed to request a data analysis of a protocol?
+ * Is the user allowed to request a data analysis of a protocol and the action is currently not available?
  */
-public class ProtocolWithdrawRequestDataAnalysisAuthorizer extends ProtocolAuthorizer {
+public class ProtocolWithdrawSubmissionUnavailableAuthorizer extends ProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return !isAmendmentOrRenewal(task.getProtocol()) &&
-                canExecuteAction(task.getProtocol(), ProtocolActionType.WITHDRAW_REQUEST_FOR_DATA_ANALYSIS_ONLY) &&
-                hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL);
+        return hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL) &&
+                (isAmendmentOrRenewal(task.getProtocol()) ||
+                 !canExecuteAction(task.getProtocol(), ProtocolActionType.WITHDRAW_SUBMISSION));
     }
 }

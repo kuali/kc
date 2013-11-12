@@ -19,16 +19,16 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
- * Is the user allowed to request a close of the enrollment of a protocol and the action is currently not available?
+ * Is the user allowed to request a data analysis of a protocol?
  */
-public class ProtocolWithdrawRequestCloseEnrollmentUnavailableAuthorizer extends ProtocolAuthorizer {
+public class ProtocolWithdrawSubmissionAuthorizer extends ProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL) &&
-                (isAmendmentOrRenewal(task.getProtocol()) ||
-                 !canExecuteAction(task.getProtocol(), ProtocolActionType.WITHDRAW_REQUEST_TO_CLOSE_ENROLLMENT));
+        return !isAmendmentOrRenewal(task.getProtocol()) &&
+                canExecuteAction(task.getProtocol(), ProtocolActionType.WITHDRAW_SUBMISSION) &&
+                hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL);
     }
 }
