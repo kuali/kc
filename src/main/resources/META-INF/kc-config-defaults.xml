@@ -52,7 +52,7 @@
 	<param name="module.name">kc</param>
 	<param name="app.code">${module.name}</param>
 	<param name="application.id">KC</param>	
-	<param name="application.host">127.0.0.1</param>
+	<param name="application.host">localhost</param>
 	
 	<!-- Config param for setting the bus security on and off in the integration services -->
 	<param name="fin.system.integration.bus.security.on">false</param>
@@ -99,9 +99,10 @@
 	<param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kc.struts.message.resources}</param>
 
 	<!-- KC Client DB -->
-	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
-	<param name="datasource.username">KRADEV</param>
-	<param name="datasource.password">ask your team</param>
+    <!-- Oracle-specific parms -->
+    <param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:XE</param>
+    <param name="datasource.username">kcbnd</param>
+    <param name="datasource.password">password</param>
 	
 	<!-- overriding from rice's default - remove override once rice's changes their default -->
 	<param name="datasource.pool.maxSize">20</param>
