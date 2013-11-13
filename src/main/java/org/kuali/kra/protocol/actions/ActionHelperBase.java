@@ -2388,8 +2388,8 @@ public abstract class ActionHelperBase implements Serializable {
     private void initPrintQuestionnaire() {
         setQuestionnairesToPrints(new ArrayList<QuestionnairePrintOption>());
         ModuleQuestionnaireBean moduleQuestionnaireBean = getNewProtocolModuleQuestionnaireBeanInstanceHook(getProtocol());
-        List<AnswerHeader> answerHeaders  = getQuestionnaireAnswerService().getAnswerHeadersForProtocol(moduleQuestionnaireBean, getProtocol().getProtocolNumber(),form.getQuestionnaireHelper());
-        setupQnPrintOption(answerHeaders);
+        List<AnswerHeader> printAnswerHeaders  = getQuestionnaireAnswerService().getPrintAnswerHeadersForProtocol(moduleQuestionnaireBean, getProtocol().getProtocolNumber(), form.getQuestionnaireHelper());
+        setupQnPrintOption(printAnswerHeaders);
     }
     
     protected abstract void initPrintCorrespondence();
