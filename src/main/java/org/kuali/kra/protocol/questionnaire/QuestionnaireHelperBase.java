@@ -48,6 +48,10 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
 
     private String protocolNumber;
     
+    // two data items used by Protocol Actions -- > Print --> Questionnaire sub-tab     
+    private List<AnswerHeader> printAnswerHeaders; 
+    private List<String> printHeaderLabels;
+    
     /**
      * 
      * Constructs a QuestionnaireHelperBase.java. To hook up with protocol form.
@@ -214,6 +218,96 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
 
     public void setProtocolNumber(String protocolNumber) {
         this.protocolNumber = protocolNumber;
+    }   
+    
+    //Determine if protocol is an amendment based solely on the existence of "A" or "R" in the protocol number
+    private boolean isAmendmentOrRenewal () {
+        boolean isAmendmentOrRenewal = false;
+        ProtocolBase protocol = getProtocol();
+        if (protocol.isAmendment() || protocol.isRenewal()) {
+            isAmendmentOrRenewal = true;
+        }
+        return isAmendmentOrRenewal;
+    }
+    
+    public List<AnswerHeader> getPrintAnswerHeaders() {
+        return printAnswerHeaders;
     }
 
+    public void setPrintAnswerHeaders(List<AnswerHeader> printAnswerHeaders) {
+        this.printAnswerHeaders = printAnswerHeaders;
+    }
+
+    public List<String> getPrintHeaderLabels() {
+        return printHeaderLabels;
+    }
+
+    public void setPrintHeaderLabels(List<String> printHeaderLabels) {
+        this.printHeaderLabels = printHeaderLabels;
+    }
+    
+    /**
+     * set up the tab labels for each questionnaire 
+     */
+    public void resetPrintHeaderLabels() {
+        List<String> labels = new ArrayList<String>();
+        for (AnswerHeader printAnswerHeader : printAnswerHeaders) {
+            labels.add(getQuestionnaireLabel(printAnswerHeader.getQuestionnaire().getQuestionnaireUsages(), printAnswerHeader.getModuleSubItemCode()));
+        }
+        setPrintHeaderLabels(labels);     
+    }
+    
+    /**
+     * 
+     * With this method, get/setup questionnaire answers for Print--> Questionnaire when 'protocol actions' page is clicked.
+     */
+    public void populatePrintAnswers() {
+        if (isAmendmentOrRenewal()) {
+            
+            setPrintAnswerHeaders(getQuestionnaireAnswerService().getQuestionnaireAnswer(getModuleQnBean()));
+            resetPrintHeaderLabels();
+            
+            List <AnswerHeader> printAnswerHeaders = new ArrayList<AnswerHeader>();
+            ModuleQuestionnaireBean moduleBean = getAmendModuleBean();
+            printAnswerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleBean);
+            if (!printAnswerHeaders.isEmpty() && printAnswerHeaders.get(0).getAnswerHeaderId() == null){
+                // this is based on usage association, and it is not saved qn answer.
+                printAnswerHeaders = new ArrayList<AnswerHeader>();
+            }
+            
+            if (printAnswerHeaders.isEmpty()) {
+                printAnswerHeaders = getAnswerHeadersForCurrentProtocol(moduleBean);
+                
+            } 
+            
+            if (!printAnswerHeaders.isEmpty()) {
+                for (AnswerHeader printAnswerHeader : printAnswerHeaders) {
+                    getPrintAnswerHeaders().add(printAnswerHeader);
+                }
+                resetPrintHeaderLabels();
+           }     
+
+        } else {
+            setPrintAnswerHeaders(getQuestionnaireAnswerService().getQuestionnaireAnswer(getModuleQnBean()));
+            resetPrintHeaderLabels();
+        }
+        setPrintQuestionnaireActiveStatuses();
+    }
+    
+    
+    /**
+     * This method loops through the current list of answer headers, checking if the questionnaire for each is still active and 
+     * sets the status for each answer header accordingly. 
+     */
+    public void setPrintQuestionnaireActiveStatuses() {
+        for (AnswerHeader printAnswerHeader : printAnswerHeaders) {
+            if(isQuestionnaireActive(printAnswerHeader)){
+                printAnswerHeader.setActiveQuestionnaire(true);
+            }
+            else{
+                printAnswerHeader.setActiveQuestionnaire(false);
+            }
+        }
+    }
+    
 }
