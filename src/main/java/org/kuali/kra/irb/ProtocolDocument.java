@@ -182,8 +182,7 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         finalizeAttachmentProtocol((Protocol)this.getProtocol());
         getBusinessObjectService().save(this);
         
-        mergeProtocolCorrespondenceAndNotification(newProtocolDocument, this.getProtocol().getLastProtocolAction().getProtocolActionTypeCode());
-           
+        mergeProtocolCorrespondenceAndNotification(newProtocolDocument, getLastApprovalAction(this.getProtocol()));
     }
     
     protected void mergeProtocolCorrespondenceAndNotification(ProtocolDocument newProtocolDocument, String protocolActionType) {
@@ -270,7 +269,19 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     private ProtocolFinderDao getProtocolFinder() {
         return KraServiceLocator.getService(ProtocolFinderDao.class);
     }
-    
+
+    private String getLastApprovalAction(Protocol protocol) {
+        String results = null;
+        for (ProtocolActionBase action: getProtocol().getProtocolActions()) {
+            if (ProtocolActionType.APPROVED.equals(action.getProtocolActionTypeCode()) ||
+                ProtocolActionType.EXPEDITE_APPROVAL.equals(action.getProtocolActionTypeCode()) ||
+                ProtocolActionType.GRANT_EXEMPTION.equals(action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED))) {
+                results = action.getProtocolActionTypeCode();
+            }
+        }
+        return results;
+    }
+
     /**
      * 
      * This method is to check whether rice async routing is ok now.   
