@@ -32,8 +32,10 @@ import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
+import org.kuali.kra.protocol.questionnaire.SaveProtocolQuestionnaireEvent;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
@@ -190,6 +192,21 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
        protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
        protocolForm.getActionHelper().prepareView();
        protocolForm.getActionHelper().prepareCommentsView();
+ 
+       
+       //When a user selects the Questionnaires tab, empty answerHeaders are generated and saved to the database so that subsequent methods relying
+       //on that persisted data have it available to render panels.  Make Protocol Actions tab work in this same manner so it's sub-tab 
+       //Print ==> Questionnaires will render when a user enters a protocol but does not select the Questionnaire tab to answer the questions.
+       protocolForm.getQuestionnaireHelper().prepareView();
+       protocolForm.getQuestionnaireHelper().populateAnswers();
+       protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
+       Document document = protocolForm.getDocument();
+       List<AnswerHeader> answerHeaders = protocolForm.getQuestionnaireHelper().getAnswerHeaders();       
+       if (applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders)) && applyRules(new SaveProtocolQuestionnaireEvent(document, answerHeaders)) ) {
+           protocolForm.getQuestionnaireHelper().preSave();
+           getBusinessObjectService().save(answerHeaders);
+       }
+  
        return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolActionsForwardNameHook());
     }
     

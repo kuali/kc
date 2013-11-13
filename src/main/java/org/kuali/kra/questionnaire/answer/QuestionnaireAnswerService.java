@@ -189,4 +189,16 @@ public interface QuestionnaireAnswerService {
      */
     List<AnswerHeader> getNewVersionOfQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean);
 
+    /**
+     * 
+     * This method is to get all the questionnaire answers to print for the protocol. 
+     * This method is intended to obtain the data that will ultimately be used by the protocol actions, print, questionnaire sub-tab.
+     * 
+     * @param moduleQuestionnaireBean
+     * @param protocolNumber
+     * @param questionnaireHelper
+     * @return
+     */
+    List<AnswerHeader> getPrintAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper);
+
 }
