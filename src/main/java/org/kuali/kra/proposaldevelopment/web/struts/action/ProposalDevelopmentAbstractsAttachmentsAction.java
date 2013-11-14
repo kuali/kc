@@ -222,6 +222,24 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         narrativeAttachemntMap.put(MODULE_NUMBER, narrative.getModuleNumber()+"");
         return (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
     }
+    
+    /**
+     * This method is used to perform a bulk status change operation on all attachments
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward markAllNarrativeStatuses(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProposalDevelopmentForm developmentForm = (ProposalDevelopmentForm) form;
+        developmentForm.getProposalDevelopmentDocument().getBudgetParent().markNarratives(developmentForm.getNarrativeStatusChange());
+        developmentForm.clearNarrativeStatusChangeKey();
+        return mapping.findForward(MAPPING_BASIC);
+    }
 
     /**
      * 
