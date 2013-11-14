@@ -123,9 +123,10 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         fixNextValues(protocolDocument, newProtocolDocument);
         fixActionSequenceNumbers(protocolDocument.getProtocol(), newProtocol);
         
-        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getProtocolSequenceIdHook());
-        newProtocol.setProtocolId(nextProtocolId);
-
+        if(newProtocol.getProtocolId() == null) {
+            setNewProtocolId(newProtocol);
+        }
+        
         for (ProtocolPersonBase person : newProtocol.getProtocolPersons()) {
             for (ProtocolAttachmentPersonnelBase attachment : person.getAttachmentPersonnels()) {
                 attachment.setProtocolId(newProtocol.getProtocolId());
@@ -160,6 +161,11 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         }
         
         return newProtocolDocument;
+    }
+    
+    protected void setNewProtocolId(ProtocolBase newProtocol) {
+        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getProtocolSequenceIdHook());
+        newProtocol.setProtocolId(nextProtocolId);
     }
     
     protected abstract String getProtocolSequenceIdHook();
