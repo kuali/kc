@@ -110,9 +110,13 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		rrsf424.setApplicantInfo(getApplicationInfo());
 		rrsf424.setApplicantType(getApplicantType());
 		rrsf424.setApplicationType(getApplicationType());
-		if (applicantOrganization != null) {
-			rrsf424.setEmployerID(applicantOrganization.getFedralEmployerId());
-		}
+        if (applicantOrganization != null) {
+            if (applicantOrganization.getPhsAccount() != null) {
+                rrsf424.setEmployerID(applicantOrganization.getPhsAccount());
+            } else {
+                rrsf424.setEmployerID(applicantOrganization.getFedralEmployerId());
+            }
+        }
 		Sponsor sponsor = devProp.getSponsor();
 		if (sponsor != null) {
 			rrsf424.setFederalAgencyName(sponsor.getSponsorName());
