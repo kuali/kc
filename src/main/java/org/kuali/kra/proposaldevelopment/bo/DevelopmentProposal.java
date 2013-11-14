@@ -2258,4 +2258,12 @@ public void setLastSyncedBudgetDocumentNumber(String lastSyncedBudgetDocumentNum
     this.lastSyncedBudgetDocumentNumber = lastSyncedBudgetDocumentNumber;
 }
 
+public void markNarratives(NarrativeStatus narrativeStatus) {
+    for(Narrative narrative : narratives) {
+        narrative.setNarrativeStatus(narrativeStatus);
+        narrative.setModuleStatusCode(narrativeStatus.getNarrativeStatusCode());
+    }
+    proposalDocument.getDevelopmentProposalList().get(0).setNarratives(narratives);
+}
+
 }

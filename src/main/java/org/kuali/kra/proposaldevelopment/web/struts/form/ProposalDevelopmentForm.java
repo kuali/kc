@@ -193,6 +193,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     private transient String currentPersonCountryCode = "";
     private ProposalDevelopmentCustomDataHelper customDataHelper;
+    private String narrativeStatusesChangeKey;
+    private NarrativeStatus narrativeStatusesChange;
 
     public ProposalDevelopmentForm() {
         super();
@@ -2024,6 +2026,27 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     protected PermissionService getKimPermissionService() {
         return KraServiceLocator.getService("kimPermissionService");
+    }
+
+    public String getNarrativeStatusesChangeKey() {
+        return narrativeStatusesChangeKey;
+    }
+
+    public void setNarrativeStatusesChangeKey(String narrativeStatusesChangeKey) {
+        this.narrativeStatusesChangeKey = narrativeStatusesChangeKey;
+    }
+
+    public void clearNarrativeStatusChangeKey() {
+        narrativeStatusesChangeKey = "";
+        narrativeStatusesChange = new NarrativeStatus();
+    }
+
+    public void setNarrativeStatusChange(NarrativeStatus narrativeStatus) {
+        this.narrativeStatusesChange = narrativeStatus;
+    }
+
+    public NarrativeStatus getNarrativeStatusChange() {
+        return narrativeStatusesChange;
     }
    
 }
