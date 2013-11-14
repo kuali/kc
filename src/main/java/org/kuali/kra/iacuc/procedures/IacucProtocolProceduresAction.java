@@ -28,13 +28,11 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.infrastructure.IacucConstants;
-import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.procedures.rule.AddProcedureLocationEvent;
 import org.kuali.kra.iacuc.procedures.rule.AddProtocolStudyGroupEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class IacucProtocolProceduresAction extends IacucProtocolAction {
@@ -175,44 +173,55 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     }
 
     public ActionForward updateProcedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.save(mapping, form, request, response);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if(protocolForm.getIacucProtocolProceduresHelper().isModifyProtocolProcedures()) {
+            super.save(mapping, form, request, response);
+        }
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PROCEDURES);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     public ActionForward updatePersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        if(isSaveProcedureValid(form)) {
-            super.save(mapping, form, request, response);
-            IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-            protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PERSONNEL);
-            forward = mapping.findForward(IacucConstants.PROCEDURE_PERSONNEL);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        ActionForward forward = mapping.findForward(IacucConstants.PROCEDURE_PERSONNEL);
+        if(protocolForm.getIacucProtocolProceduresHelper().isModifyProtocolProcedures()) {
+            if(isSaveProcedureValid(form)) {
+                super.save(mapping, form, request, response);
+            }else {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
         }
+        protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PERSONNEL);
         return forward;
     }
 
     public ActionForward updateLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        if(isSaveProcedureValid(form)) {
-            super.save(mapping, form, request, response);
-            IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-            protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.LOCATION);
-            forward = mapping.findForward(IacucConstants.PROCEDURE_LOCATION);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        ActionForward forward = mapping.findForward(IacucConstants.PROCEDURE_LOCATION);
+        if(protocolForm.getIacucProtocolProceduresHelper().isModifyProtocolProcedures()) {
+            if(isSaveProcedureValid(form)) {
+                super.save(mapping, form, request, response);
+            }else {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
         }
+        protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.LOCATION);
         return forward;
     }
 
     public ActionForward updateSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        if(isSaveProcedureValid(form)) {
-            super.save(mapping, form, request, response);
-            IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-            getIacucProtocolProcedureService().setProcedureSummaryBySpeciesGroup(getIacucProtocol(form));
-            protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.SUMMARY);
-            protocolForm.getIacucProtocolProceduresHelper().setSummaryGroupedBySpecies(false);
-            forward = mapping.findForward(IacucConstants.PROCEDURE_SUMMARY);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        ActionForward forward = mapping.findForward(IacucConstants.PROCEDURE_SUMMARY);
+        if(protocolForm.getIacucProtocolProceduresHelper().isModifyProtocolProcedures()) {
+            if(isSaveProcedureValid(form)) {
+                super.save(mapping, form, request, response);
+            }else {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
         }
+        getIacucProtocolProcedureService().setProcedureSummaryBySpeciesGroup(getIacucProtocol(form));
+        protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.SUMMARY);
+        protocolForm.getIacucProtocolProceduresHelper().setSummaryGroupedBySpecies(false);
         return forward;
     }
 

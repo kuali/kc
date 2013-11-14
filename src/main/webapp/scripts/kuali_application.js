@@ -541,7 +541,7 @@ function populateSelect(methodToCall, firstSelectId, secondSelectId) {
 			function(data) {
 				valuesForSecondSelect = eval('(' + $j(data).find('#ret_value').html() + ')');
 				$j(secondSelectIdEscaped).html('');
-				if (valuesForSecondSelect.length == 0) {
+				if (valuesForSecondSelect == undefined || valuesForSecondSelect.length == 0) {
 					$j(secondSelectIdEscaped).attr('disabled', 'disabled');
 				} else {
 					var options = '';
