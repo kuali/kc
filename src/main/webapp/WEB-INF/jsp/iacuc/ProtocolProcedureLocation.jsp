@@ -18,7 +18,6 @@
 <script type="text/javascript">
    var $j = jQuery.noConflict();
    $j(document).ready(function() {
-	   alert("jsp doc ready");
 	   populateSelect('getIacucProcedureLocationNames', 'locationTypeCode', 'locationId');
    });
 </script>

@@ -81,13 +81,6 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
             amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_ORGANIZATIONS);
         }
         
-        if (amendmentBean.getProtocolPersonnel()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_PERSONNEL));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROTOCOL_PERSONNEL);
-            amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_PERSONNEL);
-        }
-        
         if (amendmentBean.getProtocolReferencesAndOtherIdentifiers()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_REFERENCES));
         } else {
@@ -153,6 +146,12 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
             amendmentEntry.removeModule(IacucProtocolModule.EXCEPTIONS);
         }
         
+        if (amendmentBean.getProtocolPersonnel()) {
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_PERSONNEL));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROTOCOL_PERSONNEL);
+            amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_PERSONNEL);
+        }
     }
 
     @Override

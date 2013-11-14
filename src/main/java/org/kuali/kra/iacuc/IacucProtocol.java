@@ -696,11 +696,11 @@ public class IacucProtocol extends ProtocolBase {
     }
 
     protected void mergeProtocolSpeciesAndGroups(ProtocolBase amendment) {
-        getProtocolCopyService().mergeProtocolSpeciesAndGroups((IacucProtocol)amendment, this);
+        getProtocolProcedureService().mergeProtocolSpecies((IacucProtocol)amendment, this);
     }
     
     protected void mergeProtocolProcedures(ProtocolBase amendment) {
-        getProtocolCopyService().mergeProtocolProcedures((IacucProtocol)amendment, this);
+        getProtocolProcedureService().mergeProtocolProcedures((IacucProtocol)amendment, this);
     }
 
     protected void mergeProtocolExceptions(ProtocolBase amendment) {
@@ -796,4 +796,9 @@ public class IacucProtocol extends ProtocolBase {
         this.iacucProtocolStudyGroupSpeciesList = iacucProtocolStudyGroupSpeciesList;
     }
 
+    @Override
+    protected void mergePersonnel(ProtocolBase amendment) {
+        super.mergePersonnel(amendment);
+        getProtocolProcedureService().mergeProtocolProcedurePersonnel(this);
+    }
 }
