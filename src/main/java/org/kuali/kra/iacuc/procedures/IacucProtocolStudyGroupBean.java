@@ -42,8 +42,6 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
 
     private List<IacucProtocolStudyGroup> iacucProtocolStudyGroups;
 
-    private transient Integer oldProtocolStudyGroupHeaderId;
-    
     // used for summary
     private List<IacucProcedureLocationDetail> iacucProtocolStudyGroupLocations;
     private List<IacucProcedurePersonResponsible> iacucProtocolStudyGroupPersons;
@@ -110,7 +108,6 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
 
     @Override
     public void resetPersistenceState() {
-        setOldProtocolStudyGroupHeaderId(getIacucProtocolStudyGroupHeaderId());
         setIacucProtocolStudyGroupHeaderId(null);
     }
 
@@ -229,12 +226,4 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
         return deleteAwareList;
     }
 
-    public Integer getOldProtocolStudyGroupHeaderId() {
-        return oldProtocolStudyGroupHeaderId;
-    }
-
-    public void setOldProtocolStudyGroupHeaderId(Integer oldProtocolStudyGroupHeaderId) {
-        this.oldProtocolStudyGroupHeaderId = oldProtocolStudyGroupHeaderId;
-    }
-    
 }
