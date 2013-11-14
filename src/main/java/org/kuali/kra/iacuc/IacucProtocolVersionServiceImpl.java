@@ -36,6 +36,8 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
     protected ProtocolBase createProtocolNewVersionHook(ProtocolBase protocol) throws Exception {
         IacucProtocol iacucProtocol = (IacucProtocol)protocol;
         iacucProtocol = versioningService.createNewVersion(iacucProtocol);
+        setNewProtocolId(iacucProtocol);
+        getIacucProtocolProcedureService().resetAllProtocolStudyProcedures(iacucProtocol);
         return iacucProtocol;
     }
 

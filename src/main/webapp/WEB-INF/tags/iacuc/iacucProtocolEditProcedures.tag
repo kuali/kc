@@ -27,7 +27,8 @@
               description="Indicate the method to trigger on submit" %>
 <%@ attribute name="isPersonEditProcedure" required="true" 
               description="Indicate whether this is part of person edit procedure " %>
-
+<c:set var="modifyPermission" value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}" />
+<c:set var="readOnly" value="${!modifyPermission}" />
 
 <tbody id="content-div${procedureIndex}" style="display: none;">
 	<tr>
@@ -49,7 +50,7 @@
         	<input type="hidden" name="checkboxToReset" value="${prop}"/>
               	<tr>
               		<td>
-            		<html:checkbox styleClass="checkBox" property="${collectionProperty}[${detailStatus.index}].studyProcedureActive"/>
+            		<html:checkbox styleClass="checkBox" property="${collectionProperty}[${detailStatus.index}].studyProcedureActive" onclick="return !${readOnly}"/>
 			    	<c:out value="${responsibleProcedure.iacucProtocolStudyGroupBean.iacucProcedure.procedureDescription}" />
            		</td>
            	</tr>	
@@ -68,13 +69,15 @@
 	        </td>
 	   	</tr>   		                          
 	</c:if>
-	<tr>
-		<td>
-    		<div id="procedureEdit" class="globalbuttons">
-				<html:image styleId="onProcedureEdit" property="methodToCall.${submitMethod}" 
-			     		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="tinybutton"
-			     		onclick="saveButtonClicked=true;jq.fancybox.close();"/>
-			</div>					
-		</td>
-	</tr>	
+	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}"> 
+		<tr>
+			<td>
+	    		<div id="procedureEdit" class="globalbuttons">
+					<html:image styleId="onProcedureEdit" property="methodToCall.${submitMethod}" 
+				     		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="tinybutton"
+				     		onclick="saveButtonClicked=true;jq.fancybox.close();"/>
+				</div>					
+			</td>
+		</tr>
+	</kra:permission>	
 </tbody>

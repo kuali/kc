@@ -122,4 +122,34 @@ public interface IacucProtocolProcedureService {
      */
     public void createNewProtocolStudyProcedures(IacucProtocol sourceProtocol, IacucProtocol destProtocol); 
 
+    /**
+     * This method is to update study procedures during protocol version
+     * We need to reset those that are not a direct reference to protocol associate and
+     * map appropriate references for procedures
+     * @param iacucProtocol
+     */
+    public void resetAllProtocolStudyProcedures(IacucProtocol iacucProtocol);
+    
+    /**
+     * This method is to merge protocol species during protocol amend/renew
+     * @param sourceProtocol
+     * @param destProtocol
+     */
+    public void mergeProtocolSpecies(IacucProtocol sourceProtocol, IacucProtocol destProtocol);
+    
+    /**
+     * This method is to merge protocol procedures during protocol amend/renew
+     * This includes all functions related to the procedure panel
+     * @param sourceProtocol
+     * @param destProtocol
+     */
+    public void mergeProtocolProcedures(IacucProtocol sourceProtocol, IacucProtocol destProtocol);
+    
+    /**
+     * This method is to merge protocol procedure personnel during protocol amend/renew
+     * @param destProtocol
+     */
+    public void mergeProtocolProcedurePersonnel(IacucProtocol destProtocol);
+
+    
 }

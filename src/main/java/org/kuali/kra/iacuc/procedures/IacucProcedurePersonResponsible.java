@@ -19,12 +19,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public class IacucProcedurePersonResponsible extends ProtocolAssociateBase { 
+public class IacucProcedurePersonResponsible extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
 
@@ -54,7 +55,6 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
         return getProtocolPerson().getPersonId();
     }
 
-    @Override
     public void resetPersistenceState() {
         this.setIacucProcedurePersonResponsibleId(null);        
     }
@@ -109,6 +109,13 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
             return false;
         }
         IacucProcedurePersonResponsible other = (IacucProcedurePersonResponsible) obj;
+        if (this.iacucProcedurePersonResponsibleId == null) {
+            if (other.iacucProcedurePersonResponsibleId != null) {
+                return false;
+            }
+        } else if (!this.iacucProcedurePersonResponsibleId.equals(other.iacucProcedurePersonResponsibleId)) {
+            return false;
+        }
         if (this.iacucProtocolStudyGroupSpeciesId == null) {
             if (other.iacucProtocolStudyGroupSpeciesId != null) {
                 return false;

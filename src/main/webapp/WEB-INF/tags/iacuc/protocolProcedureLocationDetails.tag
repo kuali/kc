@@ -36,10 +36,7 @@
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${procedureLocationAttributes.locationId}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${procedureLocationAttributes.locationRoom}" noColon="true" /></nobr></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${procedureLocationAttributes.studyGroupLocationDescription}" noColon="true" /></nobr></div></th>
-          		
-				<c:if test="${!readOnly}">
-					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
-				</c:if>
+				<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
           	</tr>     
 
         	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">
