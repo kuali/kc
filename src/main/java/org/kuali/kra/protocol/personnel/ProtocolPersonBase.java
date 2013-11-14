@@ -190,7 +190,6 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     private String eraCommonsUserName;
     
     private transient boolean affiliationTypeCodeChanged = false;
-    private transient Integer oldProtocolPersonId;
 
     public ProtocolPersonBase() {
         this.protocolUnits = new ArrayList<ProtocolUnitBase>();
@@ -461,7 +460,6 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     /** {@inheritDoc}  */
     public void resetPersistenceState() {
-        setOldProtocolPersonId(getProtocolPersonId());
         this.setProtocolPersonId(null);
     }
 
@@ -1068,11 +1066,4 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return affiliationTypeCodeChanged;
     }
 
-    public Integer getOldProtocolPersonId() {
-        return oldProtocolPersonId;
-    }
-
-    public void setOldProtocolPersonId(Integer oldProtocolPersonId) {
-        this.oldProtocolPersonId = oldProtocolPersonId;
-    }
 }
