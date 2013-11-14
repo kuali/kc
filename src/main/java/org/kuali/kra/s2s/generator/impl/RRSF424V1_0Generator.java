@@ -108,7 +108,11 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		Organization organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
-			rrsf424.setEmployerID(organization.getFedralEmployerId());
+		    if (organization.getPhsAccount() != null) {
+                rrsf424.setEmployerID(organization.getPhsAccount());
+            } else {
+                rrsf424.setEmployerID(organization.getFedralEmployerId());
+            }
 		}
 		Sponsor sponsor = pdDoc.getDevelopmentProposal().getSponsor();
 		if (sponsor != null) {
