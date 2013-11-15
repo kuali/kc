@@ -1094,19 +1094,6 @@
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phs398ResearchPlan13V13</pkgName>
 	</Form>
-	<Form
-		namespace="http://apply.grants.gov/forms/RR_OtherProjectInfo_1_3-V1.3">
-		<formName>RR_OtherProjectInfo_1_3-V1.3</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_3Generator
-		</mainClass>
-		<stylesheet>
-			org/kuali/kra/s2s/stylesheet/RR_OtherProjectInfo-V1.3.xsl
-		</stylesheet>
-		<pkgName>
-			gov.grants.apply.forms.rrOtherProjectInfo13V13
-		</pkgName>
-	</Form>
 	<!-- Form set 7 -->
 	<Form namespace="http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan-V1.0">
 		<formName>PHS398_ResearchTrainingProgramPlan-V1.0</formName>
