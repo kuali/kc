@@ -16,6 +16,8 @@
 package org.kuali.kra.irb.actions.assignreviewers;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
@@ -119,7 +121,9 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         String routeAnnotation = "Online Review Requested by PI during protocol submission.";
         boolean initialApproval = false;
         Date dateRequested = null;
-        Date dateDue = null;
+        
+        Date dateDue = assignDefaultDueDate(protocolSubmission);
+        
         String sessionPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
         ProtocolOnlineReviewDocument document = (ProtocolOnlineReviewDocument) protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocolSubmission, reviewer, 
                 description, explanation, organizationDocumentNumber, routeAnnotation, initialApproval, dateRequested, dateDue, sessionPrincipalId);
@@ -138,6 +142,18 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         }
     }
     
+    private Date assignDefaultDueDate(ProtocolSubmissionBase protocolSubmission) {
+        Date dueDate = null;
+        CommitteeBase committee = protocolSubmission.getCommittee();
+        if(committee != null) {
+            CommitteeScheduleBase schedule = committee.getCommitteeSchedule(protocolSubmission.getScheduleId());
+            if(schedule != null) {
+                dueDate = schedule.getScheduledDate();
+            }
+        }
+        return dueDate;
+    }
+
     protected void updateReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase bean) {
         ProtocolReviewer reviewer = (ProtocolReviewer) protocolOnlineReviewService.getProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission);
         reviewer.setReviewerTypeCode(bean.getReviewerTypeCode());
