@@ -153,15 +153,9 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
        return filterResults(results);
    }
 
-   protected List<ProtocolOnlineReviewBase> filterResults(List<ProtocolOnlineReviewBase> results) {
-       List<ProtocolOnlineReviewBase> onlineReviews = new ArrayList<ProtocolOnlineReviewBase>();
-       for (ProtocolOnlineReviewBase review : results) {
-           if (review.getProtocolOnlineReviewDocument() != null) {
-               onlineReviews.add(review);
-           }
-       }
-       return onlineReviews;
-   }
+   protected abstract List<ProtocolOnlineReviewBase> filterResults(List<ProtocolOnlineReviewBase> results);
+   
+   protected abstract String getProtocolSubmissionApprovedStatusCodeHook();
 
   
     @Override
