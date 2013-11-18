@@ -39,7 +39,7 @@ public abstract class ModifyIacucAmendmentAuthorizer extends ModifyIacucProtocol
         boolean hasPermission = super.isAuthorized(userId, task);
 
         if (hasPermission && isAmendmentOrRenewal(protocol)) {
-            hasPermission = canModifyModule(protocol, moduleTypeCode);
+            hasPermission = protocol.isRenewalWithoutAmendment() || canModifyModule(protocol, moduleTypeCode);
         }
 
         if (hasPermission && protocol.isCorrectionMode()) {
