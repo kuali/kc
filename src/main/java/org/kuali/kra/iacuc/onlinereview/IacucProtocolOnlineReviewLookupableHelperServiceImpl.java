@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewLookupableHelperServiceImplBase;
 
 public class IacucProtocolOnlineReviewLookupableHelperServiceImpl extends ProtocolOnlineReviewLookupableHelperServiceImplBase {
@@ -34,5 +39,29 @@ public class IacucProtocolOnlineReviewLookupableHelperServiceImpl extends Protoc
     @Override
     protected String getProtocolOLRSavedStatusCodeHook() {
         return IacucProtocolOnlineReviewStatus.SAVED_STATUS_CD;
+    }
+    
+    @Override
+    protected String getProtocolSubmissionApprovedStatusCodeHook() {
+        return IacucProtocolSubmissionStatus.APPROVED;
+    }
+    
+    private String getProtocolSubmissionAdminApprovedStatusCodeHook() {
+        return IacucProtocolSubmissionStatus.ADMINISTRATIVELY_APPROVED;
+    }
+    
+    protected List<ProtocolOnlineReviewBase> filterResults(List<ProtocolOnlineReviewBase> results) {
+        List<ProtocolOnlineReviewBase> onlineReviews = new ArrayList<ProtocolOnlineReviewBase>();
+        for (ProtocolOnlineReviewBase review : results) {           
+            if (review.getProtocolOnlineReviewDocument() != null) {
+                //ensure that only pending submission statuses are shown for Saved online reviews, i.e. do not show reviews assigned but not completed for approved protocols.
+               if ( (review.getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocolOnlineReviewStatusCode().equalsIgnoreCase(getProtocolOLRSavedStatusCodeHook())) &&
+                    (!(review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionApprovedStatusCodeHook()) || 
+                       review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionAdminApprovedStatusCodeHook()))) ) {
+                   onlineReviews.add(review);
+               }
+            }
+        }
+        return onlineReviews;
     }
 }
