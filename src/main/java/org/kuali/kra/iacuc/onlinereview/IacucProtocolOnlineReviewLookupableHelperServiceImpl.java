@@ -54,10 +54,9 @@ public class IacucProtocolOnlineReviewLookupableHelperServiceImpl extends Protoc
         List<ProtocolOnlineReviewBase> onlineReviews = new ArrayList<ProtocolOnlineReviewBase>();
         for (ProtocolOnlineReviewBase review : results) {           
             if (review.getProtocolOnlineReviewDocument() != null) {
-                //ensure that only pending submission statuses are shown for Saved online reviews, i.e. do not show reviews assigned but not completed for approved protocols.
-               if ( (review.getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocolOnlineReviewStatusCode().equalsIgnoreCase(getProtocolOLRSavedStatusCodeHook())) &&
-                    (!(review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionApprovedStatusCodeHook()) || 
-                       review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionAdminApprovedStatusCodeHook()))) ) {
+                //ensure that only pending submission statuses are shown for online reviews, i.e. do not show reviews assigned but not completed for approved protocols.
+               if (!(review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionApprovedStatusCodeHook()) || 
+                     review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionAdminApprovedStatusCodeHook()))) {
                    onlineReviews.add(review);
                }
             }
