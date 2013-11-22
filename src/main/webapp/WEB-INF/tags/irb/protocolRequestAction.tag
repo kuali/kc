@@ -137,12 +137,7 @@
                                           taskName="protocolRequestTerminate"
                                           actionTypeCode="104"
                                           tabTitle="Request for Termination"/>
-            <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolWithdrawSubmissionBean}"
-                                          permission="${KualiForm.actionHelper.canWithdrawSubmission}"
-                                          beanName="protocolWithdrawSubmissionBean"
-                                          taskName="protocolWithdrawRequestSubmission"
-                                          actionTypeCode="131" 
-                                          tabTitle="Withdraw Submission"/>
+            <kra-irb-action:withdrawRequestAction />
             <kra-irb-action:deleteAction />
             <kra-irb-action:makeAdminCorrectionAction />
             <kra-irb-action:genericAction tabTitle="Close Enrollment"
