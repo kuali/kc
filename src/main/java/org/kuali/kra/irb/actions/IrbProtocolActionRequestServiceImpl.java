@@ -69,6 +69,7 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestRule;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
@@ -754,6 +755,27 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             if (valid) {
                 getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), requestBean);            
                 generateActionCorrespondence(requestBean.getProtocolActionTypeCode(), protocolForm.getProtocolDocument().getProtocol());
+                recordProtocolActionSuccess(requestAction.getActionName());
+                return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IrbConstants.PROTOCOL_ACTIONS_TAB);
+            }
+        }
+        return Constants.MAPPING_BASIC;
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#withdrawRequestAction(org.kuali.kra.irb.ProtocolForm, java.lang.String)
+     */
+    public String withdrawRequestAction(ProtocolForm protocolForm, String taskName) throws Exception {
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ProtocolRequestAction requestAction = ProtocolRequestAction.valueOfTaskName(taskName);
+        ProtocolRequestBean requestBean = getProtocolRequestBean(protocolForm, taskName);
+        if (requestBean != null) {
+            boolean valid = applyRules(new ProtocolRequestEvent<ProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
+            if (valid) {
+                // find recently submitted action request and complete it
+                ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
+                submission.setSubmissionStatusCode(ProtocolSubmissionStatus.WITHDRAWN);
+                getBusinessObjectService().save(submission);
                 recordProtocolActionSuccess(requestAction.getActionName());
                 return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IrbConstants.PROTOCOL_ACTIONS_TAB);
             }

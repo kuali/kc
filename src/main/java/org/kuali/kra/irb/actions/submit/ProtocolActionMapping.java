@@ -174,9 +174,11 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
-        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
         positiveFieldValues.put("submissionTypeCode", submissionTypes);
-        return businessObjectService.countMatching(ProtocolSubmission.class, positiveFieldValues) != 0;
+        List<ProtocolSubmission> submissions = (List<ProtocolSubmission>)businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, positiveFieldValues, "submissionNumber", false);
+        return !submissions.isEmpty() 
+               && submissionTypes.contains(submissions.get(0).getSubmissionTypeCode())
+               && !submissions.get(0).getSubmissionStatusCode().equals(ProtocolSubmissionStatus.WITHDRAWN);
     }
 
     /**

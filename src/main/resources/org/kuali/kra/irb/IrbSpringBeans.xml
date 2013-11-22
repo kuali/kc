@@ -284,11 +284,11 @@
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawSubmissionAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawSubmission" />
+                    <property name="taskName" value="protocolWithdrawRequestSubmission" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawSubmissionUnavailableAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolWithdrawSubmissionUnavailable" />
+                    <property name="taskName" value="protocolWithdrawRequestSubmissionUnavailable" />
                 </bean>
 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizer" parent="parentProtocolAuthorizer">
