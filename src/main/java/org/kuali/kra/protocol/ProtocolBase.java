@@ -1603,7 +1603,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     }
     
     public boolean isRenewal() {
-        return protocolNumber.contains(RENEWAL_LETTER);
+        return protocolNumber != null && protocolNumber.contains(RENEWAL_LETTER);
     }
     
     public boolean isRenewalWithoutAmendment() {
