@@ -347,7 +347,16 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
      * @throws Exception
      */
     public String performRequestAction(ProtocolForm protocolForm, String taskName) throws Exception;
-    
+
+    /**
+     * This method is to withdraw a previously submitted "request to" action
+     * @param protocolForm
+     * @param taskName
+     * @return
+     * @throws Exception
+     */
+    public String withdrawRequestAction(ProtocolForm protocolForm, String taskName) throws Exception;
+
     /**
      * This method is to close protocol
      * @param protocolForm

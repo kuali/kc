@@ -1397,6 +1397,28 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return forward;
     }
     
+    /**
+     * Withdraws a previously submitted request action.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     * @throws Exception
+     */
+    public ActionForward withdrawRequestAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        String taskName = getTaskName(request);
+        if(getProtocolActionRequestService().isRequestActionAuthorized(protocolForm, taskName)) {
+            String forwardTo = getProtocolActionRequestService().withdrawRequestAction(protocolForm, taskName);
+            forward = mapping.findForward(forwardTo);
+        }
+        return forward;
+    }
+    
 
     private ProtocolRequestBean getProtocolRequestBean(ActionForm form, HttpServletRequest request) {
         ProtocolRequestBean protocolRequestBean = null;
