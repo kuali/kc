@@ -117,7 +117,7 @@ public interface TaskName {
     public static final String PROTOCOL_REQUEST_TERMINATE = "protocolRequestTerminate";
     public static final String PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE = "protocolRequestTerminateUnavailable";
     public static final String PROTOCOL_WITHDRAW_SUBMISSION = "protocolWithdrawRequestSubmission";
-    public static final String PROTOCOL_WITHDRAW_SUBMISSION_UNAVAILABLE = "protocolWithdrawSubmissionUnavailable";
+    public static final String PROTOCOL_WITHDRAW_SUBMISSION_UNAVAILABLE = "protocolWithdrawRequestSubmissionUnavailable";
     public static final String PROTOCOL_AMEND_RENEW_DELETE = "protocolAmendRenewDelete";
     public static final String PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE = "protocolAmendRenewDeleteUnavailable";
     public static final String ASSIGN_TO_AGENDA = "protocolAssignToAgenda";
