@@ -147,8 +147,9 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         
         newProtocolDocument.getProtocol().merge(getProtocol());
         getProtocol().setProtocolStatusCode(protocolStatusCode);
-        
-        ProtocolAction action = new ProtocolAction((Protocol) newProtocolDocument.getProtocol(), null, ProtocolActionType.APPROVED);
+
+        String lastApprovalAction = getLastApprovalAction(newProtocolDocument.getProtocol());
+        ProtocolAction action = new ProtocolAction((Protocol) newProtocolDocument.getProtocol(), null, lastApprovalAction);
         action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
         newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
