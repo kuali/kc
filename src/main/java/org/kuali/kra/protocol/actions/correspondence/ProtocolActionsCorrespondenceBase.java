@@ -15,6 +15,15 @@
  */
 package org.kuali.kra.protocol.actions.correspondence;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -23,14 +32,6 @@ import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStreamBase;
 import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermarkBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.kra.util.watermark.Watermarkable;
-
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public abstract class ProtocolActionsCorrespondenceBase extends AbstractPrint {
     
@@ -58,8 +59,9 @@ public abstract class ProtocolActionsCorrespondenceBase extends AbstractPrint {
 
     
     private List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplates() {
+        String committeeId = getProtocol().getProtocolSubmission().getCommitteeId();
         List<ProtocolCorrespondenceTemplateBase> templates = 
-            getProtocolActionTypeToCorrespondenceTemplateService().getTemplatesByProtocolAction(getProtocolActionType());
+            getProtocolActionTypeToCorrespondenceTemplateService().getTemplatesByProtocolAction(getProtocolActionType(), committeeId);
         return templates;
     }
     
