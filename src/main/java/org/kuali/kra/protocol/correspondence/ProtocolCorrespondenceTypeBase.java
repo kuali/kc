@@ -108,6 +108,22 @@ public abstract class ProtocolCorrespondenceTypeBase extends KraPersistableBusin
         return templates;
     }
 
+    /**
+     * This method returns the correspondence templates which are specific to given committee.
+     * @param committeeId
+     * @return list of protocol correspondence templates
+     */
+    public List<ProtocolCorrespondenceTemplateBase> getCommitteeProtocolCorrespondenceTemplates(String committeeId) {
+        List<ProtocolCorrespondenceTemplateBase> templates = new ArrayList<ProtocolCorrespondenceTemplateBase>();
+        for (ProtocolCorrespondenceTemplateBase template : this.protocolCorrespondenceTemplates) {
+            if (StringUtils.equals(template.getCommitteeId(), committeeId)) {
+                templates.add(template);
+            }
+        }
+        Collections.sort(templates);
+        return templates;
+    }
+    
     public void setProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceTemplateBase> protocolCorrespondenceTemplates) {
         this.protocolCorrespondenceTemplates = protocolCorrespondenceTemplates;
     }
