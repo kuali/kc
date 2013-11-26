@@ -709,11 +709,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="protocolVersionService" ref="iacucProtocolVersionService" />
-<!-- IACUC
-        <property name="protocolAssignToAgendaService" ref="iacucAssignToAgendaService" />
-        <property name="identityManagementService" ref="identityService"/> 
-        <property name="kcNotificationService" ref="kcNotificationService" />
--->
 		<property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
 		<property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />		 
 		
