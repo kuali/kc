@@ -527,6 +527,13 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     }
     
     /**
+     * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#isCloseEnrollmentAuthorized(org.kuali.kra.irb.ProtocolForm)
+     */
+    public boolean isWithdrawRequestActionAuthorized(ProtocolForm protocolForm) {
+        return hasPermission(TaskName.PROTOCOL_WITHDRAW_SUBMISSION, (Protocol) protocolForm.getProtocolDocument().getProtocol());
+    }
+    
+    /**
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#grantExpeditedApproval(org.kuali.kra.irb.ProtocolForm)
      */
     @SuppressWarnings("deprecation")
@@ -765,10 +772,10 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     /**
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#withdrawRequestAction(org.kuali.kra.irb.ProtocolForm, java.lang.String)
      */
-    public String withdrawRequestAction(ProtocolForm protocolForm, String taskName) throws Exception {
+    public String withdrawRequestAction(ProtocolForm protocolForm) throws Exception {
         ProtocolDocument document = protocolForm.getProtocolDocument();
-        ProtocolRequestAction requestAction = ProtocolRequestAction.valueOfTaskName(taskName);
-        ProtocolRequestBean requestBean = getProtocolRequestBean(protocolForm, taskName);
+        ProtocolRequestAction requestAction = ProtocolRequestAction.valueOfTaskName(TaskName.PROTOCOL_WITHDRAW_SUBMISSION);
+        ProtocolRequestBean requestBean = getProtocolRequestBean(protocolForm, TaskName.PROTOCOL_WITHDRAW_SUBMISSION);
         if (requestBean != null) {
             boolean valid = applyRules(new ProtocolRequestEvent<ProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
             if (valid) {

@@ -144,12 +144,7 @@
                                           taskName="iacucProtocolRequestSuspension"
                                           actionTypeCode="311"
                                           tabTitle="Request for Suspension"/>
-            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolWithdrawSubmissionBean}"
-                                          permission="${KualiForm.actionHelper.canWithdrawSubmission}"
-                                          beanName="iacucProtocolWithdrawSubmissionBean"
-                                          taskName="iacucWithdrawSubmission"
-                                          actionTypeCode="131"
-                                          tabTitle="Withdraw Submission"/>
+            <kra-iacuc-action:withdrawRequestAction />
             <kra-protocol-action:deleteAction attributes="${DataDictionary.IacucProtocolDeleteBean.attributes}"
             							  action="iacucProtocolProtocolActions"/>
             <kra-iacuc-action:genericAction tabTitle="Suspend"

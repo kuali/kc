@@ -266,14 +266,6 @@ public interface TaskName {
     
     public static final String CREATE_IACUC_PROTOCOL = "createIacucProtocol"; 
     public static final String MODIFY_IACUC_PROTOCOL = "modifyIacucProtocol"; 
-//    public static final String DELETE_IACUC_PROTOCOL = "deleteIacucProtocol"; 
-//    public static final String DELETE_IACUC_PROTOCOL_UNAVAILABLE = "deleteIacucProtocolUnavailable"; 
-//    public static final String ADMIN_APPROVE_IACUC_PROTOCOL = "adminApproveIacucProtocol"; 
-//    public static final String ADMIN_APPROVE_IACUC_PROTOCOL_UNAVAILABLE = "adminApproveIacucProtocolUnavailable"; 
-//    public static final String ADMIN_INCOMPLETE_IACUC_PROTOCOL = "adminMarkIncompleteIacucProtocol"; 
-//    public static final String ADMIN_INCOMPLETE_IACUC_PROTOCOL_UNAVAILABLE = "adminMarkIncompleteIacucProtocolUnavailable"; 
-//    public static final String ADMIN_WITHDRAW_IACUC_PROTOCOL = "adminWithdrawIacucProtocol"; 
-//    public static final String ADMIN_WITHDRAW_IACUC_PROTOCOL_UNAVAILABLE = "adminWithdrawIacucProtocolUnavailable"; 
     public static final String RETURN_TO_PI_PROTOCOL = "protocolReturnToPI";
     public static final String RETURN_TO_PI_PROTOCOL_UNAVAILABLE = "protocolReturnToPIUnavailable";
     public static final String REVIEW_NOT_REQUIRED_IACUC_PROTOCOL = "reviewNotRequiredIacucProtocol"; 
@@ -342,8 +334,6 @@ public interface TaskName {
     public static final String IACUC_MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE = "modifyIacucProtocolSubmissionUnavailable";
     public static final String IACUC_PROTOCOL_TABLE = "iacucProtocolTable"; 
     public static final String IACUC_PROTOCOL_TABLE_UNAVAILABLE = "iacucProtocolTableUnavailable"; 
-//    public static final String IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS = "iacucProtocolManageReviewComments";
-//    public static final String IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE = "iacucProtocolManageReviewCommentsUnavailable";
     public static final String IACUC_PROTOCOL_APPROVE_OTHER = "iacucProtocolApproveOther"; 
     public static final String IACUC_PROTOCOL_MANAGE_NOTES = "iacucProtocolManageNotes";
     public static final String IACUC_PROTOCOL_MANAGE_NOTES_UNAVAILABLE = "iacucProtocolManageNotesUnavailable";

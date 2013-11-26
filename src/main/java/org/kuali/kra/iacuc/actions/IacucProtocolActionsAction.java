@@ -15,6 +15,15 @@
  */
 package org.kuali.kra.iacuc.actions;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,8 +52,17 @@ import org.kuali.kra.iacuc.actions.followup.IacucFollowupActionService;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
 import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestBean;
-import org.kuali.kra.iacuc.actions.reviewcomments.*;
-import org.kuali.kra.iacuc.actions.submit.*;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolAddReviewAttachmentEvent;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolAddReviewCommentEvent;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolManageReviewAttachmentEvent;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewAttachmentsBean;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
+import org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction;
 import org.kuali.kra.iacuc.actions.undo.IacucProtocolUndoLastActionService;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
@@ -98,14 +116,6 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class IacucProtocolActionsAction extends IacucProtocolAction {
     
@@ -1157,6 +1167,28 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return forward;
     }
     
+    /**
+     * Withdraws a previously submitted request action.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     * @throws Exception
+     */
+    public ActionForward withdrawRequestAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+            throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if(getProtocolActionRequestService().isWithdrawRequestActionAuthorized(protocolForm)) {
+            String forwardTo = getProtocolActionRequestService().withdrawRequestAction(protocolForm);
+            forward = mapping.findForward(forwardTo);
+        }
+        return forward;
+    }
+    
+
     public ActionForward addRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
             throws Exception {
         System.err.println("addRequestAttachment");
