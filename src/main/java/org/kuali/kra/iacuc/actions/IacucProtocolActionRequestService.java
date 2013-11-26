@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions;
 
+import java.util.List;
+
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.protocol.actions.ProtocolActionRequestService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
-
-import java.util.List;
 
 public interface IacucProtocolActionRequestService extends ProtocolActionRequestService {
 
@@ -266,6 +266,13 @@ public interface IacucProtocolActionRequestService extends ProtocolActionRequest
      * @return
      */
     public boolean isAssignCommitteeAuthorized(IacucProtocolForm protocolForm);
+    
+    
+    /**
+     * @see org.kuali.kra.iacuc.actions.IacucProtocolActionRequestService#isWithdrawRequestActionAuthorized(org.kuali.kra.iacuc.IacucProtocolForm)
+     */
+    public boolean isWithdrawRequestActionAuthorized(IacucProtocolForm protocolForm);
+
     
     /**
      * This method is to grant full approval
@@ -539,6 +546,13 @@ public interface IacucProtocolActionRequestService extends ProtocolActionRequest
      */
     public String assignCommittee(IacucProtocolForm protocolForm) throws Exception;
     
+    /**
+     * Withdraw a previously submitted request
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
+    public String withdrawRequestAction(IacucProtocolForm protocolForm) throws Exception;
 
     public String performNotificationRendering(IacucProtocolForm protocolForm, List<ProtocolReviewerBeanBase> beans);
 
