@@ -1412,8 +1412,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
         String taskName = getTaskName(request);
-        if(getProtocolActionRequestService().isRequestActionAuthorized(protocolForm, taskName)) {
-            String forwardTo = getProtocolActionRequestService().withdrawRequestAction(protocolForm, taskName);
+        if(getProtocolActionRequestService().isWithdrawRequestActionAuthorized(protocolForm)) {
+            String forwardTo = getProtocolActionRequestService().withdrawRequestAction(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
