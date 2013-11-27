@@ -37,6 +37,7 @@ public final class ProposalDevelopmentUtils {
     public static final String PROPOSAL_TYPE_CODE_CONTINUATION_PARM = "PROPOSAL_TYPE_CODE_CONTINUATION";
     public static final String PROPOSAL_TYPE_CODE_REVISION_PARM = "PROPOSAL_TYPE_CODE_REVISION";
     public static final String PROPOSAL_TYPE_CODE_TASK_ORDER_PARM = "PROPOSAL_TYPE_CODE_TASK_ORDER";
+    public static final String AUDIT_INCOMPLETE_PROPOSAL_ATTATCHMENTS_PARM = "AUDIT_INCOMPLETE_PROPOSAL_ATTACHMENTS";
     
     private ProposalDevelopmentUtils() {
         
