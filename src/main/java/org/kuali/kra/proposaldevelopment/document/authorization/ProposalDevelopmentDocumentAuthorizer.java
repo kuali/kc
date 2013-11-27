@@ -139,6 +139,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         if (canExecuteTask(userId, doc, TaskName.CERTIFY)) {
             editModes.add("certify");
         }
+        
+        if (canExecuteTask(userId, doc, TaskName.MODIFY_NARRATIVE_RIGHTS)) {
+            editModes.add("modifyNarratives");
+        }
                 
         if (canExecuteTask(userId, doc, TaskName.PRINT_PROPOSAL)) {
             editModes.add("printProposal");
@@ -179,6 +183,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             if (narrative.getDeleteAttachment(userId)) {
                 editModes.add(prefix + "delete");
             }
+            if (narrative.getModifyNarrativeStatus(userId)) {
+                editModes.add(prefix + "modifyStatus");
+            }
             if (narrative.getModifyNarrativeRights(userId)) {
                 editModes.add(prefix + "modifyRights");
             }
@@ -195,6 +202,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             }
             if (narrative.getDeleteAttachment(userId)) {
                 editModes.add(prefix + "delete");
+            }
+            if (narrative.getModdifyNarrativeStatus(userId)) {
+                editModes.add(prefix + "modifyStatus");
             }
             if (narrative.getModifyNarrativeRights(userId)) {
                 editModes.add(prefix + "modifyRights");

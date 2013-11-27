@@ -510,7 +510,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
 
     public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {
-        // TODO Auto-generated method stub
         return new ProposalDevelopmentKeyPersonsRule().processCalculateCreditSplitBusinessRules(document);
     }
 

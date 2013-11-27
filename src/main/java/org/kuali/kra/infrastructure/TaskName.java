@@ -60,6 +60,7 @@ public interface TaskName {
     public static final String DOWNLOAD_NARRATIVE = "downloadNarrative";
     public static final String DELETE_NARRATIVE = "deleteNarrative";
     public static final String REPLACE_NARRATIVE = "replaceNarrative";
+    public static final String MODIFY_NARRATIVE_STATUS = "modifyNarrativeStatus";
     
     /*
      * Budget Tasks.

@@ -78,34 +78,35 @@ internal attachements.  We are just going to loop through the narratives and see
 	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
 	        </h3>
         </kra:section>
+        <kra:section permission="modifyNarratives">
+			<table cellpadding=0 cellspacing=0 summary="">
+				<tbody>
+		            <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].narratives) > 0}">
+						<tr>
+							<td>
+								<div align="left">
+									<b>Mark all attachments</b>:
+									<html:select property="customDataHelper.narrativeStatusChange"
+										style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;">
+										<html:optionsCollection
+											property="customDataHelper.narrativeStatuses" value="key"
+											label="value"
+											style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;" />
+									</html:select>
+									<html:image
+										property="methodToCall.markAllNarrativeStatuses.anchor${tabKey}"
+										src="${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif"
+										title="update" alt="update" styleClass="tinybutton" />
+								</div>
+							</td>
+						</tr>
+					</c:if>
+				</tbody>
+			</table>
+        </kra:section>
         <table cellpadding=0 cellspacing=0 summary="">
             <kra:section permission="addNarratives">
             	<tbody class="addline">
-		            <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].narratives) > 0}">
-					<tr>
-						<td>
-							<div align="right">
-								<b>Mark all attachments</b>:
-								<html:select property="customDataHelper.narrativeStatusChange"
-									style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;">
-									<html:optionsCollection
-										property="customDataHelper.narrativeStatuses" value="key"
-										label="value"
-										style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;" />
-								</html:select>
-							</div>
-							<div></div>
-						</td>
-						<td colspan="3">
-							<div align="left">
-								<html:image
-									property="methodToCall.markAllNarrativeStatuses.anchor${tabKey}"
-									src="${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif"
-									title="update" alt="update" styleClass="tinybutton" />
-							</div>
-						</td>
-					</tr>
-					</c:if>
 					<tr>
 	         		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}"/></div></th>
 	                <td align="left" valign="middle">
