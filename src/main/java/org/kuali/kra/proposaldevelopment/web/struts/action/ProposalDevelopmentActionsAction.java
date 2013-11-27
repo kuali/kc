@@ -57,6 +57,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.BudgetDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentSubmitToSponsorRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
@@ -182,7 +183,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             if (canGenerateRequestsInFuture(workflowDoc, GlobalVariables.getUserSession().getPrincipalId())) {
                 forward = promptUserForInput(workflowDoc, "approve", mapping, form, request, response);
             } else {
-                forward = super.approve(mapping, form, request, response);    
+                forward = super.approve(mapping, form, request, response);
             }
             
             if (proposalDevelopmentForm.getEditingMode().containsKey("submitToSponsor")
@@ -697,15 +698,20 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
       
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getProposalDevelopmentDocument();
-               
+        
         if (!userCanCreateInstitutionalProposal()) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
         proposalDevelopmentForm.setAuditActivated(true);
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        
+        //cannot be run along side audit rules in ProposalDevelopmentDocumentRule::processRunAuditBusinessRules.
+        boolean valid = new ProposalDevelopmentSubmitToSponsorRule().processRunAuditBusinessRules(proposalDevelopmentDocument);
         int status = isValidSubmission(proposalDevelopmentForm);
+        if(!valid || status == ERROR) {
+            putErrorInGlobalMessageMap();
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
         
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
@@ -720,13 +726,33 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         } else {
             if ( (ConfirmationQuestion.YES.equals(buttonClicked) || status == OK) && requiresResubmissionPrompt(proposalDevelopmentForm)) {
                 return mapping.findForward(Constants.MAPPING_RESUBMISSION_PROMPT);
-            } 
+            }
             forward = submitApplication(mapping, form, request, response);
-        }            
+        }
 
-        return forward;      
+        return forward;
     }
     
+    /*
+     * Used by isValidSubmission and reused in submitToSponsor, this method expects existence of at least a WARNING state/status.
+     * i.e. at least one AuditError exists in Constants.AUDIT_WARNINGS audit cluster category. It also probes the cluster for
+     * clusters belonging to AUDIT_ERRORS. If found, the status/state immediately escalates to, and returns ERROR.
+     */
+    private int putErrorInGlobalMessageMap() {
+        int state = WARNING;
+        for (Iterator iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+            AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(iter.next());
+            if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
+                GlobalVariables.getMessageMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+                return ERROR;
+            }
+            else {
+                state = WARNING;
+            }
+        }
+        return state;
+    }
+
     /**
      * Submit a proposal to GrantsGov.  
      * @param mapping
@@ -835,15 +861,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
              * if we also have some errors.
              */
             if (!auditPassed || !s2sPassed) {
-                state = WARNING;
-                for (Iterator iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
-                    AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(iter.next());
-                    if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
-                        state = ERROR;
-                        GlobalVariables.getMessageMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
-                        break;
-                    }
-                }
+                state = putErrorInGlobalMessageMap();
             }
         }
             
