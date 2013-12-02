@@ -2038,7 +2038,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public void clearNarrativeStatusChangeKey() {
         narrativeStatusesChangeKey = "";
-        narrativeStatusesChange = new NarrativeStatus();
+        narrativeStatusesChange = null;
     }
 
     public void setNarrativeStatusChange(NarrativeStatus narrativeStatus) {
