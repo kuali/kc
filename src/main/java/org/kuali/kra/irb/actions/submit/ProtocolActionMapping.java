@@ -164,21 +164,20 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
     /*
      * look for any submissions of the type "Request xxxx"
      */
-    public boolean getSubmissionCountCond7() {
+    public boolean getAnySubmissionRequests() {
         List <String> submissionTypes = Arrays.asList(new String[] {ProtocolSubmissionType.REQUEST_FOR_SUSPENSION,
                                                                     ProtocolSubmissionType.REQUEST_FOR_TERMINATION,
                                                                     ProtocolSubmissionType.REQUEST_TO_CLOSE,
                                                                     ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT,
                                                                     ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT,
-                                                                    ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY});
+                                                                    ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY,
+                                                                    ProtocolSubmissionType.WITHDRAW_SUBMISSION});
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
         positiveFieldValues.put("submissionTypeCode", submissionTypes);
         List<ProtocolSubmission> submissions = (List<ProtocolSubmission>)businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, positiveFieldValues, "submissionNumber", false);
-        return !submissions.isEmpty() 
-               && submissionTypes.contains(submissions.get(0).getSubmissionTypeCode())
-               && !submissions.get(0).getSubmissionStatusCode().equals(ProtocolSubmissionStatus.WITHDRAWN);
+        return !submissions.isEmpty() && (submissions.size() % 2 != 0);
     }
 
     /**

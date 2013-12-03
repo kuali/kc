@@ -1161,6 +1161,7 @@
         <property name="protocolNotifyService" ref="iacucProtocolNotifyIacucService" />
         <property name="committeeDecisionService" ref="iacucCommitteeDecisionService" />
         <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" /> 
  	</bean>
 
     <bean id="iacucPersonSignatureService" class="org.kuali.kra.iacuc.actions.print.IacucPersonSignatureServiceImpl">
