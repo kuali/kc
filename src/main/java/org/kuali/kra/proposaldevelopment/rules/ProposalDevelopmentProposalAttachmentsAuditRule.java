@@ -29,6 +29,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -43,7 +44,7 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProposalDevelopmentProposalAttachmentsAuditRule implements DocumentAuditRule {
+public class ProposalDevelopmentProposalAttachmentsAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
 
     public static final String AUDIT_CLUSTER_KEY = "proposalAttachmentsAuditWarnings";
     
@@ -210,13 +211,6 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule implements Document
                 }
         
         return auditErrors;
-    }
-    
-    private ParameterService getParameterService() {
-        if(parameterService == null) {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
-        }
-        return parameterService;
     }
     
     private SponsorService getSponsorService() {
