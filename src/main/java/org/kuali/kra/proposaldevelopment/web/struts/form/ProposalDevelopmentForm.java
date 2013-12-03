@@ -104,6 +104,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private Narrative newNarrative;
     private FormFile narrativeFile;
     private boolean showMaintenanceLinks;
+    private boolean questionnaireAnswerableUpToSubmission;
     private ProposalAbstract newProposalAbstract;
     private ProposalPersonBiography newPropPersonBio;
     private Narrative newInstituteAttachment;
@@ -2047,6 +2048,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public NarrativeStatus getNarrativeStatusChange() {
         return narrativeStatusesChange;
+    }
+
+    public boolean isQuestionnaireAnswerableUpToSubmission() {
+        return questionnaireAnswerableUpToSubmission;
+    }
+
+    public void setQuestionnaireAnswerableUpToSubmission(boolean questionnaireAnswerableUpToSubmission) {
+        this.questionnaireAnswerableUpToSubmission = questionnaireAnswerableUpToSubmission;
     }
    
 }

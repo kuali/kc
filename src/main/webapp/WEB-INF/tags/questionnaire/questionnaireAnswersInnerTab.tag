@@ -23,6 +23,7 @@
 <%@ attribute name="readOnly" required="false" %>
 <%@ attribute name="printLineIndex" required="false" %>
 <%@ attribute name="overrideDivClass" required="false" %>
+<%@ attribute name="answerableUpToSubmission" required="false" %>
 
 <c:if test = "${empty forceNonTransparent}">
 	<c:set var = "forceNonTransparent" value = "false"/>
@@ -73,6 +74,6 @@
 			         
 	<div class="tab-container" align="center">
 		<kra-questionnaire:questionnaireAnswersBody  answerHeaderIndex="${answerHeaderIndex}" bean="${bean}" 
-			property="${property}" readOnly="${questReadOnly}" printLineIndex="${printLineIndex}"/>
+			property="${property}" readOnly="${questReadOnly}" printLineIndex="${printLineIndex}" answerable="${answerableUpToSubmission}"/>
 	</div>
 </kul:innerTab>

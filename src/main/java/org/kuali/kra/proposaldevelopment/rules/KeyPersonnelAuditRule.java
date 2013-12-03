@@ -19,6 +19,7 @@ import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -28,6 +29,8 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -52,6 +55,9 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  */
 public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelAuditRule.class);
+
+    private static final String BEFORE_SUBMIT = "BS";
+    private String BEFORE_APPROVE = "BA";
     
     /**
      * 
@@ -64,7 +70,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         if (!hasPrincipalInvestigator(pd)) {
             retval = false;
 
-            getAuditErrors().add(new AuditError(PRINCIPAL_INVESTIGATOR_KEY , ERROR_INVESTIGATOR_LOWBOUND, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
+            getAuditErrors(AUDIT_ERRORS).add(new AuditError(PRINCIPAL_INVESTIGATOR_KEY , ERROR_INVESTIGATOR_LOWBOUND, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
         }
         // Include normal save document business rules
         retval &= new ProposalDevelopmentKeyPersonsRule().processCustomSaveDocumentBusinessRules(pd);
@@ -96,7 +102,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
     private boolean validateEraCommonUserName(ProposalPerson person, int personCount) {
         boolean retval = true;
         if (person.getEraCommonsUserName() == null) {
-            getAuditErrors().add(new AuditError(
+            getAuditErrors(AUDIT_ERRORS).add(new AuditError(
                     "document.developmentProposalList[0].proposalPersons[" + personCount + "].eraCommonUserName", 
                         ERROR_ERA_COMMON_USER_NAME, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()}));
             retval = false;
@@ -119,26 +125,41 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         final String errorStarter = "proposalPersonQuestionnaireHelpers[";
         final String errorFinish = "].answerHeaders[0].answers[0].answer";
         final String errorLink = KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR;
-        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            if (shouldValidateYesNoQuestions(person) && !validateYesNoQuestions(person)) {
-                retval = false;
-                String errorKey = errorStarter + count + errorFinish;
-                
-                /**
-                 * This is so the error displays on the audit log.
-                 */
-                error = new AuditError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, 
-                        errorLink, new String[]{person.getFullName()});
-                getAuditErrors().add(error);
-                
-                /**
-                * this is for displaying the error on the applicable tab.
-                */
-                reportError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
-                        new String[]{person.getFullName()});
+        String questionnaireAuditDeferral = ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.KEY_PERSON_CERTIFICATION_DEFERRAL_PARM);
+            
+            for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
+                if (shouldValidateYesNoQuestions(person) && !validateYesNoQuestions(person)) {
+                    String errorKey = errorStarter + count + errorFinish;
+
+                    if(questionnaireAuditDeferral.equals(BEFORE_SUBMIT)) {
+    
+                        retval = false;
+                        
+                        /**
+                         * This is so the error displays on the audit log.
+                         */
+                        error = new AuditError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, 
+                                errorLink, new String[]{person.getFullName()});
+                        getAuditErrors(AUDIT_ERRORS).add(error);
+                        
+                        /**
+                        * this is for displaying the error on the applicable tab.
+                        */
+                        reportError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
+                                new String[]{person.getFullName()});
+                    }
+                    else if(questionnaireAuditDeferral.equals(BEFORE_APPROVE)){
+                        error = new AuditError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
+                                errorLink, new String[]{person.getFullName()});
+
+                        getAuditErrors(AUDIT_WARNINGS).add(error);
+                        
+                        reportWarning(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, new String[]{person.getFullName()});
+                        retval = true;
+                    }
+                }
+                count++;
             }
-            count++;
-        }
         return retval;
     }
     
@@ -304,11 +325,11 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
      * 
      * @return List of AuditError instances
      */
-    private List<AuditError> getAuditErrors() {
+    private List<AuditError> getAuditErrors(String category) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!KNSGlobalVariables.getAuditErrorMap().containsKey("keyPersonnelAuditErrors")) {
-           KNSGlobalVariables.getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+           KNSGlobalVariables.getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, category));
         }
         else {
             auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get("keyPersonnelAuditErrors")).getAuditErrorList();
