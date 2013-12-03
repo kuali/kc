@@ -15,9 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.sql.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -36,6 +41,16 @@ public class LookupableDevelopmentProposal extends KraPersistableBusinessObjectB
     private String proposalNumber;
 
     private String title;
+
+    private String ownedByUnitNumber;
+
+    private Unit ownedByUnit;
+
+    private String proposalTypeCode;
+
+    private ProposalType proposalType;
+
+    private Date deadlineDate;
 
     public String getSponsorCode() {
         return sponsorCode;
@@ -77,5 +92,59 @@ public class LookupableDevelopmentProposal extends KraPersistableBusinessObjectB
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getOwnedByUnitNumber() {
+        return ownedByUnitNumber;
+    }
+
+    public void setOwnedByUnitNumber(String ownedByUnit) {
+        this.ownedByUnitNumber = ownedByUnit;
+    }
+
+    public Unit getOwnedByUnit() {
+        return ownedByUnit;
+    }
+
+    public void setOwnedByUnit(Unit ownedByUnit) {
+        this.ownedByUnit = ownedByUnit;
+    }
+
+    public String getProposalTypeCode() {
+        return proposalTypeCode;
+    }
+
+    public void setProposalTypeCode(String proposalTypeCode) {
+        this.proposalTypeCode = proposalTypeCode;
+    }
+
+    public String getProposalTypeDescription() {
+        if (getProposalType() == null && getProposalTypeCode() != null) {
+            refreshReferenceObject("proposalType");
+        }
+        if (getProposalType() != null) {
+            return getProposalType().getDescription();
+        }
+        return null;
+    }
+
+    public Date getDeadlineDate() {
+        return deadlineDate;
+    }
+
+    public void setDeadlineDate(Date deadlineDate) {
+        this.deadlineDate = deadlineDate;
+    }
+
+    public String getOwnedByUnitName() {
+        Unit unit = getOwnedByUnit();
+        return unit != null ? unit.getUnitName() : null;
+    }
+
+    public ProposalType getProposalType() {
+        if (proposalType == null && proposalTypeCode != null) {
+            proposalType = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(ProposalType.class, proposalTypeCode);
+        }
+        return proposalType;
     }
 }
