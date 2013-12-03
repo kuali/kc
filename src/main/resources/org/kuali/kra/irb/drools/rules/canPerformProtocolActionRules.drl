@@ -446,7 +446,7 @@ end
 rule "Withdraw Submission Request"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200","201","202","203","300","301","302","308","311"), submissionCountCond7 == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200","201","202","203","300","301","302","308","311"), anySubmissionRequests == true)
 then	
 	setAction(protocolAction, true);
 end

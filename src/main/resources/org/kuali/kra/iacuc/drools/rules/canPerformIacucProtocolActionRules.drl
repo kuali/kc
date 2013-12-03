@@ -397,7 +397,7 @@ end
 rule "Withdraw Submission Request"
 salience 100
 when
-	protocolAction : IacucProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200","201","202","305","306"), submissionCountCond7 == true)
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200","201","202","305","306"), anySubmissionRequests == true)
 then	
 	setAction(protocolAction, true);
 end
