@@ -1111,6 +1111,7 @@
         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
         <property name="personService" ref="personService"/>
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
+        <property name="protocolActionService" ref="protocolActionService" />
  	</bean>
 
     <bean id="irbPersonSignatureService" class="org.kuali.kra.irb.actions.print.IrbPersonSignatureServiceImpl">

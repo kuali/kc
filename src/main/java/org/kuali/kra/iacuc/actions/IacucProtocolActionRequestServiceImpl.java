@@ -16,7 +16,9 @@
 package org.kuali.kra.iacuc.actions;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,10 +68,12 @@ import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestEvent;
 import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestRule;
 import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestService;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
@@ -104,7 +108,6 @@ import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
@@ -146,6 +149,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     private IacucProtocolNotifyIacucService protocolNotifyService;
     private IacucCommitteeDecisionService committeeDecisionService;
     private IacucProtocolAssignCmtService assignToCmtService;
+    private IacucProtocolActionService protocolActionService;
     
     private static final String ACTION_NAME_CONTINUATION_WITHOUT_AMENDMENT = "Create Continuation without Amendment";
     private static final String ACTION_NAME_CONTINUATION_WITH_AMENDMENT = "Create Continuation with Amendment";
@@ -1305,14 +1309,28 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
      */
     public String withdrawRequestAction(IacucProtocolForm protocolForm) throws Exception {
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
         IacucProtocolRequestAction requestAction = IacucProtocolRequestAction.valueOfTaskName(TaskName.IACUC_WITHDRAW_SUBMISSION);
         IacucProtocolRequestBean requestBean = getProtocolRequestBean(protocolForm, TaskName.IACUC_WITHDRAW_SUBMISSION);
         if (requestBean != null) {
             boolean valid = applyRules(new IacucProtocolRequestEvent<IacucProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
             if (valid) {
                 // find recently submitted action request and complete it
-                ProtocolSubmissionBase submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
+                IacucProtocolSubmission submission = protocol.getIacucProtocolSubmission();
+                submission.setProtocolNumber(protocol.getProtocolNumber());
+                submission.setProtocolId(protocol.getProtocolId());
+                submission.setSubmissionTypeCode(IacucProtocolSubmissionType.WITHDRAW_SUBMISSION);
+                submission.setProtocolReviewTypeCode(IacucProtocolReviewType.FYI);
                 submission.setSubmissionStatusCode(IacucProtocolSubmissionStatus.WITHDRAWN);
+                submission.setSubmissionDate(new Date(Calendar.getInstance().getTimeInMillis()));
+                submission.setComments(requestBean.getReason());
+                IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, null, IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION);
+                protocolAction.setComments(requestBean.getReason());
+                protocolAction.setActionDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+                protocolAction.setSubmissionIdFk(submission.getSubmissionId());
+                protocolAction.setSubmissionNumber(submission.getSubmissionNumber());
+                document.getProtocol().getProtocolActions().add(protocolAction);
+                getProtocolActionService().updateProtocolStatus(protocolAction, document.getProtocol());
                 getBusinessObjectService().save(submission);
                 recordProtocolActionSuccess(requestAction.getActionName());
                 return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IacucConstants.PROTOCOL_ACTIONS_TAB);
@@ -1387,6 +1405,14 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
 
     public void setProtocolAmendRenewService(IacucProtocolAmendRenewService protocolAmendRenewService) {
         this.protocolAmendRenewService = protocolAmendRenewService;
+    }
+
+    public IacucProtocolActionService getProtocolActionService() {
+        return protocolActionService;
+    }
+
+    public void setProtocolActionService(IacucProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
     }
 
     @Override
