@@ -129,16 +129,18 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
     /*
      * look for any submissions of the type "Request xxxx"
      */
-    public boolean getSubmissionCountCond7() {
+    public boolean getAnySubmissionRequests() {
         List <String> submissionTypes = Arrays.asList(new String[] {IacucProtocolSubmissionType.REQUEST_SUSPEND,
                                                                     IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD,
-                                                                    IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE});
+                                                                    IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE,
+                                                                    IacucProtocolSubmissionType.WITHDRAW_SUBMISSION});
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
         positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
         positiveFieldValues.put("submissionTypeCode", submissionTypes);
-        return businessObjectService.countMatching(IacucProtocolSubmission.class, positiveFieldValues) != 0;
+        List<IacucProtocolSubmission> submissions = (List<IacucProtocolSubmission>)businessObjectService.findMatchingOrderBy(IacucProtocolSubmission.class, positiveFieldValues, "submissionNumber", false);
+        return !submissions.isEmpty() && (submissions.size() % 2 != 0);
     }
 
     /**

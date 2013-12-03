@@ -15,6 +15,13 @@
  */
 package org.kuali.kra.irb.actions;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,7 +66,16 @@ import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
-import org.kuali.kra.irb.actions.notification.*;
+import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.NotifyCommitteeNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolClosedNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolDisapprovedNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolExpiredNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.irb.actions.notification.ProtocolSuspendedByDSMBNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolSuspendedNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolTerminatedNotificationRenderer;
 import org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
@@ -67,6 +83,7 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestRule;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -101,11 +118,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestServiceImpl implements IrbProtocolActionRequestService {
     private static final Log LOG = LogFactory.getLog(IrbProtocolActionRequestServiceImpl.class);
 
@@ -125,6 +137,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     private CommitteeService committeeService;
     private ProtocolReviewNotRequiredService protocolReviewNotRequiredService;
     private ProtocolAssignReviewersService protocolAssignReviewersService;
+    private ProtocolActionService protocolActionService;
     
     private static final String ACTION_NAME_RESPONSE_APPROVAL = "Response Approval";
     private static final String ACTION_NAME_CLOSE_ENROLLMENT = "Close Enrollment";
@@ -782,6 +795,13 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
                 // find recently submitted action request and complete it
                 ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
                 submission.setSubmissionStatusCode(ProtocolSubmissionStatus.WITHDRAWN);
+                ProtocolAction protocolAction = new ProtocolAction(document.getProtocol(), null, ProtocolActionType.WITHDRAW_SUBMISSION);
+                protocolAction.setComments(requestBean.getReason());
+                protocolAction.setActionDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+                protocolAction.setSubmissionIdFk(submission.getSubmissionId());
+                protocolAction.setSubmissionNumber(submission.getSubmissionNumber());
+                document.getProtocol().getProtocolActions().add(protocolAction);
+                getProtocolActionService().updateProtocolStatus(protocolAction, document.getProtocol());
                 getBusinessObjectService().save(submission);
                 recordProtocolActionSuccess(requestAction.getActionName());
                 return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IrbConstants.PROTOCOL_ACTIONS_TAB);
@@ -1329,6 +1349,14 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     protected ProtocolTaskBase getProtocolTaskInstanceHook(String taskName, ProtocolBase protocol) {
         ProtocolTask task = new ProtocolTask(taskName, (Protocol)protocol);
         return task;
+    }
+
+    public ProtocolActionService getProtocolActionService() {
+        return protocolActionService;
+    }
+
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
     }
 
     @Override
