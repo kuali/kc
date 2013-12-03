@@ -45,7 +45,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     private ProposalDevelopmentForm proposalDevelopmentForm;
     
     private QuestionnaireService questionnaireService;
-
+    
     /**
      * Constructs a ProposalPersonQuestionnaireHelper.java.
      * @param form
@@ -95,6 +95,10 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     private void initializePermissions(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         ProposalTask task = new ProposalTask(TaskName.CERTIFY, proposalDevelopmentDocument);
         setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+    }
+    
+    private void setCanAnswerAfterRouting() {
+        
     }
 
     @Override
@@ -165,4 +169,5 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     public void setQuestionnaireService(QuestionnaireService questionnaireService) {
         this.questionnaireService = questionnaireService;
     }
+
 }

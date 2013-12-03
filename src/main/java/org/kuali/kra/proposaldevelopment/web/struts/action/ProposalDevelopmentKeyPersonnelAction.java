@@ -111,6 +111,20 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
     
+    /**
+     * 
+     * This method will save answers to a questionnaire after the proposal has been routed for approval.
+     * It should not be available after the proposal has been approved.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward completeQuestionnaireAfterRouting(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward(MAPPING_BASIC);
+    }
     
     /**
      * Common helper method for preparing to <code>{@link #execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)}</code>
@@ -134,7 +148,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 helper.updateChildIndicator(i);
             }
         }
-        
+        //need to set this based on route status, permissions...
+        pdform.setQuestionnaireAnswerableUpToSubmission(true);
         pdform.populatePersonEditableFields();
         handleRoleChangeEvents(pdform.getProposalDevelopmentDocument());
         
@@ -331,7 +346,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             
             List<AnswerHeader> answerHeaders = this.getQuestionnaireAnswerService().getQuestionnaireAnswer(helper.getModuleQnBean());
             helper.setAnswerHeaders(answerHeaders);
-
+            
         }  
 
         return mapping.findForward(MAPPING_BASIC);

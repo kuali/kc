@@ -20,6 +20,7 @@
 <%@ attribute name="answerHeaderIndex" required="true" %>
 <%@ attribute name="readOnly" required="true" %>
 <%@ attribute name="printLineIndex" required="true" %>
+<%@ attribute name="answerable" required="false" %>
 
 	    <c:if test="${bean.answerHeaders[answerHeaderIndex].newerVersionPublished and not readOnly}">
             <kra-questionnaire:updateQuestionnaireAnswer  answerHeaderIndex="${answerHeaderIndex}" bean = "${bean}" property = "${property}"/>        
@@ -96,7 +97,7 @@
 				
                 <c:choose>
                     <%-- decide whether it is readonly mode --%>
-                    <c:when test = "${readOnly}" >
+                    <c:when test = "${readOnly and not answerable}" >
                        <c:choose>
                             <c:when test = "${answer.question.questionTypeId == 1 or answer.question.questionTypeId == 2}" >
                                 <c:choose>
@@ -140,6 +141,17 @@
                                 </div>
                             </td>
                         </tr>
+                        <c:if test="${answerable}">
+                        <tr>
+                        	<td>
+                        		<div float="left">
+                        			<html:image property="methodToCall.completeQuestionnaireAfterRouting.${property}.line${printLineIndex}.anchor"
+	                   				src='${ConfigProperties.kew.externalizable.images.url}tinybutton-save.gif' styleClass="tinybutton"
+                       				alt="Complete Questionnaire" title="Complete Questionnaire" onclick="excludeSubmitRestriction = true;"/>
+                       			</div>
+                        	</td>
+                        </tr>
+                        </c:if>
                     </table>
 
 
