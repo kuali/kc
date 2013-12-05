@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.actions;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -108,6 +109,7 @@ import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
@@ -134,6 +136,10 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             put("4", "Return for Substantive Revisions Required");
         }
     };
+
+    private static List <String> requestSubmissionTypes = Arrays.asList(new String[] {IacucProtocolSubmissionType.REQUEST_SUSPEND,
+                                                                                      IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD,
+                                                                                      IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE});
 
     private IacucProtocolApproveService protocolApproveService;
     private IacucProtocolSubmitActionService protocolSubmitActionService;
@@ -1316,24 +1322,27 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             boolean valid = applyRules(new IacucProtocolRequestEvent<IacucProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
             if (valid) {
                 // find recently submitted action request and complete it
-                IacucProtocolSubmission submission = protocol.getIacucProtocolSubmission();
-                submission.setProtocolNumber(protocol.getProtocolNumber());
-                submission.setProtocolId(protocol.getProtocolId());
-                submission.setSubmissionTypeCode(IacucProtocolSubmissionType.WITHDRAW_SUBMISSION);
-                submission.setProtocolReviewTypeCode(IacucProtocolReviewType.FYI);
-                submission.setSubmissionStatusCode(IacucProtocolSubmissionStatus.WITHDRAWN);
-                submission.setSubmissionDate(new Date(Calendar.getInstance().getTimeInMillis()));
-                submission.setComments(requestBean.getReason());
-                IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, null, IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION);
-                protocolAction.setComments(requestBean.getReason());
-                protocolAction.setActionDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-                protocolAction.setSubmissionIdFk(submission.getSubmissionId());
-                protocolAction.setSubmissionNumber(submission.getSubmissionNumber());
-                document.getProtocol().getProtocolActions().add(protocolAction);
-                getProtocolActionService().updateProtocolStatus(protocolAction, document.getProtocol());
-                getBusinessObjectService().save(submission);
-                recordProtocolActionSuccess(requestAction.getActionName());
-                return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IacucConstants.PROTOCOL_ACTIONS_TAB);
+System.out.println("fetching the one that matters...");                
+                List<ProtocolSubmissionBase> submissions = protocol.getProtocolSubmissions();
+                ProtocolSubmissionBase submission = null;
+                for (ProtocolSubmissionBase sub: submissions) {
+                    if (requestSubmissionTypes.contains(sub.getSubmissionTypeCode())) {
+                        submission = sub;
+                    }
+                }
+                if (submission != null) {
+                    submission.setSubmissionStatusCode(IacucProtocolSubmissionStatus.WITHDRAWN);
+                    IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, null, IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION);
+                    protocolAction.setComments(requestBean.getReason());
+                    protocolAction.setActionDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+                    protocolAction.setSubmissionIdFk(submission.getSubmissionId());
+                    protocolAction.setSubmissionNumber(submission.getSubmissionNumber());
+                    document.getProtocol().getProtocolActions().add(protocolAction);
+                    getProtocolActionService().updateProtocolStatus(protocolAction, document.getProtocol());
+                    getBusinessObjectService().save(submission);
+                    recordProtocolActionSuccess(requestAction.getActionName());
+                    return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IacucConstants.PROTOCOL_ACTIONS_TAB);
+                }
             }
         }
         return Constants.MAPPING_BASIC;
