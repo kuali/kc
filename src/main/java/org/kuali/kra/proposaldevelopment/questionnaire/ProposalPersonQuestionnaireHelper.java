@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -28,6 +30,10 @@ import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class...
@@ -45,6 +51,10 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     private ProposalDevelopmentForm proposalDevelopmentForm;
     
     private QuestionnaireService questionnaireService;
+    
+    private ParameterService parameterService;
+    
+    private boolean canAnswerAfterRouting = false;
     
     /**
      * Constructs a ProposalPersonQuestionnaireHelper.java.
@@ -95,10 +105,30 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     private void initializePermissions(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         ProposalTask task = new ProposalTask(TaskName.CERTIFY, proposalDevelopmentDocument);
         setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
-    }
-    
-    private void setCanAnswerAfterRouting() {
-        
+        Person user = GlobalVariables.getUserSession().getPerson();
+        String keyPersonCertDeferral = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "KEY_PERSON_CERTIFICATION_DEFERRAL");
+        if(keyPersonCertDeferral.equals("BS") || ObjectUtils.isNull(getProposalDevelopmentDocument())) {
+            setCanAnswerAfterRouting(false);
+        }
+        else if(keyPersonCertDeferral.equals("BA")) {
+            boolean isEnroute = getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
+            if(!isEnroute) {
+                setCanAnswerAfterRouting(false);
+            } else {
+                //questionnaires should continue to be answerable only to the following approvers.
+                ProposalPersonRole personRole = proposalPerson.getRole();
+                if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
+                        || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
+                        || personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE)) {
+                    if(proposalPerson.getPerson().getPersonId().equals(user.getPrincipalId())) {
+                        setCanAnswerAfterRouting(true);
+                    }
+                }
+            }
+        }
+        else {
+            //KEY_PERSON_CERTIFICATION_DEFERRAL is set to an improper value.
+        }
     }
 
     @Override
@@ -168,6 +198,26 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
 
     public void setQuestionnaireService(QuestionnaireService questionnaireService) {
         this.questionnaireService = questionnaireService;
+    }
+    
+    protected ParameterService getParameterService() {
+        if(parameterService == null) {
+            parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public boolean getCanAnswerAfterRouting() {
+        return canAnswerAfterRouting;
+    }
+
+
+    public void setCanAnswerAfterRouting(boolean canAnswerAfterRouting) {
+        this.canAnswerAfterRouting = canAnswerAfterRouting;
     }
 
 }
