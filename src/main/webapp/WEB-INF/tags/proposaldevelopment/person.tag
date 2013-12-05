@@ -719,14 +719,14 @@
 			<c:set var="property" value="proposalPersonQuestionnaireHelpers[${personIndex}]" />
 			<c:set var="bean" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
 			<c:set var ="completed" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].answerHeaders[0].allQuestionsAnswered}"/>
-			<c:set var="questionnaireAnswerableUpToSubmission" value="${KualiForm.questionnaireAnswerableUpToSubmission}"/>
+			<c:set var="questionnaireAnswerableUpToApproval" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].canAnswerAfterRouting}"/>
         <%-- hidden rule results --%>
             <input type="hidden" name="ruleReferenced" id ="ruleReferenced" 
        					value = "${bean.ruleReferenced}" />
 			
 			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" 
-				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}"
-				printLineIndex="${personIndex }" answerableUpToSubmission="${questionnaireAnswerableUpToSubmission}"/>
+				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" completed="${completed}"
+				printLineIndex="${personIndex }" answerableUpToApproval="${questionnaireAnswerableUpToApproval}"/>
 		</td>
 	</tr>
   </c:when>
@@ -763,11 +763,12 @@
 			<c:set var="property" value="proposalPersonQuestionnaireHelpers[${personIndex}]" />
 			<c:set var="bean" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
 			<c:set var ="completed" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].answerHeaders[0].allQuestionsAnswered}"/>
-			
+			<c:set var="questionnaireAnswerableUpToApproval" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].canAnswerAfterRouting}"/>			
 			
 			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" 
 				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" 
-				printLineIndex="${personIndex }"/>
+				completed="${completed}"
+				printLineIndex="${personIndex }" answerableUpToApproval="${questionnaireAnswerableUpToApproval}"/>
 				
 			<%--<kra-questionnaire:questionnaireAnswers bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}"/>--%>
 		</td>
