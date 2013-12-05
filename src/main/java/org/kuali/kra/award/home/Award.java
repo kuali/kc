@@ -1652,11 +1652,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * Get a comment by type. If it does not exist, then create it.
      */
 
-    public AwardComment getAwardCommentByType(String awardTypeCode, boolean checklistPrintFlag, boolean createNew) {
+    public AwardComment getAwardCommentByType(String awardTypeCode, Boolean checklistPrintFlag, boolean createNew) {
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(awardTypeCode);
         if ((awardComment == null && createNew)) {
-            awardComment = awardCommentFactory.createAwardComment(awardTypeCode, checklistPrintFlag);
+            awardComment = awardCommentFactory.createAwardComment(awardTypeCode, (checklistPrintFlag == null ? false : checklistPrintFlag.booleanValue()));
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
