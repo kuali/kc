@@ -170,14 +170,18 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
                                                                     ProtocolSubmissionType.REQUEST_TO_CLOSE,
                                                                     ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT,
                                                                     ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT,
-                                                                    ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY,
-                                                                    ProtocolSubmissionType.WITHDRAW_SUBMISSION});
+                                                                    ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY});
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
         positiveFieldValues.put("submissionTypeCode", submissionTypes);
         List<ProtocolSubmission> submissions = (List<ProtocolSubmission>)businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, positiveFieldValues, "submissionNumber", false);
-        return !submissions.isEmpty() && (submissions.size() % 2 != 0);
+        for (ProtocolSubmission submission:submissions) {
+            if (submission.getSubmissionStatusCode().equals(ProtocolSubmissionStatus.PENDING)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

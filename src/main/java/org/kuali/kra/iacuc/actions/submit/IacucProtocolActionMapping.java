@@ -15,14 +15,17 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionMappingBase;
-
-import java.util.*;
 
 /*
  * This class is for the condition attributes of of the protocol action.
@@ -132,15 +135,19 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
     public boolean getAnySubmissionRequests() {
         List <String> submissionTypes = Arrays.asList(new String[] {IacucProtocolSubmissionType.REQUEST_SUSPEND,
                                                                     IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD,
-                                                                    IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE,
-                                                                    IacucProtocolSubmissionType.WITHDRAW_SUBMISSION});
+                                                                    IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE});
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
         positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
         positiveFieldValues.put("submissionTypeCode", submissionTypes);
         List<IacucProtocolSubmission> submissions = (List<IacucProtocolSubmission>)businessObjectService.findMatchingOrderBy(IacucProtocolSubmission.class, positiveFieldValues, "submissionNumber", false);
-        return !submissions.isEmpty() && (submissions.size() % 2 != 0);
+        for (IacucProtocolSubmission submission:submissions) {
+            if (submission.getSubmissionStatusCode().equals(IacucProtocolSubmissionStatus.PENDING)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
