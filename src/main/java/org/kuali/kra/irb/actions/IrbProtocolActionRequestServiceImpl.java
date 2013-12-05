@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +88,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
@@ -105,6 +107,7 @@ import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolActionRequestServiceImpl;
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
@@ -163,7 +166,14 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             put("4", "Return for Substantive Revisions Required");
         }
     };
-    
+
+    List <String> requestSubmissionTypes = Arrays.asList(new String[] {ProtocolSubmissionType.REQUEST_FOR_SUSPENSION,
+                                                                       ProtocolSubmissionType.REQUEST_FOR_TERMINATION,
+                                                                       ProtocolSubmissionType.REQUEST_TO_CLOSE,
+                                                                       ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT,
+                                                                       ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT,
+                                                                       ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY});
+
     /**
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#isExpeditedApprovalAuthorized(org.kuali.kra.irb.ProtocolForm)
      */
@@ -793,18 +803,26 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             boolean valid = applyRules(new ProtocolRequestEvent<ProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
             if (valid) {
                 // find recently submitted action request and complete it
-                ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
-                submission.setSubmissionStatusCode(ProtocolSubmissionStatus.WITHDRAWN);
-                ProtocolAction protocolAction = new ProtocolAction(document.getProtocol(), null, ProtocolActionType.WITHDRAW_SUBMISSION);
-                protocolAction.setComments(requestBean.getReason());
-                protocolAction.setActionDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-                protocolAction.setSubmissionIdFk(submission.getSubmissionId());
-                protocolAction.setSubmissionNumber(submission.getSubmissionNumber());
-                document.getProtocol().getProtocolActions().add(protocolAction);
-                getProtocolActionService().updateProtocolStatus(protocolAction, document.getProtocol());
-                getBusinessObjectService().save(submission);
-                recordProtocolActionSuccess(requestAction.getActionName());
-                return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IrbConstants.PROTOCOL_ACTIONS_TAB);
+                List<ProtocolSubmissionBase> submissions = document.getProtocol().getProtocolSubmissions();
+                ProtocolSubmissionBase submission = null;
+                for (ProtocolSubmissionBase sub: submissions) {
+                    if (requestSubmissionTypes.contains(sub.getSubmissionTypeCode())) {
+                        submission = sub;
+                    }
+                }
+                if (submission != null) {
+                    submission.setSubmissionStatusCode(ProtocolSubmissionStatus.WITHDRAWN);
+                    ProtocolAction protocolAction = new ProtocolAction(document.getProtocol(), null, ProtocolActionType.WITHDRAW_SUBMISSION);
+                    protocolAction.setComments(requestBean.getReason());
+                    protocolAction.setActionDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+                    protocolAction.setSubmissionIdFk(submission.getSubmissionId());
+                    protocolAction.setSubmissionNumber(submission.getSubmissionNumber());
+                    document.getProtocol().getProtocolActions().add(protocolAction);
+                    getProtocolActionService().updateProtocolStatus(protocolAction, document.getProtocol());
+                    getBusinessObjectService().save(submission);
+                    recordProtocolActionSuccess(requestAction.getActionName());
+                    return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IrbConstants.PROTOCOL_ACTIONS_TAB);
+                }
             }
         }
         return Constants.MAPPING_BASIC;
