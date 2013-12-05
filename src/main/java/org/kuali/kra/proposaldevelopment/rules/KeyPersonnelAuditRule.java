@@ -132,23 +132,19 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
                     String errorKey = errorStarter + count + errorFinish;
 
                     if(questionnaireAuditDeferral.equals(BEFORE_SUBMIT)) {
-    
                         retval = false;
-                        
-                        /**
-                         * This is so the error displays on the audit log.
-                         */
+                        //display error in the audit pane
                         error = new AuditError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, 
                                 errorLink, new String[]{person.getFullName()});
                         getAuditErrors(AUDIT_ERRORS).add(error);
                         
-                        /**
-                        * this is for displaying the error on the applicable tab.
-                        */
+                        //display error within the tab.
                         reportError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
                                 new String[]{person.getFullName()});
                     }
                     else if(questionnaireAuditDeferral.equals(BEFORE_APPROVE)){
+                        //Only a warning in this instance. Questionnaire must be answered before the
+                        //user can submit to sponsor, or approve the proposal, in the case of PI/COI/KP
                         error = new AuditError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
                                 errorLink, new String[]{person.getFullName()});
 

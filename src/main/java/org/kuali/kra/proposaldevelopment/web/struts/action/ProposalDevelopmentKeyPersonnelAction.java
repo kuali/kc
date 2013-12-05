@@ -35,6 +35,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentYnqAuditRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -123,6 +124,25 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward completeQuestionnaireAfterRouting(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        boolean rulePassed = true;
+        ProposalDevelopmentDocument pd = pdform.getProposalDevelopmentDocument();
+        rulePassed &= getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getProposalDevelopmentDocument()));
+        if(rulePassed) {
+            List<AnswerHeader> answerHeadersToSave = new ArrayList<AnswerHeader>();
+            for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers()) {
+                //doing this check to make sure the person wasn't automatically deleted after adding.
+                if(helper.getProposalPerson().getPersonId().equals(GlobalVariables.getUserSession().getPrincipalId())) {
+                    if (pdform.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().contains(helper.getProposalPerson())) {
+                        helper.preSave();
+                        answerHeadersToSave.addAll(helper.getAnswerHeaders());
+                    }
+                }
+            }
+            if (!answerHeadersToSave.isEmpty()) {
+                this.getBusinessObjectService().save(answerHeadersToSave);
+            }
+        }
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -149,7 +169,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             }
         }
         //need to set this based on route status, permissions...
-        pdform.setQuestionnaireAnswerableUpToSubmission(true);
         pdform.populatePersonEditableFields();
         handleRoleChangeEvents(pdform.getProposalDevelopmentDocument());
         
