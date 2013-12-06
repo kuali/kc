@@ -557,7 +557,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             if (!existsAlready) {
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(masterHeader);
                 copiedAnswerHeader.setAnswerHeaderId(null);
-                copiedAnswerHeader.setModuleItemCode(updateDisclosure.getCoiDisclosureId().toString());
+                copiedAnswerHeader.setModuleItemKey(updateDisclosure.getCoiDisclosureId().toString());
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);
                 }
