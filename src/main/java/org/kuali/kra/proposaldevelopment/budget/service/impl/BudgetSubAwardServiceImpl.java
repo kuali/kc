@@ -157,19 +157,27 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             if (BudgetDecimal.returnZeroIfNull(detail.getDirectCost()).isNonZero() || hasBeenChanged(detail, true)) {
                 BudgetDecimal ltValue = lesserValue(detail.getDirectCost(), amountChargeFA);
                 BudgetDecimal gtValue = detail.getDirectCost().subtract(ltValue);
-                BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directLtCostElement);
-                lt.setLineItemCost(ltValue);
-                BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directGtCostElement);
-                gt.setLineItemCost(gtValue);
+                if (ltValue.isNonZero()) {
+                    BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directLtCostElement);
+                    lt.setLineItemCost(ltValue);
+                }
+                if (gtValue.isNonZero()) {
+                    BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directGtCostElement);
+                    gt.setLineItemCost(gtValue);
+                }
                 amountChargeFA = amountChargeFA.subtract(ltValue);
             }
             if (BudgetDecimal.returnZeroIfNull(detail.getIndirectCost()).isNonZero() || hasBeenChanged(detail, false)) {
                 BudgetDecimal ltValue = lesserValue(detail.getIndirectCost(), amountChargeFA);
                 BudgetDecimal gtValue = detail.getIndirectCost().subtract(ltValue);
-                BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectLtCostElement);
-                lt.setLineItemCost(ltValue);
-                BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectGtCostElement);
-                gt.setLineItemCost(gtValue);
+                if (ltValue.isNonZero()) {
+                    BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectLtCostElement);
+                    lt.setLineItemCost(ltValue);
+                }
+                if (gtValue.isNonZero()) {
+                    BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectGtCostElement);
+                    gt.setLineItemCost(gtValue);
+                }
                 amountChargeFA = amountChargeFA.subtract(ltValue);
             }
             Collections.sort(currentLineItems, new Comparator<BudgetLineItem>() {
