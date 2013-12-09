@@ -53,13 +53,8 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     private transient String groupAndSpecies;
     private transient Integer oldProtocolSpeciesId;
     
-    // Used to display summary (grouped by species group)
-    private List<IacucProtocolStudyGroupBean> protocolStudyProcedures;
-    private Integer totalSpeciesCount = 0;
-    
     public IacucProtocolSpecies() { 
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
-        setProtocolStudyProcedures(new ArrayList<IacucProtocolStudyGroupBean>());
     } 
     
     public Integer getIacucProtocolSpeciesId() {
@@ -263,25 +258,5 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
         this.oldProtocolSpeciesId = oldProtocolSpeciesId;
     }
 
-    public boolean isStudyExists() {
-        return !protocolStudyProcedures.isEmpty();
-    }
-
-    public List<IacucProtocolStudyGroupBean> getProtocolStudyProcedures() {
-        return protocolStudyProcedures;
-    }
-
-    public void setProtocolStudyProcedures(List<IacucProtocolStudyGroupBean> protocolStudyProcedures) {
-        this.protocolStudyProcedures = protocolStudyProcedures;
-    }
-
-    public Integer getTotalSpeciesCount() {
-        return totalSpeciesCount;
-    }
-
-    public void setTotalSpeciesCount(Integer totalSpeciesCount) {
-        this.totalSpeciesCount = totalSpeciesCount;
-    }
-    
 
 }

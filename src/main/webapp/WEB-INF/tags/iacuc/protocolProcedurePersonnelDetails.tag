@@ -86,7 +86,7 @@
 				<c:set var="displayTitle" value="Procedures Conducted by: ${person.personName}" />
 				<c:set var="procedureCollectionReference" value="${KualiForm.document.protocolList[0].protocolPersons[status.index].procedureDetails}" />
 				<c:set var="procedureCollectionProperty" value="document.protocolList[0].protocolPersons" />
-		 		<c:set var="submitMethod" value="setEditPersonProcedures" />
+		 		<c:set var="submitMethod" value="setEditPersonProcedures.line${procedurePersonIndex}" />
    				<kra-iacuc:iacucProtocolEditProcedures
                     procedureIndex="${procedurePersonIndex}"
                     displayTitle="${displayTitle}"

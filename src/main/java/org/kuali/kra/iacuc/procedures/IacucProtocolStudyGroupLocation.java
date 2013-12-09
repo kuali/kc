@@ -16,19 +16,18 @@
 package org.kuali.kra.iacuc.procedures;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.IacucLocationType;
-import org.kuali.kra.protocol.ProtocolAssociateBase;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase { 
+public class IacucProtocolStudyGroupLocation extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
 
     private Integer iacucProtocolStudyGroupLocationId; 
+    private Integer iacucProtocolStudyGroupId; 
     private Integer studyGroupLocationId; 
     private Integer locationTypeCode; 
     private Integer locationId; 
@@ -37,11 +36,16 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
     
     private IacucLocationType iacucLocationType; 
     private IacucLocationName iacucLocationName; 
+    private IacucProtocolStudyGroup iacucProtocolStudyGroup; 
     
-    private List<IacucProcedureLocationDetail> procedureDetails;
+    /* 
+     * List of protocol studies and related procedures grouped by species
+     * This collection is populated during protocol procedure actions
+     */
+    private List<IacucProtocolSpeciesStudyGroup> procedureDetails;
     
     public IacucProtocolStudyGroupLocation() { 
-        setProcedureDetails(new ArrayList<IacucProcedureLocationDetail>());
+        setProcedureDetails(new ArrayList<IacucProtocolSpeciesStudyGroup>());
     } 
     
     public Integer getIacucProtocolStudyGroupLocationId() {
@@ -114,7 +118,6 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
         this.iacucLocationName = iacucLocationName;
     }
 
-    @Override
     public void resetPersistenceState() {
         this.setIacucProtocolStudyGroupLocationId(null);        
     }
@@ -149,18 +152,28 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
         return true;
     }
 
-    public List<IacucProcedureLocationDetail> getProcedureDetails() {
+    public List<IacucProtocolSpeciesStudyGroup> getProcedureDetails() {
         return procedureDetails;
     }
 
-    public void setProcedureDetails(List<IacucProcedureLocationDetail> procedureDetails) {
+    public void setProcedureDetails(List<IacucProtocolSpeciesStudyGroup> procedureDetails) {
         this.procedureDetails = procedureDetails;
     }
 
-    @Override
-    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {      
-        List<Collection<PersistableBusinessObject>> deleteAwareList = super.buildListOfDeletionAwareLists();
-        deleteAwareList.add((Collection) getProcedureDetails());
-        return deleteAwareList;
+    public IacucProtocolStudyGroup getIacucProtocolStudyGroup() {
+        return iacucProtocolStudyGroup;
     }
+
+    public void setIacucProtocolStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
+        this.iacucProtocolStudyGroup = iacucProtocolStudyGroup;
+    }
+
+    public Integer getIacucProtocolStudyGroupId() {
+        return iacucProtocolStudyGroupId;
+    }
+
+    public void setIacucProtocolStudyGroupId(Integer iacucProtocolStudyGroupId) {
+        this.iacucProtocolStudyGroupId = iacucProtocolStudyGroupId;
+    }
+
 }
