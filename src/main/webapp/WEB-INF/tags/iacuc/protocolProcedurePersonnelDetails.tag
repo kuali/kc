@@ -19,6 +19,7 @@
 <c:set var="personResponsibleAttributes" value="${DataDictionary.IacucProcedurePersonResponsible.attributes}" />
 <c:set var="personAttributes" value="${DataDictionary.IacucProtocolPerson.attributes}" />
 <c:set var="protocolPersonAttributes" value="${DataDictionary.IacucProtocolPerson.attributes}" />
+<c:set var="procedureViewedBySpecies" value="${KualiForm.iacucProtocolProceduresHelper.procedureViewedBySpecies}" />
 
 <script type="text/javascript">
 	var saveButtonClicked = false;
@@ -93,7 +94,8 @@
                     procedureCollectionReference="${procedureCollectionReference}"
                     procedureCollectionProperty="${procedureCollectionProperty}"
                     submitMethod="${submitMethod}" 
-                    isPersonEditProcedure="true"/>
+                    isPersonEditProcedure="true"
+                    procedureViewedBySpecies="${procedureViewedBySpecies}"/>
 			</c:forEach>
    		</table>
 </kul:innerTab>

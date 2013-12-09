@@ -27,6 +27,8 @@
               description="Indicate the method to trigger on submit" %>
 <%@ attribute name="isPersonEditProcedure" required="true" 
               description="Indicate whether this is part of person edit procedure " %>
+<%@ attribute name="procedureViewedBySpecies" required="true" 
+              description="Indicate whether procedure panel view mode is arranged by species " %>
 <c:set var="modifyPermission" value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}" />
 <c:set var="readOnly" value="${!modifyPermission}" />
 
@@ -39,8 +41,12 @@
    	<c:forEach var="procedure" items="${procedureCollectionReference}" varStatus="procStatus">
        	<tr>
            	<th align="left">
-	            	<c:out value="${procedure.iacucSpecies.speciesName}"/>
-            	</th>
+				<c:set var="speciesName" value="${procedure.iacucProtocolSpecies.groupAndSpecies}" />
+           		<c:if test="${procedureViewedBySpecies}">
+					<c:set var="speciesName" value="${procedure.iacucSpecies.speciesName}" />
+           		</c:if>
+            	<c:out value="${speciesName}"/>
+            </th>
         </tr>
 		<c:set var="collectionReference" value="${procedure.responsibleProcedures}" />
 		<c:set var="collectionProperty" value="${procedureCollectionProperty}[${procedureIndex}].procedureDetails[${procStatus.index}].responsibleProcedures" />
