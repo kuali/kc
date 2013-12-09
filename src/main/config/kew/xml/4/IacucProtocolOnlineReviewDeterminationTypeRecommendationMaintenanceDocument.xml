@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>IacucProtocolOnlineReviewDeterminTypeRecommendMaintDocument</name>
+            <description>Create/Edit IACUC Pro Online Review Deter Type Recommendation</description>
+            <label>IACUC Protocol Review Determination Type Recommendation Code</label>
+            <parent>KcComplianceMaintenanceDocument</parent>
+            <helpDefinitionURL>default.htm?turl=Documents/protocolonlinereviewdeterminationtyperecommendationcodes.htm</helpDefinitionURL>
+        </documentType>
+    </documentTypes>    
+</data>
