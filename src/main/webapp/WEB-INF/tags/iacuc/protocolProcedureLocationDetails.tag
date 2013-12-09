@@ -21,6 +21,7 @@
 <c:set var="modifyPermission" value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}" />
 <c:set var="readOnly" value="${!modifyPermission}" />
 <c:set var="procedureLocationProperty" value="iacucProtocolProceduresHelper" />
+<c:set var="procedureViewedBySpecies" value="${KualiForm.iacucProtocolProceduresHelper.procedureViewedBySpecies}" />
 
 <kul:innerTab tabTitle="Location" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="newIacucProtocolStudyGroupLocation*" useCurrentTabIndexAsKey="true">
 	<div class="innerTab-container" align="left">
@@ -179,7 +180,8 @@
                     procedureCollectionReference="${procedureCollectionReference}"
                     procedureCollectionProperty="${procedureCollectionProperty}"
                     submitMethod="${submitMethod}" 
-                    isPersonEditProcedure="false"/>
+                    isPersonEditProcedure="false"
+                    procedureViewedBySpecies="${procedureViewedBySpecies}"/>
         	</c:forEach>
         </table>
     </div>
