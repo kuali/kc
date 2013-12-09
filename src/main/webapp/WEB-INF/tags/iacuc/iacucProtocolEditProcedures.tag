@@ -39,19 +39,19 @@
    	<c:forEach var="procedure" items="${procedureCollectionReference}" varStatus="procStatus">
        	<tr>
            	<th align="left">
-	            	<c:out value="${procedure.iacucProtocolStudyGroupSpecies.iacucSpecies.speciesName}"/>
+	            	<c:out value="${procedure.iacucSpecies.speciesName}"/>
             	</th>
         </tr>
 		<c:set var="collectionReference" value="${procedure.responsibleProcedures}" />
 		<c:set var="collectionProperty" value="${procedureCollectionProperty}[${procedureIndex}].procedureDetails[${procStatus.index}].responsibleProcedures" />
       	<c:forEach var="responsibleProcedure" items="${collectionReference}" varStatus="detailStatus">
-    		<c:set var="prop" value="${collectionProperty}[${detailStatus.index}].studyProcedureActive"/>
+    		<c:set var="prop" value="${collectionProperty}[${detailStatus.index}].procedureSelected"/>
         	${kfunc:registerEditableProperty(KualiForm, prop)} 
         	<input type="hidden" name="checkboxToReset" value="${prop}"/>
               	<tr>
               		<td>
-            		<html:checkbox styleClass="checkBox" property="${collectionProperty}[${detailStatus.index}].studyProcedureActive" onclick="return !${readOnly}"/>
-			    	<c:out value="${responsibleProcedure.iacucProtocolStudyGroupBean.iacucProcedure.procedureDescription}" />
+            		<html:checkbox styleClass="checkBox" property="${collectionProperty}[${detailStatus.index}].procedureSelected" onclick="return !${readOnly}"/>
+			    	<c:out value="${responsibleProcedure.iacucProcedure.procedureDescription}" />
            		</td>
            	</tr>	
       	</c:forEach>

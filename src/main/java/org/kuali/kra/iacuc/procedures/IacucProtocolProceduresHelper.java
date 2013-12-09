@@ -190,4 +190,7 @@ public class IacucProtocolProceduresHelper implements Serializable{
         this.summaryGroupedBySpecies = summaryGroupedBySpecies;
     }
 
+    public boolean isProcedureViewedBySpecies() {
+        return getIacucProtocolProcedureService().isProcedureViewedBySpecies();
+    }
 }

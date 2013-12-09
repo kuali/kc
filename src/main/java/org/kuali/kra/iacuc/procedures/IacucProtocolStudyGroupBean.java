@@ -42,17 +42,24 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
 
     private List<IacucProtocolStudyGroup> iacucProtocolStudyGroups;
 
+    // Below list is grouped by species
+    private List<IacucProtocolSpeciesStudyGroup> iacucProtocolSpeciesStudyGroups;
+    
     // used for summary
-    private List<IacucProcedureLocationDetail> iacucProtocolStudyGroupLocations;
+    private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
     private List<IacucProcedurePersonResponsible> iacucProtocolStudyGroupPersons;
     private List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList;
     private Integer speciesCount = 0;
+
+    private boolean procedureSelected;
+    private boolean newProcedure;
     
     public IacucProtocolStudyGroupBean() {
         setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroup>());
         setIacucProtocolStudyGroupPersons(new ArrayList<IacucProcedurePersonResponsible>());
-        setIacucProtocolStudyGroupLocations(new ArrayList<IacucProcedureLocationDetail>());
+        setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
         setIacucProtocolStudyCustomDataList(new ArrayList<IacucProtocolStudyCustomData>());
+        setIacucProtocolSpeciesStudyGroups(new ArrayList<IacucProtocolSpeciesStudyGroup>());
         resetStudyGroupItems();
     }
     
@@ -186,14 +193,6 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
         this.iacucProtocolStudyGroups = iacucProtocolStudyGroups;
     }
 
-    public List<IacucProcedureLocationDetail> getIacucProtocolStudyGroupLocations() {
-        return iacucProtocolStudyGroupLocations;
-    }
-
-    public void setIacucProtocolStudyGroupLocations(List<IacucProcedureLocationDetail> iacucProtocolStudyGroupLocations) {
-        this.iacucProtocolStudyGroupLocations = iacucProtocolStudyGroupLocations;
-    }
-
     public List<IacucProcedurePersonResponsible> getIacucProtocolStudyGroupPersons() {
         return iacucProtocolStudyGroupPersons;
     }
@@ -226,4 +225,36 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
         return deleteAwareList;
     }
 
+    public List<IacucProtocolSpeciesStudyGroup> getIacucProtocolSpeciesStudyGroups() {
+        return iacucProtocolSpeciesStudyGroups;
+    }
+
+    public void setIacucProtocolSpeciesStudyGroups(List<IacucProtocolSpeciesStudyGroup> iacucProtocolSpeciesStudyGroups) {
+        this.iacucProtocolSpeciesStudyGroups = iacucProtocolSpeciesStudyGroups;
+    }
+
+    public boolean isProcedureSelected() {
+        return procedureSelected;
+    }
+
+    public void setProcedureSelected(boolean procedureSelected) {
+        this.procedureSelected = procedureSelected;
+    }
+
+    public boolean isNewProcedure() {
+        return newProcedure;
+    }
+
+    public void setNewProcedure(boolean newProcedure) {
+        this.newProcedure = newProcedure;
+    }
+
+    public List<IacucProtocolStudyGroupLocation> getIacucProtocolStudyGroupLocations() {
+        return iacucProtocolStudyGroupLocations;
+    }
+
+    public void setIacucProtocolStudyGroupLocations(List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations) {
+        this.iacucProtocolStudyGroupLocations = iacucProtocolStudyGroupLocations;
+    }
+    
 }

@@ -101,6 +101,7 @@
         	<c:forEach var="protocolLocation" items="${collectionReference}" varStatus="status">
                	<c:set var="locationName" value="${protocolLocation.iacucLocationName.locationName}" />
                	<c:set var="locationId" value="${protocolLocation.locationId}" />
+				<c:set var="procedureLocationIndex" value="${status.index}"/>
                 <tr>
 					<th class="infoline">
 					   <c:out value="${status.index+1}" />
@@ -171,7 +172,7 @@
 				<c:set var="displayTitle" value="Procedures at ${locationName}, ${protocolLocation.locationRoom}" />
 				<c:set var="procedureCollectionReference" value="${KualiForm.document.protocolList[0].iacucProtocolStudyGroupLocations[status.index].procedureDetails}" />
 				<c:set var="procedureCollectionProperty" value="document.protocolList[0].iacucProtocolStudyGroupLocations" />
-				<c:set var="submitMethod" value="setEditLocationProcedures" />
+				<c:set var="submitMethod" value="setEditLocationProcedures.line${procedureLocationIndex}" />
    				<kra-iacuc:iacucProtocolEditProcedures
                     procedureIndex="${procedureIndex}"
                     displayTitle="${displayTitle}"

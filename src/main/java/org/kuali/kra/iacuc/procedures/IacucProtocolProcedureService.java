@@ -71,6 +71,12 @@ public interface IacucProtocolProcedureService {
     public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, 
             IacucProtocolStudyGroup deletedIacucProtocolStudyGroup, IacucProtocol iacucProtocol);
     
+    /**
+     * This method is to remove selected procedure that are grouped by species
+     * @param selectedProtocolStudyGroupBean
+     * @param deletedIacucProtocolStudyGroup
+     */
+    public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, IacucProtocolSpeciesStudyGroup deletedIacucProtocolStudyGroup);
     
     /**
      * This method is to add a new location to study group
@@ -92,11 +98,10 @@ public interface IacucProtocolProcedureService {
     public void setTrainingDetails(IacucProtocol protocol);
     
     /**
-     * This method is to add procedure details for a new protocol person
+     * This method is to add responsible procedures for each protocol person
      * @param protocol
-     * @param protocolPerson
      */
-    public void addPersonResponsibleProcedures(IacucProtocol protocol, IacucProtocolPerson protocolPerson);
+    public void addPersonResponsibleProcedures(IacucProtocol protocol);
     
     /**
      * This method is to set procedure summary tab details
@@ -151,5 +156,38 @@ public interface IacucProtocolProcedureService {
      */
     public void mergeProtocolProcedurePersonnel(IacucProtocol destProtocol);
 
+    
+    /**
+     * This method is to synchronize study details that are grouped based on species
+     * @param iacucProtocol
+     */
+    public void synchronizeProtocolStudyGroups(IacucProtocol iacucProtocol);
+    
+    /**
+     * This method is to rearrange person procedures and group them by species
+     * @param iacucProtocol
+     */
+    public void populateIacucSpeciesPersonProcedures(IacucProtocol iacucProtocol);
+    
+    /**
+     * This method is to rearrange location procedures and group them by species
+     * @param iacucProtocol
+     */
+    public void populateIacucSpeciesLocationProcedures(IacucProtocol iacucProtocol);
+
+    /**
+     * This method is to assign procedures to each location
+     * @param protocol
+     * @param iacucProtocolStudyGroupLocation
+     */
+    public void addLocationResponsibleProcedures(IacucProtocol protocol);    
+
+    /**
+     * This method is to identify whether procedure is viewed by species or group.
+     * If not by species, then procedure panel is displayed by group
+     * Identified through system parameter configuration.
+     * @return
+     */
+    public boolean isProcedureViewedBySpecies();
     
 }

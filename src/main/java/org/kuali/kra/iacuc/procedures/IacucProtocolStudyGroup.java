@@ -16,13 +16,11 @@
 package org.kuali.kra.iacuc.procedures;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase { 
     
@@ -30,7 +28,6 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 1L;
 
     private Integer iacucProtocolStudyGroupId; 
-    private Integer studyGroupId; 
     private Integer iacucProtocolSpeciesId; 
     private String  painCategory;
     private Integer painCategoryCode; 
@@ -42,11 +39,15 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
     private IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean;
     
     private List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList;
+    private List<IacucProcedurePersonResponsible> iacucProcedurePersonResponsibleList;
+    private List<IacucProtocolStudyGroupLocation> iacucProcedureLocationResponsibleList;
     
     private Integer procedureBeanIndex;
-    
+
     public IacucProtocolStudyGroup() { 
         setIacucProtocolStudyCustomDataList(new ArrayList<IacucProtocolStudyCustomData>());
+        setIacucProcedurePersonResponsibleList(new ArrayList<IacucProcedurePersonResponsible>());
+        setIacucProcedureLocationResponsibleList(new ArrayList<IacucProtocolStudyGroupLocation>());
     } 
     
     public Integer getIacucProtocolStudyGroupId() {
@@ -55,15 +56,6 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
 
     public void setIacucProtocolStudyGroupId(Integer iacucProtocolStudyGroupId) {
         this.iacucProtocolStudyGroupId = iacucProtocolStudyGroupId;
-    }
-
-
-    public Integer getStudyGroupId() {
-        return studyGroupId;
-    }
-
-    public void setStudyGroupId(Integer studyGroupId) {
-        this.studyGroupId = studyGroupId;
     }
 
     public Integer getIacucProtocolSpeciesId() {
@@ -130,23 +122,24 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
             return false;
         }
         IacucProtocolStudyGroup other = (IacucProtocolStudyGroup) obj;
-        if (this.painCategoryCode == null) {
-            if (other.painCategoryCode != null) {
+        if (this.iacucProtocolStudyGroupId == null) {
+            if (other.iacucProtocolStudyGroupId != null) {
                 return false;
             }
-        } else if (!this.painCategoryCode.equals(other.painCategoryCode)) {
+        } else if (!this.iacucProtocolStudyGroupId.equals(other.iacucProtocolStudyGroupId)) {
             return false;
         }
-        if (this.count == null) {
-            if (other.count != null) {
+        if (this.iacucProtocolSpeciesId == null) {
+            if (other.iacucProtocolSpeciesId != null) {
                 return false;
             }
-        } else if (!this.count.equals(other.count)) {
+        } else if (!this.iacucProtocolSpeciesId.equals(other.iacucProtocolSpeciesId)) {
             return false;
         }
         return true;
     }
 
+    
     public List<IacucProtocolStudyCustomData> getIacucProtocolStudyCustomDataList() {
         return iacucProtocolStudyCustomDataList;
     }
@@ -175,6 +168,9 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
     }
 
     public IacucProtocolStudyGroupBean getIacucProtocolStudyGroupBean() {
+        if (iacucProtocolStudyGroupBean == null) {
+            refreshReferenceObject("iacucProtocolStudyGroupBean");
+        }
         return iacucProtocolStudyGroupBean;
     }
 
@@ -186,10 +182,21 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
         setIacucProtocolStudyGroupId(null);
     }
     
-    @Override
-    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {      
-        List<Collection<PersistableBusinessObject>> deleteAwareList = super.buildListOfDeletionAwareLists();
-        deleteAwareList.add((Collection) getIacucProtocolStudyCustomDataList());
-        return deleteAwareList;
+    public List<IacucProcedurePersonResponsible> getIacucProcedurePersonResponsibleList() {
+        return iacucProcedurePersonResponsibleList;
     }
+
+    public void setIacucProcedurePersonResponsibleList(List<IacucProcedurePersonResponsible> iacucProcedurePersonResponsibleList) {
+        this.iacucProcedurePersonResponsibleList = iacucProcedurePersonResponsibleList;
+    }
+
+    public List<IacucProtocolStudyGroupLocation> getIacucProcedureLocationResponsibleList() {
+        return iacucProcedureLocationResponsibleList;
+    }
+
+    public void setIacucProcedureLocationResponsibleList(List<IacucProtocolStudyGroupLocation> iacucProcedureLocationResponsibleList) {
+        this.iacucProcedureLocationResponsibleList = iacucProcedureLocationResponsibleList;
+    }
+
+
 }

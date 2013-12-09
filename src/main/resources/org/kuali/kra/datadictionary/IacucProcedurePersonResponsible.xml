@@ -34,7 +34,7 @@
         <property name="attributes" >
             <list>
 				<ref bean="IacucProcedurePersonResponsible-iacucProcedurePersonResponsibleId" />
-				<ref bean="IacucProcedurePersonResponsible-iacucProtocolStudyGroupSpeciesId" />
+				<ref bean="IacucProcedurePersonResponsible-iacucProtocolStudyGroupId" />
 				<ref bean="IacucProcedurePersonResponsible-trainingDetails" />
 				<ref bean="IacucProcedurePersonResponsible-protocolPersonId" />
             </list>
@@ -61,7 +61,7 @@
         <property name="description" value="Procedure Person Responsible Id" />
     </bean>
     
-    <bean id="IacucProcedurePersonResponsible-iacucProtocolStudyGroupSpeciesId" parent="IacucProtocolStudyGroupSpecies-iacucProtocolStudyGroupSpeciesId-parentBean" />
+    <bean id="IacucProcedurePersonResponsible-iacucProtocolStudyGroupId" parent="IacucProtocolStudyGroup-iacucProtocolStudyGroupId-parentBean" />
 
     <bean id="IacucProcedurePersonResponsible-protocolPersonId" parent="IacucProtocolPerson-protocolPersonId-parentBean" />
 
@@ -94,7 +94,7 @@
 								p:attributeName="iacucProcedurePersonResponsibleId" 
 								p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="iacucProtocolStudyGroupSpeciesId" />
+                                p:attributeName="iacucProtocolStudyGroupId" />
 						</list>
 					</property>
 				</bean>
@@ -118,7 +118,7 @@
 					p:attributeName="iacucProcedurePersonResponsibleId" 
 					p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="iacucProtocolStudyGroupSpeciesId" />
+                    p:attributeName="iacucProtocolStudyGroupId" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -127,7 +127,7 @@
 					p:attributeName="iacucProcedurePersonResponsibleId"
 					p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="iacucProtocolStudyGroupSpeciesId" />
+                    p:attributeName="iacucProtocolStudyGroupId" />
 			</list>
 		</property>
 	</bean>

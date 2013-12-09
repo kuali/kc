@@ -16,31 +16,34 @@
 package org.kuali.kra.iacuc.personnel;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
+import org.kuali.kra.iacuc.procedures.IacucProtocolSpeciesStudyGroup;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 
 public class IacucProtocolPerson extends ProtocolPersonBase {
 
     private static final long serialVersionUID = 6676849646094141708L;
     private String procedureQualificationDescription;
-    private List<IacucProcedurePersonResponsible> procedureDetails;
     private List<IacucPersonTraining> iacucPersonTrainings;
     
     private static final String PERSON_TRAINED_TRUE = "Yes";
     private static final String PERSON_TRAINED_FALSE = "No";
     
+    /* 
+     * List of protocol studies and related procedures grouped by species
+     * This collection is populated during protocol procedure actions
+     */
+    private List<IacucProtocolSpeciesStudyGroup> procedureDetails;
+    
+    
     public IacucProtocolPerson() {
         super();
-        setProcedureDetails(new ArrayList<IacucProcedurePersonResponsible>());
         setIacucPersonTrainings(new ArrayList<IacucPersonTraining>());
     }
     
@@ -56,14 +59,6 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
         this.procedureQualificationDescription = procedureQualificationDescription;
     }
 
-    public List<IacucProcedurePersonResponsible> getProcedureDetails() {
-        return procedureDetails;
-    }
-
-    public void setProcedureDetails(List<IacucProcedurePersonResponsible> procedureDetails) {
-        this.procedureDetails = procedureDetails;
-    }
-
     public List<IacucPersonTraining> getIacucPersonTrainings() {
         return iacucPersonTrainings;
     }
@@ -76,14 +71,6 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
         return getIacucPersonTrainings().size() > 0 ? PERSON_TRAINED_TRUE : PERSON_TRAINED_FALSE;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {      
-        List<Collection<PersistableBusinessObject>> deleteAwareList = super.buildListOfDeletionAwareLists();
-        deleteAwareList.add((Collection) getProcedureDetails());
-        return deleteAwareList;
-    }
-
     @Override
     protected void postLoad() {
         super.postLoad();
@@ -93,4 +80,13 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
         return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
     }
+
+    public List<IacucProtocolSpeciesStudyGroup> getProcedureDetails() {
+        return procedureDetails;
+    }
+
+    public void setProcedureDetails(List<IacucProtocolSpeciesStudyGroup> procedureDetails) {
+        this.procedureDetails = procedureDetails;
+    }
+
 }

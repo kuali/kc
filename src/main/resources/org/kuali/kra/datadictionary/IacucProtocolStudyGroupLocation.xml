@@ -36,10 +36,10 @@
 		<property name="attributes" >
 			<list>
 			    <ref bean="IacucProtocolStudyGroupLocation-iacucProtocolStudyGroupLocationId" />
+				<ref bean="IacucProtocolStudyGroupLocation-iacucProtocolStudyGroupId" />
 				<ref bean="IacucProtocolStudyGroupLocation-studyGroupLocationId" />
 				<ref bean="IacucProtocolStudyGroupLocation-locationTypeCode" />
 				<ref bean="IacucProtocolStudyGroupLocation-locationId" />
-				<ref bean="IacucProtocolStudyGroupLocation-protocolId" />
 				<ref bean="IacucProtocolStudyGroupLocation-studyGroupLocationDescription" />
 				<ref bean="IacucProtocolStudyGroupLocation-locationRoom" />
 				<ref bean="IacucProtocolStudyGroupLocation-versionNumber" />
@@ -67,6 +67,8 @@
         <property name="description" value="Protocol Study Group Location Id" />
     </bean>
 
+    <bean id="IacucProtocolStudyGroupLocation-iacucProtocolStudyGroupId" parent="IacucProtocolStudyGroup-iacucProtocolStudyGroupId-parentBean" />
+
     <bean id="IacucProtocolStudyGroupLocation-locationTypeCode" parent="IacucLocationType-locationTypeCode-parentBean">
 		<property name="label" value="Type" />
 		<property name="shortLabel" value="Type" />
@@ -87,24 +89,6 @@
 				p:valuesFinderClass="org.kuali.kra.iacuc.IacucLocationNameValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
-	</bean>
-
-	<bean id="IacucProtocolStudyGroupLocation-protocolId" parent="IacucProtocolStudyGroupLocation-protocolId-parentBean" />
-	<bean id="IacucProtocolStudyGroupLocation-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="protocolId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Id" />
-		<property name="shortLabel" value="Protocol Id" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Protocol Id" />
-		<property name="description" value="Protocol Id" />
 	</bean>
 
 	<bean id="IacucProtocolStudyGroupLocation-studyGroupLocationDescription" parent="IacucProtocolStudyGroupLocation-studyGroupLocationDescription-parentBean" />
@@ -187,8 +171,6 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="iacucProtocolStudyGroupLocationId" 
 								p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protocolId" />
 						</list>
 					</property>
 				</bean>
@@ -211,8 +193,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="iacucProtocolStudyGroupLocationId" 
 					p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolId" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -220,8 +200,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="iacucProtocolStudyGroupLocationId"
 					p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolId" />
 			</list>
 		</property>
 	</bean>
