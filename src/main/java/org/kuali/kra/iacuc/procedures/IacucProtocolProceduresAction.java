@@ -137,6 +137,14 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         getIacucProtocolProcedureService().synchronizeProtocolStudyGroups(getIacucProtocol(form));
     }
     
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        super.save(mapping, form, request, response);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        return mapping.findForward(getProcedureActionForward(protocolForm));
+    }
+    
     public ActionForward deleteProcedureLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolStudyGroupLocation procedureLocation = getSelectedProcedureLocation(protocolForm, request);
@@ -150,9 +158,8 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_PROCEDURE_LOCATION_KEY.equals(question)) {
             IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-            IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
             IacucProtocolStudyGroupLocation procedureLocation = getSelectedProcedureLocation(protocolForm, request);
-            document.getIacucProtocol().getIacucProtocolStudyGroupLocations().remove(procedureLocation);
+            getIacucProtocolProcedureService().deleteProcedureLocation(procedureLocation, getIacucProtocol(protocolForm));
         }
         return mapping.findForward(IacucConstants.PROCEDURE_LOCATION);
     }
@@ -313,6 +320,23 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PROCEDURES);
         return actionForward;        
+    }
+    
+    private String getProcedureActionForward(IacucProtocolForm protocolForm) {
+        IacucProcedureNavigation currentProcedureTab = protocolForm.getIacucProtocolProceduresHelper().getCurrentProcedureDetailTab();
+        String procedureActionForwardName = Constants.MAPPING_BASIC;
+        switch(currentProcedureTab) {
+            case PERSONNEL :
+                procedureActionForwardName = IacucConstants.PROCEDURE_PERSONNEL;
+                break;
+            case LOCATION :
+                procedureActionForwardName = IacucConstants.PROCEDURE_LOCATION;
+                break;
+            case SUMMARY :
+                procedureActionForwardName = IacucConstants.PROCEDURE_SUMMARY;
+                break;
+        }
+        return procedureActionForwardName;
     }
 
 }

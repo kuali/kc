@@ -190,4 +190,11 @@ public interface IacucProtocolProcedureService {
      */
     public boolean isProcedureViewedBySpecies();
     
+    /**
+     * This method is to remove location from study group details
+     * @param deletedIacucProtocolStudyGroupLocation
+     * @param iacucProtocol
+     */
+    public void deleteProcedureLocation(IacucProtocolStudyGroupLocation deletedIacucProtocolStudyGroupLocation, IacucProtocol iacucProtocol);
+    
 }
