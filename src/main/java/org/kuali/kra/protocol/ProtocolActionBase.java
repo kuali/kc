@@ -232,7 +232,7 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
      * {@inheritDoc}
      */
     @Override
-    public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);

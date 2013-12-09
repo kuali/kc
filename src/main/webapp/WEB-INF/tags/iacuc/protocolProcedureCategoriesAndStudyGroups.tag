@@ -34,7 +34,6 @@
 	<tr>
   		<th><div align="left">&nbsp;</div></th> 
   		<th width="60%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${studyGroupBeanAttributes.protocolSpeciesAndGroups}" noColon="true" /></div></th>
-  		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolStudyGroupAttributes.painCategoryCode}" noColon="true" /></nobr></div></th>
   		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolStudyGroupAttributes.count}" noColon="true" /></div></th>
 		<c:if test="${!readOnly}">
 			<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
@@ -51,11 +50,6 @@
             		<kul:htmlControlAttribute property="${procedureBeanProperty}.protocolSpeciesAndGroups" 
          		                          attributeEntry="${studyGroupBeanAttributes.protocolSpeciesAndGroups}" 
          		                          readOnly="${readOnly}" styleClass="fixed-size-850-select"/>
-         		</div>
-			</td>
-         	<td width="10%" align="left" valign="middle" class="infoline">
-            	<div align="center">
-            		&nbsp;
          		</div>
 			</td>
          	<td width="10%" align="left" valign="middle" class="infoline">
@@ -85,13 +79,6 @@
 	      	</td>
 	      	<td align="left" valign="middle" class="infoline">
 	         	<div align="center">
-            		<kul:htmlControlAttribute property="${collectionProperty}[${detailStatus.index}].painCategoryCode" 
-         		                          attributeEntry="${protocolStudyGroupAttributes.painCategoryCode}" 
-         		                          readOnly="${readOnly}" />
-	      		</div>
-	      	</td>
-	      	<td align="left" valign="middle" class="infoline">
-	         	<div align="center">
             		<kul:htmlControlAttribute property="${collectionProperty}[${detailStatus.index}].count" 
          		                          attributeEntry="${protocolStudyGroupAttributes.count}" 
          		                          readOnly="${readOnly}" />
@@ -111,7 +98,7 @@
 	    	<td align="left" valign="middle" class="infoline">
 	      		&nbsp;
 	      	</td>
-	     	<td colspan="4">
+	     	<td colspan="5">
 				<c:set var="procedureCustomDataList" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[procedureBeanIndex].iacucProtocolStudyGroups[detailStatus.index].iacucProtocolStudyCustomDataList}" />
 				<c:set var="procedureCategoryName" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[procedureBeanIndex].procedureCategory}" />
 	     		<kra-iacuc:procedureCustomData
