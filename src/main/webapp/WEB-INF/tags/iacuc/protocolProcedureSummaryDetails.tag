@@ -49,32 +49,22 @@
 	        </span>
   			<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolIncludedCategoriesHelp" altText="Help"/></span>
      	</h3>
-  		<c:choose>
-  			<c:when test="${summaryBySpecies}">
-				<c:forEach items="${KualiForm.document.protocolList[0].iacucProtocolStudyGroupSpeciesList}" var="procedureSpecies" varStatus="status">
+		<c:forEach items="${KualiForm.document.protocolList[0].iacucProtocolStudyGroupSpeciesList}" var="procedureSpecies" varStatus="status">
+			<c:set var="tabTitle" value="${procedureSpecies.iacucSpecies.speciesName}" />
+			<c:set var="studyProcedureCollectionReference" value="${procedureSpecies.responsibleProcedures}" />
+			<c:set var="totalSpeciesCount" value="${procedureSpecies.totalSpeciesCount}" />
+  			<c:choose>
+  				<c:when test="${summaryBySpecies}">
 					<c:set var="tabTitle" value="${procedureSpecies.iacucSpecies.speciesName}" />
-					<c:set var="studyProcedureCollectionReference" value="${procedureSpecies.protocolStudyProcedures}" />
-					<c:set var="totalSpeciesCount" value="${procedureSpecies.totalSpeciesCount}" />
-		 			<kra-iacuc:procedureSummaryGrouped
-		            	tabTitle="${tabTitle}"
-		            	totalSpeciesCount="${totalSpeciesCount}"
-		                studyProcedureCollectionReference="${studyProcedureCollectionReference}"/>
-				</c:forEach>
-  			</c:when>
-  			<c:otherwise>
-				<c:forEach items="${KualiForm.document.protocolList[0].iacucProtocolSpeciesList}" var="procedureSpecies" varStatus="status">
-					<c:if test="${procedureSpecies.studyExists}">
+  				</c:when>
+  				<c:otherwise>
 						<c:set var="tabTitle" value="${procedureSpecies.groupAndSpecies}" />
-						<c:set var="studyProcedureCollectionReference" value="${procedureSpecies.protocolStudyProcedures}" />
-						<c:set var="totalSpeciesCount" value="${procedureSpecies.totalSpeciesCount}" />
-			 			<kra-iacuc:procedureSummaryGrouped
-			            	tabTitle="${tabTitle}"
-			            	totalSpeciesCount="${totalSpeciesCount}"
-			                studyProcedureCollectionReference="${studyProcedureCollectionReference}"/>
-					</c:if>
-				</c:forEach>
-  			</c:otherwise>
-  		</c:choose>
-
+  				</c:otherwise>
+  			</c:choose>
+ 			<kra-iacuc:procedureSummaryGrouped
+            	tabTitle="${tabTitle}"
+            	totalSpeciesCount="${totalSpeciesCount}"
+                studyProcedureCollectionReference="${studyProcedureCollectionReference}"/>
+		</c:forEach>
 	</kul:innerTab>
 

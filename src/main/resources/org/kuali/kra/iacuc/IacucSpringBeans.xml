@@ -971,6 +971,7 @@
     <bean id="iacucProtocolProcedureService"
         class="org.kuali.kra.iacuc.procedures.IacucProtocolProcedureServiceImpl" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
+    	<property name="parameterService" ref="parameterService" />
         <property name="iacucProtocolSpeciesService" ref="iacucProtocolSpeciesService" />
         <property name="iacucProtocolPersonTrainingService">
             <ref bean="iacucProtocolPersonTrainingService" />

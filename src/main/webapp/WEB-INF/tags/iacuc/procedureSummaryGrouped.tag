@@ -62,10 +62,10 @@
                 <div align="left" style="border:1px solid #999; padding:10px; margin-top:10px; margin-bottom:10px; margin-right:10px; margin-left:20px;">
                     <strong>Locations</strong><br />
 					<c:forEach items="${studyProcedure.iacucProtocolStudyGroupLocations}" var="procedureLocationDetail" varStatus="locationIndex">
-                 		Location Type: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.iacucLocationType.location}"/> <br /> 
-                 		Location Name: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.iacucLocationName.locationName}"/> <br /> 
-                 		Room: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.locationRoom}"/> <br /> 
-                 		Description: <c:out value="${procedureLocationDetail.iacucProtocolStudyGroupLocation.studyGroupLocationDescription}"/> <br />
+                 		Location Type: <c:out value="${procedureLocationDetail.iacucLocationType.location}"/> <br /> 
+                 		Location Name: <c:out value="${procedureLocationDetail.iacucLocationName.locationName}"/> <br /> 
+                 		Room: <c:out value="${procedureLocationDetail.locationRoom}"/> <br /> 
+                 		Description: <c:out value="${procedureLocationDetail.studyGroupLocationDescription}"/> <br />
                  		<br/><br/> 
                     </c:forEach>
                 </div>
