@@ -33,6 +33,7 @@
 
 <c:set var="procedureAttributes" value="${DataDictionary.IacucProcedure.attributes}" />
 
+<c:set var="procedureViewedBySpecies" value="${KualiForm.iacucProtocolProceduresHelper.procedureViewedBySpecies}" />
 
 <script type="text/javascript">
     var $j = jQuery.noConflict();
@@ -134,11 +135,22 @@
    				<span class="subhead-left">${procCategory} : ${procDescription}</span>
    				<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolProceduresSpecificSectionHelp" altText="Help"/></span>
        		</h3>
-   			<kra-iacuc:protocolProcedureCategoriesAndStudyGroups
-                    collectionReference="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].iacucProtocolStudyGroups}"
-                    collectionProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${status.index}].iacucProtocolStudyGroups"
-                    procedureBeanProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${status.index}]"
-                    procedureBeanIndex="${status.index}"/>
+  			<c:choose>
+  				<c:when test="${procedureViewedBySpecies}">
+		   			<kra-iacuc:protocolProcedureCategoriesAndSpeciesStudyGroups
+		                    collectionReference="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].iacucProtocolSpeciesStudyGroups}"
+		                    collectionProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${status.index}].iacucProtocolSpeciesStudyGroups"
+		                    procedureBeanProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${status.index}]"
+		                    procedureBeanIndex="${status.index}"/>
+  				</c:when>
+  				<c:otherwise>
+		   			<kra-iacuc:protocolProcedureCategoriesAndStudyGroups
+		                    collectionReference="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].iacucProtocolStudyGroups}"
+		                    collectionProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${status.index}].iacucProtocolStudyGroups"
+		                    procedureBeanProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${status.index}]"
+		                    procedureBeanIndex="${status.index}"/>
+  				</c:otherwise>
+  			</c:choose>
 		</kul:innerTab>
 	</div>
 </c:forEach>

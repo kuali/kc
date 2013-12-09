@@ -89,7 +89,6 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
     @Override
     public void addProtocolPerson(ProtocolBase protocol, ProtocolPersonBase protocolPerson) {
         super.addProtocolPerson(protocol, protocolPerson);
-        getIacucProtocolProcedureService().addPersonResponsibleProcedures((IacucProtocol)protocol, (IacucProtocolPerson)protocolPerson);
     }
 
     public IacucProtocolProcedureService getIacucProtocolProcedureService() {
