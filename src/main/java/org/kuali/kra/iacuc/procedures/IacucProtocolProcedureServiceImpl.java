@@ -527,8 +527,10 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#synchronizeProtocolStudyGroups(org.kuali.kra.iacuc.IacucProtocol)
      */
     public void synchronizeProtocolStudyGroups(IacucProtocol iacucProtocol) {
+        List<IacucProtocolStudyGroupLocation> newProtocolStudyLocationList = iacucProtocol.getIacucProtocolStudyGroupLocations();
         for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : iacucProtocol.getIacucProtocolStudyGroups()) {
             synchronizeProtocolStudyGroups(iacucProtocolStudyGroupBean);
+            synchronizeProcedureLocationList(iacucProtocolStudyGroupBean, newProtocolStudyLocationList);
         }
     }
     
@@ -560,7 +562,26 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             }
         }
     }
-    
+
+    /**
+     * This method is to update location list grouped by species
+     * @param iacucProtocolStudyGroupBean
+     * @param newProtocolStudyLocationList
+     */
+    private void synchronizeProcedureLocationList(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean , List<IacucProtocolStudyGroupLocation> newProtocolStudyLocationList) {
+        for(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation : newProtocolStudyLocationList) {
+            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups()) {
+                for(IacucProtocolStudyGroupLocation iacucProtocolStudyGroupLocation : iacucProtocolStudyGroup.getIacucProcedureLocationResponsibleList()) {
+                    if(iacucProtocolStudyGroupLocation.getStudyGroupLocationId().equals(newIacucProtocolStudyGroupLocation.getStudyGroupLocationId())) {
+                        iacucProtocolStudyGroupLocation.setLocationTypeCode(newIacucProtocolStudyGroupLocation.getLocationTypeCode());
+                        iacucProtocolStudyGroupLocation.setLocationId(newIacucProtocolStudyGroupLocation.getLocationId());
+                        iacucProtocolStudyGroupLocation.setStudyGroupLocationDescription(newIacucProtocolStudyGroupLocation.getStudyGroupLocationDescription());
+                        iacucProtocolStudyGroupLocation.setLocationRoom(newIacucProtocolStudyGroupLocation.getLocationRoom());
+                    }
+                }
+            }
+        }
+    }
     
     /**
      * This method is to get a list of new protocol study groups.
@@ -644,6 +665,33 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         updateAttributesForNewProcedureLocation(newStudyGroupLocation, protocol);
         protocol.getIacucProtocolStudyGroupLocations().add(newStudyGroupLocation);
         populateSpeciesLocationProcedures(protocol);
+    }
+    
+    /**
+     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProcedureLocation(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation, org.kuali.kra.iacuc.IacucProtocol)
+     */
+    public void deleteProcedureLocation(IacucProtocolStudyGroupLocation deletedIacucProtocolStudyGroupLocation, IacucProtocol iacucProtocol) {
+        deleteProcedureLocationList(iacucProtocol, deletedIacucProtocolStudyGroupLocation);
+        iacucProtocol.getIacucProtocolStudyGroupLocations().remove(deletedIacucProtocolStudyGroupLocation);
+    }
+    
+    /**
+     * This method is to remove deleted location from study group list
+     * @param protocol
+     * @param deletedProtocolStudyGroupLocation
+     */
+    private void deleteProcedureLocationList(IacucProtocol protocol, IacucProtocolStudyGroupLocation deletedProtocolStudyGroupLocation) {
+        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : protocol.getIacucProtocolStudyGroups()) {
+            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups()) {
+                List<IacucProtocolStudyGroupLocation> deletedProtocolStudyGroupLocations = new ArrayList<IacucProtocolStudyGroupLocation>();
+                for(IacucProtocolStudyGroupLocation iacucProtocolStudyGroupLocation : iacucProtocolStudyGroup.getIacucProcedureLocationResponsibleList()) {
+                    if(iacucProtocolStudyGroupLocation.getStudyGroupLocationId().equals(deletedProtocolStudyGroupLocation.getStudyGroupLocationId())) {
+                        deletedProtocolStudyGroupLocations.add(iacucProtocolStudyGroupLocation);
+                    }
+                }
+                iacucProtocolStudyGroup.getIacucProcedureLocationResponsibleList().removeAll(deletedProtocolStudyGroupLocations);
+            }
+        }
     }
     
     /**
