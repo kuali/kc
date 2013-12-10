@@ -22,10 +22,13 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_CE
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -34,88 +37,140 @@ import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuest
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KeyPersonnelCertificationRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
 
     public static final String KEY_PERSONNEL_AUDIT_CLUSTER_KEY = "keyPersonnelAuditErrors";
 
+    private static final String BEFORE_APPROVE = "BA";
+    private static final String BEFORE_SUBMIT = "BS";
+    
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAttachmentsAuditRule.class);
     
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
-        DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocument) document).getDevelopmentProposal();
 
-        valid &= validateYesNoQuestions(developmentProposal);
+        if(getKeyPersonCertDeferralParm().equals(BEFORE_SUBMIT)) {
+            valid &= this.validateAllQuestionnairesComplete((ProposalDevelopmentDocument) document);
+        }
         
         return valid;
     }
+
+    @Override
+    public boolean processRouteDocument(Document document) {
+        boolean isValid = true;
+
+        if(getKeyPersonCertDeferralParm().equals(BEFORE_SUBMIT)) {
+            //validation based on existence of ANY incomplete questionnaires.
+            isValid &= this.validateAllQuestionnairesComplete((ProposalDevelopmentDocument) document);
+        }
+        
+        return isValid;
+    }
+
+    @Override
+    public boolean processApproveDocument(ApproveDocumentEvent approveEvent) {
+        boolean isValid = true;
+
+        if(getKeyPersonCertDeferralParm().equals(BEFORE_APPROVE)) {
+            //validation based on session user existing as key person and possibly aggregator.
+            isValid &= this.validateSpecificKeyPersonCertification((ProposalDevelopmentDocument) approveEvent.getDocument());
+        }
+        
+        return isValid;
+    }    
     
-    private boolean validateYesNoQuestions(DevelopmentProposal developmentProposal) {
+    private boolean validateAllQuestionnairesComplete(ProposalDevelopmentDocument document) {
         boolean retval = true;
     
         int count = 0;
-        AuditError error = null;
-        final String errorStarter = "proposalPersonQuestionnaireHelpers[";
-        final String errorFinish = "].answerHeaders[0].answers[0].answer";
-        final String errorLink = KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR;
-        for (ProposalPerson person : developmentProposal.getProposalPersons()) {
-            if (shouldValidateYesNoQuestions(person) && !validateYesNoQuestions(person)) {
-                String errorKey = errorStarter + count + errorFinish;
 
-                //Displays the error within the audit log.
-                error = new AuditError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
-                        errorLink, new String[]{person.getFullName()});
-                getAuditErrors().add(error);
-                //Displays the error on the applicable tab.
-                reportError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
-                        new String[]{person.getFullName()});
+        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
+            if (hasCertification(person) && !validateYesNoQuestions(person)) {
+                generateAuditError(count,person.getFullName());
                 retval = false;
             }
             count++;
         }
         return retval;
     }
-
-    //Duplicates code in KeyPersonnelAuditRule
-    private boolean shouldValidateYesNoQuestions(ProposalPerson person) {
-        boolean retval = false;
+    
+    /*
+     * validates specifically the key person certification, if any, of the proposal person matching the
+     * person in the user session
+     */
+    private boolean validateSpecificKeyPersonCertification(ProposalDevelopmentDocument document) {
+        boolean retval = true;
+    
+        int count = 0;
         
         Person user = GlobalVariables.getUserSession().getPerson();
+        
+        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
+            if(StringUtils.equals(user.getPrincipalId(),person.getPersonId())
+                    && hasCertification(person) && !validateYesNoQuestions(person)) {
+                generateAuditError(count,person.getFullName());
+                retval = false;
+            }
+            count++;
+        }
+        return retval;
+    }
+    
+    private void generateAuditError(int count, String personFullName) {
+        final String errorStarter = "proposalPersonQuestionnaireHelpers[";
+        final String errorFinish = "].answerHeaders[0].answers[0].answer";
+        final String errorLink = KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR;
+        
+        String errorKey = errorStarter + count + errorFinish;
 
+        //Displays the error within the audit log.
+        AuditError error = new AuditError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
+                errorLink, new String[]{personFullName});
+        getAuditErrors().add(error);
+        //Displays the error on the applicable tab.
+        reportError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
+                new String[]{personFullName});
+
+    }
+
+    private boolean hasCertification(ProposalPerson person) {
+        boolean retval = false;
+        
         //questionnaires should continue to be answerable only to the following approvers,
         //possibly as well as other roles. i.e. Aggregator.
         ProposalPersonRole personRole = person.getRole();
         if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
                 || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
-                || personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE)) {
-            if(person.getPerson().getPersonId().equals(user.getPrincipalId())) {
+                || (personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE) && StringUtils.isNotBlank(person.getOptInCertificationStatus())
+                        && person.getOptInCertificationStatus().equals("Y"))) {
                 retval = true;
-            }
         }
-
+        
         return retval;
     }
-    
     
     /**
      * Yes/No questions have to be submitted to Grants.gov on document route. If the submitter has not completed the certifications,
      * errors should be displayed in audit mode.<br/> 
      * <br/>
-     * This method differs from <code>{@link #validateYesNoQuestions(ProposalDevelopmentDocument)}</code> that it refers to a specific person.
+     * This method differs from <code>{@link #validateSpecificKeyPersonCertification(ProposalDevelopmentDocument)}</code> that it refers to a specific person.
      * If any one of the Yes/No Questions is not completed, then this check will fail.
      * 
      * 
      * @param investigator Proposal Investigator
      * @return true if the given PI's Yes/No Questions are completed
      */
-    //Duplicates code in KeyPersonnelAuditRule
     private boolean validateYesNoQuestions(ProposalPerson investigator) {
         boolean retval = true;
         
@@ -148,4 +203,10 @@ public class KeyPersonnelCertificationRule extends ResearchDocumentRuleBase impl
         
         return auditErrors;
             }
+
+
+    private String getKeyPersonCertDeferralParm() {
+        return ProposalDevelopmentUtils
+                .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.KEY_PERSON_CERTIFICATION_DEFERRAL_PARM);
+    }
 }
