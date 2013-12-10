@@ -537,7 +537,7 @@ public class IacucProtocol extends ProtocolBase {
         for(IacucProtocolStudyGroupBean studyGroupBean : getIacucProtocolStudyGroups()) {
             for (IacucProtocolStudyGroup studyGroup : studyGroupBean.getIacucProtocolStudyGroups()) {
                 IacucProcedureSummary newSummary = new IacucProcedureSummary(studyGroup, studyGroupBean.getIacucProcedureCategory(),
-                        studyGroupBean.getIacucProcedure(), getProtocolPersons(), getIacucProtocolStudyGroupLocations());
+                        studyGroupBean.getIacucProcedure());
                 protocolSummary.getProcedureSummaries().add(newSummary);
             }
         }
