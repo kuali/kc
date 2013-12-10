@@ -159,6 +159,8 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         if (!newAnswerHeaders.isEmpty()) {
             businessObjectService.save(newAnswerHeaders);
         }
+        newProtocol.reconcileActionsWithSubmissions();
+        businessObjectService.save(newProtocol.getProtocolActions());
         
         return newProtocolDocument;
     }

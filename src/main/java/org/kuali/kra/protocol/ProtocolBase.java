@@ -1964,4 +1964,21 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         }
         return result;
     }
+    
+    
+    public void reconcileActionsWithSubmissions() {
+        HashMap<Integer, ProtocolSubmissionBase> submissionNumberMap = new HashMap<Integer, ProtocolSubmissionBase>();
+        for(ProtocolSubmissionBase submission : getProtocolSubmissions()) {
+            submissionNumberMap.put(submission.getSubmissionNumber(), submission);
+        }
+        
+        for(ProtocolActionBase action : getProtocolActions()) {
+            if(action.getSubmissionNumber() != null && !action.getSubmissionNumber().equals(0)) {
+                if(submissionNumberMap.get(action.getSubmissionNumber()) != null) {
+                    action.setSubmissionIdFk(submissionNumberMap.get(action.getSubmissionNumber()).getSubmissionId());
+                }
+            }
+        }
+    }
+
 }
