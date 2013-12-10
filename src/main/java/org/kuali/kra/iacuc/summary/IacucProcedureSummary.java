@@ -22,10 +22,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.procedures.IacucProcedure;
 import org.kuali.kra.iacuc.procedures.IacucProcedureCategory;
+import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyCustomData;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
-import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 
 public class IacucProcedureSummary implements Serializable { 
     
@@ -48,7 +48,7 @@ public class IacucProcedureSummary implements Serializable {
     private boolean countChanged;
     
     public IacucProcedureSummary(IacucProtocolStudyGroup studyGroup, IacucProcedureCategory iacucProcedureCategory, 
-            IacucProcedure iacucProcedure, List<ProtocolPersonBase> protocolPersons, List<IacucProtocolStudyGroupLocation> studyGroupLocations) { 
+            IacucProcedure iacucProcedure) { 
         procedureCode = iacucProcedure.getProcedureCode();
         species = studyGroup.getIacucProtocolSpecies() == null ? "None" : studyGroup.getIacucProtocolSpecies().getSpeciesName();
         speciesStrain = studyGroup.getIacucProtocolSpecies() == null ? "None" : studyGroup.getIacucProtocolSpecies().getStrain();
@@ -57,32 +57,13 @@ public class IacucProcedureSummary implements Serializable {
         procedureCategory = iacucProcedureCategory.getProcedureCategory() + " - " + iacucProcedure.getProcedureDescription();
         
         personSummaries = new ArrayList<IacucProcedurePersonSummary>();  
-//        for (ProtocolPersonBase protocolPerson: protocolPersons) {
-//            IacucProtocolPerson iacucProtocolPerson = (IacucProtocolPerson)protocolPerson;
-//            for(IacucProcedurePersonResponsible procedureDetail : iacucProtocolPerson.getProcedureDetails()) {
-//                for(IacucPersonProcedureDetail responsibleProcedure : procedureDetail.getResponsibleProcedures()) {
-//                    if(procedureDetail.getIacucProtocolStudyGroupSpecies().getSpeciesCode().equals(studyGroup.getIacucProtocolSpecies().getSpeciesCode()) && 
-//                            (responsibleProcedure.getIacucProtocolStudyGroupHeaderId().equals(studyGroup.getIacucProtocolStudyGroupHeaderId()) && 
-//                                    responsibleProcedure.isStudyProcedureActive())) {
-//                        personSummaries.add(new IacucProcedurePersonSummary(procedureDetail));
-//                    }
-//                }
-//            }
-//        }
-
+        for (IacucProcedurePersonResponsible person: studyGroup.getIacucProcedurePersonResponsibleList()) {
+            personSummaries.add(new IacucProcedurePersonSummary(person));
+        }
         locationSummaries = new ArrayList<IacucProcedureLocationSummary>();
-//        for (IacucProtocolStudyGroupLocation location: studyGroupLocations) {
-//            for(IacucProcedureLocationDetail procedureDetail : location.getProcedureDetails()) {
-//                for(IacucProtocolLocationProcedure responsibleProcedure : procedureDetail.getResponsibleProcedures()) {
-//                    if(procedureDetail.getIacucProtocolStudyGroupSpecies().getSpeciesCode().equals(studyGroup.getIacucProtocolSpecies().getSpeciesCode()) && 
-//                            (responsibleProcedure.getIacucProtocolStudyGroupHeaderId().equals(studyGroup.getIacucProtocolStudyGroupHeaderId()) &&
-//                                    responsibleProcedure.isStudyProcedureActive())) {
-//                        locationSummaries.add(new IacucProcedureLocationSummary(location));
-//                    }
-//                }
-//            }
-//        }
-
+        for (IacucProtocolStudyGroupLocation location: studyGroup.getIacucProcedureLocationResponsibleList()) {
+            locationSummaries.add(new IacucProcedureLocationSummary(location));
+        }
         customDataSummaries = new ArrayList<IacucProcedureCustomDataSummary>();
         for (IacucProtocolStudyCustomData customDataItem: studyGroup.getIacucProtocolStudyCustomDataList()) {
             customDataSummaries.add(new IacucProcedureCustomDataSummary(customDataItem));
