@@ -57,7 +57,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.BudgetDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentSubmitToSponsorRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalAttachmentSubmitToSponsorRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
@@ -706,7 +706,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         proposalDevelopmentForm.setAuditActivated(true);
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         //cannot be run along side audit rules in ProposalDevelopmentDocumentRule::processRunAuditBusinessRules.
-        boolean valid = new ProposalDevelopmentSubmitToSponsorRule().processRunAuditBusinessRules(proposalDevelopmentDocument);
+        boolean valid = new ProposalAttachmentSubmitToSponsorRule().processRunAuditBusinessRules(proposalDevelopmentDocument);
+
         int status = isValidSubmission(proposalDevelopmentForm);
         if(!valid || status == ERROR) {
             putErrorInGlobalMessageMap();
