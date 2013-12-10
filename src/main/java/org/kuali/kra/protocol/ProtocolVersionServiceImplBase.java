@@ -319,6 +319,10 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
+    public SequenceAccessorService getSequenceAccessorService() {
+        return sequenceAccessorService;
+    }
+
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
