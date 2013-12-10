@@ -61,20 +61,15 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER="answer";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE="reviewDate";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_EXPLANATION="explanation";
-    private static final String BEFORE_ROUTE = "BS";
-    private static final String BEFORE_APPROVE = "BA";    
+
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean retval = true;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
-        String questionnaireAuditDeferral = ProposalDevelopmentUtils
-                .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.KEY_PERSON_CERTIFICATION_DEFERRAL_PARM);
 
         retval &= super.processCustomRouteDocumentBusinessRules(document);
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
-        if(questionnaireAuditDeferral.equals(BEFORE_ROUTE)) {
-            retval &= new KeyPersonnelCertificationRule().processRunAuditBusinessRules(document);
-        }
+        retval &= new KeyPersonnelCertificationRule().processRouteDocument(document);
         
         return retval;
     }
@@ -101,6 +96,15 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposalList[0]");
      
         return valid;
+    }
+    
+    @Override
+    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+        boolean retval = super.processCustomApproveDocumentBusinessRules(approveEvent);
+
+        retval &= new KeyPersonnelCertificationRule().processApproveDocument(approveEvent);
+        
+        return retval;
     }
     
     private boolean proccessValidateSponsor(ProposalDevelopmentDocument proposalDevelopmentDocument) {
@@ -396,6 +400,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
         
+        retval &= new KeyPersonnelCertificationRule().processRunAuditBusinessRules(document);
         //audit for Proposal Attachments to ensure status code is set to complete.
         retval &= new ProposalDevelopmentProposalAttachmentsAuditRule().processRunAuditBusinessRules(document);
         
@@ -544,17 +549,4 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return KraServiceLocator.getService(SponsorService.class);
     }
 
-    @Override
-    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        boolean retval = super.processCustomApproveDocumentBusinessRules(approveEvent);
-
-        String questionnaireAuditDeferral = ProposalDevelopmentUtils
-                .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.KEY_PERSON_CERTIFICATION_DEFERRAL_PARM);
-
-        if(questionnaireAuditDeferral.equals(BEFORE_APPROVE)) {
-            retval &= new KeyPersonnelCertificationRule().processRunAuditBusinessRules(approveEvent.getDocument());
-        }
-        
-        return retval;
-    }
 }
