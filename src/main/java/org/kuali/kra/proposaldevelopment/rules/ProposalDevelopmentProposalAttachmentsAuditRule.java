@@ -55,7 +55,6 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends ResearchDoc
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAttachmentsAuditRule.class);
     
-    private ParameterService parameterService;
     private SponsorService sponsorService;
     
     public boolean processRunAuditBusinessRules(Document document) {
