@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
@@ -45,6 +46,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      */
     private static final long serialVersionUID = -5090730280279711495L;
     
+    private static final Log LOG = LogFactory.getLog(ProposalPersonQuestionnaireHelper.class);
 
     private ProposalPerson proposalPerson;
     
@@ -105,13 +107,16 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     private void initializePermissions(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         ProposalTask task = new ProposalTask(TaskName.CERTIFY, proposalDevelopmentDocument);
         setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+        
         Person user = GlobalVariables.getUserSession().getPerson();
         String keyPersonCertDeferral = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "KEY_PERSON_CERTIFICATION_DEFERRAL");
+
         if(keyPersonCertDeferral.equals("BS") || ObjectUtils.isNull(getProposalDevelopmentDocument())) {
             setCanAnswerAfterRouting(false);
-        }
-        else if(keyPersonCertDeferral.equals("BA")) {
+        } else if(keyPersonCertDeferral.equals("BA")) {
+            
             boolean isEnroute = getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
+            
             if(!isEnroute) {
                 setCanAnswerAfterRouting(false);
             } else {
@@ -125,9 +130,10 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
                     }
                 }
             }
-        }
-        else {
+        } else {
             //KEY_PERSON_CERTIFICATION_DEFERRAL is set to an improper value.
+            LOG.warn("System Parameter 'KEY_PERSON_CERTIFICATION_DEFERRAL' is not properly set. Must be one of 'BA' or 'BS'");
+            setCanAnswerAfterRouting(false);
         }
     }
 
