@@ -197,4 +197,22 @@ public interface IacucProtocolProcedureService {
      */
     public void deleteProcedureLocation(IacucProtocolStudyGroupLocation deletedIacucProtocolStudyGroupLocation, IacucProtocol iacucProtocol);
     
+    /**
+     * This method is to remove selected person from procedure study group
+     * @param selectedProtocolStudyGroup
+     * @param deletedProcedurePersonResponsible
+     * @param iacucProtocol
+     */
+    public void deleteProcedureGroupPersonResponsible(IacucProtocolStudyGroup selectedProtocolStudyGroup, IacucProcedurePersonResponsible deletedProcedurePersonResponsible, 
+            IacucProtocol iacucProtocol);
+    
+    /**
+     * This method is to remove selected location from procedure study group
+     * @param selectedProtocolStudyGroup
+     * @param deletedProtocolStudyGroupLocation
+     * @param iacucProtocol
+     */
+    public void deleteProcedureGroupLocation(IacucProtocolStudyGroup selectedProtocolStudyGroup, IacucProtocolStudyGroupLocation deletedProtocolStudyGroupLocation, 
+            IacucProtocol iacucProtocol);
+    
 }
