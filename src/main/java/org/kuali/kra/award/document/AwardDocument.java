@@ -25,6 +25,7 @@ import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
@@ -355,10 +356,13 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     @SuppressWarnings("unchecked")
     private void addAwardPersonUnitsCollection(List managedLists, Award award) {
         List<AwardPersonUnit> personUnits = new ArrayList<AwardPersonUnit>();
+        List<AwardPersonCreditSplit> personSplits = new ArrayList<AwardPersonCreditSplit>();
         for(AwardPerson p: award.getProjectPersons()) {
             personUnits.addAll(p.getUnits());
+            personSplits.addAll(p.getCreditSplits());
         }
         managedLists.add(personUnits);
+        managedLists.add(personSplits);
     }
     
     /**
