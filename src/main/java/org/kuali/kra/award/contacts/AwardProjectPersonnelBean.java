@@ -306,5 +306,6 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     public void removeUnitDetails(AwardPerson person) {
         person.setOptInUnitStatus(false);
         person.getUnits().clear();
+        person.getCreditSplits().clear();
     }
 }

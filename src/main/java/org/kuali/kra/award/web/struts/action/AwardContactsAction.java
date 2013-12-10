@@ -57,6 +57,7 @@ public class AwardContactsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         ActionForward forward;
+        updateContactsBasedOnRoleChange(award);
         if (isValidSave(awardForm)) {
             setLeadUnitOnAwardFromPILeadUnit(award, awardForm);
             award.initCentralAdminContacts();
@@ -65,6 +66,15 @@ public class AwardContactsAction extends AwardAction {
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);            
         }
         return forward;
+    }
+    
+    protected void updateContactsBasedOnRoleChange(Award award) {
+        for (AwardPerson person : award.getProjectPersons()) {
+            if (person.isRoleChanged()) {
+                person.updateBasedOnRoleChange();
+                person.setRoleChanged(false);
+            }
+        }
     }
     
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
