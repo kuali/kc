@@ -31,8 +31,10 @@ import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -106,9 +108,11 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      */
     private void initializePermissions(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         ProposalTask task = new ProposalTask(TaskName.CERTIFY, proposalDevelopmentDocument);
-        setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
-        
+        boolean canCertify = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        setAnswerQuestionnaire(canCertify);
+
         Person user = GlobalVariables.getUserSession().getPerson();
+        
         String keyPersonCertDeferral = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "KEY_PERSON_CERTIFICATION_DEFERRAL");
 
         if(keyPersonCertDeferral.equals("BS") || ObjectUtils.isNull(getProposalDevelopmentDocument())) {
@@ -125,7 +129,8 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
                 if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE)) {
-                    if(proposalPerson.getPerson().getPersonId().equals(user.getPrincipalId())) {
+                    if(proposalPerson.getPerson().getPersonId().equals(getUserIdentifier())
+                            || canCertify) {
                         setCanAnswerAfterRouting(true);
                     }
                 }
