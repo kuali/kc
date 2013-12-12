@@ -41,6 +41,7 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
      */
     private List<IacucProtocolSpeciesStudyGroup> procedureDetails;
     
+    private boolean allProceduresSelected;
     
     public IacucProtocolPerson() {
         super();
@@ -87,6 +88,14 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
 
     public void setProcedureDetails(List<IacucProtocolSpeciesStudyGroup> procedureDetails) {
         this.procedureDetails = procedureDetails;
+    }
+
+    public boolean isAllProceduresSelected() {
+        return allProceduresSelected;
+    }
+
+    public void setAllProceduresSelected(boolean allProceduresSelected) {
+        this.allProceduresSelected = allProceduresSelected;
     }
 
 }

@@ -44,6 +44,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     private static final String BEAN_LOCATION_FIND_PARAM_START = "iacucProcedureLocationResponsibleList[";
     private static final String FIND_PARAM_END = "].";
     private static final String CONFIRM_DELETE_PROCEDURE_LOCATION_KEY = "confirmDeleteProcedureLocation";
+    private static final String CONFIRM_DELETE_PROCEDURE_GROUP_LOCATION_KEY = "confirmDeleteProcedureGroupLocation";
     private static final String CONFIRM_DELETE_PROCEDURE_STUDY_GROUP_KEY = "confirmDeleteProcedureStudyGroup";
     private static final String CONFIRM_DELETE_PROCEDURE_SPECIES_STUDY_GROUP_KEY = "confirmDeleteProcedureSpeciesStudyGroup";
 
@@ -128,6 +129,17 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         return mapping.findForward(IacucConstants.PROCEDURE_LOCATION);
     }
     
+    public ActionForward addProcedureGroupLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean = getSelectedProcedureBean(request, protocolForm.getIacucProtocolDocument());
+        IacucProtocolStudyGroup selectedStudyGroup = getSelectedStudyGroup(request, selectedIacucProtocolStudyGroupBean);
+        IacucProtocolStudyGroupLocation newStudyGroupLocation =  selectedStudyGroup.getNewIacucProtocolStudyGroupLocation();
+        if (applyRules(new AddProcedureLocationEvent(protocolForm.getIacucProtocolDocument(), newStudyGroupLocation))) {
+            getIacucProtocolProcedureService().addProcedureGroupLocation(newStudyGroupLocation, selectedStudyGroup, getIacucProtocol(protocolForm));
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     
     public ActionForward updateIacucProtocolStudyGroupCategory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -171,8 +183,24 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         IacucProtocolStudyGroup selectedStudyGroup = getSelectedStudyGroup(request, selectedIacucProtocolStudyGroupBean);
         int selectedLocationIndex = getSelectedBeanIndex(request, BEAN_LOCATION_FIND_PARAM_START, FIND_PARAM_END);
         IacucProtocolStudyGroupLocation selectedStudyGroupLocation =  selectedStudyGroup.getIacucProcedureLocationResponsibleList().get(selectedLocationIndex);
-        getIacucProtocolProcedureService().deleteProcedureGroupLocation(selectedStudyGroup, selectedStudyGroupLocation, getIacucProtocol(form));
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        String groupName = selectedStudyGroup.getIacucProtocolSpecies().getGroupAndSpecies();
+        String locationName = selectedStudyGroupLocation.getIacucLocationName().getLocationName();
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROCEDURE_GROUP_LOCATION_KEY,
+                KeyConstants.QUESTION_PROCEDURE_GROUP_LOCATION_DELETE_CONFIRMATION, new String[]{groupName, locationName}), CONFIRM_DELETE_PROCEDURE_GROUP_LOCATION_KEY, "");
+    }
+
+    public ActionForward confirmDeleteProcedureGroupLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+    throws Exception {
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_PROCEDURE_GROUP_LOCATION_KEY.equals(question)) {
+            IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+            IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean = getSelectedProcedureBean(request, protocolForm.getIacucProtocolDocument());
+            IacucProtocolStudyGroup selectedStudyGroup = getSelectedStudyGroup(request, selectedIacucProtocolStudyGroupBean);
+            int selectedLocationIndex = getSelectedBeanIndex(request, BEAN_LOCATION_FIND_PARAM_START, FIND_PARAM_END);
+            IacucProtocolStudyGroupLocation selectedStudyGroupLocation =  selectedStudyGroup.getIacucProcedureLocationResponsibleList().get(selectedLocationIndex);
+            getIacucProtocolProcedureService().deleteProcedureGroupLocation(selectedStudyGroup, selectedStudyGroupLocation, getIacucProtocol(form));
+        }
+        return mapping.findForward(IacucConstants.PROCEDURE_LOCATION);
     }
     
     public ActionForward confirmDeleteProcedureLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
