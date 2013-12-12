@@ -43,6 +43,7 @@ public class IacucProtocolStudyGroupLocation extends KraPersistableBusinessObjec
      * This collection is populated during protocol procedure actions
      */
     private List<IacucProtocolSpeciesStudyGroup> procedureDetails;
+    private boolean allProceduresSelected;
     
     public IacucProtocolStudyGroupLocation() { 
         setProcedureDetails(new ArrayList<IacucProtocolSpeciesStudyGroup>());
@@ -174,6 +175,14 @@ public class IacucProtocolStudyGroupLocation extends KraPersistableBusinessObjec
 
     public void setIacucProtocolStudyGroupId(Integer iacucProtocolStudyGroupId) {
         this.iacucProtocolStudyGroupId = iacucProtocolStudyGroupId;
+    }
+
+    public boolean isAllProceduresSelected() {
+        return allProceduresSelected;
+    }
+
+    public void setAllProceduresSelected(boolean allProceduresSelected) {
+        this.allProceduresSelected = allProceduresSelected;
     }
 
 }

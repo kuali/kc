@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.procedures;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucSpecies;
@@ -37,6 +38,8 @@ public class IacucProtocolSpeciesStudyGroup implements Serializable {
     private List<IacucProtocolStudyGroupBean> responsibleProcedures;
     private Integer totalSpeciesCount = 0;
 
+    private boolean allProceduresSelected;
+    
     public IacucProtocolSpeciesStudyGroup() { 
         setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroup>());
         setResponsibleProcedures(new ArrayList<IacucProtocolStudyGroupBean>());
@@ -59,14 +62,12 @@ public class IacucProtocolSpeciesStudyGroup implements Serializable {
     }
 
     public String getGroupAndSpecies() {
-        String groupSeparator = ", ";
         StringBuilder groupAndSpecies = new StringBuilder();
+        HashSet<String> procedureGroups = new HashSet<String>();
         for(IacucProtocolStudyGroup iacucProtocolStudyGroup : getIacucProtocolStudyGroups()) {
-            groupAndSpecies.append(iacucProtocolStudyGroup.getIacucProtocolSpecies().getSpeciesGroup());
-            groupAndSpecies.append(groupSeparator);
+            procedureGroups.add(iacucProtocolStudyGroup.getIacucProtocolSpecies().getSpeciesGroup());
         }
-        int lastSeparatorIndex = groupAndSpecies.lastIndexOf(groupSeparator);
-        groupAndSpecies.replace(lastSeparatorIndex, lastSeparatorIndex + 1, "" );
+        groupAndSpecies.append(procedureGroups.toString());
         groupAndSpecies.append(" : ");
         groupAndSpecies.append(getIacucSpecies().getSpeciesName());
         return groupAndSpecies.toString();
@@ -118,6 +119,14 @@ public class IacucProtocolSpeciesStudyGroup implements Serializable {
 
     public void setIacucProtocolSpecies(IacucProtocolSpecies iacucProtocolSpecies) {
         this.iacucProtocolSpecies = iacucProtocolSpecies;
+    }
+
+    public boolean isAllProceduresSelected() {
+        return allProceduresSelected;
+    }
+
+    public void setAllProceduresSelected(boolean allProceduresSelected) {
+        this.allProceduresSelected = allProceduresSelected;
     }
 
 
