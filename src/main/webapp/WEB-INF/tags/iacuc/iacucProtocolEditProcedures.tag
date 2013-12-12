@@ -32,33 +32,78 @@
 <c:set var="modifyPermission" value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}" />
 <c:set var="readOnly" value="${!modifyPermission}" />
 
+<script type="text/javascript">
+	var saveButtonClicked = false;
+	var editProcedureSelectedDiv="editProcedure";
+	jq(document).ready(function() {
+    	jq("#editProcedureLink").fancybox({
+			'afterClose' : function() {
+				if (saveButtonClicked != false) {
+					jq('#onProcedureEdit').click();
+			    }				
+			}
+    	});
+		jq("#viewTrainingLink").fancybox();
+
+		jq(".checkBoxSelectAll").click(function () {
+			funcCheckForAllProcs(editProcedureSelectedDiv, jq(this).is(':checked'));
+		});     
+
+		jq(".checkBoxAllGroup").click(function () {
+			jq("."+editProcedureSelectedDiv).attr('checked',this.checked);
+		});     
+		
+        function funcCheckForAllProcs(divName, isChecked) {
+        	jq("#" + divName + " :checkbox").attr('checked', isChecked);
+        }
+
+        
+	});
+	
+</script>
+
 <tbody id="content-div${procedureIndex}" style="display: none;">
 	<tr>
     	<th class="content_grey" style="text-align:center; background-color:#666; color:#FFF;" colspan="2">
               	${displayTitle}
         </th>
     </tr>     
+	<tr>
+  		<c:set var="procProp" value="${procedureCollectionProperty}[${procedureIndex}].allProceduresSelected"/>
+      	${kfunc:registerEditableProperty(KualiForm, procProp)} 
+      	<input type="hidden" name="checkboxToReset" value="${procProp}"/>
+        <tr>
+        	<td>
+          		<html:checkbox styleClass="checkBoxSelectAll" property="${procedureCollectionProperty}[${procedureIndex}].allProceduresSelected" onclick="editProcedureSelectedDiv='content-div${procedureIndex}';return !${readOnly}"/>
+	    		<c:out value="ALL PROCEDURES" />
+  	       	</td>
+        </tr>	
+    </tr>     
    	<c:forEach var="procedure" items="${procedureCollectionReference}" varStatus="procStatus">
+		<c:set var="speciesName" value="${procedure.iacucProtocolSpecies.groupAndSpecies}" />
+		<c:set var="collectionReference" value="${procedure.responsibleProcedures}" />
+		<c:set var="collectionProperty" value="${procedureCollectionProperty}[${procedureIndex}].procedureDetails[${procStatus.index}].responsibleProcedures" />
+		<c:set var="groupCollectionProperty" value="${procedureCollectionProperty}[${procedureIndex}].procedureDetails[${procStatus.index}]" />
+        <c:if test="${procedureViewedBySpecies}">
+			<c:set var="speciesName" value="${procedure.iacucSpecies.speciesName}" />
+        </c:if>
        	<tr>
            	<th align="left">
-				<c:set var="speciesName" value="${procedure.iacucProtocolSpecies.groupAndSpecies}" />
-           		<c:if test="${procedureViewedBySpecies}">
-					<c:set var="speciesName" value="${procedure.iacucSpecies.speciesName}" />
-           		</c:if>
+       			&nbsp;&nbsp;&nbsp;
+          		<html:checkbox styleClass="checkBoxAllGroup" property="${groupCollectionProperty}.allProceduresSelected" onclick="editProcedureSelectedDiv='group-div${procedureIndex}${procStatus.index}';return !${readOnly}"/>
             	<c:out value="${speciesName}"/>
             </th>
         </tr>
-		<c:set var="collectionReference" value="${procedure.responsibleProcedures}" />
-		<c:set var="collectionProperty" value="${procedureCollectionProperty}[${procedureIndex}].procedureDetails[${procStatus.index}].responsibleProcedures" />
       	<c:forEach var="responsibleProcedure" items="${collectionReference}" varStatus="detailStatus">
     		<c:set var="prop" value="${collectionProperty}[${detailStatus.index}].procedureSelected"/>
         	${kfunc:registerEditableProperty(KualiForm, prop)} 
         	<input type="hidden" name="checkboxToReset" value="${prop}"/>
               	<tr>
               		<td>
-            		<html:checkbox styleClass="checkBox" property="${collectionProperty}[${detailStatus.index}].procedureSelected" onclick="return !${readOnly}"/>
-			    	<c:out value="${responsibleProcedure.iacucProcedure.procedureDescription}" />
-           		</td>
+              			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            			<html:checkbox styleClass="group-div${procedureIndex}${procStatus.index}" property="${collectionProperty}[${detailStatus.index}].procedureSelected" onclick="return !${readOnly}"/>
+			    		<c:out value="${responsibleProcedure.iacucProcedure.procedureDescription}" />
+           			</td>
            	</tr>	
       	</c:forEach>
     </c:forEach>

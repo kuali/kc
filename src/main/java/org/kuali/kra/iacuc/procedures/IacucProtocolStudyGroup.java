@@ -42,6 +42,8 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
     private List<IacucProcedurePersonResponsible> iacucProcedurePersonResponsibleList;
     private List<IacucProtocolStudyGroupLocation> iacucProcedureLocationResponsibleList;
     
+    private IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation;
+    
     private Integer procedureBeanIndex;
 
     public IacucProtocolStudyGroup() { 
@@ -196,6 +198,14 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
 
     public void setIacucProcedureLocationResponsibleList(List<IacucProtocolStudyGroupLocation> iacucProcedureLocationResponsibleList) {
         this.iacucProcedureLocationResponsibleList = iacucProcedureLocationResponsibleList;
+    }
+
+    public IacucProtocolStudyGroupLocation getNewIacucProtocolStudyGroupLocation() {
+        return newIacucProtocolStudyGroupLocation;
+    }
+
+    public void setNewIacucProtocolStudyGroupLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation) {
+        this.newIacucProtocolStudyGroupLocation = newIacucProtocolStudyGroupLocation;
     }
 
 

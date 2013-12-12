@@ -21,20 +21,6 @@
 <c:set var="protocolPersonAttributes" value="${DataDictionary.IacucProtocolPerson.attributes}" />
 <c:set var="procedureViewedBySpecies" value="${KualiForm.iacucProtocolProceduresHelper.procedureViewedBySpecies}" />
 
-<script type="text/javascript">
-	var saveButtonClicked = false;
-	jq(document).ready(function() {
-    	jq("#editProcedureLink").fancybox({
-			'afterClose' : function() {
-				if (saveButtonClicked != false) {
-					jq('#onProcedureEdit').click();
-			    }				
-			}
-    	});
-		jq("#viewTrainingLink").fancybox();
-    });
-</script>
-
 <kul:innerTab tabTitle="Personnel" parentTab="${parentTabName}" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
 		<h3>
   			<span class="subhead-left">Personnel</span>
