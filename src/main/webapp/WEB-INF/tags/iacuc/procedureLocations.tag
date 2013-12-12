@@ -50,6 +50,62 @@
 				</c:if>
           	</tr>     
 
+        	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">
+        		<tbody class="addline">   
+                <tr>
+					<th class="infoline">
+						Add:
+					</th>
+		            <td align="left" valign="middle" class="infoline">
+		               	<div align="center">
+                			<html:select property="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationTypeCode" styleId="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationTypeCode" onchange="populateSelect('getIacucProcedureLocationNames', '${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationTypeCode', '${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationId');">                                              
+                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.iacuc.IacucLocationTypeValuesFinder', paramMap)}" var="option" >
+							<c:set var="locationTypeCode" value="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationTypeCode" />
+                            <c:choose>                    	
+	                			<c:when test="${locationTypeCode == option.key}">
+	                        		<option value="${option.key}" selected>${option.value}</option>
+	                    		</c:when>
+	                    		<c:otherwise>
+	                        		<c:out value="${option.value}"/>
+                                 	<option value="${option.key}">${option.value}</option>
+                                </c:otherwise>
+	                		</c:choose>   
+                            </c:forEach>
+                            </html:select>
+		            	</div>
+					</td>
+		            <td align="left" valign="middle" class="infoline">
+		               	<div align="center">
+		                    <html:select property="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationId" styleId="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationId">                                              	                
+								<option value="">select</option> 
+							</html:select>                         
+		            	</div>
+					</td>
+		            <td align="left" valign="middle" class="infoline">
+		               	<div align="center">
+		               		<kul:htmlControlAttribute property="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationRoom" 
+		               		                          attributeEntry="${procedureLocationAttributes.locationRoom}" 
+		               		                          readOnly="${readOnly}" />
+		            	</div>
+					</td>
+		            <td align="left" valign="middle" class="infoline">
+		               	<div align="center">
+		               		<kul:htmlControlAttribute property="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.studyGroupLocationDescription" 
+		               		                          attributeEntry="${procedureLocationAttributes.studyGroupLocationDescription}" 
+		               		                          readOnly="${readOnly}" />
+		            	</div>
+					</td>
+				    <c:set var="procedureBean" value="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroups[${procedureDetailBeanIndex}]" />
+					<td class="infoline">
+						<div align="center">
+ 							<html:image property="methodToCall.addProcedureGroupLocation.${procedureBean}.line${status.index}" 
+						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
+						            styleClass="tinybutton addButton"/>
+	                	</div>
+	                </td>
+	            </tr>
+	            </tbody>
+	        </kra:permission>          
             
         	<c:forEach var="protocolLocation" items="${collectionReference}" varStatus="status">
                	<c:set var="locationName" value="${protocolLocation.iacucLocationName.locationName}" />

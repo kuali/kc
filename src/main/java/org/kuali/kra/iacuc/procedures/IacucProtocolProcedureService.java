@@ -215,4 +215,13 @@ public interface IacucProtocolProcedureService {
     public void deleteProcedureGroupLocation(IacucProtocolStudyGroup selectedProtocolStudyGroup, IacucProtocolStudyGroupLocation deletedProtocolStudyGroupLocation, 
             IacucProtocol iacucProtocol);
     
+
+    /**
+     * This method is to add a new location to a specific study group
+     * @param newStudyGroupLocation
+     * @param selectedStudyGroup
+     * @param protocol
+     */
+    public void addProcedureGroupLocation(IacucProtocolStudyGroupLocation newStudyGroupLocation, IacucProtocolStudyGroup selectedStudyGroup, IacucProtocol protocol);
+
 }
