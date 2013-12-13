@@ -2269,4 +2269,11 @@ public void markNarratives(NarrativeStatus narrativeStatus) {
     }
 }
 
+public void modifyNarrativeStatus(int selectedLine) {
+    Narrative narrative = getNarratives().get(selectedLine);
+    narrative.refreshReferenceObject("narrativeStatus");
+    getBusinessObjectService().save(narrative);
+
+}
+
 }
