@@ -16,11 +16,13 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -51,6 +53,8 @@ public class LookupableDevelopmentProposal extends KraPersistableBusinessObjectB
     private ProposalType proposalType;
 
     private Date deadlineDate;
+
+    private List<ProposalPerson> proposalPersons;
 
     public String getSponsorCode() {
         return sponsorCode;
@@ -147,4 +151,20 @@ public class LookupableDevelopmentProposal extends KraPersistableBusinessObjectB
         }
         return proposalType;
     }
+
+    public String getInvestigator() {
+        ProposalPerson principalInvestigator = null;
+        for (ProposalPerson person : proposalPersons) {
+            if (StringUtils.equals(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+                principalInvestigator = person;
+                break;
+            }
+        }
+        return principalInvestigator == null ? "" : principalInvestigator.getFullName();
+    }
+
+    public List<ProposalPerson> getProposalPersons() {
+        return this.proposalPersons;
+    }
+
 }
