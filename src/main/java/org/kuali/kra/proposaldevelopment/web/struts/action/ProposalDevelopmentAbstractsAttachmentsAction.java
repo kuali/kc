@@ -240,6 +240,19 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         developmentForm.clearNarrativeStatusChangeKey();
         return mapping.findForward(MAPPING_BASIC);
     }
+    
+    public ActionForward modifyProposalAttachmentStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+
+        Narrative modifiedNarrative = pd.getDevelopmentProposal().getNarrative(getSelectedLine(request));
+        
+        pd.getDevelopmentProposal().modifyNarrativeStatus(getSelectedLine(request));
+
+        return forward;
+    }
 
     /**
      * 

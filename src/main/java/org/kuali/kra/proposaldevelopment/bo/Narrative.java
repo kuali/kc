@@ -303,10 +303,10 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     }
     
     /**
-     * Can the current user modify the status of narratives?
-     * @return true if the user can modify the status of narratives; otherwise false
+     * Can the current user change the status of attachment?
+     * @return true if the user can modify the status of attachments; otherwise false
      */
-    public boolean getModifyNarrativeStatus(String userId) {
+    public boolean getModifyAttachmentStatus(String userId) {
         if(getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
