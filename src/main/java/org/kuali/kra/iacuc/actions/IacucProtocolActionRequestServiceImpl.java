@@ -137,7 +137,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         }
     };
 
-    private static List <String> requestSubmissionTypes = Arrays.asList(new String[] {IacucProtocolSubmissionType.REQUEST_SUSPEND,
+    protected static List <String> requestSubmissionTypes = Arrays.asList(new String[] {IacucProtocolSubmissionType.REQUEST_SUSPEND,
                                                                                       IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD,
                                                                                       IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE});
 

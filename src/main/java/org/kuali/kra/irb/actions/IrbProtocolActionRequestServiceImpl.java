@@ -167,12 +167,12 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         }
     };
 
-    List <String> requestSubmissionTypes = Arrays.asList(new String[] {ProtocolSubmissionType.REQUEST_FOR_SUSPENSION,
-                                                                       ProtocolSubmissionType.REQUEST_FOR_TERMINATION,
-                                                                       ProtocolSubmissionType.REQUEST_TO_CLOSE,
-                                                                       ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT,
-                                                                       ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT,
-                                                                       ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY});
+    protected static List <String> requestSubmissionTypes = Arrays.asList(new String[] {ProtocolSubmissionType.REQUEST_FOR_SUSPENSION,
+                                                                                        ProtocolSubmissionType.REQUEST_FOR_TERMINATION,
+                                                                                        ProtocolSubmissionType.REQUEST_TO_CLOSE,
+                                                                                        ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT,
+                                                                                        ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT,
+                                                                                        ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY});
 
     /**
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#isExpeditedApprovalAuthorized(org.kuali.kra.irb.ProtocolForm)
