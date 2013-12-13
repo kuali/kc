@@ -51,9 +51,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private IacucProtocolPersonTrainingService iacucProtocolPersonTrainingService;
-    private static final String PROTOCOL_STUDY_GROUP_LOCATION_SEQUENCE_ID = "SEQ_IACUC_PROT_STUD_GRP_LOC_ID";
     private static final String PROTOCOL_STUDY_GROUP_HEADER_SEQUENCE_ID = "SEQ_IACUC_PROT_STUD_GRP_HDR_ID";
-    private static final String PROTOCOL_STUDY_GROUP_SPECIES_SEQUENCE_ID = "SEQ_PROTO_STUDY_GRP_SPC_ID";
     private static final String PROCEDURE_VIEW_MODE = "PROCEDURE_VIEW_MODE";
     private static final String PROCEDURE_VIEW_MODE_SPECIES = "S";
      
@@ -1081,11 +1079,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         for(IacucProtocolSpeciesStudyGroup protocolStudyGroupSpecies : protocol.getIacucProtocolStudyGroupSpeciesList()) {
             Integer totalSpeciesCount = 0;
             for(IacucProtocolStudyGroupBean protocolStudyGroupBean : protocolStudyGroupSpecies.getResponsibleProcedures()) {
-                if(isProcedureViewedBySpecies()) {
-                    setAllProcedureDetailsForSpecies(protocolStudyGroupSpecies, protocolStudyGroupBean);
-                }else {
-                    setAllProcedureDetails(protocolStudyGroupSpecies, protocolStudyGroupBean);
-                }
+                setAllProcedureDetailsForSpecies(protocolStudyGroupSpecies, protocolStudyGroupBean);
                 Integer totalProcSpeciesCount = 0;
                 for(IacucProtocolStudyGroup studyGroup : protocolStudyGroupBean.getIacucProtocolStudyGroups()) {
                     if(protocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId().equals(studyGroup.getIacucProtocolStudyGroupHeaderId()) &&
