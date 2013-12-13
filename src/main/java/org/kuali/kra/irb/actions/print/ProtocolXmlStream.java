@@ -74,7 +74,6 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
         edu.mit.irb.irbnamespace.ProtocolDocument protocolDocumentType = edu.mit.irb.irbnamespace.ProtocolDocument.Factory.newInstance();
         protocolDocumentType.setProtocol(getProtocol(protocol));
         Map<String,XmlObject> xmlObjectMap = new HashMap<String, XmlObject>();
-System.err.println("\noutput = \n\n" + protocolDocumentType.toString() + "\n");        
         xmlObjectMap.put("Protocol", protocolDocumentType);
         return xmlObjectMap;
     }
