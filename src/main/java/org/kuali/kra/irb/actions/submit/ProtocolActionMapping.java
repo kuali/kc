@@ -164,7 +164,7 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
     /*
      * look for any submissions of the type "Request xxxx"
      */
-    public boolean getAnySubmissionRequests() {
+    public boolean isAnySubmissionRequests() {
         List <String> submissionTypes = Arrays.asList(new String[] {ProtocolSubmissionType.REQUEST_FOR_SUSPENSION,
                                                                     ProtocolSubmissionType.REQUEST_FOR_TERMINATION,
                                                                     ProtocolSubmissionType.REQUEST_TO_CLOSE,
@@ -175,13 +175,9 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
         positiveFieldValues.put("submissionTypeCode", submissionTypes);
+        positiveFieldValues.put("submissionStatusCode", ProtocolSubmissionStatus.PENDING);
         List<ProtocolSubmission> submissions = (List<ProtocolSubmission>)businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, positiveFieldValues, "submissionNumber", false);
-        for (ProtocolSubmission submission:submissions) {
-            if (submission.getSubmissionStatusCode().equals(ProtocolSubmissionStatus.PENDING)) {
-                return true;
-            }
-        }
-        return false;
+        return submissions.size() > 0;
     }
 
     /**
