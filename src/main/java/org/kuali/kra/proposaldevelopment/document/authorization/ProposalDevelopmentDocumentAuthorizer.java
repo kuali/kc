@@ -203,9 +203,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             if (narrative.getDeleteAttachment(userId)) {
                 editModes.add(prefix + "delete");
             }
-            if (narrative.getModdifyNarrativeStatus(userId)) {
-                editModes.add(prefix + "modifyStatus");
-            }
             if (narrative.getModifyNarrativeRights(userId)) {
                 editModes.add(prefix + "modifyRights");
             }
