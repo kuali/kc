@@ -212,7 +212,7 @@ internal attachements.  We are just going to loop through the narratives and see
 			                <td align="left" valign="middle">
 			                	<div id="updateStatusDiv${status.index}" style="display:block;">
 					                <kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].moduleStatusCode" 
-					                	  attributeEntry="${narrativeAttributes.moduleStatusCode}" />
+					                	  readOnly="true" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
 				                </div>
 				                <div id="attachmentStatusDiv${status.index}" valign="middle" style="display:none;">
 									<html:select property="document.developmentProposalList[0].narrative[${status.index}].moduleStatusCode"
@@ -292,9 +292,12 @@ internal attachements.  We are just going to loop through the narratives and see
 											        onclick="javascript: proposalAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
 									</div>
 									<c:if test="${replaceAttachment}">
-									    <div style="display: inline;">
-										    <html:image styleId="getProposalAttachmentRights.line${status.index}" property="methodToCall.reload.line${status.index}.anchor${currentTabIndex}"
-												        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-reset1.gif' styleClass="tinybutton"/>
+									    <div id="cancelAttachmentEdit${status.index}" style="display: inline;">
+										    <html:image styleId="getProposalAttachmentRights.line${status.index}"
+													    onclick="javascript: showHide('replaceDiv${status.index}', 'fileDiv${status.index}') ;
+													    					 showHide('updateStatusDiv${status.index}, 'attachmentStatusDiv${status.index}') ;
+													    					 showHide('replaceAttachmentDiv${status.index}','saveNewAttachmentDiv${status.index}') ; return false"
+												        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-cancel.gif' styleClass="tinybutton"/>
 										</div>
 									</c:if>
 									<c:if test="${(replaceAttachment)}">

@@ -581,8 +581,4 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
         return getContentType();
     }
 
-    public boolean getModdifyNarrativeStatus(String userId) {
-        // TODO Auto-generated method stub
-        return false;
-    }
 }
