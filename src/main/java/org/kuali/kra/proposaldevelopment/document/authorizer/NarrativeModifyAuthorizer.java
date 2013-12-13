@@ -50,10 +50,6 @@ public class NarrativeModifyAuthorizer extends NarrativeAuthorizer {
             if (hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE)) {
                 hasPermission = hasNarrativeRight(userId, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
             }
-        } else if(inWorkflow && !rejectedDocument && !doc.getDevelopmentProposal().getSubmitFlag()) {
-            if(hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE)) {
-                hasPermission = hasNarrativeRight(userId, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
-            }
         }
         return hasPermission;
     }
