@@ -34,13 +34,13 @@
             <list>
                 <ref bean="LookupableDevelopmentProposal-proposalNumber" />
                 <ref bean="LookupableDevelopmentProposal-title" />
-                <ref bean="LookupableDevelopmentProposal-sponsorName" />
 				<ref bean="LookupableDevelopmentProposal-sponsorCode" />
                 <ref bean="LookupableDevelopmentProposal-ownedByUnitNumber" />
 				<ref bean="LookupableDevelopmentProposal-ownedByUnitName" />
 				<ref bean="LookupableDevelopmentProposal-proposalTypeCode" />
 				<ref bean="LookupableDevelopmentProposal-proposalTypeDescription" />
 				<ref bean="LookupableDevelopmentProposal-deadlineDate" />
+				<ref bean="LookupableDevelopmentProposal-investigator" />
             </list>
         </property>
         
@@ -84,24 +84,6 @@
         <property name="description" value="Proposal Title" />
     </bean>
     
-    <bean id="LookupableDevelopmentProposal-sponsorName" parent="LookupableDevelopmentProposal-sponsorName-parentBean" />
-    <bean id="LookupableDevelopmentProposal-sponsorName-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="sponsorName" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Proposal Sponsor" />
-        <property name="shortLabel" value="Proposal Sponsor" />
-        <property name="maxLength" value="60" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
-        </property>
-        <property name="summary" value="Proposal Sponsor" />
-        <property name="description" value="Proposal Sponsor" />
-    </bean>
-
 	<bean id="LookupableDevelopmentProposal-sponsorCode" parent="LookupableDevelopmentProposal-sponsorCode-parentBean" />
 	<bean id="LookupableDevelopmentProposal-sponsorCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -203,6 +185,25 @@
 			value="The date in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)." />
 	</bean>
 	
+ 	<bean id="LookupableDevelopmentProposal-investigator" parent="LookupableDevelopmentProposal-investigator-parentBean" />
+	<bean id="LookupableDevelopmentProposal-investigator-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="investigator" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Investigator" />
+		<property name="shortLabel" value="Investigator" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="40" />
+		</property>
+		<property name="summary" value="Investigator" />
+		<property name="description" value="Investigator" />
+	</bean>
+
     <bean id="LookupableDevelopmentProposal-lookupDefinition" parent="LookupableDevelopmentProposal-lookupDefinition-parentBean" />
     <bean id="LookupableDevelopmentProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
       <property name="title" value="Proposal Development Document Lookup" />
@@ -220,7 +221,7 @@
           <bean parent="FieldDefinition"
                 p:attributeName="title" />
           <bean parent="FieldDefinition"
-                p:attributeName="sponsorName" />
+                p:attributeName="investigator" />
           <bean parent="FieldDefinition"
                 p:attributeName="sponsorCode" />
           <bean parent="FieldDefinition"
@@ -239,7 +240,7 @@
           <bean parent="FieldDefinition"
                 p:attributeName="title" />
           <bean parent="FieldDefinition"
-                p:attributeName="sponsorName" />
+                p:attributeName="investigator" />
           <bean parent="FieldDefinition"
                 p:attributeName="sponsorCode" />
           <bean parent="FieldDefinition"
