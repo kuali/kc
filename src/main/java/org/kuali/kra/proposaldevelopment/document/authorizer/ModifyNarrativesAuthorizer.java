@@ -33,10 +33,15 @@ public class ModifyNarrativesAuthorizer extends ProposalAuthorizer {
     public boolean isAuthorized(String userId, ProposalTask task) {
         KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
         ProposalDevelopmentDocument doc = task.getDocument();
-        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());        boolean hasPermission = false;
-        
-        if ((!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) && !doc.getDevelopmentProposal().getSubmitFlag()) {
+        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
+        boolean hasPermission = false;
+        boolean inWorkflow = kraWorkflowService.isInWorkflow(doc);
+        if ((!inWorkflow || rejectedDocument) && !doc.getDevelopmentProposal().getSubmitFlag()) {
             hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE);
+        } else if(inWorkflow && !rejectedDocument && !doc.getDevelopmentProposal().getSubmitFlag()) {
+            if(hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE)) {
+                hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE);
+            }
         }
         return hasPermission;
     }
