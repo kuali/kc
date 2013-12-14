@@ -60,7 +60,12 @@ public class KeyPersonnelCertificationRule extends ResearchDocumentRuleBase impl
         boolean valid = true;
 
         if(getKeyPersonCertDeferralParm().equals(BEFORE_SUBMIT)) {
-            valid &= this.validateAllQuestionnairesComplete((ProposalDevelopmentDocument) document);
+            valid &= this.validateAllCertificationsComplete((ProposalDevelopmentDocument) document);
+        } else if(getKeyPersonCertDeferralParm().equals(BEFORE_APPROVE)) {
+            //valid &= this.validateSpecificKeyPersonCertification((ProposalDevelopmentDocument) document);
+        } else {
+            LOG.warn("System parameter 'KEY_PERSON_CERTIFICATION_DEFERRAL' should be one of 'BA' or 'BS'.");
+            return false;
         }
         
         return valid;
@@ -72,7 +77,7 @@ public class KeyPersonnelCertificationRule extends ResearchDocumentRuleBase impl
 
         if(getKeyPersonCertDeferralParm().equals(BEFORE_SUBMIT)) {
             //validation based on existence of ANY incomplete questionnaires.
-            isValid &= this.validateAllQuestionnairesComplete((ProposalDevelopmentDocument) document);
+            isValid &= this.validateAllCertificationsComplete((ProposalDevelopmentDocument) document);
         }
         
         return isValid;
@@ -84,24 +89,26 @@ public class KeyPersonnelCertificationRule extends ResearchDocumentRuleBase impl
 
         if(getKeyPersonCertDeferralParm().equals(BEFORE_APPROVE)) {
             //validation based on session user existing as key person and possibly aggregator.
-            isValid &= this.validateSpecificKeyPersonCertification((ProposalDevelopmentDocument) approveEvent.getDocument());
+            isValid &= this.validateKeyPersonCertification((ProposalDevelopmentDocument) approveEvent.getDocument(),
+                    GlobalVariables.getUserSession().getPerson());
         }
         
         return isValid;
     }    
     
-    private boolean validateAllQuestionnairesComplete(ProposalDevelopmentDocument document) {
+    private boolean validateAllCertificationsComplete(ProposalDevelopmentDocument document) {
         boolean retval = true;
     
         int count = 0;
 
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            if (hasCertification(person) && !validateYesNoQuestions(person)) {
+            if (hasCertification(person) && !validKeyPersonCertification(person)) {
                 generateAuditError(count,person.getFullName());
                 retval = false;
             }
             count++;
         }
+        
         return retval;
     }
     
@@ -109,21 +116,63 @@ public class KeyPersonnelCertificationRule extends ResearchDocumentRuleBase impl
      * validates specifically the key person certification, if any, of the proposal person matching the
      * person in the user session
      */
-    private boolean validateSpecificKeyPersonCertification(ProposalDevelopmentDocument document) {
+    private boolean validateKeyPersonCertification(ProposalDevelopmentDocument document, Person user) {
         boolean retval = true;
     
         int count = 0;
         
-        Person user = GlobalVariables.getUserSession().getPerson();
-        
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             if(StringUtils.equals(user.getPrincipalId(),person.getPersonId())
-                    && hasCertification(person) && !validateYesNoQuestions(person)) {
+                    && hasCertification(person) && !validKeyPersonCertification(person)) {
                 generateAuditError(count,person.getFullName());
-                retval = false;
+                return false;
             }
             count++;
         }
+        
+        return retval;
+    }
+    
+    private boolean validKeyPersonCertification(ProposalPerson person) {
+        return validateYesNoQuestions(person);
+    }
+
+    private boolean hasCertification(ProposalPerson person) {
+        
+        //questionnaires should continue to be answerable only to the following approvers,
+        //possibly as well as other roles. i.e. Aggregator.
+        ProposalPersonRole personRole = person.getRole();
+        if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
+                || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
+                || (personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE) && StringUtils.isNotBlank(person.getOptInCertificationStatus())
+                        && person.getOptInCertificationStatus().equals("Y"))) {
+                return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Yes/No questions have to be submitted to Grants.gov on document route. If the submitter has not completed the certifications,
+     * errors should be displayed in audit mode.<br/> 
+     * <br/>
+     * This method differs from <code>{@link #validateKeyPersonCertification(ProposalDevelopmentDocument)}</code> that it refers to a specific person.
+     * If any one of the Yes/No Questions is not completed, then this check will fail.
+     * 
+     * 
+     * @param investigator Proposal Investigator
+     * @return true if the given PI's Yes/No Questions are completed
+     */
+    private boolean validateYesNoQuestions(ProposalPerson investigator) {
+        boolean retval = true;
+        
+        ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(investigator.getDevelopmentProposal(), investigator);
+        List<AnswerHeader> headers = KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
+        
+        for (AnswerHeader head : headers) {
+            retval &= head.getCompleted();
+        }
+               
         return retval;
     }
     
@@ -142,46 +191,6 @@ public class KeyPersonnelCertificationRule extends ResearchDocumentRuleBase impl
         reportError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
                 new String[]{personFullName});
 
-    }
-
-    private boolean hasCertification(ProposalPerson person) {
-        boolean retval = false;
-        
-        //questionnaires should continue to be answerable only to the following approvers,
-        //possibly as well as other roles. i.e. Aggregator.
-        ProposalPersonRole personRole = person.getRole();
-        if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
-                || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
-                || (personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE) && StringUtils.isNotBlank(person.getOptInCertificationStatus())
-                        && person.getOptInCertificationStatus().equals("Y"))) {
-                retval = true;
-        }
-        
-        return retval;
-    }
-    
-    /**
-     * Yes/No questions have to be submitted to Grants.gov on document route. If the submitter has not completed the certifications,
-     * errors should be displayed in audit mode.<br/> 
-     * <br/>
-     * This method differs from <code>{@link #validateSpecificKeyPersonCertification(ProposalDevelopmentDocument)}</code> that it refers to a specific person.
-     * If any one of the Yes/No Questions is not completed, then this check will fail.
-     * 
-     * 
-     * @param investigator Proposal Investigator
-     * @return true if the given PI's Yes/No Questions are completed
-     */
-    private boolean validateYesNoQuestions(ProposalPerson investigator) {
-        boolean retval = true;
-        
-        ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(investigator.getDevelopmentProposal(), investigator);
-        List<AnswerHeader> headers = KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
-        
-        for (AnswerHeader head : headers) {
-            retval &= head.getCompleted();
-        }
-               
-        return retval;
     }
 
     /**
