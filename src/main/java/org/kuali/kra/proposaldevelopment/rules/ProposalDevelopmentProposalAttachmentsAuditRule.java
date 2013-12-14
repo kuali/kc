@@ -89,12 +89,6 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends ResearchDoc
                     getAuditErrors(Constants.AUDIT_ERRORS).add(new AuditError("document.developmentProposalList[0].narrative[" + i + "].moduleStatusCode", 
                             KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ATTACHMENTS_PAGE));
                 }
-                else if(validateIncompleteAttachments.equals(AUDIT_PARAMETER_VALUE_NO )) {
-                    //invalidation of incomplete attachments is performed in ProposalDevelopmentSubmitToSponsorRule,
-                    valid &= true;
-                    getAuditErrors(Constants.AUDIT_WARNINGS).add(new AuditError("document.developmentProposalList[0].narrative[" + i + "].moduleStatusCode", 
-                            KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ATTACHMENTS_PAGE));
-                }
             }
             i++;
         }
