@@ -130,15 +130,14 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         rulePassed &= getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getProposalDevelopmentDocument()));
         if(rulePassed) {
             List<AnswerHeader> answerHeadersToSave = new ArrayList<AnswerHeader>();
-            for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers()) {
                 //doing this check to make sure the person wasn't automatically deleted after adding.
-                if(helper.getProposalPerson().getPersonId().equals(GlobalVariables.getUserSession().getPrincipalId())) {
-                    if (pdform.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().contains(helper.getProposalPerson())) {
-                        helper.preSave();
-                        answerHeadersToSave.addAll(helper.getAnswerHeaders());
+                ProposalPersonQuestionnaireHelper helper2 = pdform.getProposalPersonQuestionnaireHelpers().get(this.getSelectedLine(request));
+                if(helper2 != null) {
+                    if (pdform.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().contains(helper2.getProposalPerson())) {
+                        helper2.preSave();
+                        answerHeadersToSave.addAll(helper2.getAnswerHeaders());
                     }
                 }
-            }
             if (!answerHeadersToSave.isEmpty()) {
                 this.getBusinessObjectService().save(answerHeadersToSave);
             }

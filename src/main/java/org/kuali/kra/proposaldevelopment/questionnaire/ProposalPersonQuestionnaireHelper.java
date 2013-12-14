@@ -111,17 +111,15 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
         boolean canCertify = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
         setAnswerQuestionnaire(canCertify);
 
-        Person user = GlobalVariables.getUserSession().getPerson();
-        
         String keyPersonCertDeferral = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "KEY_PERSON_CERTIFICATION_DEFERRAL");
 
         if(keyPersonCertDeferral.equals("BS") || ObjectUtils.isNull(getProposalDevelopmentDocument())) {
             setCanAnswerAfterRouting(false);
         } else if(keyPersonCertDeferral.equals("BA")) {
             
-            boolean isEnroute = getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
+            boolean isApproved = getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
             
-            if(!isEnroute) {
+            if(!isApproved) {
                 setCanAnswerAfterRouting(false);
             } else {
                 //questionnaires should continue to be answerable only to the following approvers.
@@ -129,8 +127,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
                 if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE)) {
-                    if(proposalPerson.getPerson().getPersonId().equals(getUserIdentifier())
-                            || canCertify) {
+                    if(proposalPerson.getPerson().getPersonId().equals(getUserIdentifier())) {
                         setCanAnswerAfterRouting(true);
                     }
                 }
