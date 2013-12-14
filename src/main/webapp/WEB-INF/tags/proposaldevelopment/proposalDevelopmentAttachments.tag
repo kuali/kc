@@ -61,10 +61,15 @@
 <%-- We used to calculate the # of proposal attachements by fn:length(KualiForm.document.developmentProposalList[0].narratives), but this counts all of them including the 
 internal attachements.  We are just going to loop through the narratives and see which ones are going to be rendered on this panel and count them up. --%>
 <c:set scope = "page" var = "proposalAttachementCount" value = "0"/>
+<c:set scope = "page" var="canUpdateAllStatuses" value="true"/>
+
 <c:forEach var="narrative" items="${KualiForm.document.developmentProposalList[0].narratives}" varStatus="status">
         	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].value}">
         		<c:set scope = "page" var = "proposalAttachementCount" value = "${proposalAttachementCount + 1}"/>
   			</c:if>
+			<c:set var="replaceKey" value="proposalAttachment.${narrative.moduleNumber}.replace" />
+			<c:set var="replaceAttachment" value="${KualiForm.editingMode[replaceKey]}" />
+  			<c:set var="canUpdateAllStatuses" value="${canUpdateAllStatuses and replaceAttachment}"/>
 </c:forEach>
 
 
@@ -78,7 +83,7 @@ internal attachements.  We are just going to loop through the narratives and see
 	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
 	        </h3>
         </kra:section>
-        <kra:section permission="modifyNarrativeStatus">
+		<c:if test="${canUpdateAllStatuses}">
 			<table cellpadding=0 cellspacing=0 summary="">
 				<tbody>
 		            <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].narratives) > 0}">
@@ -103,7 +108,7 @@ internal attachements.  We are just going to loop through the narratives and see
 					</c:if>
 				</tbody>
 			</table>
-        </kra:section>
+	    </c:if>
         <table cellpadding=0 cellspacing=0 summary="">
             <kra:section permission="addNarratives">
             	<tbody class="addline">
@@ -173,7 +178,6 @@ internal attachements.  We are just going to loop through the narratives and see
             <tr>
             	<td colspan="4">
             	<div  align="left">
-            	
             	
         	<c:forEach var="narrative" items="${KualiForm.document.developmentProposalList[0].narratives}" varStatus="status">
         	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].value}">
@@ -314,8 +318,7 @@ internal attachements.  We are just going to loop through the narratives and see
 			       </div>
 			     </kul:innerTab>
 			   </c:if>
-        	</c:forEach> 
-        	
+        	</c:forEach>
         	</div>
         	</td>
         	</tr>
