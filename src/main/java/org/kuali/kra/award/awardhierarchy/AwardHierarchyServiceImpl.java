@@ -252,6 +252,12 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
                     hierarchy.setParent(parent);
                 }
             }
+            for (AwardHierarchy hierarchy : result.values()) {
+                Collections.sort(hierarchy.getChildren(), new Comparator<AwardHierarchy>() {
+                    public int compare(AwardHierarchy arg0, AwardHierarchy arg1) {
+                        return arg0.getAwardNumber().compareTo(arg1.getAwardNumber());
+                    } });
+            }
             Queue<AwardHierarchy> queue = new LinkedList<AwardHierarchy>();
             queue.add(rootNode);
             while (!queue.isEmpty()) {
