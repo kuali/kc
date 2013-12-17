@@ -71,6 +71,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     
     /**
      * This method executes before each unit test and ensures the necessary lifecycles have been started
+     * @throws Exception 
      */
     @Before
     public final void baseBeforeTest() {

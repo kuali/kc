@@ -39,6 +39,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
@@ -60,6 +61,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
     private ProtocolAssignToAgendaServiceImpl protocolAssignToAgendaServiceImpl;
     
     private BusinessObjectService businessObjectService;
+    private LegacyDataAdapter legacyDataAdapter;
 
     @Override
     @Before
@@ -71,6 +73,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         protocolAssignToAgendaService = KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
         protocolAssignToAgendaServiceImpl = (ProtocolAssignToAgendaServiceImpl)KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        legacyDataAdapter = KraServiceLocator.getService(LegacyDataAdapter.class);
     }
 
     @Override
@@ -225,7 +228,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         DocumentHeader documentHeader = new DocumentHeader();
         documentHeader.setDocumentNumber("101");
         documentHeader.setDocumentDescription("super cool description");
-        CommitteeDocument cd = new CommitteeDocument();
+        CommitteeDocument cd = (CommitteeDocument) getDocumentService().getNewDocument(CommitteeDocument.class);
         cd.setCommittee(com);
         cd.setDocumentNumber("1");
         cd.setDocumentHeader(documentHeader);
@@ -234,9 +237,9 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         cd.setVersionNumber(new Long(1));
         com.setCommitteeDocument(cd);
         
-        businessObjectService.save(documentHeader);
+        legacyDataAdapter.save(documentHeader);
         businessObjectService.save(cd);
-        businessObjectService.save(com);
+        legacyDataAdapter.save(com);
         
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         
@@ -292,10 +295,10 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         cd.setVersionNumber(new Long(1));
         com.setCommitteeDocument(cd);
         
-        businessObjectService.save(documentHeader);
+        legacyDataAdapter.save(documentHeader);
         businessObjectService.save(cd);
-        businessObjectService.save(com);
-        businessObjectService.save(cs);
+        legacyDataAdapter.save(com);
+        legacyDataAdapter.save(cs);
         
         submission.setScheduleId(cs.getScheduleId());
         
