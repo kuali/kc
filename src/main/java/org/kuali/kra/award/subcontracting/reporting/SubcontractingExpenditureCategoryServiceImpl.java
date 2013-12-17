@@ -17,6 +17,7 @@ package org.kuali.kra.award.subcontracting.reporting;
 
 import org.kuali.kra.award.subcontracting.reporting.dao.SubcontractingExpenditureCategoryDetailsDao;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -162,7 +163,7 @@ public class SubcontractingExpenditureCategoryServiceImpl implements Subcontract
 
     public BusinessObjectService getBusinessObjectService() {
         if (this.businessObjectService == null) {
-            this.businessObjectService = KRADServiceLocator.getBusinessObjectService();
+            this.businessObjectService = KNSServiceLocator.getBusinessObjectService();
         }
         return this.businessObjectService;
     }

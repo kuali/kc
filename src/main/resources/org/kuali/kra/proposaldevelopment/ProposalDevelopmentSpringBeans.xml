@@ -60,6 +60,15 @@
         </property>
     </bean>
    
+    <bean id="legacyDataAdapter" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="legacyDataAdapter" />
+    </bean>
+    
+    <bean id="dataObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataObjectService" />
+    </bean>
+    
+
     <bean id="awardService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="awardService" />
     </bean>
@@ -216,8 +225,8 @@
     </bean>
     <bean id="s2SService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="s2SService"/>
-    </bean>    
-    
+    </bean> 
+        
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
@@ -299,7 +308,8 @@
     </bean>
 
     <bean id="proposalLockService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalLockServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
+    		<property name="dataDictionaryService" ref="dataDictionaryService"/>
+    		<property name="dataObjectService" ref="dataObjectService" />
     </bean>
     
     <bean id="proposalDevelopmentNotificationRenderer" class="org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRenderer" 

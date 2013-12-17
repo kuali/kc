@@ -76,7 +76,7 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
         NegotiationDocument negotiationDocument = (NegotiationDocument) kualiDocumentFormBase.getDocument();
-        negotiationDocument.getNegotiation().setNegotiationId(getSequenceAccessorService().getNextAvailableSequenceNumber(Constants.NEGOTIATION_SEQUENCE_NAME));
+        negotiationDocument.getNegotiation().setNegotiationId(getSequenceAccessorService().getNextAvailableSequenceNumber(Constants.NEGOTIATION_SEQUENCE_NAME, negotiationDocument.getNegotiation().getClass()));
         negotiationDocument.getNegotiation().setNegotiationStatus(
                 getNegotiationService().getNegotiationStatus(getNegotiationService().getInProgressStatusCodes().get(0)));
         negotiationDocument.getNegotiation().setNegotiationStatusId(negotiationDocument.getNegotiation().getNegotiationStatus().getId());

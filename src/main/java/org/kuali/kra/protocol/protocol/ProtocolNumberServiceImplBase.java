@@ -95,12 +95,14 @@ public abstract class ProtocolNumberServiceImplBase implements ProtocolNumberSer
      * possible conflicts.
      * @return the next database sequence number
      */
-    protected synchronized Long getSequenceNumber() {
+    protected synchronized final Long getSequenceNumber() {
         // the actual sequence name is obtained from the subclass via the getSequenceNameHook()
-        return sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNameHook());
+        return sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNameHook(), getSequenceOwnerClass());
     }
 
     // hook for getting the sequence name
     protected abstract String getSequenceNameHook();
+    
+    protected abstract Class getSequenceOwnerClass();
     
 }
