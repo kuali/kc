@@ -82,7 +82,7 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <noAddressBinding>true</noAddressBinding>
-                                    <wsdl>${gg.wsdl.location}/ApplicantIntegrationServices-V1_1.wsdl</wsdl>
+                                    <wsdl>${gg.wsdl.location}/ApplicantWebServices-V2_0.wsdl</wsdl>
                                     <catalog>${gg.wsdl.location}/schemas/gg-catalog.xml</catalog>
                                     <extraargs>
                                         <extraarg>-verbose</extraarg>

@@ -163,11 +163,11 @@
 	<param name="s2s.truststore.location">path to truststore</param>
 	<param name="s2s.truststore.password">truststore password</param>
 	
-	<param name="grants.gov.s2s.host.production">https://ws07.grants.gov:446/app-s2s-server/services</param>
-	<param name="grants.gov.s2s.host.development">https://at07ws.grants.gov:446/app-s2s-server/services</param>
+	<param name="grants.gov.s2s.host.production">https://ws07.grants.gov:446/grantsws-applicant/services/v2/</param>
+	<param name="grants.gov.s2s.host.development">https://at07ws.grants.gov:446/grantsws-applicant/services/v2/</param>
 	<param name="grants.gov.s2s.host">${grants.gov.s2s.host.development}</param>
 	
-	<param name="grants.gov.s2s.port">ApplicantIntegrationSoapPort</param>
+	<param name="grants.gov.s2s.port">ApplicantWebServicesSoapPort</param>
 
 	<param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>
