@@ -33,7 +33,7 @@ public class CorrespondenceTypeModuleIdValuesFinder extends UifKeyValuesFinderBa
 
         KeyValues.add(new ConcreteKeyValue("", "select"));
         for (CorrespondenceTypeModuleIdConstants correspondenceTypeModuleIdConstants : CorrespondenceTypeModuleIdConstants.values()) {
-            KeyValues.add(new ConcreteKeyValue(correspondenceTypeModuleIdConstants.code(), correspondenceTypeModuleIdConstants.description()));
+            KeyValues.add(new ConcreteKeyValue(correspondenceTypeModuleIdConstants.getCode(), correspondenceTypeModuleIdConstants.getDescription()));
         }
         
         return KeyValues; 

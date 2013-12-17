@@ -15,16 +15,18 @@
  */
 package org.kuali.kra.iacuc.species;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.IacucSpeciesCountType;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class IacucProtocolSpecies extends ProtocolAssociateBase { 
     
@@ -53,7 +55,6 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     
     public IacucProtocolSpecies() { 
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
-
     } 
     
     public Integer getIacucProtocolSpeciesId() {
@@ -151,6 +152,9 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     }
 
     public IacucSpecies getIacucSpecies() {
+        if (iacucSpecies == null) {
+            refreshReferenceObject("iacucSpecies");
+        }
         return iacucSpecies;
     }
 
@@ -253,5 +257,6 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     public void setOldProtocolSpeciesId(Integer oldProtocolSpeciesId) {
         this.oldProtocolSpeciesId = oldProtocolSpeciesId;
     }
+
 
 }

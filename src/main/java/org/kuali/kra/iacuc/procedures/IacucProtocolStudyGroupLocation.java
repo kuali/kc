@@ -15,11 +15,14 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.IacucLocationType;
-import org.kuali.kra.protocol.ProtocolAssociateBase;
 
-public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase { 
+public class IacucProtocolStudyGroupLocation extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
 
@@ -33,13 +36,17 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
     
     private IacucLocationType iacucLocationType; 
     private IacucLocationName iacucLocationName; 
-    
     private IacucProtocolStudyGroup iacucProtocolStudyGroup; 
     
-    private Integer locationGroupIndex;
+    /* 
+     * List of protocol studies and related procedures grouped by species
+     * This collection is populated during protocol procedure actions
+     */
+    private List<IacucProtocolSpeciesStudyGroup> procedureDetails;
+    private boolean allProceduresSelected;
     
     public IacucProtocolStudyGroupLocation() { 
-
+        setProcedureDetails(new ArrayList<IacucProtocolSpeciesStudyGroup>());
     } 
     
     public Integer getIacucProtocolStudyGroupLocationId() {
@@ -112,33 +119,8 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
         this.iacucLocationName = iacucLocationName;
     }
 
-    @Override
     public void resetPersistenceState() {
         this.setIacucProtocolStudyGroupLocationId(null);        
-    }
-
-    public Integer getIacucProtocolStudyGroupId() {
-        return iacucProtocolStudyGroupId;
-    }
-
-    public void setIacucProtocolStudyGroupId(Integer iacucProtocolStudyGroupId) {
-        this.iacucProtocolStudyGroupId = iacucProtocolStudyGroupId;
-    }
-
-    public IacucProtocolStudyGroup getIacucProtocolStudyGroup() {
-        return iacucProtocolStudyGroup;
-    }
-
-    public void setIacucProtocolStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
-        this.iacucProtocolStudyGroup = iacucProtocolStudyGroup;
-    }
-
-    public Integer getLocationGroupIndex() {
-        return locationGroupIndex;
-    }
-
-    public void setLocationGroupIndex(Integer locationGroupIndex) {
-        this.locationGroupIndex = locationGroupIndex;
     }
 
     /**  {@inheritDoc} */
@@ -169,6 +151,38 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase {
             return false;
         }
         return true;
+    }
+
+    public List<IacucProtocolSpeciesStudyGroup> getProcedureDetails() {
+        return procedureDetails;
+    }
+
+    public void setProcedureDetails(List<IacucProtocolSpeciesStudyGroup> procedureDetails) {
+        this.procedureDetails = procedureDetails;
+    }
+
+    public IacucProtocolStudyGroup getIacucProtocolStudyGroup() {
+        return iacucProtocolStudyGroup;
+    }
+
+    public void setIacucProtocolStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
+        this.iacucProtocolStudyGroup = iacucProtocolStudyGroup;
+    }
+
+    public Integer getIacucProtocolStudyGroupId() {
+        return iacucProtocolStudyGroupId;
+    }
+
+    public void setIacucProtocolStudyGroupId(Integer iacucProtocolStudyGroupId) {
+        this.iacucProtocolStudyGroupId = iacucProtocolStudyGroupId;
+    }
+
+    public boolean isAllProceduresSelected() {
+        return allProceduresSelected;
+    }
+
+    public void setAllProceduresSelected(boolean allProceduresSelected) {
+        this.allProceduresSelected = allProceduresSelected;
     }
 
 }

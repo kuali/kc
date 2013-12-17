@@ -283,6 +283,14 @@
                     <property name="taskName" value="protocolRequestTerminateUnavailable" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawSubmissionAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolWithdrawRequestSubmission" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawSubmissionUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolWithdrawRequestSubmissionUnavailable" />
+                </bean>
+
                 <bean class="org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAmendRenewDelete" />
                 </bean>
@@ -1009,6 +1017,15 @@
 		p:callbackService-ref="protocolAffiliateTypeDerivedRoleTypeService" 
 		p:localServiceName="protocolAffiliateTypeDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+	
+    <bean id="iacucCorrespondentDerivedRoleTypeService"
+          class="org.kuali.kra.kim.service.impl.IacucCorrespondentDerivedRoleTypeServiceImpl">
+    </bean>
+	
+	<bean id="iacucCorrespondentDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+		p:callbackService-ref="iacucCorrespondentDerivedRoleTypeService" 
+		p:localServiceName="iacucCorrespondentDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 
     <bean id="irbCorrespondentDerivedRoleTypeService"
           class="org.kuali.kra.kim.service.impl.IrbCorrespondentDerivedRoleTypeServiceImpl">
@@ -1058,6 +1075,21 @@
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
     </bean>
  	
+    <bean id="irbCorrespondencePrint"
+    	parent="correspondencePrint">
+   		<property name="xmlStream" ref="correspondenceXmlStream" />
+   	</bean>
+ 	
+	<bean id="irbCorrespondencePrintingService" class="org.kuali.kra.irb.questionnaire.print.IrbCorrespondencePrintingServiceImpl">
+		<property name="printingService">
+			<ref bean="printingService" />
+		</property>
+		<property name="correspondencePrint" ref="irbCorrespondencePrint" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+ 	
     <bean id="irbProtocolActionRequestService" class="org.kuali.kra.irb.actions.IrbProtocolActionRequestServiceImpl">
    		<property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />    
    		<property name="protocolAssignCmtSchedService" ref="protocolAssignCmtSchedService" />    
@@ -1083,6 +1115,7 @@
         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
         <property name="personService" ref="personService"/>
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
+        <property name="protocolActionService" ref="protocolActionService" />
  	</bean>
 
     <bean id="irbPersonSignatureService" class="org.kuali.kra.irb.actions.print.IrbPersonSignatureServiceImpl">

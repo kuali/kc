@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.data.DataType;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.core.api.uif.RemotableTextInput;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
@@ -155,7 +156,8 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
             for (Map.Entry<String, String> agendaQualifier : environment.getSelectionCriteria().getAgendaQualifiers().entrySet()) {
                 String agendaQualifierValue = qualifiers.get(agendaQualifier.getKey());
                 String environmentQualifierValue = agendaQualifier.getValue();
-                if (KcKrmsConstants.UNIT_NUMBER.equals(agendaQualifier.getKey())) {
+                
+               if (KcKrmsConstants.UNIT_NUMBER.equals(agendaQualifier.getKey())) {
                     if (!(environmentQualifierValue.equals(agendaQualifierValue) || isChildUnit(environmentQualifierValue, agendaQualifierValue))) {
                         return false;
                     }
@@ -170,7 +172,7 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
             UnitService unitService = KraServiceLocator.getService(UnitService.class);
             Unit childUnit = unitService.getUnit(childNumber);
             Unit parentUnit = unitService.getUnit(parentNumber);
-            return childUnit.isParentUnit(parentUnit);
+            return childUnit == null || parentUnit == null ? false : childUnit.isParentUnit(parentUnit);
         }
 
     }

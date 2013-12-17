@@ -92,7 +92,7 @@ public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
         AddProtocolReferenceEvent event = new AddProtocolReferenceEvent(Constants.EMPTY_STRING,document,newProtocolReferenceBean);
         assertFalse(rule.processAddProtocolReferenceBusinessRules(event));
         
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_PROTOCOLREFERENCE + ".protocolReferenceTypeCode");   
+        List errors = GlobalVariables.getMessageMap().getMessages(NEW_PROTOCOLREFERENCE + ".protocolReferenceTypeCode");
         assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE);

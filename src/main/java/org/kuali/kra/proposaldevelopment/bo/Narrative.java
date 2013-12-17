@@ -301,6 +301,18 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
     }
+    
+    /**
+     * Can the current user change the status of attachment?
+     * @return true if the user can modify the status of attachments; otherwise false
+     */
+    public boolean getModifyAttachmentStatus(String userId) {
+        if(getNarrativeUserRights().isEmpty()) {
+            refreshReferenceObject("narrativeUserRights");
+        }
+        TaskAuthorizationService taskAuthorizatioNService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthorizatioNService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_STATUS, getDocument(), this));
+    }
 
     /**
      * Can the current user modify the user rights for the attachment?
@@ -568,4 +580,5 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     public String getType() {
         return getContentType();
     }
+
 }

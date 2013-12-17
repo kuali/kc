@@ -56,6 +56,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -134,6 +135,8 @@ public class ProtocolDocument extends ProtocolDocumentBase {
      * @throws Exception
      */
     protected void mergeAmendment(String protocolStatusCode, String type) {
+        // Need to get approval action date before versioning or else duplicated OJB proxy will attach actions to Amendment instead of new base version
+        Timestamp approvalActionDate = getProtocol().getLastProtocolAction().getActionDate();
         Protocol currentProtocol = (Protocol) getProtocolFinder().findCurrentProtocolByNumber(getOriginalProtocolNumber());
         final ProtocolDocument newProtocolDocument;
         try {
@@ -147,9 +150,14 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         
         newProtocolDocument.getProtocol().merge(getProtocol());
         getProtocol().setProtocolStatusCode(protocolStatusCode);
-        
-        ProtocolAction action = new ProtocolAction((Protocol) newProtocolDocument.getProtocol(), null, ProtocolActionType.APPROVED);
+
+        ProtocolActionBase lastApprovalAction = getLastApprovalAction();
+        List<ProtocolSubmissionBase> protocolSubmissions = newProtocolDocument.getProtocol().getProtocolSubmissions();
+        ProtocolSubmission mergedSubmission = (ProtocolSubmission) (protocolSubmissions == null || protocolSubmissions.size() == 0 ? null : protocolSubmissions.get(protocolSubmissions.size() - 1));
+        ProtocolAction action = new ProtocolAction((Protocol) newProtocolDocument.getProtocol(), mergedSubmission, lastApprovalAction.getProtocolActionTypeCode());
+        //ProtocolAction action = new ProtocolAction((Protocol) newProtocolDocument.getProtocol(), null, lastApprovalAction);
         action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
+        action.setActionDate(approvalActionDate);
         newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
         
@@ -182,8 +190,7 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         finalizeAttachmentProtocol((Protocol)this.getProtocol());
         getBusinessObjectService().save(this);
         
-        mergeProtocolCorrespondenceAndNotification(newProtocolDocument, this.getProtocol().getLastProtocolAction().getProtocolActionTypeCode());
-           
+        mergeProtocolCorrespondenceAndNotification(newProtocolDocument, getLastApprovalAction().getProtocolActionType().getProtocolActionTypeCode());
     }
     
     protected void mergeProtocolCorrespondenceAndNotification(ProtocolDocument newProtocolDocument, String protocolActionType) {
@@ -270,7 +277,19 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     private ProtocolFinderDao getProtocolFinder() {
         return KraServiceLocator.getService(ProtocolFinderDao.class);
     }
-    
+
+    private ProtocolActionBase getLastApprovalAction() {
+        ProtocolActionBase result = null;
+        for (ProtocolActionBase action: getProtocol().getProtocolActions()) {
+            if (ProtocolActionType.APPROVED.equals(action.getProtocolActionTypeCode()) ||
+                ProtocolActionType.EXPEDITE_APPROVAL.equals(action.getProtocolActionTypeCode()) ||
+                ProtocolActionType.GRANT_EXEMPTION.equals(action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED))) {
+                result = action;
+            }
+        }
+        return result;
+    }
+
     /**
      * 
      * This method is to check whether rice async routing is ok now.   

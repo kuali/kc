@@ -17,6 +17,7 @@ package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,9 @@ public abstract class ModifyAmendmentAuthorizer extends ModifyProtocolAuthorizer
         Protocol protocol = task.getProtocol();
         boolean hasPermission = super.isAuthorized(userId, task);
 
-        if (hasPermission && isAmendmentOrRenewal(protocol)) {
+        if (hasPermission && protocol.isRenewalWithoutAmendment()) {
+            hasPermission = ProtocolModule.ADD_MODIFY_ATTACHMENTS.equals(moduleTypeCode) || canModifyModule(protocol, moduleTypeCode);
+        } else if (hasPermission && isAmendmentOrRenewal(protocol)) {
             hasPermission = canModifyModule(protocol, moduleTypeCode);
         }
 

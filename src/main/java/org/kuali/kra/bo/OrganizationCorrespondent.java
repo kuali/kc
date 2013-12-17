@@ -17,36 +17,16 @@ package org.kuali.kra.bo;
 
 import org.kuali.kra.irb.correspondence.CorrespondentType;
 
-public class OrganizationCorrespondent extends KraPersistableBusinessObjectBase {
+public class OrganizationCorrespondent extends Correspondent {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer organizationCorrespondentId;
-
     private String organizationId;
 
-    private Integer correspondentTypeCode;
-
-    private String personId;
-
-    private boolean nonEmployeeFlag;
-
-    private String description;
-
     private Organization organization;
-
-    private CorrespondentType correspondentType;
-
+    
     public OrganizationCorrespondent() {
         super();
-    }
-
-    public Integer getOrganizationCorrespondentId() {
-        return organizationCorrespondentId;
-    }
-
-    public void setOrganizationCorrespondentId(Integer organizationCorrespondentId) {
-        this.organizationCorrespondentId = organizationCorrespondentId;
     }
 
     public String getOrganizationId() {
@@ -57,38 +37,6 @@ public class OrganizationCorrespondent extends KraPersistableBusinessObjectBase 
         this.organizationId = organizationId;
     }
 
-    public Integer getCorrespondentTypeCode() {
-        return correspondentTypeCode;
-    }
-
-    public void setCorrespondentTypeCode(Integer correspondentTypeCode) {
-        this.correspondentTypeCode = correspondentTypeCode;
-    }
-
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    public boolean getNonEmployeeFlag() {
-        return nonEmployeeFlag;
-    }
-
-    public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
-        this.nonEmployeeFlag = nonEmployeeFlag;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Organization getOrganization() {
         return organization;
     }
@@ -97,15 +45,16 @@ public class OrganizationCorrespondent extends KraPersistableBusinessObjectBase 
         this.organization = organization;
     }
 
-    public CorrespondentType getCorrespondentType() {
-        return correspondentType;
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(getPersonId());
+    }
+    
+    public org.kuali.kra.irb.correspondence.CorrespondentType getCorrespondentType() {
+        return (org.kuali.kra.irb.correspondence.CorrespondentType) correspondentType;
     }
 
-    public void setCorrespondentType(CorrespondentType correspondentType) {
+    public void setCorrespondentType(org.kuali.kra.irb.correspondence.CorrespondentType correspondentType) {
         this.correspondentType = correspondentType;
     }
-
-    public KcPerson getPerson() {
-        return getKcPersonService().getKcPersonByPersonId(personId);
-    }
+    
 }

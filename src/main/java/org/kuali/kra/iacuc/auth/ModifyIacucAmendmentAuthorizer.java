@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 
 public abstract class ModifyIacucAmendmentAuthorizer extends ModifyIacucProtocolAuthorizer {
     
@@ -38,10 +39,12 @@ public abstract class ModifyIacucAmendmentAuthorizer extends ModifyIacucProtocol
         ProtocolBase protocol = task.getProtocol();
         boolean hasPermission = super.isAuthorized(userId, task);
 
-        if (hasPermission && isAmendmentOrRenewal(protocol)) {
+        if (hasPermission && protocol.isRenewalWithoutAmendment()) {
+            hasPermission = IacucProtocolModule.ADD_MODIFY_ATTACHMENTS.equals(moduleTypeCode) || canModifyModule(protocol, moduleTypeCode);
+        } else if (hasPermission && isAmendmentOrRenewal(protocol)) {
             hasPermission = canModifyModule(protocol, moduleTypeCode);
         }
-
+        
         if (hasPermission && protocol.isCorrectionMode()) {
             hasPermission = canCorrectModule(protocol, moduleTypeCode);
         }

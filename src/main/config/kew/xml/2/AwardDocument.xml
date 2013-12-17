@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	 <groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+        <group>
+            <name>AwardAdmin</name>
+            <namespace>KC-WKFLW</namespace>
+            <description>Award Administrator</description>
+			<members>
+				<principalName>kc</principalName>
+			</members>
+        </group>
+    </groups>
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>AwardDocument</name>
@@ -7,9 +17,9 @@
 			<label>KC Award</label>
 			<parent>KC</parent>
 			<postProcessorName>org.kuali.kra.workflow.KcPostProcessor</postProcessorName>
-			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+			<superUserWorkgroupName>KC-WKFLW:AwardAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:AwardAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:AwardAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/awardHome.do?methodToCall=docHandler</docHandler>
 			<helpDefinitionURL>default.htm?turl=Documents/award.htm</helpDefinitionURL>
 			<active>true</active>
@@ -33,6 +43,25 @@
 					<name>SponsorSearchAttribute</name>
 				</attribute>
 			</attributes>
+		        <policies>
+				<policy>
+				   	<name>DOCUMENT_STATUS_POLICY</name>
+				   	<stringValue>app</stringValue>
+			        </policy>
+				<policy>
+                    			<name>INITIATOR_MUST_ROUTE</name>
+                    			<value>false</value>
+                		</policy>
+
+  				<policy>
+                    			<name>INITIATOR_MUST_CANCEL</name>
+                    			<value>false</value>
+                		</policy>
+                		<policy>
+                    			<name>INITIATOR_MUST_BLANKET_APPROVE</name>
+                    			<value>false</value>
+                		</policy>
+			</policies>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" nextNode="hasSync"/>

@@ -247,31 +247,28 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
     public void setParentDocumentTypeCode(String parentDocumentTypeCode) {
         this.parentDocumentTypeCode = parentDocumentTypeCode;
     }
-    /** {@inheritDoc} */
-    @Override
-    public boolean useCustomLockDescriptors() {
-        return true;
-    }
 
     /** {@inheritDoc} */
     @Override
     public String getCustomLockDescriptor(Person user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        String updatedTimestamp = "";
-        if (this.getUpdateTimestamp() != null) {
-            updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
-        }
+       
         if (StringUtils.isNotEmpty(activeLockRegion)) {
             BudgetParentDocument parent = this.getParentDocument();
             if (parent != null) {
-                return this.getBudget().getBudgetId() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp; 
+                return getDocumentBoNumber() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName(); 
             }
-            return this.getBudget().getBudgetId() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp;
+            return getDocumentBoNumber() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName();
         }
         
         return null;
     }
-
+    
+    public String getDocumentBoNumber() {
+        return getBudget().getBudgetId().toString();
+        
+    }
+    
     public String getDocumentKey() {
         return getParentDocument().getBudgetPermissionable().getDocumentKey();
     }

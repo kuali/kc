@@ -41,7 +41,7 @@
 		                    </th>
 		                    <td colspan="3">
 		                        <nobr>
-		                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.summary" 
+		                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.summary" 
 		                                                  attributeEntry="${attributes.summary}"
 		                                                  disabled="true" />
 		                        </nobr>
@@ -66,13 +66,13 @@
 		                            <tbody>
 		                                <tr>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.generalInfo" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.generalInfo" 
 		                                                                  attributeEntry="${attributes.generalInfo}"
 		                                                                  disabled="true" />
 		                                        General Info
 		                                    </td>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.addModifyAttachments" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.addModifyAttachments" 
 		                                                                  attributeEntry="${attributes.generalInfo}" 
 		                                                                  disabled="true" />
 		                                        Add/Modify Notes & Attachments
@@ -80,13 +80,13 @@
 		                                </tr>
 		                                <tr>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.fundingSource" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.fundingSource" 
 		                                                                  attributeEntry="${attributes.fundingSource}" 
 		                                                                  disabled="true" />
 		                                        Funding Source
 		                                    </td>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.areasOfResearch" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.areasOfResearch" 
 		                                                                  attributeEntry="${attributes.areasOfResearch}" 
 		                                                                  disabled="true" />
 		                                        Areas of Research
@@ -94,13 +94,13 @@
 		                                </tr>
 		                                <tr>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolReferencesAndOtherIdentifiers" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.protocolReferencesAndOtherIdentifiers" 
 		                                                                  attributeEntry="${attributes.protocolReferencesAndOtherIdentifiers}" 
 		                                                                  disabled="true" />
 		                                        Protocol References &amp; Other Identifiers
 		                                    </td>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.specialReview" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.specialReview" 
 		                                                                  attributeEntry="${attributes.specialReview}" 
 		                                                                  disabled="true" />
 		                                        Special Review
@@ -108,13 +108,13 @@
 		                                </tr>
 		                                <tr>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolOrganizations" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.protocolOrganizations" 
 		                                                                  attributeEntry="${attributes.protocolOrganizations}" 
 		                                                                  disabled="true" />
 		                                        Protocol Organizations
 		                                    </td>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolPersonnel" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.protocolPersonnel" 
 		                                                                  attributeEntry="${attributes.protocolPersonnel}" 
 		                                                                  disabled="true" />
 		                                        Protocol Personnel
@@ -122,13 +122,13 @@
 		                                </tr>
 		                                <tr>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.subjects" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.subjects" 
 		                                                                  attributeEntry="${attributes.subjects}" 
 		                                                                  disabled="true" />
 		                                        Subjects
 		                                    </td>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.others" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.others" 
 		                                                                  attributeEntry="${attributes.others}" 
 		                                                                  disabled="true" />
 		                                        Others
@@ -136,7 +136,7 @@
 		                                </tr>
 		                                <tr>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.questionnaire" 
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.questionnaire" 
 		                                                                  attributeEntry="${attributes.questionnaire}" 
 		                                                                  disabled="true" />
 		                                        Questionnaire 

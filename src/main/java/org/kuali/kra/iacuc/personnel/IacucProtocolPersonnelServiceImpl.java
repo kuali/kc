@@ -15,14 +15,22 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.personnel.*;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMappingBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelServiceImplBase;
+import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.kra.service.KraAuthorizationService;
 
 public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBase implements IacucProtocolPersonnelService {
 
+    private IacucProtocolProcedureService iacucProtocolProcedureService;
+    
     @Override
     protected ProtocolUnitBase createNewProtocolUnitInstanceHook() {
         return new IacucProtocolUnit();
@@ -78,5 +86,17 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
         }
     }    
     
+    @Override
+    public void addProtocolPerson(ProtocolBase protocol, ProtocolPersonBase protocolPerson) {
+        super.addProtocolPerson(protocol, protocolPerson);
+    }
+
+    public IacucProtocolProcedureService getIacucProtocolProcedureService() {
+        return iacucProtocolProcedureService;
+    }
+
+    public void setIacucProtocolProcedureService(IacucProtocolProcedureService iacucProtocolProcedureService) {
+        this.iacucProtocolProcedureService = iacucProtocolProcedureService;
+    }
 
 }

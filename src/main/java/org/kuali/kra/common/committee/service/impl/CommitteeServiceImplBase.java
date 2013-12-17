@@ -339,7 +339,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         // loop over the old schedules and process those that need to be retained in the master list
         for (CS oldSchedule : oldSchedulesCopy) {
             CS newCommitteeVersionOfOldSchedule = getNewCommitteeSchedule(oldSchedule, newSchedules);
-            if (isNotEmptyData(oldSchedule) || (newCommitteeVersionOfOldSchedule != null)) {
+            if (oldSchedule.hasMeetingData() || (newCommitteeVersionOfOldSchedule != null)) {
                 // if its in the new committee, then the schedule's light data may have been modified, so copy it over
                 if (newCommitteeVersionOfOldSchedule != null) {
                     oldSchedule.copyLightDataFrom(newCommitteeVersionOfOldSchedule);
@@ -358,19 +358,6 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
             }
         }
         return masterSchedules;
-    }
-    
-    /*
-     * check if schedule contain meeting which also include whether protocol submitted.
-     */
-    protected boolean isNotEmptyData(CS schedule) {
-        return CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleAttendances())
-        || CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleMinutes())
-        || CollectionUtils.isNotEmpty(schedule.getCommScheduleActItems())
-        || CollectionUtils.isNotEmpty(schedule.getMinuteDocs())
-        || CollectionUtils.isNotEmpty(schedule.getScheduleAgendas())
-        || CollectionUtils.isNotEmpty(schedule.getLatestProtocolSubmissions()) ;
-        
     }
     
     
@@ -398,6 +385,23 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         return null;
     }
 
+    
+    
+    /**
+     * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#updateCommitteeForProtocolSubmissions(org.kuali.kra.common.committee.bo.CommitteeBase)
+     */
+    @Override
+    public void updateCommitteeForProtocolSubmissions(CMT committee) {
+        // loop thru all the schedules for the committee and update each schedule's submissions if any
+        for(CS committeeSchedule : committee.getCommitteeSchedules()) {
+            for(PS protocolSubmission : committeeSchedule.getProtocolSubmissions()) {
+                protocolSubmission.setCommitteeIdFk(committee.getId());
+                protocolSubmission.setCommittee(committee);
+                getBusinessObjectService().save(protocolSubmission); 
+            }
+        }
+    }
+    
     
     @Override
     public CMT getLightVersion(String committeeId) throws Exception{

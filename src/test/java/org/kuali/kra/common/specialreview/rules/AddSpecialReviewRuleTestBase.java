@@ -437,7 +437,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
     }
     
     private void assertError(String propertyKey, String errorKey) {
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
+        List errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

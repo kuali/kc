@@ -35,11 +35,13 @@ import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDo
 import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
+import org.kuali.kra.common.printing.CorrespondencePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 import javax.servlet.http.HttpServletRequest;
@@ -315,8 +317,12 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
         
         CommitteeTaskBase task = getNewCommitteeTaskInstanceHook(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         if (isAuthorized(task)) {
-            if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
-                    printRooster, printFutureScheduledMeeting))) {
+            List<Printable> correspondencePrintables = getCorrespondencePrintingService().getCorrespondencePrintable(committeeDocument.getCommittee(), committeeForm.getCommitteeHelper().getCorrespondencesToPrint());
+            Boolean printCorrespondence = !correspondencePrintables.isEmpty();
+            CommitteeActionPrintCommitteeDocumentEvent event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
+                    printRooster, printFutureScheduledMeeting);
+            event.setPrintCorrespondence(printCorrespondence);
+            if (applyRules(event)) {
                 AbstractPrint printable;
                 List<Printable> printableArtifactList = new ArrayList<Printable>();
                 if (printRooster) {
@@ -331,6 +337,8 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
                     committeeForm.getCommitteeDocument().getCommittee().setPrintRooster(false);
                     printableArtifactList.add(printable);
                 }
+                printableArtifactList.addAll(correspondencePrintables);
+
                 AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
                 if (dataStream.getContent() != null) {
                     streamToResponse(dataStream, response);
@@ -341,6 +349,8 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
 
         return actionForward;
     }
+    
+    protected abstract CorrespondencePrintingService getCorrespondencePrintingService();
     
     protected abstract CommitteeBatchCorrespondenceServiceBase getCommitteeBatchCorrespondenceService();
     

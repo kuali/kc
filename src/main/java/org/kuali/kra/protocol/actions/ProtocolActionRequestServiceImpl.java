@@ -131,7 +131,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
      * @return
      */
     protected boolean hasGenericPermission(String genericActionName, ProtocolBase protocol) {
-        ProtocolTaskBase task = getProtocolGenericActionTaskInstanceHook(TaskName.GENERIC_PROTOCOL_ACTION, genericActionName, protocol);
+        ProtocolTaskBase task = getProtocolGenericActionTaskInstanceHook(genericActionName, protocol);
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
     
@@ -278,8 +278,12 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     }    
 
     public ProtocolCorrespondence getProtocolCorrespondence (ProtocolFormBase protocolForm, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
+        return getProtocolCorrespondence(protocolForm.getProtocolDocument().getProtocol(), forwardName, notificationRequestBean, holdingPage);
+    }
+
+    public ProtocolCorrespondence getProtocolCorrespondence (ProtocolBase protocol, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
         Map<String,Object> keyValues = new HashMap<String, Object>();
-        keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
+        keyValues.put("actionIdFk", protocol.getLastProtocolAction().getProtocolActionId());
         List<? extends ProtocolCorrespondence> correspondences = (List<? extends ProtocolCorrespondence>)getBusinessObjectService().findMatching(getProtocolCorrespondenceBOClassHook(), keyValues);
         if (correspondences.isEmpty()) {
             return null;
@@ -339,7 +343,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     protected abstract ProtocolNotification getProtocolNotificationInstanceHook();
     protected abstract ProtocolNotificationContextBase getProtocolNotificationContextHook(ProtocolNotificationRequestBeanBase notificationRequestBean, ProtocolFormBase protocolForm);
     protected abstract ProtocolTaskBase getProtocolTaskInstanceHook(String taskName, ProtocolBase protocol);
-    protected abstract ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String taskName, String genericActionName, ProtocolBase protocol);
+    protected abstract ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String genericActionName, ProtocolBase protocol);
     protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondence(String protocolActionTypeCode);
     protected abstract Class<? extends ProtocolActionTypeBase> getProtocolActionTypeBOClassHook();
     protected abstract String getProtocolCreatedActionTypeHook();

@@ -24,7 +24,15 @@ public interface ProtocolActionTypeToCorrespondenceTemplateService {
      * 
      * This method maps a protocol action type to a protocol correspondence template, and returns a list of ProtocolCorrespondenceTemplateBase objects.
      * @param protocolActionType a ProtocolActionType String
-     * @return a list of ProtocolCorrespondenceTemplateBase objects.
+     * @param committeeId a Committee id
+     * @return a list of ProtocolCorrespondenceTemplateBase objects tied to a committee.
+     */
+    List<ProtocolCorrespondenceTemplateBase> getTemplatesByProtocolAction(String protocolActionType, String committeeId); 
+
+    /**
+     * This method maps a protocol action type to a protocol correspondence template, and returns a list of ProtocolCorrespondenceTemplateBase objects.
+     * @param protocolActionType a ProtocolActionType String
+     * @return a list of ProtocolCorrespondenceTemplateBase DEFAULT objects.
      */
     List<ProtocolCorrespondenceTemplateBase> getTemplatesByProtocolAction(String protocolActionType); 
 

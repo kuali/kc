@@ -2200,62 +2200,84 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return "Proposal";
     }
 
-@Override
-public String getProjectName() {
-    // TODO Auto-generated method stub
-    return getTitle();
-}
-
-@Override
-public String getProjectId() {
-    // TODO Auto-generated method stub
-    return getProposalNumber();
-}
-public void setBudgetChangeHistory(Map<String, List<BudgetChangedData>> budgetChangeHistory) {
-    this.budgetChangeHistory = budgetChangeHistory;
-}
-
-public Map<String, List<BudgetChangedData>> getBudgetChangeHistory() {
-    return budgetChangeHistory;
-}
-/*
-This method will update the budget change data history
-*/
-
-public void updateBudgetChangeHistory() {
-    budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
-    // Arranging Budget Change History  
-   if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
-        for (BudgetChangedData budgetChangedData : this.getBudgetChangedDataList()) {
-            if (this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()) == null) {
-                this.getBudgetChangeHistory().put(budgetChangedData.getEditableColumn().getColumnLabel(),
-                        new ArrayList<BudgetChangedData>());
+    @Override
+    public String getProjectName() {
+        // TODO Auto-generated method stub
+        return getTitle();
+    }
+    
+    @Override
+    public String getProjectId() {
+        // TODO Auto-generated method stub
+        return getProposalNumber();
+    }
+    public void setBudgetChangeHistory(Map<String, List<BudgetChangedData>> budgetChangeHistory) {
+        this.budgetChangeHistory = budgetChangeHistory;
+    }
+    
+    public Map<String, List<BudgetChangedData>> getBudgetChangeHistory() {
+        return budgetChangeHistory;
+    }
+    /*
+    This method will update the budget change data history
+    */
+    
+    public void updateBudgetChangeHistory() {
+        budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
+        // Arranging Budget Change History  
+       if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
+            for (BudgetChangedData budgetChangedData : this.getBudgetChangedDataList()) {
+                if (this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()) == null) {
+                    this.getBudgetChangeHistory().put(budgetChangedData.getEditableColumn().getColumnLabel(),
+                            new ArrayList<BudgetChangedData>());
+                }
+    
+                this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()).add(
+                        budgetChangedData);
             }
-
-            this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()).add(
-                    budgetChangedData);
         }
     }
-}
-
-public void setBudgetChangedDataList(List<BudgetChangedData> budgetChangedDataList) {
-    this.budgetChangedDataList = budgetChangedDataList;
-}
-
-public List<BudgetChangedData> getBudgetChangedDataList() {
-    return budgetChangedDataList;
-}
-
-public KrmsRulesContext getKrmsRulesContext() {
-    return (KrmsRulesContext) getProposalDocument();
-}
-
-public String getLastSyncedBudgetDocumentNumber() {
-    return lastSyncedBudgetDocumentNumber;
-}
-
-public void setLastSyncedBudgetDocumentNumber(String lastSyncedBudgetDocumentNumber) {
-    this.lastSyncedBudgetDocumentNumber = lastSyncedBudgetDocumentNumber;
-}
+    
+    public void setBudgetChangedDataList(List<BudgetChangedData> budgetChangedDataList) {
+        this.budgetChangedDataList = budgetChangedDataList;
+    }
+    
+    public List<BudgetChangedData> getBudgetChangedDataList() {
+        return budgetChangedDataList;
+    }
+    
+    public KrmsRulesContext getKrmsRulesContext() {
+        return (KrmsRulesContext) getProposalDocument();
+    }
+    
+    public String getLastSyncedBudgetDocumentNumber() {
+        return lastSyncedBudgetDocumentNumber;
+    }
+    
+    public void setLastSyncedBudgetDocumentNumber(String lastSyncedBudgetDocumentNumber) {
+        this.lastSyncedBudgetDocumentNumber = lastSyncedBudgetDocumentNumber;
+    }
+    
+    public void markNarratives(NarrativeStatus narrativeStatus) {
+        if(narrativeStatus != null) {
+            for(Narrative narrative : narratives) {
+                if(narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
+                    narrative.setNarrativeStatus(narrativeStatus);
+                    narrative.setModuleStatusCode(narrativeStatus.getNarrativeStatusCode());
+                    narrative.refreshReferenceObject("narrativeStatus");
+                    getBusinessObjectService().save(narrative);
+                }
+            }
+            //proposalDocument.getDevelopmentProposalList().get(0).setNarratives(narratives);
+        }
+    }
+    
+    public void modifyNarrativeStatus(int selectedLine) {
+        Narrative narrative = getNarratives().get(selectedLine);
+        if(narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
+            narrative.refreshReferenceObject("narrativeStatus");
+            getBusinessObjectService().save(narrative);
+        }
+    }
 
 }

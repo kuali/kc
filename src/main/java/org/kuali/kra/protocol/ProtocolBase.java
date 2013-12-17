@@ -997,6 +997,17 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         return protocolActions.get(0);
     }
 
+    public boolean containsAction(String action) {
+        boolean result = false;
+        for (ProtocolActionBase protocolActionBase: getProtocolActions()) {
+            if (protocolActionBase.getProtocolActionTypeCode().equals(action)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+    
     public void setProtocolSubmissions(List<ProtocolSubmissionBase> protocolSubmissions) {
         this.protocolSubmissions = protocolSubmissions;
     }
@@ -1592,7 +1603,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     }
     
     public boolean isRenewal() {
-        return protocolNumber.contains(RENEWAL_LETTER);
+        return protocolNumber != null && protocolNumber.contains(RENEWAL_LETTER);
     }
     
     public boolean isRenewalWithoutAmendment() {
@@ -1953,4 +1964,21 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         }
         return result;
     }
+    
+    
+    public void reconcileActionsWithSubmissions() {
+        HashMap<Integer, ProtocolSubmissionBase> submissionNumberMap = new HashMap<Integer, ProtocolSubmissionBase>();
+        for(ProtocolSubmissionBase submission : getProtocolSubmissions()) {
+            submissionNumberMap.put(submission.getSubmissionNumber(), submission);
+        }
+        
+        for(ProtocolActionBase action : getProtocolActions()) {
+            if(action.getSubmissionNumber() != null && !action.getSubmissionNumber().equals(0)) {
+                if(submissionNumberMap.get(action.getSubmissionNumber()) != null) {
+                    action.setSubmissionIdFk(submissionNumberMap.get(action.getSubmissionNumber()).getSubmissionId());
+                }
+            }
+        }
+    }
+
 }

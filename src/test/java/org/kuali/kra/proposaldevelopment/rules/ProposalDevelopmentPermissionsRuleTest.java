@@ -222,7 +222,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
      * @param errorKey
      */
     private void assertError(String propertyKey, String errorKey) {
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
+        List errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

@@ -157,19 +157,27 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             if (BudgetDecimal.returnZeroIfNull(detail.getDirectCost()).isNonZero() || hasBeenChanged(detail, true)) {
                 BudgetDecimal ltValue = lesserValue(detail.getDirectCost(), amountChargeFA);
                 BudgetDecimal gtValue = detail.getDirectCost().subtract(ltValue);
-                BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directLtCostElement);
-                lt.setLineItemCost(ltValue);
-                BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directGtCostElement);
-                gt.setLineItemCost(gtValue);
+                if (ltValue.isNonZero()) {
+                    BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directLtCostElement);
+                    lt.setLineItemCost(ltValue);
+                }
+                if (gtValue.isNonZero()) {
+                    BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directGtCostElement);
+                    gt.setLineItemCost(gtValue);
+                }
                 amountChargeFA = amountChargeFA.subtract(ltValue);
             }
             if (BudgetDecimal.returnZeroIfNull(detail.getIndirectCost()).isNonZero() || hasBeenChanged(detail, false)) {
                 BudgetDecimal ltValue = lesserValue(detail.getIndirectCost(), amountChargeFA);
                 BudgetDecimal gtValue = detail.getIndirectCost().subtract(ltValue);
-                BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectLtCostElement);
-                lt.setLineItemCost(ltValue);
-                BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectGtCostElement);
-                gt.setLineItemCost(gtValue);
+                if (ltValue.isNonZero()) {
+                    BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectLtCostElement);
+                    lt.setLineItemCost(ltValue);
+                }
+                if (gtValue.isNonZero()) {
+                    BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectGtCostElement);
+                    gt.setLineItemCost(gtValue);
+                }
                 amountChargeFA = amountChargeFA.subtract(ltValue);
             }
             Collections.sort(currentLineItems, new Comparator<BudgetLineItem>() {
@@ -444,7 +452,13 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         for (int i = 0; i < budgetYearList.getLength(); i++) {
             Node budgetYear = budgetYearList.item(i);
             Node startDateNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriodStartDate");
+            if (startDateNode == null) {
+                startDateNode = XPathAPI.selectSingleNode(budgetYear, "PeriodStartDate");
+            }
             Node endDateNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriodEndDate");
+            if(endDateNode == null) {
+                endDateNode = XPathAPI.selectSingleNode(budgetYear, "PeriodEndDate");
+            }
             Date startDate = dateFormat.parse(startDateNode.getTextContent());
             Date endDate = dateFormat.parse(endDateNode.getTextContent());
             //attempt to find a matching budget period

@@ -139,5 +139,9 @@ public class PersonMassChangeDocument extends ResearchDocumentBase implements Se
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return new ArrayList();
     }
+
+    public String getDocumentBoNumber() {
+        return getPersonMassChange().getPersonMassChangeId()+"";
+    }
     
 }

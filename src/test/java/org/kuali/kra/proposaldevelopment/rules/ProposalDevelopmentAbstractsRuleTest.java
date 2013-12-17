@@ -76,7 +76,7 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
         proposalAbstract.setAbstractTypeCode("");
         assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
         
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY + ".abstractTypeCode");
+        List errors = GlobalVariables.getMessageMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY + ".abstractTypeCode");
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
@@ -97,7 +97,7 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
         proposalAbstract.setAbstractTypeCode("20");
         assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
         
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
+        List errors = GlobalVariables.getMessageMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
@@ -121,7 +121,7 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
         proposalAbstract.setAbstractTypeCode("1");
         assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
         
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
+        List errors = GlobalVariables.getMessageMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

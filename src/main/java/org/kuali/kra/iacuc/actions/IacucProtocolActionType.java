@@ -43,6 +43,9 @@ public class IacucProtocolActionType extends ProtocolActionTypeBase {
     public static final String NOTIFY_IACUC = "114";
     public static final String IACUC_WITHDRAWN = "115";
     public static final String IACUC_ABANDON = "117";
+    
+    public static final String IACUC_WITHDRAW_SUBMISSION = "131";
+    
     public static final String ASSIGNED_TO_AGENDA = "200";
     public static final String REMOVED_FROM_AGENDA = "201";
     public static final String RESCHEDULED = "202";

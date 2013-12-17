@@ -21,6 +21,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TimeFormatter;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
@@ -36,6 +37,7 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -59,7 +61,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER="answer";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE="reviewDate";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_EXPLANATION="explanation";
-    
+
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean retval = true;
@@ -67,7 +69,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         retval &= super.processCustomRouteDocumentBusinessRules(document);
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
-
+        retval &= new KeyPersonnelCertificationRule().processRouteDocument(document);
+        
         return retval;
     }
 
@@ -93,6 +96,15 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposalList[0]");
      
         return valid;
+    }
+    
+    @Override
+    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+        boolean retval = super.processCustomApproveDocumentBusinessRules(approveEvent);
+
+        retval &= new KeyPersonnelCertificationRule().processApproveDocument(approveEvent);
+        
+        return retval;
     }
     
     private boolean proccessValidateSponsor(ProposalDevelopmentDocument proposalDevelopmentDocument) {
@@ -388,6 +400,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
         
+        retval &= new KeyPersonnelCertificationRule().processRunAuditBusinessRules(document);
         //audit for Proposal Attachments to ensure status code is set to complete.
         retval &= new ProposalDevelopmentProposalAttachmentsAuditRule().processRunAuditBusinessRules(document);
         
@@ -510,7 +523,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
 
     public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {
-        // TODO Auto-generated method stub
         return new ProposalDevelopmentKeyPersonsRule().processCalculateCreditSplitBusinessRules(document);
     }
 

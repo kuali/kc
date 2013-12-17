@@ -72,11 +72,25 @@ public class NarrativeServiceImpl implements NarrativeService {
         narrative.refreshReferenceObject("narrativeType");
         narrative.refreshReferenceObject("narrativeStatus");
         narrative.populateAttachment();
+        if (narrative.getNarrativeTypeCode().equalsIgnoreCase("200")) {
+            narrative = changeDataManagementPlanAttachmentName(narrative);
+        }
         populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
-        
         getBusinessObjectService().save(narrative);
         narrative.clearAttachment();
         proposaldevelopmentDocument.getDevelopmentProposal().getNarratives().add(narrative);
+    }
+
+    private Narrative changeDataManagementPlanAttachmentName(Narrative narrative) {
+        int counter=0;
+        narrative.setFileName("NSF_DATA_MANAGEMENT_PLAN.pdf");
+        for (NarrativeAttachment attachment : narrative.getNarrativeAttachmentList()) {
+            narrative.getNarrativeAttachmentList().get(counter).setFileName("NSF_DATA_MANAGEMENT_PLAN.pdf");  
+            counter = counter + 1;
+        }
+        return narrative;
+      
+        
     }
 
     protected Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
@@ -246,6 +260,9 @@ public class NarrativeServiceImpl implements NarrativeService {
     public void replaceAttachment(Narrative narrative) {
         narrative.refreshReferenceObject("narrativeAttachmentList");
         narrative.populateAttachment();
+        if (narrative.getNarrativeTypeCode().equalsIgnoreCase("200")) {
+            narrative = changeDataManagementPlanAttachmentName(narrative);
+        }
         getBusinessObjectService().save(narrative);
         narrative.clearAttachment();
     }

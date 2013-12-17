@@ -1065,4 +1065,5 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     public boolean isAffiliationTypeCodeChanged() {
         return affiliationTypeCodeChanged;
     }
+
 }

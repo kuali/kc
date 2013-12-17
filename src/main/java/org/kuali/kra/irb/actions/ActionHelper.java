@@ -15,6 +15,16 @@
  */
 package org.kuali.kra.irb.actions;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
@@ -23,7 +33,11 @@ import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
@@ -61,6 +75,7 @@ import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.IrbProtocolCorrespondenceAuthorizationService;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -73,7 +88,9 @@ import org.kuali.kra.protocol.actions.ProtocolSubmissionDocBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
+import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorizationService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
@@ -84,10 +101,7 @@ import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.*;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 // import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 
@@ -124,6 +138,8 @@ public class ActionHelper extends ActionHelperBase {
     private boolean canRequestReOpenEnrollmentUnavailable = false;
     private boolean canRequestDataAnalysis = false;
     private boolean canRequestDataAnalysisUnavailable = false;
+    private boolean canWithdrawSubmission = false;
+    private boolean canWithdrawSubmissionUnavailable = false;
     private boolean canGrantExemption = false;
     private boolean canGrantExemptionUnavailable = false;
     private boolean canApproveExpedited = false;    
@@ -146,9 +162,11 @@ public class ActionHelper extends ActionHelperBase {
     private boolean canAddCloseEnrollmentReviewerComments;
     private boolean canAddDataAnalysisReviewerComments;
     private boolean canAddReopenEnrollmentReviewerComments;
+
     private ProtocolRequestBean protocolCloseEnrollmentRequestBean;
     private ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
     private ProtocolRequestBean protocolDataAnalysisRequestBean;
+    private ProtocolRequestBean protocolWithdrawSubmissionBean;
     private ProtocolNotifyIrbBean protocolNotifyIrbBean;
     private ProtocolAssignCmtSchedBean assignCmtSchedBean;
     
@@ -223,6 +241,8 @@ public class ActionHelper extends ActionHelperBase {
                 ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, "protocolDataAnalysisRequestBean");
         protocolTerminateRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_TERMINATION,
                 ProtocolSubmissionType.REQUEST_FOR_TERMINATION, "protocolTerminateRequestBean");
+        protocolWithdrawSubmissionBean = new ProtocolRequestBean(this, ProtocolActionType.WITHDRAW_SUBMISSION, 
+                ProtocolSubmissionType.WITHDRAW_SUBMISSION, "protocolWithdrawSubmissionRequestBean");
         toAnswerSubmissionQuestionnaire = hasSubmissionQuestionnaire();
 
         initIRBSpecificActionBeanTaskMap();
@@ -256,6 +276,7 @@ public class ActionHelper extends ActionHelperBase {
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolDataAnalysisRequestBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW_SUBMISSION, protocolWithdrawSubmissionBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, protocolReviewNotRequiredBean);
         actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL_BY_DSMB, protocolSuspendByDsmbBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
@@ -434,9 +455,11 @@ public class ActionHelper extends ActionHelperBase {
         canRequestReOpenEnrollmentUnavailable = hasRequestReOpenEnrollmentUnavailablePermission();
         canRequestDataAnalysis = hasRequestDataAnalysisPermission();
         canRequestDataAnalysisUnavailable = hasRequestDataAnalysisUnavailablePermission();
+        canWithdrawSubmission = hasWithdrawSubmissionPermission();
+        canWithdrawSubmissionUnavailable = hasWithdrawSubmissionUnavailablePermission();
         canRequestTerminate = hasRequestTerminatePermission();
         canRequestTerminateUnavailable = hasRequestTerminateUnavailablePermission();
-        
+
         canAssignReviewers = hasAssignReviewersPermission();
         // we will do the workflow-heavy check for reviewer assignment only if the user can submit the protocol
         if(canSubmitProtocol) {
@@ -480,6 +503,7 @@ public class ActionHelper extends ActionHelperBase {
         canAddDataAnalysisReviewerComments = hasDataAnalysisRequestLastAction();
         canAddReopenEnrollmentReviewerComments = hasReopenEnrollmentRequestLastAction();
         hideReviewerName = checkToHideReviewName();
+        hidePrivateFinalFlagsForPublicCommentsAttachments = checkToHidePrivateFinalFlagsForPublicCommentsAttachments();        
         undoLastActionBean = createUndoLastActionBean((Protocol) getProtocol());
        
         initSummaryDetails();
@@ -620,6 +644,16 @@ public class ActionHelper extends ActionHelperBase {
     
     private boolean hasRequestTerminateUnavailablePermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE, (Protocol) getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasWithdrawSubmissionPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_SUBMISSION, (Protocol) getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasWithdrawSubmissionUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_SUBMISSION_UNAVAILABLE, (Protocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -915,6 +949,10 @@ public class ActionHelper extends ActionHelperBase {
         return protocolDataAnalysisRequestBean;
     }
 
+    public ProtocolRequestBean getProtocolWithdrawSubmissionBean() {
+        return protocolWithdrawSubmissionBean;
+    }
+
     public ProtocolNotifyIrbBean getProtocolNotifyIrbBean() {
         return protocolNotifyIrbBean;
     }
@@ -1014,6 +1052,14 @@ public class ActionHelper extends ActionHelperBase {
         return canGrantExemption;
     }
     
+    public boolean isCanWithdrawSubmission() {
+        return canWithdrawSubmission;
+    }
+
+    public boolean isCanWithdrawSubmissionUnavailable() {
+        return canWithdrawSubmissionUnavailable;
+    }
+
     public boolean getCanGrantExemptionUnavailable() {
         return canGrantExemptionUnavailable;
     }
@@ -1205,8 +1251,10 @@ public class ActionHelper extends ActionHelperBase {
                 });
                 protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments((List)reviewComments);
                 getReviewerCommentsService().setHideReviewerName(reviewComments);
+                setHidePrivateFinalFlagsForPublicCommentsAttachments(getReviewerCommentsService().isHidePrivateFinalFlagsForPI(reviewComments));                
             }
             getReviewerCommentsService().setHideReviewerName(getReviewComments());
+            setHidePrivateFinalFlagsForPublicCommentsAttachments(getReviewerCommentsService().isHidePrivateFinalFlagsForPI(getReviewComments()));            
         }
         setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         if (CollectionUtils.isNotEmpty(getReviewAttachments())) {
@@ -1233,12 +1281,12 @@ public class ActionHelper extends ActionHelperBase {
      */
     protected void setAmendmentDetails() throws Exception {
         /*
-         * Check if the user is trying to modify amendment sections, if so, do not setAmendmentDetials.
+         * Check if the user is trying to modify amendment sections, if so, do not setAmendmentDetails.
          * If you set it, the user's data gets refreshed and the amendment details from the currentSubmission
          * will be populated in the protocolAmendmentBean.
          */
         if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS)) {
-            ProtocolAmendmentBean amendmentBean = (ProtocolAmendmentBean) getProtocolAmendmentBean();
+            ProtocolAmendmentBean amendmentSummaryBean = (ProtocolAmendmentBean) getProtocolAmendmentSummaryBean();
             String originalProtocolNumber;
             // Use the submission number to get the correct amendment details
             if (getProtocol().isAmendment()) {
@@ -1251,9 +1299,25 @@ public class ActionHelper extends ActionHelperBase {
             List<ProtocolBase> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
 
             ProtocolAmendRenewal correctAmendment = (ProtocolAmendRenewal) getCorrectAmendment(protocols);
-            // we don't want to do this any more... when a new Amendment is created, we do not want to 
-            // redisplay modules selected for first Amendment. Instead, clear the board...
-            setSubmissionHasNoAmendmentDetails(true);
+            
+            if (ObjectUtils.isNotNull(correctAmendment)) {
+                setSubmissionHasNoAmendmentDetails(false);
+                amendmentSummaryBean.setSummary(correctAmendment.getSummary());
+                amendmentSummaryBean.setGeneralInfo((correctAmendment.hasModule(ProtocolModule.GENERAL_INFO)) ? true : false);
+                amendmentSummaryBean.setProtocolPersonnel((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
+                amendmentSummaryBean.setAreasOfResearch((correctAmendment.hasModule(ProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
+                amendmentSummaryBean.setAddModifyAttachments((correctAmendment.hasModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
+                amendmentSummaryBean.setFundingSource((correctAmendment.hasModule(ProtocolModule.FUNDING_SOURCE)) ? true : false);
+                amendmentSummaryBean.setOthers((correctAmendment.hasModule(ProtocolModule.OTHERS)) ? true : false);
+                amendmentSummaryBean.setProtocolOrganizations((correctAmendment.hasModule(ProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
+                amendmentSummaryBean.setProtocolPermissions((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
+                amendmentSummaryBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(ProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
+                amendmentSummaryBean.setQuestionnaire((correctAmendment.hasModule(ProtocolModule.QUESTIONNAIRE)) ? true : false);
+                amendmentSummaryBean.setSpecialReview((correctAmendment.hasModule(ProtocolModule.SPECIAL_REVIEW)) ? true : false);
+                amendmentSummaryBean.setSubjects((correctAmendment.hasModule(ProtocolModule.SUBJECTS)) ? true : false);
+            } else {
+                setSubmissionHasNoAmendmentDetails(true);
+            }
         }
     } 
     
@@ -1665,5 +1729,23 @@ public class ActionHelper extends ActionHelperBase {
         return assignCmtSchedActionCommitteeIdByUnitKeyValues;
     }
 
- 
+    @Override
+    protected void initPrintCorrespondence() {
+        List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
+        Map<String, Object> values = new HashMap<String, Object>();
+        List<ProtocolCorrespondenceType> correspondenceTypes = (List<ProtocolCorrespondenceType>)
+                KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolCorrespondenceType.class,values);
+        for(ProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
+            if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.PROTOCOL.getCode())) {
+                CorrespondencePrintOption printOption = new CorrespondencePrintOption();
+                printOption.setDescription(correspondenceType.getDescription());
+                printOption.setLabel(correspondenceType.getDescription());
+                printOption.setCorrespondenceId(1L);
+                printOption.setProtocolCorrespondenceTemplate(correspondenceType.getDefaultProtocolCorrespondenceTemplate());
+                printOptions.add(printOption);
+            }
+        }
+        setCorrespondencesToPrint(printOptions);
+    }
+
 }

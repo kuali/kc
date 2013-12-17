@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import edu.mit.coeus.xml.iacuc.*;
-import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
@@ -39,7 +43,6 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
 import org.kuali.kra.iacuc.procedures.IacucProcedure;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
@@ -67,11 +70,33 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import edu.mit.coeus.xml.iacuc.AlternateDbSearchType;
+import edu.mit.coeus.xml.iacuc.AmendRenewalType;
+import edu.mit.coeus.xml.iacuc.CorrespondentType;
+import edu.mit.coeus.xml.iacuc.ExceptionType;
+import edu.mit.coeus.xml.iacuc.FundingSourceType;
+import edu.mit.coeus.xml.iacuc.InvestigatorType;
+import edu.mit.coeus.xml.iacuc.KeyStudyPersonType;
+import edu.mit.coeus.xml.iacuc.LocationType;
+import edu.mit.coeus.xml.iacuc.NotesType;
+import edu.mit.coeus.xml.iacuc.OtherDataType;
+import edu.mit.coeus.xml.iacuc.PersonType;
+import edu.mit.coeus.xml.iacuc.PrinciplesType;
+import edu.mit.coeus.xml.iacuc.PrintRequirementType;
+import edu.mit.coeus.xml.iacuc.ProtocolActionsType;
+import edu.mit.coeus.xml.iacuc.ProtocolMasterDataType;
+import edu.mit.coeus.xml.iacuc.ProtocolReviewerType;
+import edu.mit.coeus.xml.iacuc.ProtocolType;
+import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
+import edu.mit.coeus.xml.iacuc.ReferencesType;
+import edu.mit.coeus.xml.iacuc.ResearchAreaType;
+import edu.mit.coeus.xml.iacuc.RolesType;
+import edu.mit.coeus.xml.iacuc.ScheduleSummaryType;
+import edu.mit.coeus.xml.iacuc.SpecialReviewType;
+import edu.mit.coeus.xml.iacuc.SpeciesType;
+import edu.mit.coeus.xml.iacuc.StudyGroupType;
+import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
+import edu.mit.coeus.xml.iacuc.UserRolesType;
 
 public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
@@ -789,7 +814,6 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
     private void setProcedures(IacucProtocol protocol, ProtocolType protocolType) {
 
         List<StudyGroupType> studyGroupTypeList = new ArrayList<StudyGroupType>();
-        IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean = null;
         IacucProtocolStudyGroup iacucProtocolStudyGroups = null;
         
         for (IacucProtocolStudyGroupBean iacucProtocolStudyGroup : protocol.getIacucProtocolStudyGroups()) {
@@ -803,11 +827,9 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             if (iacucProcedure != null) {
                 studyGroupType.setProcedureDesc(iacucProcedure.getProcedureDescription());
             }            
-            if (iacucProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans().size() > 0) {
-                iacucProtocolStudyGroupDetailBean = iacucProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans().get(0);
-            }
-            if (iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups().size() >0){
-                iacucProtocolStudyGroups =iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups().get(0); 
+            
+            if (iacucProtocolStudyGroup.getIacucProtocolStudyGroups().size() >0){
+                iacucProtocolStudyGroups =iacucProtocolStudyGroup.getIacucProtocolStudyGroups().get(0); 
             }
             if (iacucProtocolStudyGroup.getIacucProcedureCategory() != null) {
                 studyGroupType.setProcedureCategoryCode(iacucProtocolStudyGroup.getIacucProcedureCategory().getProcedureCategoryCode());
@@ -816,13 +838,11 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             if (iacucProtocolStudyGroups.getIacucProtocolSpecies() != null) {
                 studyGroupType.setSpeciesGroup(iacucProtocolStudyGroups.getIacucProtocolSpecies().getSpeciesGroup());
             }
-            if (iacucProtocolStudyGroupDetailBean.getIacucSpecies() != null) {
-                studyGroupType.setSpeciesDesc(iacucProtocolStudyGroupDetailBean.getIacucSpecies().getSpeciesName()); 
-            }
+            
             if (iacucProtocolStudyGroups.getIacucPainCategory() != null) {
                 studyGroupType.setPainCategoryDesc(iacucProtocolStudyGroups.getIacucPainCategory().getPainCategory());
             }             
-            studyGroupType.setCount(iacucProtocolStudyGroupDetailBean.getTotalSpeciesCount());  
+
             studyGroupTypeList.add(studyGroupType);
         }
         protocolType.setStudyGroupArray(studyGroupTypeList.toArray(new StudyGroupType[0]));

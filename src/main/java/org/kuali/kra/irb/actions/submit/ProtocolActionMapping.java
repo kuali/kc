@@ -160,7 +160,26 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
         return !submissions.isEmpty() && statusCodes.contains(submissions.get(0).getSubmissionStatusCode());
         
     }
-    
+
+    /*
+     * look for any submissions of the type "Request xxxx"
+     */
+    public boolean isAnySubmissionRequests() {
+        List <String> submissionTypes = Arrays.asList(new String[] {ProtocolSubmissionType.REQUEST_FOR_SUSPENSION,
+                                                                    ProtocolSubmissionType.REQUEST_FOR_TERMINATION,
+                                                                    ProtocolSubmissionType.REQUEST_TO_CLOSE,
+                                                                    ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT,
+                                                                    ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT,
+                                                                    ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY});
+        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
+        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
+        positiveFieldValues.put("submissionTypeCode", submissionTypes);
+        positiveFieldValues.put("submissionStatusCode", ProtocolSubmissionStatus.PENDING);
+        List<ProtocolSubmission> submissions = (List<ProtocolSubmission>)businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, positiveFieldValues, "submissionNumber", false);
+        return submissions.size() > 0;
+    }
+
     /**
      * check if this protocol has not been approved
      */

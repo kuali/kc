@@ -169,7 +169,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         
         protocolAction.setComments(PROTOCOL_CREATED);
         newDoc.getProtocol().getProtocolActions().add(protocolAction);
-        
+
         if (!isAmendmentRenewal) {
             newDoc.getProtocol().setAttachmentProtocols(new ArrayList<ProtocolAttachmentProtocolBase>());
             newDoc.getProtocol().setNotepads(new ArrayList<ProtocolNotepadBase>());
@@ -179,7 +179,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
                 }
             }
         } else {
-            initPersonId(newDoc.getProtocol());
+            initPersonAttachments(newDoc.getProtocol());
         }
         documentService.saveDocument(newDoc); 
         if (isAmendmentRenewal) {
@@ -212,13 +212,22 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
 
 
     /**
-     * This method initializes the personId of the person and person attachments for the newly created protocol.
+     * This method initializes the personId of the person
      * @param protocol
      */
     private void initPersonId(ProtocolBase protocol) {
         for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
             Integer nextPersonId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook(), person.getClass()).intValue();
             person.setProtocolPersonId(nextPersonId);
+        }
+    }
+
+    /**
+     * This method initializes person attachments for the newly created protocol.
+     * @param protocol
+     */
+    private void initPersonAttachments(ProtocolBase protocol) {
+        for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
             for (ProtocolAttachmentPersonnelBase attachment : person.getAttachmentPersonnels()) {
                 attachment.setPersonId(person.getProtocolPersonId());
             }
@@ -329,6 +338,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         destProtocol.cleanupSpecialReviews(srcProtocol);
         destProtocol.setAttachmentProtocols((List<ProtocolAttachmentProtocolBase>) deepCopy(srcProtocol.getAttachmentProtocols()));
         destProtocol.setNotepads((List<ProtocolNotepadBase>) deepCopy(srcProtocol.getNotepads()));
+        initPersonId(destProtocol);
     }
    
     protected Object deepCopy(Object obj) {

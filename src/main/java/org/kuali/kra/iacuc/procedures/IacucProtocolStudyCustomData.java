@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucProcedureCategoryCustomData;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class IacucProtocolStudyCustomData extends ProtocolAssociateBase { 
+public class IacucProtocolStudyCustomData extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
 
@@ -30,6 +30,7 @@ public class IacucProtocolStudyCustomData extends ProtocolAssociateBase {
     private String value;
     
     private IacucProcedureCategoryCustomData iacucProcedureCategoryCustomData;
+    private IacucProtocolStudyGroup iacucProtocolStudyGroup;
     
     public IacucProtocolStudyCustomData() { 
 
@@ -67,7 +68,6 @@ public class IacucProtocolStudyCustomData extends ProtocolAssociateBase {
         this.value = value;
     }
 
-    @Override
     public void resetPersistenceState() {
         setIacucProtocolStudyCustomDataId(null);
     }
@@ -85,5 +85,50 @@ public class IacucProtocolStudyCustomData extends ProtocolAssociateBase {
 
     public boolean isLargeText() {
         return getIacucProcedureCategoryCustomData().getDataLength() > Constants.IACUC_PROCEDURE_CUSTOM_DATA_SMALL_STRING_MAX_LENGTH;
+    }
+
+    /**  {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        IacucProtocolStudyCustomData other = (IacucProtocolStudyCustomData) obj;
+        if (this.iacucProtocolStudyCustomDataId == null) {
+            if (other.iacucProtocolStudyCustomDataId != null) {
+                return false;
+            }
+        } else if (!this.iacucProtocolStudyCustomDataId.equals(other.iacucProtocolStudyCustomDataId)) {
+            return false;
+        }
+        if (this.iacucProtocolStudyGroupId == null) {
+            if (other.iacucProtocolStudyGroupId != null) {
+                return false;
+            }
+        } else if (!this.iacucProtocolStudyGroupId.equals(other.iacucProtocolStudyGroupId)) {
+            return false;
+        }
+        if (this.procedureCustomAttributeId == null) {
+            if (other.procedureCustomAttributeId != null) {
+                return false;
+            }
+        } else if (!this.procedureCustomAttributeId.equals(other.procedureCustomAttributeId)) {
+            return false;
+        }
+        return true;
+    }
+
+    public IacucProtocolStudyGroup getIacucProtocolStudyGroup() {
+        return iacucProtocolStudyGroup;
+    }
+
+    public void setIacucProtocolStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
+        this.iacucProtocolStudyGroup = iacucProtocolStudyGroup;
     }
 }
