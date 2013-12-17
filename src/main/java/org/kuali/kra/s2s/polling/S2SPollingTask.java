@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.s2s.polling;
 
-import gov.grants.apply.webservices.applicantintegrationservices_v1.ApplicationInformationType;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -31,6 +29,9 @@ import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.MailService;
+
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse.ApplicationInfo;
 
 import javax.mail.MessagingException;
 import java.sql.Timestamp;
@@ -192,8 +193,8 @@ public class S2SPollingTask {
                     applicationListResponse = s2SService.fetchApplicationListResponse(pdDoc);
                 }
 
-                if (applicationListResponse.getApplicationInformation() == null
-                        || applicationListResponse.getApplicationInformation().size() == 0) {
+                if (applicationListResponse.getApplicationInfo() == null
+                        || applicationListResponse.getApplicationInfo().size() == 0) {
                     statusChanged = s2SService.checkForSubmissionStatusChange(pdDoc, appSubmission);
                     if (statusChanged == false
                             && appSubmission.getComments().equals(S2SConstants.STATUS_NO_RESPONSE_FROM_GRANTS_GOV)) {
@@ -202,7 +203,7 @@ public class S2SPollingTask {
                     }
                 }
                 else {
-                    ApplicationInformationType ggApplication = applicationListResponse.getApplicationInformation().get(0);
+                    ApplicationInfo ggApplication = applicationListResponse.getApplicationInfo().get(0);
                     if (ggApplication != null) {
                         localSubInfo.setAcType('U');
                         statusChanged = !appSubmission.getStatus().equalsIgnoreCase(
