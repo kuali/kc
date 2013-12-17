@@ -180,22 +180,7 @@ implements  Copyable, SessionDocument {
         return managedLists;
     }
     
-    @Override
-    public String getCustomLockDescriptor(Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        String updatedTimestamp = "";
-        if (this.getUpdateTimestamp() != null) {
-            updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
-        }
-        if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getSubAward().getSubAwardCode() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp;  
-        }
-
-        return null;
-    }
-    
-    @Override
-    public boolean useCustomLockDescriptors() {
-        return true;
+    public String getDocumentBoNumber() {
+        return getSubAward().getSubAwardCode();
     }
 }

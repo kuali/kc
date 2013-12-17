@@ -1,5 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+	<import resource="classpath*:Correspondent.xml"/>
+
     <bean id="OrganizationCorrespondent" parent="OrganizationCorrespondent-parentBean" />
     <bean id="OrganizationCorrespondent-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationCorrespondent" />
@@ -13,8 +15,8 @@
         <property name="attributes" >
             <list>
                 <ref bean="OrganizationCorrespondent-personId" />
-       		    <ref bean="OrganizationCorrespondent-person.fullName" />
-       		    <ref bean="OrganizationCorrespondent-person.userName" />
+                <ref bean="OrganizationCorrespondent-person.fullName" />
+                <ref bean="OrganizationCorrespondent-person.userName" />
                 <ref bean="OrganizationCorrespondent-organizationId" />
                 <ref bean="OrganizationCorrespondent-correspondentTypeCode" />
                 <ref bean="OrganizationCorrespondent-correspondentType.description" />
@@ -27,39 +29,16 @@
 
     <!-- Attribute Definitions -->
     
-    <bean id="OrganizationCorrespondent-personId" parent="OrganizationCorrespondent-personId-parentBean" />
-    <bean id="OrganizationCorrespondent-personId-parentBean" abstract="true" parent="PersonImpl-principalId" >
-       	<property name="name" value="personId" />
-        <property name="label" value="KC Person ID" />
-        <property name="shortLabel" value="KC Person ID" />
-        <property name="displayLabelAttribute" value="person.userName" />
-        <property name="control">
-            <bean parent="HiddenControlDefinition" />
-        </property>
+    <bean id="OrganizationCorrespondent-personId" parent="OrganizationCorrespondent-personId-parentBean"/>
+    <bean id="OrganizationCorrespondent-personId-parentBean" abstract="true" parent="Correspondent-personId" >
     </bean>
-
-    <bean id="OrganizationCorrespondent-person.fullName" parent="OrganizationCorrespondent-person.fullName-parentBean" />
-    <bean id="OrganizationCorrespondent-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
-        <property name="name" value="person.fullName" />
-        <property name="label" value="Full Name" />
-        <property name="shortLabel" value="Full Name" />
+    
+   	<bean id="OrganizationCorrespondent-person.fullName" parent="OrganizationCorrespondent-person.fullName-parentBean" />
+    <bean id="OrganizationCorrespondent-person.fullName-parentBean" abstract="true" parent="Correspondent-person.fullName">
     </bean>
-
+    
     <bean id="OrganizationCorrespondent-person.userName" parent="OrganizationCorrespondent-person.userName-parentBean" />
-    <bean id="OrganizationCorrespondent-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
-        <property name="name" value="person.userName" />
-        <property name="label" value="KC Person" />
-        <property name="shortLabel" value="KC Person User Name" />
-        <property name="required" value="false" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="KualiUserControlDefinition"
-                p:personNameAttributeName="person.fullName"
-                p:universalIdAttributeName="personId"
-                p:userIdAttributeName="person.userName" />
-        </property>
+    <bean id="OrganizationCorrespondent-person.userName-parentBean" abstract="true" parent="Correspondent-person.userName">
     </bean>
 
     <bean id="OrganizationCorrespondent-organizationId" parent="OrganizationCorrespondent-organizationId-parentBean" />
@@ -79,61 +58,25 @@
         <property name="summary" value="Organization Id" />
         <property name="description" value="Organization Id" />
     </bean>
-
-    <bean id="OrganizationCorrespondent-correspondentTypeCode" parent="OrganizationCorrespondent-correspondentTypeCode-parentBean" />
-    <bean id="OrganizationCorrespondent-correspondentTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="correspondentTypeCode" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Correspondent Type Code" />
-        <property name="shortLabel" value="Correspondent Type Code" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Correspondent Type Code" />
-        <property name="description" value="Correspondent Type Code" />
-    </bean>
-
-	<bean id="OrganizationCorrespondent-correspondentType.description" parent="OrganizationCorrespondent-correspondentType.description-parentBean" />
-	<bean id="OrganizationCorrespondent-correspondentType.description-parentBean" abstract="true" parent="OrganizationCorrespondent-description">
-    	<property name="name" value="correspondentType.description" />
+    
+    <bean id="OrganizationCorrespondent-correspondentTypeCode" parent="OrganizationCorrespondent-correspondentTypeCode-parentBean"/>
+    <bean id="OrganizationCorrespondent-correspondentTypeCode-parentBean" abstract="true" parent="Correspondent-correspondentTypeCode">
+    </bean>    
+    
+    <bean id="OrganizationCorrespondent-correspondentType.description" parent="OrganizationCorrespondent-correspondentType.description-parentBean" />
+	<bean id="OrganizationCorrespondent-correspondentType.description-parentBean" abstract="true" parent="Correspondent-correspondentType.description">
   	</bean>
-
-    <bean id="OrganizationCorrespondent-nonEmployeeFlag" parent="OrganizationCorrespondent-nonEmployeeFlag-parentBean" />
-    <bean id="OrganizationCorrespondent-nonEmployeeFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-        <property name="name" value="nonEmployeeFlag" />
-        <property name="label" value="Non Employee Flag" />
-        <property name="shortLabel" value="Non Employee Flag" />
-        <property name="summary" value="Non Employee Flag" />
-        <property name="description" value="Non Employee Flag" />
+    
+    <bean id="OrganizationCorrespondent-nonEmployeeFlag" parent="OrganizationCorrespondent-nonEmployeeFlag-parentBean"/>
+    <bean id="OrganizationCorrespondent-nonEmployeeFlag-parentBean" abstract="true" parent="Correspondent-nonEmployeeFlag">    
     </bean>
-
+    
     <bean id="OrganizationCorrespondent-description" parent="OrganizationCorrespondent-description-parentBean" />
-    <bean id="OrganizationCorrespondent-description-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="description" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Description" />
-        <property name="shortLabel" value="Description" />
-        <property name="maxLength" value="2000" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
-        </property>
-        <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="2"
-                p:cols="120" />
-        </property>
-        <property name="summary" value="Description" />
-        <property name="description" value="Description" />
+    <bean id="OrganizationCorrespondent-description-parentBean" abstract="true" parent="Correspondent-description" >
     </bean>
-
+    
     <bean id="OrganizationCorrespondent-versionNumber" parent="OrganizationCorrespondent-versionNumber-parentBean" />
-    <bean id="OrganizationCorrespondent-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <bean id="OrganizationCorrespondent-versionNumber-parentBean" abstract="true" parent="Correspondent-versionNumber">
     </bean>
 
     <!-- Business Object Inquiry Definition -->
@@ -165,7 +108,7 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="OrganizationCorrespondent-lookupDefinition" parent="OrganizationCorrespondent-lookupDefinition-parentBean" />
-    <bean id="OrganizationCorrespondent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <bean id="OrganizationCorrespondent-lookupDefinition-parentBean" abstract="true" parent="Correspondent-lookupDefinition">
         <property name="title" value="Organization Correspondent Lookup" />
 	    <property name="lookupableID" value="organizationCorrespondentLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
@@ -174,7 +117,7 @@
             </bean>
         </property>
         <property name="lookupFields" >
-            <list>
+            <list merge="true">
 		        <bean parent="FieldDefinition"
                     p:attributeName="person.userName" />
                 <bean parent="FieldDefinition"
@@ -186,14 +129,11 @@
             </list>
         </property>
         <property name="resultFields" >
-            <list>
+            <list merge="true">
 		        <bean parent="FieldDefinition"
                     p:attributeName="person.fullName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="organizationId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="correspondentTypeCode" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="description" 

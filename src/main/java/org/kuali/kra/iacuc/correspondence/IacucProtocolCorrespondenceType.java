@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 
 public class IacucProtocolCorrespondenceType extends ProtocolCorrespondenceTypeBase{
@@ -54,4 +56,27 @@ public class IacucProtocolCorrespondenceType extends ProtocolCorrespondenceTypeB
     public static final String TERMINATION_LETTER                  = "28";
     public static final String WITHDRAWL_CONFIRMATION_NOTIFICATION = "29";
 
+    @SuppressWarnings("unused")
+    private transient CorrespondenceTypeModuleIdConstants module;
+
+    /**
+     * 
+     * This method returns the module enum specified by this {@code ProtocolCorrespondenceType}.
+     * @return Matching {@code CorrespondenceTypeModuleIdConstants} specified by the moduleId of this
+     * correspondence type, or CorrespondenceTypeModuleIdConstants.SYSTEM if no matching code is found.
+     */
+    public CorrespondenceTypeModuleIdConstants getModule() {
+        String moduleId = getModuleId();
+        for(CorrespondenceTypeModuleIdConstants module : CorrespondenceTypeModuleIdConstants.values()) {
+            if(StringUtils.equals(module.getCode(),moduleId)) {
+                return module;
+            }
+        }
+        return CorrespondenceTypeModuleIdConstants.SYSTEM;
+    }
+
+    public void setModule(CorrespondenceTypeModuleIdConstants module) {
+        this.module = module;
+    }
+    
 }

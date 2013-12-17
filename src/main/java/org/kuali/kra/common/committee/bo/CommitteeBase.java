@@ -84,6 +84,7 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         setCommitteeMemberships(new ArrayList<CommitteeMembershipBase>());
         setCommitteeSchedules(new ArrayList<CS>());
         setCommitteeTypeCode(getProtocolCommitteeTypeCodehook());
+        setPrintRooster(false);
     }
     
     protected abstract String getProtocolCommitteeTypeCodehook();

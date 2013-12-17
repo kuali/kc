@@ -144,7 +144,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
      * @param errorKeys
      */
     private void checkErrorCountAndContent(String errorPathContext, String errorKey) {
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(ProposalDevelopmentPersonnelAttachmentRule.buildErrorPath(errorPathContext));
+        List errors = GlobalVariables.getMessageMap().getMessages(ProposalDevelopmentPersonnelAttachmentRule.buildErrorPath(errorPathContext));
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

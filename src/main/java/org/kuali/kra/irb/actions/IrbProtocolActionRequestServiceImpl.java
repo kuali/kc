@@ -15,6 +15,14 @@
  */
 package org.kuali.kra.irb.actions;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,7 +67,16 @@ import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
-import org.kuali.kra.irb.actions.notification.*;
+import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.NotifyCommitteeNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolClosedNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolDisapprovedNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolExpiredNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.irb.actions.notification.ProtocolSuspendedByDSMBNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolSuspendedNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolTerminatedNotificationRenderer;
 import org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
@@ -67,8 +84,11 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestRule;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
@@ -87,6 +107,7 @@ import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolActionRequestServiceImpl;
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
@@ -99,11 +120,6 @@ import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestServiceImpl implements IrbProtocolActionRequestService {
     private static final Log LOG = LogFactory.getLog(IrbProtocolActionRequestServiceImpl.class);
@@ -124,6 +140,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     private CommitteeService committeeService;
     private ProtocolReviewNotRequiredService protocolReviewNotRequiredService;
     private ProtocolAssignReviewersService protocolAssignReviewersService;
+    private ProtocolActionService protocolActionService;
     
     private static final String ACTION_NAME_RESPONSE_APPROVAL = "Response Approval";
     private static final String ACTION_NAME_CLOSE_ENROLLMENT = "Close Enrollment";
@@ -149,7 +166,14 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             put("4", "Return for Substantive Revisions Required");
         }
     };
-    
+
+    protected static List <String> requestSubmissionTypes = Arrays.asList(new String[] {ProtocolSubmissionType.REQUEST_FOR_SUSPENSION,
+                                                                                        ProtocolSubmissionType.REQUEST_FOR_TERMINATION,
+                                                                                        ProtocolSubmissionType.REQUEST_TO_CLOSE,
+                                                                                        ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT,
+                                                                                        ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT,
+                                                                                        ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY});
+
     /**
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#isExpeditedApprovalAuthorized(org.kuali.kra.irb.ProtocolForm)
      */
@@ -526,6 +550,13 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     }
     
     /**
+     * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#isCloseEnrollmentAuthorized(org.kuali.kra.irb.ProtocolForm)
+     */
+    public boolean isWithdrawRequestActionAuthorized(ProtocolForm protocolForm) {
+        return hasPermission(TaskName.PROTOCOL_WITHDRAW_SUBMISSION, (Protocol) protocolForm.getProtocolDocument().getProtocol());
+    }
+    
+    /**
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#grantExpeditedApproval(org.kuali.kra.irb.ProtocolForm)
      */
     @SuppressWarnings("deprecation")
@@ -568,6 +599,15 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         
         ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL, "Expedited Approval Granted");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IrbConstants.PROTOCOL_TAB, notificationBean, false));
+        if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+            GlobalVariables.getUserSession().addObject("approvalComplCorrespondence",GlobalVariables.getUserSession().retrieveObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY));
+            // temporarily remove this key which is generated by super.approve
+            GlobalVariables.getUserSession().removeObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY);
+        } else {
+            IRBNotificationRenderer renderer = new IRBNotificationRenderer(document.getProtocol());
+            IRBNotificationContext context = new IRBNotificationContext(document.getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL, "Expedite Approved", renderer);
+            getNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), document.getProtocol());                     
+        }
     }
     
     /**
@@ -707,10 +747,11 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     public String withdrawProtocol(ProtocolForm protocolForm) throws Exception {
         ProtocolDocument pd = (ProtocolDocument) getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(),
                 protocolForm.getActionHelper().getProtocolWithdrawBean());
-        generateActionCorrespondence(ProtocolActionType.WITHDRAWN, protocolForm.getProtocolDocument().getProtocol());
+        Protocol protocol = pd.getProtocol();
+        generateActionCorrespondence(ProtocolActionType.WITHDRAWN, protocol);
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_WITHDRAW, false);
-        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IrbConstants.PROTOCOL_TAB, notificationBean, false));
+        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocol, ProtocolActionType.WITHDRAWN, "Withdrawn");
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocol, IrbConstants.PROTOCOL_TAB, notificationBean, false));
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IrbConstants.PROTOCOL_TAB);
     }
     
@@ -746,6 +787,42 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
                 generateActionCorrespondence(requestBean.getProtocolActionTypeCode(), protocolForm.getProtocolDocument().getProtocol());
                 recordProtocolActionSuccess(requestAction.getActionName());
                 return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IrbConstants.PROTOCOL_ACTIONS_TAB);
+            }
+        }
+        return Constants.MAPPING_BASIC;
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#withdrawRequestAction(org.kuali.kra.irb.ProtocolForm, java.lang.String)
+     */
+    public String withdrawRequestAction(ProtocolForm protocolForm) throws Exception {
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ProtocolRequestAction requestAction = ProtocolRequestAction.valueOfTaskName(TaskName.PROTOCOL_WITHDRAW_SUBMISSION);
+        ProtocolRequestBean requestBean = getProtocolRequestBean(protocolForm, TaskName.PROTOCOL_WITHDRAW_SUBMISSION);
+        if (requestBean != null) {
+            boolean valid = applyRules(new ProtocolRequestEvent<ProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
+            if (valid) {
+                // find recently submitted action request and complete it
+                List<ProtocolSubmissionBase> submissions = document.getProtocol().getProtocolSubmissions();
+                ProtocolSubmissionBase submission = null;
+                for (ProtocolSubmissionBase sub: submissions) {
+                    if (requestSubmissionTypes.contains(sub.getSubmissionTypeCode())) {
+                        submission = sub;
+                    }
+                }
+                if (submission != null) {
+                    submission.setSubmissionStatusCode(ProtocolSubmissionStatus.WITHDRAWN);
+                    ProtocolAction protocolAction = new ProtocolAction(document.getProtocol(), null, ProtocolActionType.WITHDRAW_SUBMISSION);
+                    protocolAction.setComments(requestBean.getReason());
+                    protocolAction.setActionDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+                    protocolAction.setSubmissionIdFk(submission.getSubmissionId());
+                    protocolAction.setSubmissionNumber(submission.getSubmissionNumber());
+                    document.getProtocol().getProtocolActions().add(protocolAction);
+                    getProtocolActionService().updateProtocolStatus(protocolAction, document.getProtocol());
+                    getBusinessObjectService().save(submission);
+                    recordProtocolActionSuccess(requestAction.getActionName());
+                    return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IrbConstants.PROTOCOL_ACTIONS_TAB);
+                }
             }
         }
         return Constants.MAPPING_BASIC;
@@ -1292,6 +1369,14 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         return task;
     }
 
+    public ProtocolActionService getProtocolActionService() {
+        return protocolActionService;
+    }
+
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
+    }
+
     @Override
     protected ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondence(String protocolActionTypeCode) {
         return new ProtocolActionsCorrespondence(protocolActionTypeCode);
@@ -1353,9 +1438,9 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     }
 
     @Override
-    protected ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String taskName, String genericActionName,
+    protected ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String genericActionName,
             ProtocolBase protocol) {
-        ProtocolTask task = new ProtocolTask(taskName, (Protocol)protocol, genericActionName);
+        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, (Protocol)protocol, genericActionName);
         return task;
     }
 

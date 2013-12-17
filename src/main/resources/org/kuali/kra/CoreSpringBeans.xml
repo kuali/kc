@@ -326,6 +326,7 @@
     <bean id="coiMessagesService" class="org.kuali.kra.coi.service.impl.CoiMessagesServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
     </bean>
 
     <bean id="costShareService" class="org.kuali.kra.costshare.CostShareServiceImpl">
@@ -615,6 +616,9 @@
 
     <bean id="noEditLookupableHelperService" class="org.kuali.kra.lookup.NoEditLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
           scope="prototype" />
+          
+    <bean id="correspondentLookupable" class="org.kuali.kra.service.impl.CorrespondentLookupableHelperServiceImpl"
+        parent="parentLookupableHelperService" scope="prototype"/>
     
     <bean id="organizationService" class="org.kuali.kra.service.impl.OrganizationServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -627,6 +631,13 @@
     <bean id="organizationCorrespondentLookupableHelperService" class="org.kuali.kra.service.impl.OrganizationCorrespondentLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
     
+    <bean id="iacucOrganizationCorrespondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="iacucOrganizationCorrespondentLookupableHelperService" />
+    </bean>
+    
+    <bean id="iacucOrganizationCorrespondentLookupableHelperService" class="org.kuali.kra.service.impl.IacucOrgCorrespondentLookupableHelperServiceImpl"
+        parent="parentLookupableHelperService" scope="prototype" />
+        
     <bean id="pastApproversDerivedRoleTypeService" class="org.kuali.kra.workflow.PastApproversDerivedRoleTypeServiceImpl">
         <property name="workflowDocumentService" ref="kewWorkflowDocumentService" />
     </bean>
@@ -742,7 +753,13 @@
 
     <bean id="unitCorrespondentLookupableHelperService" class="org.kuali.kra.service.impl.UnitCorrespondentLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
-
+          
+	<bean id="iacucUnitCorrespondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService" ref="iacucUnitCorrespondentLookupableHelperService" />
+	</bean>
+	
+	<bean id="iacucUnitCorrespondentLookupableHelperService" class="org.kuali.kra.service.impl.IacucUnitCrrspndntLookupableHelperServiceImpl"
+		parent="parentLookupableHelperService" scope="prototype" />
 
     <bean id="personTrainingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="personTrainingLookupableHelperService" />
@@ -1028,5 +1045,14 @@
 
     <bean id="personSignatureLookupableHelperService" class="org.kuali.kra.service.impl.PersonSignatureLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
+          
+    <bean id="kcNotificationDocumentSecurityTypeService" class="org.kuali.kra.authorization.KcNotificationSecurityAttribute">
+    	<property name="actionListService" ref="actionListService" />
+    </bean> 
+          
+    <bean id="kcNotificationDocumentSecurityTypeServiceCallback" parent="kcCallbackService"
+      p:callbackService-ref="kcNotificationDocumentSecurityTypeService"
+      p:localServiceName="kcNotificationDocumentSecurityTypeService"
+      p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute"/>     
      
 </beans>

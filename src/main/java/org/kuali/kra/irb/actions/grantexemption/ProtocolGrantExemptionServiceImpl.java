@@ -67,7 +67,7 @@ public class ProtocolGrantExemptionServiceImpl implements ProtocolGrantExemption
      * @see org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService#grantExemption(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean)
      */
     public void grantExemption(Protocol protocol, ProtocolGrantExemptionBean actionBean) throws Exception {
-        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.GRANT_EXEMPTION); 
+        ProtocolAction protocolAction = new ProtocolAction(protocol, protocol.getProtocolSubmission(), ProtocolActionType.GRANT_EXEMPTION); 
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocolAction.setSubmissionIdFk(protocol.getLastProtocolAction().getSubmissionIdFk());
@@ -78,6 +78,5 @@ public class ProtocolGrantExemptionServiceImpl implements ProtocolGrantExemption
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.refreshReferenceObject("protocolStatus");
         documentService.saveDocument(protocol.getProtocolDocument());
-        generateCorrespondenceDocumentAndAttach(protocol, actionBean); 
     }
 }

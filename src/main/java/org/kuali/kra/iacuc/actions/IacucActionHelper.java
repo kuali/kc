@@ -59,6 +59,7 @@ import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceAuthorizationService;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
@@ -85,6 +86,7 @@ import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
+import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
@@ -94,6 +96,7 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncomplet
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorizationService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
@@ -178,6 +181,7 @@ public class IacucActionHelper extends ActionHelperBase {
     protected IacucProtocolRequestBean iacucProtocolDeactivateRequestBean;
     protected IacucProtocolRequestBean iacucProtocolLiftHoldRequestBean;
     protected IacucProtocolRequestBean iacucProtocolSuspendRequestBean;
+    protected IacucProtocolRequestBean iacucProtocolWithdrawSubmissionBean;
     
     protected boolean canCreateContinuation = false;
     protected boolean canCreateContinuationUnavailable = false;
@@ -212,6 +216,8 @@ public class IacucActionHelper extends ActionHelperBase {
                 IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD, "iacucProtocolLiftHoldRequestBean");
         iacucProtocolSuspendRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.IACUC_REQUEST_SUSPEND,
                 IacucProtocolSubmissionType.REQUEST_SUSPEND, "iacucProtocolSuspendRequestBean");
+        iacucProtocolWithdrawSubmissionBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION,
+                IacucProtocolSubmissionType.WITHDRAW_SUBMISSION, "iacucWithdrawProtocolSubmissionRequestBean");
         iacucProtocolRemoveFromAgendaBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolRemoveFromAgendaBean");
         iacucProtocolReviewNotRequiredBean = new IacucProtocolReviewNotRequiredBean(this);
         initIacucSpecificActionBeanTaskMap();
@@ -233,6 +239,7 @@ public class IacucActionHelper extends ActionHelperBase {
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE, iacucProtocolDeactivateRequestBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD, iacucProtocolLiftHoldRequestBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION, iacucProtocolSuspendRequestBean);
+        actionBeanTaskMap.put(TaskName.IACUC_WITHDRAW_SUBMISSION, iacucProtocolWithdrawSubmissionBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_HOLD, iacucProtocolHoldBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_LIFT_HOLD, iacucProtocolLiftHoldBean);
         actionBeanTaskMap.put(TaskName.REMOVE_FROM_AGENDA, iacucProtocolRemoveFromAgendaBean);
@@ -337,7 +344,10 @@ public class IacucActionHelper extends ActionHelperBase {
         canIacucDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_DEACTIVATE_UNAVAILABLE);
         canIacucRequestDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE);
         canIacucRequestDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE);
-        
+
+        canWithdrawSubmission = hasPermission(TaskName.IACUC_WITHDRAW_SUBMISSION);
+        canWithdrawSubmissionUnavailable = hasPermission(TaskName.IACUC_WITHDRAW_SUBMISSION_UNAVAILABLE);
+
         canDesignatedMemberApproval = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL);
         canDesignatedMemberApprovalUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL_UNAVAILABLE);
         canLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD);
@@ -357,7 +367,7 @@ public class IacucActionHelper extends ActionHelperBase {
         
         canCreateContinuation = hasCreateContinuationPermission();
         canCreateContinuationUnavailable = hasCreateContinuationUnavailablePermission();
-        
+        hidePrivateFinalFlagsForPublicCommentsAttachments = checkToHidePrivateFinalFlagsForPublicCommentsAttachments();
 
         initSummaryDetails();
         initFilterDatesView();
@@ -568,6 +578,25 @@ public class IacucActionHelper extends ActionHelperBase {
         return new IacucProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, (IacucProtocol) protocol);
     }
     
+    public boolean isCanWithdrawSubmission() {
+        return canWithdrawSubmission;
+    }
+
+
+    public void setCanWithdrawSubmission(boolean canWithdrawSubmission) {
+        this.canWithdrawSubmission = canWithdrawSubmission;
+    }
+
+
+    public boolean isCanWithdrawSubmissionUnavailable() {
+        return canWithdrawSubmissionUnavailable;
+    }
+
+
+    public void setCanWithdrawSubmissionUnavailable(boolean canWithdrawSubmissionUnavailable) {
+        this.canWithdrawSubmissionUnavailable = canWithdrawSubmissionUnavailable;
+    }
+
 
     @Override
     protected IacucProtocolTask createNewAmendRenewDeleteUnavailableTaskInstanceHook(ProtocolBase protocol) {
@@ -1354,6 +1383,16 @@ public class IacucActionHelper extends ActionHelperBase {
     }
 
 
+    public IacucProtocolRequestBean getIacucProtocolWithdrawSubmissionBean() {
+        return iacucProtocolWithdrawSubmissionBean;
+    }
+
+
+    public void setIacucProtocolWithdrawSubmissionBean(IacucProtocolRequestBean iacucProtocolWithdrawSubmissionBean) {
+        this.iacucProtocolWithdrawSubmissionBean = iacucProtocolWithdrawSubmissionBean;
+    }
+
+
     @Override
     protected UndoLastActionBean getNewUndoLastActionBeanInstanceHook() {
         return new IacucProtocolUndoLastActionBean(this, "actionHelper.undoLastActionBean");
@@ -1571,6 +1610,25 @@ public class IacucActionHelper extends ActionHelperBase {
 
     public List<KeyValue> getModifySubmissionActionCommitteeIdByUnitKeyValues() {
         return modifySubmissionActionCommitteeIdByUnitKeyValues;
+    }
+
+    @Override
+    protected void initPrintCorrespondence() {
+        List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
+        Map<String, Object> values = new HashMap<String, Object>();
+        List<IacucProtocolCorrespondenceType> correspondenceTypes = (List<IacucProtocolCorrespondenceType>)
+                KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolCorrespondenceType.class,values);
+        for(IacucProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
+            if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.PROTOCOL.getCode())) {
+                CorrespondencePrintOption printOption = new CorrespondencePrintOption();
+                printOption.setDescription(correspondenceType.getDescription());
+                printOption.setLabel(correspondenceType.getDescription());
+                printOption.setCorrespondenceId(1L);
+                printOption.setProtocolCorrespondenceTemplate(correspondenceType.getDefaultProtocolCorrespondenceTemplate());
+                printOptions.add(printOption);
+            }
+        }
+        setCorrespondencesToPrint(printOptions);
     }
 
 }

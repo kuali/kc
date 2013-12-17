@@ -206,7 +206,7 @@ public class AwardSubcontractingGoalsExpendituresRuleTest {
      */
     @SuppressWarnings("rawtypes")
     private void assertError(String propertyKey, String errorKey) {
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
+        List errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         Assert.assertNotNull(errors);
         Assert.assertTrue(errors.size() == 1);
         

@@ -24,6 +24,7 @@ import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -64,6 +65,7 @@ public abstract class CommitteeHelperBase implements Serializable {
     private List<Boolean> viewSpecificSchedule;
     private boolean performAction = false;
     private boolean showActiveMembersOnly = true;
+    private List<CorrespondencePrintOption> correspondencesToPrint;
 
     // Needed when multipleValuesLookup populates a CommitteeMembershipBase with the CommitteeMembershipExpertise,
     // so it know which CommitteeMembershipBase should get them.
@@ -114,6 +116,7 @@ public abstract class CommitteeHelperBase implements Serializable {
         prepareCommitteeScheduleDeleteView();
 
         performAction = canPerformAction();
+        initPrintCorrespondences();
     }
     
     /**
@@ -428,5 +431,15 @@ public abstract class CommitteeHelperBase implements Serializable {
         List<CommitteeScheduleBase> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         Collections.sort(committeeSchedules);
         return committeeSchedules;
+    }
+
+    protected abstract void initPrintCorrespondences();
+    
+    public List<CorrespondencePrintOption> getCorrespondencesToPrint() {
+        return correspondencesToPrint;
+    }
+
+    public void setCorrespondencesToPrint(List<CorrespondencePrintOption> correspondencesToPrint) {
+        this.correspondencesToPrint = correspondencesToPrint;
     }
 }

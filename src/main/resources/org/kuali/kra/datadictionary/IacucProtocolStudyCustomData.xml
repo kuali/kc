@@ -29,7 +29,6 @@
         <property name="attributes" >
             <list>
                 <ref bean="IacucProtocolStudyCustomData-iacucProtocolStudyCustomDataId" />
-                <ref bean="IacucProtocolStudyCustomData-protocolId" />
                 <ref bean="IacucProtocolStudyCustomData-procedureCustomAttributeId" />
                 <ref bean="IacucProtocolStudyCustomData-iacucProtocolStudyGroupId" />
                 <ref bean="IacucProtocolStudyCustomData-value" />
@@ -56,16 +55,6 @@
         </property>
         <property name="summary" value="IACUC Protocol Study Custom Data Id" />
         <property name="description" value="IACUC Protocol Study Custom Data Id" />
-    </bean>
-
-    <bean id="IacucProtocolStudyCustomData-protocolId" parent="IacucProtocolStudyCustomData-protocolId-parentBean"/>
-    <bean id="IacucProtocolStudyCustomData-protocolId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-        <property name="name" value="protocolId"/>
-        <property name="label" value="IACUC Protocol Id"/>
-        <property name="shortLabel" value="IACUC Protocol Id"/>
-        <property name="maxLength" value="22"/>
-        <property name="summary" value="IACUC Protocol Id"/>
-        <property name="description" value="IACUC Protocol Id"/>  
     </bean>
 
     <bean id="IacucProtocolStudyCustomData-value" parent="IacucProtocolStudyCustomData-value-parentBean" />

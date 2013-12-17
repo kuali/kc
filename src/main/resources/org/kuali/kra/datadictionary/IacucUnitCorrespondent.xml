@@ -1,0 +1,149 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<import resource="classpath*:Correspondent.xml"/>
+
+    <bean id="IacucUnitCorrespondent" parent="IacucUnitCorrespondent-parentBean" />
+    <bean id="IacucUnitCorrespondent-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.IacucUnitCorrespondent" />
+		<property name="objectLabel" value="IACUC Unit Correspondent" />
+        <property name="inquiryDefinition" >
+            <ref bean="IacucUnitCorrespondent-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="IacucUnitCorrespondent-lookupDefinition" />
+        </property>
+        <property name="attributes" >
+            <list>
+                <ref bean="IacucUnitCorrespondent-personId" />
+                <ref bean="IacucUnitCorrespondent-person.fullName" />
+                <ref bean="IacucUnitCorrespondent-person.userName" />
+                <ref bean="IacucUnitCorrespondent-unitNumber" />
+                <ref bean="IacucUnitCorrespondent-correspondentTypeCode" />
+                <ref bean="IacucUnitCorrespondent-correspondentType.description" />
+                <ref bean="IacucUnitCorrespondent-nonEmployeeFlag" />
+                <ref bean="IacucUnitCorrespondent-description" />
+                <ref bean="IacucUnitCorrespondent-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="IacucUnitCorrespondent-personId" parent="IacucUnitCorrespondent-personId-parentBean"/>
+    <bean id="IacucUnitCorrespondent-personId-parentBean" abstract="true" parent="Correspondent-personId" >
+    </bean>
+    
+   	<bean id="IacucUnitCorrespondent-person.fullName" parent="IacucUnitCorrespondent-person.fullName-parentBean" />
+    <bean id="IacucUnitCorrespondent-person.fullName-parentBean" abstract="true" parent="Correspondent-person.fullName">
+    </bean>
+    
+    <bean id="IacucUnitCorrespondent-person.userName" parent="IacucUnitCorrespondent-person.userName-parentBean" />
+    <bean id="IacucUnitCorrespondent-person.userName-parentBean" abstract="true" parent="Correspondent-person.userName">
+    </bean>
+
+    <bean id="IacucUnitCorrespondent-unitNumber" parent="IacucUnitCorrespondent-unitNumber-parentBean" />
+    <bean id="IacucUnitCorrespondent-unitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="unitNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Unit Number" />
+        <property name="shortLabel" value="Unit Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Unit Number" />
+        <property name="description" value="Unit Number" />
+    </bean>
+
+    <bean id="IacucUnitCorrespondent-correspondentTypeCode" parent="IacucUnitCorrespondent-correspondentTypeCode-parentBean"/>
+    <bean id="IacucUnitCorrespondent-correspondentTypeCode-parentBean" abstract="true" parent="Correspondent-correspondentTypeCode">
+    </bean>    
+    
+    <bean id="IacucUnitCorrespondent-correspondentType.description" parent="IacucUnitCorrespondent-correspondentType.description-parentBean" />
+	<bean id="IacucUnitCorrespondent-correspondentType.description-parentBean" abstract="true" parent="Correspondent-correspondentType.description">
+  	</bean>
+    
+    <bean id="IacucUnitCorrespondent-nonEmployeeFlag" parent="IacucUnitCorrespondent-nonEmployeeFlag-parentBean"/>
+    <bean id="IacucUnitCorrespondent-nonEmployeeFlag-parentBean" abstract="true" parent="Correspondent-nonEmployeeFlag">    
+    </bean>
+    
+    <bean id="IacucUnitCorrespondent-description" parent="IacucUnitCorrespondent-description-parentBean" />
+    <bean id="IacucUnitCorrespondent-description-parentBean" abstract="true" parent="Correspondent-description" >
+    </bean>
+    
+    <bean id="IacucUnitCorrespondent-versionNumber" parent="IacucUnitCorrespondent-versionNumber-parentBean" />
+    <bean id="IacucUnitCorrespondent-versionNumber-parentBean" abstract="true" parent="Correspondent-versionNumber">
+    </bean>
+    
+    <!-- Business Object Inquiry Definition -->
+    <bean id="IacucUnitCorrespondent-inquiryDefinition" parent="IacucUnitCorrespondent-inquiryDefinition-parentBean" />
+    <bean id="IacucUnitCorrespondent-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="IACUC Unit Correspondent Inquiry" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="IACUC Unit Correspondent Inquiry" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+				            <bean parent="FieldDefinition"
+                                p:attributeName="person.fullName"
+                    			p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="unitNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="correspondentType.description" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="nonEmployeeFlag" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="IacucUnitCorrespondent-lookupDefinition" parent="IacucUnitCorrespondent-lookupDefinition-parentBean" />
+    <bean id="IacucUnitCorrespondent-lookupDefinition-parentBean" abstract="true" parent="Correspondent-lookupDefinition-parentBean">
+        <property name="title" value="IACUC Unit Correspondent Lookup" />
+	    <property name="lookupableID" value="iacucUnitCorrespondentLookupable" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list merge="true">
+		        <bean parent="FieldDefinition"
+                    p:attributeName="person.userName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="unitNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="correspondentTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="nonEmployeeFlag" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list merge="true">
+		        <bean parent="FieldDefinition"
+                    p:attributeName="person.fullName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="unitNumber" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="correspondentTypeCode" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" 
+		            p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="nonEmployeeFlag" />
+            </list>
+        </property>
+    </bean>
+</beans>

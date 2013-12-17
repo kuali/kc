@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.iacuc;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRule;
@@ -34,7 +39,6 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolUnitRule;
 import org.kuali.kra.iacuc.personnel.SaveIacucProtocolPersonnelEvent;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceAuditRule;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceRule;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationRule;
@@ -66,11 +70,6 @@ import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRuleBas
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Main Business Rule class for <code>{@link IacucProtocolDocument}</code>. Responsible for delegating rules to independent rule classes.
  *
@@ -84,12 +83,14 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
     private static final String NEW_PROTOCOL_SPECIES_PATH = "iacucProtocolSpeciesHelper.newIacucProtocolSpecies";
     private static final String PROTOCOL_EXCEPTION = "Exception";
     private static final String PROTOCOL_PROCEDURE = "Procedure";
+    private static final String STUDY_GROUP_PROCEDURE_PATH = "iacucProtocolStudyGroupBeans";
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean valid = super.processCustomSaveDocumentBusinessRules(document);
         if(valid) {
             valid &= processProtocolSpeciesRules((IacucProtocolDocument) document);
+            valid &= isProtocolStudyGroupValid((IacucProtocolDocument) document);
         }
         return valid;
     }
@@ -145,8 +146,9 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
     protected boolean isProtocolProcedureValid(List<IacucProtocolStudyGroupBean> protocolStudyGroups, Set<Integer> protocolSpecies) {
         Set<Integer> procedureSpecies = new HashSet<Integer>();
         for(IacucProtocolStudyGroupBean studyGroupBean : protocolStudyGroups) {
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                procedureSpecies.add(studyGroupDetailBean.getSpeciesCode());
+            for(IacucProtocolStudyGroup studyGroup : studyGroupBean.getIacucProtocolStudyGroups()) {
+                Integer speciesCode = studyGroup.getIacucProtocolSpecies().getSpeciesCode();
+                procedureSpecies.add(speciesCode);
             }
         }
         procedureSpecies.removeAll(protocolSpecies);
@@ -188,11 +190,9 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
     protected boolean isProtocolProcedureSpeciesGroupValid(List<IacucProtocolStudyGroupBean> protocolStudyGroups, Set<String> protocolSpeciesGroups) {
         List<String> speciesGroups = new ArrayList<String>();
         for(IacucProtocolStudyGroupBean studyGroupBean : protocolStudyGroups) {
-            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                for(IacucProtocolStudyGroup iacucProtocolStudyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
-                    speciesGroups.add(protocolSpecies.getSpeciesGroup());
-                }
+            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : studyGroupBean.getIacucProtocolStudyGroups()) {
+                IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
+                speciesGroups.add(protocolSpecies.getSpeciesGroup());
             }
         }
         boolean invalidSpeciesReference = false;
@@ -203,6 +203,33 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
             }
         }
         return !invalidSpeciesReference;
+    }
+    
+    /**
+     * This method is to validate protocol study groups
+     * @param document
+     * @return
+     */
+    public boolean isProtocolStudyGroupValid(IacucProtocolDocument document) {
+        boolean valid = true;
+        int groupIndex = 0;
+        List<IacucProtocolStudyGroupBean> protocolStudyGroups = document.getIacucProtocol().getIacucProtocolStudyGroupBeans();
+        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : protocolStudyGroups) {
+            String studyGroupPath = STUDY_GROUP_PROCEDURE_PATH.concat("[") + groupIndex + "]";
+            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups()) {
+                String groupAndSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies().getGroupAndSpecies();
+                if(iacucProtocolStudyGroup.getPainCategoryCode() == null) {
+                    reportError(studyGroupPath, KeyConstants.IACUC_PROCEDURE_STUDY_GROUP_SPECIES_PAIN_CATEGORY_REQUIRED, new String[] {groupAndSpecies});
+                    valid = false;
+                }
+                if(iacucProtocolStudyGroup.getCount() == null) {
+                    reportError(studyGroupPath, KeyConstants.IACUC_PROCEDURE_STUDY_GROUP_SPECIES_COUNT_REQUIRED, new String[] {groupAndSpecies});
+                    valid = false;
+                }
+            }
+            groupIndex++;
+        }
+        return valid;
     }
     
     @Override

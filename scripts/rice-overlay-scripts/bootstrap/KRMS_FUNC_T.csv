@@ -42,7 +42,7 @@
 "KC1039","KC-PD","allProposalsRule","Pointless rule, just returns true.","java.lang.String","KC1006","Y",1
 "KC1040","KC-PD","proposalLeadUnitInHierarchy","checks if the proposals lead unit is in the passed in unit hierarchy.","java.lang.String","KC1006","Y",1
 "KC1041","KC-PD","s2sSubawardRule","verifies only one set of unique forms.","java.lang.String","KC1006","Y",1
-"KC1042","KC-PD","proposalGrantsRule","verifies that there are grans.gov submissions.","java.lang.String","KC1006","Y",1
+"KC1042","KC-PD","proposalGrantsRule","Checks if the opportunity is already selected for the proposal","java.lang.String","KC1006","Y",1
 "KC1043","KC-PD","narrativeTypeRule","verfies activity type code is specified.","java.lang.String","KC1006","Y",1
 "KC1044","KC-PD","s2s398CoverRule","verify PHS Cover letter narrative(39) is attached, must include s2s cover letter form","java.lang.String","KC1006","Y",1
 "KC1045","KC-PD","narrativeFileName","verify no special characters are used.","java.lang.String","KC1006","Y",1

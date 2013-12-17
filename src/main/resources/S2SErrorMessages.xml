@@ -1660,7 +1660,7 @@
 	
 	<Error>
 		<MessageKey>s2s.budget.participantcount.required</MessageKey>
-		<Message>You must provide a number of participants when including participant support costs.</Message>
+		<Message>You must provide a number of participants when including participant support costs for budget period</Message>
 		<FixLink>budgetVersions</FixLink>
 	</Error>
 	<Error>

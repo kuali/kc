@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="IacucUnitCorrespondentMaintenanceDocument" parent="IacucUnitCorrespondentMaintenanceDocument-parentBean" />
+    <bean id="IacucUnitCorrespondentMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.IacucUnitCorrespondent" />
+	    <property name="maintainableClass" value="org.kuali.kra.bo.IacucUnitCorrespondentMaintainableImpl"/>
+        <property name="maintainableSections" >
+            <list>
+                <ref bean="IacucUnitCorrespondentMaintenanceDocument-EditIacucUnitCorrespondent" />
+            </list>
+        </property>
+        <property name="lockingKeys" >
+            <list>
+                <value>unitNumber</value>
+                <value>correspondentTypeCode</value>
+		        <value>personId</value>
+            </list>
+        </property>
+        <property name="allowsRecordDeletion" value="true" />
+        <property name="documentTypeName" value="IacucUnitCorrespondentMaintenanceDocument" />
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+    
+    <bean id="IacucUnitCorrespondentMaintenanceDocument-EditIacucUnitCorrespondent" parent="IacucUnitCorrespondentMaintenanceDocument-EditIacucUnitCorrespondent-parentBean" />
+    <bean id="IacucUnitCorrespondentMaintenanceDocument-EditIacucUnitCorrespondent-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="iacucUnitCorrespondentMaintenance" />
+        <property name="title" value="Edit IACUC Unit Correspondent" />
+        <property name="maintainableItems" >
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true" />
+ 		        <bean parent="MaintainableFieldDefinition" p:name="person.userName" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="correspondentTypeCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="nonEmployeeFlag" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="description" />
+            </list>
+        </property>
+    </bean>
+</beans>

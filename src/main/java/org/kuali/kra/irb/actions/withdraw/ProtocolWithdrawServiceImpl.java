@@ -59,7 +59,7 @@ public class ProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImplBase
     @Override
     public ProtocolDocumentBase withdraw(ProtocolBase protocol, ProtocolWithdrawBean withdrawBean) throws Exception {
         ProtocolSubmission submission = (ProtocolSubmission)getSubmission(protocol);
-        ProtocolAction protocolAction = new ProtocolAction((Protocol)protocol, ProtocolActionType.WITHDRAWN);
+        ProtocolAction protocolAction = new ProtocolAction((Protocol)protocol, submission, ProtocolActionType.WITHDRAWN);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
 
@@ -106,13 +106,7 @@ public class ProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImplBase
             }
             newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
             documentService.saveDocument(newProtocolDocument);
-            generateCorrespondenceDocumentAndAttach(newProtocolDocument.getProtocol(), withdrawBean);
             return newProtocolDocument;
-        }
-        //This is withdraw submission not protocol.  the withdraw correspondence is for 'protocol' now.
-        //it's not suitable for withdraw protocol submission.        
-        else {
-            generateCorrespondenceDocumentAndAttach(protocol, withdrawBean);
         }
         return protocol.getProtocolDocument();
     }

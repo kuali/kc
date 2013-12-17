@@ -24,6 +24,8 @@ public abstract class ProtocolSubmissionTypeBase extends KraPersistableBusinessO
      */
     private static final long serialVersionUID = 4046718710443500371L;
 
+    public static final String WITHDRAW_SUBMISSION = "131";
+    
     private String submissionTypeCode;
 
     private String description;

@@ -15,12 +15,17 @@
  */
 package org.kuali.kra.iacuc.summary;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.iacuc.procedures.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.iacuc.procedures.IacucProcedure;
+import org.kuali.kra.iacuc.procedures.IacucProcedureCategory;
+import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyCustomData;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
 
 public class IacucProcedureSummary implements Serializable { 
     
@@ -52,11 +57,11 @@ public class IacucProcedureSummary implements Serializable {
         procedureCategory = iacucProcedureCategory.getProcedureCategory() + " - " + iacucProcedure.getProcedureDescription();
         
         personSummaries = new ArrayList<IacucProcedurePersonSummary>();  
-        for (IacucProcedurePersonResponsible person: studyGroup.getIacucProcedurePersonsResponsible()) {
+        for (IacucProcedurePersonResponsible person: studyGroup.getIacucProcedurePersonResponsibleList()) {
             personSummaries.add(new IacucProcedurePersonSummary(person));
         }
         locationSummaries = new ArrayList<IacucProcedureLocationSummary>();
-        for (IacucProtocolStudyGroupLocation location: studyGroup.getIacucProtocolStudyGroupLocations()) {
+        for (IacucProtocolStudyGroupLocation location: studyGroup.getIacucProcedureLocationResponsibleList()) {
             locationSummaries.add(new IacucProcedureLocationSummary(location));
         }
         customDataSummaries = new ArrayList<IacucProcedureCustomDataSummary>();

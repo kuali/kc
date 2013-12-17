@@ -20,4 +20,7 @@ update VALID_RATES set ICR_RATE_CODE = '041' where VALID_RATES_ID > 51 and VALID
 /
 update VALID_RATES set ICR_RATE_CODE = '068' where VALID_RATES_ID > 61
 /
+delete from KRNS_DOC_HDR_T where FDOC_DESC like '%*PLACEHOLDER*%'
+/
+
 

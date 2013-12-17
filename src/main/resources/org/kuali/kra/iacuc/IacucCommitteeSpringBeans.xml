@@ -99,8 +99,18 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 	
-	
-	 
+	<bean id="iacucCommitteeCorrespondencePrint" class="org.kuali.kra.iacuc.committee.print.service.impl.IacucCommitteeCorrespondencePrintImpl">
+		<property name="correspondencePrint" ref="iacucProtocolCorrespondenceTemplatePrint"/>
+		<property name="printingService" ref="iacucCommitteePrintingService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
+
+	<bean id="iacucScheduleCorrespondencePrint" class="org.kuali.kra.iacuc.committee.print.service.impl.IacucScheduleCorrespondencePrintImpl">
+		<property name="correspondencePrint" ref="iacucScheduleTemplatePrint"/>
+		<property name="printingService" ref="iacucCommitteePrintingService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
+		 
 <!-- committee authorizers -->    
    
     <bean id="iacucCommitteeTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">

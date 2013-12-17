@@ -29,6 +29,8 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
+import java.util.List;
+
 public class InstituteRateMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private InstituteRateMaintenanceDocumentRule rule = null;
 
@@ -75,7 +77,7 @@ public class InstituteRateMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         instituteRate.setActivityTypeCode("1");
         MaintenanceDocument instituteRateDocument = newMaintDoc(instituteRate);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(instituteRateDocument));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
+        List errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
@@ -100,7 +102,7 @@ public class InstituteRateMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         instituteRate.setActivityTypeCode("1");
         MaintenanceDocument instituteRateDocument = newMaintDoc(instituteRate);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(instituteRateDocument));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.unitNumber");
+        List errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.unitNumber");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
@@ -125,7 +127,7 @@ public class InstituteRateMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         instituteRate.setActivityTypeCode("x");
         MaintenanceDocument instituteRateDocument = newMaintDoc(instituteRate);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(instituteRateDocument));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.activityTypeCode");
+        List errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.activityTypeCode");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);

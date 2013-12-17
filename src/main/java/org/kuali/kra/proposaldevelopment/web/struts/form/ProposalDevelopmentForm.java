@@ -74,6 +74,7 @@ import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.AutoPopulatingList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -193,6 +194,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     private transient String currentPersonCountryCode = "";
     private ProposalDevelopmentCustomDataHelper customDataHelper;
+    private String narrativeStatusesChangeKey;
+    private NarrativeStatus narrativeStatusesChange;
 
     public ProposalDevelopmentForm() {
         super();
@@ -2009,5 +2012,25 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     protected PermissionService getKimPermissionService() {
         return KraServiceLocator.getService("kimPermissionService");
     }
-   
+
+    public String getNarrativeStatusesChangeKey() {
+        return narrativeStatusesChangeKey;
+    }
+
+    public void setNarrativeStatusesChangeKey(String narrativeStatusesChangeKey) {
+        this.narrativeStatusesChangeKey = narrativeStatusesChangeKey;
+    }
+
+    public void clearNarrativeStatusChangeKey() {
+        narrativeStatusesChangeKey = "";
+        narrativeStatusesChange = null;
+    }
+
+    public void setNarrativeStatusChange(NarrativeStatus narrativeStatus) {
+        this.narrativeStatusesChange = narrativeStatus;
+    }
+
+    public NarrativeStatus getNarrativeStatusChange() {
+        return narrativeStatusesChange;
+    }
 }

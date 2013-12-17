@@ -217,7 +217,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
         boolean isComplete = true;
         try {
             ProtocolOnlineReviewDocumentBase onlineReviewDoc = (ProtocolOnlineReviewDocumentBase)getDocumentService().getByDocumentHeaderId(olrDocId);
-            if (getWorkflowDocumentService().getCurrentRouteNodeNames(onlineReviewDoc.getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
+            if (getWorkflowDocumentService().getCurrentRouteNodeNames(onlineReviewDoc.getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.IACUC_ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
                 isComplete = false;
             }
         } catch (Exception e) {
@@ -231,7 +231,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
         boolean isComplete = true;
         try {
             ProtocolOnlineReviewDocumentBase onlineReviewDoc = (ProtocolOnlineReviewDocumentBase)getDocumentService().getByDocumentHeaderId(olrDocId);
-            if (!getWorkflowDocumentService().getCurrentRouteNodeNames(onlineReviewDoc.getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
+            if (!getWorkflowDocumentService().getCurrentRouteNodeNames(onlineReviewDoc.getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.IACUC_ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
                 isComplete = false;
             }
         } catch (Exception e) {
@@ -269,5 +269,9 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return null;
+    }
+    
+    public String getDocumentBoNumber() {
+        return getProtocolOnlineReview().getProtocolId().toString();
     }
 }

@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.iacuc.procedures.rule;
 
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -27,9 +26,7 @@ import org.kuali.rice.krad.util.MessageMap;
  * This class adds rule for adding new <code>ProcedureLocation</code> object
  */
 public class AddProcedureLocationRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddProcedureLocationEvent> { 
-    private static final String PROCEDURE_BEAN_PATH = "iacucProtocolStudyGroupBeans[";
-    private static final String PROCEDURE_DETAIL_BEAN_PATH = "].iacucProtocolStudyGroupDetailBeans[";
-    private static final String NEW_PROCEDURE_LOCATION_PATH = "].newIacucProtocolStudyGroupLocation";
+    private static final String NEW_PROCEDURE_LOCATION_PATH = "newIacucProtocolStudyGroupLocation";
     
     @Override
     public boolean processRules(AddProcedureLocationEvent event) {
@@ -52,8 +49,7 @@ public class AddProcedureLocationRule extends ResearchDocumentRuleBase implement
      */
     private boolean isLocationValid(AddProcedureLocationEvent event) {
         boolean locationValid = true;
-        IacucProtocolStudyGroupDetailBean procedureDetailBean = event.getProcedureDetailBean();
-        IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation = procedureDetailBean.getNewIacucProtocolStudyGroupLocation();
+        IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation = event.getIacucProtocolStudyGroupLocation();
         MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.addToErrorPath(getErrorPath(event));
         getDictionaryValidationService().validateBusinessObject(newIacucProtocolStudyGroupLocation);
@@ -69,9 +65,8 @@ public class AddProcedureLocationRule extends ResearchDocumentRuleBase implement
      */
     private boolean isDuplicateLocation(AddProcedureLocationEvent event) {
         boolean duplicateLocation = false;
-        IacucProtocolStudyGroupDetailBean procedureDetailBean = event.getProcedureDetailBean();
-        IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation = procedureDetailBean.getNewIacucProtocolStudyGroupLocation();
-        for(IacucProtocolStudyGroupLocation studyGroupLocation : procedureDetailBean.getIacucProtocolStudyGroupLocations()) {
+        IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation = event.getIacucProtocolStudyGroupLocation();
+        for(IacucProtocolStudyGroupLocation studyGroupLocation : event.getIacucProtocolDocument().getIacucProtocol().getIacucProtocolStudyGroupLocations()) {
             if(studyGroupLocation.getLocationId().equals(newIacucProtocolStudyGroupLocation.getLocationId()) &&
                     studyGroupLocation.getLocationTypeCode().equals(newIacucProtocolStudyGroupLocation.getLocationTypeCode())){
                 GlobalVariables.getMessageMap().putError(getErrorPath(event) + "locationTypeCode", 
@@ -84,10 +79,6 @@ public class AddProcedureLocationRule extends ResearchDocumentRuleBase implement
     
     private String getErrorPath(AddProcedureLocationEvent event) {
         StringBuffer errorPath = new StringBuffer();
-        errorPath.append(PROCEDURE_BEAN_PATH);
-        errorPath.append(event.getProcedureBeanIndex());
-        errorPath.append(PROCEDURE_DETAIL_BEAN_PATH);
-        errorPath.append(event.getProcedureDetailBeanIndex());
         errorPath.append(NEW_PROCEDURE_LOCATION_PATH);
         return errorPath.toString();
     }

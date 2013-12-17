@@ -174,25 +174,8 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
         return getNegotiation().getNegotiationCustomDataList();
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean useCustomLockDescriptors() {
-        return true;
+    public String getDocumentBoNumber() {
+        return getNegotiation().getNegotiationId().toString();
+        
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getCustomLockDescriptor(Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        String updatedTimestamp = "";
-        if (this.getUpdateTimestamp() != null) {
-            updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
-        }
-        if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getNegotiation().getNegotiationId() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp;  
-        }
-
-        return null;
-    }
-    
 }

@@ -29,27 +29,6 @@ public interface IacucProtocolCopyService extends ProtocolCopyService<IacucProto
     public void copyProtocolThreers(IacucProtocol srcProtocol, IacucProtocol destProtocol);
 
     /**
-     * This method is to merge species during amendment and renewal with amendment.
-     * A deep copy alone is causing issue at this point since there is reference in 
-     * procedure panel for these protocol species. So when removed from the list is causing
-     * referential constraint violation. This is a work around for now until we figure out
-     * a change to handle protocol species and procedures. Here PK is retained and other informations
-     * are merged for existing species and any new species are added while species removed in 
-     * amendment are removed from original.
-     * @param srcProtocol
-     * @param destProtocol
-     */
-    public void mergeProtocolSpeciesAndGroups(IacucProtocol srcProtocol, IacucProtocol destProtocol);
-    
-    /**
-     * This method is to merge protocol procedures. We need to set reference for the new
-     * protocol species since it we create a new version.
-     * @param srcProtocol
-     * @param destProtocol
-     */
-    public void mergeProtocolProcedures(IacucProtocol srcProtocol, IacucProtocol destProtocol);
-
-    /**
      * This method is to copy source exceptions to destination protocol
      * @param srcProtocol
      * @param destProtocol

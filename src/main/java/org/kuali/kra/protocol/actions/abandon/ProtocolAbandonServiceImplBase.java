@@ -43,11 +43,6 @@ public abstract class ProtocolAbandonServiceImplBase implements ProtocolAbandonS
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         protocol.setActive(false);
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
-        try {
-            createCorrespondenceAndAttach(protocol, getActionType());
-        } catch (Exception e) {
-            LOG.info("Abandon ProtocolBase Notification exception ", e);
-        }
         
     }
 

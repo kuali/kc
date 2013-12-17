@@ -23,6 +23,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ProtocolCreateRenewalRuleTest {
@@ -63,7 +65,7 @@ public class ProtocolCreateRenewalRuleTest {
      * @param errorKey
      */
     protected void assertError(String propertyKey, String errorKey) {
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
+        List errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
 

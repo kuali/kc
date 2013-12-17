@@ -61,10 +61,15 @@
 <%-- We used to calculate the # of proposal attachements by fn:length(KualiForm.document.developmentProposalList[0].narratives), but this counts all of them including the 
 internal attachements.  We are just going to loop through the narratives and see which ones are going to be rendered on this panel and count them up. --%>
 <c:set scope = "page" var = "proposalAttachementCount" value = "0"/>
+<c:set scope = "page" var="canUpdateAllStatuses" value="true"/>
+
 <c:forEach var="narrative" items="${KualiForm.document.developmentProposalList[0].narratives}" varStatus="status">
         	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].value}">
         		<c:set scope = "page" var = "proposalAttachementCount" value = "${proposalAttachementCount + 1}"/>
   			</c:if>
+			<c:set var="replaceKey" value="proposalAttachment.${narrative.moduleNumber}.replace" />
+			<c:set var="replaceAttachment" value="${KualiForm.editingMode[replaceKey]}" />
+  			<c:set var="canUpdateAllStatuses" value="${canUpdateAllStatuses and replaceAttachment}"/>
 </c:forEach>
 
 
@@ -78,10 +83,36 @@ internal attachements.  We are just going to loop through the narratives and see
 	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
 	        </h3>
         </kra:section>
+		<c:if test="${canUpdateAllStatuses}">
+			<table cellpadding=0 cellspacing=0 summary="">
+				<tbody>
+		            <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].narratives) > 0}">
+						<tr>
+							<td>
+								<div align="left">
+									<b>Mark all attachments</b>:
+									<html:select property="customDataHelper.narrativeStatusChange"
+										style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;">
+										<html:optionsCollection
+											property="customDataHelper.narrativeStatuses" value="key"
+											label="value"
+											style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;" />
+									</html:select>
+									<html:image
+										property="methodToCall.markAllNarrativeStatuses.anchor${tabKey}"
+										src="${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif"
+										title="update" alt="update" styleClass="tinybutton" />
+								</div>
+							</td>
+						</tr>
+					</c:if>
+				</tbody>
+			</table>
+	    </c:if>
         <table cellpadding=0 cellspacing=0 summary="">
             <kra:section permission="addNarratives">
             	<tbody class="addline">
-	           	<tr>
+					<tr>
 	         		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}"/></div></th>
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="newNarrative.narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
@@ -148,7 +179,6 @@ internal attachements.  We are just going to loop through the narratives and see
             	<td colspan="4">
             	<div  align="left">
             	
-            	
         	<c:forEach var="narrative" items="${KualiForm.document.developmentProposalList[0].narratives}" varStatus="status">
         	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].value}">
 			<c:set var="narrType" value="${narrative.narrativeType.description}"/>
@@ -159,6 +189,8 @@ internal attachements.  We are just going to loop through the narratives and see
 			<c:set var="replaceAttachment" value="${KualiForm.editingMode[replaceKey]}" />
 			<c:set var="deleteKey" value="proposalAttachment.${narrative.moduleNumber}.delete" />
             <c:set var="deleteAttachment" value="${KualiForm.editingMode[deleteKey]}" />
+            <c:set var="modifyStatusKey" value="proposalAttachment.${narrative.moduleNumber}.modifyStatus" />
+            <c:set var="modifyStatus" value="${KualiForm.editingMode[modifyStatusKey]}"/>
 			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}" auditCluster="proposalAttachmentsAuditWarnings" tabAuditKey="document.developmentProposalList[0].narrative[${status.index}]*">
 				<div class="innerTab-container" align="left">
 					<table class=tab cellpadding=0 cellspacing=0 summary="">
@@ -175,16 +207,26 @@ internal attachements.  We are just going to loop through the narratives and see
 					                	 readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 				                </div>
 				                <div id="fileDiv${status.index}" valign="middle" style="display:none;">
-				                	<html:file property="document.developmentProposalList[0].narrative[${status.index}].narrativeFile" />
-									<html:image property="methodToCall.replaceProposalAttachment.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+				                	<html:file property="document.developmentProposalList[0].narrative[${status.index}].narrativeFile"/>
 								</div>
 							</td>
 			          	</tr>
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}"/></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
+			                	<div id="updateStatusDiv${status.index}" style="display:block;">
+					                <kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].moduleStatusCode" 
+					                	  readOnly="true" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
+				                </div>
+				                <div id="attachmentStatusDiv${status.index}" valign="middle" style="display:none;">
+									<html:select property="document.developmentProposalList[0].narrative[${status.index}].moduleStatusCode"
+										style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;">
+										<html:optionsCollection
+											property="customDataHelper.narrativeStatuses" value="key"
+											label="value"
+											style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;" />
+									</html:select>
+								</div>
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" /></div></th>
 			                <td align="left" valign="middle">
@@ -226,27 +268,49 @@ internal attachements.  We are just going to loop through the narratives and see
 			          	<tr>
 							<td colspan=4>
 								<div align="center">
-									<c:if test="${(downloadAttachment) }">							
-										<html:image styleId="downloadProposalAttachment.line${status.index}"  property="methodToCall.downloadProposalAttachment.line${status.index}.anchor${currentTabIndex}"
-														src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-														onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
+									<c:if test="${(downloadAttachment) }">
+										<div style="display: inline;">
+												<html:image styleId="downloadProposalAttachment.line${status.index}"  property="methodToCall.downloadProposalAttachment.line${status.index}.anchor${currentTabIndex}"
+																src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+																onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
+										</div>
 									</c:if>
-									<c:if test="${(replaceAttachment) }">							
-										<html:image styleId="replaceProposalAttachment.line${status.index}" 
-														onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}') ; return false"  
-														src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif' styleClass="tinybutton"
-														property="methodToCall.replaceNarrativeAttachment.line${status.index}.anchor${currentTabIndex};return false" />
-			
-								    </c:if>	
+									<c:if test="${replaceAttachment}">
+										<div style="display: inline;" id="replaceAttachmentDiv${status.index}">
+												<html:image styleId="replaceProposalAttachment.line${status.index}" 
+																onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}') ;
+																					 showHide('attachmentStatusDiv${status.index}','updateStatusDiv${status.index}') ;
+																					 showHide('saveNewAttachmentDiv${status.index}','replaceAttachmentDiv${status.index}') ; return false"  
+																src='${ConfigProperties.kew.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton" />
+										</div>
+								    </c:if>
 								    <c:if test="${deleteAttachment}">
-										<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
-										            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+										<div style="display: inline;">
+												<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
+												            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+										</div>
 									</c:if>
-									<html:image styleId="getProposalAttachmentRights.line${status.index}" property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
-										        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' styleClass="tinybutton"
-										        onclick="javascript: proposalAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
-										        
-	        
+									<div style="display: inline;">
+									    <html:image styleId="getProposalAttachmentRights.line${status.index}" property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
+											        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' styleClass="tinybutton"
+											        onclick="javascript: proposalAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
+									</div>
+									<c:if test="${replaceAttachment}">
+									    <div id="cancelAttachmentEdit${status.index}" style="display: inline;">
+										    <html:image styleId="getProposalAttachmentRights.line${status.index}"
+													    onclick="javascript: showHide('replaceDiv${status.index}', 'fileDiv${status.index}') ;
+													    					 showHide('updateStatusDiv${status.index}, 'attachmentStatusDiv${status.index}') ;
+													    					 showHide('replaceAttachmentDiv${status.index}','saveNewAttachmentDiv${status.index}') ; return false"
+												        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-cancel.gif' styleClass="tinybutton"/>
+										</div>
+									</c:if>
+									<c:if test="${replaceAttachment}">
+										<div style="display: none;" id="saveNewAttachmentDiv${status.index}">
+												<html:image styleId="replaceProposalAttachment.line${status.index}" 
+																src='${ConfigProperties.kew.externalizable.images.url}tinybutton-save.gif' styleClass="tinybutton"
+																property="methodToCall.replaceProposalAttachment.line${status.index}.anchor${currentTabIndex};return false" />
+										</div>
+								    </c:if>
 								</div>
 			                </td>
 			            </tr>
@@ -254,8 +318,7 @@ internal attachements.  We are just going to loop through the narratives and see
 			       </div>
 			     </kul:innerTab>
 			   </c:if>
-        	</c:forEach> 
-        	
+        	</c:forEach>
         	</div>
         	</td>
         	</tr>

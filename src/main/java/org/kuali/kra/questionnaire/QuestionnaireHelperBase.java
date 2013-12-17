@@ -61,7 +61,7 @@ public abstract class QuestionnaireHelperBase implements Serializable {
     /*
      * get questionnaire display label from the appropriate questionnaire usage
      */
-    private String getQuestionnaireLabel(List<QuestionnaireUsage> usages, String moduleSubItemCode) {
+    protected String getQuestionnaireLabel(List<QuestionnaireUsage> usages, String moduleSubItemCode) {
         if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
             Collections.sort((List<QuestionnaireUsage>) usages);
            // Collections.reverse((List<QuestionnaireUsage>) usages);
@@ -91,7 +91,7 @@ public abstract class QuestionnaireHelperBase implements Serializable {
     }
 
 
-    private boolean isQuestionnaireActive(AnswerHeader answerHeader) {        
+    protected boolean isQuestionnaireActive(AnswerHeader answerHeader) {        
         Integer questionnaireId = answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger();
         String coeusModuleCode = answerHeader.getModuleItemCode();
         String coeusSubModuleCode = answerHeader.getModuleSubItemCode(); 

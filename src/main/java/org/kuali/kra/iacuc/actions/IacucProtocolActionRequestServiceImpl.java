@@ -15,6 +15,15 @@
  */
 package org.kuali.kra.iacuc.actions;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,7 +34,11 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonService;
-import org.kuali.kra.iacuc.actions.amendrenew.*;
+import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucAmendmentEvent;
+import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucContinuationEvent;
+import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucRenewalEvent;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewService;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendmentBean;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveEvent;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveService;
@@ -56,7 +69,14 @@ import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestEvent;
 import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestRule;
 import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestService;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
-import org.kuali.kra.iacuc.actions.submit.*;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableService;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
@@ -65,7 +85,15 @@ import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.iacuc.infrastructure.IacucConstants;
-import org.kuali.kra.iacuc.notification.*;
+import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
+import org.kuali.kra.iacuc.notification.IacucProtocolRequestActionNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolReviewDeterminationNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolWithReasonNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucRequestActionNotificationBean;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireAuditRule;
@@ -81,6 +109,7 @@ import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
@@ -95,12 +124,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.CollectionUtils;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequestServiceImpl implements IacucProtocolActionRequestService {
     private static final Log LOG = LogFactory.getLog(IacucProtocolActionRequestServiceImpl.class);
 
@@ -113,6 +136,10 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             put("4", "Return for Substantive Revisions Required");
         }
     };
+
+    protected static List <String> requestSubmissionTypes = Arrays.asList(new String[] {IacucProtocolSubmissionType.REQUEST_SUSPEND,
+                                                                                      IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD,
+                                                                                      IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE});
 
     private IacucProtocolApproveService protocolApproveService;
     private IacucProtocolSubmitActionService protocolSubmitActionService;
@@ -128,6 +155,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     private IacucProtocolNotifyIacucService protocolNotifyService;
     private IacucCommitteeDecisionService committeeDecisionService;
     private IacucProtocolAssignCmtService assignToCmtService;
+    private IacucProtocolActionService protocolActionService;
     
     private static final String ACTION_NAME_CONTINUATION_WITHOUT_AMENDMENT = "Create Continuation without Amendment";
     private static final String ACTION_NAME_CONTINUATION_WITH_AMENDMENT = "Create Continuation with Amendment";
@@ -578,6 +606,13 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             updateDocumentStatusChangedMessage();
         }
         return requestAuthorized;
+    }
+    
+    /**
+     * @see org.kuali.kra.iacuc.actions.IacucProtocolActionRequestService#isWithdrawRequestActionAuthorized(org.kuali.kra.iacuc.IacucProtocolForm)
+     */
+    public boolean isWithdrawRequestActionAuthorized(IacucProtocolForm protocolForm) {
+        return hasPermission(TaskName.IACUC_WITHDRAW_SUBMISSION, protocolForm.getProtocolDocument().getProtocol());
     }
     
     /**
@@ -1050,10 +1085,11 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         ProtocolDocumentBase pd = getProtocolWithdrawService().administrativelyWithdraw(protocol, protocolForm.getActionHelper().getProtocolAdminWithdrawBean());
-        generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, protocolForm.getProtocolDocument().getProtocol());
+        IacucProtocol newIacucProtocol = (IacucProtocol)pd.getProtocol();
+        generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, newIacucProtocol);
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_ADMINISTRATIVELY_WITHDRAW, false);
-        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, "Administratively Withdrawn");
-        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false);
+        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(newIacucProtocol, IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, "Administratively Withdrawn");
+        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(newIacucProtocol, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
@@ -1065,10 +1101,11 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
         ProtocolDocumentBase pd = getProtocolWithdrawService().withdraw(protocol, protocolForm.getActionHelper().getProtocolWithdrawBean());
-        generateActionCorrespondence(IacucProtocolActionType.IACUC_WITHDRAWN, protocolForm.getProtocolDocument().getProtocol());
+        IacucProtocol newIacucProtocol = (IacucProtocol)pd.getProtocol();
+        generateActionCorrespondence(IacucProtocolActionType.IACUC_WITHDRAWN, newIacucProtocol);
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_WITHDRAW, false);
-        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_WITHDRAWN, "Withdrawn");
-        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false);
+        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(newIacucProtocol, IacucProtocolActionType.IACUC_WITHDRAWN, "Withdrawn");
+        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(newIacucProtocol, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
@@ -1121,10 +1158,11 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     public String administrativelyMarkIncompleteProtocol(IacucProtocolForm protocolForm) throws Exception {
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         ProtocolDocumentBase pd = getProtocolWithdrawService().administrativelyMarkIncomplete(protocol, protocolForm.getActionHelper().getProtocolAdminIncompleteBean());
-        generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, protocolForm.getProtocolDocument().getProtocol());
+        IacucProtocol newIacucProtocol = (IacucProtocol)pd.getProtocol();
+        generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, newIacucProtocol);
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_ADMINISTRATIVELY_INCOMPLETE, false);
-        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, "Administratively Marked Incomplete");
-        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false);
+        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(newIacucProtocol, IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, "Administratively Marked Incomplete");
+        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(newIacucProtocol, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
@@ -1272,6 +1310,44 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         return protocolRequestBean;
     }
     
+    /**
+     * @see org.kuali.kra.iacuc.actions.IacucProtocolActionRequestService#withdrawRequestAction(org.kuali.kra.iacuc.IacucProtocolForm)
+     */
+    public String withdrawRequestAction(IacucProtocolForm protocolForm) throws Exception {
+        IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        IacucProtocolRequestAction requestAction = IacucProtocolRequestAction.valueOfTaskName(TaskName.IACUC_WITHDRAW_SUBMISSION);
+        IacucProtocolRequestBean requestBean = getProtocolRequestBean(protocolForm, TaskName.IACUC_WITHDRAW_SUBMISSION);
+        if (requestBean != null) {
+            boolean valid = applyRules(new IacucProtocolRequestEvent<IacucProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
+            if (valid) {
+                // find recently submitted action request and complete it
+System.out.println("fetching the one that matters...");                
+                List<ProtocolSubmissionBase> submissions = protocol.getProtocolSubmissions();
+                ProtocolSubmissionBase submission = null;
+                for (ProtocolSubmissionBase sub: submissions) {
+                    if (requestSubmissionTypes.contains(sub.getSubmissionTypeCode())) {
+                        submission = sub;
+                    }
+                }
+                if (submission != null) {
+                    submission.setSubmissionStatusCode(IacucProtocolSubmissionStatus.WITHDRAWN);
+                    IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, null, IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION);
+                    protocolAction.setComments(requestBean.getReason());
+                    protocolAction.setActionDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+                    protocolAction.setSubmissionIdFk(submission.getSubmissionId());
+                    protocolAction.setSubmissionNumber(submission.getSubmissionNumber());
+                    document.getProtocol().getProtocolActions().add(protocolAction);
+                    getProtocolActionService().updateProtocolStatus(protocolAction, document.getProtocol());
+                    getBusinessObjectService().save(submission);
+                    recordProtocolActionSuccess(requestAction.getActionName());
+                    return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IacucConstants.PROTOCOL_ACTIONS_TAB);
+                }
+            }
+        }
+        return Constants.MAPPING_BASIC;
+    }
+    
     @Override
     protected ProtocolTaskBase getProtocolTaskInstanceHook(String taskName, ProtocolBase protocol) {
         IacucProtocolTask task = new IacucProtocolTask(taskName, (IacucProtocol)protocol);
@@ -1307,9 +1383,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     }
 
     @Override
-    protected ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String taskName, String genericActionName,
+    protected ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String genericActionName,
             ProtocolBase protocol) {
-        IacucProtocolTask task = new IacucProtocolTask(taskName, (IacucProtocol)protocol, genericActionName);
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION, (IacucProtocol)protocol, genericActionName);
         return task;
     }
 
@@ -1338,6 +1414,14 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
 
     public void setProtocolAmendRenewService(IacucProtocolAmendRenewService protocolAmendRenewService) {
         this.protocolAmendRenewService = protocolAmendRenewService;
+    }
+
+    public IacucProtocolActionService getProtocolActionService() {
+        return protocolActionService;
+    }
+
+    public void setProtocolActionService(IacucProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
     }
 
     @Override

@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewLookupableHelperServiceImplBase;
 
 public class ProtocolOnlineReviewLookupableHelperServiceImpl extends ProtocolOnlineReviewLookupableHelperServiceImplBase {
@@ -37,5 +42,24 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends ProtocolOnl
     @Override
     protected String getHtmlAction() {
         return "protocolOnlineReviewRedirect.do";
+    }
+    
+    @Override
+    protected String getProtocolSubmissionApprovedStatusCodeHook() {
+        return ProtocolSubmissionStatus.APPROVED;
+    } 
+    
+    @Override
+    protected List<ProtocolOnlineReviewBase> filterResults(List<ProtocolOnlineReviewBase> results) {
+        List<ProtocolOnlineReviewBase> onlineReviews = new ArrayList<ProtocolOnlineReviewBase>();
+        for (ProtocolOnlineReviewBase review : results) {           
+            if (review.getProtocolOnlineReviewDocument() != null) {
+                //ensure that only pending submission statuses are shown for online reviews, i.e. do not show reviews assigned but not completed for approved protocols.
+               if (!review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionApprovedStatusCodeHook())) {
+                   onlineReviews.add(review);
+               }
+            }
+        }
+        return onlineReviews;
     }
 }

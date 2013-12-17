@@ -483,25 +483,9 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
         return super.wrapDocumentWithMetadataForXmlSerialization();
     }
     
-    /** {@inheritDoc} */
-    @Override
-    public boolean useCustomLockDescriptors() {
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getCustomLockDescriptor(Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        String updatedTimestamp = "";
-        if (this.getUpdateTimestamp() != null) {
-            updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
-        }
-        if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getProtocol().getProtocolNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp;  
-        }
-
-        return null;
+    public String getDocumentBoNumber() {
+        return getProtocol().getProtocolNumber();
+        
     }
     
     public boolean getReRouted() {

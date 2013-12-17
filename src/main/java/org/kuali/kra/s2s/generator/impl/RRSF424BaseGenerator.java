@@ -15,12 +15,18 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This abstract class has methods that are common to all the versions of RRSF424 form.
@@ -50,6 +56,8 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final String ANSWER_128 = "128";
     protected static final String ANSWER_111 = "111"; 
     protected static final String NOT_ANSWERED = "No";
+    protected static final String SPONSOR_GROUPS = "Sponsor Groups";
+    protected static final String SPONSOR_NIH = "NIH";
 
     /**
      * 
@@ -86,6 +94,24 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected DepartmentalPerson getContactPerson(
             ProposalDevelopmentDocument pdDoc) {
         return s2sUtilService.getContactPerson(pdDoc);
+    }
+    
+    /**
+     * This method tests whether a document's sponsor is in a given sponsor hierarchy.
+     * @param sponsorable
+     * @param sponsorHierarchy The name of a sponsor hierarchy
+     * @param level1 
+     * @return
+     */
+    public boolean isSponsorInHierarchy(Sponsorable sponsorable, String sponsorHierarchy,String level1) {
+        Map<String, String> valueMap = new HashMap<String, String>();
+        valueMap.put("sponsorCode", sponsorable.getSponsorCode());
+        valueMap.put("hierarchyName", sponsorHierarchy);
+        valueMap.put("level1", level1);
+        int matchingHierarchies = KraServiceLocator.getService(BusinessObjectService.class)
+                .countMatching(SponsorHierarchy.class, valueMap);
+        
+        return matchingHierarchies > 0;
     }
     
 }

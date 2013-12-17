@@ -20,6 +20,7 @@ import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolVersionServiceImplBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 
 
@@ -36,7 +37,9 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
     protected ProtocolBase createProtocolNewVersionHook(ProtocolBase protocol) throws Exception {
         IacucProtocol iacucProtocol = (IacucProtocol)protocol;
         iacucProtocol = versioningService.createNewVersion(iacucProtocol);
-        getIacucProtocolProcedureService().resetProcedurePanel(iacucProtocol);
+        setNewProtocolId(iacucProtocol);
+        initPersonId(iacucProtocol);
+        getIacucProtocolProcedureService().resetAllProtocolStudyProcedures(iacucProtocol);
         return iacucProtocol;
     }
 
@@ -59,6 +62,10 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
         return "SEQ_IACUC_PROTOCOL_ID";
     }
 
+    protected String getProtocolPersonSequenceId() {
+        return "SEQ_IACUC_PROTOCOL_ID";
+    }
+    
     public IacucProtocolProcedureService getIacucProtocolProcedureService() {
         return iacucProtocolProcedureService;
     }
@@ -67,4 +74,14 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
         this.iacucProtocolProcedureService = iacucProtocolProcedureService;
     }
 
+    /**
+     * This method initializes the personId of the person
+     * @param protocol
+     */
+    private void initPersonId(ProtocolBase protocol) {
+        for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
+            Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber(getProtocolPersonSequenceId()).intValue();
+            person.setProtocolPersonId(nextPersonId);
+        }
+    }
 }

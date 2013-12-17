@@ -23,7 +23,7 @@
 				schemaLocation="http://schemas.xmlsoap.org/wsdl/soap/" />
 			<xsd:import
 				namespace="http://apply.grants.gov/system/Global-V1.0"
-				schemaLocation="http://apply.grants.gov/apply/system/schemas/Global-V1.0.xsd" />
+				schemaLocation="src/main/resources/wsdl/schemas/Global-V1.0.xsd" />
 			<xsd:element name="ActivityTitle" type="glob:StringMin1Max120Type" />
 			<xsd:element name="AgencyName" type="glob:StringMin1Max60Type" />
 			<xsd:element name="CFDANumber" type="glob:StringMin1Max15Type" />

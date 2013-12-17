@@ -39,7 +39,7 @@ public class CommitteeActionPrintCommitteeDocumentRule extends ResearchDocumentR
     public boolean processRules(CommitteeActionPrintCommitteeDocumentEvent event) {
         boolean rulePassed = true;
         
-        if (!event.getPrintRooster() && !event.getPrintFutureScheduledMeeting()) {
+        if (!event.getPrintRooster() && !event.getPrintFutureScheduledMeeting() && !event.getPrintCorrespondence()) {
             if (event.isOnMeetingAction()) {
                 reportError(MEETING_PRINT_TYPE_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_PRINT_REPORT_NOT_SPECIFIED);
             } else {

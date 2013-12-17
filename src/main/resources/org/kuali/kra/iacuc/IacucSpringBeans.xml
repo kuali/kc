@@ -477,7 +477,15 @@
                 <bean class="org.kuali.kra.iacuc.auth.CreateIacucProtocolCorrespondenceAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="createProtocolCorrespondence" />
                 </bean>  
-                    
+
+                <bean class="org.kuali.kra.iacuc.auth.WithdrawSubmissionIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucWithdrawSubmission" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.WithdrawSubmissionIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucWithdrawSubmissionUnavailable" />
+                </bean>
+                
            </list>
         </property>
     </bean>
@@ -539,6 +547,7 @@
             <ref bean="iacucProtocolPersonTrainingService" />
         </property>         
         <property name="personEditableService" ref="personEditableService" />
+        <property name="iacucProtocolProcedureService" ref="iacucProtocolProcedureService" />
     </bean> 
 
     <bean id="iacucProtocolDao" parent="platformAwareDao" class="org.kuali.kra.iacuc.IacucProtocolDaoOjb">
@@ -700,11 +709,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="protocolVersionService" ref="iacucProtocolVersionService" />
-<!-- IACUC
-        <property name="protocolAssignToAgendaService" ref="iacucAssignToAgendaService" />
-        <property name="identityManagementService" ref="identityService"/> 
-        <property name="kcNotificationService" ref="kcNotificationService" />
--->
 		<property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
 		<property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />		 
 		
@@ -921,7 +925,12 @@
             <property name="protocolXmlStream">
                 <ref bean="iacucProtocolXmlStream" />
             </property>
-        </bean>
+    </bean>
+
+    <bean id="iacucCorrespondencePrint"
+    	parent="correspondencePrint">
+   		<property name="xmlStream" ref="iacucCorrespondenceXmlStream" />
+   	</bean>
 
     <bean id="iacucProtocolFullProtocolPrint"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolFullProtocolPrint" scope="prototype">
@@ -962,6 +971,7 @@
     <bean id="iacucProtocolProcedureService"
         class="org.kuali.kra.iacuc.procedures.IacucProtocolProcedureServiceImpl" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
+    	<property name="parameterService" ref="parameterService" />
         <property name="iacucProtocolSpeciesService" ref="iacucProtocolSpeciesService" />
         <property name="iacucProtocolPersonTrainingService">
             <ref bean="iacucProtocolPersonTrainingService" />
@@ -1072,6 +1082,15 @@
  		</property>
                 
 	</bean>
+	<bean id="iacucCorrespondencePrintingService" class="org.kuali.kra.iacuc.questionnaire.print.IacucCorrespondencePrintingServiceImpl">
+		<property name="printingService">
+			<ref bean="printingService" />
+		</property>
+		<property name="correspondencePrint" ref="iacucCorrespondencePrint" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 	
 	<bean id="iacucProtocolActionCorrespondenceGenerationService" class="org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -1147,11 +1166,19 @@
         <property name="protocolNotifyService" ref="iacucProtocolNotifyIacucService" />
         <property name="committeeDecisionService" ref="iacucCommitteeDecisionService" />
         <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" /> 
  	</bean>
 
     <bean id="iacucPersonSignatureService" class="org.kuali.kra.iacuc.actions.print.IacucPersonSignatureServiceImpl">
        	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="parameterService" ref="parameterService" />
     </bean>
+
+    <bean id="iacucPersonTrainingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="iacucPersonTrainingLookupableHelperService" />
+    </bean>
+
+    <bean id="iacucPersonTrainingLookupableHelperService" class="org.kuali.kra.iacuc.IacucPersonTrainingLookupableHelperServiceImpl" 
+          parent="parentLookupableHelperService" scope="prototype" />
 
 </beans>
