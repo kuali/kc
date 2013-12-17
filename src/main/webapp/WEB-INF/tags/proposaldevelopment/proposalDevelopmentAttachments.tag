@@ -275,7 +275,7 @@ internal attachements.  We are just going to loop through the narratives and see
 																onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
 										</div>
 									</c:if>
-									<c:if test="${(replaceAttachment)}">
+									<c:if test="${replaceAttachment}">
 										<div style="display: inline;" id="replaceAttachmentDiv${status.index}">
 												<html:image styleId="replaceProposalAttachment.line${status.index}" 
 																onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}') ;
@@ -304,7 +304,7 @@ internal attachements.  We are just going to loop through the narratives and see
 												        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-cancel.gif' styleClass="tinybutton"/>
 										</div>
 									</c:if>
-									<c:if test="${(replaceAttachment)}">
+									<c:if test="${replaceAttachment}">
 										<div style="display: none;" id="saveNewAttachmentDiv${status.index}">
 												<html:image styleId="replaceProposalAttachment.line${status.index}" 
 																src='${ConfigProperties.kew.externalizable.images.url}tinybutton-save.gif' styleClass="tinybutton"

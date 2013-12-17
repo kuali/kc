@@ -152,12 +152,13 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         submission.setProtocolReviewTypeCode(prevReviewType.getReviewTypeCode());
         submission.setProtocolId(protocolDocument.getProtocol().getProtocolId());
         submission.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
-        submission.setSubmissionId(1234L); 
+        submission.setSubmissionId(1234L);
         submission.setSubmissionNumber(1);
         submission.setSubmissionDate(new Date(System.currentTimeMillis()));
+        submission.setSubmissionStatusCode(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         submission.setProtocol(protocolDocument.getProtocol());
-        
+        getBusinessObjectService().save(submission);
         ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.irbAcknowledgement(protocolDocument.getProtocol(), actionBean);
         
