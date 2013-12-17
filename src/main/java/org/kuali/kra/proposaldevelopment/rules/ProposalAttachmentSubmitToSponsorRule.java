@@ -55,20 +55,15 @@ public class ProposalAttachmentSubmitToSponsorRule extends ResearchDocumentRuleB
     //Validate attachments are complete during a submit to sponsor.
     private boolean validateIncompleteAttachments(DevelopmentProposal developmentProposal) {
         boolean valid = true;
-        Parameter attachmentAuditParam = getParameterService().getParameter(ProposalDevelopmentDocument.class, 
-                AUDIT_PARM);
+        Parameter attachmentAuditParam = getParameterService().getParameter(ProposalDevelopmentDocument.class, AUDIT_PARM);
         if(attachmentAuditParam == null) {
             LOG.warn("System parameter AUDIT_INCOMPLETE_PROPOSAL_ATTACHMENTS is missing or invalid");
-            return validateIncompleteAttachments(developmentProposal);
+            throw new RuntimeException("System parameter AUDIT_INCOMPLETE_PROPOSAL_ATTACHMENTS is missing or invalid"); 
         }
 
-        String validateIncompleteAttachments = attachmentAuditParam.getValue();
-        if(validateIncompleteAttachments.equals(AUDIT_PARAMETER_VALUE_NO)) {
-            /* 
-             * note when the parameter is set to 'Y', ProposalDevelopmentProposalAttachmentsAuditRule
-             * will always return an error for incomplete attachments. However, when set to 'N', this param
-             * will cause that audit rule to pass, only warning the user of incomplete attachments.
-             */
+        String auditIncompleteAttachments = attachmentAuditParam.getValue();
+        if(auditIncompleteAttachments.equals(AUDIT_PARAMETER_VALUE_NO)) {
+            //incomplete attachments were allowed to enter workflow, but must be set to complete before submit to sponsor.
             List<Narrative> narratives = developmentProposal.getNarratives();
             int narrativeIndex = 0;
             for(Narrative narrative : narratives) {
