@@ -90,7 +90,7 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
 
 
     protected void generateProtocolActionAndAttach(ProtocolBase protocol, ProtocolApproveBean actionBean, String protocolActionTypeCode) {
-        ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, null, protocolActionTypeCode);
+        ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, protocol.getProtocolSubmission(), protocolActionTypeCode);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocolAction.setSubmissionIdFk(protocol.getLastProtocolAction().getSubmissionIdFk());
