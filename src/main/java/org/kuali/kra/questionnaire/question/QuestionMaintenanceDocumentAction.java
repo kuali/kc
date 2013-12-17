@@ -133,7 +133,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
 
         // Generate new questionRefId
         Long newQuestionRefId = KraServiceLocator.getService(SequenceAccessorService.class)
-                .getNextAvailableSequenceNumber("SEQ_QUESTION_ID");
+                .getNextAvailableSequenceNumber("SEQ_QUESTION_ID", versionedQuestion.getClass());
 
         // Set old question to new questionRefId (needed so Rice doesn't complain that the key changed between the old
         // and new version)

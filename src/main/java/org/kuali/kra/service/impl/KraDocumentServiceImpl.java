@@ -57,24 +57,24 @@ public class KraDocumentServiceImpl extends DocumentServiceImpl {
             if (document instanceof CommitteeDocument) {
                 Committee committee = ((CommitteeDocument) document).getCommittee();
                 ((CommitteeDocument) document).setCommitteeList(new ArrayList());
-                getDocumentDao().save(document);
+                getLegacyDataAdapter().save(document);
                 ((CommitteeDocument) document).getCommitteeList().add(committee);
                 if (event instanceof RouteDocumentEvent) {
-                    getDocumentDao().save(document);
+                    getLegacyDataAdapter().save(document);
                 }
             }
             // TODO remove this else if block after committee backfitting
             else if (document instanceof CommonCommitteeDocument) {
                 IacucCommittee committee = ((CommonCommitteeDocument) document).getCommittee();
                 ((CommonCommitteeDocument) document).setCommitteeList(new ArrayList());
-                getDocumentDao().save(document);
+                getLegacyDataAdapter().save(document);
                 ((CommonCommitteeDocument) document).getCommitteeList().add(committee);
                 if (event instanceof RouteDocumentEvent) {
-                    getDocumentDao().save(document);
+                    getLegacyDataAdapter().save(document);
                 }
             }            
             else {
-                getDocumentDao().save(document);
+                getLegacyDataAdapter().save(document);
             }
         }
         catch (OptimisticLockingFailureException e) {

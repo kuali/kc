@@ -317,7 +317,7 @@
     <bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl" />
     
     <bean id="awardHierarchyService" class="org.kuali.kra.award.awardhierarchy.AwardHierarchyServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="legacyDataAdapter" ref="legacyDataAdapter" />
         <property name="documentService" ref="documentService" />
         <property name="awardNumberService" ref="awardNumberService" />
         <property name="versioningService" ref="versioningService" />
@@ -341,8 +341,17 @@
 		p:callbackService-ref="awardInvestigatorsRoleTypeService" p:localServiceName="awardInvestigatorsRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
+     <bean id="legacyDataAdapter" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="legacyDataAdapter" />
+     </bean>
+     
+     <bean id="dataObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataObjectService" />
+     </bean>
+
     <bean id="awardLockService" class="org.kuali.kra.award.AwardLockServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
+    		<property name="dataDictionaryService" ref="dataDictionaryService"/>
+    		<property name="dataObjectService" ref="dataObjectService" />
     </bean>
     
     <bean id="awardNotificationRenderer" class="org.kuali.kra.award.notification.AwardNotificationRenderer" scope="prototype"/>

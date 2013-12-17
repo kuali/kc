@@ -76,7 +76,7 @@ public abstract class CommitteeBatchCorrespondenceBase extends KraPersistableBus
      */
     public CommitteeBatchCorrespondenceBase(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) {
         this();
-        setCommitteeBatchCorrespondenceId(KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID").toString());
+        setCommitteeBatchCorrespondenceId(KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID", getClass()).toString());
         setCommitteeId(committeeId);
         setBatchCorrespondenceTypeCode(batchCorrespondenceTypeCode);
         setBatchRunDate(getDateTimeService().getCurrentTimestamp());

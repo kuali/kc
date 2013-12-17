@@ -24,6 +24,7 @@ import org.kuali.kra.questionnaire.question.QuestionService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.ui.Section;
@@ -63,7 +64,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
                 // In order for the questionId to be displayed after a submission of a new question we need to manually create it. 
                 if (question.getQuestionId() == null) {
                     Long newQuestionId = KraServiceLocator.getService(SequenceAccessorService.class)
-                            .getNextAvailableSequenceNumber("SEQ_QUESTION_ID");
+                            .getNextAvailableSequenceNumber("SEQ_QUESTION_ID", question.getClass());
                     question.setQuestionIdFromInteger(newQuestionId.intValue());
                 }
             }
@@ -157,7 +158,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
         Question oldQuestion = questionService.getQuestionById(newQuestion.getQuestionId());
         if (oldQuestion != null) {
             oldQuestion.setSequenceStatus(SEQUENCE_STATUS_ARCHIVED);
-            getBusinessObjectService().save(oldQuestion);
+            KNSServiceLocator.getBusinessObjectService().save(oldQuestion);
         }
 
         super.saveBusinessObject();

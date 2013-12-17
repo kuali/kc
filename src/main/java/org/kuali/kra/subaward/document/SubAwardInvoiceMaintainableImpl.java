@@ -59,7 +59,7 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
         GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
         if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
             invoice.populateAttachment();
-            getBusinessObjectService().save(invoice);
+            KNSServiceLocator.getBusinessObjectService().save(invoice);
         }
     }
     
@@ -68,7 +68,7 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
         SubAwardAmountReleased invoice = (SubAwardAmountReleased) this.getBusinessObject();
         invoice.setInvoiceStatus(documentHeader.getWorkflowDocument().getStatus().getCode());
         invoice.populateAttachment();
-        getBusinessObjectService().save(invoice);
+        KNSServiceLocator.getBusinessObjectService().save(invoice);
     }
 
     protected DateTimeService getDateTimeService() {

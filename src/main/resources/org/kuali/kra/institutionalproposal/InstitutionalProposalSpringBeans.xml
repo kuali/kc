@@ -212,9 +212,18 @@
         <property name="documentService" ref="documentService" />
         <property name="institutionalProposalService" ref="institutionalProposalService" />
     </bean>
-        
+
+    <bean id="legacyDataAdapter" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">                  
+        <property name="serviceName" value="legacyDataAdapter" />
+    </bean>
+    
+    <bean id="dataObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataObjectService" />
+    </bean>    
+    
     <bean id="institutionalProposalLockService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLockServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+    		<property name="dataObjectService" ref="dataObjectService" />
     </bean>
 
     <bean id="institutionalProposalNotificationRenderer" class="org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationRenderer" 

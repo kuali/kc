@@ -42,7 +42,7 @@
         <property name="transactionInterceptor" ref="transactionInterceptor" />
     </bean>
 
-    <bean id="transactionAdvisorClassFilter" class="org.kuali.rice.core.impl.util.spring.ClassOrMethodAnnotationFilter">
+    <bean id="transactionAdvisorClassFilter" class="org.kuali.rice.core.framework.util.spring.ClassOrMethodAnnotationFilter">
        <constructor-arg value="org.springframework.transaction.annotation.Transactional" />
     </bean>
     

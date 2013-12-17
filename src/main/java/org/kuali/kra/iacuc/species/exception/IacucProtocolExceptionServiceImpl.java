@@ -19,6 +19,8 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import com.sun.mail.iap.ProtocolException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -59,7 +61,7 @@ public class IacucProtocolExceptionServiceImpl implements IacucProtocolException
      * @return
      */
     private Integer getNextProtocolExceptionSequence() {
-        return getSequenceAccessorService().getNextAvailableSequenceNumber(PROTOCOL_EXCEPTION_SEQUENCE_ID).intValue();
+        return getSequenceAccessorService().getNextAvailableSequenceNumber(PROTOCOL_EXCEPTION_SEQUENCE_ID, IacucProtocolException.class).intValue();
     }
 
     /**
