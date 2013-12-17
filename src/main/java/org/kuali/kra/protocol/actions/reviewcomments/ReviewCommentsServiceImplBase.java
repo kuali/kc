@@ -532,6 +532,18 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         return isHide;
     }
 
+    public boolean isHidePrivateFinalFlagsForPI(List<? extends ProtocolReviewableBase> reviewComments) {
+        boolean isHide = false;        
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        for (ProtocolReviewableBase reviewComment : reviewComments) {
+            if (isProtocolPersonnel(reviewComment, principalId) && getReviewerCommentsView(reviewComment)) {
+                isHide = true;
+                break;
+            }           
+        }
+        return isHide;
+    }
+    
     public boolean setHideViewButton(List<PRA> reviewAttachments) {
         boolean isHide = true;
         getReviewerNameParams();

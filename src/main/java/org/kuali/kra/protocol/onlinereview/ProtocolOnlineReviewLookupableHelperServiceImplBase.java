@@ -48,13 +48,13 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
     private static final String REVIEWER_NONEMPLOYEE="lookupReviewerRolodexId";
     private static final String LOOKUP_PROTOCOL_ONLINE_REVIEW_STATUS_CODES="lookupProtocolOnlineReviewStatusCode";
     private static final String PROTOCOL_NUMBER="lookupProtocol.protocolNumber";
+    private static final String PROTOCOL_REVIEW_DUE_DATE="lookupDateDue";
     //translateed field names to object graph
     private static final String OBJ_PROTOCOLREVIEWER_REVIEWER_EMPLOYEE="protocolReviewer.personId";
     private static final String OBJ_PROTOCOLREVIEWER_NONEMPLOYEE="protocolReviewer.personId";
     private static final String OBJ_PROTOCOL_PROTOCOL_NUMBER="protocol.protocolNumber";
     private static final String OBJ_PROTOCOL_ONLINE_REVIEW_STATUS_CODE="protocolOnlineReviewStatusCode";
-    
-    
+    private static final String OBJ_PROTOCOL_REVIEW_DUE_DATE="protocol.dateDue";    
     
     @Override
     protected abstract String getDocumentTypeName();
@@ -123,12 +123,15 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
        validateSearchParameters(fieldValues);
        List<ProtocolOnlineReviewBase> results;
-       new HashMap<String,String>();
-       
+
        if (!StringUtils.isEmpty(fieldValues.get(REVIEWER_EMPLOYEE))) {
            fieldValues.put(OBJ_PROTOCOLREVIEWER_REVIEWER_EMPLOYEE, fieldValues.get(REVIEWER_EMPLOYEE));
        } else if (!StringUtils.isEmpty(fieldValues.get(REVIEWER_NONEMPLOYEE))) {
            fieldValues.put(OBJ_PROTOCOLREVIEWER_NONEMPLOYEE, fieldValues.get(REVIEWER_NONEMPLOYEE));
+       }
+       
+       if (!StringUtils.isEmpty(fieldValues.get(PROTOCOL_REVIEW_DUE_DATE))) {
+           fieldValues.put(OBJ_PROTOCOL_REVIEW_DUE_DATE, fieldValues.get(PROTOCOL_REVIEW_DUE_DATE));
        }
        
        if (!StringUtils.isEmpty(fieldValues.get(PROTOCOL_NUMBER))) {
@@ -139,24 +142,20 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
            fieldValues.put(OBJ_PROTOCOL_ONLINE_REVIEW_STATUS_CODE, fieldValues.get(LOOKUP_PROTOCOL_ONLINE_REVIEW_STATUS_CODES));
        }
        
+       fieldValues.remove(PROTOCOL_REVIEW_DUE_DATE);
        fieldValues.remove(REVIEWER_NONEMPLOYEE);
        fieldValues.remove(REVIEWER_EMPLOYEE);
        fieldValues.remove(PROTOCOL_NUMBER);
        fieldValues.remove(LOOKUP_PROTOCOL_ONLINE_REVIEW_STATUS_CODES);
+
        super.setBackLocationDocFormKey(fieldValues);
        results = (List<ProtocolOnlineReviewBase>)super.getSearchResults(fieldValues);
        return filterResults(results);
    }
 
-   protected List<ProtocolOnlineReviewBase> filterResults(List<ProtocolOnlineReviewBase> results) {
-       List<ProtocolOnlineReviewBase> onlineReviews = new ArrayList<ProtocolOnlineReviewBase>();
-       for (ProtocolOnlineReviewBase review : results) {
-           if (review.getProtocolOnlineReviewDocument() != null) {
-               onlineReviews.add(review);
-           }
-       }
-       return onlineReviews;
-   }
+   protected abstract List<ProtocolOnlineReviewBase> filterResults(List<ProtocolOnlineReviewBase> results);
+   
+   protected abstract String getProtocolSubmissionApprovedStatusCodeHook();
 
   
     @Override

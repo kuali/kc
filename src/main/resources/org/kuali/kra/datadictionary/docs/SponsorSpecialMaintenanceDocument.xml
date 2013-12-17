@@ -65,7 +65,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="sponsorTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="state"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
 	</bean>

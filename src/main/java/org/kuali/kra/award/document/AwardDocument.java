@@ -25,6 +25,7 @@ import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
@@ -102,7 +103,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
      */
     private static final long serialVersionUID = 1668673531338660064L;
     
-    public static final String DOCUMENT_TYPE_CODE = "AWRD";
+    public static final String DOCUMENT_TYPE_CODE = "AWARD";
     private static final String DEFAULT_TAB = "Versions";
     private static final String ALTERNATE_OPEN_TAB = "Parameters";
     
@@ -246,8 +247,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             LOG.debug(String.format("********************* Status Change: from %s to %s", statusChangeEvent.getOldRouteStatus(), newStatus));
         }
         
-       // if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
-        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
+        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
+       // if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
 
             //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
             getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.ACTIVE);
@@ -355,10 +356,13 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     @SuppressWarnings("unchecked")
     private void addAwardPersonUnitsCollection(List managedLists, Award award) {
         List<AwardPersonUnit> personUnits = new ArrayList<AwardPersonUnit>();
+        List<AwardPersonCreditSplit> personSplits = new ArrayList<AwardPersonCreditSplit>();
         for(AwardPerson p: award.getProjectPersons()) {
             personUnits.addAll(p.getUnits());
+            personSplits.addAll(p.getCreditSplits());
         }
         managedLists.add(personUnits);
+        managedLists.add(personSplits);
     }
     
     /**
@@ -512,25 +516,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return getDocumentHeader().getWorkflowDocument().isSaved();
     }
     
-    /** {@inheritDoc} */
-    @Override
-    public boolean useCustomLockDescriptors() {
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getCustomLockDescriptor(Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        String updatedTimestamp = "";
-        if (this.getUpdateTimestamp() != null) {
-            updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
-        }
-        if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getAward().getAwardNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp;  
-        }
-
-        return null;
+    public String getDocumentBoNumber() {
+        return getAward().getAwardNumber();
     }
 
     public String getNamespace() {

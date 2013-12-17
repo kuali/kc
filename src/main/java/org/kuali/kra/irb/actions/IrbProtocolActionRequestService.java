@@ -267,6 +267,12 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
     
     
     /**
+     * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#isCloseEnrollmentAuthorized(org.kuali.kra.irb.ProtocolForm)
+     */
+    public boolean isWithdrawRequestActionAuthorized(ProtocolForm protocolForm);
+
+
+    /**
      * This method is to grant expedited approval on irb protocol
      * @param protocolForm
      * @throws Exception
@@ -347,7 +353,16 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
      * @throws Exception
      */
     public String performRequestAction(ProtocolForm protocolForm, String taskName) throws Exception;
-    
+
+    /**
+     * This method is to withdraw a previously submitted "request to" action
+     * @param protocolForm
+     * @param taskName
+     * @return
+     * @throws Exception
+     */
+    public String withdrawRequestAction(ProtocolForm protocolForm) throws Exception;
+
     /**
      * This method is to close protocol
      * @param protocolForm

@@ -81,6 +81,7 @@ import org.kuali.kra.irb.noteattachment.*;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.irb.questionnaire.print.IrbCorrespondencePrintingService;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.printing.Printable;
@@ -750,6 +751,25 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         return forward;
     }
+    
+    public ActionForward printProtocolCorrespondences(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String fileName = "IRB_Protocol_Ccorrespondence_Report.pdf";
+        String reportName = protocol.getProtocolNumber() + "-" + "ProtocolCorrespondences";
+        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getIrbCorrespondencePrintingService().getCorrespondencePrintable(protocol, protocolForm.getActionHelper().getCorrespondencesToPrint()));
+        if (dataStream.getContent() != null) {
+            dataStream.setFileName(fileName.toString());
+            PrintingUtils.streamToResponse(dataStream, response);
+            forward = null;
+        }
+        return forward;
+    }
+    
+    private IrbCorrespondencePrintingService getIrbCorrespondencePrintingService() {
+        return KraServiceLocator.getService(IrbCorrespondencePrintingService.class);
+    }
 
     /*
      * get printables for protocol & questionnaires.
@@ -1372,6 +1392,28 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         String taskName = getTaskName(request);
         if(getProtocolActionRequestService().isRequestActionAuthorized(protocolForm, taskName)) {
             String forwardTo = getProtocolActionRequestService().performRequestAction(protocolForm, taskName);
+            forward = mapping.findForward(forwardTo);
+        }
+        return forward;
+    }
+    
+    /**
+     * Withdraws a previously submitted request action.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     * @throws Exception
+     */
+    public ActionForward withdrawRequestAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        String taskName = getTaskName(request);
+        if(getProtocolActionRequestService().isWithdrawRequestActionAuthorized(protocolForm)) {
+            String forwardTo = getProtocolActionRequestService().withdrawRequestAction(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;

@@ -15,77 +15,15 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.kra.irb.correspondence.CorrespondentType;
-
-public class UnitCorrespondent extends KraPersistableBusinessObjectBase {
+public class UnitCorrespondent extends Correspondent {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer unitCorrespondentId;
-
-    private String unitNumber;
-
-    private Integer correspondentTypeCode;
-
-    private String personId;
-
-    private boolean nonEmployeeFlag;
-
-    private String description;
-
+	private String unitNumber;
+	
     private Unit unit;
-
-    private CorrespondentType correspondentType;
-
+    
     public UnitCorrespondent() {
-    }
-
-    public Integer getUnitCorrespondentId() {
-        return unitCorrespondentId;
-    }
-
-    public void setUnitCorrespondentId(Integer unitCorrespondentId) {
-        this.unitCorrespondentId = unitCorrespondentId;
-    }
-
-    public String getUnitNumber() {
-        return unitNumber;
-    }
-
-    public void setUnitNumber(String unitNumber) {
-        this.unitNumber = unitNumber;
-    }
-
-    public Integer getCorrespondentTypeCode() {
-        return correspondentTypeCode;
-    }
-
-    public void setCorrespondentTypeCode(Integer correspondentTypeCode) {
-        this.correspondentTypeCode = correspondentTypeCode;
-    }
-
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    public boolean getNonEmployeeFlag() {
-        return nonEmployeeFlag;
-    }
-
-    public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
-        this.nonEmployeeFlag = nonEmployeeFlag;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Unit getUnit() {
@@ -95,16 +33,21 @@ public class UnitCorrespondent extends KraPersistableBusinessObjectBase {
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
-
-    public CorrespondentType getCorrespondentType() {
-        return correspondentType;
+    
+    public String getUnitNumber() {
+    	return unitNumber;
+    }
+    
+    public void setUnitNumber(String unitNumber) {
+    	this.unitNumber = unitNumber;
+    }
+    
+    public org.kuali.kra.irb.correspondence.CorrespondentType getCorrespondentType() {
+        return (org.kuali.kra.irb.correspondence.CorrespondentType) correspondentType;
     }
 
-    public void setCorrespondentType(CorrespondentType correspondentType) {
+    public void setCorrespondentType(org.kuali.kra.irb.correspondence.CorrespondentType correspondentType) {
         this.correspondentType = correspondentType;
     }
 
-    public KcPerson getPerson() {
-        return getKcPersonService().getKcPersonByPersonId(personId);
-    }
 }

@@ -787,15 +787,20 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	}
 
 	private String getEmployerId() {
-		String employerId = "";
-		ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal()
-				.getApplicantOrganization();
-		if (applicantOrganization != null) {
-			employerId = applicantOrganization.getOrganization()
-					.getFedralEmployerId();
-		}
-		return employerId;
-	}
+        String employerId = "";
+        ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization();
+        boolean isNih  = isSponsorInHierarchy(pdDoc.getDevelopmentProposal(), SPONSOR_GROUPS,SPONSOR_NIH);
+        if (applicantOrganization != null) {
+            if (applicantOrganization.getOrganization().getPhsAccount() != null && isNih) {
+                employerId = applicantOrganization.getOrganization().getPhsAccount();
+            } else {
+                employerId = applicantOrganization.getOrganization().getFedralEmployerId();
+            }
+        }
+
+        return employerId;
+    }
+
 
 	private String getFederalAgencyName() {
 		String agencyName = "";

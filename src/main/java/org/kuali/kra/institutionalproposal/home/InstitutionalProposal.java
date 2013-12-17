@@ -876,10 +876,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public String getIpReviewActivityIndicator() {
+System.err.println("\ngetIpReviewActivityIndicator() called, returning \"" + ipReviewActivityIndicator + "\"");
         return ipReviewActivityIndicator;
     }
 
     public void setIpReviewActivityIndicator(String ipReviewActivityIndicator) {
+System.err.println("\nsetIpReviewActivityIndicator() called, setting to \"" + ipReviewActivityIndicator + "\"");
+Thread.dumpStack();
         this.ipReviewActivityIndicator = ipReviewActivityIndicator;
     }
 
@@ -1252,6 +1255,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public void setIntellectualPropertyReview(IntellectualPropertyReview intellectualPropertyReview) {
+System.err.println("\nsetIntellectualPropertyReview() called, review = " + intellectualPropertyReview.getReviewResult().getDescription());        
+Thread.dumpStack();
         this.intellectualPropertyReview = intellectualPropertyReview;
     }
 
@@ -1480,6 +1485,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     protected void updateProposalIpReviewJoin() {
         ProposalIpReviewJoin proposalIpReviewJoin = this.getProposalIpReviewJoin();
         if (ObjectUtils.isNotNull(proposalIpReviewJoin.getProposalIpReviewJoinId())) {
+System.err.println("\nupdateProposalIpReviewJoin(), join = " + proposalIpReviewJoin);
+System.err.println("\n     review = " + proposalIpReviewJoin.getIntellectualPropertyReview());
+if (proposalIpReviewJoin.getIntellectualPropertyReview() != null) 
+ System.err.println("\n     code = " + proposalIpReviewJoin.getIntellectualPropertyReview().getIpReviewRequirementTypeCode());
             proposalIpReviewJoin.setProposalIpReviewJoinId(null);
         }
         else {

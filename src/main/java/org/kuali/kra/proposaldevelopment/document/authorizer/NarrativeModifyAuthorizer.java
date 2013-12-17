@@ -43,7 +43,10 @@ public class NarrativeModifyAuthorizer extends NarrativeAuthorizer {
         KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
         boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
         boolean hasPermission = false;
-		if ((!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) && !doc.getDevelopmentProposal().getSubmitFlag()) {
+        
+        boolean inWorkflow = kraWorkflowService.isInWorkflow(doc);
+        
+		if ((!inWorkflow || rejectedDocument) && !doc.getDevelopmentProposal().getSubmitFlag()) {
             if (hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE)) {
                 hasPermission = hasNarrativeRight(userId, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
             }

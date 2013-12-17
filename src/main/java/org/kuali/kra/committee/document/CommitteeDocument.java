@@ -56,7 +56,8 @@ public class CommitteeDocument extends CommitteeDocumentBase<CommitteeDocument, 
     @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return new ArrayList();
-    } 
+    }
+
 
 //	private static final String DOCUMENT_TYPE_CODE = "COMT";
 //

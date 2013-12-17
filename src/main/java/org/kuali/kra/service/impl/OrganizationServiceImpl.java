@@ -16,6 +16,7 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.IacucOrganizationCorrespondent;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationCorrespondent;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -70,6 +71,19 @@ public class OrganizationServiceImpl implements OrganizationService {
         queryMap.put(ORGANIZATION_ID, organizationId);
         List<OrganizationCorrespondent> organizationCorrespondents = 
             (List<OrganizationCorrespondent>) getBusinessObjectService().findMatching(OrganizationCorrespondent.class, queryMap);
+        return organizationCorrespondents;
+    }
+    
+    /**
+     * @see org.kuali.kra.service.OrganizationService#retrieveIacucOrganizationCorrespondentByOrganizationId(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public List<IacucOrganizationCorrespondent> retrieveIacucOrganizationCorrespondentsByOrganizationId(String organizationId) {
+        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(ORGANIZATION_ID, organizationId);
+        List<IacucOrganizationCorrespondent> organizationCorrespondents = 
+            (List<IacucOrganizationCorrespondent>) getBusinessObjectService().findMatching(IacucOrganizationCorrespondent.class, queryMap);
         return organizationCorrespondents;
     }
     

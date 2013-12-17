@@ -59,7 +59,7 @@ public class ProtocolReviewNotRequiredServiceImpl implements ProtocolReviewNotRe
      */
     public void reviewNotRequired(ProtocolDocument protocolDocument, ProtocolReviewNotRequiredBean actionBean) {
         Protocol protocol = protocolDocument.getProtocol();
-        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.IRB_REVIEW_NOT_REQUIRED);
+        ProtocolAction protocolAction = new ProtocolAction(protocol, protocol.getProtocolSubmission(), ProtocolActionType.IRB_REVIEW_NOT_REQUIRED);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);

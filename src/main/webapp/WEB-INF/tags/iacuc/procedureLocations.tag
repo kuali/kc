@@ -95,10 +95,10 @@
 		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
-				    <c:set var="procedureBean" value="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${procedureDetailBeanIndex}]" />
+				    <c:set var="procedureBean" value="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroups[${procedureDetailBeanIndex}]" />
 					<td class="infoline">
 						<div align="center">
- 							<html:image property="methodToCall.addProcedureLocation.${procedureBean}.line${status.index}" 
+ 							<html:image property="methodToCall.addProcedureGroupLocation.${procedureBean}.line${status.index}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 						            styleClass="tinybutton addButton"/>
 	                	</div>
@@ -162,7 +162,7 @@
 					<td><div align=center>
                         <c:if test="${!readOnly}">
 						    <c:set var="locationBean" value="${collectionProperty}[${status.index}]" />
-                            <html:image property="methodToCall.deleteProcedureLocation.${locationBean}.line${status.index}"
+                            <html:image property="methodToCall.deleteProcedureGroupLocation.${locationBean}.line${status.index}"
 									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                         </c:if>
 	                </div></td>

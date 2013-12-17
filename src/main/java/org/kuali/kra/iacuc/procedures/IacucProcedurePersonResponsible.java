@@ -15,32 +15,27 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import org.kuali.kra.iacuc.IacucPersonTraining;
-import org.kuali.kra.protocol.ProtocolAssociateBase;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class IacucProcedurePersonResponsible extends ProtocolAssociateBase { 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.iacuc.IacucPersonTraining;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
+
+public class IacucProcedurePersonResponsible extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
 
     private Integer iacucProcedurePersonResponsibleId; 
     private Integer iacucProtocolStudyGroupId; 
-    private String personId;
-    private String personName;
-    private String personResponsibleDescription;
+    private Integer protocolPersonId;
+    
+    private IacucProtocolPerson protocolPerson;
     private List<String> trainingDetails;
     
-    private List<String> protocolPersonsResponsible;
-    
     private IacucProtocolStudyGroup iacucProtocolStudyGroup; 
-    
-    private List<IacucPersonTraining> trainings;
 
     public IacucProcedurePersonResponsible() { 
-        setProtocolPersonsResponsible(new ArrayList<String>());
-
     } 
     
     public Integer getIacucProcedurePersonResponsibleId() {
@@ -51,43 +46,14 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
         this.iacucProcedurePersonResponsibleId = iacucProcedurePersonResponsibleId;
     }
 
-    public Integer getIacucProtocolStudyGroupId() {
-        return iacucProtocolStudyGroupId;
-    }
-
-    public void setIacucProtocolStudyGroupId(Integer iacucProtocolStudyGroupId) {
-        this.iacucProtocolStudyGroupId = iacucProtocolStudyGroupId;
-    }
-
     public String getPersonId() {
-        return personId;
+        return getProtocolPerson().getPersonId();
     }
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    public IacucProtocolStudyGroup getIacucProtocolStudyGroup() {
-        return iacucProtocolStudyGroup;
-    }
-
-    public void setIacucProtocolStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
-        this.iacucProtocolStudyGroup = iacucProtocolStudyGroup;
-    }
-
-    @Override
     public void resetPersistenceState() {
         this.setIacucProcedurePersonResponsibleId(null);        
     }
 
-    public List<IacucPersonTraining> getTrainings() {
-        return trainings;
-    }
-
-    public void setTrainings(List<IacucPersonTraining> trainings) {
-        this.trainings = trainings;
-    }
-    
     public String getTrainingDetailsString() {
         String details = new String();
         boolean first = true;
@@ -103,8 +69,9 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
     
     public List<String> getTrainingDetails() {
         this.trainingDetails = new ArrayList<String>();
-        if (getTrainings() != null) {
-            for(IacucPersonTraining iacucPersonTraining : getTrainings()) {
+        List<IacucPersonTraining> iacucPersonTrainings = getProtocolPerson().getIacucPersonTrainings();
+        if (iacucPersonTrainings != null) {
+            for(IacucPersonTraining iacucPersonTraining : iacucPersonTrainings) {
                 StringBuffer trainingInfo = new StringBuffer();
                 trainingInfo.append("Training : " + iacucPersonTraining.getPersonTraining().getTraining().getDescription());
                 trainingInfo.append("\r\nSpecies : " + iacucPersonTraining.getIacucSpecies().getSpeciesName());
@@ -117,32 +84,13 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
     }
 
     public String getPersonResponsibleDescription() {
-        if (personResponsibleDescription == null) {
-            refreshReferenceObject("personResponsibleDescription");
-        }
-        return personResponsibleDescription;
-    }
-
-    public void setPersonResponsibleDescription(String personResponsibleDescription) {
-        this.personResponsibleDescription = personResponsibleDescription;
-    }
-
-    public List<String> getProtocolPersonsResponsible() {
-        return protocolPersonsResponsible;
-    }
-
-    public void setProtocolPersonsResponsible(List<String> protocolPersonsResponsible) {
-        this.protocolPersonsResponsible = protocolPersonsResponsible;
+        return getProtocolPerson().getProcedureQualificationDescription();
     }
 
     public String getPersonName() {
-        return personName;
+        return getProtocolPerson().getPersonName();
     }
 
-    public void setPersonName(String personName) {
-        this.personName = personName;
-    }
-   
     /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
@@ -156,6 +104,13 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
             return false;
         }
         IacucProcedurePersonResponsible other = (IacucProcedurePersonResponsible) obj;
+        if (this.iacucProcedurePersonResponsibleId == null) {
+            if (other.iacucProcedurePersonResponsibleId != null) {
+                return false;
+            }
+        } else if (!this.iacucProcedurePersonResponsibleId.equals(other.iacucProcedurePersonResponsibleId)) {
+            return false;
+        }
         if (this.iacucProtocolStudyGroupId == null) {
             if (other.iacucProtocolStudyGroupId != null) {
                 return false;
@@ -163,14 +118,52 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociateBase {
         } else if (!this.iacucProtocolStudyGroupId.equals(other.iacucProtocolStudyGroupId)) {
             return false;
         }
-        if (this.personId == null) {
-            if (other.personId != null) {
+        if (this.protocolPersonId == null) {
+            if (other.protocolPersonId != null) {
                 return false;
             }
-        } else if (!this.personId.equals(other.personId)) {
+        } else if (!this.protocolPersonId.equals(other.protocolPersonId)) {
             return false;
         }
         return true;
+    }
+
+    public Integer getProtocolPersonId() {
+        return protocolPersonId;
+    }
+
+    public void setProtocolPersonId(Integer protocolPersonId) {
+        this.protocolPersonId = protocolPersonId;
+    }
+
+    public IacucProtocolPerson getProtocolPerson() {
+        if (this.protocolPerson == null) {
+            refreshReferenceObject("protocolPerson");
+        }
+        return protocolPerson;
+    }
+
+    public void setProtocolPerson(IacucProtocolPerson protocolPerson) {
+        this.protocolPerson = protocolPerson;
+    }
+
+    public Integer getIacucProtocolStudyGroupId() {
+        return iacucProtocolStudyGroupId;
+    }
+
+    public void setIacucProtocolStudyGroupId(Integer iacucProtocolStudyGroupId) {
+        this.iacucProtocolStudyGroupId = iacucProtocolStudyGroupId;
+    }
+
+    public IacucProtocolStudyGroup getIacucProtocolStudyGroup() {
+        if (iacucProtocolStudyGroup == null) {
+            refreshReferenceObject("iacucProtocolStudyGroup");
+        }
+        return iacucProtocolStudyGroup;
+    }
+
+    public void setIacucProtocolStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup) {
+        this.iacucProtocolStudyGroup = iacucProtocolStudyGroup;
     }
 
 }

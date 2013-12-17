@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc;
 
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.iacuc.procedures.IacucProcedure;
@@ -86,6 +87,9 @@ public class IacucPersonTraining extends KraPersistableBusinessObjectBase {
     }
 
     public IacucSpecies getIacucSpecies() {
+        if(iacucSpecies == null) {
+            refreshReferenceObject("iacucSpecies");
+        }
         return iacucSpecies;
     }
 
@@ -94,6 +98,9 @@ public class IacucPersonTraining extends KraPersistableBusinessObjectBase {
     }
 
     public IacucProcedure getIacucProcedure() {
+        if(iacucProcedure == null) {
+            refreshReferenceObject("iacucProcedure");
+        }
         return iacucProcedure;
     }
 
@@ -101,4 +108,7 @@ public class IacucPersonTraining extends KraPersistableBusinessObjectBase {
         this.iacucProcedure = iacucProcedure;
     }
     
+    public KcPerson getPerson() {
+        return getKcPersonService().getKcPersonByPersonId(personId);
+    }
 }

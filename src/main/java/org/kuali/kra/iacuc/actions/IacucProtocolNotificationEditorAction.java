@@ -172,7 +172,7 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
     
     private ActionForward routeProtocolOLRToHoldingPage(ActionMapping mapping, IacucProtocolForm protocolForm, String olrDocId, String olrEvent) {
         String routeHeaderId = protocolForm.getDocument().getDocumentNumber();
-        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ONLINE_REVIEW , "ProtocolDocument");
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ONLINE_REVIEW , "IacucProtocolDocument");
         // use this doc id for holding action to check if online review document is complete and return to online review tab
         returnLocation += "&" + "olrDocId=" + olrDocId + "&" + "olrEvent=" + olrEvent;
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);

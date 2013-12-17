@@ -15,16 +15,14 @@
  */
 package org.kuali.kra.iacuc.procedures.rule;
 
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
+import java.util.List;
+
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import java.util.List;
 
 public class AddProtocolStudyGroupRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddProtocolStudyGroupEvent>{
 
@@ -38,11 +36,6 @@ public class AddProtocolStudyGroupRule extends ResearchDocumentRuleBase implemen
     private boolean processAddStudyGroupBusinessRules(AddProtocolStudyGroupEvent event) {
         boolean rulePassed = true;
         rulePassed &= isStudyGroupValid(event);
-        /*
-        if(rulePassed) {
-            rulePassed &= !isDuplicateStudyGroup(event);
-        }
-        */
         return rulePassed;
     }
     
@@ -55,8 +48,7 @@ public class AddProtocolStudyGroupRule extends ResearchDocumentRuleBase implemen
         boolean studyGroupValid = true;
         IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean = event.getProcedureBean();
         List<String> protocolSpeciesAndGroups =  selectedIacucProtocolStudyGroupBean.getProtocolSpeciesAndGroups(); 
-        List<String> protocolPersonsResponsible =  selectedIacucProtocolStudyGroupBean.getProtocolPersonsResponsible(); 
-        if(ObjectUtils.isNull(protocolSpeciesAndGroups) || ObjectUtils.isNull(protocolPersonsResponsible)) {
+        if(ObjectUtils.isNull(protocolSpeciesAndGroups)) {
             GlobalVariables.getMessageMap().putError(getErrorPath(event), 
                     KeyConstants.ERROR_IACUC_VALIDATION_STUDY_GROUP_VALID);                
             studyGroupValid = false;
@@ -64,30 +56,6 @@ public class AddProtocolStudyGroupRule extends ResearchDocumentRuleBase implemen
         return studyGroupValid;
     }
 
-    /**
-     * This method is to check for duplicate study group in the list
-     * @param event
-     * @return
-     */
-    private boolean isDuplicateStudyGroup(AddProtocolStudyGroupEvent event) {
-        boolean duplicateStudyGroup = false;
-        IacucProtocolStudyGroupBean procedureBean = event.getProcedureBean();
-        List<String> protocolSpeciesAndGroups =  procedureBean.getProtocolSpeciesAndGroups(); 
-        for(String iacucProtocolSpeciesId : protocolSpeciesAndGroups) {
-            Integer newProtocolSpeciesId = Integer.parseInt(iacucProtocolSpeciesId);
-            for(IacucProtocolStudyGroupDetailBean detailBean : procedureBean.getIacucProtocolStudyGroupDetailBeans()) {
-                for(IacucProtocolStudyGroup studyGroup : detailBean.getIacucProtocolStudyGroups()) {
-                    if(studyGroup.getIacucProtocolSpeciesId().equals(newProtocolSpeciesId)) {
-                        GlobalVariables.getMessageMap().putError(getErrorPath(event), 
-                                KeyConstants.ERROR_IACUC_VALIDATION_DUPLICATE_STUDY_GROUP);                
-                        duplicateStudyGroup = true;
-                    }
-                }
-            }
-        }
-        return duplicateStudyGroup;
-    }
-    
     private String getErrorPath(AddProtocolStudyGroupEvent event) {
         StringBuffer errorPath = new StringBuffer();
         errorPath.append(PROCEDURE_BEAN_PATH);

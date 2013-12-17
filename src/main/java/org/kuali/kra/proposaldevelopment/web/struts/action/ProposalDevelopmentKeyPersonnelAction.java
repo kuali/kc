@@ -35,6 +35,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentYnqAuditRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -107,6 +108,38 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
     
+    /**
+     * 
+     * This method will save answers to a questionnaire after the proposal has been routed for approval.
+     * It should not be available after the proposal has been approved.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward completeQuestionnaireAfterRouting(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        boolean rulePassed = true;
+        ProposalDevelopmentDocument pd = pdform.getProposalDevelopmentDocument();
+        rulePassed &= getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getProposalDevelopmentDocument()));
+        if(rulePassed) {
+            List<AnswerHeader> answerHeadersToSave = new ArrayList<AnswerHeader>();
+                //doing this check to make sure the person wasn't automatically deleted after adding.
+                ProposalPersonQuestionnaireHelper helper2 = pdform.getProposalPersonQuestionnaireHelpers().get(this.getSelectedLine(request));
+                if(helper2 != null) {
+                    if (pdform.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().contains(helper2.getProposalPerson())) {
+                        helper2.preSave();
+                        answerHeadersToSave.addAll(helper2.getAnswerHeaders());
+                    }
+                }
+            if (!answerHeadersToSave.isEmpty()) {
+                this.getBusinessObjectService().save(answerHeadersToSave);
+            }
+        }
+        return mapping.findForward(MAPPING_BASIC);
+    }
     
     /**
      * Common helper method for preparing to <code>{@link #execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)}</code>
@@ -129,7 +162,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 helper.updateChildIndicator(i);
             }
         }
-        
+        //need to set this based on route status, permissions...
         pdform.populatePersonEditableFields();
         handleRoleChangeEvents(pdform.getProposalDevelopmentDocument());
         

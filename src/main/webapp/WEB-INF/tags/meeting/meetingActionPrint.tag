@@ -31,7 +31,7 @@
                         <div align="center">
                             <kul:htmlControlAttribute property="meetingHelper.printRooster" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}"
-                                                      readOnly="false" />
+                                                      readOnly="false" styleClass="printCorOptions"/>
                         </div>
                     </td>
                 </tr>     
@@ -41,11 +41,54 @@
                         <div align="center">
                             <kul:htmlControlAttribute property="meetingHelper.printFutureScheduledMeeting" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                      readOnly="false" />
+                                                      readOnly="false" styleClass="printCorOptions"/>
                         </div>
                     </td>
-                </tr>     
-                <tr>
+                </tr>
+
+			<c:if
+				test="${fn:length(KualiForm.meetingHelper.correspondencesToPrint) > 0}">
+				<c:forEach var="corPrintOption"
+					items="${KualiForm.meetingHelper.correspondencesToPrint}"
+					varStatus="status">
+					<tr>
+						<td>
+							<div align="left">
+								${KualiForm.meetingHelper.correspondencesToPrint[status.index].label}
+							</div>
+						</td>
+						<td>
+							<div align="center">
+								<kul:htmlControlAttribute
+									property="meetingHelper.correspondencesToPrint[${status.index}].selected"
+									attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}"
+									readOnly="false" styleClass="printCorOptions" />
+							</div>
+						</td>
+					</tr>
+				</c:forEach>
+				<tr>
+					<td class="infoline">
+						<div align="center">&nbsp;</div>
+					</td>
+					<td>
+						<div align="center">
+							<html:image
+								property="methodToCall.selectAllProtocolPrint.anchor${tabKey}"
+								src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif"
+								title="Select All" alt="Select All" styleClass="tinybutton"
+								onclick="$j('.printCorOptions').attr('checked', true);return false;" />
+							<html:image
+								property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}"
+								src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif"
+								title="Select None" alt="Select None" styleClass="tinybutton"
+								onclick="$j('.printCorOptions').attr('checked', false);return false;" />
+						</div>
+					</td>
+				</tr>
+			</c:if>
+
+			<tr>
                     <td class="infoline"><div align="left">&nbsp;</div></td> 
                     <td class="infoline">
                         <div align="center">                    

@@ -67,6 +67,7 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KraMainte
         rulePassed &= super.processApproveDocument(approveEvent);
         
         Document document = approveEvent.getDocument();
+        
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());

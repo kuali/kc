@@ -32,7 +32,9 @@
                                         <th><div align="left">&nbsp;</div></th> 
 				                        <kul:htmlAttributeHeaderCell attributeEntry="${reviewAttachmentsAttributes.description}" hideRequiredAsterisk="true" scope="col" />
 					                    <kul:htmlAttributeHeaderCell attributeEntry="${attachmentFileAttributes['name']}" hideRequiredAsterisk="true" scope="col"/>
-				                        <kul:htmlAttributeHeaderCell attributeEntry="${reviewAttachmentsAttributes.privateFlag}" scope="col" />
+					                    <c:if test="${not KualiForm.actionHelper.hidePrivateFinalFlagsForPublicCommentsAttachments}"> 
+				                            <kul:htmlAttributeHeaderCell attributeEntry="${reviewAttachmentsAttributes.privateFlag}" scope="col" />
+				                        </c:if>    
                      <c:if test="${not KualiForm.actionHelper.hideReviewerNameForAttachment}">
                                         <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
                                         <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
@@ -60,11 +62,14 @@
 	                                                      readOnly="true" />
 	                                            </td>
 	                                            --%>
-	                                            <td style="text-align:center; vertical-align:middle">
-	                                                <kul:htmlControlAttribute property="actionHelper.reviewAttachments[${status.index}].protocolPersonCanView" 
-	                                                      attributeEntry="${reviewAttachmentsAttributes.protocolPersonCanView}"
-	                                                      readOnly="true" />
-	                                            </td>
+	                                            
+	                                            <c:if test="${not KualiForm.actionHelper.hidePrivateFinalFlagsForPublicCommentsAttachments}"> 
+		                                            <td style="text-align:center; vertical-align:middle">
+		                                                <kul:htmlControlAttribute property="actionHelper.reviewAttachments[${status.index}].protocolPersonCanView" 
+		                                                      attributeEntry="${reviewAttachmentsAttributes.protocolPersonCanView}"
+		                                                      readOnly="true" />
+		                                            </td>
+                                                </c:if>
                                                  
                     <c:if test="${not KualiForm.actionHelper.hideReviewerNameForAttachment}">
                         <c:choose>

@@ -19,10 +19,12 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+    <import resource="classpath*:CorrespondentType.xml"/>
+
     <bean id="IacucCorrespondentType" parent="IacucCorrespondentType-parentBean" />
     <bean id="IacucCorrespondentType-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.iacuc.correspondence.IacucCorrespondentType" />
-        <property name="objectLabel" value="Correspondent Type" />
+        <property name="objectLabel" value="IACUC Correspondent Type" />
         <property name="inquiryDefinition" >
             <ref bean="IacucCorrespondentType-inquiryDefinition" />
         </property>
@@ -43,48 +45,18 @@
     <!-- Attribute Definitions -->
     
     <bean id="IacucCorrespondentType-correspondentTypeCode" parent="IacucCorrespondentType-correspondentTypeCode-parentBean" />
-    <bean id="IacucCorrespondentType-correspondentTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="correspondentTypeCode" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Correspondent Type Code" />
-        <property name="shortLabel" value="Correspondent Type Code" />
-        <property name="maxLength" value="3" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
-        </property>
-        <property name="summary" value="Correspondent Type Code" />
-        <property name="description" value="Correspondent Type Code" />
+    <bean id="IacucCorrespondentType-correspondentTypeCode-parentBean" abstract="true" parent="CorrespondentType-correspondentTypeCode" >
     </bean>
 
     <bean id="IacucCorrespondentType-description" parent="IacucCorrespondentType-description-parentBean" />
-    <bean id="IacucCorrespondentType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
+    <bean id="IacucCorrespondentType-description-parentBean" abstract="true" parent="CorrespondentType-description" />
 
     <bean id="IacucCorrespondentType-qualifier" parent="IacucCorrespondentType-qualifier-parentBean" />
-    <bean id="IacucCorrespondentType-qualifier-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="qualifier" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Qualifier" />
-        <property name="shortLabel" value="Qualifier" />
-        <property name="maxLength" value="1" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="required" value="true" />
-        <property name="control" >
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.iacuc.correspondence.IacucCorrespondentTypeQualifierValuesFinder"
-                  p:includeKeyInLabel="false" />
-        </property>
-        <property name="summary" value="Qualifier" />
-        <property name="description" value="Qualifier" />
+    <bean id="IacucCorrespondentType-qualifier-parentBean" abstract="true" parent="CorrespondentType-qualifier" >
     </bean>
 
     <bean id="IacucCorrespondentType-versionNumber" parent="IacucCorrespondentType-versionNumber-parentBean" />
-    <bean id="IacucCorrespondentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <bean id="IacucCorrespondentType-versionNumber-parentBean" abstract="true" parent="CorrespondentType-versionNumber">
     </bean>
 
     <!-- Business Object Inquiry Definition -->

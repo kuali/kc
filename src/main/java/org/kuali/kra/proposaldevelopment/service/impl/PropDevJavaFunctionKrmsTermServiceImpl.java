@@ -15,6 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.Budget;
@@ -584,7 +590,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 
     @Override
     public String nonFacultyPi(DevelopmentProposal developmentProposal) {
-        if (developmentProposal.getPrincipalInvestigator().getFacultyFlag()) {
+        if (developmentProposal.getPrincipalInvestigator()!=null && developmentProposal.getPrincipalInvestigator().getFacultyFlag()) {
             return FALSE;
         } else {
             return TRUE;

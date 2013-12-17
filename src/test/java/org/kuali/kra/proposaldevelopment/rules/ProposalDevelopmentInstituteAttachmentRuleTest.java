@@ -124,7 +124,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
 
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleTitle");
+        List errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleTitle");
         assertTrue(errors.size() == 1);
         System.out.println("errors: "+ errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -148,7 +148,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".institutionalAttachmentTypeCode");
+        List errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".institutionalAttachmentTypeCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -171,7 +171,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleStatusCode");
+        List errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleStatusCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -198,7 +198,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".institutionalAttachmentTypeCode");
+        List errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".institutionalAttachmentTypeCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -221,7 +221,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,narrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".narrativeFile");
+        List errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".narrativeFile");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);

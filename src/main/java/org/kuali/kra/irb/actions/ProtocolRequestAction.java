@@ -67,7 +67,7 @@ public enum ProtocolRequestAction {
                                     TaskName.PROTOCOL_REQUEST_SUSPENSION,
                                     Constants.PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY, 
                                     "protocolSuspendRequestBean", 
-                                    "Request for Suspension"), 
+                                    "Withdraw Request for Suspension"), 
                                   
     /**
      * Request for termination of a Protocol.
@@ -76,8 +76,17 @@ public enum ProtocolRequestAction {
                                     TaskName.PROTOCOL_REQUEST_TERMINATE,
                                     Constants.PROTOCOL_TERMINATE_REQUEST_PROPERTY_KEY, 
                                     "protocolTerminateRequestBean", 
-                                    "Request for Termination");
+                                    "Withdraw Request for Termination"),
     
+    /**
+     * Request to withdraw a previous request to close, close enrollment, etc.
+     */
+    WITHDRAW_SUBMISSION            (ProtocolActionType.WITHDRAW_SUBMISSION,
+                                    TaskName.PROTOCOL_WITHDRAW_SUBMISSION,
+                                    Constants.PROTOCOL_WITHDRAW_SUBMISSION_PROPERTY_KEY, 
+                                    "protocolWithdrawSubmissionRequestBean", 
+                                    "Withdraw Submission Request");
+
     private final String actionTypeCode;
     private final String taskName;
     private final String errorPath;
@@ -124,6 +133,7 @@ public enum ProtocolRequestAction {
         ProtocolRequestAction protocolRequestAction = null;
         
         for (ProtocolRequestAction action : values()) {
+System.err.println("comparing " + taskName + " against " + action.getTaskName());            
             if (action.getTaskName().equals(taskName)) {
                 protocolRequestAction = action;
             }

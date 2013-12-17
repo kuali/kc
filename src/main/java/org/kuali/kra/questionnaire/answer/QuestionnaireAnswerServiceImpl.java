@@ -737,6 +737,28 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         this.protocolFinderDao = protocolFinderDao;
     }
     
+    public List<AnswerHeader> getPrintAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper) {
+
+        boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
+        String originalProtocolNumber = protocolNumber;
+        questionnaireHelper.populatePrintAnswers();        
+        List<AnswerHeader> printAnswerHeaders = questionnaireHelper.getPrintAnswerHeaders();
+        if (isAmendmentOrRenewal) {
+            originalProtocolNumber = protocolNumber.substring(0, 10);
+            List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
+            for (AnswerHeader printAnswerHeader : printAnswerHeaders) {
+                if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(printAnswerHeader.getModuleSubItemCode()) && printAnswerHeader.getModuleItemKey().equals(originalProtocolNumber))
+                        && printAnswerHeader.getModuleItemKey().equals(protocolNumber)) {
+                    headers.add(printAnswerHeader);
+                }
+            }
+            return headers;
+        }
+        else {
+            return printAnswerHeaders;
+        }
+    }
+    
     @Override
     public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper) {
         boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
