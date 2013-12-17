@@ -117,9 +117,9 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
             setCanAnswerAfterRouting(false);
         } else if(keyPersonCertDeferral.equals("BA")) {
             
-            boolean isApproved = getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
+            boolean isEnroute = getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
             
-            if(!isApproved) {
+            if(!isEnroute && !canCertify) {
                 setCanAnswerAfterRouting(false);
             } else {
                 //questionnaires should continue to be answerable only to the following approvers.
@@ -127,7 +127,8 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
                 if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE)) {
-                    if(proposalPerson.getPerson().getPersonId().equals(getUserIdentifier())) {
+                    if(proposalPerson.getPerson().getPersonId().equals(getUserIdentifier())
+                            || canCertify) {
                         setCanAnswerAfterRouting(true);
                     }
                 }
