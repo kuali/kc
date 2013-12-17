@@ -25,6 +25,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -60,7 +61,7 @@ public class PersonLookupableHelperServiceImplTest extends KcUnitTestBase {
     
     @Test
     public void testNonMultiCampusRows() {
-        service.setBusinessObjectClass(Person.class);
+        service.setBusinessObjectClass(PersonImpl.class);
         service.setParameters(new HashMap<String, String[]>());
         service.setParameterService(getMockParameterService(false));
         GlobalVariables.getUserSession().addObject(Constants.USER_CAMPUS_CODE_KEY, (Object) CAMPUS_CODE);
@@ -79,7 +80,7 @@ public class PersonLookupableHelperServiceImplTest extends KcUnitTestBase {
     
     @Test
     public void testMultiCampusRows() {
-        service.setBusinessObjectClass(Person.class);
+        service.setBusinessObjectClass(PersonImpl.class);
         service.setParameters(new HashMap<String, String[]>());
         service.setParameterService(getMockParameterService(true));
         GlobalVariables.getUserSession().addObject(Constants.USER_CAMPUS_CODE_KEY, (Object) CAMPUS_CODE);
