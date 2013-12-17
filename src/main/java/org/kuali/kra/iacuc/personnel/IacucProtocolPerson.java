@@ -15,16 +15,87 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
+import org.kuali.kra.iacuc.procedures.IacucProtocolSpeciesStudyGroup;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 
 
 public class IacucProtocolPerson extends ProtocolPersonBase {
 
     private static final long serialVersionUID = 6676849646094141708L;
+    private String procedureQualificationDescription;
+    private List<IacucPersonTraining> iacucPersonTrainings;
+    
+    private static final String PERSON_TRAINED_TRUE = "Yes";
+    private static final String PERSON_TRAINED_FALSE = "No";
+    
+    /* 
+     * List of protocol studies and related procedures grouped by species
+     * This collection is populated during protocol procedure actions
+     */
+    private List<IacucProtocolSpeciesStudyGroup> procedureDetails;
+    
+    private boolean allProceduresSelected;
+    
+    public IacucProtocolPerson() {
+        super();
+        setIacucPersonTrainings(new ArrayList<IacucPersonTraining>());
+    }
     
     public IacucProtocol getIacucProtocol() {
         return (IacucProtocol) getProtocol();
+    }
+
+    public String getProcedureQualificationDescription() {
+        return procedureQualificationDescription;
+    }
+
+    public void setProcedureQualificationDescription(String procedureQualificationDescription) {
+        this.procedureQualificationDescription = procedureQualificationDescription;
+    }
+
+    public List<IacucPersonTraining> getIacucPersonTrainings() {
+        return iacucPersonTrainings;
+    }
+
+    public void setIacucPersonTrainings(List<IacucPersonTraining> iacucPersonTrainings) {
+        this.iacucPersonTrainings = iacucPersonTrainings;
+    }
+    
+    public String getPersonTrainedStatus() {
+        return getIacucPersonTrainings().size() > 0 ? PERSON_TRAINED_TRUE : PERSON_TRAINED_FALSE;
+    }
+
+    @Override
+    protected void postLoad() {
+        super.postLoad();
+        setIacucPersonTrainings(getIacucProtocolProcedureService().getIacucPersonTrainingDetails(getPersonId()));
+    }
+
+    protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
+        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+    }
+
+    public List<IacucProtocolSpeciesStudyGroup> getProcedureDetails() {
+        return procedureDetails;
+    }
+
+    public void setProcedureDetails(List<IacucProtocolSpeciesStudyGroup> procedureDetails) {
+        this.procedureDetails = procedureDetails;
+    }
+
+    public boolean isAllProceduresSelected() {
+        return allProceduresSelected;
+    }
+
+    public void setAllProceduresSelected(boolean allProceduresSelected) {
+        this.allProceduresSelected = allProceduresSelected;
     }
 
 }

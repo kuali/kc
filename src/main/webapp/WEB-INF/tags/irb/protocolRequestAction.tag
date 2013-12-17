@@ -137,6 +137,7 @@
                                           taskName="protocolRequestTerminate"
                                           actionTypeCode="104"
                                           tabTitle="Request for Termination"/>
+            <kra-irb-action:withdrawRequestAction />
             <kra-irb-action:deleteAction />
             <kra-irb-action:makeAdminCorrectionAction />
             <kra-irb-action:genericAction tabTitle="Close Enrollment"
@@ -391,6 +392,9 @@
 				                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, or Suspended by DSMB.
 				                                                 <p>
 				                                                 Submission Type is Request to Close, Request for Suspension, Request to Close Enrollment, Request for Termination, Request for Data Analysis Only, or Request for Re-open Enrollment." />
+	            <kra-irb-action:genericUnavailableAction tabTitle="Withdraw Submission"
+	                                                     canPerformAction="${KualiForm.actionHelper.canWithdrawSubmissionUnavailable}"
+				                                         reason="Protocol must have a Request to Close, Request for Suspension, Request to Close Enrollment, Request to Reopen Enrollment, Request for Data Analysis Only, or Request to Terminate action." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Delete Protocol, Amendment, or Renewal"
 	                                                     canPerformAction="${KualiForm.actionHelper.canDeleteProtocolAmendRenewUnavailable}"
 	                                                     reason="Protocol must be editable.

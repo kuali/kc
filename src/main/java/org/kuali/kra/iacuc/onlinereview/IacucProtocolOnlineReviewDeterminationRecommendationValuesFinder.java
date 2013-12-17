@@ -46,8 +46,7 @@ public class IacucProtocolOnlineReviewDeterminationRecommendationValuesFinder ex
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         for (IacucProtocolOnlineReviewDeterminationRecommendation recommendation : recommendations) {
-            if (StringUtils.isEmpty(recommendation.getIacucProtocolReviewTypeCode()) ||
-                recommendation.getIacucProtocolReviewTypeCode().equals(reviewType)) {
+            if (recommendation.getIacucProtocolReviewTypeCode() != null && recommendation.getIacucProtocolReviewTypeCode().equals(reviewType)) {
                 keyValues.add(new ConcreteKeyValue(recommendation.getProtocolOnlineReviewDeterminationRecommendationCode().toString(), recommendation.getIacucProtocolActionType().getDescription()));
             }
         }

@@ -114,7 +114,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="AttachmentsEntryType-lookupDefinition" parent="AttachmentsEntryType-lookupDefinition-parentBean" />
     <bean id="AttachmentsEntryType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Minute Entry Type Lookup" />
+        <property name="title" value="Attachments Entry Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >

@@ -31,13 +31,15 @@
                                         <th><div align="left">&nbsp;</div></th> 
                                         <kul:htmlAttributeHeaderCell literalLabel="Standard Comment" scope="col" />
                                         <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
-                                        <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
-                                        <kul:htmlAttributeHeaderCell literalLabel="Final" scope = "col"/>
-                    <c:if test="${not KualiForm.actionHelper.hideReviewerName}">
-                                        <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
-                                        <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
-                    </c:if>
-                                      </tr>
+                                        <c:if test="${not KualiForm.actionHelper.hidePrivateFinalFlagsForPublicCommentsAttachments}">                     
+                                            <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
+                                            <kul:htmlAttributeHeaderCell literalLabel="Final" scope = "col"/>
+                                        </c:if>                    
+                                        <c:if test="${not KualiForm.actionHelper.hideReviewerName}">
+                                            <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
+                                            <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
+                                        </c:if>
+                                    </tr>
                                     <c:forEach items="${KualiForm.actionHelper.reviewComments}" var="comment" varStatus="status">
                                       <%-- <c:if test="${comment.displayReviewerName}"> --%>
                                             <c:set var="displayCount" value="${displayCount + 1}"/>
@@ -65,19 +67,20 @@
 	         if this hidden is not created then the value can not be retrieved for popup display --%>
 	                                                <input type="hidden" name="actionHelper.reviewComments[${status.index}].minuteEntry" value="${comment.minuteEntry}" id="actionHelper.reviewComments[${status.index}].minuteEntry">
 	                                            </td>                
-	                                                
-	                                            <td style="text-align:center; vertical-align:middle">
-	                                                <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].privateCommentFlag" 
-	                                                      attributeEntry="${minutesAttributes.privateCommentFlag}"
-	                                                      readOnly="true" />
-	                                            </td>
 	                                            
-	                                            <td style="text-align:center; vertical-align:middle">
-	                                                <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].finalFlag" 
-	                                                      attributeEntry="${minutesAttributes.finalFlag}"
-	                                                      readOnly="true" />
-	                                            </td>
-
+	                                            <c:if test="${not KualiForm.actionHelper.hidePrivateFinalFlagsForPublicCommentsAttachments}">    
+		                                            <td style="text-align:center; vertical-align:middle">
+		                                                <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].privateCommentFlag" 
+		                                                      attributeEntry="${minutesAttributes.privateCommentFlag}"
+		                                                      readOnly="true" />
+		                                            </td>
+		                                            
+		                                            <td style="text-align:center; vertical-align:middle">
+		                                                <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].finalFlag" 
+		                                                      attributeEntry="${minutesAttributes.finalFlag}"
+		                                                      readOnly="true" />
+		                                            </td>
+                                                </c:if>
                     <c:if test="${not KualiForm.actionHelper.hideReviewerName}">
                         <c:choose>
                             <c:when test="${KualiForm.actionHelper.reviewComments[status.index].displayReviewerName}">

@@ -38,6 +38,9 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.*;
 
@@ -305,11 +308,12 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      */
     @Override
     public boolean canBlanketApprove(Document document, Person user) {
-        if (!isFinal(document) && isAuthorizedByTemplate(
-                document,
-                KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
-                KimConstants.PermissionTemplateNames.BLANKET_APPROVE_DOCUMENT,
-                user.getPrincipalId()) && super.canBlanketApprove(document, user)) {
+        boolean canBA = false;
+        PermissionService permService = KraServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
+        canBA = 
+                (!(isFinal(document)||isProcessed (document))&&
+                        permService.hasPermission (user.getPrincipalId(), "KC-AWARD", "Blanket Approve AwardDocument"));
+        if (!isFinal(document) &&canBA){
             // check system parameter - if Y, use default workflow behavior: allow a user with the permission
             // to perform the blanket approve action at any time
             try {
@@ -319,10 +323,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             } catch ( IllegalArgumentException ex ) {
                 // do nothing, the parameter does not exist and defaults to "N"
             }
-            // otherwise, limit the display of the blanket approve button to only the initiator of the document
             // (prior to routing)
             WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-            if ( canRoute(document) && StringUtils.equals( workflowDocument.getInitiatorPrincipalId(), GlobalVariables.getUserSession().getPrincipalId() ) ) {
+            if ( canRoute(document)){
                 return true;
             }
             // or to a user with an approval action request
@@ -363,7 +366,8 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
 
     public AwardHierarchyService getAwardHierarchyService() {
         if (awardHierarchyService == null) {
-            awardHierarchyService = KraServiceLocator.getService(AwardHierarchyService.class);
+            awardHierarchyService = 
+                    KraServiceLocator.getService(AwardHierarchyService.class);
         }
         return awardHierarchyService;
     }
@@ -375,7 +379,28 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
 
     @Override
     public boolean canFyi(Document document, Person user) {
-        return false;
+        return isProcessed(document) && super.canFyi(document, user);
+    }
+    @Override
+    public boolean canRoute(Document document, Person user) {
+        boolean canRoute = false;
+        PermissionService permService = KraServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
+        canRoute = 
+                (!(isFinal(document)||isProcessed (document))&&
+                        permService.hasPermission (user.getPrincipalId(), "KC-AWARD", "Submit Award"));
+        return canRoute;
+    }
+    @Override
+    public boolean canAcknowledge(Document document, Person user) {      
+        return isProcessed (document) && super.canAcknowledge(document, user);
     }
     
+    protected boolean isProcessed (Document document){
+       boolean isProcessed = false;
+       String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+       // if document is in processed state
+       if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD))
+               isProcessed = true;
+       return isProcessed;   
+   }
 }

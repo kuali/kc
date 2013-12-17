@@ -365,25 +365,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /*
-     * override rice version since we get multiple locks on one document, we only want to display one message
-     */
-    protected void setupPessimisticLockMessages(Document document, HttpServletRequest request) {
-        List<String> lockMessages = new ArrayList<String>();
-        Map<String, PessimisticLock> generatedLocks = new HashMap<String, PessimisticLock>();
-        for (PessimisticLock lock : document.getPessimisticLocks()) {
-            // if lock is owned by current user, do not display message for it
-            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
-                if (!StringUtils.startsWith(lock.getLockDescriptor(),"null-") &&
-                        !generatedLocks.containsKey(lock.getDocumentNumber())) {
-                    lockMessages.add(generatePessimisticLockMessage(lock));
-                    generatedLocks.put(lock.getDocumentNumber(), lock);
-                }
-            }
-        }
-        request.setAttribute(KRADConstants.PESSIMISTIC_LOCK_MESSAGES, lockMessages);
-    }
-
     /** 
      * {@inheritDoc}
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#generatePessimisticLockMessage(org.kuali.rice.krad.document.authorization.PessimisticLock)
@@ -522,7 +503,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                             handledLockDescriptors.add(lock.getLockDescriptor());
                         }
                     }
-                    editMode = getPessimisticLockService().establishLocks(document, editMode, user);
+                    // do not generate locks if doc is in initiated state
+                    if (!document.getDocumentHeader().getWorkflowDocument().isInitiated()) {
+                        editMode = getPessimisticLockService().establishLocks(document, editMode, user);
+                    }
                     //ensure locks are current
                     document.refreshPessimisticLocks();
                      

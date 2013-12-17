@@ -181,6 +181,8 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
             List<CS> newMasterSchedules = getCommitteeService().mergeCommitteeSchedule(this.getCommittee().getCommitteeId());
             this.getCommittee().setCommitteeSchedules(newMasterSchedules);
             getBusinessObjectService().save(this);
+            // finally update all submissions to point to the new committee
+            getCommitteeService().updateCommitteeForProtocolSubmissions(this.getCommittee());
         }
     }
     
@@ -235,4 +237,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
         return isComplete;
     }
 
+    public String getDocumentBoNumber() {
+        return getCommitteeId();
+    }
 }

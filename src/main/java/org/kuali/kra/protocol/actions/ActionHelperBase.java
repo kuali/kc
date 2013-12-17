@@ -46,6 +46,7 @@ import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
+import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
@@ -126,6 +127,8 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canRequestSuspensionUnavailable = false;
     protected boolean canRequestTerminate = false;
     protected boolean canRequestTerminateUnavailable = false;
+    protected boolean canWithdrawSubmission = false;
+    protected boolean canWithdrawSubmissionUnavailable = false;
     protected boolean canDeleteProtocolAmendRenew = false;
     protected boolean canDeleteProtocolAmendRenewUnavailable = false;
     protected boolean canAssignToAgenda = false;
@@ -203,11 +206,16 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolRequestBean protocolSuspendRequestBean;    
     protected ProtocolRequestBean protocolTerminateRequestBean;
     
+    protected ProtocolRequestBean protocolWithdrawCloseRequestBean;
+    protected ProtocolRequestBean protocolWithdrawSuspendRequestBean;    
+    protected ProtocolRequestBean protocolWithdrawTerminateRequestBean;
+    
     protected ProtocolNotifyCommitteeBean protocolNotifyCommitteeBean;
     private List<KeyValue> notifyCmtActionCommitteeIdByUnitKeyValues;
     
     protected ProtocolAmendmentBean protocolAmendmentBean;
     protected ProtocolAmendmentBean protocolRenewAmendmentBean;
+    protected ProtocolAmendmentBean protocolAmendmentSummaryBean;
     protected ProtocolDeleteBean protocolDeleteBean;
     protected ProtocolAssignToAgendaBean assignToAgendaBean;   
     private ProtocolApproveBean protocolFullApprovalBean;
@@ -284,11 +292,15 @@ public abstract class ActionHelperBase implements Serializable {
     // TODO ProtocolSummaryPrintOptions should be refactored into IRB and IACUC subclasses and the below constructor should be replaced with a hook invocation.
     protected ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
     protected List<QuestionnairePrintOption> questionnairesToPrints;
+    protected List<CorrespondencePrintOption> correspondencesToPrint;
+    
     // flag if versioned protocol questionnaire exist
     protected boolean summaryQuestionnaireExist;
     protected boolean hideReviewerName;
     protected boolean hideSubmissionReviewerName;
     protected boolean hideReviewerNameForAttachment;
+    //flag to hide private final columns/attachments from PI when they are public
+    protected boolean hidePrivateFinalFlagsForPublicCommentsAttachments; 
     protected ProtocolCorrespondence protocolCorrespondence;
     
     // indicator for whether there is submission questionnaire answer exist.
@@ -542,8 +554,10 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolAmendmentBean createAmendmentBean() throws Exception {
         protocolAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
         protocolRenewAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
+        protocolAmendmentSummaryBean = getNewProtocolAmendmentBeanInstanceHook(this);
         configureAmendmentBean(protocolAmendmentBean);
         configureAmendmentBean(protocolRenewAmendmentBean);
+        configureAmendmentBean(protocolAmendmentSummaryBean);
         return protocolAmendmentBean;
     }
     
@@ -663,10 +677,12 @@ public abstract class ActionHelperBase implements Serializable {
         
         initProtocolCorrespondenceAuthorizationFlags();
         
+        hidePrivateFinalFlagsForPublicCommentsAttachments = checkToHidePrivateFinalFlagsForPublicCommentsAttachments();
         initSubmissionDetails();
         
         initAmendmentBeans(false);
         initPrintQuestionnaire();
+        initPrintCorrespondence();
     }
     
             
@@ -1219,6 +1235,39 @@ public abstract class ActionHelperBase implements Serializable {
         return this.protocolTerminateRequestBean;
     }
     
+    public ProtocolRequestBean getProtocolWithdrawCloseRequestBean() {
+        return protocolWithdrawCloseRequestBean;
+    }
+
+    public void setProtocolWithdrawCloseRequestBean(ProtocolRequestBean protocolWithdrawCloseRequestBean) {
+        this.protocolWithdrawCloseRequestBean = protocolWithdrawCloseRequestBean;
+    }
+
+    public ProtocolRequestBean getProtocolWithdrawSuspendRequestBean() {
+        return protocolWithdrawSuspendRequestBean;
+    }
+
+    public void setProtocolWithdrawSuspendRequestBean(ProtocolRequestBean protocolWithdrawSuspendRequestBean) {
+        this.protocolWithdrawSuspendRequestBean = protocolWithdrawSuspendRequestBean;
+    }
+
+
+
+
+    public ProtocolRequestBean getProtocolWithdrawTerminateRequestBean() {
+        return protocolWithdrawTerminateRequestBean;
+    }
+
+
+
+
+    public void setProtocolWithdrawTerminateRequestBean(ProtocolRequestBean protocolWithdrawTerminateRequestBean) {
+        this.protocolWithdrawTerminateRequestBean = protocolWithdrawTerminateRequestBean;
+    }
+
+
+
+
     public ProtocolNotifyCommitteeBean getProtocolNotifyCommitteeBean() {
         return protocolNotifyCommitteeBean;
     }
@@ -1233,6 +1282,10 @@ public abstract class ActionHelperBase implements Serializable {
     
     public ProtocolAmendmentBean getProtocolRenewAmendmentBean() {
         return protocolRenewAmendmentBean;
+    }
+    
+    public ProtocolAmendmentBean getProtocolAmendmentSummaryBean() {
+        return protocolAmendmentSummaryBean;
     }
     
     public ProtocolDeleteBean getProtocolDeleteBean() {
@@ -1359,6 +1412,14 @@ public abstract class ActionHelperBase implements Serializable {
     
     public boolean getcanRequestTerminateUnavailable(){
         return this.canRequestTerminateUnavailable;
+    }
+    
+    public boolean getCanWithdrawSubmission(){
+        return this.canWithdrawSubmission;
+    }
+    
+    public boolean getCanWithdrawSubmissionUnavailable(){
+        return this.canWithdrawSubmissionUnavailable;
     }
     
     public boolean getCanDeleteProtocolAmendRenew() {
@@ -1956,8 +2017,10 @@ public abstract class ActionHelperBase implements Serializable {
                 });
                 protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(reviewComments);
                 getReviewerCommentsService().setHideReviewerName(reviewComments);
+                setHidePrivateFinalFlagsForPublicCommentsAttachments(getReviewerCommentsService().isHidePrivateFinalFlagsForPI(reviewComments));
             }
             getReviewerCommentsService().setHideReviewerName(getReviewComments());
+            setHidePrivateFinalFlagsForPublicCommentsAttachments(getReviewerCommentsService().isHidePrivateFinalFlagsForPI(reviewComments));            
         }
         setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         if (CollectionUtils.isNotEmpty(getReviewAttachments())) {
@@ -2325,8 +2388,18 @@ public abstract class ActionHelperBase implements Serializable {
     private void initPrintQuestionnaire() {
         setQuestionnairesToPrints(new ArrayList<QuestionnairePrintOption>());
         ModuleQuestionnaireBean moduleQuestionnaireBean = getNewProtocolModuleQuestionnaireBeanInstanceHook(getProtocol());
-        List<AnswerHeader> answerHeaders  = getQuestionnaireAnswerService().getAnswerHeadersForProtocol(moduleQuestionnaireBean, getProtocol().getProtocolNumber(),form.getQuestionnaireHelper());
-        setupQnPrintOption(answerHeaders);
+        List<AnswerHeader> printAnswerHeaders  = getQuestionnaireAnswerService().getPrintAnswerHeadersForProtocol(moduleQuestionnaireBean, getProtocol().getProtocolNumber(), form.getQuestionnaireHelper());
+        setupQnPrintOption(printAnswerHeaders);
+    }
+    
+    protected abstract void initPrintCorrespondence();
+
+    public void setCorrespondencesToPrint(List<CorrespondencePrintOption> printOptions) {
+        this.correspondencesToPrint = printOptions;
+    }
+
+    public List<CorrespondencePrintOption> getCorrespondencesToPrint() {
+        return correspondencesToPrint;
     }
 
     /*
@@ -2361,6 +2434,26 @@ public abstract class ActionHelperBase implements Serializable {
     public void setProtocolAbandonBean(ProtocolGenericActionBean protocolAbandonBean) {
         this.protocolAbandonBean = protocolAbandonBean;
     }
+    
+    public boolean isHidePrivateFinalFlagsForPublicCommentsAttachments() {
+        return hidePrivateFinalFlagsForPublicCommentsAttachments;
+    }
+
+    public void setHidePrivateFinalFlagsForPublicCommentsAttachments(boolean hidePrivateFinalFlagsForPublicCommentsAttachments) {
+        this.hidePrivateFinalFlagsForPublicCommentsAttachments = hidePrivateFinalFlagsForPublicCommentsAttachments;
+    }
+   
+    /*
+     * check whether to display submission details comment (private/final) and attachment (protocol personnel can view) flags.
+     */
+    protected boolean checkToHidePrivateFinalFlagsForPublicCommentsAttachments() {
+        List<CommitteeScheduleMinuteBase> reviewComments = getReviewComments();
+        if (reviewComments == null) {
+            return false;
+        } else {
+            return getReviewCommentsService().isHidePrivateFinalFlagsForPI(reviewComments);
+        }
+    }       
 
     public boolean isHideReviewerName() {
         return hideReviewerName;

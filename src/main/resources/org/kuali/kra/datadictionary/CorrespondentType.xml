@@ -19,27 +19,6 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="CorrespondentType" parent="CorrespondentType-parentBean" />
-    <bean id="CorrespondentType-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.irb.correspondence.CorrespondentType" />
-   		<property name="objectLabel" value="Correspondent Type" />
-        <property name="inquiryDefinition" >
-            <ref bean="CorrespondentType-inquiryDefinition" />
-        </property>
-        <property name="lookupDefinition" >
-            <ref bean="CorrespondentType-lookupDefinition" />
-        </property>
-        <property name="titleAttribute" value="correspondentTypeCode" />
-        <property name="attributes" >
-            <list>
-                <ref bean="CorrespondentType-correspondentTypeCode" />
-                <ref bean="CorrespondentType-description" />
-                <ref bean="CorrespondentType-qualifier" />
-                <ref bean="CorrespondentType-versionNumber" />
-            </list>
-        </property>
-    </bean>
-
     <!-- Attribute Definitions -->
     
     <bean id="CorrespondentType-correspondentTypeCode" parent="CorrespondentType-correspondentTypeCode-parentBean" />

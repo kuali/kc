@@ -21,9 +21,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.*;
 import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
+import org.kuali.kra.common.printing.CorrespondencePrintingService;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
+import org.kuali.kra.iacuc.committee.print.service.IacucScheduleCorrespondencePrint;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
@@ -119,6 +121,11 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
 
     private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
         return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
+    }
+
+    @Override
+    protected CorrespondencePrintingService getCorrespondencePrintingService() {
+        return KraServiceLocator.getService(IacucScheduleCorrespondencePrint.class);
     }
     
 }

@@ -143,15 +143,17 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
     }
     
     private void addNewAction(Protocol protocol, ProtocolAssignCmtSchedBean actionBean) {
-        ProtocolAction lastAction = (ProtocolAction)protocol.getLastProtocolAction();
         ProtocolAction newAction = new ProtocolAction();
         // deep copy will replaced the last action with the new one after save
         newAction.setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
         newAction.setActualActionDate(new Timestamp(System.currentTimeMillis()));
         newAction.setActionDate(new Timestamp(System.currentTimeMillis()));
         newAction.setProtocolActionTypeCode(ProtocolActionType.NOTIFIED_COMMITTEE);
-        newAction.setSubmissionIdFk(lastAction.getSubmissionIdFk());
-        newAction.setSubmissionNumber(lastAction.getSubmissionNumber());
+        ProtocolSubmissionBase submission = protocol.getProtocolSubmission();
+        if(submission != null) {
+	        newAction.setSubmissionIdFk(submission.getSubmissionId());
+	        newAction.setSubmissionNumber(submission.getSubmissionNumber());
+        }
         newAction.setProtocolNumber(protocol.getProtocolNumber());
         newAction.setProtocolId(protocol.getProtocolId());
         newAction.setSequenceNumber(protocol.getSequenceNumber());

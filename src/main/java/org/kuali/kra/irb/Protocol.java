@@ -243,11 +243,6 @@ public class Protocol extends ProtocolBase {
                 notification.resetPersistenceState();
                 notification.setOwningDocumentIdFk(null);
             }
-            // reset persistence state for copied notifications so they break ties with old document
-            for (KcNotification notification: protocolAction.getProtocolNotifications()) {
-                notification.setDocumentNumber(getProtocolDocument().getDocumentNumber());
-                notification.resetPersistenceState();
-            }
             this.getProtocolActions().add(protocolAction);
         }
     }

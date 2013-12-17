@@ -33,6 +33,7 @@ import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Base class for Protocol business rule tests.
@@ -139,7 +140,7 @@ public abstract class ProtocolRuleTestBase extends KcUnitTestBase {
      * @param errorKey
      */
     protected void assertError(String propertyKey, String errorKey) {
-        AutoPopulatingList<ErrorMessage> errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
+        List<ErrorMessage> errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

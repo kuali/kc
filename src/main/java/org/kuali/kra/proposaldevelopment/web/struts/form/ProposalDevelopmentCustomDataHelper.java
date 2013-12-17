@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
-
+import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
+import org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeStatusValuesFinder;
+import org.kuali.rice.core.api.util.KeyValue;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +47,31 @@ public class ProposalDevelopmentCustomDataHelper extends CustomDataHelperBase<Cu
     @Override
     public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
         return form.getProposalDevelopmentDocument().getCustomAttributeDocuments();
+    }
+    
+    public List<KeyValue> getNarrativeStatuses() {
+        return new NarrativeStatusValuesFinder().getKeyValues();
+    }
+    
+    public void setNarrativeStatusChange(String narrativeStatusKey) {
+        NarrativeStatus narrativeStatus = null;
+        if(StringUtils.isNotBlank(narrativeStatusKey)) {
+            for(KeyValue keyValue : getNarrativeStatuses()) {
+                if(StringUtils.equals(keyValue.getKey(),narrativeStatusKey)) {
+                    narrativeStatus = new NarrativeStatus();
+                    narrativeStatus.setNarrativeStatusCode(keyValue.getKey());
+                    narrativeStatus.setDescription(keyValue.getValue());
+                    break;
+                }
+            }
+            if(narrativeStatus != null) {
+                form.setNarrativeStatusChange(narrativeStatus);
+            }
+        }
+    }
+    
+    public String getNarrativeStatusChange() {
+        return form.getNarrativeStatusesChangeKey();
     }
 
 }

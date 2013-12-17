@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.protocol.actions.correspondence;
 
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
-import org.kuali.kra.protocol.correspondence.ValidProtoActionCoresp;
-import org.kuali.rice.krad.service.BusinessObjectService;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
+import org.kuali.kra.protocol.correspondence.ValidProtoActionCoresp;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public abstract class ProtocolActionTypeToCorrespondenceTemplateServiceImplBase implements ProtocolActionTypeToCorrespondenceTemplateService {
     
@@ -36,16 +37,24 @@ public abstract class ProtocolActionTypeToCorrespondenceTemplateServiceImplBase 
      * 
      * @see org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService#getTemplatesByProtocolAction(java.lang.String)
      */
-    public List<ProtocolCorrespondenceTemplateBase> getTemplatesByProtocolAction(String protocolActionType) {
+    public List<ProtocolCorrespondenceTemplateBase> getTemplatesByProtocolAction(String protocolActionType, String committeeId) {
         List<ProtocolCorrespondenceTemplateBase> templates = new ArrayList<ProtocolCorrespondenceTemplateBase>();
         Map<String, List<String>> actionTypesToCorrespondenceTypeMap = getActionTypesToCorrespondenceTypeMap();
         if (actionTypesToCorrespondenceTypeMap.containsKey(protocolActionType)) {
             for (String correspondenceTypeId : actionTypesToCorrespondenceTypeMap.get(protocolActionType)) {
-                templates.addAll(getCorrespondenceTemplatesForTypeId(correspondenceTypeId));
+                templates.addAll(getCorrespondenceTemplatesForTypeId(correspondenceTypeId, committeeId ));
             }
         }
         return templates;
     }
+    
+    /**
+     * @see org.kuali.kra.protocol.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService#getTemplatesByProtocolAction(java.lang.String)
+     */
+    public List<ProtocolCorrespondenceTemplateBase> getTemplatesByProtocolAction(String protocolActionType) {
+        return getTemplatesByProtocolAction(protocolActionType, Constants.DEFAULT_CORRESPONDENCE_TEMPLATE);   
+    }
+    
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService){
         this.businessObjectService = businessObjectService;
@@ -79,10 +88,11 @@ public abstract class ProtocolActionTypeToCorrespondenceTemplateServiceImplBase 
         return (List<ValidProtoActionCoresp>)getBusinessObjectService().findAll(getProtocolActionCorrespondenceMappingClassHook());
     }
     
-    protected List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplatesForTypeId(String correspondenceTypeId) {
+    protected List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplatesForTypeId(String correspondenceTypeId, String committeeId) {
         ProtocolCorrespondenceTypeBase type = getBusinessObjectService().findBySinglePrimaryKey(getProtocolCorrespondenceTypeClassHook(), correspondenceTypeId);
         if (type != null) {
-            return type.getProtocolCorrespondenceTemplates();
+            List<ProtocolCorrespondenceTemplateBase> committeeTemplates = type.getCommitteeProtocolCorrespondenceTemplates(committeeId);
+            return committeeTemplates.isEmpty() ? type.getProtocolCorrespondenceTemplates() : committeeTemplates;
         } else {
             return new ArrayList<ProtocolCorrespondenceTemplateBase>();
         }

@@ -30,6 +30,7 @@
 <c:set var="readOnly" value="${!modifyPermission}" />
 
 <c:set var="personResponsibleAttributes" value="${DataDictionary.IacucProcedurePersonResponsible.attributes}" />
+<c:set var="protocolPersonAttributes" value="${DataDictionary.IacucProtocolPerson.attributes}" />
 
 <kul:innerTab tabTitle="Persons Responsible" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${procedureDetailBeanIndex}].newIacucProcedurePersonResponsible*" useCurrentTabIndexAsKey="true">
 	<div class="innerTab-container" align="left">
@@ -43,51 +44,12 @@
           		<th><div align="left">&nbsp;</div></th> 
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${personResponsibleAttributes.protocolPersonsResponsible}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${personResponsibleAttributes.trainingDetails}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${personResponsibleAttributes.personResponsibleDescription}" noColon="true" /></nobr></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolPersonAttributes.procedureQualificationDescription}" noColon="true" /></nobr></div></th>
 				<c:if test="${!readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
           	</tr>     
 
-        	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">
-        		<tbody class="addline">   
-                <tr>
-	                <c:set var="textAreaFieldName" value="iacucProtocolProceduresHelper.newIacucProcedurePersonResponsible.personResponsibleDescription" />
-					<th class="infoline">
-						Add:
-					</th>
-		            <td width="20%" align="left" valign="middle" class="infoline">
-		               	<div align="center">
-		               		<kul:htmlControlAttribute property="${procedurePersonProperty}.newIacucProcedurePersonResponsible.protocolPersonsResponsible" 
-		               		                          attributeEntry="${personResponsibleAttributes.protocolPersonsResponsible}" 
-		               		                          readOnly="${readOnly}" />
-		            	</div>
-					</td>
-		            <td width="30%" align="left" valign="middle" class="infoline">
-		               	<div align="center">
-		               		&nbsp;
-		            	</div>
-					</td>
-		            <td width="50%" align="left" valign="middle" class="infoline">
-		               	<div align="center">
-		               		<kul:htmlControlAttribute property="${procedurePersonProperty}.newIacucProcedurePersonResponsible.personResponsibleDescription" 
-		               		                          attributeEntry="${personResponsibleAttributes.personResponsibleDescription}" 
-		               		                          readOnly="${readOnly}" />
-		            	</div>
-					</td>
-		            	</div>
-					</td>
-				    <c:set var="procedureBean" value="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${procedureDetailBeanIndex}]" />
-					<td class="infoline">
-						<div align="center">
- 							<html:image property="methodToCall.addProcedurePersonResponsible.${procedureBean}.line${status.index}" 
-						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-						            styleClass="tinybutton addButton"/>
-	                	</div>
-	                </td>
-	            </tr>
-	            </tbody>
-	        </kra:permission>          
             
         	<c:forEach var="protocolPersonResponsible" items="${collectionReference}" varStatus="status">
                 <tr>
@@ -117,20 +79,13 @@
 					</td>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               		<%-- 
-		               		<kul:htmlControlAttribute property="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${procedureDetailBeanIndex}].iacucProcedurePersonsResponsible[${status.index}].personResponsibleDescription" 
-		               		                          attributeEntry="${personResponsibleAttributes.personResponsibleDescription}" 
-		               		                          readOnly="${readOnly}" />
-		               		                          --%>
-		               		<kul:htmlControlAttribute property="${collectionProperty}[${status.index}].personResponsibleDescription" 
-		               		                          attributeEntry="${personResponsibleAttributes.personResponsibleDescription}" 
-		               		                          readOnly="${readOnly}" />
+							<c:out value="${protocolPersonResponsible.protocolPerson.procedureQualificationDescription}" />
 		            	</div>
 					</td>
 					<td><div align=center>
                         <c:if test="${!readOnly}">
 						    <c:set var="personBean" value="${collectionProperty}[${status.index}]" />
-                            <html:image property="methodToCall.deleteProcedurePersonResponsible.${personBean}.line${status.index}"
+                            <html:image property="methodToCall.deleteProcedureGroupPersonResponsible.${personBean}.line${status.index}"
 									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                         </c:if>
 	                </div></td>

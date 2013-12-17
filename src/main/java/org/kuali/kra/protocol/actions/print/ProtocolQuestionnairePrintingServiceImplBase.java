@@ -37,7 +37,15 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
         setProtocol(protocol);
         int maxSubmissionNumber = getMaxSubmissionNumber();
         for (AnswerHeader answerHeader : answerHeaders) {
-            // only submission questionnaire and current protocol questionnaire will be printed
+                       
+            //moduleItemKey is protocol number. When moduleSubItemCode indicates initial protocol as ZERO_MODULE and we have its current qnnr answers
+            //ensure those answers can be retrieved from the table by using the original protocol number and not the amend/renew number.
+            String moduleItemKey = answerHeader.getModuleItemKey();
+            if (CoeusSubModule.ZERO_SUBMODULE.equalsIgnoreCase(answerHeader.getModuleSubItemCode()) && isCurrentRegularQn(answerHeader)) {
+                moduleItemKey = answerHeader.getModuleItemKey().substring(0, 10);
+            }
+            
+            // only submission questionnaire and current protocol questionnaire will be printed    
             if ( (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && Integer.parseInt(answerHeader.getModuleSubItemKey()) <= maxSubmissionNumber)
                     || (isCurrentAmendRenewalQn(answerHeader)) ) {
                 QuestionnairePrintOption printOption = new QuestionnairePrintOption();
@@ -46,7 +54,7 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
                 printOption.setSelected(true);
                 printOption.setQuestionnaireName(answerHeader.getQuestionnaire().getName());
                 printOption.setLabel(getQuestionnaireLabel(answerHeader));
-                printOption.setItemKey(answerHeader.getModuleItemKey());
+                printOption.setItemKey(moduleItemKey);
                 printOption.setSubItemKey(answerHeader.getModuleSubItemKey());
                 printOption.setSubItemCode(answerHeader.getModuleSubItemCode());
                 // finally check if the answerheader's questionnaire is active, and set it accordingly in the Qnnr print option bean
@@ -91,11 +99,15 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
      */
     private boolean isCurrentAmendRenewalQn(AnswerHeader answerHeader) {
         boolean isCurrentQn = CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())
-                || CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode());
+                              || CoeusSubModule.AMENDMENT.equals(answerHeader.getModuleSubItemCode())
+                              || CoeusSubModule.RENEWAL.equals(answerHeader.getModuleSubItemCode())
+                              || CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode());
         if (isCurrentQn) {
             if (CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode())) {
                 isCurrentQn = isCurrentRegularQn(answerHeader);
-            } else if (CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
+            } else if (CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode()) 
+                       || CoeusSubModule.AMENDMENT.equals(answerHeader.getModuleSubItemCode())
+                       || CoeusSubModule.RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
                 isCurrentQn = isCurrentAorRQn(answerHeader);
             }
         }
@@ -137,6 +149,14 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
                     } else {
                         label = usage.getQuestionnaireLabel() + " - Renewal " + answerHeader.getModuleItemKey().substring(10);
                     }
+                } else if (CoeusSubModule.AMENDMENT.equals(answerHeader.getModuleSubItemCode())) {
+                    if (answerHeader.getModuleItemKey().contains("A")) {
+                        label = usage.getQuestionnaireLabel() + " - Amendment " + answerHeader.getModuleItemKey().substring(10);
+                    } 
+                } else if (CoeusSubModule.RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
+                    if (answerHeader.getModuleItemKey().contains("R")) {                        
+                        label = usage.getQuestionnaireLabel() + " - Renewal " + answerHeader.getModuleItemKey().substring(10);
+                    }                    
                 }
             }
         }

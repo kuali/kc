@@ -24,12 +24,15 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -41,16 +44,24 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProposalDevelopmentProposalAttachmentsAuditRule  implements DocumentAuditRule{
+public class ProposalDevelopmentProposalAttachmentsAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
+
     public static final String AUDIT_CLUSTER_KEY = "proposalAttachmentsAuditWarnings";
     
+    private static final String AUDIT_PARAMETER = ProposalDevelopmentUtils.AUDIT_INCOMPLETE_PROPOSAL_ATTATCHMENTS_PARM;
+    private static final String AUDIT_PARAMETER_VALUE_YES = "Y";
+    private static final String AUDIT_PARAMETER_VALUE_NO = "N";
+    private static final String MODULE_STATUS_CODE_INCOMPLETE = "I";
+
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAttachmentsAuditRule.class);
+    
+    private SponsorService sponsorService;
     
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        
+
         valid &= checkForIncompleteAttachments(developmentProposal);
         valid &= checkNihRelatedAttachments(developmentProposal);
         valid &= checkNsfRelatedAttachments(proposalDevelopmentDocument);
@@ -59,19 +70,46 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
     }
 
     public boolean checkForIncompleteAttachments(DevelopmentProposal developmentProposal) {
+        //audit for Proposal Attachments to ensure status code is set to complete.
         boolean valid = true;
-            int i = 0;
-            for(Narrative narrative: developmentProposal.getNarratives()) {
-            if (StringUtils.equals(narrative.getModuleStatusCode(), "I")) {
-                 valid = false;            
-                getAuditErrors().add(new AuditError("document.developmentProposalList[0].narrative[" + i + "].moduleStatusCode", 
-                        KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ATTACHMENTS_PAGE));
-             }
-             i++;
+
+        Parameter attachmentAuditParam = getParameterService().getParameter(ProposalDevelopmentDocument.class, 
+                                                                            AUDIT_PARAMETER);
+        if(attachmentAuditParam == null) {
+            LOG.warn("System parameter AUDIT_INCOMPLETE_ATTACHMENTS is missing or invalid.");
+            return alternateIncompleteAttachmentValidation(developmentProposal);
+        }
+        String validateIncompleteAttachments = attachmentAuditParam.getValue();
+
+        int i = 0;
+        for(Narrative narrative: developmentProposal.getNarratives()) {
+            if (StringUtils.equals(narrative.getModuleStatusCode(), MODULE_STATUS_CODE_INCOMPLETE )) {
+                if(validateIncompleteAttachments.equals(AUDIT_PARAMETER_VALUE_YES)) {
+                    valid &= false;
+                    getAuditErrors(Constants.AUDIT_ERRORS).add(new AuditError("document.developmentProposalList[0].narrative[" + i + "].moduleStatusCode", 
+                            KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ATTACHMENTS_PAGE));
+                }
             }
+            i++;
+        }
         return valid;
     }
     
+    private boolean alternateIncompleteAttachmentValidation(DevelopmentProposal developmentProposal) {
+        boolean valid = true;
+
+        int i = 0;
+        for(Narrative narrative: developmentProposal.getNarratives()) {
+            if (StringUtils.equals(narrative.getModuleStatusCode(), MODULE_STATUS_CODE_INCOMPLETE )) {
+                valid &= false;
+                getAuditErrors(Constants.AUDIT_ERRORS).add(new AuditError("document.developmentProposalList[0].narrative[" + i + "].moduleStatusCode", 
+                        KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ATTACHMENTS_PAGE));
+            }
+            i++;
+        }
+        return valid;
+    }
+
     public boolean checkNihRelatedAttachments(DevelopmentProposal developmentProposal) {
         boolean valid = true;
             if(getSponsorService().isSponsorNihMultiplePi(developmentProposal)
@@ -98,7 +136,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
                 }   
                 if(attachment && hasPI) {
                     valid=false;
-                    getAuditErrors().add(new AuditError("document.developmentProposalList[0].narrative", 
+                    getAuditErrors(Constants.AUDIT_ERRORS).add(new AuditError("document.developmentProposalList[0].narrative", 
                         KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_FOUND, Constants.ATTACHMENTS_PAGE));
                 }
            }
@@ -133,7 +171,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
                                     } 
                                     if(attachmentNotExists) {
                                         valid=false;
-                                    getAuditErrors().add(new AuditError("document.developmentProposalList[0].narrative", 
+                                    getAuditErrors(Constants.AUDIT_ERRORS).add(new AuditError("document.developmentProposalList[0].narrative", 
                                             KeyConstants.ERROR_PROPOSAL_MENTORINGPLAN_ATTACHMENT_NOT_FOUND, Constants.ATTACHMENTS_PAGE));
                                         break;
                                     }
@@ -155,23 +193,23 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
      * @return List of AuditError instances
      */
     @SuppressWarnings("unchecked")
-    private List<AuditError> getAuditErrors() {
+    private List<AuditError> getAuditErrors(String auditClusterCategory) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!KNSGlobalVariables.getAuditErrorMap().containsKey(AUDIT_CLUSTER_KEY)) {
             KNSGlobalVariables.getAuditErrorMap().put(AUDIT_CLUSTER_KEY, 
-                    new AuditCluster(Constants.ABSTRACTS_AND_ATTACHMENTS_PANEL, auditErrors, Constants.AUDIT_ERRORS));
+                    new AuditCluster(Constants.ABSTRACTS_AND_ATTACHMENTS_PANEL, auditErrors, auditClusterCategory));
         } else {
             auditErrors = ((AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY)).getAuditErrorList();
                 }
         
         return auditErrors;
-            }
-    
-    private ParameterService getParameterService() {
-        return KraServiceLocator.getService(ParameterService.class);
     }
+    
     private SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        if(sponsorService == null) {
+            sponsorService = KraServiceLocator.getService(SponsorService.class);
+        }
+        return sponsorService;
     }
 }

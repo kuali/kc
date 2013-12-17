@@ -46,8 +46,13 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
  * This class represents the Struts Action for Protocol Questionnaires.
  */
 public class ProtocolQuestionnaireAction extends ProtocolAction {
-    private static final String PROTOCOL_NUMBER = "protocolNumber";
-    private static final String SEQUENCE_NUMBER = "sequenceNumber";
+    private static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
+    private static final String PROTOCOL_NUMBER      = "protocolNumber";
+    private static final String QUESTIONNAIRE_ID     = "questionnaireId";
+    private static final String SEQUENCE_NUMBER      = "sequenceNumber";
+    private static final String TEMPLATE             = "template";
+
+    
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.irb.ProtocolAction#preSave(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
@@ -107,7 +112,6 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
 
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO : reload should reload the action page too, so this submissionquestionnaire may not needed ?
         ActionForward actionForward = super.reload(mapping, form, request, response);
         ((ProtocolForm)form).getQuestionnaireHelper().prepareView();
         ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
@@ -139,17 +143,15 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         return forward;
     }
 
-    public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        // TODO : this is only available after questionnaire is saved ?
+    public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         ProtocolForm protocolForm = (ProtocolForm) form;
         final int answerHeaderIndex = this.getSelectedLine(request);
-        // TODO : a flag to check whether to print answer or not
-        // for release 3 : if questionnaire questions has answer, then print answer. 
-        reportParameters.put("questionnaireId", ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
-        reportParameters.put("template", ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
+        
+        reportParameters.put(QUESTIONNAIRE_ID, ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
+        reportParameters.put(TEMPLATE, ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
+        reportParameters.put(MODULE_SUB_ITEM_CODE, ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getModuleSubItemCode());
 
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(protocolForm.getProtocolDocument().getProtocol(), reportParameters);
         if (dataStream.getContent() != null) {

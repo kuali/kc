@@ -15,12 +15,17 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionMappingBase;
-
-import java.util.*;
 
 /*
  * This class is for the condition attributes of of the protocol action.
@@ -123,6 +128,23 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
         
     }
     
+
+    /*
+     * look for any submissions of the type "Request xxxx"
+     */
+    public boolean isAnySubmissionRequests() {
+        List <String> submissionTypes = Arrays.asList(new String[] {IacucProtocolSubmissionType.REQUEST_SUSPEND,
+                                                                    IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD,
+                                                                    IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE});
+        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
+        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
+        positiveFieldValues.put("submissionStatusCode", IacucProtocolSubmissionStatus.PENDING);
+        positiveFieldValues.put("submissionTypeCode", submissionTypes);
+        List<IacucProtocolSubmission> submissions = (List<IacucProtocolSubmission>)businessObjectService.findMatchingOrderBy(IacucProtocolSubmission.class, positiveFieldValues, "submissionNumber", false);
+        return submissions.size() > 0;
+    }
+
     /**
      * 
      * This method Check if protocol has a submission which is in statuscode (100,101,102, 201, 202)  

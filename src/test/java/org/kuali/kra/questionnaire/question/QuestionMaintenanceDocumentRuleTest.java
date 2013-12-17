@@ -27,6 +27,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
 
+import java.util.List;
+
 public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
 
     private QuestionMaintenanceDocumentRule rule = null;
@@ -297,7 +299,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
      * @param propertyKey
      */
     protected void assertError(String propertyKey) {
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
+        List errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
@@ -312,7 +314,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
      * @param errorKey
      */
     protected void assertError(String propertyKey, String errorKey) {
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
+        List errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

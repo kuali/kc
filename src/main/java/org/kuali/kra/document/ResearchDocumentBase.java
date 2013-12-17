@@ -18,6 +18,7 @@ package org.kuali.kra.document;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -45,6 +46,7 @@ import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -230,6 +232,34 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         return xmlWrapper; 
     }
 
+    /*
+     * Please keep in mind that the system checks for existing locks by matching the lock descriptor string  against 
+     * all the descriptors for the given document while creating new locks. So elements that change over the document's
+     * functional process, like updateTimeStamp should never be added to the lock descriptor since this will cause new locks to be created
+     * upon every save.
+     */
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+       
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            return this.getDocumentBoNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName(); 
+        }
+
+        return null;
+    }
+    
+    @Override
+    public boolean useCustomLockDescriptors() {
+        return true;
+    }
+
+    /*
+     * Gets the unique identifier of the BO associated with a document.
+     * Gets the proposalNumber, awardNumber, negotiationNumber etc.
+     */
+    public abstract String getDocumentBoNumber();
+    
     /**
      * Get the list of roles for the document along with each of the individuals in those roles.
      * This information will be serialized into XML for workflow routing purposes.  It is

@@ -21,4 +21,10 @@ public interface IacucConstants {
     public static final String PROTOCOL_ACTIONS_TAB = "iacucProtocolActions";
     public static final String NOTIFICATION_EDITOR = "iacucProtocolNotificationEditor";
 
+    public static final String PROCEDURE_PERSONNEL = "personnel";
+    public static final String PROCEDURE_LOCATION = "location";
+    public static final String PROCEDURE_SUMMARY = "summary";
+
+    public static final String EDIT_PROCEDURES = "editProcedures";
+
 }

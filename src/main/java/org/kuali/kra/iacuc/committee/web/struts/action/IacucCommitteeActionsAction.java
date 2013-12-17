@@ -22,8 +22,10 @@ import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.committee.web.struts.action.CommitteeActionsActionBase;
+import org.kuali.kra.common.printing.CorrespondencePrintingService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.dao.IacucCommitteeBatchCorrespondenceDao;
+import org.kuali.kra.iacuc.committee.print.service.IacucCommitteeCorrespondencePrint;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
 import org.kuali.kra.iacuc.committee.rule.event.IacucCommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeBatchCorrespondenceService;
@@ -65,6 +67,11 @@ public class IacucCommitteeActionsAction extends CommitteeActionsActionBase {
     @Override
     protected String getCommitteeDocumentTypeSimpleNameHook() {
         return "CommonCommitteeDocument";
+    }
+
+    @Override
+    protected CorrespondencePrintingService getCorrespondencePrintingService() {
+        return KraServiceLocator.getService(IacucCommitteeCorrespondencePrint.class); 
     }
 
 }

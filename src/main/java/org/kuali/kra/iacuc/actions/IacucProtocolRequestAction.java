@@ -42,16 +42,23 @@ public enum IacucProtocolRequestAction {
                                     "iacucProtocolLiftHoldRequestBean", 
                                     "Request to Lift Hold"), 
 
-//    /**
-//     * Request for suspension of a Protocol.
-//     */
+    /**
+     * Request for suspension of a Protocol.
+     */
     REQUEST_FOR_SUSPENSION         (IacucProtocolActionType.IACUC_REQUEST_SUSPEND, 
                                     TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION,
                                     Constants.PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY, 
                                     "iacucProtocolSuspendRequestBean", 
-                                    "Request for Suspension")
+                                    "Request for Suspension"),
                                   
-                                    ;
+    /**
+     * Withdraw a request to deactivate/suspend/lift hold on a Protocol.
+     */
+    WITHDRAW_SUBMISSION            (IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION,
+                                    TaskName.IACUC_WITHDRAW_SUBMISSION,
+                                    Constants.IACUC_WITHDRAW_SUBMISSION_PROPERTY_KEY, 
+                                    "iacucProtocolWithdrawSubmission", 
+                                    "Withdraw Submission Request");
     
     private final String actionTypeCode;
     private final String taskName;

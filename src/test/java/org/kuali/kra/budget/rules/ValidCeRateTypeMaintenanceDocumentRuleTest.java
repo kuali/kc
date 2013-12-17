@@ -29,6 +29,8 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
+import java.util.List;
+
 public class ValidCeRateTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private ValidCeRateTypeMaintenanceDocumentRule rule = null;
 
@@ -73,7 +75,7 @@ public class ValidCeRateTypeMaintenanceDocumentRuleTest extends MaintenanceRuleT
         validCeRateType.setCostElement("420111");
         MaintenanceDocument validCeRateTypeDocument = newMaintDoc(validCeRateType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCeRateTypeDocument));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
+        List errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
@@ -97,7 +99,7 @@ public class ValidCeRateTypeMaintenanceDocumentRuleTest extends MaintenanceRuleT
         validCeRateType.setCostElement("1x");
         MaintenanceDocument validCeRateTypeDocument = newMaintDoc(validCeRateType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCeRateTypeDocument));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.costElement");
+        List errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.costElement");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);

@@ -28,6 +28,8 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
+import java.util.List;
+
 public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private CustomAttributeDocumentMaintenanceDocumentRule rule = null;
 
@@ -85,7 +87,7 @@ public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends Maintena
         customAttributeDocument.setCustomAttributeId(new Integer(99));
         MaintenanceDocument customAttributeDocumentMaintDoc = newMaintDoc(customAttributeDocument);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(customAttributeDocumentMaintDoc));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID);
+        List errors = GlobalVariables.getMessageMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID);
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_INVALID_CUSTOM_ATT_ID);

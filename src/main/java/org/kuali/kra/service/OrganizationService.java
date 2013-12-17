@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.service;
 
+import org.kuali.kra.bo.IacucOrganizationCorrespondent;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationCorrespondent;
 
@@ -47,5 +48,14 @@ public interface OrganizationService {
      * null value is returned if organization not found
      */
     public List<OrganizationCorrespondent> retrieveOrganizationCorrespondentsByOrganizationId(String organizationId);
+    
+    /**
+     * This method returns a list of IacucOrganizationCorrespondent
+     * objects based on a passed organization id.
+     * @param organizationId identifier for the organization
+     * @return list of IacucOrganizationCorrespondent objects
+     * null value is returned if organization not found
+     */
+    public List<IacucOrganizationCorrespondent> retrieveIacucOrganizationCorrespondentsByOrganizationId(String organizationId); 
 
 }

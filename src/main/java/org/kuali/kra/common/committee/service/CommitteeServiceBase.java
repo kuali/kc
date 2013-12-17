@@ -71,13 +71,24 @@ public interface CommitteeServiceBase<CMT extends CommitteeBase<CMT, ?, CS>,
     
     /**
      * 
-     * This method to merge existing meeting data to the new approved committee to create a new list of
-     * master schedules. It will also delete from the db all the other schedules for that committee, 
+     * This method will merge existing meeting data into the new approved committee to create a new list of
+     * master schedules. It will also delete from the db all the other schedules for that committee 
      * that are not in the master list.
      * @param committeeId
      * @return
      */
-    List<CS>  mergeCommitteeSchedule(String committeeId);
+    List<CS> mergeCommitteeSchedule(String committeeId);
+    
+    
+    
+    /**
+     * This method will ensure that the committee back-links from each of the protocol submissions associated with the committee schedules 
+     * of the given committee are indeed pointing back to that committee. 
+     *  
+     * @param committeeId;
+     */
+    void updateCommitteeForProtocolSubmissions(CMT committee);
+    
     
     /**
      * This method will return a light-weight version of the committee instance returned by 

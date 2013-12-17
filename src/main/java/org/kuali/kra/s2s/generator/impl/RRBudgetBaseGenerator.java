@@ -43,6 +43,7 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -309,7 +310,10 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
                    budgetService.getMatchingLineItems(period.getBudgetLineItems(), participantSupportCode);
                int numberOfParticipants = period.getNumberOfParticipants() == null ? 0 : period.getNumberOfParticipants();
                if (!participantSupportLineItems.isEmpty() && numberOfParticipants == 0) {
-                   getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COUNT_REQUIRED));
+                   AuditError auditError= S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COUNT_REQUIRED);
+                   AuditError error= new AuditError(auditError.getErrorKey(),
+                          auditError.getMessageKey()+period.getBudgetPeriod(),auditError.getLink());
+                   getAuditErrors().add(error);
                    valid = false;
                } else if (numberOfParticipants > 0 && participantSupportLineItems.isEmpty()) {
                    getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COSTS_REQUIRED));

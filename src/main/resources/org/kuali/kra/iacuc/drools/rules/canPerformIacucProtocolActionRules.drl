@@ -20,7 +20,7 @@ end
 rule "Assign to Committee" 
 salience 100
 when
-    	protocolAction : IacucProtocolActionMapping(actionTypeCode == "109", submissionStatusCode in ("101","102"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "109", submissionStatusCode in ("101","102"))
 then	
 	setAction(protocolAction, true);
 end
@@ -392,3 +392,13 @@ when
 then    
     setAction(protocolAction, true);
 end
+
+
+rule "Withdraw Submission Request"
+salience 100
+when
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200","201","202","305","306"), anySubmissionRequests == true)
+then	
+	setAction(protocolAction, true);
+end
+        

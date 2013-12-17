@@ -19,6 +19,7 @@ import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -33,6 +34,7 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -84,7 +86,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
                 hasInvestigator = true;
             }
         }
-        retval &= validateYesNoQuestions((ProposalDevelopmentDocument) document);
+        //retval &= validateYesNoQuestions((ProposalDevelopmentDocument) document);
         
         if (hasInvestigator) {
             retval &= validateCreditSplit((ProposalDevelopmentDocument) document);
@@ -101,88 +103,6 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
                         ERROR_ERA_COMMON_USER_NAME, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()}));
             retval = false;
         }
-        return retval;
-    }
-       
-    /**
-     * Yes/No questions have to be submitted to Grants.gov on document route. If the submitter has not completed the certifications,
-     * errors should be displayed in audit mode. This does validation by iterating over each investigator until the PI is found.
-     * The PI Yes/No questions are then checked for completeness. 
-     * 
-     * @param document
-     * @return boolean true if the submitter has not completed the certifications
-     */
-    private boolean validateYesNoQuestions(ProposalDevelopmentDocument document) {
-        boolean retval = true;
-        int count = 0;
-        AuditError error = null;
-        final String errorStarter = "proposalPersonQuestionnaireHelpers[";
-        final String errorFinish = "].answerHeaders[0].answers[0].answer";
-        final String errorLink = KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR;
-        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            if (shouldValidateYesNoQuestions(person) && !validateYesNoQuestions(person)) {
-                retval = false;
-                String errorKey = errorStarter + count + errorFinish;
-                
-                /**
-                 * This is so the error displays on the audit log.
-                 */
-                error = new AuditError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE, 
-                        errorLink, new String[]{person.getFullName()});
-                getAuditErrors().add(error);
-                
-                /**
-                * this is for displaying the error on the applicable tab.
-                */
-                reportError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
-                        new String[]{person.getFullName()});
-            }
-            count++;
-        }
-        return retval;
-    }
-    
-    private boolean shouldValidateYesNoQuestions(ProposalPerson person) {
-        boolean retval = false;
-        if (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)
-                || person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)) {
-            retval = true;
-        }
-        else if (person.getProposalPersonRoleId().equals(KEY_PERSON_ROLE) && isNotBlank(person.getOptInCertificationStatus())
-                && person.getOptInCertificationStatus().equals("Y")) {
-            retval = true;
-        }
-        return retval;
-    }
-    
-    
-    /**
-     * Yes/No questions have to be submitted to Grants.gov on document route. If the submitter has not completed the certifications,
-     * errors should be displayed in audit mode.<br/> 
-     * <br/>
-     * This method differs from <code>{@link #validateYesNoQuestions(ProposalDevelopmentDocument)}</code> that it refers to a specific person.
-     * If any one of the Yes/No Questions is not completed, then this check will fail.
-     * 
-     * 
-     * @param investigator Proposal Investigator
-     * @return true if the given PI's Yes/No Questions are completed
-     */
-    private boolean validateYesNoQuestions(ProposalPerson investigator) {
-        boolean retval = true;
-        
-        ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(investigator.getDevelopmentProposal(), investigator);
-        List<AnswerHeader> headers = KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
-        
-        for (AnswerHeader head : headers) {
-            retval &= head.getCompleted();
-        }
-        /*
-        for (ProposalPersonYnq question : investigator.getProposalPersonYnqs()) {
-           
-            retval &= isNotBlank(question.getAnswer());
-        }
-        */
-               
         return retval;
     }
 
@@ -335,4 +255,5 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         
         return retval;
     }
+
 }
