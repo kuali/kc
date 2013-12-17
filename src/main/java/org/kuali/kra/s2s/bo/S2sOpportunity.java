@@ -37,8 +37,10 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 
     private String opportunity;
 
+    // opportunityId was changed to fundingOpportunityNumber in V2
     private String opportunityId;
 
+    // this is fundingOpportunityTitle in V2
     private String opportunityTitle;
 
     private String revisionCode;
@@ -48,6 +50,14 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
     private String s2sSubmissionTypeCode;
 
     private String schemaUrl;
+    
+    private String offeringAgency;
+    
+    private String agencyContactInfo;
+    
+    private String cfdaDescription;
+    
+    private boolean isMultiProject;
 
     private List<S2sOppForms> s2sOppForms;
 
@@ -205,4 +215,45 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
     public void setS2sProvider(S2sProvider s2sProvider) {
         this.s2sProvider = s2sProvider;
     }
+
+    public String getFundingOpportunityNumber() {
+        return opportunityId;
+    }
+
+    public void setFundingOpportunityNumber(String fundingOpportunityNumber) {
+        this.opportunityId = fundingOpportunityNumber;
+    }
+
+    public String getOfferingAgency() {
+        return offeringAgency;
+    }
+
+    public void setOfferingAgency(String offeringAgency) {
+        this.offeringAgency = offeringAgency;
+    }
+
+    public String getAgencyContactInfo() {
+        return agencyContactInfo;
+    }
+
+    public void setAgencyContactInfo(String agencyContactInfo) {
+        this.agencyContactInfo = agencyContactInfo;
+    }
+
+    public String getCfdaDescription() {
+        return cfdaDescription;
+    }
+
+    public void setCfdaDescription(String cfdaDescription) {
+        this.cfdaDescription = cfdaDescription;
+    }
+
+    public boolean isMultiProject() {
+        return isMultiProject;
+    }
+
+    public void setMultiProject(boolean isMultiProject) {
+        this.isMultiProject = isMultiProject;
+    }
+    
 }

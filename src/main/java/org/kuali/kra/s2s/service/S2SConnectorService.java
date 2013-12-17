@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.s2s.service;
 
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListResponse;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationStatusDetailResponse;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetOpportunityListResponse;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationResponse;
 import org.kuali.kra.s2s.S2SException;
+
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse;
+import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationResponse;
 
 import javax.activation.DataHandler;
 import java.util.Map;
@@ -40,7 +41,7 @@ public interface S2SConnectorService {
      *         competition Id.
      * @throws S2SException
      */
-    public GetOpportunityListResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
+    public GetOpportunitiesResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
             throws S2SException;
 
     /**

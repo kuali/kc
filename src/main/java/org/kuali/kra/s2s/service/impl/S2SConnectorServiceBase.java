@@ -15,10 +15,7 @@ kc * Copyright 2005-2013 The Kuali Foundation.
  */
 package org.kuali.kra.s2s.service.impl;
 
-import gov.grants.apply.webservices.applicantintegrationservices_v1.*;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListRequest.ApplicationFilter;
-import gov.grants.apply.webservices.applicantintegrationservices_v1_0.ApplicantIntegrationPortType;
-import gov.grants.apply.webservices.applicantintegrationservices_v1_0.ErrorMessage;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.attachment.AttachmentImpl;
@@ -39,6 +36,18 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SConnectorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRequest;
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailRequest;
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesRequest;
+import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse;
+import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationRequest;
+import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationResponse;
+import gov.grants.apply.services.applicantwebservices_v2_0.ApplicantWebServicesPortType;
+import gov.grants.apply.services.applicantwebservices_v2_0.ErrorMessage;
+import gov.grants.apply.system.grantscommonelements_v1.ApplicationFilter;
 
 import javax.activation.DataHandler;
 import javax.net.ssl.KeyManager;
@@ -84,15 +93,30 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @see org.kuali.kra.s2s.service.S2SConnectorService#getOpportunityList(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
-    public GetOpportunityListResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
+    /*
+     * ApplicantWebServicesPortType port = getApplicantPort();
+            GetOpportunitiesRequest request = new GetOpportunitiesRequest();
+            
+            request.setFundingOpportunityNumber( oppId );
+            request.setCFDANumber( cfda );
+            request.setCompetitionID( compId );
+     * GetOpportunitiesResponse response = port.getOpportunities(request);
+            List <OpportunityInfo> oppInfoList = response.getOpportunityInfo();
+            if( oppInfoList != null && oppInfoList.size() > 0) {    
+                StringBuilder sb = new StringBuilder();
+                for ( OpportunityInfo info : oppInfoList ) {
+     */
+    public GetOpportunitiesResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
             throws S2SException {
-        ApplicantIntegrationPortType port = configureApplicantIntegrationSoapPort(null,false);
-        GetOpportunityListRequest getOpportunityListRequest = new GetOpportunityListRequest();
+        ApplicantWebServicesPortType port = configureApplicantIntegrationSoapPort(null,false);
+        GetOpportunitiesRequest getOpportunityListRequest = new GetOpportunitiesRequest();
+        
         getOpportunityListRequest.setCFDANumber(cfdaNumber);
         getOpportunityListRequest.setCompetitionID(competitionId);
-        getOpportunityListRequest.setOpportunityID(opportunityId);
+        getOpportunityListRequest.setFundingOpportunityNumber(opportunityId);
+        
         try {
-            return port.getOpportunityList(getOpportunityListRequest);
+            return port.getOpportunities(getOpportunityListRequest);
         }catch(SOAPFaultException soapFault){
             LOG.error("Error while getting list of opportunities", soapFault);
             if(soapFault.getMessage().indexOf("Connection refused")!=-1){
@@ -117,7 +141,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      */
     public GetApplicationStatusDetailResponse getApplicationStatusDetail(String ggTrackingId, String proposalNumber)
             throws S2SException {
-        ApplicantIntegrationPortType port = getApplicantIntegrationSoapPort(proposalNumber);
+        ApplicantWebServicesPortType port = getApplicantIntegrationSoapPort(proposalNumber);
         GetApplicationStatusDetailRequest applicationStatusDetailRequest = new GetApplicationStatusDetailRequest();
         applicationStatusDetailRequest.setGrantsGovTrackingNumber(ggTrackingId);
         try {
@@ -158,7 +182,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         applicationFilter.setFilter(KEY_SUBMISSION_TITLE);
         applicationFilter.setFilterValue(proposalNumber);
         filterList.add(applicationFilter);
-        ApplicantIntegrationPortType port = getApplicantIntegrationSoapPort(proposalNumber);
+        ApplicantWebServicesPortType port = getApplicantIntegrationSoapPort(proposalNumber);
         try {
             return port.getApplicationList(applicationListRequest);
         }
@@ -181,7 +205,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
     public SubmitApplicationResponse submitApplication(String xmlText, 
                     Map<String, DataHandler> attachments, String proposalNumber)
             throws S2SException {
-        ApplicantIntegrationPortType port = getApplicantIntegrationSoapPort(proposalNumber);
+        ApplicantWebServicesPortType port = getApplicantIntegrationSoapPort(proposalNumber);
         Client client = ClientProxy.getClient(port);
         Iterator<String> it = attachments.keySet().iterator();
         final List<Attachment> atts = new ArrayList<Attachment>();
@@ -218,7 +242,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @return ApplicantIntegrationPortType Soap port used for applicant integration.
      * @throws S2SException
      */
-    protected ApplicantIntegrationPortType getApplicantIntegrationSoapPort(String proposalNumber) throws S2SException {
+    protected ApplicantWebServicesPortType getApplicantIntegrationSoapPort(String proposalNumber) throws S2SException {
         Map<String, String> proposalMap = new HashMap<String, String>();
         proposalMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
         DevelopmentProposal pdDoc = (DevelopmentProposal) businessObjectService.findByPrimaryKey(
@@ -237,14 +261,17 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @return ApplicantIntegrationPortType Soap port used for applicant integration.
      * @throws S2SException
      */
-    protected ApplicantIntegrationPortType configureApplicantIntegrationSoapPort(String alias,boolean mulitCampusEnabled)
+    protected ApplicantWebServicesPortType configureApplicantIntegrationSoapPort(String alias,boolean mulitCampusEnabled)
                                                                                 throws S2SException {
         System.clearProperty("java.protocol.handler.pkgs");
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        
         factory.setAddress(getS2SSoapHost());
-        factory.setServiceClass(ApplicantIntegrationPortType.class);
-        ApplicantIntegrationPortType applicantWebService = (ApplicantIntegrationPortType)factory.create();
+        factory.setServiceClass(ApplicantWebServicesPortType.class);
+        // enabling mtom from V2 onwards
+        Map<String,Object> properties = new HashMap<String, Object>();
+        properties.put("mtom-enabled", Boolean.TRUE);
+        factory.setProperties(properties);
+        ApplicantWebServicesPortType applicantWebService = (ApplicantWebServicesPortType)factory.create();
       
         Client client = ClientProxy.getClient(applicantWebService); 
         HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();

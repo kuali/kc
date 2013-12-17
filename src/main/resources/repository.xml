@@ -955,6 +955,10 @@
 		<field-descriptor name="s2sSubmissionTypeCode" column="S2S_SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="schemaUrl" column="SCHEMA_URL" jdbc-type="VARCHAR"/>
 		<field-descriptor name="providerCode" column="PROVIDER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="offeringAgency" column="OFFERING_AGENCY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="agencyContactInfo" column="AGENCY_CONTACT_INFO" jdbc-type="VARCHAR"/>
+		<field-descriptor name="cfdaDescription" column="CFDA_DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="isMultiProject" column="MULTI_PROJECT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
