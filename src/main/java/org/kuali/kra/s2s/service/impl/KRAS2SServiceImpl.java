@@ -15,12 +15,17 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse.ApplicationInfo;
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse.OpportunityInfo;
+import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationResponse;
 import gov.grants.apply.system.globalV10.HashValueDocument.HashValue;
 import gov.grants.apply.system.headerV10.GrantSubmissionHeaderDocument.GrantSubmissionHeader;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.GrantApplication;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.GrantApplication.Forms;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.*;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -228,16 +233,16 @@ public class KRAS2SServiceImpl implements S2SService {
 
 		if (appSubmission != null) {
 			boolean statusChanged = false;
-			if (applicationListResponse.getApplicationInformation() == null
-					|| applicationListResponse.getApplicationInformation()
+			if (applicationListResponse.getApplicationInfo() == null
+					|| applicationListResponse.getApplicationInfo()
 							.size() == 0) {
 				statusChanged = checkForSubmissionStatusChange(pdDoc,
 						appSubmission);
 			} else {
 				int appSize = applicationListResponse
-						.getApplicationInformation().size();
-				ApplicationInformationType ggApplication = applicationListResponse
-						.getApplicationInformation().get(appSize - 1);
+						.getApplicationInfo().size();
+				ApplicationInfo ggApplication = applicationListResponse
+						.getApplicationInfo().get(appSize - 1);
 				if (ggApplication != null) {
 					statusChanged = !appSubmission.getStatus()
 							.equalsIgnoreCase(
@@ -296,7 +301,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @param ggApplication
 	 */
 	public void populateAppSubmission(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
-			ApplicationInformationType ggApplication) {
+			ApplicationInfo ggApplication) {
 		appSubmission.setGgTrackingId(ggApplication
 				.getGrantsGovTrackingNumber());
 		appSubmission
@@ -365,6 +370,18 @@ public class KRAS2SServiceImpl implements S2SService {
 	 */
 	public List<S2sOpportunity> searchOpportunity(String providerCode, String cfdaNumber,
 			String opportunityId, String competitionId) throws S2SException {
+	    
+	    //The OpportunityID and CompetitionID element definitions were changed from a string with 
+	    //a length between 1 and 100 (StringMin1Max100Type) to an uppercase alphanumeric value with a maximum length 
+	    //of 40 characters ([A-Z0-9\-]{1,40}).
+        opportunityId = StringUtils.upperCase(opportunityId);
+	    opportunityId = StringUtils.isBlank(opportunityId) ? null : opportunityId;
+	    
+	    cfdaNumber = StringUtils.isBlank(cfdaNumber) ? null : cfdaNumber;
+	    
+	    competitionId = StringUtils.upperCase(competitionId);
+	    competitionId = StringUtils.isBlank(competitionId) ? null : competitionId;
+	    
 	    S2sProvider provider = businessObjectService.findBySinglePrimaryKey(S2sProvider.class, providerCode);
 	    if (provider == null) {
 	        throw new S2SException("An invalid provider code was provided when attempting to search for opportunities.");
@@ -727,14 +744,13 @@ public class KRAS2SServiceImpl implements S2SService {
 	 */
 
 	protected ArrayList<S2sOpportunity> convertToArrayList(String source,
-			GetOpportunityListResponse resList) {
+			GetOpportunitiesResponse resList) {
 		ArrayList<S2sOpportunity> convList = new ArrayList<S2sOpportunity>();
-		if (resList == null || resList.getOpportunityInformation() == null) {
+		if (resList == null || resList.getOpportunityInfo() == null) {
 			return convList;
 		}
-		for (OpportunityInformationType opportunityInformationType : resList
-				.getOpportunityInformation()) {
-			convList.add(convert2S2sOpportunity(source, opportunityInformationType));
+		for (OpportunityInfo opportunityInfo : resList.getOpportunityInfo()) {
+			convList.add(convert2S2sOpportunity(source, opportunityInfo));
 		}
 		return convList;
 	}
@@ -748,26 +764,35 @@ public class KRAS2SServiceImpl implements S2SService {
 	 *         to the OpportunityInformationType object.
 	 */
 	protected S2sOpportunity convert2S2sOpportunity(
-			String providerCode, OpportunityInformationType oppInfoType) {
+			String providerCode, OpportunityInfo oppInfo) {
+	    
 		S2sOpportunity s2Opportunity = new S2sOpportunity();
-		s2Opportunity.setCfdaNumber(oppInfoType.getCFDANumber());
+		s2Opportunity.setCfdaNumber(oppInfo.getCFDANumber());
 		s2Opportunity
-				.setClosingDate(oppInfoType.getClosingDate() == null ? null
-						: new java.sql.Timestamp(oppInfoType.getClosingDate()
+				.setClosingDate(oppInfo.getClosingDate() == null ? null
+						: new java.sql.Timestamp(oppInfo.getClosingDate()
 								.toGregorianCalendar().getTimeInMillis()));
-		s2Opportunity.setCompetetionId(oppInfoType.getCompetitionID());
-		s2Opportunity.setInstructionUrl(oppInfoType.getInstructionURL());
+		
+		s2Opportunity.setCompetetionId(oppInfo.getCompetitionID());
+		s2Opportunity.setInstructionUrl(oppInfo.getInstructionsURL());
 		s2Opportunity
-				.setOpeningDate(oppInfoType.getOpeningDate() == null ? null
-						: new java.sql.Timestamp(oppInfoType.getOpeningDate()
+				.setOpeningDate(oppInfo.getOpeningDate() == null ? null
+						: new java.sql.Timestamp(oppInfo.getOpeningDate()
 								.toGregorianCalendar().getTimeInMillis()));
-		s2Opportunity.setOpportunityId(oppInfoType.getOpportunityID());
-		s2Opportunity.setOpportunityTitle(oppInfoType.getOpportunityTitle());
-		s2Opportunity.setSchemaUrl(oppInfoType.getSchemaURL());
+		
+		s2Opportunity.setOpportunityId(oppInfo.getFundingOpportunityNumber());
+		s2Opportunity.setOpportunityTitle(oppInfo.getFundingOpportunityTitle());
+		s2Opportunity.setSchemaUrl(oppInfo.getSchemaURL());
 		s2Opportunity.setProviderCode(providerCode);
+		s2Opportunity.setOfferingAgency(oppInfo.getOfferingAgency());
+		s2Opportunity.setAgencyContactInfo(oppInfo.getAgencyContactInfo());
+		s2Opportunity.setCfdaDescription(oppInfo.getCFDADescription());
+		s2Opportunity.setMultiProject(oppInfo.isIsMultiProject());
+
 		return s2Opportunity;
 	}
 
+	
 	/**
 	 * This method is to set businessObjectService
 	 * 

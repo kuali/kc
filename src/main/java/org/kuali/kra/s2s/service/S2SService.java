@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.s2s.service;
 
-import gov.grants.apply.webservices.applicantintegrationservices_v1.ApplicationInformationType;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListResponse;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -25,6 +23,9 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.rice.kns.util.AuditError;
+
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse.ApplicationInfo;
 
 import java.util.List;
 
@@ -143,7 +144,7 @@ public interface S2SService {
 	 * @param ggApplication
 	 */
 	public void populateAppSubmission(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
-			ApplicationInformationType ggApplication);
+			ApplicationInfo ggApplication);
 	
 	/**
 	 * 
