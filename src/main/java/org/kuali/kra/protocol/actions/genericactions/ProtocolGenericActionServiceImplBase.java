@@ -75,7 +75,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
 
     protected ProtocolActionBase createProtocolActionAndAttach(ProtocolBase protocol, ProtocolGenericActionBean actionBean, String protocolActionType) {
         protocol.refreshReferenceObject("protocolSubmission");
-        ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, null, protocolActionType);
+        ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, protocol.getProtocolSubmission(), protocolActionType);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
