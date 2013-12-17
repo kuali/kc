@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.protocol;
 
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.protocol.ProtocolNumberServiceImplBase;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
@@ -89,22 +90,14 @@ public class ProtocolNumberServiceImpl extends ProtocolNumberServiceImplBase imp
         }
         return s;
     }
-    
-    /**
-     * Get the next database sequence number. Not sure what would happen if
-     * multiple threads were to call this method at the same time to access 
-     * the database sequence.  Therefore, it is synchronzied to prevent any
-     * possible conflicts.
-     * @return the next database sequence number
-     */
-    protected synchronized Long getSequenceNumber() {
-        // TODO the constant SEQUENCE_NAME is now replaced by a hook invocation in the refactored parent code
-        return sequenceAccessorService.getNextAvailableSequenceNumber(SEQUENCE_NAME);
-    }
 
     @Override
     protected String getSequenceNameHook() {
         return SEQUENCE_NAME;
+    }
+    
+    protected Class getSequenceOwnerClass() {
+        return Protocol.class;
     }
     
     

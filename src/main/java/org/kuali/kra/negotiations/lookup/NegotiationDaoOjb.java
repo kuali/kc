@@ -207,7 +207,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
             Integer searchResultsLimit = getNegotiatonSearchResultsLimit();
             if (!unbounded && (searchResultsLimit != null)) {
                 matchingResultsCount = new Long(getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(businessObjectClass, criteria)));
-                getDbPlatform().applyLimit(searchResultsLimit, criteria);
+                getDbPlatform().applyLimitSql(searchResultsLimit);
             }
             if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
                 matchingResultsCount = new Long(0);

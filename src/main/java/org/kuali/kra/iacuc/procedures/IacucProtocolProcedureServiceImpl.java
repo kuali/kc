@@ -84,7 +84,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
                 newStudyGroupDetailBean.setIacucProcedurePersonsResponsible(new ArrayList<IacucProcedurePersonResponsible>());
                 newStudyGroupDetailBean.setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
 
-                newStudyGroupDetailBean.setIacucProtocolStudyGroupDetailId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_DETAIL_SEQUENCE_ID));
+                newStudyGroupDetailBean.setIacucProtocolStudyGroupDetailId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_DETAIL_SEQUENCE_ID, newStudyGroupDetailBean.getClass()));
                 newStudyGroupDetailBean.setIacucProtocolStudyGroupHeaderId(newStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
 
                 List<IacucProtocolStudyGroup> studyGroups = new ArrayList<IacucProtocolStudyGroup>();
@@ -392,7 +392,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             IacucProtocol protocol) { 
         newIacucProtocolStudyGroupLocation.setStudyGroupLocationId(getNextStudyGroupLocationId(protocolStudyGroup));
         newIacucProtocolStudyGroupLocation.setIacucProtocolStudyGroupId(protocolStudyGroup.getIacucProtocolStudyGroupId());
-        newIacucProtocolStudyGroupLocation.setIacucProtocolStudyGroupLocationId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_LOCATION_SEQUENCE_ID));
+        newIacucProtocolStudyGroupLocation.setIacucProtocolStudyGroupLocationId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_LOCATION_SEQUENCE_ID, newIacucProtocolStudyGroupLocation.getClass()));
         newIacucProtocolStudyGroupLocation.setProtocolId(protocol.getProtocolId());
         newIacucProtocolStudyGroupLocation.setProtocolNumber(protocol.getProtocolNumber());
         newIacucProtocolStudyGroupLocation.setSequenceNumber(protocol.getSequenceNumber());
@@ -643,7 +643,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      */
     private void setAttributesForNewProcedurePersonResponsible(IacucProcedurePersonResponsible personResponsible, 
             IacucProtocolStudyGroup studyGroup, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean) {
-        personResponsible.setIacucProcedurePersonResponsibleId(getNextSequenceNumber(PROTOCOL_PERSON_RESPONSIBLE_SEQUENCE_ID));
+        personResponsible.setIacucProcedurePersonResponsibleId(getNextSequenceNumber(PROTOCOL_PERSON_RESPONSIBLE_SEQUENCE_ID, personResponsible.getClass()));
         personResponsible.setIacucProtocolStudyGroupId(studyGroup.getIacucProtocolStudyGroupId());
         personResponsible.setProtocolNumber(selectedProtocolStudyGroupBean.getProtocolNumber());
         personResponsible.setSequenceNumber(selectedProtocolStudyGroupBean.getSequenceNumber());
@@ -737,7 +737,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             speciesAndGroups.add(protocolSpecies.getGroupAndSpecies());
             iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups().add(iacucProtocolStudyGroup);
         }
-        iacucProtocolStudyGroupDetailBean.setIacucProtocolStudyGroupDetailId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_DETAIL_SEQUENCE_ID));
+        iacucProtocolStudyGroupDetailBean.setIacucProtocolStudyGroupDetailId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_DETAIL_SEQUENCE_ID, iacucProtocolStudyGroupDetailBean.getClass()));
         iacucProtocolStudyGroupDetailBean.setIacucProtocolStudyGroupHeaderId(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
         iacucProtocolStudyGroupDetailBean.setSpeciesCode(speciesCode);
         iacucProtocolStudyGroupDetailBean.setMaxPainCategory(painCategory.last().getPainCategory());
@@ -764,7 +764,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
 
     private void setAttributesForNewProtocolStudyGroup(IacucProtocolStudyGroup iacucProtocolStudyGroup, 
             IacucProtocolStudyGroupDetailBean studyGroupDetailBean, IacucProtocol protocol) {
-        iacucProtocolStudyGroup.setIacucProtocolStudyGroupId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_SEQUENCE_ID));
+        iacucProtocolStudyGroup.setIacucProtocolStudyGroupId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_SEQUENCE_ID, iacucProtocolStudyGroup.getClass()));
         iacucProtocolStudyGroup.setIacucProtocolStudyGroupDetailId(studyGroupDetailBean.getIacucProtocolStudyGroupDetailId());
         iacucProtocolStudyGroup.setStudyGroupId(getNextStudyGroupId(protocol));
         iacucProtocolStudyGroup.setPainCategory(studyGroupDetailBean.getMaxPainCategory());
@@ -902,7 +902,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * @param protocol
      */
     private void setAttributesForNewStudyGroupBean(IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean, IacucProtocol protocol) {
-        selectedIacucProtocolStudyGroupBean.setIacucProtocolStudyGroupHeaderId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_HEADER_SEQUENCE_ID));
+        selectedIacucProtocolStudyGroupBean.setIacucProtocolStudyGroupHeaderId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_HEADER_SEQUENCE_ID, selectedIacucProtocolStudyGroupBean.getClass()));
         selectedIacucProtocolStudyGroupBean.setProtocolId(protocol.getProtocolId());
         selectedIacucProtocolStudyGroupBean.setProtocolNumber(protocol.getProtocolNumber());
         selectedIacucProtocolStudyGroupBean.setSequenceNumber(protocol.getSequenceNumber());
@@ -1001,7 +1001,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      */
     private void updateAttributesForNewProcedureCustomData(IacucProtocolStudyCustomData newIacucProtocolStudyCustomData, 
             IacucProtocol protocol, IacucProtocolStudyGroup protocolStudyGroup) { 
-        newIacucProtocolStudyCustomData.setIacucProtocolStudyCustomDataId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_CUSTOM_DATA_SEQUENCE_ID));
+        newIacucProtocolStudyCustomData.setIacucProtocolStudyCustomDataId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_CUSTOM_DATA_SEQUENCE_ID, newIacucProtocolStudyCustomData.getClass()));
         newIacucProtocolStudyCustomData.setProtocolId(protocol.getProtocolId());
         newIacucProtocolStudyCustomData.setProtocolNumber(protocol.getProtocolNumber());
         newIacucProtocolStudyCustomData.setSequenceNumber(protocol.getSequenceNumber());
@@ -1023,8 +1023,8 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * This is the primary key
      * @return
      */
-    private Integer getNextSequenceNumber(String sequenceKey) {
-        return getSequenceAccessorService().getNextAvailableSequenceNumber(sequenceKey).intValue();
+    private Integer getNextSequenceNumber(String sequenceKey, Class boClass) {
+        return getSequenceAccessorService().getNextAvailableSequenceNumber(sequenceKey, boClass).intValue();
     }
 
     public SequenceAccessorService getSequenceAccessorService() {

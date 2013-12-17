@@ -215,9 +215,9 @@
         <property name="serviceName" value="persistenceStructureServiceOjb" />
     </bean>
     
-    <bean id="persistenceStructureServiceJpa" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="persistenceStructureServiceJpa" />
-    </bean> 
+    <bean id="legacyDataAdapter" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">                    
+        <property name="serviceName" value="legacyDataAdapter" />                                                                 
+    </bean>
     
     <bean id="personService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="personService" />
@@ -427,32 +427,7 @@
         </property>
     </bean>
     
-    <bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl">
-        <property name="documentDao">
-            <ref bean="documentDao"/>
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService"/>
-        </property>
-        <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService"/>
-        </property>
-        <property name="documentHeaderService">
-            <ref bean="documentHeaderService"/>
-        </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService"/>
-        </property>
-        <property name="noteService">
-            <ref bean="noteService"/>
-        </property>
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService"/>
-        </property>
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService"/>
-        </property>
-    </bean>
+    <bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl"/>
     
     <bean id="documentDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="documentDao" />
@@ -575,7 +550,6 @@
     </bean>
     
     <bean id="kraPersistenceStructureService" class="org.kuali.kra.service.impl.KraPersistenceStructureServiceImpl" >
-        <property name="persistenceStructureServiceJpa" ref="persistenceStructureServiceJpa" />
         <property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
     </bean>
     

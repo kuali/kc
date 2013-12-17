@@ -27,6 +27,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRendererBase;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -157,7 +158,7 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
     
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+            businessObjectService = KNSServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
     }

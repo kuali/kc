@@ -123,7 +123,7 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         fixNextValues(protocolDocument, newProtocolDocument);
         fixActionSequenceNumbers(protocolDocument.getProtocol(), newProtocol);
         
-        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getProtocolSequenceIdHook());
+        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getProtocolSequenceIdHook(), newProtocol.getClass());
         newProtocol.setProtocolId(nextProtocolId);
 
         for (ProtocolPersonBase person : newProtocol.getProtocolPersons()) {

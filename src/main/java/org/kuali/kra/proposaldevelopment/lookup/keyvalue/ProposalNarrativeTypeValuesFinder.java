@@ -27,9 +27,9 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.*;
 
@@ -153,7 +153,7 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
      * @return
      */
     private BusinessObjectService getBusinessObjectService() {
-        return KRADServiceLocator.getBusinessObjectService();
+        return KNSServiceLocator.getBusinessObjectService();
     }
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
         Map<String, String> pk = new HashMap<String, String>();

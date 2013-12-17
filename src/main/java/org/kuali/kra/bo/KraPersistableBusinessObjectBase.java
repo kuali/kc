@@ -22,6 +22,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -69,7 +70,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     @SuppressWarnings("unchecked")
     protected void postPersist() {
         if (temporaryExtension != null) {
-            List<String> fieldNames = getPersistenceStructureService().listPrimaryKeyFieldNames(getClass());
+            List<String> fieldNames = KNSServiceLocator.getPersistenceStructureService().listPrimaryKeyFieldNames(getClass());
             try {
                 for (String fieldName : fieldNames) {
                     try {

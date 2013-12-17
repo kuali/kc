@@ -54,6 +54,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +68,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     private static final String DOCUMENT_DESCRIPTION_FIELD_NAME = "documentDescription";
     
     AwardNumberService awardNumberService;
-    BusinessObjectService businessObjectService;
+    LegacyDataAdapter legacyDataAdapter;
     DocumentService documentService;
     VersioningService versioningService;
     VersionHistoryService versionHistoryService; 
@@ -234,7 +235,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         String rootAwardNumber = StringUtils.equals(Award.DEFAULT_AWARD_NUMBER, anyNode.getRootAwardNumber()) ? anyNode.getAwardNumber() : anyNode.getRootAwardNumber(); 
         values.put("rootAwardNumber", rootAwardNumber);
         values.put("active", true);
-        List<AwardHierarchy> hierarchyList = (List<AwardHierarchy>) businessObjectService.findMatchingOrderBy(AwardHierarchy.class, values, "awardNumber", true);
+        List<AwardHierarchy> hierarchyList = (List<AwardHierarchy>) legacyDataAdapter.findMatchingOrderBy(AwardHierarchy.class, values, "awardNumber", true);
 
         if (!hierarchyList.isEmpty()) {
             for (AwardHierarchy hierarchy : hierarchyList) {
@@ -299,7 +300,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      */
     public void persistAwardHierarchy(AwardHierarchy node) {
         if(node.isNew()) {            // only save new nodes; no updates or deletes
-            businessObjectService.save(node);
+            legacyDataAdapter.save(node);
         }
     }
 
@@ -341,14 +342,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      */
     public void setAwardNumberService(AwardNumberService awardNumberService) {
         this.awardNumberService = awardNumberService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /**
@@ -449,7 +442,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     protected ReportClass getPaymentAndInvoicesReportClass() {
         Map param = new HashMap();
         param.put("DESCRIPTION", "Payment/Invoice");
-        ReportClass reportClass = (ReportClass) this.businessObjectService.findMatching(ReportClass.class, param).iterator().next();
+        ReportClass reportClass = (ReportClass) legacyDataAdapter.findMatching(ReportClass.class, param).iterator().next();
         return reportClass;
     }
 
@@ -519,12 +512,12 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      */
     DocumentHeader findPlaceholderDocumentHeader() {
         @SuppressWarnings("unchecked")
-        Collection c = businessObjectService.findMatching(DocumentHeader.class, getDocumentDescriptionCriteriaMap());
+        Collection c = legacyDataAdapter.findMatching(DocumentHeader.class, getDocumentDescriptionCriteriaMap());
         return !c.isEmpty() ? (DocumentHeader) c.iterator().next() : null;
     }
 
     AwardHierarchy loadSingleAwardHierarchyNode(String awardNumber) {
-        return (AwardHierarchy) businessObjectService.findByPrimaryKey(AwardHierarchy.class, getAwardHierarchyCriteriaMap(awardNumber));
+        return (AwardHierarchy) legacyDataAdapter.findByPrimaryKey(AwardHierarchy.class, getAwardHierarchyCriteriaMap(awardNumber));
     }
 
     Map<String, Object> getDocumentDescriptionCriteriaMap() {
@@ -642,7 +635,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     private Award getAwardFromDatabase(String awardNumber) {
         Map<String, String> map = new HashMap<String,String>();
         map.put("awardNumber", awardNumber);
-        List<Award> awardList = ((List<Award>)businessObjectService.findMatchingOrderBy(Award.class, map, "sequenceNumber", true));
+        List<Award> awardList = ((List<Award>)legacyDataAdapter.findMatchingOrderBy(Award.class, map, "sequenceNumber", true));
         Award returnVal = awardList.get(awardList.size()-1);
         return returnVal;
     }
@@ -814,6 +807,14 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    protected LegacyDataAdapter getLegacyDataAdapter() {
+        return legacyDataAdapter;
+    }
+
+    public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
+        this.legacyDataAdapter = legacyDataAdapter;
     }
     
 }
