@@ -322,7 +322,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
     
     public String getNextInstitutionalProposalNumber() {
-        Long nextProposalNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE);
+        Long nextProposalNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE, InstitutionalProposal.class);
         DecimalFormat formatter = new DecimalFormat(DECIMAL_FORMAT);
         String nextProposalNumberAsString = formatter.format(nextProposalNumber);
         return nextProposalNumberAsString;

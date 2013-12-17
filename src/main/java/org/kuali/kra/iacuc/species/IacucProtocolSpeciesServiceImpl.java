@@ -72,7 +72,7 @@ public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesServ
      * @return
      */
     private Integer getNextProtocolSpeciesSequence() {
-        return getSequenceAccessorService().getNextAvailableSequenceNumber(PROTOCOL_SPECIES_SEQUENCE_ID).intValue();
+        return getSequenceAccessorService().getNextAvailableSequenceNumber(PROTOCOL_SPECIES_SEQUENCE_ID, IacucProtocolSpecies.class).intValue();
     }
 
     /**

@@ -55,14 +55,11 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
     private ConfigurationService kualiConfigurationService;
 
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncUtilityService#getLogsFromSaveErrors(org.kuali.kra.award.home.Award, org.kuali.kra.award.home.Award)
-     */
     @SuppressWarnings("unchecked")
     public List<AwardSyncLog> getLogsFromSaveErrors(AwardSyncStatus awardStatus) {
         List<AwardSyncLog> result = new ArrayList<AwardSyncLog>();
-        Map<String, AutoPopulatingList<ErrorMessage>> errors = GlobalVariables.getMessageMap().getErrorMessages();
-        for (Map.Entry<String, AutoPopulatingList<ErrorMessage>> entry : errors.entrySet()) {
+        Map<String, ? extends List<ErrorMessage>> errors = GlobalVariables.getMessageMap().getErrorMessages();
+        for (Map.Entry<String, ? extends List<ErrorMessage>> entry : errors.entrySet()) {
             Iterator<ErrorMessage> iter = entry.getValue().iterator();
             while (iter.hasNext()) {
                 ErrorMessage curMessage = iter.next();

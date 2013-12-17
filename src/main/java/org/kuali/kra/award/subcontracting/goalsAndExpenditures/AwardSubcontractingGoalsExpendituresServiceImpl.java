@@ -16,6 +16,7 @@
 package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -68,7 +69,7 @@ public class AwardSubcontractingGoalsExpendituresServiceImpl implements AwardSub
 
     public BusinessObjectService getBusinessObjectService() {
         if (this.businessObjectService == null) {
-            this.businessObjectService = KRADServiceLocator.getBusinessObjectService();
+            this.businessObjectService = KNSServiceLocator.getBusinessObjectService();
         }
         return this.businessObjectService;
     }

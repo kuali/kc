@@ -73,7 +73,7 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
         this.setEntityNumber(personFinIntDisclosure.getEntityNumber());
         this.setEntitySequenceNumber(personFinIntDisclosure.getSequenceNumber());
         // TODO : not sure about disclosuredetailnumber & expirationdate
-        Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISC_DETAILS_ID");
+        Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISC_DETAILS_ID", getClass());
         this.setCoiDiscDetailNumber(nextNumber.intValue());
 
     } 

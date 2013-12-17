@@ -22,6 +22,7 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationContract;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -71,7 +72,7 @@ public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityServic
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+            businessObjectService = KNSServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
     }

@@ -118,7 +118,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
         ProtocolBase protocol = protocolDocument.getProtocol();
         protocol.setProtocolNumber(getProtocolNumberServiceHook().generateProtocolNumber());
         protocol.setSequenceNumber(0);
-        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook());
+        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook(), protocol.getClass());
         protocol.setProtocolId(nextProtocolId);
 
         protocol.setTitle(developmentProposal.getTitle());

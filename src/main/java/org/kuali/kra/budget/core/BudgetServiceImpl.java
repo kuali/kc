@@ -64,6 +64,7 @@ import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -193,7 +194,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     
     @Override
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        LegacyDataAdapter boService = KraServiceLocator.getService(LegacyDataAdapter.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", budgetVersion.getDocumentNumber());
         DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);

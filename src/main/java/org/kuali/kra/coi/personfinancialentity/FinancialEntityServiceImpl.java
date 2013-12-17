@@ -343,7 +343,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getNextEntityNumber()
      */
     public String getNextEntityNumber() {
-        return sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_ENTITY_NUMBER_S").toString(); // sequence #
+        return sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_ENTITY_NUMBER_S", PersonFinIntDisclosure.class).toString(); // sequence #
 
     }
 

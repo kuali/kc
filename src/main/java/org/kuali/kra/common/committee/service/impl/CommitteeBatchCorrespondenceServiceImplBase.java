@@ -213,7 +213,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
                 protocol, protocolCorrespondenceType, committeeBatchCorrespondenceDetail.getProtocolAction()));
         committeeBatchCorrespondenceDetail.setProtocolCorrespondenceId(committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getId());
         committeeBatchCorrespondenceDetail.setCommitteeBatchCorrespondenceDetailId(KraServiceLocator.getService(SequenceAccessorService.class)
-                .getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID"));
+                .getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID", committeeBatchCorrespondenceDetail.getClass()));
 
         return committeeBatchCorrespondenceDetail;
     }

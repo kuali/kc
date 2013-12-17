@@ -398,7 +398,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public void initCoiDisclosureNumber() {
         // TODO : not sure about disclosurenumber & expirationdate
         if (StringUtils.isBlank(this.getCoiDisclosureNumber())) {
-            Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISCL_NUMBER");
+            Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISCL_NUMBER", CoiDisclosure.class);
             setCoiDisclosureNumber(nextNumber.toString());
         }
         

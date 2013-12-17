@@ -172,7 +172,7 @@ public class SubAwardServiceImpl implements SubAwardService {
 	/** {@inheritDoc} */
     public String getNextSubAwardCode() {
  Long nextAwardNumber = sequenceAccessorService.
- getNextAvailableSequenceNumber(Constants.SUBAWARD_SEQUENCE_SUBAWARD_CODE);
+ getNextAvailableSequenceNumber(Constants.SUBAWARD_SEQUENCE_SUBAWARD_CODE, SubAward.class);
 
         return nextAwardNumber.toString();
     }
