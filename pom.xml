@@ -1936,102 +1936,6 @@ module of int tests -->
                 </plugins>
             </build>
         </profile>
-
-	  <profile>
-      <id>monitoring</id>
-      <properties>
-        <monitoring.filter>
-          <![CDATA[
-<filter>
-    <filter-name>monitoring</filter-name>
-    <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
-    <init-param>
-        <param-name>log</param-name>
-        <param-value>true</param-value>
-    </init-param>
-    <init-param>
-             <param-name>system-actions-enabled</param-name>
-             <param-value>true</param-value>
-    </init-param>
-    <init-param>
-              <param-name>url-exclude-pattern</param-name>
-              <param-value>/static/.*|/kr/static/.*|/kr/images/.*|/images-portal/.*</param-value>
-    </init-param>
-</filter>
-          ]]>
-        </monitoring.filter>
-        <monitoring.mapping>
-          <![CDATA[
-<filter-mapping>
-    <filter-name>monitoring</filter-name>
-    <url-pattern>/*</url-pattern>
-</filter-mapping>
-          ]]>
-        </monitoring.mapping>
-        <monitoring.listener>
-          <![CDATA[
-<listener>
-    <listener-class>net.bull.javamelody.SessionListener</listener-class>
-</listener>
-          ]]>
-        </monitoring.listener>
-		<monitoring.spring.import>
-			<![CDATA[
-<import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
-          		]]>
-		</monitoring.spring.import>
-          <monitoring.spring.service>
-			<![CDATA[
-<import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
-<bean id="facadeMonitoringAdvisor" class="net.bull.javamelody.MonitoringSpringAdvisor" />
-          		]]>
-		</monitoring.spring.service>
-      </properties>
-      <build>
-      </build>
-          <dependencies>
-              <!-- javamelody-core -->
-              <dependency>
-                  <groupId>net.bull.javamelody</groupId>
-                  <artifactId>javamelody-core</artifactId>
-                  <version>${javamelody-core.version}</version>
-              </dependency>
-              <!-- itext, option to add PDF export -->
-              <dependency>
-                  <groupId>com.lowagie</groupId>
-                  <artifactId>itext</artifactId>
-                  <version>${itext.version}</version>
-                  <exclusions>
-                      <exclusion>
-                          <artifactId>bcmail-jdk14</artifactId>
-                          <groupId>bouncycastle</groupId>
-                      </exclusion>
-                      <exclusion>
-                          <artifactId>bcprov-jdk14</artifactId>
-                          <groupId>bouncycastle</groupId>
-                      </exclusion>
-                      <exclusion>
-                          <artifactId>bctsp-jdk14</artifactId>
-                          <groupId>bouncycastle</groupId>
-                      </exclusion>
-                  </exclusions>
-              </dependency>
-
-              <dependency>
-                  <groupId>org.apache.pdfbox</groupId>
-                  <artifactId>pdfbox</artifactId>
-                  <version>${pdfbox.version}</version>
-                  <exclusions>
-                      <exclusion>
-                          <groupId>commons-logging</groupId>
-                          <artifactId>commons-logging</artifactId>
-                      </exclusion>
-                  </exclusions>
-              </dependency>
-          </dependencies>
-    </profile>
-	  
-        
 	</profiles>
 
     <repositories>
@@ -2118,7 +2022,6 @@ module of int tests -->
         <gg-system.version>1.0</gg-system.version>
         <hamcrest-library.version>1.3</hamcrest-library.version>
         <itext.version>2.1.7</itext.version>
-        <javamelody-core.version>1.31.0</javamelody-core.version>
         <javax.servlet.version>3.0.0.v201112011016</javax.servlet.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
         <jetty8.version>8.1.13.v20130916</jetty8.version>
@@ -2167,7 +2070,6 @@ module of int tests -->
         <xmlbeans.version>2.4.0</xmlbeans.version>
         <extra-enforcer-rules.version>1.0-beta-1</extra-enforcer-rules.version>
 
-
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
         <jetty-maven-plugin8.groupId>org.mortbay.jetty</jetty-maven-plugin8.groupId>
@@ -2205,7 +2107,7 @@ module of int tests -->
         <enforcer.phase>validate</enforcer.phase>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.java.version>1.6</project.java.version>
+        <project.java.version>1.7</project.java.version>
         <!-- These are used by multiple plugins (compiler, javadoc, xref, etc) -->
         <project.compile.source>${project.java.version}</project.compile.source>
         <project.compile.target>${project.java.version}</project.compile.target>
@@ -2224,12 +2126,5 @@ module of int tests -->
         <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
         <account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>
         <budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>
-
-        <monitoring.filter/>
-        <monitoring.mapping/>
-        <monitoring.listener/>
-        <monitoring.spring.import/>
-        <monitoring.spring.service/>
-
     </properties>
 </project>
