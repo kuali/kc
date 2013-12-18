@@ -21,6 +21,7 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -75,7 +76,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
                                                  String protocolWithdrawnSubmissionStatusCode) throws Exception {        
         
         ProtocolSubmissionBase submission = getSubmission(protocol);
-        ProtocolActionBase protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, protocolWithdrawnActionTypeCode);
+        ProtocolActionBase protocolAction = new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) submission, protocolWithdrawnActionTypeCode);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
 
