@@ -657,10 +657,11 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     /**
      * @see org.kuali.kra.iacuc.actions.IacucProtocolActionRequestService#submitForReview(org.kuali.kra.iacuc.IacucProtocolForm)
      */
-    public void submitForReview(IacucProtocolForm protocolForm) throws Exception {
+    public void submitForReview(IacucProtocolForm protocolForm, List<ProtocolReviewerBeanBase> reviewers) throws Exception {
         IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
         IacucProtocol protocol = protocolDocument.getIacucProtocol();
         IacucProtocolSubmitAction submitAction = (IacucProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();
+        submitAction.setReviewers(reviewers);
         getProtocolSubmitActionService().submitToIacucForReview(protocol, submitAction);
         generateActionCorrespondence(IacucProtocolActionType.SUBMITTED_TO_IACUC, protocolForm.getProtocolDocument().getProtocol());
         // first, send out notification that protocol has been submitted
