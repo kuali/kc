@@ -1333,7 +1333,7 @@ System.out.println("fetching the one that matters...");
                 }
                 if (submission != null) {
                     submission.setSubmissionStatusCode(IacucProtocolSubmissionStatus.WITHDRAWN);
-                    IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, null, IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION);
+                    IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, (IacucProtocolSubmission) submission, IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION);
                     protocolAction.setComments(requestBean.getReason());
                     protocolAction.setActionDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
                     protocolAction.setSubmissionIdFk(submission.getSubmissionId());

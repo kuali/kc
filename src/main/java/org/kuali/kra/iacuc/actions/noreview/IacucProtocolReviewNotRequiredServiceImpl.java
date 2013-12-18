@@ -19,6 +19,7 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -57,7 +58,7 @@ public class IacucProtocolReviewNotRequiredServiceImpl implements IacucProtocolR
      */
     public void reviewNotRequired(IacucProtocolDocument protocolDocument, IacucProtocolReviewNotRequiredBean actionBean) {
         IacucProtocol protocol = protocolDocument.getIacucProtocol();
-        IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, null, IacucProtocolActionType.IACUC_REVIEW_NOT_REQUIRED);
+        IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, (IacucProtocolSubmission) protocol.getProtocolSubmission(), IacucProtocolActionType.IACUC_REVIEW_NOT_REQUIRED);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
