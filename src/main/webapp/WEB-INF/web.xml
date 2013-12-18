@@ -16,8 +16,6 @@
       <param-value>classpath:kc-bootstrap-springbeans.xml</param-value>
     </context-param>
     
-    ${monitoring.filter}
-    
 	<filter>
 	    <filter-name>HttpRequestLogger</filter-name>
 	    <filter-class>org.kuali.rice.core.RequestLoggingFilter</filter-class>
@@ -52,8 +50,6 @@
     <filter-name>DummyLoginFilter</filter-name>
     <filter-class>org.kuali.rice.krad.web.filter.DummyLoginFilter</filter-class>
   </filter>
-
-	${monitoring.mapping}
 
     <filter-mapping>
 	    <filter-name>HttpRequestLogger</filter-name>
@@ -181,8 +177,6 @@
   </filter-mapping>
 
   <!-- ******************* End Logging Filters ********************* -->
-  
-  ${monitoring.listener}
   
   <listener>
     <listener-class>org.kuali.kra.infrastructure.KraServiceLocatorListener</listener-class>
