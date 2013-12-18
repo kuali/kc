@@ -217,16 +217,11 @@
                                 </requirePluginVersions>
 
                                 <banCircularDependencies/>
-                                <!--
-                                Commenting out for now.  This is likely due to our "hacked" launched scripts
-                                with invalid jars on the classpath.  Then scripts should be converted to m2e
-                                launch scripts rather than java launch scripts.
 
-                                http://jira.codehaus.org/browse/MOJO-1980
                                 <enforceBytecodeVersion>
                                     <maxJdkVersion>${enforcer.max.jdk.version}</maxJdkVersion>
                                 </enforceBytecodeVersion>
-                                -->
+
                                 <!--
                                 When upgrading to rice 1.1 it is recommended to merge in the banned dependencies from rice's parent pom.
                                 This way we do not have to do all the analysis done in rice for lib upgrades/jdk6 support all over again.
@@ -346,7 +341,7 @@
                     <dependency>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>extra-enforcer-rules</artifactId>
-                        <version>1.0-beta-1</version>
+                        <version>${extra-enforcer-rules.version}</version>
                     </dependency>
                 </dependencies>
 			</plugin>
@@ -2140,7 +2135,7 @@ module of int tests -->
         <struts.version>1.3.10</struts.version>
         <xalan.version>2.7.1</xalan.version>
         <xmlbeans.version>2.4.0</xmlbeans.version>
-        <extra-enforcer-rules.version>1.0-beta-1</extra-enforcer-rules.version>
+        <extra-enforcer-rules.version>1.0-beta-2</extra-enforcer-rules.version>
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
