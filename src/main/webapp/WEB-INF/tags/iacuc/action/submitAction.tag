@@ -21,6 +21,8 @@
 
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 
+${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolSubmitAction.numberOfReviewers")}
+<html:hidden styleId="numberOfReviewers" property="actionHelper.iacucProtocolSubmitAction.numberOfReviewers" value="${fn:length(KualiForm.actionHelper.iacucProtocolSubmitAction.reviewers)}"></html:hidden>
 <kul:innerTab tabTitle="Submit for Review" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSubmitAction*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -128,7 +130,12 @@
 		                                	<c:when test="${KualiForm.actionHelper.canAssignReviewersCmtSel}">
 				                            	<kul:htmlControlAttribute property="actionHelper.iacucProtocolSubmitAction.scheduleId" 
 				                                	                      attributeEntry="${attributes.scheduleId}"
-				                                    	                  onchange="displayReviewers(${KualiForm.document.protocol.protocolId})" />
+				                                    	                  onchange="protocolDisplayReviewers('getProtocolReviewers', 'actionHelper.iacucProtocolSubmitAction.committeeId', 
+				                                    	                  'actionHelper.iacucProtocolSubmitAction.scheduleId', ${KualiForm.document.protocol.protocolId}, 
+				                                    	                  'iacucProtocolSubmitAction'); 
+				                                    	                  setDefaultReviewerTypeCode('getProtocolReviewers', 'actionHelper.iacucProtocolSubmitAction.committeeId', 
+				                                    	                  'actionHelper.iacucProtocolSubmitAction.scheduleId', ${KualiForm.document.protocol.protocolId}, 
+				                                    	                  'iacucProtocolSubmitAction')" />
 				                        	</c:when>
 				                        	<c:otherwise>
 				                            	<kul:htmlControlAttribute property="actionHelper.iacucProtocolSubmitAction.scheduleId" 
@@ -146,7 +153,7 @@
 	                    </tr>
                 
                         <c:choose>
-		                    <c:when test="${empty KualiForm.actionHelper.iacucProtocolSubmitAction.scheduleId}">
+		                    <c:when test="${KualiForm.actionHelper.reviewersDisplayToBeSuppressed}">
 		                        <tr id="reviewers" style="display: none">
 		                    </c:when>
 		                    <c:otherwise>
@@ -173,6 +180,16 @@
 						                       	        <td style="border: 0 none">
 						                       	            <kul:htmlControlAttribute property="actionHelper.iacucProtocolSubmitAction.reviewer[${status.index}].reviewerTypeCode"
 		                                                                                 attributeEntry="${reviewerAttributes.reviewerTypeCode}"/>
+
+														
+                                                        <html:hidden property="actionHelper.iacucProtocolSubmitAction.reviewer[${status.index}].personId" 
+                                                        			value="${reviewer.personId}" />
+                                                        			
+                                                        <html:hidden property="actionHelper.iacucProtocolSubmitAction.reviewer[${status.index}].fullName" 
+                                                        			value="${reviewer.fullName}" />
+                                                        			
+                                                        <html:hidden property="actionHelper.iacucProtocolSubmitAction.reviewer[${status.index}].nonEmployeeFlag" 
+                                                        			value="${reviewer.nonEmployeeFlag}" />						                        
 										                </td>
 										            </tr>
 						                       	</c:forEach>
@@ -189,6 +206,15 @@
 						                             	<td style="border: 0 none">
 						                        	        <kul:htmlControlAttribute property="actionHelper.iacucProtocolSubmitAction.reviewer[${status.index + numLeftReviewers}].reviewerTypeCode"
 		                                                                              attributeEntry="${reviewerAttributes.reviewerTypeCode}"/>
+
+                                                        <html:hidden property="actionHelper.iacucProtocolSubmitAction.reviewer[${status.index + numLeftReviewers}].personId" 
+                                                        			value="${reviewer.personId}" />
+                                                        			
+                                                        <html:hidden property="actionHelper.iacucProtocolSubmitAction.reviewer[${status.index + numLeftReviewers}].fullName" 
+                                                        			value="${reviewer.fullName}" />
+                                                        			
+                                                        <html:hidden property="actionHelper.iacucProtocolSubmitAction.reviewer[${status.index + numLeftReviewers}].nonEmployeeFlag" 
+                                                        			value="${reviewer.nonEmployeeFlag}" />						                        
 											            </td>
 											        </tr>
 						                        </c:forEach>
@@ -202,41 +228,6 @@
 	              
                 </c:if>
 
-<%--                
-                 <c:choose>
-	                <c:when test="${KualiForm.actionHelper.iacucProtocolSubmitAction.protocolReviewTypeCode == '3'}">
-	                	<tr id="exemptStudiesCheckList">
-	                </c:when>
-	                <c:otherwise>
-	                    <tr id="exemptStudiesCheckList" style="display:none">
-	                </c:otherwise>
-                </c:choose>
-             
-                	<th>
-                	    <div align="right">
-                            *Checklist<br/>(Exempt)
-                        </div>
-                    </th>
-                	<td colspan="3" style="padding: 0">
-                	   	<table cellpadding="0" cellspacing="0" summary=""> 
-				            <tbody>
-			                	<c:forEach items="${KualiForm.actionHelper.iacucProtocolSubmitAction.exemptStudiesCheckList}" var="item" varStatus="status">
-			                		<tr>
-                                        <td style="border-left: 0 none; border-right: 1 none; align: center; vertical-align:center">
-	                                        <kul:htmlControlAttribute property="actionHelper.iacucProtocolSubmitAction.exemptStudiesCheckList[${status.index}].checked"
-	                                                                  attributeEntry="${exemptAttributes.checked}" />
-	                                       
-                                        </td>
-                                        <td style="border-left: 1 none; border-right: 0 none; padding: 5px ">
-                                            <kra:truncateComment textAreaFieldName="actionHelper.iacucProtocolSubmitAction.exemptStudiesCheckList[${status.index}].description" action="protocolProtocolActions" textAreaLabel="CheckList Item" textValue="${item.description}" displaySize="250"/>
-                                        </td>
-                                    </tr>
-								</c:forEach>
-							</tbody>
-						</table>
-                	</td>
-                </tr>
---%>               
                 <tr>
 					<td align="center" colspan="4">
 						<div align="center">

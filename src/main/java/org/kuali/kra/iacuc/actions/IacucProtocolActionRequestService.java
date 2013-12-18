@@ -284,9 +284,10 @@ public interface IacucProtocolActionRequestService extends ProtocolActionRequest
     /**
      * This method to submit protocol for review
      * @param protocolForm
+     * @param reviewers
      * @throws Exception
      */
-    public void submitForReview(IacucProtocolForm protocolForm) throws Exception;
+    public void submitForReview(IacucProtocolForm protocolForm, List<ProtocolReviewerBeanBase> reviewers) throws Exception;
 
     /**
      * This method to create amendment
