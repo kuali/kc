@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.eclipse.jetty.orbit:javax.el:2.2.0.v201303151357">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jetty/orbit/javax.el/2.2.0.v201303151357/javax.el-2.2.0.v201303151357.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jetty/orbit/javax.el/2.2.0.v201303151357/javax.el-2.2.0.v201303151357-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jetty/orbit/javax.el/2.2.0.v201303151357/javax.el-2.2.0.v201303151357-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

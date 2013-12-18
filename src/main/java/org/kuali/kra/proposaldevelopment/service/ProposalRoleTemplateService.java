@@ -30,4 +30,6 @@ public interface ProposalRoleTemplateService {
      * @param doc
      */
     public void addUsers(ProposalDevelopmentDocument doc);
+    
+    public void initializeProposalUsers(ProposalDevelopmentDocument doc);
 }

@@ -402,7 +402,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 .getOldMaintainableObject().getDataObject();
         versionQuestionnaire(questionnaire, oldQuestionnaire);
         Long questionnaireRefId = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber(
-                "SEQ_QUESTIONNAIRE_REF_ID"); 
+                "SEQ_QUESTIONNAIRE_REF_ID", questionnaire.getClass()); 
         questionnaire.setQuestionnaireRefIdFromLong(questionnaireRefId);
         // inherit from previous version when start editing
 //        questionnaire.setIsFinal(false);

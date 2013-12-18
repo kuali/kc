@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.protocol.protocol.ProtocolNumberServiceImplBase;
 
 public class IacucProtocolNumberServiceImpl extends ProtocolNumberServiceImplBase implements IacucProtocolNumberService {
@@ -22,6 +23,10 @@ public class IacucProtocolNumberServiceImpl extends ProtocolNumberServiceImplBas
     @Override
     protected String getSequenceNameHook() {
         return "SEQ_IACUC_PROTOCOL_ID";
+    }
+    
+    protected Class getSequenceOwnerClass() {
+        return IacucProtocol.class;
     }
 
 }

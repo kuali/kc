@@ -53,10 +53,19 @@
         <property name="serviceName" value="awardBudgetService" />
     </bean>
 
-	<bean id="budgetLockService" class="org.kuali.kra.budget.service.impl.BudgetLockServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
+    <bean id="dataDictionaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataDictionaryService" />
+    </bean>
+    
+    <bean id="dataObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataObjectService" />
+    </bean>    
 
+	<bean id="budgetLockService" class="org.kuali.kra.budget.service.impl.BudgetLockServiceImpl">
+		<property name="dataDictionaryService" ref="dataDictionaryService"/>
+		<property name="dataObjectService" ref="dataObjectService"/>
+	</bean>
+	
 	<bean id="budgetSummaryService" class="org.kuali.kra.budget.summary.BudgetSummaryServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

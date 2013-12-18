@@ -72,7 +72,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
      */
     public void addProtocolPerson(ProtocolBase protocol, ProtocolPersonBase protocolPerson) {
 
-        Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber(getSequenceNumberNameHook()).intValue();
+        Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber(getSequenceNumberNameHook(), protocolPerson.getClass()).intValue();
         protocolPerson.setProtocolPersonId(nextPersonId);
         //TODO - How to handle protocol number and sequence number
         protocolPerson.setProtocolNumber(protocol.getProtocolNumber());

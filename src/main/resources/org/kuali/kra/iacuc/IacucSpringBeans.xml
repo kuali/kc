@@ -1028,8 +1028,7 @@
 
 	<bean id="iacucProtocolProposalDevelopmentDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentDocumentServiceImpl">
     </bean>
-    
-    
+
     <bean id="iacucProtocolGenericActionService" class="org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionServiceImpl">
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="documentService" ref="documentService" />
@@ -1101,9 +1100,14 @@
 	</bean>
 
     <bean id="iacucProtocolProposalDevelopmentProtocolDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl">
+        <property name="documentService" ref="documentService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="iacucProtocolNumberService" ref="iacucProtocolNumberService" />
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+        <property name="iacucProtocolPersonnelService" ref="iacucProtocolPersonnelService" />	
+        <property name="parameterService" ref="parameterService" />
     </bean> 
 
     <bean id="iacucProtocolSpecialReviewService" class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewServiceImpl">
