@@ -151,7 +151,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         newDoc.getProtocol().setSequenceNumber(0);
 
         newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
-        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook());
+        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook(), newDoc.getProtocol().getClass());
         newDoc.getProtocol().setProtocolId(nextProtocolId);
         
         copyOverviewProperties(srcDoc, newDoc);
@@ -217,7 +217,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
      */
     private void initPersonId(ProtocolBase protocol) {
         for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
-            Integer nextPersonId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook()).intValue();
+            Integer nextPersonId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook(), person.getClass()).intValue();
             person.setProtocolPersonId(nextPersonId);
         }
     }

@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.util.Collection;
 
@@ -49,7 +50,7 @@ public class NegotiationsMaintainableImpl extends KraMaintainableImpl {
     }
     
     private void validateCode(NegotiationsGroupingBase negotiationBase, boolean isNew) {
-        Collection<? extends NegotiationsGroupingBase> dbCollection = this.getBusinessObjectService().findAll(negotiationBase.getClass());
+        Collection<? extends NegotiationsGroupingBase> dbCollection = KNSServiceLocator.getBusinessObjectService().findAll(negotiationBase.getClass());
         
         for (NegotiationsGroupingBase dbBase : dbCollection) {
             if (isNew) {

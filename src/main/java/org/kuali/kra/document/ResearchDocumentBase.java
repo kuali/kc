@@ -39,6 +39,7 @@ import org.kuali.rice.krad.document.TransactionalDocumentBase;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.DocumentInitiator;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
@@ -88,10 +89,10 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         if (this.getVersionNumber() == null) this.setVersionNumber(new Long(0));
         
         // Since we aren't doing optimistic locking, might need to update doc header's version number
-        DocumentHeader dbDocHeader = (DocumentHeader) getService(BusinessObjectService.class).retrieve(this.getDocumentHeader());
-        if (dbDocHeader != null) {
-            this.getDocumentHeader().setVersionNumber(dbDocHeader.getVersionNumber());
-        }
+        //DocumentHeader dbDocHeader = (DocumentHeader) getService(LegacyDataAdapter.class).retrieve(this.getDocumentHeader());
+        //if (dbDocHeader != null) {
+        //    this.getDocumentHeader().setVersionNumber(dbDocHeader.getVersionNumber());
+        //}
     }
 
     @Override

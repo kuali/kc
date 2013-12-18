@@ -21,6 +21,7 @@ import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBas
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentSpecialReviewService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -35,9 +36,8 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     private static final long serialVersionUID = 8832539481443727887L;
 
-    private static final String PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER = "irb.protocol.development.proposal.linking.enabled";
-    private static final String IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER = "iacuc.protocol.proposal.development.linking.enabled";
     private ProposalDevelopmentForm form;
+    private ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
     
     /**
      * Constructs a SpecialReviewHelper.
@@ -56,12 +56,12 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
-        return getParameterService().getParameterValueAsBoolean(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+        return getProposalDevelopmentSpecialReviewService().isIrbLinkingEnabled();
     }
 
     @Override
     protected boolean isIacucProtocolLinkingEnabledForModule() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, PARAMETER_CODE, IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER);
+        return getProposalDevelopmentSpecialReviewService().isIacucLinkingEnabled();
     }
 
     @Override
@@ -71,20 +71,12 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     @Override
     public boolean isCanCreateIrbProtocol() {
-        boolean canCreateIrbProtocol=false;
-        // check for Protocol creation permission for IRB Protocol
-        ProposalTask irbTask = new ProposalTask(ProposalTask.CREATE_IRB_PROTOCOL_FROM_PROPOSAL, form.getProposalDevelopmentDocument());
-        canCreateIrbProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), irbTask);
-        return canCreateIrbProtocol;
+        return getProposalDevelopmentSpecialReviewService().canCreateIrbProtocol(form.getProposalDevelopmentDocument());
     }
 
     @Override
     public boolean isCanCreateIacucProtocol() {
-        boolean canCreateIacucProtocol=false;
-        // check for Protocol creation permission for IACUC Protocol
-        ProposalTask iacucTask = new ProposalTask(ProposalTask.CREATE_IACUC_PROTOCOL_FROM_PROPOSAL, form.getProposalDevelopmentDocument());
-        canCreateIacucProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), iacucTask);
-        return canCreateIacucProtocol;
+        return getProposalDevelopmentSpecialReviewService().canCreateIacucProtocol(form.getProposalDevelopmentDocument());
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -114,4 +106,17 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
             form.getProposalDevelopmentDocument().getDevelopmentProposal().setPropSpecialReviews(propSpecialReviewFilteredList);
        }
    }
+
+    public ProposalDevelopmentSpecialReviewService getProposalDevelopmentSpecialReviewService() {
+        if (proposalDevelopmentSpecialReviewService == null) {
+            proposalDevelopmentSpecialReviewService = KraServiceLocator.getService(ProposalDevelopmentSpecialReviewService.class);
+        }
+        return proposalDevelopmentSpecialReviewService;
+    }
+
+    public void setProposalDevelopmentSpecialReviewService(
+            ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService) {
+        this.proposalDevelopmentSpecialReviewService = proposalDevelopmentSpecialReviewService;
+    }
+
 }

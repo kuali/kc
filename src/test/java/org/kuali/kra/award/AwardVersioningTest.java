@@ -17,6 +17,7 @@ package org.kuali.kra.award;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.commitments.AwardCostShare;
@@ -75,6 +76,7 @@ public class AwardVersioningTest extends KcUnitTestBase {
      * @see org.kuali.kra.KraTestBase#setUp()
      */
     @Override
+    @Before
     public void setUp() throws Exception {
        super.setUp();
        GlobalVariables.setUserSession(new UserSession("quickstart"));
@@ -83,7 +85,7 @@ public class AwardVersioningTest extends KcUnitTestBase {
        locateServices();
        initializeAward();
        AwardDocument originalDocument = initializeNewDocument(awards.get(0));       
-       saveDocument(originalDocument);       
+       saveDocument(originalDocument);
     }
 
     /**

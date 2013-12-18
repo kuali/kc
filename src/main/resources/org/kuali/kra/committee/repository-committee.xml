@@ -94,10 +94,10 @@
     	<collection-descriptor name="committeeList" proxy="true" element-class-ref="org.kuali.kra.committee.bo.Committee" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
-    	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-        	<foreignkey field-ref="documentNumber" />
-    	</reference-descriptor>
-	</class-descriptor>
+        <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="documentNumber" />
+        </reference-descriptor>
+  </class-descriptor>
 	
 <!-- 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembershipType" table="COMM_MEMBERSHIP_TYPE"> -->
 <!--         <field-descriptor name="membershipTypeCode" column="MEMBERSHIP_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" /> -->

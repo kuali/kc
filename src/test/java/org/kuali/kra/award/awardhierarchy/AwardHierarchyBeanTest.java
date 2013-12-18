@@ -30,6 +30,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class AwardHierarchyBeanTest {
     @Before
     public void setUp() throws Exception {
         service = new AwardHierarchyServiceImpl();
-        service.setBusinessObjectService(getMockBusinessObjectService());
+        service.setLegacyDataAdapter(getMockBusinessObjectService());
         service.setDocumentService(getMockDocumentService());
         rootAward = new Award();
         rootAward.setAwardNumber(ROOT_AWARD_NUMBER);
@@ -93,8 +94,8 @@ public class AwardHierarchyBeanTest {
 
     }
     
-    private BusinessObjectService getMockBusinessObjectService() {
-        final BusinessObjectService service = context.mock(BusinessObjectService.class);
+    private LegacyDataAdapter getMockBusinessObjectService() {
+        final LegacyDataAdapter service = context.mock(LegacyDataAdapter.class);
 
         context.checking(new Expectations() {{
             Map<String, Object> fieldValues = ServiceHelper.getInstance().buildCriteriaMap("documentDescription", AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);

@@ -31,6 +31,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
 
+import java.util.List;
+
 public class KcPersonExtendedAttributesMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private KcPersonExtendedAttributesMaintenanceDocumentRule rule = null;
 
@@ -77,7 +79,7 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRuleTest extends Maint
         assertEquals(0, eMap.getErrorCount());
         assertFalse(rule.processSaveDocument(kcPesonExtendedAttribuesDocument));
         assertEquals(1, eMap.getErrorCount());
-        AutoPopulatingList errors = eMap.getErrorMessagesForProperty(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "principalId");
+        List errors = eMap.getErrorMessagesForProperty(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "principalId");
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
     }

@@ -99,6 +99,7 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 	</bean>
 
 	<bean id="printService"

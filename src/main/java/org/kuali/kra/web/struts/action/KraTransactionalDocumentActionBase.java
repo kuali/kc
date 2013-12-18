@@ -62,6 +62,7 @@ import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.WebUtils;
@@ -410,7 +411,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
     
     private List<PessimisticLock> findMatchingLocksWithGivenDescriptor(String lockDescriptor) {
-        BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
         Map fieldValues = new HashMap();
         fieldValues.put("lockDescriptor", lockDescriptor);
         List<PessimisticLock> matchingLocks = (List<PessimisticLock>) boService.findMatching(PessimisticLock.class, fieldValues);
@@ -788,7 +789,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
             throw buildAuthorizationException("open", doc);
         }
-        KRADServiceLocatorWeb.getSessionDocumentService().addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
+        KNSServiceLocator.getSessionDocumentService().addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
     }
     
     
@@ -821,7 +822,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
             throw buildAuthorizationException("open", doc);
         }
-        KRADServiceLocatorWeb.getSessionDocumentService().addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
+        KNSServiceLocator.getSessionDocumentService().addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
     }
 
     /*

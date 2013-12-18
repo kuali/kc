@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
@@ -37,7 +38,7 @@ public class AwardNumberServiceImpl implements AwardNumberService {
     
     @Override
     public String getNextAwardNumber() {
-        Long nextAwardNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.AWARD_SEQUENCE_AWARD_NUMBER);
+        Long nextAwardNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.AWARD_SEQUENCE_AWARD_NUMBER, Award.class);
         
         // Use Coeus' xxxxxx-yyy format for compatibility
         DecimalFormat formatter = new DecimalFormat("000000");        

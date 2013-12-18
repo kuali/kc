@@ -23,6 +23,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KeyValuesService;
 
@@ -67,7 +68,7 @@ public class IacucProtocolOnlineReviewTypesNotDeterminationValuesFinder extends 
 
     protected KeyValuesService getKeyValuesService() {
         if (keyValuesService == null) {
-            keyValuesService =  KRADServiceLocator.getKeyValuesService();
+            keyValuesService =  KNSServiceLocator.getKeyValuesService();
         }
         return keyValuesService;
     }

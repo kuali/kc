@@ -166,7 +166,7 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
     }
     
     protected void setNewProtocolId(ProtocolBase newProtocol) {
-        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getProtocolSequenceIdHook());
+        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getProtocolSequenceIdHook(), newProtocol.getClass());
         newProtocol.setProtocolId(nextProtocolId);
     }
     

@@ -54,7 +54,6 @@ public interface Constants {
     public static final String MAPPING_PROPOSAL_MEDUSA_PAGE = "proposalMedusa";
     public static final String MAPPING_PROPOSAL_APPROVER_PAGE = "approverView";
     public static final String MAPPING_PROPOSAL_DISPLAY_INACTIVE = "displayInactive";
-    public static final String NEW_PERSON_LOOKUP_FLAG = "newPersonLookupFlag";
     public static final String MAPPING_CLOSE_PAGE = "closePage";
     public static final String MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE = "attachmentRights";
     public static final String MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE = "instituteAttachmentRights";

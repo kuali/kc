@@ -669,8 +669,8 @@ public class BudgetParametersAction extends BudgetAction {
      */
     private boolean isLineItemErrorOnly() {
         if (!GlobalVariables.getMessageMap().hasNoErrors()) {
-            Map<String, AutoPopulatingList<ErrorMessage>> errors = GlobalVariables.getMessageMap().getErrorMessages();
-            for (Map.Entry<String, AutoPopulatingList<ErrorMessage>> entry : errors.entrySet()) {
+            Map<String, ? extends List<ErrorMessage>> errors = GlobalVariables.getMessageMap().getErrorMessages();
+            for (Map.Entry<String, ? extends List<ErrorMessage>> entry : errors.entrySet()) {
                 Iterator<ErrorMessage> iter = entry.getValue().iterator();
                 while (iter.hasNext()) {
                     ErrorMessage em = iter.next();

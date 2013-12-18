@@ -1059,6 +1059,10 @@
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="protocolNumberService" ref="protocolNumberService" />
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+        <property name="protocolPersonnelService" ref="protocolPersonnelService" />
+        <!-- due to separate contexts and the funding source being dependent on instpropservice, this can't be DI right now -->
+        <!-- <property name="protocolFundingSourceService" ref="protocolFundingSourceService"/>-->
     </bean> 
 
     <bean id="protocolSpecialReviewService" class="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewServiceImpl">
