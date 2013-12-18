@@ -486,6 +486,9 @@
                     <property name="taskName" value="iacucWithdrawSubmissionUnavailable" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAssignReviewersCmtSelAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolAssignReviewersCmtSel" />
+                </bean>
            </list>
         </property>
     </bean>
@@ -696,6 +699,7 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" /> 
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="iacucProtocolAssignReviewersService" ref="iacucProtocolAssignReviewersService" />
     </bean>
     
     <bean id="baseCommitteeScheduleService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeScheduleServiceImpl">

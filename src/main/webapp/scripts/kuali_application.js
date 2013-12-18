@@ -2504,9 +2504,60 @@ function displayReviewers(protocolId) {
 	}
 }
 
+function setDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, protocolId, beanName) {	
+	var reviewerBean = "actionHelper." + beanName + ".reviewer[";			
+	var cmtId = dwr.util.getValue(committeeId); 
+	var schedId = $j(jq_escape(scheduleId)).attr("value");
+	var queryString = "&committeeId="+cmtId+"&scheduleId=" + schedId+"&protocolId="+protocolId;
+	callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
+			function(jQueyrData) {
+				reviewersReturned = $j(jQueyrData).find('#ret_value').html();
+				getProtocolReviewerTypes(reviewersReturned, beanName);
+				
+				var reviewersArr = reviewersReturned.split(";");
+				
+				var defaultReviewTyper;
+				//just to note, this will probably be higher than the actual number of reviewers, but is a good number to loop through.
+   			var numberOfRevierwers = reviewersArr.length;
+   			var dwrReply = {
+   					callback:function(data) {
+   						if ( data != null ) {	
+   							defaultReviewTyper = data;
+   						} else {
+   							defaultReviewTyper = '';
+   						}
+   						
+   						for (i=0; i<numberOfRevierwers; i++) {
+					  		var selectField = document.getElementsByName(reviewerBean + i + '].reviewerTypeCode')[0];
+					  		if (selectField != null) {
+						  		for (j=0; j<selectField.length; j++) {
+						  			if (selectField.options[j].value == defaultReviewTyper) {
+						  				selectField.options[j].setAttribute("selected", "selected");
+						  				selectField.selectedIndex = j;
+						  			}
+						  		}
+					  		}
+					  		
+					  	}
+   					},
+   					errorHandler:function( errorMessage ) {	
+   						window.status = errorMessage;
+   						window.alert('C data: unknown, there is an error: ' + errorMessage);
+   						defaultReviewTyper = '';
+   					}
+   			};
+   			IacucProtocolActionAjaxService.getDefaultCommitteeReviewTypeCode(dwrReply);
+   			return defaultReviewTyper;
+				
+			},
+			function(error) {
+				alert("error is" + error);
+			}
+	);
+}
 
-function protocolDisplayReviewers(methodToCall, committeeId, scheduleId, protocolId) {
-	var cmtId = $j(jq_escape(committeeId)).attr("value");
+function protocolDisplayReviewers(methodToCall, committeeId, scheduleId, protocolId, beanName) {
+	var cmtId = dwr.util.getValue(committeeId); 
 	var schedId = $j(jq_escape(scheduleId)).attr("value");
     if (scheduleId == "select") {
     	document.getElementById("reviewers").style.display = 'none';
@@ -2516,7 +2567,7 @@ function protocolDisplayReviewers(methodToCall, committeeId, scheduleId, protoco
     	callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
     			function(data) {
     				reviewersReturned = $j(data).find('#ret_value').html();
-					getProtocolReviewerTypes(reviewersReturned);
+					getProtocolReviewerTypes(reviewersReturned, beanName);
     				
     			},
     			function(error) {
@@ -2526,13 +2577,13 @@ function protocolDisplayReviewers(methodToCall, committeeId, scheduleId, protoco
 	}
 }
 
-function getProtocolReviewerTypes(reviewerData) {
+function getProtocolReviewerTypes(reviewerData, beanName) {
 		var methodToCall= 'getProtocolReviewerTypes';
 		var queryString = '';
 		callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
 			function(data) { 
 				types = $j(data).find('#ret_value').html();
-				updateProtocolReviewerHtml(reviewerData, types);
+				updateProtocolReviewerHtml(reviewerData, types, beanName);
 			},
 			function( error ) {
 				window.status = errorMessage;	
@@ -2575,7 +2626,7 @@ function updateReviewerHtml(reviewerData, reviewerTypesData) {
 	document.getElementById("numberOfReviewers").value = numReviewers;
 }
 
-function updateProtocolReviewerHtml(reviewerData, reviewerTypesData) {
+function updateProtocolReviewerHtml(reviewerData, reviewerTypesData, beanName) {
 	reviewerTypes = reviewerTypesData.split(";");
 	document.getElementById("reviewers").style.display = '';
 	var reviewersArr = reviewerData.split(";");
@@ -2584,16 +2635,15 @@ function updateProtocolReviewerHtml(reviewerData, reviewerTypesData) {
 	var numRows = Math.floor((numReviewers+1) / 2);
 	var reviewersTableLeft = document.getElementById("reviewersTableLeft");
 	var reviewersTableRight = document.getElementById("reviewersTableRight");
-	setProtocolReviewers(reviewersArr, 0, 3*numRows, reviewerTypes, reviewersTableLeft);
-	setProtocolReviewers(reviewersArr, 3*numRows, 3*numReviewers, reviewerTypes, reviewersTableRight);
+	setProtocolReviewers(reviewersArr, 0, 3*numRows, reviewerTypes, reviewersTableLeft, beanName);
+	setProtocolReviewers(reviewersArr, 3*numRows, 3*numReviewers, reviewerTypes, reviewersTableRight, beanName);
 	//finally set the number of reviewers for proper trucation
 	document.getElementById("numberOfReviewers").value = numReviewers;
 }
 
-function setProtocolReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElement) {
-	
+function setProtocolReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElement, beanName) {
 	removeAllChildren(htmlElement);
-				
+	var reviewerBean = "actionHelper." + beanName + ".reviewer[";			
     var tbody = document.createElement('tbody');
 	for (var i = beginIndex; i < endIndex; i += 3) {
 		reviewerIndex = i/3;
@@ -2608,27 +2658,27 @@ function setProtocolReviewers(reviewers, beginIndex, endIndex, reviewerTypes, ht
 		
 		data = document.createElement('td');
 		data.style.border = "0 none";
-		data.appendChild(makeProtocolReviewerTypesDropDown(reviewerTypes, reviewerIndex));
+		data.appendChild(makeProtocolReviewerTypesDropDown(reviewerTypes, reviewerIndex, reviewerBean));
 		
 		hidden = document.createElement('input');
-		hidden.setAttribute("id", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].personId");
+		hidden.setAttribute("id", reviewerBean + reviewerIndex + "].personId");
 		hidden.setAttribute("type", "hidden");
-		hidden.setAttribute("name", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].personId");
+		hidden.setAttribute("name", reviewerBean + reviewerIndex + "].personId");
 	    var reviewer = reviewers[i].replace(/^\t*/, '');
 		hidden.setAttribute("value", reviewer);
 		data.appendChild(hidden);
 		
 		hidden = document.createElement('input');
-		hidden.setAttribute("id", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].fullName");
+		hidden.setAttribute("id", reviewerBean + reviewerIndex + "].fullName");
 		hidden.setAttribute("type", "hidden");
-		hidden.setAttribute("name", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].fullName");
+		hidden.setAttribute("name", reviewerBean + reviewerIndex + "].fullName");
 		hidden.setAttribute("value", reviewers[i+1]);
 		data.appendChild(hidden);
 		
 		hidden = document.createElement('input');
-		hidden.setAttribute("id", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].nonEmployeeFlag");
+		hidden.setAttribute("id", reviewerBean + reviewerIndex + "].nonEmployeeFlag");
 		hidden.setAttribute("type", "hidden");
-		hidden.setAttribute("name", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].nonEmployeeFlag");
+		hidden.setAttribute("name", reviewerBean + reviewerIndex + "].nonEmployeeFlag");
 		if (reviewers[i+2] == "Y") {
 			hidden.setAttribute("checked", "checked");
 		}
@@ -2695,10 +2745,10 @@ function setReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElemen
 	htmlElement.appendChild(tbody);
 }
 
-function makeProtocolReviewerTypesDropDown(reviewerTypes, reviewerIndex) {
+function makeProtocolReviewerTypesDropDown(reviewerTypes, reviewerIndex, reviewerBean) {
     var selectElement = document.createElement('select');
-    selectElement.setAttribute("name", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].reviewerTypeCode");
-    selectElement.setAttribute("id", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].reviewerTypeCode");
+    selectElement.setAttribute("name", reviewerBean + reviewerIndex + "].reviewerTypeCode");
+    selectElement.setAttribute("id", reviewerBean + reviewerIndex + "].reviewerTypeCode");
     var option = document.createElement('option');
 	option.setAttribute("value", "");
 	option.setAttribute("selected", "selected");
