@@ -27,6 +27,8 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
+import java.util.List;
+
 public class UnitMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private UnitMaintenanceDocumentRule rule = null;
 
@@ -66,7 +68,7 @@ public class UnitMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
         unit.setOrganizationId("00001");
         MaintenanceDocument unitmaintenancedocument = newMaintDoc(unit);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(unitmaintenancedocument));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("ddocument.newMaintainableObject.parentUnitNumber");
+        List errors = GlobalVariables.getMessageMap().getMessages("ddocument.newMaintainableObject.parentUnitNumber");
         errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.parentUnitNumber");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);

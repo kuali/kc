@@ -65,7 +65,7 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
         super.setUp();
         service = new AwardHierarchyServiceImpl();
         service.setAwardNumberService(getMockAwardNumberService());
-        service.setBusinessObjectService(getBusinessObjectService());
+        service.setLegacyDataAdapter(getLegacyDataAdapter());
         service.setDocumentService(getDocumentService());
         service.setVersioningService(KraServiceLocator.getService(VersioningService.class));
         service.setVersionHistoryService(KraServiceLocator.getService(VersionHistoryService.class));

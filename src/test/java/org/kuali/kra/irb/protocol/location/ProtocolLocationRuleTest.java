@@ -93,7 +93,7 @@ public class ProtocolLocationRuleTest extends ProtocolRuleTestBase {
         newProtocolLocation.setOrganizationId(OLD_ORGANIZATION_VALUE);
         assertFalse(rule.processAddProtocolLocationBusinessRules(getAddProtocolLocationEvent(newProtocolLocation)));
         
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_PROTOCOL_LOCATION + ".organizationId");
+        List errors = GlobalVariables.getMessageMap().getMessages(NEW_PROTOCOL_LOCATION + ".organizationId");
         assertTrue(errors.size() == 1);    
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOL_LOCATION_ORGANIZATION_ID_DUPLICATE);

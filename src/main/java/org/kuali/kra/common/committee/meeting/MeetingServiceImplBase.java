@@ -205,14 +205,14 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      */
     public void addOtherAction(CommScheduleActItemBase newOtherAction, CS committeeSchedule) {
         newOtherAction.refreshReferenceObject("scheduleActItemType");
-        newOtherAction.setCommScheduleActItemsId(getNextCommScheduleActItemId());
+        newOtherAction.setCommScheduleActItemsId(getNextCommScheduleActItemId(newOtherAction.getClass()));
         newOtherAction.setScheduleIdFk(committeeSchedule.getId());
         newOtherAction.setActionItemNumber(getNextActionItemNumber(committeeSchedule));
         committeeSchedule.getCommScheduleActItems().add(newOtherAction);
     }
     
-    protected Long getNextCommScheduleActItemId() {
-        Long nextCommScheduleActItemId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_MEETING_ID");
+    protected Long getNextCommScheduleActItemId(Class boClass) {
+        Long nextCommScheduleActItemId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_MEETING_ID", boClass);
         return nextCommScheduleActItemId;
     }
 

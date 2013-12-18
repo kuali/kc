@@ -19,6 +19,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -40,7 +41,7 @@ public class CoeusModuleValuesFinder extends UifKeyValuesFinderBase {
     public List<KeyValue> getKeyValues() {
         List<String> validCodes = KraServiceLocator.getService(QuestionnaireService.class).getAssociateModules();
         if (moduleCodes == null) {
-            KeyValuesService boService = KRADServiceLocator.getKeyValuesService();
+            KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
             Collection<CoeusModule> codes = (Collection<CoeusModule>) boService.findAll(CoeusModule.class);
             List<KeyValue> labels = new ArrayList<KeyValue>();
             labels.add(new ConcreteKeyValue("", "select"));

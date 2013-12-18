@@ -88,18 +88,14 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
         return forward;
     }
     
-    //TODO: Fix for multiple modules
     public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        // TODO : this is only available after questionnaire is saved ?
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         final int answerHeaderIndex = this.getSelectedLine(request);
         final String formProperty = getFormProperty(request,"printQuestionnaireAnswer");
-        // TODO : a flag to check whether to print answer or not
-        // for release 3 : if questionnaire questions has answer, then print answer. 
-       
+
         if (StringUtils.equals(formProperty, ".questionnaireHelper")) {
             reportParameters.put("questionnaireId", proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
             reportParameters.put("template", proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
@@ -142,15 +138,6 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
     }
     
-    /*
-     * This is to retrieve answer header based on answerheaderid
-     */
-    private AnswerHeader getAnswerHeader(HttpServletRequest request) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("answerHeaderId", Integer.toString(this.getSelectedLine(request)));
-        return  (AnswerHeader)getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, fieldValues);
-    }
-    
     /**
      * 
      * This method is for the 'update' button to update questionnaire answer to new version
@@ -161,8 +148,6 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
      * @return
      * @throws Exception
      */
-    
-    //TODO: Fix for multiple modules
     public ActionForward updateAnswerToNewVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -186,7 +171,6 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
      * This is specifically for 'lookup' return a value.
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    //TODO: Fix for multiple modules
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -208,8 +192,6 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
 
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO : reload should reload the action page too, so this submissionquestionnaire may not needed ?
-        //String submissionActionTypeCode = ((ProposalDevelopmentForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode();
         ActionForward actionForward = super.reload(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
         proposalDevelopmentForm.getQuestionnaireHelper().prepareView();

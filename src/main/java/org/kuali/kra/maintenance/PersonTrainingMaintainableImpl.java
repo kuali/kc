@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
@@ -80,7 +81,7 @@ public class PersonTrainingMaintainableImpl extends KraMaintainableImpl {
             if (StringUtils.isNotBlank(getPersonTraining().getPersonId())) {
                 Map fieldValues = new HashMap();
                 fieldValues.put("personId", getPersonTraining().getPersonId());
-                List<PersonTraining> personTrainings = (List<PersonTraining>) getBusinessObjectService().findMatching(
+                List<PersonTraining> personTrainings = (List<PersonTraining>) KNSServiceLocator.getBusinessObjectService().findMatching(
                         PersonTraining.class, fieldValues);
                 if (!personTrainings.isEmpty()) {
                     trainingNumber = personTrainings.size() + 1;

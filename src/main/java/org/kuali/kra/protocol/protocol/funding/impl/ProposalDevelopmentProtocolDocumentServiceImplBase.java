@@ -23,6 +23,8 @@ import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -37,11 +39,11 @@ import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -52,22 +54,22 @@ import java.util.List;
  * This service creates Proposal Development Document from ProtocolBase for users authorized to create proposal. This created
  * proposal is then added to ProtocolBase Funding sources. 
  */
-public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<GenericProtocolDocument extends ProtocolDocumentBase> 
-    implements ProposalDevelopmentProtocolDocumentService<GenericProtocolDocument> {
+public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T extends ProtocolDocumentBase>  {
     private SystemAuthorizationService systemAuthorizationService;
     private KraAuthorizationService kraAuthorizationService;
     private SequenceAccessorService sequenceAccessorService;
+    private TaskAuthorizationService taskAuthorizationService;
+    private DocumentService documentService;
 
     @SuppressWarnings("unchecked")
-    @Override
-    public GenericProtocolDocument createProtocolDocument(ProposalDevelopmentForm proposalDevelopmentForm) throws Exception
+    public T createProtocolDocument(ProposalDevelopmentDocument document) throws Exception
     {
-        GenericProtocolDocument protocolDocument = null;
-        DevelopmentProposal developmentProposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal();
-         if(isAuthorizedCreateProtocol(proposalDevelopmentForm.getSpecialReviewHelper()))
+        T protocolDocument = null;
+        DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
+         if(isAuthorizedCreateProtocol(document))
         {
-            DocumentService documentService = KRADServiceLocatorWeb.getDocumentService();
-            protocolDocument = (GenericProtocolDocument) getProtocolDocumentNewInstanceHook(documentService);
+            DocumentService documentService = getDocumentService();
+            protocolDocument = (T) getProtocolDocumentNewInstanceHook(documentService);
             populateDocumentOverview(developmentProposal, protocolDocument);
             populateRequiredFields(developmentProposal, protocolDocument);
             populateProtocolPerson_Investigator(developmentProposal, protocolDocument);
@@ -116,7 +118,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<Generic
         ProtocolBase protocol = protocolDocument.getProtocol();
         protocol.setProtocolNumber(getProtocolNumberServiceHook().generateProtocolNumber());
         protocol.setSequenceNumber(0);
-        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook());
+        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook(), protocol.getClass());
         protocol.setProtocolId(nextProtocolId);
 
         protocol.setTitle(developmentProposal.getTitle());
@@ -168,19 +170,12 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<Generic
     
     }
 
-    protected boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper) {
-        SpecialReview<?> specialReview = specialReviewHelper.getNewSpecialReview();
-        boolean canCreateProposal=false;
-        if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) )
-        {
-            canCreateProposal = specialReviewHelper.isCanCreateIrbProtocol();
-        }
-        else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()) )
-        {
-            canCreateProposal = specialReviewHelper.isCanCreateIacucProtocol();
-        }
-        return canCreateProposal;
+    public boolean isAuthorizedCreateProtocol(ProposalDevelopmentDocument document) {       
+        ProposalTask irbTask = new ProposalTask(getCreateProposalTaskNameHook(), document);
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), irbTask);
     }
+    
+    protected abstract String getCreateProposalTaskNameHook();
 
     /**
      * This method is to get protocol location service
@@ -227,4 +222,20 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<Generic
     protected abstract String getProtocolCreatedHook();
     protected abstract ProtocolPersonnelService getProtocolPersonnelServiceHook();
     protected abstract ProtocolFundingSourceService getProtocolFundingSourceServiceHook() ;
+
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        return taskAuthorizationService;
+    }
+
+    public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
+        this.taskAuthorizationService = taskAuthorizationService;
+    }
+
+    protected DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
 }

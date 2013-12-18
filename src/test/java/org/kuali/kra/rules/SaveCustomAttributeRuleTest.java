@@ -38,6 +38,7 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -140,7 +141,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), CustomAttributeDocumentTestUtilities.LOCAL_REVIEW_DATE_VALUE);
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[1].value");
+        List errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[1].value");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, message.getErrorKey());
@@ -157,7 +158,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), CustomAttributeDocumentTestUtilities.LOCAL_REVIEW_DATE_VALUE);
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[0].value");
+        List errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[0].value");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_MAX_LENGTH);
@@ -175,7 +176,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), "2008-02-08");
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[2].value");
+        List errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[2].value");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(RiceKeyConstants.ERROR_INVALID_FORMAT, message.getErrorKey());
@@ -192,7 +193,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), "02/29/2010");
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[2].value");
+        List errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[2].value");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(KeyConstants.ERROR_DATE, message.getErrorKey());
@@ -210,7 +211,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("5"), "noarealperson");
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[3].value");
+        List errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[3].value");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(RiceKeyConstants.ERROR_EXISTENCE, message.getErrorKey());
@@ -228,7 +229,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("9"), "Uh");
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[3].value");
+        List errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[3].value");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(RiceKeyConstants.ERROR_EXISTENCE, message.getErrorKey());

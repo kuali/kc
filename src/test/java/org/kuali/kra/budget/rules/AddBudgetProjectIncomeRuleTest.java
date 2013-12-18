@@ -29,6 +29,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
 
+import java.util.List;
 import java.util.Properties;
 
 public class AddBudgetProjectIncomeRuleTest {
@@ -69,7 +70,7 @@ public class AddBudgetProjectIncomeRuleTest {
         budgetProjectIncome.setDescription("Description");
         Assert.assertFalse(addBudgetProjectIncomeRule.processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent));
         Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
-        ErrorMessage errMsg = (ErrorMessage)((AutoPopulatingList<ErrorMessage>) GlobalVariables.getMessageMap().getErrorMessages().get("newBudgetProjectIncome.projectIncome")).get(0);
+        ErrorMessage errMsg = (ErrorMessage)((List<ErrorMessage>) GlobalVariables.getMessageMap().getErrorMessages().get("newBudgetProjectIncome.projectIncome")).get(0);
         Assert.assertEquals("error.projectIncome.negativeOrZero", errMsg.getErrorKey());        
         Assert.assertEquals("Income amount must be greater than zero (0.00)", getErrorForkey("error.projectIncome.negativeOrZero"));
     }

@@ -26,6 +26,7 @@ import org.kuali.rice.core.framework.persistence.jpa.OrmUtils;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
@@ -33,6 +34,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -62,12 +64,14 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
+    private LegacyDataAdapter legacyDataAdapter;
     private ParameterService parameterService;
     
     protected boolean transactional = true;
     
     /**
      * This method executes before each unit test and ensures the necessary lifecycles have been started
+     * @throws Exception 
      */
     @Before
     public final void baseBeforeTest() {
@@ -189,7 +193,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
 
     protected BusinessObjectService getBusinessObjectService() {
         if(businessObjectService == null) {
-            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+            businessObjectService = KNSServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
     }
@@ -228,9 +232,9 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
         // has been changed.  Therefore, for OJB, I clear the cache which
         // will force a new instance of the document to be retrieved from the database
         // instead of the cache.
-        if (!OrmUtils.isJpaEnabled()) {
-            KRADServiceLocatorWeb.getPersistenceServiceOjb().clearCache(); 
-        }
+        //if (!OrmUtils.isJpaEnabled()) {
+        //KRADServiceLocator.getPersistenceServiceOjb().clearCache(); 
+        //}
         Document doc=getDocumentService().getByDocumentHeaderId(documentNumber);
         return doc;
 
@@ -251,5 +255,16 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
         Parameter.Builder parameterForUpdate = Parameter.Builder.create(parameter);
         parameterForUpdate.setValue(newValue);
         getParameterService().updateParameter(parameterForUpdate.build());
+    }
+
+    public LegacyDataAdapter getLegacyDataAdapter() {
+        if (legacyDataAdapter == null) {
+            legacyDataAdapter = KraServiceLocator.getService(LegacyDataAdapter.class);
+        }
+        return legacyDataAdapter;
+    }
+
+    public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
+        this.legacyDataAdapter = legacyDataAdapter;
     }
 }

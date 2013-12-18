@@ -165,5 +165,13 @@ public interface BudgetService<T extends BudgetParent>  {
     public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo keyPerson );
     
     public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod);
+    
+    /**
+     * This method sets the budget status of the 'final' budget version (if it exists) to the proposal budget status
+     * as indicated in the proposal development document.
+     * 
+     * @param parentDocument
+     */
+    public void setBudgetStatuses(BudgetParentDocument<T> parentDocument);
 
 }

@@ -52,6 +52,7 @@ import org.kuali.kra.s2s.service.*;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -64,6 +65,7 @@ import javax.activation.DataHandler;
 import javax.mail.util.ByteArrayDataSource;
 import javax.xml.namespace.QName;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -85,6 +87,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	private S2SUtilService s2SUtilService;
 	private PrintService printService;
 	private S2SValidatorService s2SValidatorService;
+	private ConfigurationService configurationService;
 	private static final String GRANTS_GOV_STATUS_ERROR = "ERROR";
 	private static final String KEY_PROPOSAL_NUMBER = "proposalNumber";
 
@@ -848,6 +851,25 @@ public class KRAS2SServiceImpl implements S2SService {
 			throws S2SException,PrintingException {
 		return printService.printForm(pdDoc);
 	}
+	
+	public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
+	        throws IOException {
+        String loggingDirectory = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
+        String saveXmlFolderName = pdDoc.getSaveXmlFolderName();
+        if (StringUtils.isNotBlank(loggingDirectory)) {
+            File directory = new File(loggingDirectory);
+            if(!directory.exists()){
+                directory.createNewFile();
+            }
+            if(!loggingDirectory.endsWith("/")){
+                loggingDirectory+="/";
+            }
+            return new File(loggingDirectory + saveXmlFolderName + ".zip");
+        } else {
+            return null;
+        }
+
+	}
 
 	/**
 	 * Gets the printService attribute.
@@ -979,5 +1001,13 @@ public class KRAS2SServiceImpl implements S2SService {
 
     protected S2SConnectorService getS2sConnectorService(S2sOpportunity s2sOpportunity) {
         return KraServiceLocator.getService(s2sOpportunity.getS2sProvider().getConnectorServiceName());
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }
