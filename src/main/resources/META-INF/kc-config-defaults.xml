@@ -166,8 +166,17 @@
 	<param name="grants.gov.s2s.host.production">https://ws07.grants.gov:446/grantsws-applicant/services/v2/</param>
 	<param name="grants.gov.s2s.host.development">https://at07ws.grants.gov:446/grantsws-applicant/services/v2/</param>
 	<param name="grants.gov.s2s.host">${grants.gov.s2s.host.development}</param>
-	
 	<param name="grants.gov.s2s.port">ApplicantWebServicesSoapPort</param>
+
+    <param name="research.gov.keystore.location">path to keystore</param>
+    <param name="research.gov.keystore.password">keystore password</param>
+    <param name="research.gov.truststore.location">path to truststore</param>
+    <param name="research.gov.truststore.password">truststore password</param>
+    
+    <param name="research.gov.s2s.production"></param>
+    <param name="research.gov.s2s.development">https://ws.acpt.research.gov/applyws/</param>
+    <param name="research.gov.s2s.host">${research.gov.s2s.development}</param>
+    <param name="research.gov.s2s.port">ApplicantWebServicesSoapPort</param>
 
 	<param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>

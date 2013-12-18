@@ -268,9 +268,10 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         factory.setAddress(getS2SSoapHost());
         factory.setServiceClass(ApplicantWebServicesPortType.class);
         // enabling mtom from V2 onwards
-        Map<String,Object> properties = new HashMap<String, Object>();
-        properties.put("mtom-enabled", Boolean.TRUE);
-        factory.setProperties(properties);
+        // works for grants.gov but not for research.gov, get a mime related error.
+//        Map<String,Object> properties = new HashMap<String, Object>();
+//        properties.put("mtom-enabled", Boolean.TRUE);
+//        factory.setProperties(properties);
         ApplicantWebServicesPortType applicantWebService = (ApplicantWebServicesPortType)factory.create();
       
         Client client = ClientProxy.getClient(applicantWebService); 
