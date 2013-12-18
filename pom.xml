@@ -23,9 +23,9 @@
 
     <licenses>
         <license>
-            <name>The Kuali Foundation Educational Community License 2.0</name>
-            <url>http://www.opensource.org/licenses/ecl2.txt</url>
-            <distribution>manual</distribution>
+            <name>Educational Community License, Version 2.0</name>
+            <url>${kuali.ecl.license.url}</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -40,19 +40,10 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>META-INF/kc-config-build.xml</include>
-                    <include>kc-bootstrap-springbeans.xml</include>
                 </includes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>src/main/webapp/WEB-INF</directory>
-                <includes>
-                    <include>web.xml</include>
-                </includes>
-                <filtering>true</filtering>
-				<targetPath>${project.build.directory}</targetPath>
             </resource>
         </resources>
         <testResources>
@@ -365,6 +356,28 @@
                 <version>${maven-install-plugin.version}</version>
             </plugin>
             <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Name>${project.name}</Bundle-Name>
+                            <Bundle-License>${kuali.ecl.license.url}</Bundle-License>
+                            <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
+                            <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
+                            <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
+                            <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                            <Maven-Version>${maven.version}</Maven-Version>
+                        </manifestEntries>
+                        <manifest>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven-javadoc-plugin.version}</version>
@@ -406,7 +419,19 @@
                 <version>${maven-war-plugin.version}</version>
                 <configuration>
                     <attachClasses>true</attachClasses>
-                    <webXml>${project.build.directory}/web.xml</webXml>
+
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Name>${project.name}</Bundle-Name>
+                            <Bundle-License>${kuali.ecl.license.url}</Bundle-License>
+                            <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
+                            <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
+                            <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
+                            <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                            <Maven-Version>${maven.version}</Maven-Version>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>
@@ -479,6 +504,52 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.kuali.maven.plugins</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>licenses</id>
+                        <goals>
+                            <goal>add-third-party</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <thirdPartyFilename>META-INF/THIRD-PARTY.txt</thirdPartyFilename>
+                            <artifactLicenseMapping>classpath:org/kuali/common/cm/license/THIRD-PARTY.properties</artifactLicenseMapping>
+                            <useMissingFile>true</useMissingFile>
+                            <groupByLicense>true</groupByLicense>
+                            <deployMissingFile>false</deployMissingFile>
+                            <licenseMerges>
+                                <licenseMerge>Apache Software License - Version 2.0|Apache License V2.0|Apache Public License 2.0|Apache License 2.0|ASF 2.0|Apache License Version 2.0|Apache 2|Apache 2.0|Apache License|Apache License Version 2.0|Apache License, Version 2.0|The Apache Software License, Version 2.0|Apache 2.0 License|Apache Software License 2.0|provided without support or warranty</licenseMerge>
+                                <licenseMerge>BSD License|BSD|BSD style|BSD-style License|The BSD License|BSD-style license</licenseMerge>
+                                <licenseMerge>Common Public License - Version 1.0|CPL|Common Public License Version 1.0</licenseMerge>
+                                <licenseMerge>Eclipse Public License - Version 1.0|Eclipse Public License - v 1.0|Eclipse Public License v1.0|Eclipse Public License, Version 1.0</licenseMerge>
+                                <licenseMerge>CDDL - Version 1.0|CDDL|CDDL 1.0|CDDL License|COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0|Common Development and Distribution License (CDDL) v1.0</licenseMerge>
+                                <licenseMerge>CDDL - Version 1.1|CDDL 1.1</licenseMerge>
+                                <licenseMerge>CDDL - Version 1.1 / GNU General Public License - Version 2|CDDL v1.1 / GPL v2 dual license|CDDL + GPLv2 with classpath exception</licenseMerge>
+                                <licenseMerge>Educational Community License - Version 2.0|Educational Community License, Version 2.0</licenseMerge>
+                                <licenseMerge>GNU Lesser General Public License|GNU LESSER GENERAL PUBLIC LICENSE|lgpl|license.txt|GNU General Public Library|GNU Lesser General Public Licence|LGPL</licenseMerge>
+                                <licenseMerge>GNU Lesser General Public License - Version 2.1|GNU Lesser General Public License Version 2.1|LGPL 2.1|LGPL, version 2.1</licenseMerge>
+                                <licenseMerge>GNU Lesser General Public License - Version 3|GNU Lesser General Public License v3.0|GNU Lesser General Public License - Version 3.0</licenseMerge>
+                                <licenseMerge>GNU General Public License - Version 2|The GNU General Public License, Version 2</licenseMerge>
+                                <licenseMerge>Mozilla Public License - Version 1.1|Mozilla Public License version 1.1|MPL 1.1</licenseMerge>
+                                <licenseMerge>MIT License|The MIT License</licenseMerge>
+                                <licenseMerge>GNU General Public License - Version 2 / CPE|GPL2 w/ CPE|GPLv2+CE</licenseMerge>
+                                <licenseMerge>Public Domain|Public domain, Sun Microsoystems</licenseMerge>
+                            </licenseMerges>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.kuali.common</groupId>
+                        <artifactId>kuali-cm</artifactId>
+                        <version>${kuali-cm.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
                 <groupId>${jetty-maven-plugin.groupId}</groupId>
                 <artifactId>${jetty-maven-plugin.artifactId}</artifactId>
                 <version>${jetty-maven-plugin.version}</version>
@@ -499,7 +570,7 @@
                 <configuration>
                     <webAppConfig>
                         <contextPath>${kc.context.path}</contextPath>
-                        <descriptor>${project.build.directory}/web.xml</descriptor>
+                        <descriptor>${basedir}/src/main/webapp/WEB-INF/web.xml</descriptor>
                     </webAppConfig>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
@@ -2034,6 +2105,7 @@ module of int tests -->
         <kc-printing-xsds.version>1.8.0</kc-printing-xsds.version>
         <kc-s2s-generated.version>1.0</kc-s2s-generated.version>
         <keycontacts-1.0-gg.version>1.0</keycontacts-1.0-gg.version>
+        <kuali-cm.version>1.2.8</kuali-cm.version>
         <phs398researchplan-2.0-gg.version>1.1</phs398researchplan-2.0-gg.version>
         <phs398coverpagesupplement-2.0-gg.version>1.0</phs398coverpagesupplement-2.0-gg.version>
         <rrkeypersonexpanded-2.0-gg.version>1.1</rrkeypersonexpanded-2.0-gg.version>
@@ -2078,12 +2150,14 @@ module of int tests -->
         <jetty-maven-plugin.artifactId>jetty-maven-plugin</jetty-maven-plugin.artifactId>
         <jetty-maven-plugin.version>${jetty.version}</jetty-maven-plugin.version>
         <jspc-maven-plugin.version>2.0.0</jspc-maven-plugin.version>
+        <license-maven-plugin.version>1.6.4</license-maven-plugin.version>
         <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>2.8</maven-dependency-plugin.version>
         <maven-deploy-plugin.version>2.8</maven-deploy-plugin.version>
         <maven-enforcer-plugin.version>1.3.1</maven-enforcer-plugin.version>
         <maven-install-plugin.version>2.5</maven-install-plugin.version>
+        <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
         <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
         <maven-site-plugin.version>3.3</maven-site-plugin.version>
@@ -2094,6 +2168,7 @@ module of int tests -->
         <tomcat-maven-plugin.version>2.1</tomcat-maven-plugin.version>
         <tomcat6-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat6-maven-plugin.version>
         <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
+
 
         <!-- Surefire config -->
         <surefire.useFile>false</surefire.useFile>
@@ -2126,5 +2201,8 @@ module of int tests -->
         <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
         <account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>
         <budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>
+
+        <!-- This is used in the licenses section as well as the jar/war plugins -->
+        <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
     </properties>
 </project>
