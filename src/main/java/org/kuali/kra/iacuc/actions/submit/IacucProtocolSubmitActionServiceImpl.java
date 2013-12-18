@@ -15,19 +15,24 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.actions.assignreviewers.IacucProtocolAssignReviewersService;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-
-import java.sql.Date;
-import java.util.*;
 
 /**
  * Handles the processing of submitting a protocol to the IACUC office for review.
@@ -41,6 +46,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private BusinessObjectService businessObjectService;
+    private IacucProtocolAssignReviewersService iacucProtocolAssignReviewersService;
     
     /**
      * Set the Document Service.
@@ -116,6 +122,8 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
             protocol.setInitialSubmissionDate(new Date(submission.getSubmissionDate().getTime()));
         }
         
+        getIacucProtocolAssignReviewersService().assignReviewers(submission, submitAction.getReviewers());
+        
         IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, submission, IacucProtocolActionType.SUBMITTED_TO_IACUC);
         protocolAction.setComments(SUBMITTED_TO_IACUC);
         //For the purpose of audit trail
@@ -169,6 +177,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         submissionBuilder.setProtocolReviewTypeCode(submitAction.getProtocolReviewTypeCode());
         setSubmissionStatus(submissionBuilder, submitAction);
         setCommittee(submissionBuilder, submitAction);
+        setSchedule(submissionBuilder, submitAction);
         return submissionBuilder.create();
     }
     
@@ -189,6 +198,23 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
      */
     protected void setCommittee(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
         submissionBuilder.setCommittee(submitAction.getNewCommitteeId());
+    }
+
+    /**
+     * Set schedule for the submission.
+     * @param submissionBuilder
+     * @param submitAction
+     */
+    protected void setSchedule(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
+        submissionBuilder.setSchedule(submitAction.getNewScheduleId());
+    }
+
+    public IacucProtocolAssignReviewersService getIacucProtocolAssignReviewersService() {
+        return iacucProtocolAssignReviewersService;
+    }
+
+    public void setIacucProtocolAssignReviewersService(IacucProtocolAssignReviewersService iacucProtocolAssignReviewersService) {
+        this.iacucProtocolAssignReviewersService = iacucProtocolAssignReviewersService;
     }
 
 }
