@@ -143,6 +143,10 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
     }
     
     private void addNewAction(Protocol protocol, ProtocolAssignCmtSchedBean actionBean) {
+        //protected? both IACUC and IRB flavors of this service have identical methods.
+        //with the exception of IRB setting an action of NOTIFIED_COMMITTEE, instead
+        //of IACUC's ASSIGNED_TO_COMMITTEE...? Also, IACUC passes the previous submission status
+        //code and sets that field on newAction here.
         ProtocolAction newAction = new ProtocolAction();
         // deep copy will replaced the last action with the new one after save
         newAction.setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
@@ -157,6 +161,7 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
         newAction.setProtocolNumber(protocol.getProtocolNumber());
         newAction.setProtocolId(protocol.getProtocolId());
         newAction.setSequenceNumber(protocol.getSequenceNumber());
+        //should we be setting prev submission status code here?
         protocol.getProtocolActions().add(newAction);
 
     }
