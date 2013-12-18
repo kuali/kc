@@ -63,7 +63,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
     
     private void addBudgetFacts(Builder factsBuilder, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         Budget budget =  proposalDevelopmentDocument.getFinalBudgetForThisProposal();
-        addObjectMembersAsFacts(factsBuilder,budget,KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT_ID,Constants.MODULE_NAMESPACE_BUDGET);
+        addObjectMembersAsFacts(factsBuilder,budget,KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT_ID,Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
     }
     
     private void addProposalFacts(Builder factsBuilder, DevelopmentProposal developmentProposal) {
