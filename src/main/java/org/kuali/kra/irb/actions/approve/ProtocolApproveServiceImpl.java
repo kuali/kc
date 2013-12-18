@@ -22,10 +22,12 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveServiceImplBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
@@ -110,8 +112,8 @@ public class ProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase i
     }
 
     @Override
-    protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, Object object, String protocolActionTypeCode) {
-        return new ProtocolAction((Protocol) protocol, null, protocolActionTypeCode);
+    protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission, String protocolActionTypeCode) {
+        return new ProtocolAction((Protocol) protocol, (ProtocolSubmission) submission, protocolActionTypeCode);
     }
 
     @Override
