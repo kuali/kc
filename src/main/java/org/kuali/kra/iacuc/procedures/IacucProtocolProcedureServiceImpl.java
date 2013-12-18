@@ -184,8 +184,8 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * This is the primary key
      * @return
      */
-    private Integer getNextSequenceNumber(String sequenceKey) {
-        return getSequenceAccessorService().getNextAvailableSequenceNumber(sequenceKey).intValue();
+    private Integer getNextSequenceNumber(String sequenceKey, Class clazz) {
+        return getSequenceAccessorService().getNextAvailableSequenceNumber(sequenceKey, clazz).intValue();
     }
 
     public SequenceAccessorService getSequenceAccessorService() {
@@ -659,7 +659,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * @param protocol
      */
     private void setAttributesForNewStudyGroupBean(IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean, IacucProtocol protocol) {
-        selectedIacucProtocolStudyGroupBean.setIacucProtocolStudyGroupHeaderId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_HEADER_SEQUENCE_ID));
+        selectedIacucProtocolStudyGroupBean.setIacucProtocolStudyGroupHeaderId(getNextSequenceNumber(PROTOCOL_STUDY_GROUP_HEADER_SEQUENCE_ID, selectedIacucProtocolStudyGroupBean.getClass()));
         selectedIacucProtocolStudyGroupBean.setProtocolId(protocol.getProtocolId());
         selectedIacucProtocolStudyGroupBean.setProtocolNumber(protocol.getProtocolNumber());
         selectedIacucProtocolStudyGroupBean.setSequenceNumber(protocol.getSequenceNumber());

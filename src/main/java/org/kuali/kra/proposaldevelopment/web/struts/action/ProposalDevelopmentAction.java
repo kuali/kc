@@ -15,6 +15,24 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,8 +40,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -36,13 +52,8 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kew.KraDocumentRejectionService;
-import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
@@ -51,32 +62,23 @@ import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.*;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService.ProposalLockingRegion;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.print.QuestionnairePrint;
-import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
-import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.web.ErrorUtils;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.NonCancellingRecallQuestion;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -84,7 +86,6 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -92,37 +93,18 @@ import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.CollectionUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.lang.reflect.Method;
-import java.util.*;
-
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import com.google.common.collect.Lists;
 
 public class ProposalDevelopmentAction extends BudgetParentActionBase {
-    private static final String PROPOSAL_NARRATIVE_TYPE_GROUP = "proposalNarrativeTypeGroup";
-    private static final String DELIVERY_INFO_DISPLAY_INDICATOR = "deliveryInfoDisplayIndicator";
-    private static final String PROPOSAL_SUMMARY_INDICATOR = "enableProposalSummaryPanel";
-    private static final String BUDGET_SUMMARY_INDICATOR = "enableBudgetSummaryPanel";
-    private static final String KEY_PERSONNEL_INDICATOR = "enableKeyPersonnelPanel";
-    private static final String SPECIAL_REVIEW_INDICATOR = "enableSpecialReviewPanel";
-    private static final String SUMMARY_PRINT_FORMS_INDICATOR = "enableSummaryPrintPanel";
-    private static final String CUSTOM_DATA_INFO_INDICATOR = "enableCustomDataInfoPanel";
-    private static final String SUMMARY_QUESTIONS_INDICATOR = "enableSummaryQuestionsPanel";
-    private static final String SUMMARY_ATTACHMENTS_INDICATOR = "enableSummaryAttachmentsPanel";
-    private static final String SUMMARY_KEYWORDS_INDICATOR = "enableSummaryKeywordsPanel";
-    private static final String PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR = "propSummaryDisclaimerText";
-    private static final String SUMMARY_DATA_VALIDATION_INDICATOR = "enableSummaryDataValidationPanel";
     private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
-    private static final String ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI = "ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI";
     private static final String PERSON_INDEX= "personIndex";
     private static final String COMMENTS= "comments";
-    private static final String SUMMARY_SPECIAL_REVIEW_LIST = "proposal.summary.validSpecialReviewCodes";
-    private static final String PROPOSAL_ATTACHMENT_TYPE_GROUP_CODE = "P";
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
     private ProposalHierarcyActionHelper hierarchyHelper;
     private KcNotificationService notificationService;
+    private ProposalDevelopmentService proposalDevelopmentService;
+    private ProposalDevelopmentPrintingService proposalDevelopmentPrintingService;
+    private ProposalRoleTemplateService proposalRoleTemplateService;
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -152,13 +134,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             proposalDevelopmentForm.setApproverViewDO(approverViewDO);           
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_SUMMARY_PAGE);
             forward = new ActionForward(forward.getPath()+ "?" + KRADConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KRADConstants.PARAMETER_DOC_ID));  
-        } //else if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
-//            loadDocument(proposalDevelopmentForm);
-//            forward = actions(mapping, proposalDevelopmentForm, request, response);
-//        } else {
-//            forward = super.docHandler(mapping, form, request, response);
-//        }
-        else {
+        } else {
             if (proposalDevelopmentForm.getDocTypeName() == null || proposalDevelopmentForm.getDocTypeName().equals("")) {
                 proposalDevelopmentForm.setDocTypeName("ProposalDevelopmentDocument");
             }
@@ -195,74 +171,26 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         } else {
             proposalDevelopmentForm.initialize();
         }
+        proposalDevelopmentForm.setProposalDevelopmentParameters(getProposalDevelopmentService().getProposalDevelopmentParameters());
         
         if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
             forward = actions(mapping, proposalDevelopmentForm, request, response);
         }
                
         if(createProposalFromGrantsGov!=null && createProposalFromGrantsGov.equals("true") && s2sOpportunity!=null){
-            createS2sOpportunityDetails(proposalDevelopmentForm,s2sOpportunity);
+            getProposalDevelopmentService().createS2sOpportunityDetails(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal(), 
+                    s2sOpportunity, proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
+        }
 
-        }
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        Role roleInfo  = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.OSP_ROLE_TYPE, RoleConstants.OSP_ADMINISTRATOR);
-        List<String> roleIds = new ArrayList<String>();
-        roleIds.add(roleInfo.getId());
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
-        Map<String,String> qualifications = new HashMap<String,String>(qualifiedRoleAttributes);
-        if(getRoleService().principalHasRole(principalId, roleIds, qualifications)){
-            proposalDevelopmentForm.setSaveXmlPermission(true);
-        }
-        KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        List<KcPerson> persons = proposalAuthService.getPersonsInRole(proposalDevelopmentForm.getProposalDevelopmentDocument(), RoleConstants.AGGREGATOR);
-        for (KcPerson person : persons) {
-            if(GlobalVariables.getUserSession().getPrincipalName().equals(person.getUserName())){
-                proposalDevelopmentForm.setSaveXmlPermission(true);
-            }
-        }
+        proposalDevelopmentForm.setSaveXmlPermission(getProposalDevelopmentService().canSaveProposalXml(proposalDevelopmentForm.getProposalDevelopmentDocument()));
+        
         if(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getS2sOpportunity()!= null){
             proposalDevelopmentForm.setGrantsGovSelectFlag(true);
-       }
+        }
         return forward;
     }
     
-      private void createS2sOpportunityDetails(ProposalDevelopmentForm proposalDevelopmentForm,S2sOpportunity s2sOpportunity) throws S2SException {
-
-        Boolean mandatoryFormNotAvailable = false;
-        if(s2sOpportunity.getCfdaNumber()!=null){
-            proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setCfdaNumber(s2sOpportunity.getCfdaNumber());
-        }
-        if(s2sOpportunity.getOpportunityId()!=null){
-            proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setProgramAnnouncementNumber(s2sOpportunity.getOpportunityId());
-        }
-        if(s2sOpportunity.getOpportunityTitle()!=null){
-            proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setProgramAnnouncementTitle(s2sOpportunity.getOpportunityTitle());
-        }
-        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
-        if(s2sOpportunity.getSchemaUrl()!=null){
-            s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
-            if(s2sOppForms!=null){
-                for(S2sOppForms s2sOppForm:s2sOppForms){
-                    if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
-                        mandatoryFormNotAvailable = true;
-                        break;
-                    }
-                }
-            }
-            if(!mandatoryFormNotAvailable){
-                s2sOpportunity.setS2sOppForms(s2sOppForms);
-                s2sOpportunity.setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
-                proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);
-                proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
-            }else{
-                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId());
-                proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
-            }
-        }
-    }
-    
-    protected ProposalHierarcyActionHelper getHierarchyHelper() {
+   protected ProposalHierarcyActionHelper getHierarchyHelper() {
         if (hierarchyHelper == null) {
             hierarchyHelper = new ProposalHierarcyActionHelper();
         }
@@ -278,47 +206,18 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         String keywordPanelDisplay = this.getParameterService().getParameterValueAsString(
                     ProposalDevelopmentDocument.class, Constants.KEYWORD_PANEL_DISPLAY);        
-            request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
-            // TODO: not sure it's should be here - for audit error display.
-            // ES: Still do not know how exactly *how* this should be done, 
-            // but I added a check to only call the auditConditionally when the audit error 
-            // map is empty - otherwise the display during a submit 
-            //check to see if the audit errors are filled out.  This happens on a submit
-            //that fails.
-            
-            if (proposalDevelopmentForm.isAuditActivated()){
-                proposalDevelopmentForm.setUnitRulesMessages(getUnitRulesMessages(proposalDevelopmentForm.getProposalDevelopmentDocument()));
-            }
-            if( KNSGlobalVariables.getAuditErrorMap().isEmpty())
-                new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
-            proposalDevelopmentForm.setProposalDataOverrideMethodToCalls(this.constructColumnsToAlterLookupMTCs(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
-//            if (proposalDevelopmentForm.isAuditActivated()) {
-//                if (document != null && 
-//                    document.getDevelopmentProposal().getS2sOpportunity() != null ) {
-//                    getService(S2SService.class).validateApplication(document);            
-//                }
-//            }
+        request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
 
-            //if(isPrincipalInvestigator){
-            //}
-            
-            /*if(proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo1(new ConcreteKeyValue("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()));
-            }
-            if(proposalDevelopmentForm.getProposalDevelopmentDocument().getPrincipalInvestigator()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo2(new ConcreteKeyValue("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getProposalDevelopmentDocument().getPrincipalInvestigator().getFullName()));
-            }*/
-    
-            // setup any Proposal Development System Parameters that will be needed
-            
-            ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(DELIVERY_INFO_DISPLAY_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, DELIVERY_INFO_DISPLAY_INDICATOR));
-            ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_NARRATIVE_TYPE_GROUP, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_NARRATIVE_TYPE_GROUP));
-            
-            if(document.getDevelopmentProposal().getS2sOpportunity()!=null && document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms()!=null){
-                Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator2());
-                Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator1());
-            }
-         return actionForward;
+        if (proposalDevelopmentForm.isAuditActivated()){
+            proposalDevelopmentForm.setUnitRulesMessages(getUnitRulesMessages(proposalDevelopmentForm.getProposalDevelopmentDocument()));
+        }
+        if( KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
+            new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
+        }
+        proposalDevelopmentForm.setProposalDataOverrideMethodToCalls(getProposalDevelopmentService().constructColumnsToAlterLookupMTCs(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
+        getProposalDevelopmentService().sortS2sForms(document.getDevelopmentProposal());    
+        
+        return actionForward;
     }
     
     protected List<String> getUnitRulesMessages(ProposalDevelopmentDocument pdDoc) {
@@ -348,49 +247,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         ProposalDevelopmentDocument document = ((ProposalDevelopmentForm)kualiDocumentFormBase).getProposalDevelopmentDocument();
-        loadDocument(document);
-    }
-    
-    /**
-     * 
-     * Called to load all necessary elements in the proposal development document
-     * @param document
-     */
-    protected void loadDocument(ProposalDevelopmentDocument document) {
-        getKeyPersonnelService().populateDocument(document);
-        updateNIHDescriptions(document);
-        setBudgetStatuses(document);
+        getProposalDevelopmentService().loadDocument(document);
     }
     
     protected SponsorService getSponsorService() {
         return KraServiceLocator.getService(SponsorService.class);
-    }
-    
-    /**
-     * 
-     * Updates portions of the proposal that are not persisted and are based on whether the
-     * sponsor is NIH or not
-     * @param document
-     */
-    protected void updateNIHDescriptions(ProposalDevelopmentDocument document) {
-        SponsorService sponsorService = getSponsorService();
-        DevelopmentProposal proposal = document.getDevelopmentProposal();
-        // Update the NIH related properties since this information is not persisted with the document
-        // (isSponsorNih sets the nih property as a side effect)
-        if (sponsorService.isSponsorNihMultiplePi(proposal)) {
-            proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
-        }
-        boolean multiPIFlag = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class,
-                ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
-        if (multiPIFlag) {
-            proposal.setSponsorNihMultiplePi(true);
-            proposal.setSponsorNihOsc(true);
-        } else {
-            proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));
-            proposal.setSponsorNihOsc(sponsorService.isSponsorNihOsc(proposal));
-        }
-    }
-    
+    }    
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -448,6 +310,16 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
         return forward;
     }
+    
+    protected void updateProposalDocument(ProposalDevelopmentForm proposalDevelopmentForm) throws Exception {
+        ProposalLockingRegion region = ProposalLockingRegion.GENERAL;
+        if (proposalDevelopmentForm.getActionName().equalsIgnoreCase("ProposalDevelopmentBudgetVersionsAction")) {
+            region = ProposalLockingRegion.BUDGET;
+        } else if (proposalDevelopmentForm.getActionName().equalsIgnoreCase("ProposalDevelopmentAbstractsAttachmentsAction" )) {
+            region = ProposalLockingRegion.ATTACHMENTS;
+        }
+        proposalDevelopmentForm.setDocument(getProposalDevelopmentService().updateProposalDocument(proposalDevelopmentForm.getProposalDevelopmentDocument(), region));        
+    }
 
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#saveOnClose(org.apache.struts.action.ActionMapping, 
@@ -476,149 +348,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         } else {
             return super.close(mapping, form, request, response);
         }
-    }
-    
-    /**
-     * 
-     * This method attempts to deal with the multiple pessimistic locks that can be on the proposal development document
-     * Proposal, Narratives, and Budget must all be treated separately and therefore the other portions of the document,
-     * outside of the one currently being saved, must be updated from the database to make sure the sessions do not stomp
-     * changes already persisted by another session.
-     * @param pdForm
-     * @throws Exception
-     */
-    protected void updateProposalDocument(ProposalDevelopmentForm pdForm) throws Exception {
-        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
-        ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
-        
-        if (updatedDocCopy != null) {
-            
-            //For Budget and Narrative Lock regions, this is the only way in which a Proposal Document might get updated
-            if (StringUtils.isNotEmpty(pdForm.getActionName()) && updatedDocCopy != null) {
-                if (!pdForm.getActionName().equalsIgnoreCase("ProposalDevelopmentBudgetVersionsAction")) {
-                    pdDocument.setBudgetDocumentVersions(updatedDocCopy.getBudgetDocumentVersions());
-                    pdDocument.getDevelopmentProposal().setBudgetStatus(updatedDocCopy.getDevelopmentProposal().getBudgetStatus());
-                } else {
-                    //in case other parts of the document have been saved since we have saved,
-                    //we save off possibly changed parts and reload the rest of the document
-                    List<BudgetDocumentVersion> newVersions = pdDocument.getBudgetDocumentVersions();
-                    String budgetStatus = pdDocument.getDevelopmentProposal().getBudgetStatus();
-                    
-                    pdForm.setDocument(updatedDocCopy);
-                    pdDocument = updatedDocCopy;
-                    loadDocument(pdDocument);
-                    
-                    pdDocument.setBudgetDocumentVersions(newVersions);
-                    pdDocument.getDevelopmentProposal().setBudgetStatus(budgetStatus);                  
-                }
-                if (!pdForm.getActionName().equalsIgnoreCase("ProposalDevelopmentAbstractsAttachmentsAction" )) {
-                    pdDocument.getDevelopmentProposal().setNarratives(updatedDocCopy.getDevelopmentProposal().getNarratives());
-                    pdDocument.getDevelopmentProposal().setInstituteAttachments(updatedDocCopy.getDevelopmentProposal().getInstituteAttachments());
-                    pdDocument.getDevelopmentProposal().setProposalAbstracts(updatedDocCopy.getDevelopmentProposal().getProposalAbstracts());
-                    pdDocument.getDevelopmentProposal().setPropPersonBios(updatedDocCopy.getDevelopmentProposal().getPropPersonBios());
-                    removePersonnelAttachmentForDeletedPerson(pdDocument);
-               } else {
-                   //in case other parts of the document have been saved since we have saved,
-                   //we save off possibly changed parts and reload the rest of the document
-                   List<Narrative> newNarratives = pdDocument.getDevelopmentProposal().getNarratives();
-                   List<Narrative> instituteAttachments = pdDocument.getDevelopmentProposal().getInstituteAttachments();
-                   List<ProposalAbstract> newAbstracts = pdDocument.getDevelopmentProposal().getProposalAbstracts();
-                   List<ProposalPersonBiography> newBiographies = pdDocument.getDevelopmentProposal().getPropPersonBios();
-    
-                   pdForm.setDocument(updatedDocCopy);
-                   pdDocument = updatedDocCopy;
-                   loadDocument(pdDocument);
-                   
-                    List<Narrative> newNarrativesCopy = new ArrayList<Narrative>();
-                    if (newNarratives != null) {
-                        for (Narrative refreshNarrativesList : newNarratives) {
-                            if (refreshNarrativesList.getNarrativeType().getNarrativeTypeGroup()
-                                    .equalsIgnoreCase(PROPOSAL_ATTACHMENT_TYPE_GROUP_CODE)) {
-                                newNarrativesCopy.add(refreshNarrativesList);
-                            }
-                        }
-                    }
-                   //now re-add narratives that could include changes and can't be modified otherwise
-                   pdDocument.getDevelopmentProposal().setNarratives(newNarrativesCopy);
-                   pdDocument.getDevelopmentProposal().setInstituteAttachments(instituteAttachments);
-                   pdDocument.getDevelopmentProposal().setProposalAbstracts(newAbstracts);
-                   pdDocument.getDevelopmentProposal().setPropPersonBios(newBiographies);
-    
-               }
-            }
-            
-            //rice objects are still using optimistic locking so update rice BO versions
-            //if no other session has saved this document we should be updating with same version number, but no easy way to know if it has been
-            //I don't think anyway? So do it every time.
-            pdDocument.getDocumentHeader().setVersionNumber(updatedDocCopy.getDocumentHeader().getVersionNumber());
-            int noteIndex = 0;
-            for(Object note: pdDocument.getNotes()) {
-                Note updatedNote = updatedDocCopy.getNote(noteIndex);
-                ((Note) note).setVersionNumber(updatedNote.getVersionNumber());
-                noteIndex++;
-            }
-            for(DocumentNextvalue documentNextValue : pdDocument.getDocumentNextvalues()) {
-                DocumentNextvalue updatedDocumentNextvalue = updatedDocCopy.getDocumentNextvalueBo(documentNextValue.getPropertyName());
-                if(updatedDocumentNextvalue != null) {
-                    documentNextValue.setVersionNumber(updatedDocumentNextvalue.getVersionNumber());
-                }
-            }   
-            //fix budget document version's document headers
-            for (int i = 0; i < pdDocument.getBudgetDocumentVersions().size(); i++) {
-                BudgetDocumentVersion curVersion = pdDocument.getBudgetDocumentVersion(i);
-                BudgetDocumentVersion otherVersion = updatedDocCopy.getBudgetDocumentVersion(i);
-                otherVersion.refreshReferenceObject("documentHeader");
-                if (curVersion != null && otherVersion != null) {
-                    curVersion.getDocumentHeader().setVersionNumber(otherVersion.getDocumentHeader().getVersionNumber());
-                }
-            }
-            pdForm.setDocument(pdDocument);
-        }
-    }
-    
-    /*
-     * The updatePD has some issue, such as if person is deleted, and the person attachment is also deleted.
-     * However, the updateProposalDocument recover everything from DB.  so, add this method to delete the deleted, but not saved personnel attachment.
-     */
-    private void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument) {
-
-        List<ProposalPersonBiography> personAttachments = new ArrayList();
-        for (ProposalPersonBiography proposalPersonBiography : proposaldevelopmentDocument.getDevelopmentProposal()
-                .getPropPersonBios()) {
-            boolean personFound = false;
-            for (ProposalPerson person : proposaldevelopmentDocument.getDevelopmentProposal().getProposalPersons()) {
-                if (proposalPersonBiography.getProposalPersonNumber().equals(person.getProposalPersonNumber())) {
-                    personFound = true;
-                    break;
-                }
-            }
-            if (!personFound) {
-                personAttachments.add(proposalPersonBiography);
-            }
-
-        }
-        if (!personAttachments.isEmpty()) {
-            proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().removeAll(personAttachments);
-        }
-    }
-
-    private boolean isPropertyGetterMethod(Method method, Method methods[]) {
-        if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
-            String setterName = method.getName().replaceFirst("get", "set");
-            for (Method m : methods) {
-                if (m.getName().equals(setterName)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    protected ProposalDevelopmentDocument getProposalDoc(String pdDocumentNumber) throws Exception {
-        ProposalDevelopmentDocument newCopy;
-        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
-        newCopy = (ProposalDevelopmentDocument)docService.getByDocumentHeaderId(pdDocumentNumber);        
-        return newCopy;
     }
     
     public ActionForward proposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -718,7 +447,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             pdForm.getDocument().refreshPessimisticLocks();
         }        
         pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetDocumentVersions()));
-        setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
+        getBudgetService().setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
         
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         tdcValidator.validateGeneratingWarnings(pdForm.getProposalDevelopmentDocument());
@@ -728,7 +457,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
     @SuppressWarnings("unchecked")
     public ActionForward abstractsAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         doc.getDevelopmentProposal().populateNarrativeRightsForLoggedinUser();
@@ -743,10 +471,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         List<Narrative> narratives = (List<Narrative>) ObjectUtils.deepCopy((Serializable) doc.getDevelopmentProposal().getNarratives());
         proposalDevelopmentForm.setNarratives(narratives);
         KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios());
-        List<Narrative> narrativeList = new ArrayList<Narrative> ();
-        narrativeList.addAll(doc.getDevelopmentProposal().getNarratives());
-        narrativeList.addAll(doc.getDevelopmentProposal().getInstituteAttachments());
-        KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narrativeList);
+        KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(doc.getDevelopmentProposal());
         KraServiceLocator.getService(ProposalAbstractsService.class).loadAbstractsUploadUserFullName(doc.getDevelopmentProposal().getProposalAbstracts());
 
         return mapping.findForward(Constants.ATTACHMENTS_PAGE);
@@ -791,10 +516,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
        }
        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
        String proposalNumber = document.getDevelopmentProposal().getProposalNumber();
-       proposalDevelopmentForm.getMedusaBean().setMedusaViewRadio("0");
-       proposalDevelopmentForm.getMedusaBean().setModuleName("DP");
-       proposalDevelopmentForm.getMedusaBean().setModuleIdentifier(Long.valueOf(proposalNumber));
-       proposalDevelopmentForm.getMedusaBean().generateParentNodes();
+       proposalDevelopmentForm.getMedusaBean().init("DP", Long.valueOf(proposalNumber));
        return mapping.findForward(Constants.MAPPING_PROPOSAL_MEDUSA_PAGE);
    }
 
@@ -832,31 +554,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = pdForm.getProposalDevelopmentDocument();
-        initializeProposalUsers(doc);
+        getProposalRoleTemplateService().initializeProposalUsers(doc);
         //on initialization of a new document the original lead unit will be blank
         //and so on first save we need to make sure to fix it
         if (pdForm.getCopyCriteria() != null) {
             pdForm.getCopyCriteria().setOriginalLeadUnitNumber(doc.getDevelopmentProposal().getOwnedByUnitNumber());
         }
-    }
-    
-   /**
-    * Create the original set of Proposal Users for a new Proposal Development Document.
-    * The creator the proposal is assigned to the AGGREGATOR role.
-    */
-    protected void initializeProposalUsers(ProposalDevelopmentDocument doc) {
-        
-        // Assign the creator of the proposal to the AGGREGATOR role.
-        
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        if (!kraAuthService.hasRole(userId, doc, RoleConstants.AGGREGATOR))
-            kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, doc);
-        
-        // Add the users defined in the role templates for the proposal's lead unit
-        
-        ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
-        proposalRoleTemplateService.addUsers(doc);
     }
     
     protected void loadDocumentInForm(HttpServletRequest request, ProposalDevelopmentForm proposalDevelopmentForm)
@@ -907,55 +610,32 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null || attachmentDataSource.getContent().length==0){
             //KRACOEUS-3300 - there should be GrantsGov audit errors in this case, grab them and display them as normal errors on
             //the GrantsGov forms tab so we don't need to turn on auditing
-            Iterator<String> iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator();
-            while (iter.hasNext()) {
-               String errorKey = (String) iter.next();
-                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(errorKey);
-                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
-                    grantsGovErrorExists = true;
-                    for (Object error : auditCluster.getAuditErrorList()) {
-                        AuditError auditError = (AuditError)error;
-                        GlobalVariables.getMessageMap().putError("grantsGovFormValidationErrors", auditError.getMessageKey(), auditError.getParams());
-                    }
-                }
-            }
+            grantsGovErrorExists = ErrorUtils.copyAuditErrorsToPage(Constants.GRANTSGOV_ERRORS, "grantsGovFormValidationErrors");
         }
         if(grantsGovErrorExists){
             GlobalVariables.getMessageMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
             return mapping.findForward(Constants.GRANTS_GOV_PAGE);
         }
         if (proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag()) {
-            String loggingDirectory = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
-            String saveXmlFolderName = proposalDevelopmentDocument.getSaveXmlFolderName();
-            if (StringUtils.isNotBlank(loggingDirectory)) {
-                File directory = new File(loggingDirectory);
-                if(!directory.exists()){
-                    directory.createNewFile();
-                }
-                if(!loggingDirectory.endsWith("/")){
-                    loggingDirectory+="/";
-                }
-                File grantsGovXmlDirectoryFile = new File(loggingDirectory + saveXmlFolderName + ".zip");
-                byte[] bytes = new byte[(int) grantsGovXmlDirectoryFile.length()];
-                FileInputStream fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
-                fileInputStream.read(bytes);
-                ByteArrayOutputStream baos = null;
+            File grantsGovXmlDirectoryFile = KraServiceLocator.getService(S2SService.class).getGrantsGovSavedFile(proposalDevelopmentDocument);
+            byte[] bytes = new byte[(int) grantsGovXmlDirectoryFile.length()];
+            FileInputStream fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
+            fileInputStream.read(bytes);
+            ByteArrayOutputStream baos = null;
+            try {
+                baos = new ByteArrayOutputStream(bytes.length);
+                baos.write(bytes);
+                WebUtils.saveMimeOutputStreamAsFile(response, "binary/octet-stream", baos, grantsGovXmlDirectoryFile.getName() + ".zip");
+            }
+            finally {
                 try {
-                    baos = new ByteArrayOutputStream(bytes.length);
-                    baos.write(bytes);
-                    WebUtils.saveMimeOutputStreamAsFile(response, "binary/octet-stream", baos, saveXmlFolderName + ".zip");
-
+                    if (baos != null) {
+                        baos.close();
+                        baos = null;
+                    }
                 }
-                finally {
-                    try {
-                        if (baos != null) {
-                            baos.close();
-                            baos = null;
-                        }
-                    }
-                    catch (IOException ioEx) {
-                        LOG.warn(ioEx.getMessage(), ioEx);
-                    }
+                catch (IOException ioEx) {
+                    LOG.warn(ioEx.getMessage(), ioEx);
                 }
             }
             proposalDevelopmentDocument.getDevelopmentProposal().setGrantsGovSelectFlag(false);
@@ -964,51 +644,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
             return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
         }
-        ByteArrayOutputStream baos = null;
-        try{
-            baos = new ByteArrayOutputStream(attachmentDataSource.getContent().length);
-            baos.write(attachmentDataSource.getContent());
-            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
-        }finally{
-            try{
-                if(baos!=null){
-                    baos.close();
-                    baos = null;
-                }
-            }catch(IOException ioEx){
-                LOG.warn(ioEx.getMessage(), ioEx);
-            }
-        }        
+        streamToResponse(attachmentDataSource, response);
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    
-    /**
-     * This method produces a list of strings containg the methodToCall to be registered for each of the 
-     * ProposalColumnsToAlter lookup buttons that can be rendered on the Proposal Data Override tab. The execute method in this class
-     * puts this list into the form.  The Proposal Data Override tag file then calls registerEditableProperty on each when rendering the tab.
-     * 
-     * @param proposalNumber The proposal number for which we are generating the list for.
-     * @return Possible editable properties that can be called from the page.
-     */
-    public List<String> constructColumnsToAlterLookupMTCs(String proposalNumber) {
-        Map<String,Object> filterMap = new HashMap<String,Object>();
-        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
-        Collection<ProposalColumnsToAlter> proposalColumnsToAlterCollection = (KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProposalColumnsToAlter.class, filterMap));
-        
-        List<String> mtcReturn = new ArrayList<String>();
-        
-        for( ProposalColumnsToAlter pcta : proposalColumnsToAlterCollection ) {
-            if( pcta.getHasLookup() ) {
-                Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                primaryKeys.put("columnName", pcta.getColumnName());
-                Object fieldValue = proposalDevelopmentService.getProposalFieldValueFromDBColumnName(proposalNumber, pcta.getColumnName());
-                String displayAttributeName = pcta.getLookupReturn();
-                String displayLookupReturnValue = proposalDevelopmentService.getDataOverrideLookupDisplayReturnValue(pcta.getLookupClass());
-                mtcReturn.add("methodToCall.performLookup.(!!"+pcta.getLookupClass()+"!!).((("+displayLookupReturnValue+":newProposalChangedData.changedValue,"+displayAttributeName+":newProposalChangedData.displayValue))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorProposalDataOverride");
-            }
-        }
-        return mtcReturn;
     }
 
     /**
@@ -1052,13 +689,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         
         proposalDevelopmentForm.getQuestionnaireHelper().prepareView();
         proposalDevelopmentForm.getS2sQuestionnaireHelper().prepareView();
-        //((ProposalDevelopmentForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(getSubmitActionType(request));
-//        if (CollectionUtils.isEmpty(proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders())) {
-            proposalDevelopmentForm.getQuestionnaireHelper().populateAnswers();
-//        } else {
-//            //nothing to do in this case right now..
-//        }
         
+        proposalDevelopmentForm.getQuestionnaireHelper().populateAnswers();        
         proposalDevelopmentForm.getS2sQuestionnaireHelper().populateAnswers();
         
         return mapping.findForward(Constants.QUESTIONS_PAGE);
@@ -1114,19 +746,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         pdform.setProposalPersonQuestionnaireHelpers(proposalPersonQuestionnaireHelpers);
 
-        pdform.getProposalDevelopmentParameters().put(PROPOSAL_SUMMARY_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_SUMMARY_INDICATOR));
-        pdform.getProposalDevelopmentParameters().put(BUDGET_SUMMARY_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, BUDGET_SUMMARY_INDICATOR));
-        pdform.getProposalDevelopmentParameters().put(KEY_PERSONNEL_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, KEY_PERSONNEL_INDICATOR));
-        pdform.getProposalDevelopmentParameters().put(SPECIAL_REVIEW_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SPECIAL_REVIEW_INDICATOR));
-        pdform.getProposalDevelopmentParameters().put(SUMMARY_PRINT_FORMS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_PRINT_FORMS_INDICATOR));
-        pdform.getProposalDevelopmentParameters().put(CUSTOM_DATA_INFO_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, CUSTOM_DATA_INFO_INDICATOR));
-        pdform.getProposalDevelopmentParameters().put(SUMMARY_QUESTIONS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_QUESTIONS_INDICATOR));
-        pdform.getProposalDevelopmentParameters().put(SUMMARY_ATTACHMENTS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_ATTACHMENTS_INDICATOR));
-        pdform.getProposalDevelopmentParameters().put(SUMMARY_KEYWORDS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_KEYWORDS_INDICATOR));
-        pdform.getProposalDevelopmentParameters().put(SUMMARY_DATA_VALIDATION_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_DATA_VALIDATION_INDICATOR));       
-        pdform.getProposalDevelopmentParameters().put(PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR));
-        pdform.getProposalDevelopmentParameters().put(SUMMARY_SPECIAL_REVIEW_LIST, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_SPECIAL_REVIEW_LIST));
-        pdform.getSpecialReviewHelper().populatePropSpecialReviewApproverView(pdform.getProposalDevelopmentParameters().get(SUMMARY_SPECIAL_REVIEW_LIST).getValue());
+        pdform.getSpecialReviewHelper().populatePropSpecialReviewApproverView(pdform.getProposalDevelopmentParameters().get(ProposalDevelopmentService.SUMMARY_SPECIAL_REVIEW_LIST).getValue());
         return mapping.findForward(Constants.MAPPING_PROPOSAL_APPROVER_PAGE);
     }
     
@@ -1384,13 +1004,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         
         final int personIndex = this.getSelectedLine(request);
         ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(personIndex);
-        ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
-        AnswerHeader header = helper.getAnswerHeaders().get(0);
-        
-        reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());
-        reportParameters.put("template", header.getQuestionnaire().getTemplate());
-
-        AttachmentDataSource dataStream = KraServiceLocator.getService(QuestionnairePrintingService.class).printQuestionnaireAnswer(person, reportParameters);
+        AttachmentDataSource dataStream = 
+                getProposalDevelopmentPrintingService().printPersonCertificationQuestionnaire(Lists.newArrayList(person));
         if (dataStream.getContent() != null) {
             streamToResponse(dataStream, response);
             forward = null;
@@ -1413,26 +1028,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             HttpServletResponse response) throws Exception {
         
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
-        Map<String, Object> reportParameters = new HashMap<String, Object>();
-        List<Printable> printables = new ArrayList<Printable> ();
-        
-        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
-        
-        for ( ProposalPerson person :document.getDevelopmentProposal().getProposalPersons()) {
-            
-            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
-            AnswerHeader header = helper.getAnswerHeaders().get(0);            
-            reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());
-            reportParameters.put("template", header.getQuestionnaire().getTemplate());            
-            AbstractPrint printable = KraServiceLocator.getService(QuestionnairePrint.class);
-            if (printable != null) {
-                printable.setPrintableBusinessObject(person);
-                printable.setReportParameters(reportParameters);
-            }
-            printables.add(printable);
-        }
-        AttachmentDataSource dataStream = KraServiceLocator.getService(PrintingService.class).print(printables);
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        AttachmentDataSource dataStream = 
+                getProposalDevelopmentPrintingService().printPersonCertificationQuestionnaire(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons());
+
         if (dataStream.getContent() != null) {
             streamToResponse(dataStream, response);
             forward = null;
@@ -1449,26 +1048,35 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
        return KraServiceLocator.getService(S2SBudgetCalculatorService.class);
    }
 
-   /**
-    * Quick method to get the RoleService
-    * @return RoleService reference
-    */
-   private RoleService getRoleService() {
-       return KraServiceLocator.getService(RoleService.class);
-   }
+    protected ProposalDevelopmentService getProposalDevelopmentService() {
+        if (proposalDevelopmentService == null) {
+            proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        }
+        return proposalDevelopmentService;
+    }
+    
+    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
+        this.proposalDevelopmentService = proposalDevelopmentService;
+    }
+
+    protected ProposalRoleTemplateService getProposalRoleTemplateService() {
+        if (proposalRoleTemplateService == null) {
+            proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
+        }
+        return proposalRoleTemplateService;
+    }
+
+    public void setProposalRoleTemplateService(ProposalRoleTemplateService proposalRoleTemplateService) {
+        this.proposalRoleTemplateService = proposalRoleTemplateService;
+    }
+
+
+    public ProposalDevelopmentPrintingService getProposalDevelopmentPrintingService() {
+        return proposalDevelopmentPrintingService;
+    }
+
+
+    public void setProposalDevelopmentPrintingService(ProposalDevelopmentPrintingService proposalDevelopmentPrintingService) {
+        this.proposalDevelopmentPrintingService = proposalDevelopmentPrintingService;
+    }
 }
-
-class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {
-    public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
-        return  s2sOppForms2.getAvailable().compareTo(s2sOppForms1.getAvailable());
-    }
-  }
-
-class S2sOppFormsComparator2 implements Comparator<S2sOppForms> {
-    public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
-        return  s2sOppForms2.getMandatory().compareTo(s2sOppForms1.getMandatory());
-    }
-   
-  }
-
-

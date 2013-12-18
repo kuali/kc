@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
@@ -35,7 +35,7 @@ public class CoeusSubModuleValuesFinder extends UifKeyValuesFinderBase {
             List<KeyValue> labels = new ArrayList<KeyValue>();
             labels.add(new ConcreteKeyValue("0", "select"));
             if (StringUtils.isNotBlank(moduleCode)) {
-                KeyValuesService boService = KRADServiceLocator.getKeyValuesService();
+                KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
                 Map<String, Object> fieldValues = new HashMap<String, Object>();
                 fieldValues.put("moduleCode", moduleCode);
                 Collection<CoeusSubModule> codes = (Collection<CoeusSubModule>) boService.findMatching(CoeusSubModule.class,

@@ -64,10 +64,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         setKeywordsPanelFlag(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
 
-        KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganizationLocation(
-                proposalDevelopmentDocument);
-        KraServiceLocator.getService(ProposalDevelopmentService.class).initializeProposalSiteNumbers(
-                proposalDevelopmentDocument);
+        getProposalDevelopmentService().initializeUnitOrganizationLocation(proposalDevelopmentDocument);
+        getProposalDevelopmentService().initializeProposalSiteNumbers(proposalDevelopmentDocument);
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         if (!proposalDevelopmentForm.isGrantsGovEnabled()
@@ -97,10 +95,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         //required for save, particularly if the proposal has not yet been saved
-        KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganizationLocation(
-                doc);
-        KraServiceLocator.getService(ProposalDevelopmentService.class).initializeProposalSiteNumbers(
-                doc);
+        getProposalDevelopmentService().initializeUnitOrganizationLocation(doc);
+        getProposalDevelopmentService().initializeProposalSiteNumbers(doc);
         
         return forward;
     }
@@ -148,7 +144,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         if (proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators().size() > 0)
             sort(proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
            
-        updateNIHDescriptions(proposalDevelopmentDocument);
+        getProposalDevelopmentService().updateNIHDescriptions(proposalDevelopmentDocument.getDevelopmentProposal());
         
         return actionForward;
     }

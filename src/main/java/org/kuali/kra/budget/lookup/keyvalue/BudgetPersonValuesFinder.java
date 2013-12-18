@@ -23,9 +23,9 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.io.Serializable;
@@ -55,7 +55,7 @@ public class BudgetPersonValuesFinder extends FormViewAwareUifKeyValuesFinderBas
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> KeyValues = null;
-        BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
         Document doc = getDocument();
         if (doc instanceof BudgetDocument) {
             BudgetDocument budgetDocument = (BudgetDocument) doc;

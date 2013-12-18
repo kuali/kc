@@ -22,6 +22,7 @@ import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -283,7 +284,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     protected DocumentHeader getDocHeader() {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        LegacyDataAdapter boService = KraServiceLocator.getService(LegacyDataAdapter.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", this.documentNumber);
         DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);

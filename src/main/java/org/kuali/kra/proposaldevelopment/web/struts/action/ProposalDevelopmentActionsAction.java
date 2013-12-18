@@ -504,7 +504,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 this.loadDocument(proposalDevelopmentForm);  
                 
                 ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-                initializeProposalUsers(copiedDocument);//add in any default permissions
+                getProposalRoleTemplateService().initializeProposalUsers(copiedDocument);//add in any default permissions
                 copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
                  
                 DocumentService docService = KraServiceLocator.getService(DocumentService.class);
@@ -678,7 +678,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNumber() == null) {
             // If entering this action from copy link on doc search
             loadDocumentInForm(request, proposalDevelopmentForm);
-            loadDocument(proposalDevelopmentForm.getProposalDevelopmentDocument());
+            getProposalDevelopmentService().loadDocument(proposalDevelopmentForm.getProposalDevelopmentDocument());
         }
         
         return submitToSponsor(mapping, form, request, response);
@@ -1160,52 +1160,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
     }
     
-    /**
-     * 
-     * This method is called to print forms
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward printSponsorForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
-        String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
-        
-        List<SponsorFormTemplateList> sponsorFormTemplateLists = proposalDevelopmentForm.getSponsorFormTemplates();
-        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
-        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();  
-        printFormTemplates = printService.getSponsorFormTemplates(sponsorFormTemplateLists); 
-        Map<String,Object> reportParameters = new HashMap<String,Object>();
-        reportParameters.put(ProposalDevelopmentPrintingService.SELECTED_TEMPLATES, printFormTemplates);
-        
-        // TODO fix - printing code does not catch null fields in proposal and does not fail gracefully when certain fields are blank
-        try {
-            AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(proposalDevelopmentDocument.getDevelopmentProposal(), 
-                    ProposalDevelopmentPrintingService.PRINT_PROPOSAL_SPONSOR_FORMS, reportParameters);
-            streamToResponse(dataStream, response);
-            return null;//mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-
-        }
-        catch (NullPointerException npe) {
-            LOG.error("Error generating print stream for proposal forms", npe);
-            GlobalVariables.getMessageMap().putError("print.nofield", KeyConstants.ERROR_PRINTING_UNKNOWN);
-            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-        }
-
-//        
-//        if(!printFormTemplates.isEmpty()) {
-//            String contentType = Constants.PDF_REPORT_CONTENT_TYPE;
-//            String ReportName = proposalNumber.concat("_" + proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode()).concat(Constants.PDF_FILE_EXTENSION);
-//            streamToResponse(printFormTemplates, proposalNumber, contentType, ReportName, response);
-//            actionForward = null;
-//        }
-//        return actionForward;
-    }
     public void streamToResponse(List<SponsorFormTemplate> printFormTemplates, String proposalNumber, String contentType, String ReportName, HttpServletResponse response) throws Exception{
         
         

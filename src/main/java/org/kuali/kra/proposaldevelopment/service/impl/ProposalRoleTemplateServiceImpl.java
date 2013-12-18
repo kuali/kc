@@ -17,6 +17,8 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
@@ -82,9 +84,23 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
      * @param doc the proposal development document
      * @return the creator's username
      */
-    public String getCreator(ProposalDevelopmentDocument doc) {
+    protected String getCreator(ProposalDevelopmentDocument doc) {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
+    
+    /**
+     * Create the original set of Proposal Users for a new Proposal Development Document.
+     * The creator the proposal is assigned to the AGGREGATOR role.
+     */
+     public void initializeProposalUsers(ProposalDevelopmentDocument doc) {
+         // Assign the creator of the proposal to the AGGREGATOR role.
+         String userId = getCreator(doc);
+         if (!kraAuthorizationService.hasRole(userId, doc, RoleConstants.AGGREGATOR))
+             kraAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, doc);
+         
+         // Add the users defined in the role templates for the proposal's lead unit
+         addUsers(doc);
+     }     
     
     /**
      * Get the role templates for the proposal.  The retrieved role templates correspond

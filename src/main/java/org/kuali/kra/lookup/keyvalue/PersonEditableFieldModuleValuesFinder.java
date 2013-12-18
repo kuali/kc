@@ -18,6 +18,7 @@ package org.kuali.kra.lookup.keyvalue;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -34,7 +35,7 @@ public class PersonEditableFieldModuleValuesFinder extends UifKeyValuesFinderBas
     public List<KeyValue> getKeyValues() {
         List<String> validCodes = Arrays.asList(new String[] {CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, CoeusModule.IRB_MODULE_CODE});
         if (moduleCodes == null) {
-            KeyValuesService boService = KRADServiceLocator.getKeyValuesService();
+            KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
             Collection<CoeusModule> codes = (Collection<CoeusModule>) boService.findAll(CoeusModule.class);
             List<KeyValue> labels = new ArrayList<KeyValue>();
             labels.add(new ConcreteKeyValue("", "select"));

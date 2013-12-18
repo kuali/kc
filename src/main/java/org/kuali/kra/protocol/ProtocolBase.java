@@ -1375,7 +1375,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     protected void mergePersonnel(ProtocolBase amendment) {
         setProtocolPersons((List<ProtocolPersonBase>) deepCopy(amendment.getProtocolPersons()));
         for (ProtocolPersonBase person : protocolPersons) {
-            Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID").intValue();
+            Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID", person.getClass()).intValue();
             person.setProtocolPersonId(nextPersonId);
             for (ProtocolAttachmentPersonnelBase protocolAttachmentPersonnel : person.getAttachmentPersonnels()) {
                 protocolAttachmentPersonnel.setId(null);

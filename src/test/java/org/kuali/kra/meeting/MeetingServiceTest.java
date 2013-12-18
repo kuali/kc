@@ -197,7 +197,7 @@ public class MeetingServiceTest extends KcUnitTestBase {
         newOtherAction.setScheduleActItemTypeCode("1");
         context.checking(new Expectations() {
             {
-                one(sequenceAccessorService).getNextAvailableSequenceNumber("SEQ_MEETING_ID");
+                one(sequenceAccessorService).getNextAvailableSequenceNumber("SEQ_MEETING_ID", newOtherAction.getClass());
                 will(returnValue(newOtherAction.getCommScheduleActItemsId()));
 
             }

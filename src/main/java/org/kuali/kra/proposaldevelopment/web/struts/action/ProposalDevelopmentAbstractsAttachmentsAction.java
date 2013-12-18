@@ -71,7 +71,6 @@ import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAM
  * @version 1.0
  */
 public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevelopmentAction {
-    private static final String PROPOSAL_NARRATIVE_TYPE_GROUP2 = "proposalNarrativeTypeGroup";
     private static final String EMPTY_STRING = "";
     private static final String MODULE_NUMBER = "moduleNumber";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
@@ -123,14 +122,11 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_NARRATIVE_TYPE_GROUP2,getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_NARRATIVE_TYPE_GROUP2));
+        
         ActionForward actionForward = super.execute(mapping, form, request, response); 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)((ProposalDevelopmentForm)form).getDocument();
         KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios()); 
-        List<Narrative> narratives = new ArrayList<Narrative> ();
-        narratives.addAll(doc.getDevelopmentProposal().getNarratives());
-        narratives.addAll(doc.getDevelopmentProposal().getInstituteAttachments());
-        KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narratives);
+        KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(doc.getDevelopmentProposal());
         KraServiceLocator.getService(ProposalAbstractsService.class).loadAbstractsUploadUserFullName(doc.getDevelopmentProposal().getProposalAbstracts());
         return actionForward;
     }    
@@ -502,21 +498,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     }
     
     /**
-     * Update the User and Timestamp for the business object.
-     * @param bo the business object
-     */
-    private void setUpdateFields(KraPersistableBusinessObjectBase bo) {
-        String updateUser = GlobalVariables.getUserSession().getPrincipalName();
-        bo.setUpdateUser(updateUser);
-        bo.setUpdateTimestamp((getService(DateTimeService.class)).getCurrentTimestamp());
-        if (bo instanceof ProposalAbstract) {
-            ProposalAbstract abstractBo = (ProposalAbstract) bo;
-            abstractBo.setTimestampDisplay((getService(DateTimeService.class)).getCurrentTimestamp());
-            abstractBo.setUploadUserDisplay(updateUser);
-        }
-    }
-    
-    /**
      * Adds an Abstract to the Proposal Development Document.
      * 
      * Assuming we have a valid new abstract, it is taken from the form 
@@ -540,7 +521,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
                     
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
-            setUpdateFields(proposalAbstract);
             proposalAbstract.setTimestampDisplay((getService(DateTimeService.class)).getCurrentTimestamp());
             proposalAbstract.setUploadUserDisplay(GlobalVariables.getUserSession().getPrincipalName());
             proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalAbstracts().add(proposalAbstract);

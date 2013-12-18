@@ -22,6 +22,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
 import java.util.Calendar;
@@ -56,7 +57,7 @@ public class ProtocolNumberServiceTest {
         final SequenceAccessorService sequenceAccessorService = context.mock(SequenceAccessorService.class);
         context.checking(new Expectations() {
             {
-                one(sequenceAccessorService).getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
+                one(sequenceAccessorService).getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID", Protocol.class);
                 will(returnValue(sequenceNumber));
             }
         });

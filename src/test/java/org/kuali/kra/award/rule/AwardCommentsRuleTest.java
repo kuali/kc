@@ -29,6 +29,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
 
+import java.util.List;
+
 public class AwardCommentsRuleTest extends KcUnitTestBase {
     private static final String ERROR_PATH_PREFIX = "document.awards[0]";
     private static final String VALID_COMMENT = "This comment should pass validation";
@@ -103,7 +105,7 @@ public class AwardCommentsRuleTest extends KcUnitTestBase {
         assertFalse(result);
         assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
         
-        AutoPopulatingList errorMessages = GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyKey);
+        List errorMessages = GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyKey);
         assertNotNull(errorMessages);
         assertEquals(1, errorMessages.size());
         String actualErrorKey = ((ErrorMessage)errorMessages.get(0)).getErrorKey();
