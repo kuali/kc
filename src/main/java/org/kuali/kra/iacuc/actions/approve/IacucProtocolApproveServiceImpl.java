@@ -18,12 +18,14 @@ package org.kuali.kra.iacuc.actions.approve;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveServiceImplBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase implements IacucProtocolApproveService {
 
@@ -64,8 +66,8 @@ public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImplB
     
     
     @Override
-    protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, Object object, String protocolActionTypeCode) {
-        return new IacucProtocolAction((IacucProtocol)protocol, null, protocolActionTypeCode);
+    protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission, String protocolActionTypeCode) {
+        return new IacucProtocolAction((IacucProtocol)protocol, (IacucProtocolSubmission) submission, protocolActionTypeCode);
     }
 
 
