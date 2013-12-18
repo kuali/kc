@@ -578,6 +578,11 @@
                             <value>true</value>
                         </systemProperty>
                     </systemProperties>
+                    <!-- for the run-forked goal -->
+                    <jvmArgs>${jetty.argLine}</jvmArgs>
+                    <waitForChild>true</waitForChild>
+                    <stopKey>kc.stop.jetty</stopKey>
+                    <stopPort>8085</stopPort>
                 </configuration>
             </plugin>
 		</plugins>
@@ -1477,7 +1482,7 @@ module of int tests -->
                         <version>${maven-dependency-plugin.version}</version>
                         <executions>
                             <execution>
-                                <id>copy-javaagent-war</id>
+                                <id>copy-javaagent-jar</id>
                                 <goals>
                                     <goal>copy</goal>
                                 </goals>
@@ -2091,6 +2096,7 @@ module of int tests -->
         <kc.context.path>/kc-${build.environment}</kc.context.path>
         <kc.port>8080</kc.port>
         <jetty.context.file>${basedir}/src/main/webapp/WEB-INF/jetty-web.xml</jetty.context.file>
+        <jetty.argLine>-Xmx1024m -XX:MaxPermSize=512m -javaagent:${javaagent.output.dir}/spring-instrument.jar</jetty.argLine>
 
         <!-- WSDL config -->
         <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
