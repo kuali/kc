@@ -160,7 +160,9 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         action.setActionDate(approvalActionDate);
         newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
-        
+        if (currentProtocol.getProtocolStatusCode().equals(ProtocolStatus.EXPIRED) && this.isRenewal()) {
+            newProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
+        }
         try {
             getDocumentService().saveDocument(newProtocolDocument);
             // blanket approve to make the new protocol document 'final'
