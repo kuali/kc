@@ -1181,4 +1181,11 @@
     <bean id="iacucPersonTrainingLookupableHelperService" class="org.kuali.kra.iacuc.IacucPersonTrainingLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
 
+    <bean id="iacucReviewDeterminationTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="iacucReviewDeterminationTypeLookupableHelperService" />
+    </bean>
+
+    <bean id="iacucReviewDeterminationTypeLookupableHelperService" class="org.kuali.kra.iacuc.onlinereview.IacucReviewDeterminationTypeLookupableHelperServiceImpl" 
+          parent="parentLookupableHelperService" scope="prototype" />       
+
 </beans>

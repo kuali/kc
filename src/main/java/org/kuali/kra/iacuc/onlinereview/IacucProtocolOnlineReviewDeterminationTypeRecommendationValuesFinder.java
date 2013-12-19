@@ -1,11 +1,11 @@
 /*
- * Copyright 2005-2010 The Kuali Foundation
+ * Copyright 2005-2013 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,21 +26,22 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KeyValuesService;
 
-public class IacucProtocolOnlineReviewTypesNotDeterminationValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
-        
+
+/**
+ * Assembles the IACUC Protocol Review Type Determination Values to display in the drop-down menu when
+ * performing an online review. 
+ */
+public class IacucProtocolOnlineReviewDeterminationTypeRecommendationValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -4118821657613491616L;
-    
-    
-    //value should match org.kuali.kra.maintenanceIacucProtocolOnlineReviewDeterminationTypeRecommendationMaintainableImpl.DEFAULT_SELECTION
+    private static final long serialVersionUID = 7071063929463359324L;
+
     private static final String DEFAULT_SELECTION = "select"; 
     
     KeyValuesService keyValuesService = null;
-
-    
-    
+        
     @Override
     public List<KeyValue> getKeyValues() {        
         Collection<IacucProtocolOnlineReviewDeterminationTypeRecommendation> reviewTypesUsedInDetermination = getKeyValuesService().findAll(IacucProtocolOnlineReviewDeterminationTypeRecommendation.class);
@@ -49,17 +50,16 @@ public class IacucProtocolOnlineReviewTypesNotDeterminationValuesFinder extends 
         keyValues.add(new ConcreteKeyValue("", DEFAULT_SELECTION));
         boolean found = false;
         
-        for (IacucProtocolReviewType reviewType : allReviewTypes) {            
-            for (IacucProtocolOnlineReviewDeterminationTypeRecommendation reviewTypesUsed : reviewTypesUsedInDetermination) {
-                if (reviewType.getReviewTypeCode() != null && reviewTypesUsed.getIacucProtocolReviewTypeCode() != null && 
-                    reviewType.getReviewTypeCode().equalsIgnoreCase(reviewTypesUsed.getIacucProtocolReviewTypeCode())) {
+        for (IacucProtocolOnlineReviewDeterminationTypeRecommendation reviewTypesUsed : reviewTypesUsedInDetermination) {
+            for (IacucProtocolReviewType reviewType : allReviewTypes) {                        
+                if (reviewTypesUsed.getIacucProtocolReviewTypeCode() != null && reviewType.getReviewTypeCode() != null && 
+                        reviewTypesUsed.getIacucProtocolReviewTypeCode().equalsIgnoreCase(reviewType.getReviewTypeCode())) {
                     found = true;
                     break;
                 }
             }
-            if (!found) {
-                String description = new String (reviewType.getReviewTypeCode() + " - " + reviewType.getDescription());
-                keyValues.add(new ConcreteKeyValue(reviewType.getReviewTypeCode(), description));
+            if (found) {
+                keyValues.add(new ConcreteKeyValue(reviewTypesUsed.getIacucProtocolReviewTypeCode(), reviewTypesUsed.getIacucProtocolReviewType().getDescription()));
             }
             found = false;
         }       
@@ -74,5 +74,4 @@ public class IacucProtocolOnlineReviewTypesNotDeterminationValuesFinder extends 
         }
         return keyValuesService;
     }
-    
 }

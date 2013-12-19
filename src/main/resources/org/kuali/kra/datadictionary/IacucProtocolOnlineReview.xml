@@ -227,14 +227,16 @@
         </property>
         <property name="control">
              <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType"
-                p:includeKeyInLabel="false" p:keyAttribute="reviewTypeCode"
-                p:labelAttribute="description" />
+                p:valuesFinderClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationTypeRecommendationValuesFinder"
+                p:businessObjectClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationTypeRecommendation"
+                p:includeKeyInLabel="false" 
+                p:keyAttribute="iacucProtocolReviewTypeCode" 
+                p:labelAttribute="iacucProtocolReviewTypeCode" />
         </property>
         <property name="summary" value="Review Type Determination" />
         <property name="description" value="Review Type Determination" />
     </bean>
+
      <bean id="IacucProtocolOnlineReview-determinationReviewDateDue" parent="IacucProtocolOnlineReview-determinationReviewDateDue-parentBean" />
     <bean id="IacucProtocolOnlineReview-determinationReviewDateDue-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
         <property name="name" value="determinationReviewDateDue" />
