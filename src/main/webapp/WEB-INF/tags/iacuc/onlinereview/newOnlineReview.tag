@@ -15,7 +15,7 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="onlineReviewAttributes" value="${DataDictionary.IacucProtocolOnlineReview.attributes}" />
-<c:set var="protocolReviewerAttributes" value="${DataDictionary.IacucProtocolReviewer.attributes}" />
+<c:set var="protocolReviewerAttributes" value="${DataDictionary.IacucProtocolReviewerBean.attributes}" />
 <c:set var="newOnlineReviewAttributes" value="${DataDictionary.NewProtocolOnlineReviewBean.attributes}" />
 
 <c:set var="readOnly" value = "false"/>

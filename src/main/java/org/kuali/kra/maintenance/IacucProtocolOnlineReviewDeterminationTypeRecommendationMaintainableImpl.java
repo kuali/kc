@@ -25,7 +25,8 @@ public class IacucProtocolOnlineReviewDeterminationTypeRecommendationMaintainabl
      */
     private static final long serialVersionUID = 6613313050279041286L;
     
-    private static final String DEFAULT_SELECTION = "Select";  //value should match org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewTypesNotDeterminationValuesFinder.DEFAULT_VALUE
+    //value should match org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewTypesNotDeterminationValuesFinder.DEFAULT_SELECTION
+    private static final String DEFAULT_SELECTION = "select";
       
     @Override
     public void prepareForSave() {
