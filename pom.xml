@@ -217,11 +217,11 @@
                                 </requirePluginVersions>
 
                                 <banCircularDependencies/>
-
+                                <!-- when executed from eclipse it fails
                                 <enforceBytecodeVersion>
                                     <maxJdkVersion>${enforcer.max.jdk.version}</maxJdkVersion>
                                 </enforceBytecodeVersion>
-
+                                -->
                                 <!--
                                 When upgrading to rice 1.1 it is recommended to merge in the banned dependencies from rice's parent pom.
                                 This way we do not have to do all the analysis done in rice for lib upgrades/jdk6 support all over again.
@@ -467,10 +467,18 @@
                         <version>${mysql.version}</version>
                         <scope>runtime</scope>
                     </dependency>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-instrument-tomcat</artifactId>
+                        <version>${spring.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
                 </dependencies>
                 <configuration>
+                    <classLoaderClass>org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader</classLoaderClass>
                     <port>${kc.port}</port>
                     <path>${kc.context.path}</path>
+                    <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader>
                 </configuration>
             </plugin>
             <plugin>
@@ -490,10 +498,18 @@
                         <version>${mysql.version}</version>
                         <scope>runtime</scope>
                     </dependency>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-instrument-tomcat</artifactId>
+                        <version>${spring.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
                 </dependencies>
                 <configuration>
+                    <classLoaderClass>org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader</classLoaderClass>
                     <port>${kc.port}</port>
                     <path>${kc.context.path}</path>
+                    <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader>
                 </configuration>
             </plugin>
             <plugin>
@@ -579,10 +595,10 @@
                         </systemProperty>
                     </systemProperties>
                     <!-- for the run-forked goal -->
-                    <jvmArgs>${jetty.argLine}</jvmArgs>
+                    <!--<jvmArgs>${jetty.argLine}</jvmArgs>
                     <waitForChild>true</waitForChild>
                     <stopKey>kc.stop.jetty</stopKey>
-                    <stopPort>8085</stopPort>
+                    <stopPort>8085</stopPort> -->
                 </configuration>
             </plugin>
 		</plugins>
@@ -1719,8 +1735,15 @@ module of int tests -->
                                 <version>${mysql.version}</version>
                                 <scope>runtime</scope>
                             </dependency>
+                            <dependency>
+                                <groupId>org.springframework</groupId>
+                                <artifactId>spring-instrument-tomcat</artifactId>
+                                <version>${spring.version}</version>
+                                <scope>runtime</scope>
+                            </dependency>
                         </dependencies>
                         <configuration>
+                            <classLoaderClass>org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader</classLoaderClass>
                             <port>${rice.port}</port>
                             <path>${rice.context.path}</path>
                             <warDirectory>${rice.war.file}</warDirectory>
@@ -1744,8 +1767,15 @@ module of int tests -->
                                 <version>${mysql.version}</version>
                                 <scope>runtime</scope>
                             </dependency>
+                            <dependency>
+                                <groupId>org.springframework</groupId>
+                                <artifactId>spring-instrument-tomcat</artifactId>
+                                <version>${spring.version}</version>
+                                <scope>runtime</scope>
+                            </dependency>
                         </dependencies>
                         <configuration>
+                            <classLoaderClass>org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader</classLoaderClass>
                             <port>${rice.port}</port>
                             <path>${rice.context.path}</path>
                             <warDirectory>${rice.war.file}</warDirectory>
@@ -1995,8 +2025,8 @@ module of int tests -->
         <itext.version>2.1.7</itext.version>
         <javax.servlet.version>3.0.0.v201112011016</javax.servlet.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
-        <jetty8.version>8.1.13.v20130916</jetty8.version>
-        <jetty9.version>9.0.5.v20130815</jetty9.version>
+        <jetty8.version>8.1.14.v20131031</jetty8.version>
+        <jetty9.version>9.1.0.v20131115</jetty9.version>
         <jetty.version>${jetty9.version}</jetty.version>
         <jmock.version>2.6.0</jmock.version>
         <jsp-api.version>2.1</jsp-api.version>
@@ -2065,7 +2095,7 @@ module of int tests -->
         <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
         <maven-war-plugin.version>2.4</maven-war-plugin.version>
         <truezip-maven-plugin.version>1.1</truezip-maven-plugin.version>
-        <tomcat-maven-plugin.version>2.1</tomcat-maven-plugin.version>
+        <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
         <tomcat6-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat6-maven-plugin.version>
         <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
 
