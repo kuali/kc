@@ -86,6 +86,8 @@
         <field-descriptor name="mailingAddressId" column="MAILING_ADDRESS_ID" jdbc-type="INTEGER" />
         <field-descriptor name="numberOfCopies" column="NUMBER_OF_COPIES" jdbc-type="VARCHAR" />
         <field-descriptor name="proposalStateTypeCode" column="STATUS_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="agencyRoutingIdentifier" column="AGENCY_ROUTING_IDENTIFIER" jdbc-type="VARCHAR" />
+        <field-descriptor name="prevGrantsGovTrackingID" column="PREV_GG_TRACKID" jdbc-type="VARCHAR" />
         <field-descriptor name="submitFlag" column="SUBMIT_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <!-- 
         <field-descriptor name="budgetStatus" column="BUDGET_STATUS" jdbc-type="VARCHAR" />

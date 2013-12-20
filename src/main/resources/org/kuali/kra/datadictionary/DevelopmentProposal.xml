@@ -71,6 +71,8 @@
 				<ref bean="DevelopmentProposal-budgetStatus" />
 				<ref bean="DevelopmentProposal-proposalNumberForGG" />
 				<ref bean="DevelopmentProposal-opportunityIdForGG" />
+				<ref bean="DevelopmentProposal-agencyRoutingIdentifier" />
+				<ref bean="DevelopmentProposal-prevGrantsGovTrackingID" />
 			</list>
 		</property>
 		<property name="collections">
@@ -926,7 +928,47 @@
 		<property name="description"
 			value="The status of the final budget version for this Proposal Development Document" />
 	</bean>
+	
+	<bean id="DevelopmentProposal-agencyRoutingIdentifier" parent="DevelopmentProposal-agencyRoutingIdentifier-parentBean" />
+	<bean id="DevelopmentProposal-agencyRoutingIdentifier-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="agencyRoutingIdentifier" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Agency Routing Identifier" />
+		<property name="shortLabel" value="Agency Routing Identifier" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+		<property name="summary" value="The Agency Routing Identifier for this Proposal." />
+		<property name="description"
+			value="The Agency Routing Identifier " />
+	</bean>
 
+	<bean id="DevelopmentProposal-prevGrantsGovTrackingID" parent="DevelopmentProposal-prevGrantsGovTrackingID-parentBean" />
+	<bean id="DevelopmentProposal-prevGrantsGovTrackingID-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="prevGrantsGovTrackingID" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Prev Grants.Gov Tracking ID" />
+		<property name="shortLabel" value="Prev Grants.Gov Tracking ID" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+		<property name="summary" value="The Prev Grants.Gov Tracking ID for this Proposal." />
+		<property name="description"
+			value="Prev Grants.Gov Tracking ID " />
+	</bean>
+	
 	<!-- Business Object Lookup Definition -->
 	<bean id="DevelopmentProposal-lookupDefinition" parent="DevelopmentProposal-lookupDefinition-parentBean" />
 	<bean id="DevelopmentProposal-lookupDefinition-parentBean"

@@ -111,6 +111,17 @@
            			<kul:htmlControlAttribute property="document.developmentProposalList[0].agencyProgramCode" attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" />
            		</td>
      		</tr>
+     		
+     		<tr>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyRoutingIdentifier}" /></div></th>
+                <td>
+                	<kul:htmlControlAttribute property="document.developmentProposalList[0].agencyRoutingIdentifier" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.agencyRoutingIdentifier}" styleClass="fixed-size-200-select"/>
+                </td>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.prevGrantsGovTrackingID}" /></div></th>
+           		<td>
+           			<kul:htmlControlAttribute property="document.developmentProposalList[0].prevGrantsGovTrackingID" attributeEntry="${proposalDevelopmentAttributes.prevGrantsGovTrackingID}" />
+           		</td>
+     		</tr>
      		</tr>
 
 
