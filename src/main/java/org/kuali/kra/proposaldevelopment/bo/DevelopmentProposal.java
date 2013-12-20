@@ -231,6 +231,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String proposalNumberForGG;
     
     private String opportunityIdForGG;
+
+    private String agencyRoutingIdentifier;
+    
+    private String prevGrantsGovTrackingID;
  
 
     /**
@@ -2257,7 +2261,43 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setLastSyncedBudgetDocumentNumber(String lastSyncedBudgetDocumentNumber) {
         this.lastSyncedBudgetDocumentNumber = lastSyncedBudgetDocumentNumber;
     }
-    
+
+/**
+ * Gets the agencyRoutingIdentifier attribute.
+ * 
+ * @return Returns the agencyRoutingIdentifier.
+ */
+public String getAgencyRoutingIdentifier() {
+    return agencyRoutingIdentifier;
+}
+
+/**
+ * Sets the agencyRoutingIdentifier attribute value.
+ * 
+ * @param agencyRoutingIdentifier The agencyRoutingIdentifier to set.
+ */
+public void setAgencyRoutingIdentifier(String agencyRoutingIdentifier) {
+    this.agencyRoutingIdentifier = agencyRoutingIdentifier;
+}
+
+/**
+ * Gets the prevGrantsGovTrackingID attribute.
+ * 
+ * @return Returns the prevGrantsGovTrackingID.
+ */
+public String getPrevGrantsGovTrackingID() {
+    return prevGrantsGovTrackingID;
+}
+
+/**
+ * Sets the prevGrantsGovTrackingID attribute value.
+ * 
+ * @param prevGrantsGovTrackingID The prevGrantsGovTrackingID to set.
+ */
+public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
+    this.prevGrantsGovTrackingID = prevGrantsGovTrackingID;
+}
+   
     public void markNarratives(NarrativeStatus narrativeStatus) {
         if(narrativeStatus != null) {
             for(Narrative narrative : narratives) {
