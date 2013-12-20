@@ -28,35 +28,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class UnitMaintainableImpl extends KraMaintainableImpl implements Maintainable {
 
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
-
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void deleteBusinessObject() {
-        super.deleteBusinessObject();
-/*        Unit newUnit = (Unit) this.getBusinessObject();
-        UnitService unitService = KraServiceLocator.getService(UnitService.class);
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        if(isOldBusinessObjectInDocument()) {
-            Unit oldUnit = boService.findBySinglePrimaryKey(Unit.class, newUnit.getUnitNumber());
-            if(oldUnit != null) {
-                List<UnitAdministrator> administrators = unitService.retrieveUnitAdministratorsByUnitNumber(oldUnit.getUnitNumber());
-                for(UnitAdministrator admin : administrators) {
-                    admin.setUnitNumber(newUnit.getUnitNumber());
-                    boService.save(admin);
-                }
-            }
-        }*/
-    }
-
     /*
-     * this is to prevent Unit Admins from being deleted when modifying an editable portion of the Unit.
+     * this is to prevent Unit Admins from being deleted when modifying an editable portion of the Unit (NAME).
      * see KRACOEUS-6830
      * Setting auto-delete="none" and auto-update="none/link" did not remedy this...
      */
