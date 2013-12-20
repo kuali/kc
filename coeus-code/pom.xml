@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.kuali.coeus</groupId>
+        <artifactId>coeus</artifactId>
+        <version>6.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>coeus-code</artifactId>
+    <packaging>jar</packaging>
+    <name>Kuali Coeus Code</name>
+    <description>
+        The Kuali Coeus Code module contains the main source code for the Kuali Coeus application.
+    </description>
+    
+    <properties>
+        <!-- WSDL config -->
+        <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
+        <account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>
+        <budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>
+    </properties>
+    
+    <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>META-INF/kc-config-build.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+                
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-codegen-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>generate-apply-grants-gov</id>
+                                <phase>generate-sources</phase>
+                                <inherited>false</inherited>
+                                <configuration>
+                                    <disableDirectoryScan>true</disableDirectoryScan>
+                                    <wsdlOptions>
+                                        <wsdlOption>
+                                            <noAddressBinding>true</noAddressBinding>
+                                            <wsdl>${gg.wsdl.location}/ApplicantWebServices-V2_0.wsdl</wsdl>
+                                            <catalog>${gg.wsdl.location}/schemas/gg-catalog.xml</catalog>
+                                            <extraargs>
+                                                <extraarg>-verbose</extraarg>
+                                                <!-- Need to remove the validation from the class generation because of various bugs in
+                                                 CXF 2.7.0 related to validation when there are xsd imports present. Refer
+                                                 https://issues.apache.org/jira/browse/CXF-4487
+                                                 https://issues.apache.org/jira/browse/CXF-4488
+                                                 https://issues.apache.org/jira/browse/CXF-4489
+                                                 
+                                                 <extraarg>-validate</extraarg>-->
+                                            </extraargs>
+                                        </wsdlOption>
+                                    </wsdlOptions>
+                                </configuration>
+                                <goals>
+                                    <goal>wsdl2java</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>account-creation-service</id>
+                                <phase>generate-sources</phase>
+                                <inherited>false</inherited>
+                                <configuration>
+                                    <disableDirectoryScan>true</disableDirectoryScan>
+                                    <wsdlOptions>
+                                        <wsdlOption>
+                                            <noAddressBinding>true</noAddressBinding>
+                                            <wsdl>${gg.wsdl.location}/AccountCreationService.wsdl</wsdl>
+                                            <bindingFiles>
+                                                <bindingFile>${gg.wsdl.location}/account_jaxb.xml</bindingFile>
+                                            </bindingFiles>
+                                            <extraargs>
+                                                <extraarg>-verbose</extraarg>
+                                                <extraarg>-validate</extraarg>
+                                                <extraarg>-wsdlLocation</extraarg>
+                                                <extraarg>${account.wsdl.packaged.location}</extraarg>
+                                            </extraargs>
+                                        </wsdlOption>
+                                    </wsdlOptions>
+                                </configuration>
+                                <goals>
+                                    <goal>wsdl2java</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>budget-adjustment-service</id>
+                                <phase>generate-sources</phase>
+                                <inherited>false</inherited>
+                                <configuration>
+                                    <disableDirectoryScan>true</disableDirectoryScan>
+                                    <wsdlOptions>
+                                        <wsdlOption>
+                                            <noAddressBinding>true</noAddressBinding>
+                                            <wsdl>${gg.wsdl.location}/BudgetAdjustmentService.wsdl</wsdl>
+                                            <bindingFiles>
+                                                <bindingFile>${gg.wsdl.location}/budget_jaxb.xml</bindingFile>
+                                            </bindingFiles>
+                                            <extraargs>
+                                                <extraarg>-verbose</extraarg>
+                                                <extraarg>-validate</extraarg>
+                                                <extraarg>-wsdlLocation</extraarg>
+                                                <extraarg>${budget.wsdl.packaged.location}</extraarg>
+                                            </extraargs>
+                                        </wsdlOption>
+                                    </wsdlOptions>
+                                </configuration>
+                                <goals>
+                                    <goal>wsdl2java</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <!-- need to add this to get around the following error
+                             org.apache.xerces.impl.dv.DVFactoryException: DTD factory
+                             class org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl does not extend
+                             from DTDDVFactory.     -->
+                            <dependency>
+                                <groupId>xerces</groupId>
+                                <artifactId>xercesImpl</artifactId>
+                                <version>2.8.1</version>
+                            </dependency>
+                            <!-- Need to have this dependency to avoid the internal exception
+                             java.lang.ClassCastException: org.apache.xml.dtm.ref.DTMManagerDefault
+                             cannot be cast to org.apache.xml.dtm.DTMManager, finally leading to
+                             org.apache.cxf.tools.common.ToolException:
+                             Could not find any node with the XPath expression: //wsdl:definitions-->
+                            <dependency>
+                                <groupId>xalan</groupId>
+                                <artifactId>xalan</artifactId>
+                                <version>${xalan.version}</version>
+                                <exclusions>
+                                    <exclusion>
+                                        <artifactId>xml-apis</artifactId>
+                                        <groupId>xml-apis</groupId>
+                                    </exclusion>
+                                </exclusions>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>aopalliance</groupId>
+            <artifactId>aopalliance</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bcprov-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcmail-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcprov-jdk14</artifactId>
+                    <groupId>org.bouncycastle</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        
+        <!-- Required for jdk7 -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        
+        <!-- For FTP client -->
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>displaytag</groupId>
+            <artifactId>displaytag</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl104-over-slf4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>itext</groupId>
+                    <artifactId>itext</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-beanutils</artifactId>
+                    <groupId>commons-beanutils</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <!-- temp solution to make jetty upgrade work.  we should downgrade to servlet 2.5 once we have a separate
+         module of int tests-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${avax.servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--	we need to bring this back in once we get a separate module for our int tests
+         <dependency>
+         <groupId>javax.servlet</groupId>
+         <artifactId>servlet-api</artifactId>
+         <version>${servlet.version}</version>
+         <scope>provided</scope>
+         </dependency>-->
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        
+        <!-- CSV parser -->
+        <dependency>
+            <groupId>net.sf.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>antlr</artifactId>
+                    <groupId>antlr</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-beanutils</artifactId>
+                    <groupId>commons-beanutils</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-el</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>standard</artifactId>
+                    <groupId>taglibs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jstl</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-extras</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-taglib</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>stax-api</artifactId>
+                    <groupId>stax</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>fop</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xmlParserAPIs</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>rhino</groupId>
+                    <artifactId>js</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.directwebremoting</groupId>
+            <artifactId>dwr</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>xmlParserAPIs</artifactId>
+                    <groupId>xerces</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jdom</artifactId>
+                    <groupId>jdom</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>xml-apis</artifactId>
+                    <groupId>xml-apis</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jetty-util</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <exclusions>
+                <!-- Causes conflict with Tomcat JDT-->
+                <exclusion>
+                    <groupId>org.eclipse.jdt.core.compiler</groupId>
+                    <artifactId>ecj</artifactId>
+                </exclusion>
+                <!-- This interferes with Rice's xml parser causing all kinds of workflow havoc -->
+                <exclusion>
+                    <groupId>com.thoughtworks.xstream</groupId>
+                    <artifactId>xstream</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+            <artifactId>org.eclipse.birt.runtime</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>com.lowagie.text</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>javax.wsdl</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.xml.resolver</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.xml.serializer</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.bridge</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.css</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.dom</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.dom.svg</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.ext.awt</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.parser</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.pdf</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.svggen</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.transcoder</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.util</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.util.gui</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.xml</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.commons.codec</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jstl-impl</artifactId>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet.jsp</groupId>
+                    <artifactId>jsp-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.db.ojb</groupId>
+            <artifactId>db-ojb</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>xml-apis</artifactId>
+                    <groupId>xml-apis</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xalan</groupId>
+                    <artifactId>xalan</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>cglib</artifactId>
+                    <groupId>cglib</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-beanutils</artifactId>
+                    <groupId>commons-beanutils</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>asm</artifactId>
+                    <groupId>asm</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.print.xsds</groupId>
+            <artifactId>kc-printing-xsds</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>gg-application</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>gg-forms1</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>gg-forms2</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>gg-forms3</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>gg-forms4</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>gg-forms5</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>gg-forms6</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>gg-forms7</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>gg-forms8</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>gg-system</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>kc-s2s-generated</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>keycontacts-1.0-gg</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>phs398modularbudget-1.2-gg</artifactId>
+        </dependency>
+        
+        <dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>phs398researchplan-2.0-gg</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>phs398coverpagesupplement-2.0-gg</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>rrkeypersonexpanded-2.0-gg</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>performancesite-2.0-gg</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>rrbudget-1.3-gg</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>phs398trainingsubawardbudget-2.0-gg</artifactId>
+		</dependency>
+        
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>rrsubawardbudget-1.3-gg</artifactId>
+		</dependency>
+        
+		<dependency>
+ 			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>sf424r-2.0-gg</artifactId>
+		</dependency>
+        
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>rrotherproject-1.3-gg</artifactId>
+		</dependency>
+        
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>phs398careerdevelopmentawardsup-2.0-gg</artifactId>
+		</dependency>
+        
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>phs398researchtrainingprogramplan-2.0-gg</artifactId>
+		</dependency>
+        
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>phsfellowshipsupplemental-2.0-gg</artifactId>
+		</dependency>
+        
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>rrbudget10-1.3-gg</artifactId>
+		</dependency>
+        
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>rrsubawardbudget10-1.3-gg</artifactId>
+		</dependency>
+        
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>rrsubawardbudget1_3-1.3-gg</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>rrsubawardbudget10_30-1.3-gg</artifactId>
+		</dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>s2sform</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>sf424-2.1-gg</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-edl-impl</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-impl</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.oracle</groupId>
+                    <artifactId>ojdbc14</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.oracle</groupId>
+                    <artifactId>ojdbc6</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>htmlunit</groupId>
+                    <artifactId>htmlunit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>itext</groupId>
+                    <artifactId>itext</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.resource</groupId>
+                    <artifactId>connector</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.resource</groupId>
+                    <artifactId>connector</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jdom</groupId>
+                    <artifactId>jdom</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derby</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jetty</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-mock</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>tomcat</groupId>
+                    <artifactId>jasper-compiler</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>tomcat</groupId>
+                    <artifactId>jasper-compiler-jdt</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>tomcat</groupId>
+                    <artifactId>jasper-runtime</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>xml-apis</artifactId>
+                    <groupId>xml-apis</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>mail</artifactId>
+                    <groupId>javax.mail</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>quartz</artifactId>
+                    <groupId>opensymphony</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-krms-impl</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-ksb-web</artifactId>
+        </dependency>
+        
+        <!-- commons-logging implementation, commons-logging calls will go to slf4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        
+        <!-- jul bridge, jul calls will go to slf4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- binding forwards slf4j calls to log4j (should only contain a single binder) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springmodules</groupId>
+            <artifactId>spring-modules-ojb</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ojb</groupId>
+                    <artifactId>db-ojb</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>xml-apis</artifactId>
+                    <groupId>xml-apis</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+</project>
