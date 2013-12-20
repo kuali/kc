@@ -4,7 +4,7 @@
 
   <bean id="UnitMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.Unit"/>
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.kra.bo.UnitMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="UnitMaintenanceDocument-EditUnit"/>
