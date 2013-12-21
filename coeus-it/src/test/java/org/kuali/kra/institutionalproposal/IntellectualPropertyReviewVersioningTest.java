@@ -22,9 +22,10 @@ import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
-public class IntellectualPropertyReviewVersioningTest {
+public class IntellectualPropertyReviewVersioningTest extends KcUnitTestBase {
     
     private VersioningService versioningService;
     
