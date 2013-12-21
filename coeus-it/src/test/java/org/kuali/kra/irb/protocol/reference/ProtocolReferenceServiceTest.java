@@ -18,10 +18,11 @@ package org.kuali.kra.irb.protocol.reference;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 import static org.junit.Assert.assertEquals;
 
-public class ProtocolReferenceServiceTest {
+public class ProtocolReferenceServiceTest extends KcUnitTestBase {
     
     Protocol protocol;
     ProtocolReference protocolReference = new ProtocolReference();
