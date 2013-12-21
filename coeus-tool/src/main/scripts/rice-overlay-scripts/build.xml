@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="rice-overlay" default="update-database" basedir=".">
+<project name="rice-overlay" default="update-database" basedir="">
 	
 	<property name="krcr.changelog.file" value="01_bootstrap_krcr_data.xml"/>
 	<property name="krim.entity.changelog.file" value="02_bootstrap_krim_entity_data.xml"/>

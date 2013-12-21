@@ -1,4 +1,4 @@
-<project name="JMeter" default="test" basedir="../..">
+<project name="JMeter" default="test" basedir="../../../../">
     <property environment="env"/>
     <property name="jmeter.home" location="${env.JMETER_HOME}"/>
 
