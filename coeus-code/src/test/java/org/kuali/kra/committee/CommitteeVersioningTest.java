@@ -40,9 +40,9 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class CommitteeVersioningTest implements Serializable {
+public class CommitteeVersioningTest {
 
-    private transient VersioningService versioningService;
+    private VersioningService versioningService;
     private Committee originalCommittee;
 
     
