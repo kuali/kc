@@ -19,15 +19,17 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 /**
- * This class...
+ * 
+ * This class tests methods in InstitutionalProposalCostShare.java class
  */
-public class InstitutionalProposalUnrecoveredFandATest {
+public class InstitutionalProposalCostShareTest extends KcUnitTestBase {
 
-private static final int IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT = 9;
+private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 8;
     
-    private InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandABo;
+    private InstitutionalProposalCostShare institutionalProposalCostShareBo;
     private InstitutionalProposal institutionalProposal;
     
     /**
@@ -36,9 +38,9 @@ private static final int IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT = 9;
      */
     @Before
     public void setUp() throws Exception {
-        institutionalProposalUnrecoveredFandABo = new InstitutionalProposalUnrecoveredFandA();
+        institutionalProposalCostShareBo = new InstitutionalProposalCostShare();
         institutionalProposal = new InstitutionalProposal();
-        institutionalProposalUnrecoveredFandABo.setInstitutionalProposal(institutionalProposal);
+        institutionalProposalCostShareBo.setInstitutionalProposal(institutionalProposal);
     }
 
     /**
@@ -47,7 +49,7 @@ private static final int IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT = 9;
      */
     @After
     public void tearDown() throws Exception {
-        institutionalProposalUnrecoveredFandABo = null;
+        institutionalProposalCostShareBo = null;
     }
     
     /**
@@ -56,7 +58,8 @@ private static final int IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT = 9;
      * @throws Exception
      */
     @Test
-    public void testInstitutionalProposalUnrecovedFandABoAttributesCount() throws Exception {              
-        Assert.assertEquals(IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT, institutionalProposalUnrecoveredFandABo.getClass().getDeclaredFields().length);
+    public void testInstitutionalProposalCostShareBoAttributesCount() throws Exception {              
+        Assert.assertEquals(IP_COST_SHARE_ATTRIBUTES_COUNT, institutionalProposalCostShareBo.getClass().getDeclaredFields().length);
     }
+    
 }
