@@ -24,6 +24,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
-public class ProtocolCorrespondenceTemplateServiceTest {
+public class ProtocolCorrespondenceTemplateServiceTest extends KcUnitTestBase {
     private static final String  COMMITTEE_ID = "commid";
     private static final String  AGENDA_TYPE = "9";
     private static final String  AGENDA_FILE_NAME = "agenda.xml";
