@@ -28,6 +28,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -40,7 +41,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class CommitteeVersioningTest {
+public class CommitteeVersioningTest extends KcUnitTestBase {
 
     private VersioningService versioningService;
     private Committee originalCommittee;
