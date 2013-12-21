@@ -341,7 +341,7 @@ public class QuestionnaireAnswerServiceTest {
      */
     @Test
     public void testGetQuestionnaireAnswer() {
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        //GlobalVariables.setUserSession(new UserSession("quickstart"));
        // answerheader(0) is set up as existing one
         // answerheader(1) is a newly created one
         QuestionnaireAnswerServiceImpl questionnaireAnswerServiceImpl = new QuestionnaireAnswerServiceImpl();
