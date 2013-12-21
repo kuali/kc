@@ -1,4 +1,4 @@
-<project name="DBCopy" default="oracle-all" basedir=".">
+<project name="DBCopy" default="oracle-all" basedir="">
 	
 	<!-- 
 	     These are the default properties used in the program.  You may wish to change them
@@ -43,12 +43,12 @@
     <target name="oracle-all" depends="oracle-embedded,oracle-bundled,oracle-test,oracle-clean" description="updates all oracle development databases" />
 	
 	<target name="oracle-init">
-        <copy todir="." flatten="true">
+        <copy todir="" flatten="true">
             <resources>
                 <url url="http://db.kc.kuali.org:8089/public/extracts/devdb_oracle_${db.version}.zip"/>
             </resources>
         </copy>
-        <unzip src="devdb_oracle_${db.version}.zip" dest="."/>
+        <unzip src="devdb_oracle_${db.version}.zip" dest=""/>
     </target>
 	
 	<target name="oracle-embedded" depends="oracle-embedded-client, oracle-embedded-server" description="updates the embedded client and server databases"/>
@@ -86,12 +86,12 @@
     <target name="mysql-all" depends="mysql-embedded,mysql-bundled,mysql-test,mysql-clean" description="updates all mysql development databases" />
 	
 	<target name="mysql-init">
-        <copy todir="." flatten="true">
+        <copy todir="" flatten="true">
             <resources>
                 <url url="http://db.kc.kuali.org:8089/public/extracts/devdb_mysql_${db.version}.zip"/>
             </resources>
         </copy>
-        <unzip src="devdb_mysql_${db.version}.zip" dest="."/>
+        <unzip src="devdb_mysql_${db.version}.zip" dest=""/>
     </target>
 	
 	<target name="mysql-embedded" depends="mysql-embedded-client, mysql-embedded-server" description="updates the embedded client and server databases"/>
