@@ -20,12 +20,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class BudgetDocumentIntegrationTest {
+public class BudgetDocumentIntegrationTest extends KcUnitTestBase {
     private static final int MILLIS_PER_SECOND = 1000;
     
     private Budget budget;
