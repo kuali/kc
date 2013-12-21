@@ -138,6 +138,12 @@ public class JettyServer implements Lifecycle {
 		if (System.getProperty("basedir") == null) {
 			System.setProperty("basedir", System.getProperty("user.dir"));
 		}
+
+        //hack for multi-module structure
+        String baseDir = System.getProperty("basedir");
+        if (baseDir != null && baseDir.contains("coeus-it")) {
+            System.setProperty("basedir", baseDir.replace("coeus-it", ""));
+        }
 	}
 	
 	private boolean useWebAppContext() {
