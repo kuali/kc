@@ -17,10 +17,11 @@ package org.kuali.kra.irb.protocol.location;
 
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 import static org.junit.Assert.assertEquals;
 
-public class ProtocolLocationServiceTest {
+public class ProtocolLocationServiceTest extends KcUnitTestBase {
     protected static final String NEW_ORGANIZATION_VALUE =  "000004";
     
     /**
