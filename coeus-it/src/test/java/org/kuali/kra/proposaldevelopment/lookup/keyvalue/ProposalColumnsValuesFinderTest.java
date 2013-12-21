@@ -19,13 +19,14 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class ProposalColumnsValuesFinderTest {
+public class ProposalColumnsValuesFinderTest extends KcUnitTestBase {
     
     private ProposalColumnsValuesFinder finder = null;
 
