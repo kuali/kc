@@ -26,10 +26,10 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.AttachmentOutInterceptor;
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.cxf.message.Attachment;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
@@ -48,6 +48,7 @@ import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationRespon
 import gov.grants.apply.services.applicantwebservices_v2_0.ApplicantWebServicesPortType;
 import gov.grants.apply.services.applicantwebservices_v2_0.ErrorMessage;
 import gov.grants.apply.system.grantscommonelements_v1.ApplicationFilter;
+import gov.grants.apply.system.grantscommonelements_v1.Attachment;
 
 import javax.activation.DataHandler;
 import javax.net.ssl.KeyManager;
@@ -114,7 +115,6 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         getOpportunityListRequest.setCFDANumber(cfdaNumber);
         getOpportunityListRequest.setCompetitionID(competitionId);
         getOpportunityListRequest.setFundingOpportunityNumber(opportunityId);
-        
         try {
             return port.getOpportunities(getOpportunityListRequest);
         }catch(SOAPFaultException soapFault){
@@ -206,23 +206,20 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
                     Map<String, DataHandler> attachments, String proposalNumber)
             throws S2SException {
         ApplicantWebServicesPortType port = getApplicantIntegrationSoapPort(proposalNumber);
-        Client client = ClientProxy.getClient(port);
         Iterator<String> it = attachments.keySet().iterator();
-        final List<Attachment> atts = new ArrayList<Attachment>();
+        SubmitApplicationRequest request = new SubmitApplicationRequest();
+
         while (it.hasNext()) {
             String key = it.next();
-            Attachment attachment = new AttachmentImpl(key,attachments.get(key));
-            atts.add(attachment);
+            String cid = key;
+            DataHandler dataHandler = attachments.get(key);
+            Attachment attachment = new Attachment();
+            attachment.setFileContentId(cid);
+            attachment.setFileDataHandler(dataHandler);
+            request.getAttachment().add(attachment);
         }
-        List<Interceptor<? extends Message>> outInterceptors = client.getOutInterceptors();
-        outInterceptors.add(new AttachmentOutInterceptor(){
-            @Override
-            public void handleMessage(org.apache.cxf.message.Message message) {
-                message.setAttachments(atts);
-            };
-        });
-        SubmitApplicationRequest request = new SubmitApplicationRequest();
         request.setGrantApplicationXML(xmlText);
+        
         try {
             return port.submitApplication(request);
         }catch (ErrorMessage e) {
@@ -269,11 +266,16 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         factory.setServiceClass(ApplicantWebServicesPortType.class);
         // enabling mtom from V2 onwards
         // works for grants.gov but not for research.gov, get a mime related error.
-//        Map<String,Object> properties = new HashMap<String, Object>();
-//        properties.put("mtom-enabled", Boolean.TRUE);
-//        factory.setProperties(properties);
+        //Couldn't find MIME boundary: --uuid
+        //disable for research.gov. This is not a big deal because submissions with attachments
+        // go to grants.gov anyways and not to research.gov
+        if (!StringUtils.equalsIgnoreCase(serviceHost, Constants.RESEARCH_GOV_SERVICE_HOST)) {
+            Map<String,Object> properties = new HashMap<String, Object>();
+            properties.put("mtom-enabled", Boolean.TRUE);
+            factory.setProperties(properties);
+        }
+        
         ApplicantWebServicesPortType applicantWebService = (ApplicantWebServicesPortType)factory.create();
-      
         Client client = ClientProxy.getClient(applicantWebService); 
         HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();
         httpClientPolicy.setConnectionTimeout(0);
