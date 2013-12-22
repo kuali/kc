@@ -13,7 +13,11 @@
     <packaging>jar</packaging>
     <name>Kuali Coeus Config</name>
     <description>
-        The Kuali Coeus Config module contains configuration artifacts for the Kuali Coeus application.  These config
+        The Kuali Coeus Config module contains configuration artifacts for the Kuali Coeus application. These config
         artifacts are not used directly by the Kuali Coeus webapp.
     </description>
+
+    <properties>
+        <maven.skip.packaging>true</maven.skip.packaging>
+    </properties>
 </project>

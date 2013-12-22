@@ -13,16 +13,20 @@
     <packaging>jar</packaging>
     <name>Kuali Coeus Tool</name>
     <description>
-        The Kuali Coeus Tool module contains scripts and utilities for the Kuali Coeus application.  The code in this
-        module is not directly used by the Kuali Coeus application.  For example: this module could contain developer
+        The Kuali Coeus Tool module contains scripts and utilities for the Kuali Coeus application. The code in this
+        module is not directly used by the Kuali Coeus application. For example: this module could contain developer
         tools, launch scripts, implementation tools, etc.
     </description>
+
+    <properties>
+        <maven.skip.packaging>true</maven.skip.packaging>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.kuali.coeus</groupId>
             <artifactId>coeus-code</artifactId>
-            <version>6.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

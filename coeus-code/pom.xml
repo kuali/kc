@@ -15,14 +15,14 @@
     <description>
         The Kuali Coeus Code module contains the main source code for the Kuali Coeus application.
     </description>
-    
+
     <properties>
         <!-- WSDL config -->
         <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
         <account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>
         <budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>
     </properties>
-    
+
     <build>
         <resources>
             <resource>
@@ -36,135 +36,119 @@
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
-                
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-codegen-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>generate-apply-grants-gov</id>
-                                <phase>generate-sources</phase>
-                                <inherited>false</inherited>
-                                <configuration>
-                                    <disableDirectoryScan>true</disableDirectoryScan>
-                                    <wsdlOptions>
-                                        <wsdlOption>
-                                            <noAddressBinding>true</noAddressBinding>
-                                            <wsdl>${gg.wsdl.location}/ApplicantWebServices-V2_0.wsdl</wsdl>
-                                            <catalog>${gg.wsdl.location}/schemas/gg-catalog.xml</catalog>
-                                            <extraargs>
-                                                <extraarg>-verbose</extraarg>
-                                                <!-- Need to remove the validation from the class generation because of various bugs in
-                                                 CXF 2.7.0 related to validation when there are xsd imports present. Refer
-                                                 https://issues.apache.org/jira/browse/CXF-4487
-                                                 https://issues.apache.org/jira/browse/CXF-4488
-                                                 https://issues.apache.org/jira/browse/CXF-4489
-                                                 
-                                                 <extraarg>-validate</extraarg>-->
-                                            </extraargs>
-                                        </wsdlOption>
-                                    </wsdlOptions>
-                                </configuration>
-                                <goals>
-                                    <goal>wsdl2java</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>account-creation-service</id>
-                                <phase>generate-sources</phase>
-                                <inherited>false</inherited>
-                                <configuration>
-                                    <disableDirectoryScan>true</disableDirectoryScan>
-                                    <wsdlOptions>
-                                        <wsdlOption>
-                                            <noAddressBinding>true</noAddressBinding>
-                                            <wsdl>${gg.wsdl.location}/AccountCreationService.wsdl</wsdl>
-                                            <bindingFiles>
-                                                <bindingFile>${gg.wsdl.location}/account_jaxb.xml</bindingFile>
-                                            </bindingFiles>
-                                            <extraargs>
-                                                <extraarg>-verbose</extraarg>
-                                                <extraarg>-validate</extraarg>
-                                                <extraarg>-wsdlLocation</extraarg>
-                                                <extraarg>${account.wsdl.packaged.location}</extraarg>
-                                            </extraargs>
-                                        </wsdlOption>
-                                    </wsdlOptions>
-                                </configuration>
-                                <goals>
-                                    <goal>wsdl2java</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>budget-adjustment-service</id>
-                                <phase>generate-sources</phase>
-                                <inherited>false</inherited>
-                                <configuration>
-                                    <disableDirectoryScan>true</disableDirectoryScan>
-                                    <wsdlOptions>
-                                        <wsdlOption>
-                                            <noAddressBinding>true</noAddressBinding>
-                                            <wsdl>${gg.wsdl.location}/BudgetAdjustmentService.wsdl</wsdl>
-                                            <bindingFiles>
-                                                <bindingFile>${gg.wsdl.location}/budget_jaxb.xml</bindingFile>
-                                            </bindingFiles>
-                                            <extraargs>
-                                                <extraarg>-verbose</extraarg>
-                                                <extraarg>-validate</extraarg>
-                                                <extraarg>-wsdlLocation</extraarg>
-                                                <extraarg>${budget.wsdl.packaged.location}</extraarg>
-                                            </extraargs>
-                                        </wsdlOption>
-                                    </wsdlOptions>
-                                </configuration>
-                                <goals>
-                                    <goal>wsdl2java</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <!-- need to add this to get around the following error
-                             org.apache.xerces.impl.dv.DVFactoryException: DTD factory
-                             class org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl does not extend
-                             from DTDDVFactory.     -->
-                            <dependency>
-                                <groupId>xerces</groupId>
-                                <artifactId>xercesImpl</artifactId>
-                                <version>2.8.1</version>
-                            </dependency>
-                            <!-- Need to have this dependency to avoid the internal exception
-                             java.lang.ClassCastException: org.apache.xml.dtm.ref.DTMManagerDefault
-                             cannot be cast to org.apache.xml.dtm.DTMManager, finally leading to
-                             org.apache.cxf.tools.common.ToolException:
-                             Could not find any node with the XPath expression: //wsdl:definitions-->
-                            <dependency>
-                                <groupId>xalan</groupId>
-                                <artifactId>xalan</artifactId>
-                                <version>${xalan.version}</version>
-                                <exclusions>
-                                    <exclusion>
-                                        <artifactId>xml-apis</artifactId>
-                                        <groupId>xml-apis</groupId>
-                                    </exclusion>
-                                </exclusions>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-    
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-apply-grants-gov</id>
+                        <phase>generate-sources</phase>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <disableDirectoryScan>true</disableDirectoryScan>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <noAddressBinding>true</noAddressBinding>
+                                    <wsdl>${gg.wsdl.location}/ApplicantWebServices-V2_0.wsdl</wsdl>
+                                    <catalog>${gg.wsdl.location}/schemas/gg-catalog.xml</catalog>
+                                    <extraargs>
+                                        <extraarg>-verbose</extraarg>
+                                        <!-- Need to remove the validation from the class generation because of various bugs in
+                                         CXF 2.7.0 related to validation when there are xsd imports present. Refer
+                                         https://issues.apache.org/jira/browse/CXF-4487
+                                         https://issues.apache.org/jira/browse/CXF-4488
+                                         https://issues.apache.org/jira/browse/CXF-4489
+
+                                         <extraarg>-validate</extraarg>-->
+                                    </extraargs>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>account-creation-service</id>
+                        <phase>generate-sources</phase>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <disableDirectoryScan>true</disableDirectoryScan>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <noAddressBinding>true</noAddressBinding>
+                                    <wsdl>${gg.wsdl.location}/AccountCreationService.wsdl</wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>${gg.wsdl.location}/account_jaxb.xml</bindingFile>
+                                    </bindingFiles>
+                                    <extraargs>
+                                        <extraarg>-verbose</extraarg>
+                                        <extraarg>-validate</extraarg>
+                                        <extraarg>-wsdlLocation</extraarg>
+                                        <extraarg>${account.wsdl.packaged.location}</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>budget-adjustment-service</id>
+                        <phase>generate-sources</phase>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <disableDirectoryScan>true</disableDirectoryScan>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <noAddressBinding>true</noAddressBinding>
+                                    <wsdl>${gg.wsdl.location}/BudgetAdjustmentService.wsdl</wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>${gg.wsdl.location}/budget_jaxb.xml</bindingFile>
+                                    </bindingFiles>
+                                    <extraargs>
+                                        <extraarg>-verbose</extraarg>
+                                        <extraarg>-validate</extraarg>
+                                        <extraarg>-wsdlLocation</extraarg>
+                                        <extraarg>${budget.wsdl.packaged.location}</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <!-- need to add this to get around the following error
+                     org.apache.xerces.impl.dv.DVFactoryException: DTD factory
+                     class org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl does not extend
+                     from DTDDVFactory.     -->
+                    <dependency>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                        <version>${xercesImpl.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>aopalliance</groupId>
             <artifactId>aopalliance</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>com.lowagie</groupId>
             <artifactId>itext</artifactId>
@@ -183,30 +167,30 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
-        
+
+
         <!-- Required for jdk7 -->
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
-        
+
         <!-- For FTP client -->
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>displaytag</groupId>
             <artifactId>displaytag</artifactId>
@@ -233,7 +217,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
@@ -244,13 +228,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <!-- temp solution to make jetty upgrade work.  we should downgrade to servlet 2.5 once we have a separate
          module of int tests-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>${avax.servlet-api.version}</version>
+            <version>${javax.servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <!--	we need to bring this back in once we get a separate module for our int tests
@@ -260,24 +244,24 @@
          <version>${servlet.version}</version>
          <scope>provided</scope>
          </dependency>-->
-        
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
         </dependency>
-        
+
         <!-- CSV parser -->
         <dependency>
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
@@ -288,7 +272,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts-core</artifactId>
@@ -307,7 +291,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts-el</artifactId>
@@ -322,17 +306,17 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts-extras</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts-taglib</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.xmlbeans</groupId>
             <artifactId>xmlbeans</artifactId>
@@ -343,7 +327,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>fop</artifactId>
@@ -370,7 +354,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.directwebremoting</groupId>
             <artifactId>dwr</artifactId>
@@ -397,7 +381,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.drools</groupId>
             <artifactId>drools-compiler</artifactId>
@@ -414,12 +398,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.drools</groupId>
             <artifactId>drools-core</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
             <artifactId>org.eclipse.birt.runtime</artifactId>
@@ -502,7 +486,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jstl-impl</artifactId>
@@ -583,172 +567,172 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.print.xsds</groupId>
             <artifactId>kc-printing-xsds</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>gg-application</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>gg-forms1</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>gg-forms2</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>gg-forms3</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>gg-forms4</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>gg-forms5</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>gg-forms6</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>gg-forms7</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>gg-forms8</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>gg-system</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>kc-s2s-generated</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>keycontacts-1.0-gg</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>phs398modularbudget-1.2-gg</artifactId>
         </dependency>
-        
+
         <dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398researchplan-2.0-gg</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398coverpagesupplement-2.0-gg</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrkeypersonexpanded-2.0-gg</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>performancesite-2.0-gg</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrbudget-1.3-gg</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398trainingsubawardbudget-2.0-gg</artifactId>
-		</dependency>
-        
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrsubawardbudget-1.3-gg</artifactId>
-		</dependency>
-        
-		<dependency>
- 			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>sf424r-2.0-gg</artifactId>
-		</dependency>
-        
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrotherproject-1.3-gg</artifactId>
-		</dependency>
-        
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398careerdevelopmentawardsup-2.0-gg</artifactId>
-		</dependency>
-        
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398researchtrainingprogramplan-2.0-gg</artifactId>
-		</dependency>
-        
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phsfellowshipsupplemental-2.0-gg</artifactId>
-		</dependency>
-        
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrbudget10-1.3-gg</artifactId>
-		</dependency>
-        
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrsubawardbudget10-1.3-gg</artifactId>
-		</dependency>
-        
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrsubawardbudget1_3-1.3-gg</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrsubawardbudget10_30-1.3-gg</artifactId>
-		</dependency>
-        
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>phs398researchplan-2.0-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>phs398coverpagesupplement-2.0-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>rrkeypersonexpanded-2.0-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>performancesite-2.0-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>rrbudget-1.3-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>phs398trainingsubawardbudget-2.0-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>rrsubawardbudget-1.3-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>sf424r-2.0-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>rrotherproject-1.3-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>phs398careerdevelopmentawardsup-2.0-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>phs398researchtrainingprogramplan-2.0-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>phsfellowshipsupplemental-2.0-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>rrbudget10-1.3-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>rrsubawardbudget10-1.3-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>rrsubawardbudget1_3-1.3-gg</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>rrsubawardbudget10_30-1.3-gg</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>s2sform</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>sf424-2.1-gg</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-edl-impl</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
@@ -835,43 +819,43 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krms-impl</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-ksb-web</artifactId>
         </dependency>
-        
+
         <!-- commons-logging implementation, commons-logging calls will go to slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
-        
+
         <!-- jul bridge, jul calls will go to slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
         <!-- binding forwards slf4j calls to log4j (should only contain a single binder) -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springmodules</groupId>
             <artifactId>spring-modules-ojb</artifactId>
@@ -890,7 +874,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
