@@ -39,15 +39,9 @@
                 <artifactId>tomcat6-maven-plugin</artifactId>
                 <dependencies>
                     <dependency>
-                        <groupId>com.oracle</groupId>
-                        <artifactId>ojdbc6</artifactId>
-                        <version>${oracle.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.version}</version>
+                        <groupId>${db.groupId}</groupId>
+                        <artifactId>${db.artifactId}</artifactId>
+                        <version>${db.version}</version>
                         <scope>runtime</scope>
                     </dependency>
                     <dependency>
@@ -70,15 +64,9 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <dependencies>
                     <dependency>
-                        <groupId>com.oracle</groupId>
-                        <artifactId>ojdbc6</artifactId>
-                        <version>${oracle.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.version}</version>
+                        <groupId>${db.groupId}</groupId>
+                        <artifactId>${db.artifactId}</artifactId>
+                        <version>${db.version}</version>
                         <scope>runtime</scope>
                     </dependency>
                     <dependency>
@@ -102,15 +90,9 @@
                 <version>${jetty-maven-plugin.version}</version>
                 <dependencies>
                     <dependency>
-                        <groupId>com.oracle</groupId>
-                        <artifactId>ojdbc6</artifactId>
-                        <version>${oracle.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.version}</version>
+                        <groupId>${db.groupId}</groupId>
+                        <artifactId>${db.artifactId}</artifactId>
+                        <version>${db.version}</version>
                         <scope>runtime</scope>
                     </dependency>
                 </dependencies>
@@ -132,11 +114,6 @@
                             <value>true</value>
                         </systemProperty>
                     </systemProperties>
-                    <!-- for the run-forked goal -->
-                    <!--<jvmArgs>${jetty.argLine}</jvmArgs>
-                     <waitForChild>true</waitForChild>
-                     <stopKey>kc.stop.jetty</stopKey>
-                     <stopPort>8085</stopPort> -->
                 </configuration>
             </plugin>
         </plugins>
@@ -395,15 +372,9 @@
                         <version>${jetty-maven-plugin.version}</version>
                         <dependencies>
                             <dependency>
-                                <groupId>com.oracle</groupId>
-                                <artifactId>ojdbc6</artifactId>
-                                <version>${oracle.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                            <dependency>
-                                <groupId>mysql</groupId>
-                                <artifactId>mysql-connector-java</artifactId>
-                                <version>${mysql.version}</version>
+                                <groupId>${db.groupId}</groupId>
+                                <artifactId>${db.artifactId}</artifactId>
+                                <version>${db.version}</version>
                                 <scope>runtime</scope>
                             </dependency>
                         </dependencies>
@@ -442,15 +413,9 @@
                         <version>${tomcat6-maven-plugin.version}</version>
                         <dependencies>
                             <dependency>
-                                <groupId>com.oracle</groupId>
-                                <artifactId>ojdbc6</artifactId>
-                                <version>${oracle.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                            <dependency>
-                                <groupId>mysql</groupId>
-                                <artifactId>mysql-connector-java</artifactId>
-                                <version>${mysql.version}</version>
+                                <groupId>${db.groupId}</groupId>
+                                <artifactId>${db.artifactId}</artifactId>
+                                <version>${db.version}</version>
                                 <scope>runtime</scope>
                             </dependency>
                             <dependency>
@@ -476,15 +441,9 @@
                         <version>${tomcat7-maven-plugin.version}</version>
                         <dependencies>
                             <dependency>
-                                <groupId>com.oracle</groupId>
-                                <artifactId>ojdbc6</artifactId>
-                                <version>${oracle.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                            <dependency>
-                                <groupId>mysql</groupId>
-                                <artifactId>mysql-connector-java</artifactId>
-                                <version>${mysql.version}</version>
+                                <groupId>${db.groupId}</groupId>
+                                <artifactId>${db.artifactId}</artifactId>
+                                <version>${db.version}</version>
                                 <scope>runtime</scope>
                             </dependency>
                             <dependency>
