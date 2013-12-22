@@ -1,197 +1,208 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-<modelVersion>4.0.0</modelVersion>
-<groupId>org.kuali.coeus</groupId>
-<artifactId>coeus</artifactId>
-<version>6.0-SNAPSHOT</version>
-<packaging>pom</packaging>
-<name>Kuali Coeus</name>
-<description>
-    The Kuali Coeus (KC) project is building a comprehensive system to manage the complexities of research
-    administration that fully addresses the needs from the faculty researcher through grants administration to
-    federal funding agencies. KC is using MIT’s proven COEUS system as its baseline design, filling in missing
-    functionality from COEUS, and updating its technical architecture for vendor independence and easier integration
-    with other administration systems.
-</description>
-<url>http://kuali.org/kc</url>
-<organization>
-    <name>The Kuali Foundation</name>
-    <url>http://kuali.org</url>
-</organization>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.kuali.coeus</groupId>
+    <artifactId>coeus</artifactId>
+    <version>6.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Kuali Coeus</name>
+    <description>
+        The Kuali Coeus (KC) project is building a comprehensive system to manage the complexities of research
+        administration that fully addresses the needs from the faculty researcher through grants administration to
+        federal funding agencies. KC is using MIT’s proven COEUS system as its baseline design, filling in missing
+        functionality from COEUS, and updating its technical architecture for vendor independence and easier integration
+        with other administration systems.
+    </description>
+    <url>http://kuali.org/kc</url>
+    <organization>
+        <name>The Kuali Foundation</name>
+        <url>http://kuali.org</url>
+    </organization>
 
-<licenses>
-    <license>
-        <name>Educational Community License, Version 2.0</name>
-        <url>${kuali.ecl.license.url}</url>
-        <distribution>repo</distribution>
-    </license>
-</licenses>
+    <licenses>
+        <license>
+            <name>Educational Community License, Version 2.0</name>
+            <url>${kuali.ecl.license.url}</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-<prerequisites>
-    <maven>3.0</maven>
-</prerequisites>
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
 
-<modules>
-    <module>coeus-code</module>
-    <module>coeus-config</module>
-    <module>coeus-it</module>
-    <module>coeus-tool</module>
-    <module>coeus-webapp</module>
-</modules>
+    <modules>
+        <module>coeus-code</module>
+        <module>coeus-config</module>
+        <module>coeus-it</module>
+        <module>coeus-tool</module>
+        <module>coeus-webapp</module>
+    </modules>
 
-<properties>
-    <!--dependency versions-->
-    <aopalliance.version>1.0</aopalliance.version>
-    <cglib-nodep.version>2.2.2</cglib-nodep.version>
-    <commons-collections.version>3.2.1</commons-collections.version>
-    <commons-lang.version>2.6</commons-lang.version>
-    <commons-net.version>3.1</commons-net.version>
-    <cxf.version>2.7.0</cxf.version>
-    <db-ojb.version>1.0.4-patch8</db-ojb.version>
-    <displaytag.version>1.2</displaytag.version>
-    <drools.version>5.5.0.Final</drools.version>
-    <dwr.version>3.0.RC2</dwr.version>
-    <fop.version>0.93</fop.version>
-    <gg-application.version>1.0</gg-application.version>
-    <gg-forms1.version>1.0</gg-forms1.version>
-    <gg-forms2.version>1.0</gg-forms2.version>
-    <gg-forms3.version>1.0</gg-forms3.version>
-    <gg-forms4.version>1.1</gg-forms4.version>
-    <gg-forms5.version>1.0</gg-forms5.version>
-    <gg-forms6.version>1.0</gg-forms6.version>
-    <gg-forms7.version>1.0.1</gg-forms7.version>
-    <gg-forms8.version>2.6</gg-forms8.version>
-    <gg-system.version>1.0</gg-system.version>
-    <hamcrest-library.version>1.3</hamcrest-library.version>
-    <itext.version>2.1.7</itext.version>
-    <avax.servlet-api.version>3.1.0</avax.servlet-api.version>
-    <jaxb-impl.version>2.2.6</jaxb-impl.version>
-    <jetty8.version>8.1.14.v20131031</jetty8.version>
-    <jetty9.version>9.1.0.v20131115</jetty9.version>
-    <jetty.version>${jetty9.version}</jetty.version>
-    <jmock.version>2.6.0</jmock.version>
-    <jsp-api.version>2.1</jsp-api.version>
-    <jstl.version>1.2</jstl.version>
-    <junit.version>4.11</junit.version>
-    <kc-printing-xsds.version>1.8.0</kc-printing-xsds.version>
-    <kc-s2s-generated.version>1.0</kc-s2s-generated.version>
-    <keycontacts-1.0-gg.version>1.0</keycontacts-1.0-gg.version>
-    <kuali-cm.version>1.2.8</kuali-cm.version>
-    <phs398researchplan-2.0-gg.version>1.1</phs398researchplan-2.0-gg.version>
-    <phs398coverpagesupplement-2.0-gg.version>1.0</phs398coverpagesupplement-2.0-gg.version>
-    <rrkeypersonexpanded-2.0-gg.version>1.1</rrkeypersonexpanded-2.0-gg.version>
-    <performancesite-2.0-gg.version>1.0</performancesite-2.0-gg.version>
-    <rrbudget-1.3-gg.version>1.1</rrbudget-1.3-gg.version>
-    <phs398trainingsubawardbudget-2.0-gg.version>1.0</phs398trainingsubawardbudget-2.0-gg.version>
-    <rrsubawardbudget-1.3-gg.version>1.1</rrsubawardbudget-1.3-gg.version>
-    <sf424r-2.0-gg.version>1.5</sf424r-2.0-gg.version>
-    <rrotherproject-1.3-gg.version>1.1</rrotherproject-1.3-gg.version>
-    <phs398careerdevelopmentawardsup-2.0-gg.version>1.1</phs398careerdevelopmentawardsup-2.0-gg.version>
-    <phs398researchtrainingprogramplan-2.0-gg.version>1.0</phs398researchtrainingprogramplan-2.0-gg.version>
-    <phsfellowshipsupplemental-2.0-gg.version>1.2</phsfellowshipsupplemental-2.0-gg.version>
-    <rrsubawardbudget10-1.3-gg.version>1.0</rrsubawardbudget10-1.3-gg.version>
-    <rrsubawardbudget1_3-1.3-gg.version>1.0</rrsubawardbudget1_3-1.3-gg.version>
-    <rrsubawardbudget10_30-1.3-gg.version>1.0</rrsubawardbudget10_30-1.3-gg.version>
-    <rrbudget10-1.3-gg.version>1.0</rrbudget10-1.3-gg.version>
-    <log4j.version>1.2.16</log4j.version>
-    <mail.version>1.4.4</mail.version>
-    <mysql.version>5.1.16</mysql.version>
-    <opencsv.version>1.8</opencsv.version>
-    <oracle.version>10.2.0.3.0</oracle.version>
-    <org.eclipse.birt.runtime.version>3.7.1</org.eclipse.birt.runtime.version>
-    <pdfbox.version>1.7.1</pdfbox.version>
-    <phs398modularbudget-1.2-gg.version>1.0.5</phs398modularbudget-1.2-gg.version>
-    <rice.version>2.4.0-M3</rice.version>
-    <servlet.version>2.5</servlet.version>
-    <s2sform.version>1.2.0</s2sform.version>
-    <sf424-2.1-gg.version>1.0</sf424-2.1-gg.version>
-    <slf4j.version>1.6.4</slf4j.version>
-    <spring.version>3.2.3.RELEASE</spring.version>
-    <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
-    <struts.version>1.3.10</struts.version>
-    <xalan.version>2.7.1</xalan.version>
-    <xmlbeans.version>2.4.0</xmlbeans.version>
-    <extra-enforcer-rules.version>1.0-beta-2</extra-enforcer-rules.version>
-    
-    <!-- plugin versions -->
-    <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
-    <jetty-maven-plugin8.groupId>org.mortbay.jetty</jetty-maven-plugin8.groupId>
-    <jetty-maven-plugin9.groupId>org.eclipse.jetty</jetty-maven-plugin9.groupId>
-    <jetty-maven-plugin.groupId>${jetty-maven-plugin9.groupId}</jetty-maven-plugin.groupId>
-    <jetty-maven-plugin.artifactId>jetty-maven-plugin</jetty-maven-plugin.artifactId>
-    <jetty-maven-plugin.version>${jetty.version}</jetty-maven-plugin.version>
-    <jspc-maven-plugin.version>2.0.0</jspc-maven-plugin.version>
-    <license-maven-plugin.version>1.6.4</license-maven-plugin.version>
-    <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
-    <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
-    <maven-dependency-plugin.version>2.8</maven-dependency-plugin.version>
-    <maven-deploy-plugin.version>2.8</maven-deploy-plugin.version>
-    <maven-enforcer-plugin.version>1.3.1</maven-enforcer-plugin.version>
-    <maven-install-plugin.version>2.5</maven-install-plugin.version>
-    <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
-    <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
-    <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
-    <maven-site-plugin.version>3.3</maven-site-plugin.version>
-    <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
-    <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
-    <maven-war-plugin.version>2.4</maven-war-plugin.version>
-    <truezip-maven-plugin.version>1.1</truezip-maven-plugin.version>
-    <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
-    <tomcat6-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat6-maven-plugin.version>
-    <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
-    
-    
-    <!-- Surefire config -->
-    <surefire.useFile>false</surefire.useFile>
-    <surefire.testFailureIgnore>false</surefire.testFailureIgnore>
-    <surefire.reportFormat>plain</surefire.reportFormat>
-    <surefire.failIfNoTests>false</surefire.failIfNoTests>
-    <surefire.forkMode>once</surefire.forkMode>
-    <surefire.argLine>-Xmx1024m -XX:MaxPermSize=512m -javaagent:${javaagent.output.dir}/spring-instrument.jar</surefire.argLine>
-    <surefire.aggregate>true</surefire.aggregate>
-    <javaagent.output.dir>${project.build.directory}/javaagent</javaagent.output.dir>
-    
-    <enforcer.phase>validate</enforcer.phase>
-    
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.java.version>1.7</project.java.version>
-    <!-- These are used by multiple plugins (compiler, javadoc, xref, etc) -->
-    <project.compile.source>${project.java.version}</project.compile.source>
-    <project.compile.target>${project.java.version}</project.compile.target>
-    <enforcer.require.java.version>${project.java.version}</enforcer.require.java.version>
-    <enforcer.max.jdk.version>${project.java.version}</enforcer.max.jdk.version>
-    
-    <!-- defaults to dev unless overriden -->
-    <build.environment>dev</build.environment>
-    
-    <!-- jetty & tomcat properties -->
-    <kc.context.path>/kc-${build.environment}</kc.context.path>
-    <kc.port>8080</kc.port>
-    <jetty.context.file>${basedir}/src/main/webapp/WEB-INF/jetty-web.xml</jetty.context.file>
-    <jetty.argLine>-Xmx1024m -XX:MaxPermSize=512m -javaagent:${javaagent.output.dir}/spring-instrument.jar</jetty.argLine>
-    
-    <!-- This is used in the licenses section as well as the jar/war plugins -->
-    <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
-</properties>
+    <properties>
+        <!--dependency versions-->
+        <aopalliance.version>1.0</aopalliance.version>
+        <cglib-nodep.version>2.2.2</cglib-nodep.version>
+        <commons-collections.version>3.2.1</commons-collections.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <commons-net.version>3.1</commons-net.version>
+        <cxf.version>2.7.0</cxf.version>
+        <db-ojb.version>1.0.4-patch8</db-ojb.version>
+        <displaytag.version>1.2</displaytag.version>
+        <drools.version>5.5.0.Final</drools.version>
+        <dwr.version>3.0.RC2</dwr.version>
+        <fop.version>0.93</fop.version>
+        <gg-application.version>1.0</gg-application.version>
+        <gg-forms1.version>1.0</gg-forms1.version>
+        <gg-forms2.version>1.0</gg-forms2.version>
+        <gg-forms3.version>1.0</gg-forms3.version>
+        <gg-forms4.version>1.1</gg-forms4.version>
+        <gg-forms5.version>1.0</gg-forms5.version>
+        <gg-forms6.version>1.0</gg-forms6.version>
+        <gg-forms7.version>1.0.1</gg-forms7.version>
+        <gg-forms8.version>2.6</gg-forms8.version>
+        <gg-system.version>1.0</gg-system.version>
+        <hamcrest-library.version>1.3</hamcrest-library.version>
+        <itext.version>2.1.7</itext.version>
+        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <jaxb-impl.version>2.2.6</jaxb-impl.version>
+        <jetty8.version>8.1.14.v20131031</jetty8.version>
+        <jetty9.version>9.1.0.v20131115</jetty9.version>
+        <jetty.version>${jetty9.version}</jetty.version>
+        <jmock.version>2.6.0</jmock.version>
+        <jsp-api.version>2.1</jsp-api.version>
+        <jstl.version>1.2</jstl.version>
+        <junit.version>4.11</junit.version>
+        <kc-printing-xsds.version>1.8.0</kc-printing-xsds.version>
+        <kc-s2s-generated.version>1.0</kc-s2s-generated.version>
+        <keycontacts-1.0-gg.version>1.0</keycontacts-1.0-gg.version>
+        <kuali-cm.version>1.2.8</kuali-cm.version>
+        <phs398researchplan-2.0-gg.version>1.1</phs398researchplan-2.0-gg.version>
+        <phs398coverpagesupplement-2.0-gg.version>1.0</phs398coverpagesupplement-2.0-gg.version>
+        <rrkeypersonexpanded-2.0-gg.version>1.1</rrkeypersonexpanded-2.0-gg.version>
+        <performancesite-2.0-gg.version>1.0</performancesite-2.0-gg.version>
+        <rrbudget-1.3-gg.version>1.1</rrbudget-1.3-gg.version>
+        <phs398trainingsubawardbudget-2.0-gg.version>1.0</phs398trainingsubawardbudget-2.0-gg.version>
+        <rrsubawardbudget-1.3-gg.version>1.1</rrsubawardbudget-1.3-gg.version>
+        <sf424r-2.0-gg.version>1.5</sf424r-2.0-gg.version>
+        <rrotherproject-1.3-gg.version>1.1</rrotherproject-1.3-gg.version>
+        <phs398careerdevelopmentawardsup-2.0-gg.version>1.1</phs398careerdevelopmentawardsup-2.0-gg.version>
+        <phs398researchtrainingprogramplan-2.0-gg.version>1.0</phs398researchtrainingprogramplan-2.0-gg.version>
+        <phsfellowshipsupplemental-2.0-gg.version>1.2</phsfellowshipsupplemental-2.0-gg.version>
+        <rrsubawardbudget10-1.3-gg.version>1.0</rrsubawardbudget10-1.3-gg.version>
+        <rrsubawardbudget1_3-1.3-gg.version>1.0</rrsubawardbudget1_3-1.3-gg.version>
+        <rrsubawardbudget10_30-1.3-gg.version>1.0</rrsubawardbudget10_30-1.3-gg.version>
+        <rrbudget10-1.3-gg.version>1.0</rrbudget10-1.3-gg.version>
+        <log4j.version>1.2.16</log4j.version>
+        <mail.version>1.4.4</mail.version>
+        <mysql.version>5.1.24</mysql.version>
+        <opencsv.version>1.8</opencsv.version>
+        <oracle.version>10.2.0.3.0</oracle.version>
+        <org.eclipse.birt.runtime.version>3.7.1</org.eclipse.birt.runtime.version>
+        <pdfbox.version>1.7.1</pdfbox.version>
+        <phs398modularbudget-1.2-gg.version>1.0.5</phs398modularbudget-1.2-gg.version>
+        <rice.version>2.4.0-M3</rice.version>
+        <servlet.version>2.5</servlet.version>
+        <s2sform.version>1.2.0</s2sform.version>
+        <sf424-2.1-gg.version>1.0</sf424-2.1-gg.version>
+        <slf4j.version>1.6.4</slf4j.version>
+        <spring.version>3.2.3.RELEASE</spring.version>
+        <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
+        <struts.version>1.3.10</struts.version>
+        <xalan.version>2.7.1</xalan.version>
+        <xercesImpl.version>2.9.1</xercesImpl.version>
+        <xmlbeans.version>2.4.0</xmlbeans.version>
+        <extra-enforcer-rules.version>1.0-beta-2</extra-enforcer-rules.version>
 
-	<build>
+        <!-- plugin versions -->
+        <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
+        <jetty-maven-plugin8.groupId>org.mortbay.jetty</jetty-maven-plugin8.groupId>
+        <jetty-maven-plugin9.groupId>org.eclipse.jetty</jetty-maven-plugin9.groupId>
+        <jetty-maven-plugin.groupId>${jetty-maven-plugin9.groupId}</jetty-maven-plugin.groupId>
+        <jetty-maven-plugin.artifactId>jetty-maven-plugin</jetty-maven-plugin.artifactId>
+        <jetty-maven-plugin.version>${jetty.version}</jetty-maven-plugin.version>
+        <jspc-maven-plugin.version>2.0.0</jspc-maven-plugin.version>
+        <license-maven-plugin.version>1.6.4</license-maven-plugin.version>
+        <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+        <maven-dependency-plugin.version>2.8</maven-dependency-plugin.version>
+        <maven-deploy-plugin.version>2.8</maven-deploy-plugin.version>
+        <maven-enforcer-plugin.version>1.3.1</maven-enforcer-plugin.version>
+        <maven-failsafe-plugin.version>2.16</maven-failsafe-plugin.version>
+        <maven-install-plugin.version>2.5</maven-install-plugin.version>
+        <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+        <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
+        <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
+        <maven-site-plugin.version>3.3</maven-site-plugin.version>
+        <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+        <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
+        <maven-war-plugin.version>2.4</maven-war-plugin.version>
+        <truezip-maven-plugin.version>1.1</truezip-maven-plugin.version>
+        <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
+        <tomcat6-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat6-maven-plugin.version>
+        <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
+
+        <!-- Surefire config -->
+        <surefire.useFile>false</surefire.useFile>
+        <surefire.testFailureIgnore>false</surefire.testFailureIgnore>
+        <surefire.reportFormat>plain</surefire.reportFormat>
+        <surefire.failIfNoTests>false</surefire.failIfNoTests>
+        <surefire.forkMode>once</surefire.forkMode>
+        <surefire.argLine></surefire.argLine>
+        <surefire.aggregate>true</surefire.aggregate>
+        <surefire.skipTests>false</surefire.skipTests>
+
+        <!-- Failsafe config -->
+        <failsafe.useFile>false</failsafe.useFile>
+        <failsafe.testFailureIgnore>false</failsafe.testFailureIgnore>
+        <failsafe.reportFormat>plain</failsafe.reportFormat>
+        <failsafe.failIfNoTests>false</failsafe.failIfNoTests>
+        <failsafe.forkMode>once</failsafe.forkMode>
+        <failsafe.argLine>-Xmx1024m -XX:MaxPermSize=512m ${javaagent.arg}</failsafe.argLine>
+        <failsafe.aggregate>true</failsafe.aggregate>
+        <failsafe.skipITs>true</failsafe.skipITs>
+        <failsafe.include>**/*Test.java</failsafe.include>
+
+        <javaagent.output.dir>${project.build.directory}/javaagent</javaagent.output.dir>
+        <javaagent.arg>-javaagent:${javaagent.output.dir}/spring-instrument.jar</javaagent.arg>
+
+        <enforcer.phase>validate</enforcer.phase>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.java.version>1.7</project.java.version>
+        <!-- These are used by multiple plugins (compiler, javadoc, xref, etc) -->
+        <project.compile.source>${project.java.version}</project.compile.source>
+        <project.compile.target>${project.java.version}</project.compile.target>
+        <enforcer.require.java.version>${project.java.version}</enforcer.require.java.version>
+        <enforcer.max.jdk.version>${project.java.version}</enforcer.max.jdk.version>
+
+        <!-- defaults to dev unless overriden -->
+        <build.environment>dev</build.environment>
+
+        <!-- This is used in the licenses section as well as the jar/war plugins -->
+        <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
+
+        <maven.skip.packaging>false</maven.skip.packaging>
+    </properties>
+
+    <build>
         <pluginManagement>
             <plugins>
-                
+
                 <plugin>
                     <groupId>org.apache.cxf</groupId>
                     <artifactId>cxf-codegen-plugin</artifactId>
                     <version>${cxf-codegen-plugin.version}</version>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>${maven-clean-plugin.version}</version>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -202,13 +213,16 @@
                         <target>${project.compile.target}</target>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>${maven-deploy-plugin.version}</version>
+                    <configuration>
+                        <skip>${maven.skip.packaging}</skip>
+                    </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
@@ -228,7 +242,7 @@
                                     <requireMavenVersion>
                                         <version>[3.0,4.0)</version>
                                     </requireMavenVersion>
-                                    
+
                                     <requirePluginVersions>
                                         <message>Best Practice is to always define plugin versions!</message>
                                         <banLatest>true</banLatest>
@@ -236,7 +250,7 @@
                                         <banSnapshots>true</banSnapshots>
                                         <phases>clean,deploy,site</phases>
                                     </requirePluginVersions>
-                                    
+
                                     <banCircularDependencies/>
                                     <!-- when executed from eclipse it fails
                                      <enforceBytecodeVersion>
@@ -270,7 +284,7 @@
                                             <exclude>org.slf4j:jcl104-over-slf4j</exclude>
                                             <!-- excluding all slf4j -->
                                             <exclude>org.slf4j</exclude>
-                                            
+
                                             <!-- already including cglib-nodep -->
                                             <exclude>cglib:cglib</exclude>
                                             <!-- already including the jdk15 version -->
@@ -279,7 +293,7 @@
                                             <exclude>taglibs:standard</exclude>
                                             <exclude>javax.servlet:jstl</exclude>
                                             <!-- allowing (including) a specific version below -->
-                                            
+
                                             <!-- already including javax.mail -->
                                             <exclude>javamail</exclude>
                                             <exclude>geronimo:geronimo-mail</exclude>
@@ -288,7 +302,7 @@
                                             <exclude>org.apache.geronimo.modules:geronimo-mail</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-javamail_1.4_spec</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-javamail_1.3.1_spec</exclude>
-                                            
+
                                             <!-- already including javax.transation -->
                                             <exclude>org.apache.geronimo.specs:geronimo-jta_1.1_spec</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-jta_1.0.1B_spec</exclude>
@@ -300,7 +314,7 @@
                                             <exclude>javax.activation</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-activation_1.0.2_spec</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-activation_1.1_spec</exclude>
-                                            
+
                                             <!-- metadata apis - in jdk 6 -->
                                             <exclude>javax.jws</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-ws-metadata_2.0_spec</exclude>
@@ -308,7 +322,7 @@
 										     included in jdk 6. The non-jdk parsers can be added indivually if needed. -->
                                             <exclude>xerces:xmlParserAPIs</exclude>
                                             <exclude>xml-apis</exclude>
-                                            
+
                                             <!-- group ids for many sun xml apis - in jdk 6 -->
                                             <exclude>javax.xml</exclude>
                                             <exclude>com.sun.xml</exclude>
@@ -316,26 +330,30 @@
                                             <!-- jaxb apis - in jdk 6 -->
                                             <exclude>org.apache.geronimo.specs:geronimo-jaxb_2.1_spec</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-jaxb_2.2_spec</exclude>
-                                            
+
                                             <!-- jaxws apis - in jdk 6 -->
                                             <exclude>javax.xml.ws</exclude>
                                             <exclude>com.sun.xml.ws</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-jaxws_2.1_spec</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-jaxws_2.2_spec</exclude>
-                                            
+
                                             <!-- stax apis - in jdk 6 -->
                                             <exclude>javax.xml.stream</exclude>
                                             <exclude>com.sun.xml.stream</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-stax-api_1.0_spec</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-stax-api_1.2_spec</exclude>
                                             <exclude>stax</exclude>
-                                            
+
                                             <!-- jaxp apis - in jdk 6 -->
                                             <exclude>javax.xml.parsers</exclude>
                                             <exclude>com.sun.xml.parsers</exclude>
-                                            <exclude>org.apace.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.4</exclude>
-                                            <exclude>org.apache.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.3</exclude>
-                                            
+                                            <exclude>
+                                                org.apace.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.4
+                                            </exclude>
+                                            <exclude>
+                                                org.apache.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.3
+                                            </exclude>
+
                                             <!-- saaj apis - in jdk 6 -->
                                             <exclude>javax.xml.soap</exclude>
                                             <exclude>javax.xml.soap:saaj-api</exclude>
@@ -343,11 +361,13 @@
                                             <exclude>com.sun.xml.messaging.saaj</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-saaj_1.3_spec</exclude>
                                             <exclude>geronimo-spec:geronimo-spec-saaj</exclude>
-                                            <exclude>org.apache.servicemix.specs:org.apache.servicemix.specs.saaj-api-1.3</exclude>
+                                            <exclude>
+                                                org.apache.servicemix.specs:org.apache.servicemix.specs.saaj-api-1.3
+                                            </exclude>
                                             <exclude>commons-beanutils:commons-beanutils</exclude>
                                             <exclude>org.apache.commons:commons-beanutils</exclude>
                                         </excludes>
-                                        
+
                                         <includes>
                                             <!-- only allow in this specific version -->
                                             <include>org.slf4j:*:${slf4j.version}</include>
@@ -366,13 +386,13 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>${maven-install-plugin.version}</version>
                 </plugin>
-                
+
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>${maven-jar-plugin.version}</version>
@@ -395,19 +415,19 @@
                         </archive>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven-javadoc-plugin.version}</version>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>${maven-resources-plugin.version}</version>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
@@ -417,13 +437,13 @@
                         <generateReports>false</generateReports>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${maven-source-plugin.version}</version>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -435,9 +455,36 @@
                         <forkMode>${surefire.forkMode}</forkMode>
                         <argLine>${surefire.argLine}</argLine>
                         <failIfNoTests>${surefire.failIfNoTests}</failIfNoTests>
+                        <skipTests>${surefire.skipTests}</skipTests>
                     </configuration>
                 </plugin>
-                
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin.version}</version>
+                    <configuration>
+                        <useFile>${failsafe.useFile}</useFile>
+                        <testFailureIgnore>${failsafe.testFailureIgnore}</testFailureIgnore>
+                        <reportFormat>${failsafe.reportFormat}</reportFormat>
+                        <forkMode>${failsafe.forkMode}</forkMode>
+                        <argLine>${failsafe.argLine}</argLine>
+                        <failIfNoTests>${failsafe.failIfNoTests}</failIfNoTests>
+                        <skipITs>${failsafe.skipITs}</skipITs>
+                        <includes>
+                            <include>${failsafe.include}</include>
+                        </includes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>integration-test</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
@@ -457,1059 +504,978 @@
                         </archive>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.tomcat.maven</groupId>
                     <artifactId>tomcat6-maven-plugin</artifactId>
                     <version>${tomcat6-maven-plugin.version}</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.oracle</groupId>
-                            <artifactId>ojdbc6</artifactId>
-                            <version>${oracle.version}</version>
-                            <scope>runtime</scope>
-                        </dependency>
-                        <dependency>
-                            <groupId>mysql</groupId>
-                            <artifactId>mysql-connector-java</artifactId>
-                            <version>${mysql.version}</version>
-                            <scope>runtime</scope>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.springframework</groupId>
-                            <artifactId>spring-instrument-tomcat</artifactId>
-                            <version>${spring.version}</version>
-                            <scope>runtime</scope>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <classLoaderClass>org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader</classLoaderClass>
-                        <port>${kc.port}</port>
-                        <path>${kc.context.path}</path>
-                        <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader>
-                    </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.tomcat.maven</groupId>
                     <artifactId>tomcat7-maven-plugin</artifactId>
                     <version>${tomcat7-maven-plugin.version}</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.oracle</groupId>
-                            <artifactId>ojdbc6</artifactId>
-                            <version>${oracle.version}</version>
-                            <scope>runtime</scope>
-                        </dependency>
-                        <dependency>
-                            <groupId>mysql</groupId>
-                            <artifactId>mysql-connector-java</artifactId>
-                            <version>${mysql.version}</version>
-                            <scope>runtime</scope>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.springframework</groupId>
-                            <artifactId>spring-instrument-tomcat</artifactId>
-                            <version>${spring.version}</version>
-                            <scope>runtime</scope>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <classLoaderClass>org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader</classLoaderClass>
-                        <port>${kc.port}</port>
-                        <path>${kc.context.path}</path>
-                        <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader>
-                    </configuration>
                 </plugin>
 
-<plugin>
-    <groupId>org.kuali.maven.plugins</groupId>
-    <artifactId>license-maven-plugin</artifactId>
-    <version>${license-maven-plugin.version}</version>
-    <executions>
-        <execution>
-            <id>licenses</id>
-            <goals>
-                <goal>add-third-party</goal>
-            </goals>
-            <phase>generate-resources</phase>
-            <configuration>
-                <thirdPartyFilename>META-INF/THIRD-PARTY.txt</thirdPartyFilename>
-                <artifactLicenseMapping>classpath:org/kuali/common/cm/license/THIRD-PARTY.properties</artifactLicenseMapping>
-                <useMissingFile>true</useMissingFile>
-                <groupByLicense>true</groupByLicense>
-                <deployMissingFile>false</deployMissingFile>
-                <licenseMerges>
-                    <licenseMerge>Apache Software License - Version 2.0|Apache License V2.0|Apache Public License 2.0|Apache License 2.0|ASF 2.0|Apache License Version 2.0|Apache 2|Apache 2.0|Apache License|Apache License Version 2.0|Apache License, Version 2.0|The Apache Software License, Version 2.0|Apache 2.0 License|Apache Software License 2.0|provided without support or warranty</licenseMerge>
-                    <licenseMerge>BSD License|BSD|BSD style|BSD-style License|The BSD License|BSD-style license</licenseMerge>
-                    <licenseMerge>Common Public License - Version 1.0|CPL|Common Public License Version 1.0</licenseMerge>
-                    <licenseMerge>Eclipse Public License - Version 1.0|Eclipse Public License - v 1.0|Eclipse Public License v1.0|Eclipse Public License, Version 1.0</licenseMerge>
-                    <licenseMerge>CDDL - Version 1.0|CDDL|CDDL 1.0|CDDL License|COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0|Common Development and Distribution License (CDDL) v1.0</licenseMerge>
-                    <licenseMerge>CDDL - Version 1.1|CDDL 1.1</licenseMerge>
-                    <licenseMerge>CDDL - Version 1.1 / GNU General Public License - Version 2|CDDL v1.1 / GPL v2 dual license|CDDL + GPLv2 with classpath exception</licenseMerge>
-                    <licenseMerge>Educational Community License - Version 2.0|Educational Community License, Version 2.0</licenseMerge>
-                    <licenseMerge>GNU Lesser General Public License|GNU LESSER GENERAL PUBLIC LICENSE|lgpl|license.txt|GNU General Public Library|GNU Lesser General Public Licence|LGPL</licenseMerge>
-                    <licenseMerge>GNU Lesser General Public License - Version 2.1|GNU Lesser General Public License Version 2.1|LGPL 2.1|LGPL, version 2.1</licenseMerge>
-                    <licenseMerge>GNU Lesser General Public License - Version 3|GNU Lesser General Public License v3.0|GNU Lesser General Public License - Version 3.0</licenseMerge>
-                    <licenseMerge>GNU General Public License - Version 2|The GNU General Public License, Version 2</licenseMerge>
-                    <licenseMerge>Mozilla Public License - Version 1.1|Mozilla Public License version 1.1|MPL 1.1</licenseMerge>
-                    <licenseMerge>MIT License|The MIT License</licenseMerge>
-                    <licenseMerge>GNU General Public License - Version 2 / CPE|GPL2 w/ CPE|GPLv2+CE</licenseMerge>
-                    <licenseMerge>Public Domain|Public domain, Sun Microsoystems</licenseMerge>
-                </licenseMerges>
-            </configuration>
-        </execution>
-    </executions>
-    <dependencies>
-        <dependency>
-            <groupId>org.kuali.common</groupId>
-            <artifactId>kuali-cm</artifactId>
-            <version>${kuali-cm.version}</version>
-        </dependency>
-    </dependencies>
-</plugin>
+                <plugin>
+                    <groupId>org.kuali.maven.plugins</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${license-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>licenses</id>
+                            <goals>
+                                <goal>add-third-party</goal>
+                            </goals>
+                            <phase>generate-resources</phase>
+                            <configuration>
+                                <thirdPartyFilename>META-INF/THIRD-PARTY.txt</thirdPartyFilename>
+                                <artifactLicenseMapping>classpath:org/kuali/common/cm/license/THIRD-PARTY.properties
+                                </artifactLicenseMapping>
+                                <useMissingFile>true</useMissingFile>
+                                <groupByLicense>true</groupByLicense>
+                                <deployMissingFile>false</deployMissingFile>
+                                <licenseMerges>
+                                    <licenseMerge>Apache Software License - Version 2.0|Apache License V2.0|Apache Public License 2.0|Apache License 2.0|ASF 2.0|Apache License Version 2.0|Apache 2|Apache 2.0|Apache License|Apache License Version 2.0|Apache License, Version 2.0|The Apache Software License, Version 2.0|Apache 2.0 License|Apache Software License 2.0|provided without support or warranty</licenseMerge>
+                                    <licenseMerge>BSD License|BSD|BSD style|BSD-style License|The BSD License|BSD-style license</licenseMerge>
+                                    <licenseMerge>Common Public License - Version 1.0|CPL|Common Public License Version 1.0</licenseMerge>
+                                    <licenseMerge>Eclipse Public License - Version 1.0|Eclipse Public License - v 1.0|Eclipse Public License v1.0|Eclipse Public License, Version 1.0</licenseMerge>
+                                    <licenseMerge>CDDL - Version 1.0|CDDL|CDDL 1.0|CDDL License|COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0|Common Development and Distribution License (CDDL) v1.0</licenseMerge>
+                                    <licenseMerge>CDDL - Version 1.1|CDDL 1.1</licenseMerge>
+                                    <licenseMerge>CDDL - Version 1.1 / GNU General Public License - Version 2|CDDL v1.1 / GPL v2 dual license|CDDL + GPLv2 with classpath exception</licenseMerge>
+                                    <licenseMerge>Educational Community License - Version 2.0|Educational Community License, Version 2.0</licenseMerge>
+                                    <licenseMerge>GNU Lesser General Public License|GNU LESSER GENERAL PUBLIC LICENSE|lgpl|license.txt|GNU General Public Library|GNU Lesser General Public Licence|LGPL</licenseMerge>
+                                    <licenseMerge>GNU Lesser General Public License - Version 2.1|GNU Lesser General Public License Version 2.1|LGPL 2.1|LGPL, version 2.1</licenseMerge>
+                                    <licenseMerge>GNU Lesser General Public License - Version 3|GNU Lesser General Public License v3.0|GNU Lesser General Public License - Version 3.0</licenseMerge>
+                                    <licenseMerge>GNU General Public License - Version 2|The GNU General Public License, Version 2</licenseMerge>
+                                    <licenseMerge>Mozilla Public License - Version 1.1|Mozilla Public License version 1.1|MPL 1.1</licenseMerge>
+                                    <licenseMerge>MIT License|The MIT License</licenseMerge>
+                                    <licenseMerge>GNU General Public License - Version 2 / CPE|GPL2 w/ CPE|GPLv2+CE</licenseMerge>
+                                    <licenseMerge>Public Domain|Public domain, Sun Microsoystems</licenseMerge>
+                                </licenseMerges>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.kuali.common</groupId>
+                            <artifactId>kuali-cm</artifactId>
+                            <version>${kuali-cm.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
 
-<plugin>
-    <groupId>${jetty-maven-plugin.groupId}</groupId>
-    <artifactId>${jetty-maven-plugin.artifactId}</artifactId>
-    <version>${jetty-maven-plugin.version}</version>
-    <dependencies>
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>${oracle.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-    </dependencies>
-    <configuration>
-        <webAppConfig>
-            <contextPath>${kc.context.path}</contextPath>
-            <descriptor>${basedir}/src/main/webapp/WEB-INF/web.xml</descriptor>
-        </webAppConfig>
-        <connectors>
-            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                <port>${kc.port}</port>
-                <maxIdleTime>60000</maxIdleTime>
-            </connector>
-        </connectors>
-        <contextXml>${jetty.context.file}</contextXml>
-        <systemProperties>
-            <systemProperty>
-                <name>metadata-complete</name>
-                <value>true</value>
-            </systemProperty>
-        </systemProperties>
-        <!-- for the run-forked goal -->
-        <!--<jvmArgs>${jetty.argLine}</jvmArgs>
-         <waitForChild>true</waitForChild>
-         <stopKey>kc.stop.jetty</stopKey>
-         <stopPort>8085</stopPort> -->
-    </configuration>
-</plugin>
+                <plugin>
+                    <groupId>${jetty-maven-plugin.groupId}</groupId>
+                    <artifactId>${jetty-maven-plugin.artifactId}</artifactId>
+                    <version>${jetty-maven-plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
-        
-        
-		<plugins>
+
+
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.kuali.maven.plugins</groupId>
                 <artifactId>license-maven-plugin</artifactId>
             </plugin>
- 
-		</plugins>
-	</build>
-
-<dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>aopalliance</groupId>
-            <artifactId>aopalliance</artifactId>
-            <version>${aopalliance.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
-            <version>${cglib-nodep.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
-            <version>${itext.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>bcprov-jdk14</artifactId>
-                    <groupId>bouncycastle</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>bcmail-jdk14</artifactId>
-                    <groupId>bouncycastle</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>bcprov-jdk14</artifactId>
-                    <groupId>org.bouncycastle</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>${oracle.version}</version>
-            <!-- should be provided once embedded jetty is figured out -->
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Required for jdk7 -->
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>${jaxb-impl.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>${commons-collections.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons-lang.version}</version>
-        </dependency>
-
-        <!-- For FTP client -->
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>${commons-net.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>displaytag</groupId>
-            <artifactId>displaytag</artifactId>
-            <version>${displaytag.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>jcl104-over-slf4j</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>jstl</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>itext</groupId>
-                    <artifactId>itext</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-beanutils</artifactId>
-                    <groupId>commons-beanutils</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>${mail.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.activation</groupId>
-                    <artifactId>activation</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- temp solution to make jetty upgrade work.  we should downgrade to servlet 2.5 once we have a separate
-module of int tests-->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${avax.servlet-api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <!--	we need to bring this back in once we get a separate module for our int tests
-                <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                    <version>${servlet.version}</version>
-                    <scope>provided</scope>
-                </dependency>-->
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-            <!-- should be provided once embedded jetty is figured out -->
-            <scope>test</scope>
-        </dependency>
-
-        <!-- CSV parser -->
-        <dependency>
-            <groupId>net.sf.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>${opencsv.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.pdfbox</groupId>
-            <artifactId>pdfbox</artifactId>
-            <version>${pdfbox.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts-core</artifactId>
-            <version>${struts.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>antlr</artifactId>
-                    <groupId>antlr</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-beanutils</artifactId>
-                    <groupId>commons-beanutils</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts-el</artifactId>
-            <version>${struts.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>standard</artifactId>
-                    <groupId>taglibs</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jstl</artifactId>
-                    <groupId>javax.servlet</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts-extras</artifactId>
-            <version>${struts.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts-taglib</artifactId>
-            <version>${struts.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.xmlbeans</groupId>
-            <artifactId>xmlbeans</artifactId>
-            <version>${xmlbeans.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>stax-api</artifactId>
-                    <groupId>stax</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>fop</artifactId>
-            <!-- cannot upgrade this dependency due to coeus compatibility -->
-            <version>${fop.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>xml-apis</groupId>
-                    <artifactId>xmlParserAPIs</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xerces</groupId>
-                    <artifactId>xercesImpl</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-io</groupId>
-                    <artifactId>commons-io</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>rhino</groupId>
-                    <artifactId>js</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.directwebremoting</groupId>
-            <artifactId>dwr</artifactId>
-            <version>${dwr.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>xmlParserAPIs</artifactId>
-                    <groupId>xerces</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jdom</artifactId>
-                    <groupId>jdom</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>xml-apis</artifactId>
-                    <groupId>xml-apis</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.mortbay.jetty</groupId>
-                    <artifactId>jetty-util</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-compiler</artifactId>
-            <version>${drools.version}</version>
-            <exclusions>
-                <!-- Causes conflict with Tomcat JDT-->
-                <exclusion>
-                    <groupId>org.eclipse.jdt.core.compiler</groupId>
-                    <artifactId>ecj</artifactId>
-                </exclusion>
-                <!-- This interferes with Rice's xml parser causing all kinds of workflow havoc -->
-                <exclusion>
-                    <groupId>com.thoughtworks.xstream</groupId>
-                    <artifactId>xstream</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-core</artifactId>
-            <version>${drools.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-            <artifactId>org.eclipse.birt.runtime</artifactId>
-            <version>${org.eclipse.birt.runtime.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xerces</groupId>
-                    <artifactId>xercesImpl</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>com.lowagie.text</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>javax.wsdl</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.xml.resolver</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.xml.serializer</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.bridge</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.css</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.dom</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.dom.svg</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.ext.awt</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.parser</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.pdf</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.svggen</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.transcoder</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.util</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.util.gui</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.batik.xml</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.commons.codec</artifactId>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-deploy</artifactId>
-            <version>${jetty.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-jsp</artifactId>
-            <version>${jetty.version}</version>
-            <scope>test</scope>
-            <!--<exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>javax.servlet-api</artifactId>
-                </exclusion>
-            </exclusions> -->
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>${jetty.version}</version>
-            <scope>test</scope>
-            <!--<exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>javax.servlet-api</artifactId>
-                </exclusion>
-            </exclusions>-->
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>${jetty.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jstl-impl</artifactId>
-            <version>${jstl.version}</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet.jsp</groupId>
-                    <artifactId>jsp-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <version>${hamcrest-library.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock</artifactId>
-            <version>${jmock.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock-legacy</artifactId>
-            <version>${jmock.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock-junit4</artifactId>
-            <version>${jmock.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit-dep</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.db.ojb</groupId>
-            <artifactId>db-ojb</artifactId>
-            <version>${db-ojb.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>xml-apis</artifactId>
-                    <groupId>xml-apis</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xerces</groupId>
-                    <artifactId>xercesImpl</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xalan</groupId>
-                    <artifactId>xalan</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>cglib</artifactId>
-                    <groupId>cglib</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-beanutils</artifactId>
-                    <groupId>commons-beanutils</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>asm</artifactId>
-                    <groupId>asm</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.print.xsds</groupId>
-            <artifactId>kc-printing-xsds</artifactId>
-            <version>${kc-printing-xsds.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-application</artifactId>
-            <version>${gg-application.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms1</artifactId>
-            <version>${gg-forms1.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms2</artifactId>
-            <version>${gg-forms2.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms3</artifactId>
-            <version>${gg-forms3.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms4</artifactId>
-            <version>${gg-forms4.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms5</artifactId>
-            <version>${gg-forms5.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms6</artifactId>
-            <version>${gg-forms6.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms7</artifactId>
-            <version>${gg-forms7.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms8</artifactId>
-            <version>${gg-forms8.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-system</artifactId>
-            <version>${gg-system.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>kc-s2s-generated</artifactId>
-            <version>${kc-s2s-generated.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>keycontacts-1.0-gg</artifactId>
-            <version>${keycontacts-1.0-gg.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>phs398modularbudget-1.2-gg</artifactId>
-            <version>${phs398modularbudget-1.2-gg.version}</version>
-        </dependency>
-        
-        <dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398researchplan-2.0-gg</artifactId>
-			<version>${phs398researchplan-2.0-gg.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398coverpagesupplement-2.0-gg</artifactId>
-			<version>${phs398coverpagesupplement-2.0-gg.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrkeypersonexpanded-2.0-gg</artifactId>
-			<version>${rrkeypersonexpanded-2.0-gg.version}</version>
-		</dependency> 
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>performancesite-2.0-gg</artifactId>
-			<version>${performancesite-2.0-gg.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrbudget-1.3-gg</artifactId>
-			<version>${rrbudget-1.3-gg.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398trainingsubawardbudget-2.0-gg</artifactId>
-			<version>${phs398trainingsubawardbudget-2.0-gg.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrsubawardbudget-1.3-gg</artifactId>
-			<version>${rrsubawardbudget-1.3-gg.version}</version>
-		</dependency>
-
-		<dependency>
- 			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>sf424r-2.0-gg</artifactId>
-			<version>${sf424r-2.0-gg.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrotherproject-1.3-gg</artifactId>
-			<version>${rrotherproject-1.3-gg.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398careerdevelopmentawardsup-2.0-gg</artifactId>
-			<version>${phs398careerdevelopmentawardsup-2.0-gg.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398researchtrainingprogramplan-2.0-gg</artifactId>
-			<version>${phs398researchtrainingprogramplan-2.0-gg.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phsfellowshipsupplemental-2.0-gg</artifactId>
-			<version>${phsfellowshipsupplemental-2.0-gg.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrbudget10-1.3-gg</artifactId>
-			<version>${rrbudget10-1.3-gg.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrsubawardbudget10-1.3-gg</artifactId>
-			<version>${rrsubawardbudget10-1.3-gg.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrsubawardbudget1_3-1.3-gg</artifactId>
-			<version>${rrsubawardbudget1_3-1.3-gg.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>rrsubawardbudget10_30-1.3-gg</artifactId>
-			<version>${rrsubawardbudget10_30-1.3-gg.version}</version>
-		</dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>s2sform</artifactId>
-            <version>${s2sform.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>sf424-2.1-gg</artifactId>
-            <version>${sf424-2.1-gg.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-edl-impl</artifactId>
-            <version>${rice.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-impl</artifactId>
-            <version>${rice.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.oracle</groupId>
-                    <artifactId>ojdbc14</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.oracle</groupId>
-                    <artifactId>ojdbc6</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>htmlunit</groupId>
-                    <artifactId>htmlunit</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>itext</groupId>
-                    <artifactId>itext</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.resource</groupId>
-                    <artifactId>connector</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.resource</groupId>
-                    <artifactId>connector</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jdom</groupId>
-                    <artifactId>jdom</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derby</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.mortbay.jetty</groupId>
-                    <artifactId>jetty</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-mock</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>tomcat</groupId>
-                    <artifactId>jasper-compiler</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>tomcat</groupId>
-                    <artifactId>jasper-compiler-jdt</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>tomcat</groupId>
-                    <artifactId>jasper-runtime</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>xml-apis</artifactId>
-                    <groupId>xml-apis</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>jstl</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>mail</artifactId>
-                    <groupId>javax.mail</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>quartz</artifactId>
-                    <groupId>opensymphony</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-krms-impl</artifactId>
-            <version>${rice.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-ksb-web</artifactId>
-            <version>${rice.version}</version>
-        </dependency>
-
-        <!-- commons-logging implementation, commons-logging calls will go to slf4j -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-
-        <!-- jul bridge, jul calls will go to slf4j -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- binding forwards slf4j calls to log4j (should only contain a single binder) -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springmodules</groupId>
-            <artifactId>spring-modules-ojb</artifactId>
-            <version>${spring-modules-ojb.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>ojb</groupId>
-                    <artifactId>db-ojb</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>xalan</groupId>
-            <artifactId>xalan</artifactId>
-            <version>${xalan.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>xml-apis</artifactId>
-                    <groupId>xml-apis</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
-
-    <!-- copies the javaagent jar to the target directory such that the jar can be referred in the surefire config -->
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>aopalliance</groupId>
+                <artifactId>aopalliance</artifactId>
+                <version>${aopalliance.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib-nodep</artifactId>
+                <version>${cglib-nodep.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lowagie</groupId>
+                <artifactId>itext</artifactId>
+                <version>${itext.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>bcprov-jdk14</artifactId>
+                        <groupId>bouncycastle</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>bcmail-jdk14</artifactId>
+                        <groupId>bouncycastle</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>bcprov-jdk14</artifactId>
+                        <groupId>org.bouncycastle</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc6</artifactId>
+                <version>${oracle.version}</version>
+                <!-- should be provided once embedded jetty is figured out -->
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Required for jdk7 -->
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${jaxb-impl.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons-lang.version}</version>
+            </dependency>
+
+            <!-- For FTP client -->
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${commons-net.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>displaytag</groupId>
+                <artifactId>displaytag</artifactId>
+                <version>${displaytag.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl104-over-slf4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>jstl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>itext</groupId>
+                        <artifactId>itext</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-beanutils</artifactId>
+                        <groupId>commons-beanutils</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>${mail.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.activation</groupId>
+                        <artifactId>activation</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- temp solution to make jetty upgrade work.  we should downgrade to servlet 2.5 once we have a separate
+    module of int tests-->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!--	we need to bring this back in once we get a separate module for our int tests
+                    <dependency>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                        <version>${servlet.version}</version>
+                        <scope>provided</scope>
+                    </dependency>-->
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <!-- should be provided once embedded jetty is figured out -->
+                <scope>test</scope>
+            </dependency>
+
+            <!-- CSV parser -->
+            <dependency>
+                <groupId>net.sf.opencsv</groupId>
+                <artifactId>opencsv</artifactId>
+                <version>${opencsv.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>${pdfbox.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts-core</artifactId>
+                <version>${struts.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>antlr</artifactId>
+                        <groupId>antlr</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-beanutils</artifactId>
+                        <groupId>commons-beanutils</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts-el</artifactId>
+                <version>${struts.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>standard</artifactId>
+                        <groupId>taglibs</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>jstl</artifactId>
+                        <groupId>javax.servlet</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts-extras</artifactId>
+                <version>${struts.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts-taglib</artifactId>
+                <version>${struts.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.xmlbeans</groupId>
+                <artifactId>xmlbeans</artifactId>
+                <version>${xmlbeans.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>stax-api</artifactId>
+                        <groupId>stax</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>fop</artifactId>
+                <!-- cannot upgrade this dependency due to coeus compatibility -->
+                <version>${fop.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xmlParserAPIs</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-io</groupId>
+                        <artifactId>commons-io</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>rhino</groupId>
+                        <artifactId>js</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.directwebremoting</groupId>
+                <artifactId>dwr</artifactId>
+                <version>${dwr.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>xmlParserAPIs</artifactId>
+                        <groupId>xerces</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>jdom</artifactId>
+                        <groupId>jdom</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>xml-apis</artifactId>
+                        <groupId>xml-apis</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>jetty-util</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-compiler</artifactId>
+                <version>${drools.version}</version>
+                <exclusions>
+                    <!-- Causes conflict with Tomcat JDT-->
+                    <exclusion>
+                        <groupId>org.eclipse.jdt.core.compiler</groupId>
+                        <artifactId>ecj</artifactId>
+                    </exclusion>
+                    <!-- This interferes with Rice's xml parser causing all kinds of workflow havoc -->
+                    <exclusion>
+                        <groupId>com.thoughtworks.xstream</groupId>
+                        <artifactId>xstream</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-core</artifactId>
+                <version>${drools.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                <artifactId>org.eclipse.birt.runtime</artifactId>
+                <version>${org.eclipse.birt.runtime.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>com.lowagie.text</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>javax.wsdl</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.xml.resolver</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.xml.serializer</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.bridge</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.css</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.dom</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.dom.svg</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.ext.awt</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.parser</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.pdf</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.svggen</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.transcoder</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.util</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.util.gui</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.xml</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.commons.codec</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-deploy</artifactId>
+                <version>${jetty.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-jsp</artifactId>
+                <version>${jetty.version}</version>
+                <scope>test</scope>
+                <!--<exclusions>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>javax.servlet-api</artifactId>
+                    </exclusion>
+                </exclusions> -->
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>${jetty.version}</version>
+                <scope>test</scope>
+                <!--<exclusions>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>javax.servlet-api</artifactId>
+                    </exclusion>
+                </exclusions>-->
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-webapp</artifactId>
+                <version>${jetty.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.web</groupId>
+                <artifactId>jstl-impl</artifactId>
+                <version>${jstl.version}</version>
+                <scope>compile</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet.jsp</groupId>
+                        <artifactId>jsp-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>${hamcrest-library.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jmock</groupId>
+                <artifactId>jmock</artifactId>
+                <version>${jmock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jmock</groupId>
+                <artifactId>jmock-legacy</artifactId>
+                <version>${jmock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jmock</groupId>
+                <artifactId>jmock-junit4</artifactId>
+                <version>${jmock.version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit-dep</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.db.ojb</groupId>
+                <artifactId>db-ojb</artifactId>
+                <version>${db-ojb.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>xml-apis</artifactId>
+                        <groupId>xml-apis</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xalan</groupId>
+                        <artifactId>xalan</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>cglib</artifactId>
+                        <groupId>cglib</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-beanutils</artifactId>
+                        <groupId>commons-beanutils</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>asm</artifactId>
+                        <groupId>asm</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.print.xsds</groupId>
+                <artifactId>kc-printing-xsds</artifactId>
+                <version>${kc-printing-xsds.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>gg-application</artifactId>
+                <version>${gg-application.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>gg-forms1</artifactId>
+                <version>${gg-forms1.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>gg-forms2</artifactId>
+                <version>${gg-forms2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>gg-forms3</artifactId>
+                <version>${gg-forms3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>gg-forms4</artifactId>
+                <version>${gg-forms4.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>gg-forms5</artifactId>
+                <version>${gg-forms5.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>gg-forms6</artifactId>
+                <version>${gg-forms6.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>gg-forms7</artifactId>
+                <version>${gg-forms7.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>gg-forms8</artifactId>
+                <version>${gg-forms8.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>gg-system</artifactId>
+                <version>${gg-system.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>kc-s2s-generated</artifactId>
+                <version>${kc-s2s-generated.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>keycontacts-1.0-gg</artifactId>
+                <version>${keycontacts-1.0-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>phs398modularbudget-1.2-gg</artifactId>
+                <version>${phs398modularbudget-1.2-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>phs398researchplan-2.0-gg</artifactId>
+                <version>${phs398researchplan-2.0-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>phs398coverpagesupplement-2.0-gg</artifactId>
+                <version>${phs398coverpagesupplement-2.0-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>rrkeypersonexpanded-2.0-gg</artifactId>
+                <version>${rrkeypersonexpanded-2.0-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>performancesite-2.0-gg</artifactId>
+                <version>${performancesite-2.0-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>rrbudget-1.3-gg</artifactId>
+                <version>${rrbudget-1.3-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>phs398trainingsubawardbudget-2.0-gg</artifactId>
+                <version>${phs398trainingsubawardbudget-2.0-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>rrsubawardbudget-1.3-gg</artifactId>
+                <version>${rrsubawardbudget-1.3-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>sf424r-2.0-gg</artifactId>
+                <version>${sf424r-2.0-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>rrotherproject-1.3-gg</artifactId>
+                <version>${rrotherproject-1.3-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>phs398careerdevelopmentawardsup-2.0-gg</artifactId>
+                <version>${phs398careerdevelopmentawardsup-2.0-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>phs398researchtrainingprogramplan-2.0-gg</artifactId>
+                <version>${phs398researchtrainingprogramplan-2.0-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>phsfellowshipsupplemental-2.0-gg</artifactId>
+                <version>${phsfellowshipsupplemental-2.0-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>rrbudget10-1.3-gg</artifactId>
+                <version>${rrbudget10-1.3-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>rrsubawardbudget10-1.3-gg</artifactId>
+                <version>${rrsubawardbudget10-1.3-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>rrsubawardbudget1_3-1.3-gg</artifactId>
+                <version>${rrsubawardbudget1_3-1.3-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>rrsubawardbudget10_30-1.3-gg</artifactId>
+                <version>${rrsubawardbudget10_30-1.3-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>s2sform</artifactId>
+                <version>${s2sform.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.kra.s2s</groupId>
+                <artifactId>sf424-2.1-gg</artifactId>
+                <version>${sf424-2.1-gg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-edl-impl</artifactId>
+                <version>${rice.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-impl</artifactId>
+                <version>${rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc14</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc6</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>htmlunit</groupId>
+                        <artifactId>htmlunit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>itext</groupId>
+                        <artifactId>itext</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.resource</groupId>
+                        <artifactId>connector</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.resource</groupId>
+                        <artifactId>connector</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>jdom</groupId>
+                        <artifactId>jdom</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derby</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>jetty</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-mock</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>tomcat</groupId>
+                        <artifactId>jasper-compiler</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>tomcat</groupId>
+                        <artifactId>jasper-compiler-jdt</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>tomcat</groupId>
+                        <artifactId>jasper-runtime</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>xml-apis</artifactId>
+                        <groupId>xml-apis</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>jstl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>mail</artifactId>
+                        <groupId>javax.mail</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>quartz</artifactId>
+                        <groupId>opensymphony</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-krms-impl</artifactId>
+                <version>${rice.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-ksb-web</artifactId>
+                <version>${rice.version}</version>
+            </dependency>
+
+            <!-- commons-logging implementation, commons-logging calls will go to slf4j -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <!-- jul bridge, jul calls will go to slf4j -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jul-to-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- binding forwards slf4j calls to log4j (should only contain a single binder) -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springmodules</groupId>
+                <artifactId>spring-modules-ojb</artifactId>
+                <version>${spring-modules-ojb.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>ojb</groupId>
+                        <artifactId>db-ojb</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>xalan</groupId>
+                <artifactId>xalan</artifactId>
+                <version>${xalan.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>xml-apis</artifactId>
+                        <groupId>xml-apis</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
     <profiles>
+        <profile>
+            <id>jetty-8</id>
+            <properties>
+                <jetty.version>${jetty8.version}</jetty.version>
+                <jetty-maven-plugin.groupId>${jetty-maven-plugin8.groupId}</jetty-maven-plugin.groupId>
+            </properties>
+        </profile>
+
+        <!-- copies the javaagent jar to the target directory such that the jar can be referred in the surefire config -->
         <profile>
             <id>copy-javaagent</id>
             <activation>
@@ -1549,7 +1515,7 @@ module of int tests-->
             </build>
         </profile>
 
-	</profiles>
+    </profiles>
 
     <repositories>
         <repository>
@@ -1609,6 +1575,5 @@ module of int tests-->
             </notifier>
         </notifiers>
     </ciManagement>
-
 
 </project>
