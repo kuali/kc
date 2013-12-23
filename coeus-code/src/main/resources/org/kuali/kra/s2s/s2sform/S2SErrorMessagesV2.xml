@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2010 The Kuali Foundation.
+# 
+# Licensed under the Educational Community License, Version 1.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.opensource.org/licenses/ecl1.php
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+--> 
+
+<S2SErrors>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS398_ModularBudget_1_2</MessageKey> 
+ 		<Message>Please add a budget to the proposal and complete the Modular Budget tab.</Message> 
+  		<FixLink>budgetVersions</FixLink> 
+	</Error>
+	
+	<Error>
+		<MessageKey>/GrantApplication/Forms/SF424_2_1/ApplicationTypeCode</MessageKey>
+		<Message>You have a non-standard application type for the SF424</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/SF424_2_1/Revision/RevisionCode1</MessageKey>
+		<Message>You have entered an invalid revision type for the SF424</Message>
+		<FixLink>grantsGov</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/SF424_2_1/Applicant/City</MessageKey>
+		<Message>Organization's city is not valid</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+  		<MessageKey>/GrantApplication/Forms/SF424_2_1/PhoneNumber</MessageKey> 
+  		<Message>Phone number missing for PD/PI.</Message> 
+  		<FixLink>keyPersonnel</FixLink> 
+  	</Error>
+  	<Error>
+	    <MessageKey>/GrantApplication/Forms/SF424_2_1/Email</MessageKey> 
+ 		<Message>Email address missing for PD/PI.</Message> 
+ 	    <FixLink>keyPersonnel</FixLink> 
+  	</Error>  
+  	<Error>
+	    <MessageKey>/GrantApplication/Forms/SF424_2_1/StateReview</MessageKey> 
+ 		<Message>Please answer the State Executive Order questions for this form within the Questions tab.</Message> 
+ 	    <FixLink>questions</FixLink> 
+  	</Error> 
+  	<Error>
+	    <MessageKey>/GrantApplication/Forms/SF424_2_1/StateReviewAvailableDate</MessageKey> 
+ 		<Message>Please answer the State Review Date questions for this form within the Questions tab.</Message> 
+ 	    <FixLink>questions</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded_2_0/PDPI</MessageKey> 
+  		<Message> A PD/PI is required, please add a Principal Investigator to the proposal.</Message> 
+  		<FixLink>keyPersonnel</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded_2_0/PDPI/Profile/BioSketchsAttached/BioSketchAttached</MessageKey> 
+ 		<Message>Each investigator and key person must have a BioSketch. Upload the PDF on the Personnel Attachments panel, with "BIOSKETCH" as the attachment type.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+  	</Error>
+  	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PerformanceSite_2_0/AttachedFile</MessageKey> 
+ 		<Message>Performance Sites attachment is required since Performance Site Locations exceed the maximum of 29.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/HumanSubjectsInvolved</MessageKey> 
+ 		<Message>Human Subjects Involved is not valid, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/HumanSubjectsIndefinite</MessageKey> 
+ 		<Message>Human Subjects Indefinite is not valid, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/ClinicalTrial</MessageKey> 
+ 		<Message>Clinical Trial response is not valid, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/Phase3ClinicalTrial</MessageKey> 
+ 		<Message>Phase 3 Clinical Trial response is not valid, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/VertebrateAnimalsUsed</MessageKey> 
+ 		<Message>Vertebrate Animals Used is not valid, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/VertebrateAnimalsIndefinite</MessageKey> 
+ 		<Message>Vertebrate Animals Indefinite, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan</MessageKey> 
+ 		<Message>Please answer all required questions and include all required attachments for this form.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/AdditionalInformation/StemCells</MessageKey> 
+ 		<Message>Stem Cells response, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/AdditionalInformation/CurrentPriorNRSASupportIndicator</MessageKey> 
+ 		<Message>Current &amp; Prior NRSA support response is not valid, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/AdditionalInformation/ConcurrentSupport</MessageKey> 
+ 		<Message>Concurrent support response is not valid, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/ClinicalTrial/isPhaseIIIClinicalTrial</MessageKey> 
+ 		<Message>Please answer the NIH-defined Phase III clinical trial question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_3/ClinicalTrial/isPhaseIIIClinicalTrial</MessageKey> 
+ 		<Message>Please answer the NIH-defined Phase III clinical trial question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/AdditionalInformation/Citizenship</MessageKey> 
+ 		<Message>Citizenship is not valid for PI, please make sure a PI has been added and that person has a valid citizenship type indicated.</Message> 
+  		<FixLink>keyPersonnel</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/AdditionalInformation</MessageKey> 
+ 		<Message>Additional information is not valid, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/Sponsors</MessageKey> 
+ 		<Message>Sponsors is not valid, please make sure the appropriate attachments and questions have been answered.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/AdditionalInformation/FieldOfTraining</MessageKey> 
+ 		<Message>Field of training response is not valid, please answer all required questions for this form within the Questions tab.</Message>  
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/AdditionalInformation/StemCells/isHumanStemCellsInvolved</MessageKey> 
+ 		<Message>Human Stem Cells response is not valid, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/ResearchTrainingPlan/SpecificAims</MessageKey> 
+ 		<Message>Specific Aims is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/ResearchTrainingPlan/ResearchStrategy</MessageKey> 
+ 		<Message>Research Strategy is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/ResearchTrainingPlan/RespectiveContributions</MessageKey> 
+ 		<Message>Respective Contributions is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/ResearchTrainingPlan/SelectionOfSponsorAndInstitution</MessageKey> 
+ 		<Message>Selection of Sponsor and Institution is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments  panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/ResearchTrainingPlan/ResponsibleConductOfResearch</MessageKey> 
+ 		<Message>Responsible Conduct of Research is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/AdditionalInformation/FellowshipTrainingAndCareerGoals</MessageKey> 
+ 		<Message>Goals for Fellowship Training and Career is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/AdditionalInformation/ActivitiesPlannedUnderThisAward</MessageKey> 
+ 		<Message>Activities Planned Under This Award is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/Sponsors/SponsorCosponsorInformation</MessageKey> 
+ 		<Message>Sponsor(s) and Co-Sponsor(s) Information is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+</S2SErrors>
