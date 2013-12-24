@@ -78,17 +78,28 @@ public class KraHoldingPageAction extends AbstractHoldingPageAction {
             // this is a temporary solution
             // introduced to unload the block ui in embedded mode
             GlobalVariables.getUserSession().removeObject(Constants.FORCE_HOLDING_PAGE_FOR_ACTION_LIST); 
+            forward = getReturnPath(alternateDocIdSessionKey);
         }
         else if (isDocumentPostprocessingComplete(document)) {
-            // get the return location and clean up session
-            String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
-            cleanupUserSession(alternateDocIdSessionKey);
-            forward = new ActionForward(backLocation, true);
+            forward = getReturnPath(alternateDocIdSessionKey);
         }
         
         return forward;
     }
 
+    /**
+     * This method is to get the return location and clean up session
+     * @param alternateDocIdSessionKey
+     * @return
+     */
+    private ActionForward getReturnPath(String alternateDocIdSessionKey) {
+        ActionForward forward = null;
+        String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
+        cleanupUserSession(alternateDocIdSessionKey);
+        forward = new ActionForward(backLocation, true);
+        return forward;
+    }
+    
     private void cleanupUserSession(String alternateDocIdSessionKey) {
         GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
         if (alternateDocIdSessionKey != null) {
