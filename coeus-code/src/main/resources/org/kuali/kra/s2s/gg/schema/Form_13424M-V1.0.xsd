@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:Form_13424M="http://apply.grants.gov/forms/Form_13424M-V1.0" targetNamespace="http://apply.grants.gov/forms/Form_13424M-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="Form_13424M">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ApplicantOrganization" type="Form_13424M:Form_13424M_String1_1024DataType"/>
+				<xs:element name="Experience">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ExperienceOperating" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ExistingAffiliations" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ExperienceSupervising" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ExperienceNetworking" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FinancialResponsibility">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AccountingProcedures" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="MethodForEnsuring" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="PlansForAudits" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="Qualifications" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProgramPerformancePlan">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="QTEQualifications" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ClinicDirectorQualifications" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ClinicStaff" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="StudentClinicServices" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ObtainPermission" type="globLib:YesNoDataType"/>
+							<xs:element name="ObtainCourtPermission" type="globLib:YesNoDataType"/>
+							<xs:element name="StaffAuthorized" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="StaffAdmitted" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="AmountofTime" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Volunteers">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ApplicantProBono" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ProceduresAssignCases" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="TrackVolunteerTime" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Training">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TrainingProvided" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ContinuingProfessionalEducation" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ClinicsTaxLibrary" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ClinicOperations">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ClinicsPublicityPlan" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="TaxpayerPrivacyPlans" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ClinicOperation" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ChargingFeesPlan" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProgramPlan">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ControversyProgram" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ControversyType" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ProcedureForIntake" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="IncomeRequirementTracking" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="AmountTracking" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="NewCasesGoals" type="Form_13424M:Form_13424M_0_to_99999_DataType"/>
+							<xs:element name="Consultations" type="Form_13424M:Form_13424M_0_to_99999_DataType"/>
+							<xs:element name="ESLProgram" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ESLOutreach" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="TargetPopulation" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="ESLTaxpayerTracking" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="EducationalActivities" type="Form_13424M:Form_13424M_0_to_99999_DataType"/>
+							<xs:element name="ESLTaxpayers" type="Form_13424M:Form_13424M_0_to_999999_DataType"/>
+							<xs:element name="ESLConsultations" type="Form_13424M:Form_13424M_0_to_99999_DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProgramMonitoring">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MonitoringStrategy" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="MeasureClientSatisfaction" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Geographic">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="GeographicArea" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CivilRights">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ActiveLawsuits" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="PendingApplications" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+							<xs:element name="CivilRightsCompliance" type="Form_13424M:Form_13424M_String1_5000DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="Form_13424M_String1_1024DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1024"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Form_13424M_String1_5000DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="5000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Form_13424M_0_to_99999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="Form_13424M_0_to_999999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999999"/>
+		</xs:restriction>
+	</xs:simpleType>	
+</xs:schema>

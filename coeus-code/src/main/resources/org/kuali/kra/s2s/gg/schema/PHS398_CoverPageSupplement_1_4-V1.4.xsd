@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:PHS398_CoverPageSupplement_1_4="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_1_4-V1.4" targetNamespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_1_4-V1.4" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="PHS398_CoverPageSupplement_1_4">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PDPI">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PDPIName" type="globLib:HumanNameDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ClinicalTrial" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="isClinicalTrial" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="isPhaseIIIClinicalTrial" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ContactPersonInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ContactName" type="globLib:HumanNameDataType"/>
+							<xs:element name="ContactPhone" type="globLib:TelephoneNumberDataType"/>
+							<xs:element name="ContactFax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="ContactEmail" type="globLib:EmailDataType" minOccurs="0"/>
+							<xs:element name="ContactTitle" type="globLib:HumanTitleDataType"/>
+							<xs:element name="ContactAddress" type="globLib:AddressDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="StemCells" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="isHumanStemCellsInvolved" type="globLib:YesNoDataType"/>
+							<xs:element name="StemCellsIndicator" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CellLines" minOccurs="0" maxOccurs="20">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="4"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.4"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

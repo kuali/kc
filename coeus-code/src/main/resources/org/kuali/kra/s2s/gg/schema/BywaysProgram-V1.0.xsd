@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:BywaysProgram="http://apply.grants.gov/forms/BywaysProgram-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/BywaysProgram-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.1">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:element name="BywaysProgram">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="LocationCategory">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="National Byway or All American Road"/>
+							<xs:enumeration value="Development of a State or Indian byway"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="GrantCategory">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="State or Byway Program"/>
+							<xs:enumeration value="Corridor Management Plan"/>
+							<xs:enumeration value="Safety Improvements"/>
+							<xs:enumeration value="Byway Facilities"/>
+							<xs:enumeration value="Access to Recreation"/>
+							<xs:enumeration value="Resource Protection"/>
+							<xs:enumeration value="Interpretive Information"/>
+							<xs:enumeration value="Marketing"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PreviousApplicant" type="globLib:YesNoDataType"/>
+				<xs:element name="InvolvedBywayList">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="400"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CrossesBIA" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CrossesBLM" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CrossesFWS" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CrossesNPS" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CrossesUSFS" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CrossesOther" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="OtherFederalLand" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="MultiJurisdiction" type="globLib:YesNoDataType"/>
+				<xs:element name="MultiJurisdictionList" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="250"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="MultiJurisdictionDistribution" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="To each State"/>
+							<xs:enumeration value="To lead State (specify)"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="LeadState" type="codes:StateCodeDataType" minOccurs="0"/>
+				<xs:element name="BywayAgencyAuthorization" type="globLib:YesNoDataType"/>
+				<xs:element name="BywayAuthorization" type="globLib:YesNoDataType"/>
+				<xs:element name="FundingAllocation">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Allocate to State DOT"/>
+							<xs:enumeration value="Allocate to Federal Land Management Agency"/>
+							<xs:enumeration value="Allocate to Indian tribe or tribal government"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

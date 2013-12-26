@@ -1,0 +1,1484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:NACA_2_0="http://apply.grants.gov/forms/NACA_2_0-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/NACA_2_0-V2.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="2.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="NACA_2_0">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Organization">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="Street1" type="globLib:StreetDataType"/>
+							<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+							<xs:element name="City" type="globLib:CityDataType"/>
+							<xs:element name="State" type="codes:StateCodeDataType" minOccurs="0"/>
+							<xs:element name="ZipCode" type="globLib:ZipPostalCodeDataType" minOccurs="0"/>
+							<xs:element name="EIN" type="globLib:EmployerIDDataType"/>
+							<xs:element name="DUNSNumber" type="globLib:DUNSIDDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>							
+				<xs:element name="AuthorizedRep">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Prefix" type="globLib:PrefixNameDataType" minOccurs="0"/>
+							<xs:element name="FirstName" type="globLib:FirstNameDataType"/>
+							<xs:element name="LastName" type="globLib:LastNameDataType"/>
+							<xs:element name="Title" type="globLib:HumanTitleDataType"/>
+							<xs:element name="Email" type="globLib:EmailDataType"/>
+							<xs:element name="Phone" type="globLib:TelephoneNumberDataType"/>
+							<xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Street1" type="globLib:StreetDataType"/>
+							<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+							<xs:element name="City" type="globLib:CityDataType"/>
+							<xs:element name="State" type="codes:StateCodeDataType"/>
+							<xs:element name="ZipCode" type="globLib:ZipPostalCodeDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>	
+				<xs:element name="ApplicationPOC" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Prefix" type="globLib:PrefixNameDataType" minOccurs="0"/>
+							<xs:element name="FirstName" type="globLib:FirstNameDataType" minOccurs="0"/>
+							<xs:element name="LastName" type="globLib:LastNameDataType" minOccurs="0"/>
+							<xs:element name="Title" type="globLib:HumanTitleDataType" minOccurs="0"/>
+							<xs:element name="Email" type="globLib:EmailDataType" minOccurs="0"/>
+							<xs:element name="Phone" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Street1" type="globLib:StreetDataType" minOccurs="0"/>
+							<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+							<xs:element name="City" type="globLib:CityDataType" minOccurs="0"/>
+							<xs:element name="State" type="codes:StateCodeDataType" minOccurs="0"/>
+							<xs:element name="ZipCode" type="globLib:ZipPostalCodeDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="OrganizationalProfile">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="750"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FY">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="2012"/>
+							<xs:enumeration value="2013"/>
+							<xs:enumeration value="2014"/>
+							<xs:enumeration value="2015"/>
+							<xs:enumeration value="2016"/>
+							<xs:enumeration value="2017"/>
+							<xs:enumeration value="2018"/>
+							<xs:enumeration value="2019"/>
+							<xs:enumeration value="2020"/>
+							<xs:enumeration value="2021"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Application">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="CDFI"/>
+							<xs:enumeration value="NACA"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="TypeAssistance">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="FA"/>
+							<xs:enumeration value="TA"/>
+							<xs:enumeration value="FA-HFFI"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FARequestedAmount" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Loan" type="NACA_2_0:NACA_2_0_0_to_2000000_DataType" minOccurs="0"/>
+							<xs:element name="Grant" type="NACA_2_0:NACA_2_0_0_to_2000000_DataType" minOccurs="0"/>
+							<xs:element name="Equity" type="NACA_2_0:NACA_2_0_0_to_2000000_DataType" minOccurs="0"/>
+							<xs:element name="SharesDeposits" type="NACA_2_0:NACA_2_0_0_to_2000000_DataType" minOccurs="0"/>
+							<xs:element name="SecondaryCapital" type="NACA_2_0:NACA_2_0_0_to_2000000_DataType" minOccurs="0"/>
+							<xs:element name="QID_54"  type="NACA_2_0:NACA_2_0_1_to_2000000_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TARequestSummary" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>				
+							<xs:element name="Personnel" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="PersonnelItem" minOccurs="0" maxOccurs="10">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="PositionEmployeeName" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>
+													<xs:element name="Salary" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+													<xs:element name="Fringe" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+													<xs:element name="Workload" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+													<xs:element name="Years" type="NACA_2_0:NACA_2_0_1_to_3_DataType" minOccurs="0"/>
+													<xs:element name="Total" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>		
+										<xs:element name="SubTotal" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+							<xs:element name="Training" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TrainingItem" minOccurs="0" maxOccurs="10">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="CourseNameDescription" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>
+													<xs:element name="Provider" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>													
+													<xs:element name="Attendees" type="NACA_2_0:NACA_2_0_0_to_999_DataType" minOccurs="0"/>
+													<xs:element name="CostPerPerson" type="NACA_2_0:NACA_2_0_0_to_100000_DataType" minOccurs="0"/>
+													<xs:element name="Total" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>		
+										<xs:element name="SubTotal" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+							<xs:element name="Travel" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TravelItem" minOccurs="0" maxOccurs="10">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="TripName" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>
+													<xs:element name="Location" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>													
+													<xs:element name="People" type="NACA_2_0:NACA_2_0_0_to_999_DataType" minOccurs="0"/>
+													<xs:element name="Transportation" type="NACA_2_0:NACA_2_0_0_to_100000_DataType" minOccurs="0"/>
+													<xs:element name="Lodging" type="NACA_2_0:NACA_2_0_0_to_100000_DataType" minOccurs="0"/>
+													<xs:element name="Total" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>		
+										<xs:element name="SubTotal" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+										<xs:element name="TravelPolicies" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Federal"/>
+													<xs:enumeration value="Internal"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+							<xs:element name="ProfessionalServices" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ProfessionalServicesItem" minOccurs="0" maxOccurs="10">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Service" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>
+													<xs:element name="Provider" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>													
+													<xs:element name="ContractType" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="Consultant/Sole Source"/>
+																<xs:enumeration value="Contractor/Competitive Bid"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="CostType" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="Hourly"/>
+																<xs:enumeration value="Per Task"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Hours" type="NACA_2_0:NACA_2_0_0_to_9999_DataType" minOccurs="0"/>
+													<xs:element name="HourlyRate" type="NACA_2_0:NACA_2_0_0_to_999p99_DataType" minOccurs="0"/>
+													<xs:element name="ProjectedCost" type="NACA_2_0:NACA_2_0_0_to_100000_DataType" minOccurs="0"/>
+													<xs:element name="Total" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>		
+										<xs:element name="SubTotal" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+										<xs:element name="ProcurementPolicies" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Federal"/>
+													<xs:enumeration value="Internal"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+							<xs:element name="Equipment" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="EquipmentItem" minOccurs="0" maxOccurs="10">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Category" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>
+													<xs:element name="Description" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>													
+													<xs:element name="Cost" type="NACA_2_0:NACA_2_0_0_to_100000_DataType" minOccurs="0"/>
+													<xs:element name="Units" type="NACA_2_0:NACA_2_0_0_to_100000_DataType" minOccurs="0"/>
+													<xs:element name="Total" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>		
+										<xs:element name="SubTotal" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+							<xs:element name="TotalTARequest" type="NACA_2_0:NACA_2_0_0_to_150000_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HFFIFARequestedAmount" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Loan" type="NACA_2_0:NACA_2_0_0_to_5000000_DataType" minOccurs="0"/>
+							<xs:element name="Grant" type="NACA_2_0:NACA_2_0_0_to_5000000_DataType" minOccurs="0"/>
+							<xs:element name="Equity" type="NACA_2_0:NACA_2_0_0_to_5000000_DataType" minOccurs="0"/>
+							<xs:element name="SharesDeposits" type="NACA_2_0:NACA_2_0_0_to_5000000_DataType" minOccurs="0"/>
+							<xs:element name="SecondaryCapital" type="NACA_2_0:NACA_2_0_0_to_5000000_DataType" minOccurs="0"/>
+							<xs:element name="TotalHFFIRequest" type="NACA_2_0:NACA_2_0_1_to_5000000_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="OtherFunds" type="globLib:YesNoDataType"/>
+				<xs:element name="OtherFundsTable" minOccurs="0" maxOccurs="5">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AffiliateName" type="NACA_2_0:NACA_2_0_String30_DataType"/>	
+							<xs:element name="AffiliateEIN" type="globLib:EmployerIDDataType"/>
+							<xs:element name="CDFIFundProgram">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="BEA"/>
+										<xs:enumeration value="CDFI/NACA"/>
+										<xs:enumeration value="NMTC"/>
+										<xs:enumeration value="Other"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="PriorAwardsTable" minOccurs="0" maxOccurs="10">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OrganizationName" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>	
+							<xs:element name="EIN" type="globLib:EmployerIDDataType" minOccurs="0"/>
+							<xs:element name="ControlNumber" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="12"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="TotalAward" type="NACA_2_0:NACA_2_0_1_to_999999999_DataType" minOccurs="0"/>
+							<xs:element name="AwardType" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="FA"/>
+										<xs:enumeration value="NACA"/>
+										<xs:enumeration value="TA"/>
+										<xs:enumeration value="BEA"/>
+										<xs:enumeration value="NMTC"/>
+										<xs:enumeration value="CMF"/>
+										<xs:enumeration value="Other"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="InstitutionType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Loan Fund"/>
+							<xs:enumeration value="Credit Union"/>
+							<xs:enumeration value="Bank Holding Company"/>
+							<xs:enumeration value="Bank or Thrift"/>
+							<xs:enumeration value="Venture Capital"/>
+							<xs:enumeration value="Other"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OrganizationStructure" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="For-Profit"/>
+							<xs:enumeration value="501(c)(4)"/>
+							<xs:enumeration value="Other Non-Profit"/>		
+							<xs:enumeration value="Tribal or Village Government"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Native" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="SponsoringEntity" type="globLib:YesNoDataType"/>
+				<xs:element name="QID_65" type="globLib:YesNoDataType"/>
+				<xs:element name="DateofIncorporation" type="xs:date"/>
+				<xs:element name="DateStarted" type="xs:date"/>
+				<xs:element name="CongressionalDistrictApplicant" type="globLib:CongressionalDistrictDataType"/>
+				<xs:element name="QID_42">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="3/31"/>
+							<xs:enumeration value="6/30"/>
+							<xs:enumeration value="9/30"/>
+							<xs:enumeration value="12/31"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="QID_66" type="NACA_2_0:NACA_2_0_s999999999999_DataType"/>
+				<xs:element name="TotalFTEs" type="NACA_2_0:NACA_2_0_0_to_100000_DataType" minOccurs="0"/>
+				<xs:element name="RegulatoryBody" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="FDIC"/>
+							<xs:enumeration value="Federal Reserve"/>
+							<xs:enumeration value="NCUA"/>
+							<xs:enumeration value="OCC"/>
+							<xs:enumeration value="Other"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OtherRegulatoryBody" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="40"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FDICCertification" type="NACA_2_0:NACA_2_0_String15_DataType" minOccurs="0"/>
+				<xs:element name="CharterNumber" type="NACA_2_0:NACA_2_0_String15_DataType" minOccurs="0"/>
+				<xs:element name="MinorityDepository" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CertificationStatus">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="CDFI Certified"/>
+							<xs:enumeration value="Not Certified"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CDFICertificationNumber" type="NACA_2_0:NACA_2_0_String15_DataType" minOccurs="0"/>
+				<xs:element name="CertificationPending" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="SubmissionDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="CertificationChecklist" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PrimaryMissionRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="TargetMarketRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="DevelopmentServicesRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="AccountabilityRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="NonGovernmentEntityRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="LegalEntity" type="globLib:YesNoDataType"/>
+							<xs:element name="FinancingEntity" type="globLib:YesNoDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="QID_58">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Major Urban"/>
+							<xs:enumeration value="Minor Urban"/>
+							<xs:enumeration value="Rural"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PrimaryMarket" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="QID_80" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_81" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_84" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_82" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_83" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="GeographicMarketServed" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Alabama" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Alaska" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AmericanSamoa" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Arizona" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Arkansas" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="California" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Colorado" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Connecticut" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Delaware" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DistrictofColumbia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederatedStatesofMicronesia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Florida" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Georgia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Guam" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hawaii" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Idaho" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Illinois" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Indiana" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Iowa" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Kansas" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Kentucky" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Louisiana" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Maine" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Maryland" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Massachusetts" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Michigan" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MidwayIslands" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Minnesota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Mississippi" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Missouri" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Montana" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nebraska" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nevada" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NewHampshire" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NewJersey" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NewMexico" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NewYork" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NorthCarolina" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NorthDakota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ohio" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Oklahoma" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Oregon" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Pennsylvania" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PuertoRico" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="RhodeIsland" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SouthCarolina" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SouthDakota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Tennessee" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Texas" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="USVirginIslands" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Utah" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Vermont" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Virginia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Washington" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="WestVirginia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Wisconsin" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Wyoming" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PrimaryBusiness">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Affordable Housing"/>
+							<xs:enumeration value="Consumer Finance"/>
+							<xs:enumeration value="Microenterprise"/>
+							<xs:enumeration value="Small Business"/>
+							<xs:enumeration value="Commercial"/>
+							<xs:enumeration value="Retail"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SecondaryBusiness" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AffordableHousing" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ConsumerFinance" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Microenterprise" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SmallBusiness" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Commercial" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Retail" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProductsOffered" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IndividualDevelopmentAccounts" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NoCostAccounts" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="LoansToRefinance" type="globLib:YesNoDataType" minOccurs="0"/> 
+							<xs:element name="LoansToBuild" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ShortTerm" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_56" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_62" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ServicesToDisabled" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EquityInvestments" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CustomerProfile" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OtherDescription" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>
+							<xs:element name="AllActivities" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TargetMarket" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="ModerateIncome" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="LowIncome" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="VeryLowIncome" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="ExtremelyLowIncome" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="FemaleHeaded" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="AfricanAmerican" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="Hispanic" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="NativeAmerican" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="Other" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+							<xs:element name="OptionalProduct" minOccurs="0" maxOccurs="3">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Product" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Consumer Loans"/>
+													<xs:enumeration value="Business Loans - Non-Micro"/>
+													<xs:enumeration value="Business Loans - Microenterprise"/>
+													<xs:enumeration value="Business - Equity Investments"/>
+													<xs:enumeration value="Home Mortgage"/>
+													<xs:enumeration value="Home Improvement/ Rehab"/>
+													<xs:enumeration value="Real Estate - Affordable Housing"/>
+													<xs:enumeration value="Real Estate - Commercial"/>
+													<xs:enumeration value="Real Estate - Community Facilities"/>
+													<xs:enumeration value="Savings/Share Accounts"/>
+													<xs:enumeration value="Checking/Draft Accounts"/>
+													<xs:enumeration value="Other Financial Products/ Services"/>
+													<xs:enumeration value="Development Services"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="TargetMarket" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="ModerateIncome" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="LowIncome" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="VeryLowIncome" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="ExtremelyLowIncome" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="FemaleHeaded" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="AfricanAmerican" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="Hispanic" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="NativeAmerican" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+										<xs:element name="Other" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="MatchingFunds" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EquityInvestment" type="NACA_2_0:NACA_2_0_MatchingFunds_DataType" minOccurs="0"/>
+							<xs:element name="Grant" type="NACA_2_0:NACA_2_0_MatchingFunds_DataType" minOccurs="0"/>
+							<xs:element name="Loan" type="NACA_2_0:NACA_2_0_MatchingFunds_DataType" minOccurs="0"/>
+							<xs:element name="SecondaryCapital" type="NACA_2_0:NACA_2_0_MatchingFunds_DataType" minOccurs="0"/>
+							<xs:element name="SharesDeposits" type="NACA_2_0:NACA_2_0_MatchingFunds_DataType" minOccurs="0"/>
+							<xs:element name="RetainedEarnings" type="NACA_2_0:NACA_2_0_MatchingFunds_DataType" minOccurs="0"/>
+							<xs:element name="Totals" type="NACA_2_0:NACA_2_0_MatchingFundsTotal_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="EarningsNonRegulated" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Income" type="NACA_2_0:NACA_2_0_EarningsNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="Federal" type="NACA_2_0:NACA_2_0_EarningsNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="FederalItem" type="NACA_2_0:NACA_2_0_EarningsNonRegulatedItem_DataType" minOccurs="0" maxOccurs="3"/>
+							<xs:element name="Matching" type="NACA_2_0:NACA_2_0_EarningsNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="MatchingItem" type="NACA_2_0:NACA_2_0_EarningsNonRegulatedItem_DataType" minOccurs="0" maxOccurs="3"/>
+							<xs:element name="SubtotalIncome" type="NACA_2_0:NACA_2_0_EarningsNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="Operating" type="NACA_2_0:NACA_2_0_EarningsNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="Associated" type="NACA_2_0:NACA_2_0_EarningsNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="AssociatedItem" type="NACA_2_0:NACA_2_0_EarningsNonRegulatedItem_DataType" minOccurs="0" maxOccurs="3"/>
+							<xs:element name="SubtotalExpenses" type="NACA_2_0:NACA_2_0_EarningsNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="Dividends" type="NACA_2_0:NACA_2_0_EarningsNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="TotalEarnings" type="NACA_2_0:NACA_2_0_EarningsNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="RetainedEarnings" type="NACA_2_0:NACA_2_0_s999999999999_DataType" minOccurs="0"/>
+							<xs:element name="ThreeYearAverage" type="NACA_2_0:NACA_2_0_s999999999999_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="EarningsCreditUnions" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NetWorth" type="NACA_2_0:NACA_2_0_EarningsCreditUnions_DataType" minOccurs="0"/>
+							<xs:element name="Uninsured" type="NACA_2_0:NACA_2_0_EarningsCreditUnions_DataType" minOccurs="0"/>
+							<xs:element name="SubtotalEarnings" type="NACA_2_0:NACA_2_0_EarningsCreditUnions_DataType" minOccurs="0"/>
+							<xs:element name="Federal" type="NACA_2_0:NACA_2_0_EarningsCreditUnions_DataType" minOccurs="0"/>
+							<xs:element name="FederalItem" type="NACA_2_0:NACA_2_0_EarningsCreditUnionsItem_DataType" minOccurs="0" maxOccurs="4"/>
+							<xs:element name="Matching" type="NACA_2_0:NACA_2_0_EarningsCreditUnions_DataType" minOccurs="0"/>
+							<xs:element name="MatchingItem" type="NACA_2_0:NACA_2_0_EarningsCreditUnionsItem_DataType" minOccurs="0" maxOccurs="4"/>
+							<xs:element name="Adjustments" type="NACA_2_0:NACA_2_0_EarningsCreditUnions_DataType" minOccurs="0"/>
+							<xs:element name="AdjustedRetained" type="NACA_2_0:NACA_2_0_EarningsCreditUnions_DataType" minOccurs="0"/>
+							<xs:element name="ChangePrior" type="NACA_2_0:NACA_2_0_EarningsCreditUnionsChange_DataType" minOccurs="0"/>
+							<xs:element name="RetainedEarningsIncrease" type="NACA_2_0:NACA_2_0_s999999999999_DataType" minOccurs="0"/>
+							<xs:element name="ThreeYearAverage" type="NACA_2_0:NACA_2_0_s999999999999_DataType" minOccurs="0"/>
+							<xs:element name="EarningsSinceInception" type="NACA_2_0:NACA_2_0_s999999999999_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="EarningsBanks" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Earnings" type="NACA_2_0:NACA_2_0_EarningsBanks_DataType" minOccurs="0"/>
+							<xs:element name="Accumulated" type="NACA_2_0:NACA_2_0_EarningsBanks_DataType" minOccurs="0"/>
+							<xs:element name="Noninterest" type="NACA_2_0:NACA_2_0_EarningsBanks_DataType" minOccurs="0"/>
+							<xs:element name="Federal" type="NACA_2_0:NACA_2_0_EarningsBanks_DataType" minOccurs="0"/>
+							<xs:element name="FederalItem" type="NACA_2_0:NACA_2_0_EarningsBanksItem_DataType" minOccurs="0" maxOccurs="4"/>
+							<xs:element name="Matching" type="NACA_2_0:NACA_2_0_EarningsBanks_DataType" minOccurs="0"/>
+							<xs:element name="MatchingItem" type="NACA_2_0:NACA_2_0_EarningsBanksItem_DataType" minOccurs="0" maxOccurs="4"/>
+							<xs:element name="EligibleEarnings" type="NACA_2_0:NACA_2_0_EarningsBanks_DataType" minOccurs="0"/>
+							<xs:element name="RetainedEarningsIncrease" type="NACA_2_0:NACA_2_0_s999999999999_DataType" minOccurs="0"/>
+							<xs:element name="ThreeYearAverage" type="NACA_2_0:NACA_2_0_s999999999999_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="FinancialProductsSheet" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ProductItem" type="NACA_2_0:NACA_2_0_ProductItem_DataType" minOccurs="0" maxOccurs="7"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="FinancialServicesSheet" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ServiceItem" type="NACA_2_0:NACA_2_0_ServiceItem_DataType" minOccurs="0" maxOccurs="10"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="FinancialActivities" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ActivityItem" type="NACA_2_0:NACA_2_0_ActivityItem_DataType" minOccurs="0" maxOccurs="7"/>
+							<xs:element name="ActivityItem2" type="NACA_2_0:NACA_2_0_ActivityItem_DataType" minOccurs="0" maxOccurs="3"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="BoardMembers">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BoardMember" type="NACA_2_0:NACA_2_0_Member_DataType" minOccurs="0" maxOccurs="5"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="StaffMembers">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="StaffMember" type="NACA_2_0:NACA_2_0_Member_DataType" minOccurs="0" maxOccurs="5"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="FinancialNonRegulated" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TotalCash" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="UnrestrictedCash" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="CurrentGrossLoans" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalCommitments" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalCurrentAssets" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NoncurrentGrossLoans" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="LoanLossReserve" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalOutstanding" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NetUnrealizedLoss" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalNetLoans" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalAssets" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalCurrentLiabilities" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalNotesPayable" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalAdjustedNotes" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="EquityEquivalentLiabilities" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalLiabilities" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="UnrestrictedNetAssets" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalAssetsAvailable" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalNetAssets" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="OffBalanceAssets" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="OffBalanceLiabilities" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="InterestPayments" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="FeeIncome" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalEarnedIncome" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalGrants" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalIncome" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalInterestExpenses" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalPreTax" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="LongTermMaturities" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="FinancialCreditUnions" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CashOnHand" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="CashOnDeposit" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="CashEquivalents" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="Investments1Year" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalInvestments" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalLoans" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="AllowanceForLosses" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalAssets" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalBorrowings" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="AccruedDividends" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="AccountsPayable" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalLiabilities" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="MemberDeposits" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NonMemberDeposits" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalSharesDeposits" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="UndividedEarnings" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="RegularReserves" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="Appropriation" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="OtherReserves" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="UninsuredSecondary" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NetIncome" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalNetWorth" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="InterestIncome" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="InterestExpenses" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="Provision" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NonInterestIncome" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NonInterestExpense" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NetIncome2" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="FinancialBanks" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Cash" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="ShortTermInvestments" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalInvestments" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="LoansLeases" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="AllowanceForLosses" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="AverageAssets" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="LongTermAssets" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalAssets" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="InterestDeposits" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalDeposits" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NotesPayable" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NonCoreLiabilities" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="OtherLiabilities" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalLiabilities" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="PerpetualStock" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="CommonStock" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="Surplus" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="UndividedProfits" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="Tier1Capital" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="Tier2Capital" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="TotalEquityCapital" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="InterestIncome" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="InterestExpenses" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="Provision" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NonInterestIncome" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NonInterestExpense" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="IncomeBefore" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+							<xs:element name="NetIncome" type="NACA_2_0:NACA_2_0_Financial_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="RatiosNonRegulated" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NetAssetRatio" type="NACA_2_0:NACA_2_0_RatiosNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="TotalFinancingCapital" type="NACA_2_0:NACA_2_0_RatiosNonRegulated2_DataType" minOccurs="0"/>
+							<xs:element name="DeploymentRatio" type="NACA_2_0:NACA_2_0_RatiosNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="NetIncome" type="NACA_2_0:NACA_2_0_RatiosNonRegulated2_DataType" minOccurs="0"/>
+							<xs:element name="EarningsRatio" type="NACA_2_0:NACA_2_0_RatiosNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="SelfSufficiencyRatio" type="NACA_2_0:NACA_2_0_RatiosNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="OperatingLiquidityRatio" type="NACA_2_0:NACA_2_0_RatiosNonRegulated_DataType" minOccurs="0"/>
+							<xs:element name="CurrentRatio" type="NACA_2_0:NACA_2_0_RatiosNonRegulated_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="RatiosCreditUnions" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NetWorth" type="NACA_2_0:NACA_2_0_RatiosCreditUnions_DataType_DataType" minOccurs="0"/>
+							<xs:element name="ReturnAverageAssets" type="NACA_2_0:NACA_2_0_RatiosCreditUnions_DataType_DataType" minOccurs="0"/>
+							<xs:element name="YieldAverageLoans" type="NACA_2_0:NACA_2_0_RatiosCreditUnions_DataType_DataType" minOccurs="0"/>
+							<xs:element name="LongTermAssets" type="NACA_2_0:NACA_2_0_RatiosCreditUnions_DataType_DataType" minOccurs="0"/>
+							<xs:element name="Members" type="NACA_2_0:NACA_2_0_RatiosCreditUnions_DataType_DataType" minOccurs="0"/>
+							<xs:element name="Borrowers" type="NACA_2_0:NACA_2_0_RatiosCreditUnions_DataType_DataType" minOccurs="0"/>
+							<xs:element name="NetWorthGrowth" type="NACA_2_0:NACA_2_0_RatiosCreditUnions_DataType_DataType" minOccurs="0"/>
+							<xs:element name="MembershipGrowth" type="NACA_2_0:NACA_2_0_RatiosCreditUnions_DataType_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="RatiosBanks" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NetInterestIncome" type="NACA_2_0:NACA_2_0_RatiosBanks_DataType" minOccurs="0"/>
+							<xs:element name="NetIncome" type="NACA_2_0:NACA_2_0_RatiosBanks_DataType" minOccurs="0"/>
+							<xs:element name="EarningAssets" type="NACA_2_0:NACA_2_0_RatiosBanks_DataType" minOccurs="0"/>
+							<xs:element name="InterestEarnAssets" type="NACA_2_0:NACA_2_0_RatiosBanks_DataType" minOccurs="0"/>
+							<xs:element name="AssetsLiabilities" type="NACA_2_0:NACA_2_0_RatiosBanks_DataType" minOccurs="0"/>
+							<xs:element name="TierOneCapital" type="NACA_2_0:NACA_2_0_RatiosBanks_DataType" minOccurs="0"/>
+							<xs:element name="TotalAssets" type="NACA_2_0:NACA_2_0_RatiosBanks_DataType" minOccurs="0"/>
+							<xs:element name="TotalEquityCapital" type="NACA_2_0:NACA_2_0_RatiosBanks_DataType" minOccurs="0"/>
+							<xs:element name="EfficiencyRatio" type="NACA_2_0:NACA_2_0_RatiosBanks_DataType" minOccurs="0"/>
+							<xs:element name="TotalLoans" type="NACA_2_0:NACA_2_0_RatiosBanks_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="FinancialActionPlan">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MinimumStandards" type="globLib:YesNoDataType"/>
+							<xs:element name="CorrectiveAction" type="globLib:YesNoDataType"/>
+							<xs:element name="ReceivedOpinion" type="globLib:YesNoDataType"/>
+							<xs:element name="ActionPlan" type="NACA_2_0:NACA_2_0_String5000_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="PortfolioQuality" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Item1" type="NACA_2_0:NACA_2_0_Portfolio_DataType" minOccurs="0"/>
+							<xs:element name="OptionalProductA" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ProductDescription" type="NACA_2_0:NACA_2_0_String80_DataType" minOccurs="0"/>
+										<xs:element name="Item2" type="NACA_2_0:NACA_2_0_Portfolio_DataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+							<xs:element name="OptionalProductB" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ProductDescription" type="NACA_2_0:NACA_2_0_String80_DataType" minOccurs="0"/>
+										<xs:element name="Item3" type="NACA_2_0:NACA_2_0_Portfolio_DataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="LoanLossReserves" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PortfolioOutstanding" type="NACA_2_0:NACA_2_0_LoanLossReserves_DataType" minOccurs="0"/>
+							<xs:element name="WriteOffs" type="NACA_2_0:NACA_2_0_LoanLossReserves_DataType" minOccurs="0"/>
+							<xs:element name="NetLoss" type="NACA_2_0:NACA_2_0_LoanLossReservesRatio_DataType" minOccurs="0"/>
+							<xs:element name="LossCash" type="NACA_2_0:NACA_2_0_LoanLossReserves_DataType" minOccurs="0"/>
+							<xs:element name="LossAccrual" type="NACA_2_0:NACA_2_0_LoanLossReserves_DataType" minOccurs="0"/>
+							<xs:element name="LossRatio" type="NACA_2_0:NACA_2_0_LoanLossReservesRatio_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="EquityInvestmentPortfolio" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TotalInvestments" type="NACA_2_0:NACA_2_0_EquityInvestmentPortfolio_DataType" minOccurs="0"/>
+							<xs:element name="InvestmentsExited" type="NACA_2_0:NACA_2_0_EquityInvestmentPortfolio_DataType" minOccurs="0"/>
+							<xs:element name="InvestmentsWrittenOff" type="NACA_2_0:NACA_2_0_EquityInvestmentPortfolio_DataType" minOccurs="0"/>
+							<xs:element name="UnrealizedGains" type="NACA_2_0:NACA_2_0_EquityInvestmentPortfolio_DataType" minOccurs="0"/>
+							<xs:element name="RealizedGains" type="NACA_2_0:NACA_2_0_EquityInvestmentPortfolio_DataType" minOccurs="0"/>
+							<xs:element name="TargetRateReturn" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+							<xs:element name="ActualRateReturn" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="PortfolioActionPlan">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MinimumStandards" type="globLib:YesNoDataType"/>
+							<xs:element name="ReceivedFindings" type="globLib:YesNoDataType"/>
+							<xs:element name="ActionPlan" type="NACA_2_0:NACA_2_0_String5000_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="QID_24">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="9999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AssurancesCertifications" type="globLib:YesNoDataType"/>
+				<xs:element name="Details" type="NACA_2_0:NACA_2_0_String4000_DataType" minOccurs="0"/>
+				<xs:element name="Questionnaire" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FederalLegislation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederalRule" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederalProgram" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nomination" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BackgroundWork" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederalLegislation2" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederalRule2" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederalProgram2" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nomination2" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BackgroundWork2" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Comments" type="NACA_2_0:NACA_2_0_String4000_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EnvironmentalReview">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CategoricalExclusion" type="globLib:YesNoDataType"/>
+							<xs:element name="EnvironmentalImpact" type="globLib:YesNoDataType"/>
+							<xs:element name="HistoricalSites" type="globLib:YesNoDataType"/>
+							<xs:element name="WildernessAreas" type="globLib:YesNoDataType"/>
+							<xs:element name="ScenicRivers" type="globLib:YesNoDataType"/>
+							<xs:element name="CriticalHabitats" type="globLib:YesNoDataType"/>
+							<xs:element name="NaturalLandmarks" type="globLib:YesNoDataType"/>
+							<xs:element name="CostalBarrier" type="globLib:YesNoDataType"/>
+							<xs:element name="CostalZone" type="globLib:YesNoDataType"/>
+							<xs:element name="SoleSourceAquifer" type="globLib:YesNoDataType"/>
+							<xs:element name="Wetlands" type="globLib:YesNoDataType"/>
+							<xs:element name="FloodPlains" type="globLib:YesNoDataType"/>
+							<xs:element name="PrimeFarmland" type="globLib:YesNoDataType"/>
+							<xs:element name="EPAList" type="globLib:YesNoDataType"/>
+							<xs:element name="ERNarrative" type="NACA_2_0:NACA_2_0_String5000_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ApplicationChecklist">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SF424" type="globLib:YesNoDataType"/>
+							<xs:element name="EINDocumentation" type="globLib:YesNoDataType"/>
+							<xs:element name="HFFIApplicationNarrative" type="globLib:YesNoNotApplicableDataType" minOccurs="0"/>
+							<xs:element name="FinancialStatements" type="globLib:YesNoDataType"/>
+							<xs:element name="MatchingFundsDocumentation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Resumes" type="globLib:YesNoDataType"/>
+							<xs:element name="OrganizationalChart" type="globLib:YesNoDataType"/>
+							<xs:element name="CDFIApplicationNarrative" type="globLib:YesNoDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="2.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="NACA_2_0_MatchingFunds_DataType">
+		<xs:sequence>
+			<xs:element name="AmountInHand" type="NACA_2_0:NACA_2_0_0_to_99999999_DataType" minOccurs="0"/>
+			<xs:element name="AmountCommitted" type="NACA_2_0:NACA_2_0_0_to_99999999_DataType" minOccurs="0"/>
+			<xs:element name="AmountToBeRaised" type="NACA_2_0:NACA_2_0_0_to_99999999_DataType" minOccurs="0"/>
+			<xs:element name="DateByWhich" type="xs:date" minOccurs="0"/>
+			<xs:element name="Comments" type="NACA_2_0:NACA_2_0_String100_DataType" minOccurs="0"/>													
+			<xs:element name="Total" type="NACA_2_0:NACA_2_0_0_to_99999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_MatchingFundsTotal_DataType">
+		<xs:sequence>
+			<xs:element name="TotalAmountInHand" type="NACA_2_0:NACA_2_0_0_to_99999999_DataType" minOccurs="0"/>
+			<xs:element name="TotalAmountCommitted" type="NACA_2_0:NACA_2_0_0_to_99999999_DataType" minOccurs="0"/>
+			<xs:element name="TotalAmountToBeRaised" type="NACA_2_0:NACA_2_0_0_to_99999999_DataType" minOccurs="0"/>
+			<xs:element name="Total" type="NACA_2_0:NACA_2_0_0_to_99999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_EarningsNonRegulated_DataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_EarningsNonRegulatedItem_DataType">
+		<xs:sequence>
+			<xs:element name="Source" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>													
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_EarningsCreditUnions_DataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_EarningsCreditUnionsItem_DataType">
+		<xs:sequence>
+			<xs:element name="Source" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>													
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_EarningsCreditUnionsChange_DataType">
+		<xs:sequence>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_EarningsBanks_DataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_EarningsBanksItem_DataType">
+		<xs:sequence>
+			<xs:element name="Source" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>													
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_ProductItem_DataType">
+		<xs:sequence>
+			<xs:element name="Category" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Consumer"/>
+						<xs:enumeration value="Business"/>   
+						<xs:enumeration value="Microenterprise"/>
+						<xs:enumeration value="Homeowner's"/>
+						<xs:enumeration value="Affordable Housing Development (Single-Family)"/>
+						<xs:enumeration value="Affordable Housing Development (Multi-Family)"/>
+						<xs:enumeration value="Commercial Real Estate"/>
+						<xs:enumeration value="Community Facilities Development"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Subcategory" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Automobile Loan"/>
+						<xs:enumeration value="Personal Loan/Short-Term Unsecured"/>
+						<xs:enumeration value="Credit Card"/>
+						<xs:enumeration value="Acquisition (Commercial)"/>
+						<xs:enumeration value="Working Capital/Inventory"/>
+						<xs:enumeration value="Plant &amp; Equipment"/>
+						<xs:enumeration value="Business Expansion"/>
+						<xs:enumeration value="Cash Flow/Receivables Loan"/>
+						<xs:enumeration value="Equity Investment"/>
+						<xs:enumeration value="Debt w. Equity Features"/>
+						<xs:enumeration value="1st Mortgage"/>
+						<xs:enumeration value="&quot;Soft Second&quot;/Downpayment Assistance"/>
+						<xs:enumeration value="Home Improvement/Rehab"/>
+						<xs:enumeration value="Home Equity/Line of Credit"/>
+						<xs:enumeration value="Acquisition/Site Development"/>
+						<xs:enumeration value="Construction"/>
+						<xs:enumeration value="Permanent"/>
+						<xs:enumeration value="Refinance (w/o Acquisition)"/>
+						<xs:enumeration value="Secondary Market Purchase"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DollarRangeMinimum" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarRangeMaximum" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarRangeAverage" type="NACA_2_0:NACA_2_0_0_to_9999999_DataType" minOccurs="0"/>
+			<xs:element name="InterestRateMin" type="NACA_2_0:NACA_2_0_0_to_100p0_DataType" minOccurs="0"/>
+			<xs:element name="InterestRateMax" type="NACA_2_0:NACA_2_0_0_to_100p0_DataType" minOccurs="0"/>
+			<xs:element name="InterestRateAverage" type="NACA_2_0:NACA_2_0_0_to_100p0_DataType" minOccurs="0"/>
+			<xs:element name="Fees" type="NACA_2_0:NACA_2_0_0_to_9999999_DataType" minOccurs="0"/>
+			<xs:element name="Maturity" type="NACA_2_0:NACA_2_0_0_to_999_DataType" minOccurs="0"/>
+			<xs:element name="Amortized" type="globLib:YesNoDataType" minOccurs="0"/>
+			<xs:element name="InterestOnly" type="globLib:YesNoDataType" minOccurs="0"/>
+			<xs:element name="Security" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="1st Lien"/>
+						<xs:enumeration value="2nd Lien/Subordinate"/>
+						<xs:enumeration value="Unsecured"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DevServicesProvided" type="globLib:YesNoDataType" minOccurs="0"/>
+			<xs:element name="SpecialCharacteristics" type="NACA_2_0:NACA_2_0_String40_DataType" minOccurs="0"/>													
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_ServiceItem_DataType">
+		<xs:sequence>
+			<xs:element name="Category" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Savings/Share Account"/>
+						<xs:enumeration value="Checking Account"/>
+						<xs:enumeration value="Certificates of Deposit"/>
+						<xs:enumeration value="Money Market Accounts"/>
+						<xs:enumeration value="Specialized Savings Account"/>
+						<xs:enumeration value="Specialized Checking Account"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ProductTitle" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>													
+			<xs:element name="MinBalance" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="AveAnnualFees" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="InterestEarned" type="NACA_2_0:NACA_2_0_0_to_100p0_DataType" minOccurs="0"/>
+			<xs:element name="SpecialCharacteristics" type="NACA_2_0:NACA_2_0_String30_DataType" minOccurs="0"/>													
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_ActivityItem_DataType">
+		<xs:sequence>
+			<xs:element name="Category" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="46"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="NumberAmountYear1" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberPercentYear1" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="NumberAmountYear2" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberPercentYear2" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="NumberAmountYear3" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberPercentYear3" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="NumberAmountYear4" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberPercentYear4" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="NumberAmountYear5" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberPercentYear5" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="NumberAmountYear6" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberPercentYear6" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="NumberAmountYear7" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberPercentYear7" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="NumberAmountYear8" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberPercentYear8" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="NumberAmountYear9" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberPercentYear9" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="DollarAmountYear1" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarPercentYear1" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="DollarAmountYear2" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarPercentYear2" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="DollarAmountYear3" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarPercentYear3" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="DollarAmountYear4" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarPercentYear4" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="DollarAmountYear5" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarPercentYear5" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="DollarAmountYear6" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarPercentYear6" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="DollarAmountYear7" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarPercentYear7" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="DollarAmountYear8" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarPercentYear8" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+			<xs:element name="DollarAmountYear9" type="NACA_2_0:NACA_2_0_0_to_999999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarPercentYear9" type="NACA_2_0:NACA_2_0_0_to_100_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_Member_DataType">
+		<xs:sequence>
+			<xs:element name="MemberName" type="NACA_2_0:NACA_2_0_String30_DataType"/>													
+			<xs:element name="Title" type="NACA_2_0:NACA_2_0_String30_DataType"/>													
+			<xs:element name="Years" type="NACA_2_0:NACA_2_0_0_to_99_DataType"/>													
+			<xs:element name="Role" type="NACA_2_0:NACA_2_0_String100_DataType"/>													
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_Financial_DataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year5" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year6" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year7" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year8" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year9" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_RatiosNonRegulated_DataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="HistoricRatio" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year5" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year6" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year7" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year8" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year9" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="ProjectedRatio" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_RatiosNonRegulated2_DataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="HistoricRatio" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year5" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year6" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year7" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year8" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year9" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="ProjectedRatio" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_RatiosCreditUnions_DataType_DataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="HistoricRatio" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_RatiosBanks_DataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="HistoricRatio" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_Portfolio_DataType">
+		<xs:sequence>
+			<xs:element name="PortfolioOutstanding" type="NACA_2_0:NACA_2_0_PortfolioRow_DataType" minOccurs="0"/>
+			<xs:element name="DelinquentPortfolio" type="NACA_2_0:NACA_2_0_PortfolioRow_DataType" minOccurs="0"/>
+			<xs:element name="TotalPortfolio" type="NACA_2_0:NACA_2_0_PortfolioRatio_DataType" minOccurs="0"/>
+			<xs:element name="PAR" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_PortfolioRow_DataType">
+		<xs:sequence>
+			<xs:element name="NumberYear1" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberYear2" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberYear3" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberYear4" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear4" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_PortfolioRatio_DataType">
+		<xs:sequence>
+			<xs:element name="NumberYear1" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear1" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="NumberYear2" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear2" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="NumberYear3" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear3" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="NumberYear4" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear4" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_LoanLossReserves_DataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_LoanLossReservesRatio_DataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year2" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year3" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Year4" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+			<xs:element name="Historic" type="NACA_2_0:NACA_2_0_s999p99_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NACA_2_0_EquityInvestmentPortfolio_DataType">
+		<xs:sequence>
+			<xs:element name="NumberYear1" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear1" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberYear2" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear2" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberYear3" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear3" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+			<xs:element name="NumberYear4" type="NACA_2_0:NACA_2_0_0_to_999999_DataType" minOccurs="0"/>
+			<xs:element name="DollarYear4" type="NACA_2_0:NACA_2_0_s99999999999_DataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="NACA_2_0_1_to_3_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_5_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="5"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="NACA_2_0_0_to_99_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_100_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_9999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_100000_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="100000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_150000_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="150000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_999999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_9999999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_5000000_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="5000000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_1_to_5000000_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="5000000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_2000000_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="2000000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_1_to_2000000_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="2000000"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="NACA_2_0_0_to_99999999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_999999999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_1_to_999999999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="999999999"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="NACA_2_0_s99999999999_DataType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="-99999999999"/>
+			<xs:maxInclusive value="99999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_s999999999999_DataType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="-999999999999"/>
+			<xs:maxInclusive value="999999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_100p0_DataType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.0"/>
+			<xs:maxInclusive value="100.0"/>
+			<xs:totalDigits value="4"/>
+			<xs:fractionDigits value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_0_to_999p99_DataType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.00"/>
+			<xs:maxInclusive value="999.99"/>
+			<xs:totalDigits value="5"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_s999p99_DataType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="-999.99"/>
+			<xs:maxInclusive value="999.99"/>
+			<xs:totalDigits value="5"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_String15_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_String30_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_String40_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_String50_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_String80_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_String100_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_String4000_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="4000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NACA_2_0_String5000_DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="5000"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
+
+
+

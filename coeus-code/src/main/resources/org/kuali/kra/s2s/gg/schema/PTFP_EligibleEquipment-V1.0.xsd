@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:PTFP_EligibleEquipment="http://apply.grants.gov/forms/PTFP_EligibleEquipment-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/PTFP_EligibleEquipment-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="PTFP_EligibleEquipment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EligibleEquipmentPage" type="PTFP_EligibleEquipment:EligibleEquipmentPageDataType" minOccurs="1" maxOccurs="10"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="EligibleEquipmentPageDataType">
+		<xs:sequence>
+			<xs:element name="Location" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
+
+			<xs:element name="EquipmentCategory">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Dissemination" type="globLib:YesNoDataType" minOccurs="0"/>
+						<xs:element name="Origination" type="globLib:YesNoDataType" minOccurs="0"/>
+						<xs:element name="Interconnection" type="globLib:YesNoDataType" minOccurs="0"/>
+						<xs:element name="TestOther" type="globLib:YesNoDataType" minOccurs="0"/>
+						<xs:element name="CheckAll" type="globLib:YesNoDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>			
+
+			<xs:element name="EquipmentRequestSection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EquipmentRequest" type="PTFP_EligibleEquipment:EquipmentRequestDataType" minOccurs="1" maxOccurs="50"/>
+						<xs:element name="SubtotalEquipment">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="9999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>			
+						<xs:element name="ContractorInstallation">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>			
+						<xs:element name="StaffInstallation">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>			
+						<xs:element name="SubtotalInstallation">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="9999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>			
+						<xs:element name="TotalCategory">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="9999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>			
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="EquipmentPurchasedSection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EquipmentPurchased" type="PTFP_EligibleEquipment:EquipmentPurchasedDataType" minOccurs="1" maxOccurs="50"/>
+						<xs:element name="SubtotalEquipment">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="9999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>			
+						<xs:element name="ContractorInstallation">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>			
+						<xs:element name="StaffInstallation">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>			
+						<xs:element name="SubtotalInstallation">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="9999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>			
+						<xs:element name="TotalCategory">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="9999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>			
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+		
+	<xs:complexType name="EquipmentRequestDataType">
+		<xs:sequence>
+			<xs:element name="Item">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
+			<xs:element name="Description">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
+			<xs:element name="Quantity">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="999999999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
+			<xs:element name="Cost">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="999999999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EquipmentPurchasedDataType">
+		<xs:sequence>
+			<xs:element name="Description">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
+			<xs:element name="Quantity">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="999999999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
+			<xs:element name="Cost">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="999999999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

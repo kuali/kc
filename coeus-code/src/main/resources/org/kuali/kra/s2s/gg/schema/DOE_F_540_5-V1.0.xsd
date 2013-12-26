@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:DOE_F_540_5="http://apply.grants.gov/forms/DOE_F_540_5-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/DOE_F_540_5-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="DOE_F_540_5">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Subgrantee" minOccurs="0" maxOccurs="70">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="GrntNum" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="25"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>			
+							<xs:element name="ModNum" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="4"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>			
+							<xs:element name="State" type="codes:StateCodeDataType" minOccurs="0"/>
+							<xs:element name="PY" type="xs:gYear"/>
+							<xs:element name="Name1">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="60"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>			
+							<xs:element name="Address1" type="globLib:StreetDataType"/>
+							<xs:element name="Address2" type="globLib:StreetDataType" minOccurs="0"/>
+							<xs:element name="City" type="globLib:CityDataType"/>
+							<xs:element name="Stabbr" type="codes:StateCodeDataType" minOccurs="0"/>
+							<xs:element name="ZipCode" type="globLib:ZipPostalCodeDataType" minOccurs="0"/>
+							<xs:element name="Contact" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="60"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>			
+							<xs:element name="Phone" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="FaxNum" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Email" type="globLib:EmailDataType" minOccurs="0"/>
+							<xs:element name="FundsAlloc"> 
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:minInclusive value="0.00"/>
+										<xs:maxInclusive value="9999999.99"/>
+										<xs:totalDigits value="9"/>
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Units">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="9999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="OrgType">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="Local agency"/>
+										<xs:enumeration value="Non-profit organization"/>
+										<xs:enumeration value="Unit of local government"/>
+										<xs:enumeration value="Indian tribe"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Labor">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="Agency Crews"/>
+										<xs:enumeration value="Contractors"/>
+										<xs:enumeration value="Both"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="County" type="globLib:CountyDataType" minOccurs="1" maxOccurs="50"/>
+							<xs:element name="DistNum" minOccurs="1" maxOccurs="25">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="2"/>
+										<xs:maxLength value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

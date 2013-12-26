@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by david xia (Northrop Grumman Information Technology) -->
+<!-- $Revision:   1.2  $ -->
+<xs:schema xmlns:HUD_NewDirection="http://apply.grants.gov/forms/HUD_NewDirection-V1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/HUD_NewDirection-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="HUD_NewDirection">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NewDirectionsGrant" type="globLib:YesNoDataType"/>
+				<xs:element name="InterestedPartyOrganizationName"  maxOccurs="8">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="120"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ResearchRequestedFundingAmt" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ResearchMatchAmount" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ResearchProjectTotlCostAmt" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="ResearchProjectTotlCostAmtb" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="ResearchProjectTotlPercent" type="globLib:PercentageIntegerDataType"/>
+				<xs:element name="RequiredResearchMatchAmount" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="OutreachRequestedFundingAmt" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="OutreachMatchAmount" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="OutreachProjectTotlCostAmt" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="OutreachProjectTotlCostAmtb" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="OutreachMatchPercent" type="globLib:PercentageIntegerDataType"/>
+				<xs:element name="RequiredOutreachMatchAmount" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="RequiredResearchMatchAmountb" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="RequiredOutreachMatchAmountb" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="RequiredTotlMatchAmt" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="ResearchMatchProvidedAmount" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="OutreachMatchProvidedAmount" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="MatchingFundsTotlAmt" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="MoreThanMatchRequiredIndicator" type="globLib:YesNoDataType"/>
+				<xs:element name="MatchingFundsProvidedTotlAmt" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="IndirectMatchAmt" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="Factor4TotlMatchAmt" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="MatchOverageAmt">
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="7"/>
+							<xs:fractionDigits value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AdtnlPrvtSrcAmt">
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="7"/>
+							<xs:fractionDigits value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

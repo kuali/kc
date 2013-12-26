@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.1  $ -->
+<xs:schema xmlns:ProtectionofHumanSubjects="http://apply.grants.gov/forms/ProtectionofHumanSubjects-V1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/ProtectionofHumanSubjects-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.1">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:element name="ProtectionofHumanSubjects">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RequestTypeCode">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Original"/>
+							<xs:enumeration value="Continuation"/>
+							<xs:enumeration value="Exemption"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="MechanismType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Grant"/>
+							<xs:enumeration value="Contract"/>
+							<xs:enumeration value="Fellowship"/>
+							<xs:enumeration value="Cooperative Agreement"/>
+							<xs:enumeration value="Other"/> 
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="MechanismTypeOtherExplanation" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyName" type="globLib:AgencyNameDataType"/>
+				<xs:element name="ApplicantID" type="globLib:ApplicantIDDataType" minOccurs="0"/>
+				<xs:element name="ProjectTitle" type="globLib:ProjectTitleDataType"/>
+				<xs:element name="PDPIFellow" type="globLib:HumanNameDataType"/>
+				<xs:element name="AssuranceStatus">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="AssuranceOnFileCovers"/>
+							<xs:enumeration value="AssuranceOnFile"/>
+							<xs:enumeration value="NoAssurance"/>
+							<xs:enumeration value="Exemption"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AssuranceIDNumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AssuranceExpirationDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="IRBRegistrationNumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AssuranceIDNumber2" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AssuranceExpirationDate2" type="xs:date" minOccurs="0"/>
+				<xs:element name="IRBRegistrationNumber2" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyNameOther" type="globLib:AgencyNameDataType" minOccurs="0"/>
+				<xs:element name="SectionParagraphNumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="IRBReviewStatus" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Reviewed"/>
+							<xs:enumeration value="NotReviewed"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="IRBReviewType" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Full"/>
+							<xs:enumeration value="Expedited"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="IRBReviewDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="ExpeditedReviewDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="LessThanOneYearIndicator" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ExpirationDateOfIRBApproval" type="xs:date" minOccurs="0"/>
+				<xs:element name="Remarks" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="250"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OrganizationContactPerson" type="globLib:OrganizationContactPersonDataType"/>
+				<xs:element name="AuthorizedRepresentativeSignature" type="globLib:SignatureDataType"/>
+				<xs:element name="SignatureDate" type="xs:date"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
