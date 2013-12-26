@@ -39,11 +39,17 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/ANA_ObjectiveWorkPlan-V1.0" uri="ANA_ObjectiveWorkPlan-V1.0.xsd"/>
 	    </group>
-		
+
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/Attachments-V1.0" uri="Attachments-V1.0.xsd"/>
+            <public publicId="http://apply.grants.gov/system/Attachments-V1.0" uri="Attachments-V1.0.xsd"/>
 	    </group>
-		
+
+        <group prefer="public">
+            <public publicId="http://apply.grants.gov/forms/Attachments-V1.1" uri="Attachments-V1.1.xsd"/>
+            <public publicId="http://apply.grants.gov/system/Attachments-V1.1" uri="Attachments-V1.1.xsd"/>
+        </group>
+
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/Attachments-V1.1" uri="Attachments-V1.1.xsd"/>
 	    </group>
@@ -107,11 +113,11 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/COPS_ApplicationAttachment_3_0-V3.0" uri="COPS_ApplicationAttachment_3_0-V3.0.xsd"/>
 	    </group>
-		
+		<!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/COPS_Budget-V1.1" uri="COPS_Budget-V1.1.xsd"/>
 	    </group>
-		
+		-->
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/COPS_Budget2-V2.0" uri="COPS_Budget2-V2.0.xsd"/>
 	    </group>
@@ -207,11 +213,11 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/ED_FIPSEBudgetSummary-V1.0" uri="ED_FIPSEBudgetSummary-V1.0.xsd"/>
 	    </group>
-		
+		<!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/ED_FIPSEConsortiumPartnersIdentificationForm-V1.0" uri="ED_FIPSEConsortiumPartnersIdentificationForm-V1.0.xsd"/>
 	    </group>
-		
+		-->
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/ED_FIPSEProjectTitle-V1.0" uri="ED_FIPSEProjectTitle-V1.0.xsd"/>
 	    </group>
@@ -455,15 +461,16 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/NASA_SeniorKeyPersonSupplementalDataSheet-V1.0" uri="NASA_SeniorKeyPersonSupplementalDataSheet-V1.0.xsd"/>
 	    </group>
-		
+		<!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/NASA_SeniorKeyPersonSupplementalDataSheet-V1.0" uri="NASAKeyP_A-V1.0.xsd"/>
 	    </group>
-		
+		-->
+        <!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/NASA_SeniorKeyPersonSupplementalDataSheet-V1.0" uri="NASAKeyPerson-V1.0.xsd"/>
 	    </group>
-		
+		-->
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/NEAOrganization-V1.0" uri="NEAOrganization-V1.0.xsd"/>
 	    </group>
@@ -591,11 +598,11 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/ObjectiveWorkPlan_2_0-V2.0" uri="ObjectiveWorkPlan_2_0-V2.0.xsd"/>
 	    </group>
-		
+		<!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/ObjectiveWorkPlan-V1.1" uri="ObjectiveWorkPlanAttachment-V1.0.xsd"/>
 	    </group>
-		
+		-->
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/Other-V1.0" uri="Other-V1.0.xsd"/>
 	    </group>
@@ -703,11 +710,13 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan_2_0-V2.0" uri="PHS398_ResearchTrainingProgramPlan_2_0-V2.0.xsd"/>
 	    </group>
-		
+
+        <!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0" uri="PHS398_Training_FIF-V1.0.xsd"/>
 	    </group>
-		
+		-->
+
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0" uri="PHS398_TrainingBudget-V1.0.xsd"/>
 	    </group>
@@ -775,6 +784,10 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/PTFP_EligibleEquipment-V1.0" uri="PTFP_EligibleEquipment-V1.0.xsd"/>
 	    </group>
+
+        <group prefer="public">
+            <public publicId="http://apply.grants.gov/forms/RR_Budget-V1.0" uri="RR_Budget-V1.0.xsd"/>
+        </group>
 		
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_Budget-V1.1" uri="RR_Budget-V1.1.xsd"/>
@@ -791,11 +804,11 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_Budget_1_3-V1.3" uri="RR_Budget_1_3-V1.3.xsd"/>
 	    </group>
-		
+		<!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_Budget-V1.1" uri="RR_Budget_A-V1.1.xsd"/>
 	    </group>
-		
+		-->
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_FedNonFed_SubawardBudget-V1.2" uri="RR_FedNonFed_SubawardBudget-V1.2.xsd"/>
 	    </group>
@@ -819,11 +832,11 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_FedNonFedBudget10-V1.1" uri="RR_FedNonFedBudget10-V1.1.xsd"/>
 	    </group>
-		
+		<!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_FedNonFedBudget-V1.1" uri="RR_FNF_A-V1.1.xsd"/>
 	    </group>
-		
+		-->
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_KeyPerson-V1.1" uri="RR_KeyPerson-V1.1.xsd"/>
 	    </group>
