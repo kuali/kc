@@ -22,6 +22,7 @@
         <account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>
         <budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>
         <s2s.schema.dir.base>src/main/resources/org/kuali/kra/s2s/gg/schema</s2s.schema.dir.base>
+        <printing.schema.dir.base>src/main/resources/org/kuali/kra/printing/schema</printing.schema.dir.base>
         <xmlbeans.gen.src.base>${project.build.directory}/generated-sources/xmlbeans</xmlbeans.gen.src.base>
         <xmlbeans.gen.cls.base>${project.build.directory}/generated-classes/xmlbeans</xmlbeans.gen.cls.base>
         <xmlbeans.gen.mrk.base>${project.build.directory}/xmlbeans-markers/xmlbeans</xmlbeans.gen.mrk.base>
@@ -152,10 +153,18 @@
                         </goals>
                         <configuration>
                             <schemaDirectory>${s2s.schema.dir.base}</schemaDirectory>
-                            <sourceGenerationDirectory>${xmlbeans.gen.src.base}/gg</sourceGenerationDirectory>
-                            <classGenerationDirectory>${xmlbeans.gen.cls.base}/gg</classGenerationDirectory>
+                            <sourceGenerationDirectory>${xmlbeans.gen.src.base}-gg</sourceGenerationDirectory>
+                            <classGenerationDirectory>${xmlbeans.gen.cls.base}-gg</classGenerationDirectory>
                             <staleFile>${xmlbeans.gen.mrk.base}-gg</staleFile>
                             <catalogLocation>${s2s.schema.dir.base}/catalog.xml</catalogLocation>
+                            <mdefNamespaces>
+                                <mdefNamespace>http://apply.grants.gov/forms/Attachments-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/Global-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V2.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V2.0</mdefNamespace>
+                            </mdefNamespaces>
                         </configuration>
                     </execution>
                     <execution>
@@ -166,24 +175,34 @@
                         </goals>
                         <configuration>
                             <schemaDirectory>${s2s.schema.dir.base}/legacy</schemaDirectory>
-                            <sourceGenerationDirectory>${xmlbeans.gen.src.base}/gg-legacy</sourceGenerationDirectory>
-                            <classGenerationDirectory>${xmlbeans.gen.cls.base}/gg-legacy</classGenerationDirectory>
+                            <sourceGenerationDirectory>${xmlbeans.gen.src.base}-gg-legacy</sourceGenerationDirectory>
+                            <classGenerationDirectory>${xmlbeans.gen.cls.base}-gg-legacy</classGenerationDirectory>
                             <staleFile>${xmlbeans.gen.mrk.base}-gg-legacy</staleFile>
                             <catalogLocation>${s2s.schema.dir.base}/legacy/catalog.xml</catalogLocation>
+                            <mdefNamespaces>
+                                <mdefNamespace>http://apply.grants.gov/forms/Attachments-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/Global-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V2.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V1.0</mdefNamespace>
+                                <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V2.0</mdefNamespace>
+                            </mdefNamespaces>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>printing</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>xmlbeans</goal>
+                        </goals>
+                        <configuration>
+                            <schemaDirectory>${printing.schema.dir.base}</schemaDirectory>
+                            <sourceGenerationDirectory>${xmlbeans.gen.src.base}-printing</sourceGenerationDirectory>
+                            <classGenerationDirectory>${xmlbeans.gen.cls.base}-printing</classGenerationDirectory>
+                            <staleFile>${xmlbeans.gen.mrk.base}-printing</staleFile>
                         </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <!-- duplicates across execution -->
-                    <mdefNamespaces>
-                        <mdefNamespace>http://apply.grants.gov/forms/Attachments-V1.0</mdefNamespace>
-                        <mdefNamespace>http://apply.grants.gov/system/Global-V1.0</mdefNamespace>
-                        <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V1.0</mdefNamespace>
-                        <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V2.0</mdefNamespace>
-                        <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V1.0</mdefNamespace>
-                        <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V2.0</mdefNamespace>
-                    </mdefNamespaces>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -616,11 +635,6 @@
                     <groupId>asm</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.print.xsds</groupId>
-            <artifactId>kc-printing-xsds</artifactId>
         </dependency>
 
         <dependency>
