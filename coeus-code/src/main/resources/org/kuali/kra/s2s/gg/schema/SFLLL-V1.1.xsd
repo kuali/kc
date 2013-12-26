@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:SFLLL="http://apply.grants.gov/forms/SFLLL-V1.1" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" targetNamespace="http://apply.grants.gov/forms/SFLLL-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.1">
+	<!-- Import Schemas --> 
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="LobbyingActivitiesDisclosure">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FederalActionType" default="Grant">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Contract"/>
+							<xs:enumeration value="Grant"/>
+							<xs:enumeration value="CoopAgree"/>
+							<xs:enumeration value="Loan"/>
+							<xs:enumeration value="LoanGuarantee"/>
+							<xs:enumeration value="LoanInsurance"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FederalActionStatus" default="InitialAward">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="BidOffer"/>
+							<xs:enumeration value="InitialAward"/>
+							<xs:enumeration value="PostAward"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ReportType" type="SFLLL:ReportDataType" default="InitialFiling"/>
+				<xs:element name="MaterialChangeSupplement" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MaterialChangeYear" type="xs:gYear"/>
+							<xs:element name="MaterialChangeQuarter">
+								<xs:simpleType>
+									<xs:restriction base="xs:short">
+										<xs:enumeration value="1"/>
+										<xs:enumeration value="2"/>
+										<xs:enumeration value="3"/>
+										<xs:enumeration value="4"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="LastReportDate" type="xs:date"/>
+						</xs:sequence>
+						<xs:attribute name="ReportType" type="SFLLL:ReportDataType" fixed="MaterialChange"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ReportEntity">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ReportEntityIsPrime" type="globLib:YesNoDataType"/>
+							<xs:element name="Prime">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="SFLLL:AwardeeDataType">
+											<xs:attribute name="ReportEntityType" type="SFLLL:ReportEntityDataType" use="required" fixed="Prime"/>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SubAwardee" minOccurs="0">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="SFLLL:AwardeeDataType">
+											<xs:attribute name="ReportEntityType" type="SFLLL:ReportEntityDataType" use="required" fixed="SubAwardee"/>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Tier" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TierValue" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="ReportEntityType" type="SFLLL:ReportEntityDataType" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="ReportEntityType" type="SFLLL:ReportEntityDataType" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FederalAgencyDepartment">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="40"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FederalProgramName" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:choice>
+								<xs:element name="FederalProgramName" type="glob:StringMin1Max120Type" minOccurs="0"/>
+								<xs:element name="FederalProgramDescription" type="glob:StringMin1Max4096Type" minOccurs="0"/>
+							</xs:choice>
+							<xs:element name="CFDANumber" type="globLib:CFDANumberDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FederalActionNumber" type="glob:StringMin1Max110Type" minOccurs="0"/>
+				<xs:element name="AwardAmount" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+				<xs:element name="LobbyingRegistrant">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:choice>
+								<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+								<xs:element name="IndividualName" type="globLib:HumanNameDataType"/>
+							</xs:choice>
+							<xs:element name="Address" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Street1" type="globLib:StreetDataType"/>
+										<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+										<xs:element name="City" type="globLib:CityDataType"/>
+										<xs:element name="State" type="codes:StateCodeDataType" minOccurs="0"/>
+										<xs:element name="ZipPostalCode" type="globLib:ZipPostalCodeDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="IndividualsPerformingServices">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Individual" maxOccurs="10">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Name" type="globLib:HumanNameDataType"/>
+										<xs:element name="Address" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Street1" type="globLib:StreetDataType"/>
+													<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+													<xs:element name="City" type="globLib:CityDataType"/>
+													<xs:element name="State" type="codes:StateCodeDataType" minOccurs="0"/>
+													<xs:element name="ZipPostalCode" type="globLib:ZipPostalCodeDataType" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SignatureBlock">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Name" type="globLib:HumanNameDataType"/>
+							<xs:element name="Title" type="globLib:HumanTitleDataType" minOccurs="0"/>
+							<xs:element name="Telephone" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="SignedDate" type="xs:date"/>
+							<xs:element name="Signature" type="globLib:SignatureDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+		<xs:key name="ReportTypeKey">
+			<xs:selector xpath="./SFLLL:ReportType"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:keyref name="ReportTypeKeyRef" refer="SFLLL:ReportTypeKey">
+			<xs:selector xpath="./SFLLL:MaterialChangeSupplement"/>
+			<xs:field xpath="@SFLLL:ReportType"/>
+		</xs:keyref>
+		<xs:key name="ReportEntityKey">
+			<xs:selector xpath="./SFLLL:ReportEntity"/>
+			<xs:field xpath="@SFLLL:ReportEntityType"/>
+		</xs:key>
+		<xs:keyref name="ReportEntityKeyRef1" refer="SFLLL:ReportEntityKey">
+			<xs:selector xpath="./SFLLL:ReportEntity/SFLLL:SubAwardee"/>
+			<xs:field xpath="@SFLLL:ReportEntityType"/>
+		</xs:keyref>
+		<xs:keyref name="ReportEntityKeyRef2" refer="SFLLL:ReportEntityKey">
+			<xs:selector xpath="./SFLLL:ReportEntity/SFLLL:Tier"/>
+			<xs:field xpath="@SFLLL:ReportEntityType"/>
+		</xs:keyref>
+	</xs:element>
+	<xs:complexType name="AwardeeDataType">
+		<xs:sequence>
+			<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+			<xs:element name="Address">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Street1" type="globLib:StreetDataType"/>
+						<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+						<xs:element name="City" type="globLib:CityDataType"/>
+						<xs:element name="State" type="codes:StateCodeDataType" minOccurs="0"/>
+						<xs:element name="ZipPostalCode" type="globLib:ZipPostalCodeDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CongressionalDistrict" type="globLib:CongressionalDistrictDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ReportDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MaterialChange"/>
+			<xs:enumeration value="InitialFiling"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ReportEntityDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SubAwardee"/>
+			<xs:enumeration value="Prime"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

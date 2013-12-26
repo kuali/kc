@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:Form_8653="http://apply.grants.gov/forms/Form_8653-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/Form_8653-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="Form_8653">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FiscalYear" type="xs:gYear"/>
+				<xs:element name="ReimbursementExpenses">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ToVolunteerTaxAssistors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ToVolunteerInstructors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ToVolunteerTaxCoordinatorsAdministrators">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Total">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberTotalDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetTotalAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AdministrativeExpenses">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SalariesBenefits">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SuppliesForTCEProgram">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RentUtilitiesCustodialServices">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Auditing">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Travel">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DevelopmentofProgramPublicity">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ReportProcessing">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TelephoneInstallation">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Postage">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Number" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Cost" type="globLib:BudgetAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TotalAdminExpenses" type="globLib:BudgetTotalAmountDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EstimatedProgramCost" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="EstimatedCostofOrientationMeeting" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="EstimatedCostofElectronicFiling" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="TotalEstimatedProgramCost" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="OtherInformation">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IndividualFederalTaxReturns">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="PaperFederalReturns" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="ElectronicallyFiledFederalReturns" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Total" type="Form_8653:Form_8653NumberTotalDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="OtherTaxpayers60Plus" type="Form_8653:Form_8653NumberDataType"/>
+							<xs:element name="TaxPreparationSites">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="EfileSites" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Combination" type="Form_8653:Form_8653NumberDataType"/>
+										<xs:element name="Total" type="Form_8653:Form_8653NumberTotalDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AORSignature" type="globLib:SignatureDataType"/>
+				<xs:element name="DateSigned" type="xs:date"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<!--Custom types definitions-->
+	<xs:simpleType name="Form_8653NumberDataType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Form_8653NumberTotalDataType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

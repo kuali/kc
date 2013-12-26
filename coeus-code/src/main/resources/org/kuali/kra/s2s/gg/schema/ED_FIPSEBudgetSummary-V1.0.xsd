@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--*******************************************************************************************************************-->
+<!-- TITLE: U.S. Department of Education Budget Summary-->
+<!-- DESCRIPTION: -->
+<!-- FORM VERSION: 1.0-->
+<!-- SCHEMA VERSION: 1.0-->
+<!-- OMB NUMBER: xxxx-xxxx-->
+<!-- FORM EXPIRATION DATE:  xx/xx/xxxx-->
+<!-- REVISION HISTORY:-->
+<!-- TO DO:-->
+<!--*******************************************************************************************************************-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:ED_FIPSEBudgetSummary="http://apply.grants.gov/forms/ED_FIPSEBudgetSummary-V1.0" targetNamespace="http://apply.grants.gov/forms/ED_FIPSEBudgetSummary-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="ED_FIPSEBudgetSummary">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FIPSEProgramName">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="EU-U.S. Program"/>
+							<xs:enumeration value="U.S.-Brazil Program"/>
+							<xs:enumeration value="North American Program"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="LeadOrPartnerIndicator">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Lead (fiscal agent)"/>
+							<xs:enumeration value="Partner"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="InstitutionOrganizationName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="BudgetCategoryPersonnelYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryPersonnelYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryPersonnelYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryPersonnelYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryPersonnelTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryFringeBenefitsYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryFringeBenefitsYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryFringeBenefitsYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryFringeBenefitsYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryFringeBenefitsTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryTravelYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryTravelYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryTravelYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryTravelYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryTravelTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryEquipmentYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryEquipmentYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryEquipmentYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryEquipmentYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryEquipmentTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategorySuppliesYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategorySuppliesYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategorySuppliesYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategorySuppliesYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategorySuppliesTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryContractualYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryContractualYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryContractualYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryContractualYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryContractualTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryOtherYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryOtherYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryOtherYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryOtherYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetCategoryOtherTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetTotalDirectCostsYear1RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetTotalDirectCostsYear2RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetTotalDirectCostsYear3RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetTotalDirectCostsYear4RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetTotalDirectCostsTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetIndirectCostsYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetIndirectCostsYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetIndirectCostsYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetIndirectCostsYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetIndirectCostsTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetMobilityStipendsYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetMobilityStipendsYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetMobilityStipendsYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetMobilityStipendsYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetMobilityStipendsTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetLanguageStipendsYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetLanguageStipendsYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetLanguageStipendsYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetLanguageStipendsYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetLanguageStipendsTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetStipendsSubtotalYear1RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetStipendsSubtotalYear2RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetStipendsSubtotalYear3RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetStipendsSubtotalYear4RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetStipendsSubtotalTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFIPSEYear1RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFIPSEYear2RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFIPSEYear3RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFIPSEYear4RequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetFIPSETotalRequestedAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetLeadPartnerYear1NonFederalAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetLeadPartnerYear2NonFederalAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetLeadPartnerYear3NonFederalAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetLeadPartnerYear4NonFederalAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetLeadPartnerTotalNonFederalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetSubcontractorYear1NonFederalAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetSubcontractorYear2NonFederalAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetSubcontractorYear3NonFederalAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetSubcontractorYear4NonFederalAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetSubcontractorTotalNonFederalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerCanadaYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerCanadaYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerCanadaYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerCanadaYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerCanadaTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerMexicoYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerMexicoYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerMexicoYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerMexicoYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerMexicoTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerBrazilYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerBrazilYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerBrazilYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerBrazilYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerBrazilTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerEuropeYear1RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerEuropeYear2RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerEuropeYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerEuropeYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="BudgetForeignPartnerEuropeTotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+					<!--Modified according to SCR#4982-->
+				<xs:element name="IndirectCostRateAgreementIndicator" type="globLib:YesNoDataType" minOccurs="0"/>
+					<!--xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Y: Yes"/>
+							<xs:enumeration value="N: No"/>
+						</xs:restriction>
+					</xs:simpleType-->
+				<xs:element name="IndirectCostRateAgreementBeginDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="IndirectCostRateAgreementEndDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="IndirectCostRateApprovingAgencyName" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="ED"/>
+							<xs:enumeration value="Other"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="IndirectCostRateOtherAgencyName" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="60"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="RestrictedIndirectCostRateText" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Is included in your approved Indirect Cost Rate Agreement?"/>
+							<xs:enumeration value="Complies with 34 CFR 76.564(c)(2)?"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

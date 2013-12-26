@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--*******************************************************************************************************************-->
+<!-- TITLE: ANA Objective Work Plan-->
+<!-- DESCRIPTION: -->
+<!-- FORM VERSION: -->
+<!-- SCHEMA VERSION: 1.0-->
+<!-- OMB NUMBER: 0980-0204-->
+<!-- FORM EXPIRATION DATE:  2006-10-31-->
+<!-- REVISION HISTORY:-->
+<!-- TO DO:-->
+<!--*******************************************************************************************************************-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:ObjectiveWorkPlan="http://apply.grants.gov/forms/ObjectiveWorkPlan-V1.1" targetNamespace="http://apply.grants.gov/forms/ObjectiveWorkPlan-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="./UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="./GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="./Attachments-V1.0.xsd"/>
+	<xs:element name="ObjectiveWorkPlan">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProjectTitle" type="globLib:ProjectTitleDataType" minOccurs="0"/>
+				<xs:element name="BudgetYear">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="1"/>
+							<xs:enumeration value="2"/>
+							<xs:enumeration value="3"/>
+							<xs:enumeration value="4"/>
+							<xs:enumeration value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ProgramGoal">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="180"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Objective">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="480"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ExpectedResults">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="240"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Group1" maxOccurs="8">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Activities">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="240"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Position">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="80"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="PeriodStartDate" type="xs:date"/>
+							<xs:element name="PeriodEndDate" type="xs:date"/>
+							<xs:element name="Non_SalaryPersonnelHours">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="9999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EvaluationCriteria">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="480"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FilenameAtt010" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt020" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt030" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt040" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt050" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt060" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt070" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt080" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt090" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt0100" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt0110" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt0120" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt0130" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt0140" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt0150" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt0160" type="xs:string" minOccurs="0"/>
+				<xs:element name="FilenameAtt0170" type="xs:string" minOccurs="0"/>
+				<xs:element name="ObjectiveWorkPlan_Att" minOccurs="0" maxOccurs="17">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ProjectTitle" type="globLib:ProjectTitleDataType" minOccurs="0"/>
+							<xs:element name="BudgetYear">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="1"/>
+										<xs:enumeration value="2"/>
+										<xs:enumeration value="3"/>
+										<xs:enumeration value="4"/>
+										<xs:enumeration value="5"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="ProgramGoal">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="180"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Objective">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="480"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="ExpectedResults">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="240"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Group1" maxOccurs="8">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Activities">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="1"/>
+													<xs:maxLength value="240"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Position">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="1"/>
+													<xs:maxLength value="80"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="PeriodStartDate" type="xs:date"/>
+										<xs:element name="PeriodEndDate" type="xs:date"/>
+										<xs:element name="Non_SalaryPersonnelHours">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="9999999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="EvaluationCriteria">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="480"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

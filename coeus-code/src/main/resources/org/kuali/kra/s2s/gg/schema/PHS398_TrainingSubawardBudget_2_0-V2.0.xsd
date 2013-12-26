@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:PHS398_TrainingSubawardBudget_2_0="http://apply.grants.gov/forms/PHS398_TrainingSubawardBudget_2_0-V2.0.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:PHS398_TrainingBudget="http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/PHS398_TrainingSubawardBudget_2_0-V2.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="2.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0" schemaLocation="http://at07apply.grants.gov/apply/forms/schemas/PHS398_TrainingBudget-V1.0.xsd"/>
+	<xs:element name="PHS398_TrainingSubawardBudget_2_0">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ATT1" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT2" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT3" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT4" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT5" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT6" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT7" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT8" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT9" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT10" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT11" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT12" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT13" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT14" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT15" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT16" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT17" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT18" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT19" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT20" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT21" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT22" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT23" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT24" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT25" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT26" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT27" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT28" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT29" type="xs:string" minOccurs="0"/>
+				<xs:element name="ATT30" type="xs:string" minOccurs="0"/>
+				<xs:element name="BudgetAttachments" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="PHS398_TrainingBudget:PHS398_TrainingBudget" minOccurs="0" maxOccurs="30"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="2.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--*******************************************************************************************************************-->
+<!-- TITLE: BUREAU of LABOR STATISTICS BUDGET INFORMATION FORM U.S. DEPARTMENT OF LABOR-->
+<!-- DESCRIPTION: -->
+<!-- FORM VERSION: 1-->
+<!-- SCHEMA VERSION: 1-->
+<!-- OMB NUMBER: 1220-0079-->
+<!-- FORM EXPIRATION DATE:  2006-09-30-->
+<!-- REVISION HISTORY:-->
+<!-- TO DO:-->
+<!--*******************************************************************************************************************-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:DOL_BudgetInformationForm_LMIBasePrograms="http://apply.grants.gov/forms/DOL_BudgetInformationForm_LMIBasePrograms-V1.0" targetNamespace="http://apply.grants.gov/forms/DOL_BudgetInformationForm_LMIBasePrograms-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="DOL_BudgetInformationForm_LMIBasePrograms">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="BLS_LMI_1A" type="DOL_BudgetInformationForm_LMIBasePrograms:BLS_LMI_Type"/>
+				<xs:element name="Current_Employment_Statistics_CES" type="DOL_BudgetInformationForm_LMIBasePrograms:Program_and_Cost_Type" minOccurs="0"/>
+				<xs:element name="Local_Area_Unemployment_Statistics_LAUS" type="DOL_BudgetInformationForm_LMIBasePrograms:Program_and_Cost_Type" minOccurs="0"/>
+				<xs:element name="Occupational_Employment_Statistics_OES" type="DOL_BudgetInformationForm_LMIBasePrograms:Program_and_Cost_Type" minOccurs="0"/>
+				<xs:element name="Quarterly_Census_of_Employment_and_Wages_QCEW" type="DOL_BudgetInformationForm_LMIBasePrograms:Program_and_Cost_Type" minOccurs="0"/>
+				<xs:element name="Mass_Layoff_Statistics_MLS" type="DOL_BudgetInformationForm_LMIBasePrograms:Program_and_Cost_Type" minOccurs="0"/>
+				<xs:element name="Total_LMI_Base_Programs">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Quarter_1_Total" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Qtr1LMIBaseSY" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Qtr1LMIBaseDollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Quarter_2_Total" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Qtr2LMIBaseSY" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Qtr2LMIBaseDollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Quarter_3_Total" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Qtr3LMIBaseSY" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Qtr3LMIBaseDollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Quarter_4_Total" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Qtr4LMIBaseSY" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Qtr4LMIBaseDollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FiscalYear_Total">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FYTotalLMIBaseSY">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0.01"/>
+													<xs:maxInclusive value="999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="FYTotalLMIBaseDollarAmt" type="globLib:BudgetTotalAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="BLS_LMI_Type">
+		<xs:sequence>
+			<xs:element name="StateAbbreviation">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="2"/>
+						<xs:maxLength value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SubmittingOfficialTitle" type="globLib:HumanTitleDataType"/>
+			<xs:element name="NameOfSubmittingOfficial"  type="globLib:HumanNameDataType"/>
+			<xs:element name="Phone" type="globLib:TelephoneNumberDataType"/>
+			<xs:element name="CANo" type="globLib:FederalIDDataType"/>
+			<xs:element name="FiscalYear">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="1000"/>
+						<xs:maxInclusive value="9999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CADuration">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CADurationStart" type="xs:date"/>
+						<xs:element name="CADurationEnd" type="xs:date"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AuthorizedRepSignatureDate" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Program_and_Cost_Type">
+		<xs:sequence>
+			<xs:element name="Program_Staff" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Quarter_1" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr1SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr1DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Quarter_2" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr2SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr2DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Quarter_3" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr3SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr3DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Quarter_4" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr4SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr4DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FiscalYear_Total" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FYTotalSY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="FYTotalDollarAmt" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AS_T_Staff" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Quarter_1" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr1SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr1DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Quarter_2" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr2SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr2DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Quarter_3" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr3SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr3DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Quarter_4" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr4SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr4DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FiscalYear_Total" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FYTotalSY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="FYTotalDollarAmt" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Nonpersonal_Services" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Qtr1DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						<xs:element name="Qtr2DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						<xs:element name="Qtr3DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						<xs:element name="Qtr4DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						<xs:element name="FYTotalDollarAmt" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Total_Resources" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Quarter_1" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr1SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr1DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Quarter_2" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr2SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr2DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Quarter_3" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr3SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr3DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Quarter_4" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Qtr4SY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Qtr4DollarAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FiscalYear_Total" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FYTotalSY" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999.99"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="FYTotalDollarAmt" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -21,6 +21,10 @@
         <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
         <account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>
         <budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>
+        <s2s.schema.dir.base>src/main/resources/org/kuali/kra/s2s/gg/schema</s2s.schema.dir.base>
+        <xmlbeans.gen.src.base>${project.build.directory}/generated-sources/xmlbeans</xmlbeans.gen.src.base>
+        <xmlbeans.gen.cls.base>${project.build.directory}/generated-classes/xmlbeans</xmlbeans.gen.cls.base>
+        <xmlbeans.gen.mrk.base>${project.build.directory}/xmlbeans-markers/xmlbeans</xmlbeans.gen.mrk.base>
     </properties>
 
     <build>
@@ -141,15 +145,44 @@
                 <artifactId>xmlbeans-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>gg-forms8</id>
+                        <id>gg</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>xmlbeans</goal>
                         </goals>
+                        <configuration>
+                            <schemaDirectory>${s2s.schema.dir.base}</schemaDirectory>
+                            <sourceGenerationDirectory>${xmlbeans.gen.src.base}/gg</sourceGenerationDirectory>
+                            <classGenerationDirectory>${xmlbeans.gen.cls.base}/gg</classGenerationDirectory>
+                            <staleFile>${xmlbeans.gen.mrk.base}-gg</staleFile>
+                            <catalogLocation>${s2s.schema.dir.base}/catalog.xml</catalogLocation>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>gg-legacy</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>xmlbeans</goal>
+                        </goals>
+                        <configuration>
+                            <schemaDirectory>${s2s.schema.dir.base}/legacy</schemaDirectory>
+                            <sourceGenerationDirectory>${xmlbeans.gen.src.base}/gg-legacy</sourceGenerationDirectory>
+                            <classGenerationDirectory>${xmlbeans.gen.cls.base}/gg-legacy</classGenerationDirectory>
+                            <staleFile>${xmlbeans.gen.mrk.base}-gg-legacy</staleFile>
+                            <catalogLocation>${s2s.schema.dir.base}/legacy/catalog.xml</catalogLocation>
+                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
-                    <schemaDirectory>src/main/resources/org/kuali/kra/s2s/ggforms</schemaDirectory>
+                    <!-- duplicates across execution -->
+                    <mdefNamespaces>
+                        <mdefNamespace>http://apply.grants.gov/forms/Attachments-V1.0</mdefNamespace>
+                        <mdefNamespace>http://apply.grants.gov/system/Global-V1.0</mdefNamespace>
+                        <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V1.0</mdefNamespace>
+                        <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V2.0</mdefNamespace>
+                        <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V1.0</mdefNamespace>
+                        <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V2.0</mdefNamespace>
+                    </mdefNamespaces>
                 </configuration>
             </plugin>
         </plugins>
@@ -592,56 +625,6 @@
 
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-application</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms1</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms2</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms3</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms4</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms5</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms6</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms7</artifactId>
-        </dependency>
-
-<!--        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-forms8</artifactId>
-        </dependency>
--->
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>gg-system</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>kc-s2s-generated</artifactId>
         </dependency>
 
@@ -689,12 +672,7 @@
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>rrsubawardbudget-1.3-gg</artifactId>
         </dependency>
-<!--
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>sf424r-2.0-gg</artifactId>
-        </dependency>
--->
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>rrotherproject-1.3-gg</artifactId>
@@ -734,12 +712,7 @@
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>rrsubawardbudget10_30-1.3-gg</artifactId>
         </dependency>
-<!--
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>s2sform</artifactId>
-        </dependency>
--->
+
         <dependency>
             <groupId>org.kuali.kra.s2s</groupId>
             <artifactId>sf424-2.1-gg</artifactId>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://apply.grants.gov/forms/NEH_SF424CoverPageSupplemental_2_0-V2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:NEH_SF424CoverPageSupplemental_2_0="http://apply.grants.gov/forms/NEH_SF424CoverPageSupplemental_2_0-V2.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="2.0">
+	 <xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	 <xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+ 	 <xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+ 	 <xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+   <xs:element name="NEH_SF424CoverPageSupplemental_2_0">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="ProjectDirector">
+               <xs:complexType>
+                  <xs:sequence>
+										<xs:element name="MajorField" type="NEH_SF424CoverPageSupplemental_2_0:MajorFieldDataType"/>
+										<xs:element name="Name" type="globLib:HumanNameDataType"/>
+										<xs:element name="Title" type="globLib:HumanTitleDataType" minOccurs="0"/>					
+										<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+										<xs:element name="DepartmentName" type="globLib:DepartmentNameDataType" minOccurs="0"/>
+										<xs:element name="DivisionName" type="globLib:DivisionNameDataType" minOccurs="0"/>
+										<xs:element name="Address" type="globLib:AddressDataType"/>
+										<xs:element name="Email" type="globLib:EmailDataType" minOccurs="0"/>
+										<xs:element name="Phone" type="globLib:TelephoneNumberDataType"/>
+										<xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+										<xs:element name="MailingAddressIndicator" default="Work">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Work"/>
+													<xs:enumeration value="Home"/>
+												</xs:restriction>
+											</xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="InstitutionInformation">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="OrganizationType" type="NEH_SF424CoverPageSupplemental_2_0:OrganizationTypeDataType"/>
+                     <xs:element name="Status">
+                        <xs:simpleType>
+                           <xs:restriction base="xs:string">
+                              <xs:enumeration value="Private Non-Profit"/>
+                              <xs:enumeration value="Unit of State/Local Government"/>
+                           </xs:restriction>
+                        </xs:simpleType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="ProjectFunding" nillable="true" minOccurs="0">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="ProgramsOtherThanChallengeGrants" nillable="true" minOccurs="0">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="OutrightFunds" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+                              <xs:element name="FederalMatch" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+                              <xs:element name="TotalfromNEH" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+                              <xs:element name="CostSharing" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+                              <xs:element name="TotalProjectCosts" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="ChallengeGrantsApplicantOnly" nillable="true" minOccurs="0">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="FiscaYear1" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+                              <xs:element name="FiscaYear2" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+                              <xs:element name="FiscaYear3" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+                              <xs:element name="TotalfromNEH" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+                              <xs:element name="NonFederalMatch" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+                              <xs:element name="Total" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+                              <xs:element name="MatchingRatio" minOccurs="0">
+                                 <xs:simpleType>
+                                    <xs:restriction base="xs:decimal">
+                                       <xs:minInclusive value="0.00"/>
+                                       <xs:maxInclusive value="9.99"/>
+                                    </xs:restriction>
+                                 </xs:simpleType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="AdditionalFundingGroup">
+               <xs:complexType>
+                  <xs:sequence>
+										<xs:element name="AdditionalFunding" type="globLib:YesNoDataType"/>
+										<xs:element name="AdditionalFundingExplanation" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="AppType" type="NEH_SF424CoverPageSupplemental_2_0:AppTypeType"/>
+            <xs:element name="SupGrantNumber" type="NEH_SF424CoverPageSupplemental_2_0:SupGrantNumberType" minOccurs="0"/>
+            <xs:element name="ProjFieldCode" type="NEH_SF424CoverPageSupplemental_2_0:MajorFieldDataType"/>
+            <xs:element name="ProjDescription" type="NEH_SF424CoverPageSupplemental_2_0:StringMin1Max1000Type"/>
+						<xs:element name="InstitutionalGrantsAdministrator">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Name" type="globLib:HumanNameDataType"/>
+									<xs:element name="Title" type="globLib:HumanTitleDataType" minOccurs="0"/>		
+									<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+									<xs:element name="DepartmentName" type="globLib:DepartmentNameDataType" minOccurs="0"/>
+									<xs:element name="DivisionName" type="globLib:DivisionNameDataType" minOccurs="0"/>
+									<xs:element name="Address" type="globLib:AddressDataType"/>
+									<xs:element name="Email" type="globLib:EmailDataType" minOccurs="0"/>
+									<xs:element name="Phone" type="globLib:TelephoneNumberDataType"/>
+									<xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+									<xs:element name="MailingAddressIndicator" default="Work">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="Work"/>
+											<xs:enumeration value="Home"/>
+										</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="2.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="MajorFieldDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="G3: American Studies"/>
+			<xs:enumeration value="L1: Anthropology"/>
+			<xs:enumeration value="U6: Archaeology"/>
+			<xs:enumeration value="I1: Archival Management/Conservation"/>
+			<xs:enumeration value="GH: Area Studies"/>
+			<xs:enumeration value="MA: Arts: History and Criticism"/>
+			<xs:enumeration value="U3: Arts: History and Criticism - Architecture"/>
+			<xs:enumeration value="M1: Arts: History and Criticism - Art"/>
+			<xs:enumeration value="M3: Arts: History and Criticism - Dance"/>
+			<xs:enumeration value="M4: Arts: History and Criticism - Film"/>
+			<xs:enumeration value="M5: Arts: History and Criticism - Music"/>
+			<xs:enumeration value="M2: Arts: History and Criticism - Theater"/>
+			<xs:enumeration value="G5: Asian Studies"/>
+			<xs:enumeration value="G7: Classics"/>
+			<xs:enumeration value="P2: Communications"/>
+			<xs:enumeration value="P1: Communications - Composition and Rhetoric"/>
+			<xs:enumeration value="P4: Communications - Journalism"/>
+			<xs:enumeration value="P3: Communications - Media"/>
+			<xs:enumeration value="N1: Economics"/>
+			<xs:enumeration value="H1: Education"/>
+			<xs:enumeration value="K1: Ethnic Studies"/>
+			<xs:enumeration value="K5: Ethnic Studies - Asian American"/>
+			<xs:enumeration value="K4: Ethnic Studies - Black/African American"/>
+			<xs:enumeration value="K3: Ethnic Studies - Hispanic American"/>
+			<xs:enumeration value="K6: Ethnic Studies - Jewish"/>
+			<xs:enumeration value="K2: Ethnic Studies - Native American"/>
+			<xs:enumeration value="R1: Folklore/Folklife"/>
+			<xs:enumeration value="U7: Geography"/>
+			<xs:enumeration value="A1: History"/>
+			<xs:enumeration value="A2: History - African"/>
+			<xs:enumeration value="A3: History - American"/>
+			<xs:enumeration value="AC: History - Ancient"/>
+			<xs:enumeration value="A4: History - British"/>
+			<xs:enumeration value="A5: History - Classical"/>
+			<xs:enumeration value="A6: History - European"/>
+			<xs:enumeration value="A7: History - Far Eastern"/>
+			<xs:enumeration value="A8: History - Latin American"/>
+			<xs:enumeration value="A9: History - Near Eastern"/>
+			<xs:enumeration value="AA: History - Russian"/>
+			<xs:enumeration value="AB: History - South Asian"/>
+			<xs:enumeration value="GA: History and Philosophy of Science/Technology/Medicine"/>
+			<xs:enumeration value="U8: Humanities"/>
+			<xs:enumeration value="U1: Interdisciplinary"/>
+			<xs:enumeration value="F3: International Relations"/>
+			<xs:enumeration value="GG: International Studies"/>
+			<xs:enumeration value="G4: Labor Studies"/>
+			<xs:enumeration value="C1: Languages"/>
+			<xs:enumeration value="CC: Languages - Ancient"/>
+			<xs:enumeration value="CA: Languages - Asian"/>
+			<xs:enumeration value="C2: Languages - Classical"/>
+			<xs:enumeration value="C9: Languages - Comparative"/>
+			<xs:enumeration value="CE: Languages - English"/>
+			<xs:enumeration value="C3: Languages - French"/>
+			<xs:enumeration value="C4: Languages - German"/>
+			<xs:enumeration value="C5: Languages - Italian"/>
+			<xs:enumeration value="C6: Languages - Latin American"/>
+			<xs:enumeration value="CB: Languages - Near Eastern"/>
+			<xs:enumeration value="C7: Languages - Slavic"/>
+			<xs:enumeration value="C8: Languages - Spanish"/>
+			<xs:enumeration value="GJ: Latin American Studies"/>
+			<xs:enumeration value="Q1: Law/Jurisprudence"/>
+			<xs:enumeration value="H3: Library Science"/>
+			<xs:enumeration value="J1: Linguistics"/>
+			<xs:enumeration value="DI: Literary Criticism"/>
+			<xs:enumeration value="D1: Literature"/>
+			<xs:enumeration value="DK: Literature - African"/>
+			<xs:enumeration value="DE: Literature - American"/>
+			<xs:enumeration value="DC: Literature - Ancient"/>
+			<xs:enumeration value="DA: Literature - Asian"/>
+			<xs:enumeration value="DD: Literature - British"/>
+			<xs:enumeration value="D2: Literature - Classical"/>
+			<xs:enumeration value="D9: Literature - Comparative"/>
+			<xs:enumeration value="D3: Literature - French"/>
+			<xs:enumeration value="D4: Literature - German"/>
+			<xs:enumeration value="D5: Literature - Italian"/>
+			<xs:enumeration value="D6: Literature - Latin American"/>
+			<xs:enumeration value="DB: Literature - Near Eastern"/>
+			<xs:enumeration value="D7: Literature - Slavic"/>
+			<xs:enumeration value="D8: Literature - Spanish"/>
+			<xs:enumeration value="G8: Medieval Studies"/>
+			<xs:enumeration value="I2: Museum Studies/Historic Preservation"/>
+			<xs:enumeration value="B1: Philosophy"/>
+			<xs:enumeration value="B2: Philosophy - Aesthetics"/>
+			<xs:enumeration value="B3: Philosophy - Epistemology"/>
+			<xs:enumeration value="B4: Philosophy - Ethics"/>
+			<xs:enumeration value="B5: Philosophy - History of Philosophy"/>
+			<xs:enumeration value="B6: Philosophy - Logic"/>
+			<xs:enumeration value="B7: Philosophy - Metaphysics"/>
+			<xs:enumeration value="B8: Philosophy - Non-Western Philosophy"/>
+			<xs:enumeration value="F1: Political Science"/>
+			<xs:enumeration value="U5: Psychology"/>
+			<xs:enumeration value="F4: Public Administration"/>
+			<xs:enumeration value="GF: Regional Studies"/>
+			<xs:enumeration value="E1: Religion"/>
+			<xs:enumeration value="E5: Religion - Comparative Religion"/>
+			<xs:enumeration value="E2: Religion - History of Religion"/>
+			<xs:enumeration value="E4: Religion - Non-Western Religion"/>
+			<xs:enumeration value="E3: Religion - Philosophy of Religion"/>
+			<xs:enumeration value="G9: Renaissance Studies"/>
+			<xs:enumeration value="GC: Rural Studies"/>
+			<xs:enumeration value="U2: Social Science"/>
+			<xs:enumeration value="S1: Sociology"/>
+			<xs:enumeration value="G2: Urban Studies"/>
+			<xs:enumeration value="GB: Western Civilization"/>
+			<xs:enumeration value="G1: Women's Studies"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OrganizationTypeDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1326: Center For Advanced Study/Research Institute"/>
+			<xs:enumeration value="1327: Publishing"/>
+			<xs:enumeration value="1328: Two-Year College"/>
+			<xs:enumeration value="1329: Four-Year College"/>
+			<xs:enumeration value="1330: University"/>
+			<xs:enumeration value="1331: Professional School"/>
+			<xs:enumeration value="1332: Elementary/Middle School"/>
+			<xs:enumeration value="1333: Secondary School"/>
+			<xs:enumeration value="1334: School District"/>
+			<xs:enumeration value="1335: State Department of Education"/>
+			<xs:enumeration value="1336: Non-Profit Educational Center"/>
+			<xs:enumeration value="1337: Educational Consortium"/>
+			<xs:enumeration value="1338: Philanthropic Foundation"/>
+			<xs:enumeration value="1339: State/Local/Federal Government"/>
+			<xs:enumeration value="1340: Historical Society"/>
+			<xs:enumeration value="1341: Archives"/>
+			<xs:enumeration value="1342: Historical Site/House"/>
+			<xs:enumeration value="1343: Historic Preservation Organization"/>
+			<xs:enumeration value="1344: Public Library"/>
+			<xs:enumeration value="1345: Academic Library"/>
+			<xs:enumeration value="1346: Independent Research Library"/>
+			<xs:enumeration value="1347: History Museum"/>
+			<xs:enumeration value="1348: Natural History Museum"/>
+			<xs:enumeration value="1349: Art Museum"/>
+			<xs:enumeration value="1350: University Museum"/>
+			<xs:enumeration value="1351: Anthropology/Archaeology Museum"/>
+			<xs:enumeration value="1352: Science and Technology Museum"/>
+			<xs:enumeration value="1353: General Museum"/>
+			<xs:enumeration value="1354: Nature Center/Botanical Garden/Arboretum"/>
+			<xs:enumeration value="1355: National Organization"/>
+			<xs:enumeration value="1356: State Humanities Council"/>
+			<xs:enumeration value="1357: Community-Level Organization"/>
+			<xs:enumeration value="1358: Indian Tribal Organization"/>
+			<xs:enumeration value="1359: Professional Association"/>
+			<xs:enumeration value="1360: Arts Related Organizations"/>
+			<xs:enumeration value="1361: Television/Station"/>
+			<xs:enumeration value="1362: Radio Station"/>
+			<xs:enumeration value="1363: Independent Production Company"/>
+			<xs:enumeration value="1364: Press"/>
+			<xs:enumeration value="2786: Museums"/>
+			<xs:enumeration value="2787: Libraries"/>
+			<xs:enumeration value="2819: Unknown"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AppTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="New"/>
+			<xs:enumeration value="Supplement"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="SupGrantNumberType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="StringMin1Max1000Type">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

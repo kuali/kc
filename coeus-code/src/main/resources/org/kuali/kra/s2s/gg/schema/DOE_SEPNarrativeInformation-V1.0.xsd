@@ -1,0 +1,283 @@
+<xs:schema xmlns:DOE_SEPNarrativeInformation="http://apply.grants.gov/forms/DOE_SEPNarrativeInformation-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/DOE_SEPNarrativeInformation-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:element name="DOE_SEPNarrativeInformation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OutterShellStart">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="GrntNum" type="globLib:OpportunityIDDataType"/>
+							<xs:element name="MarketIDGrouping">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="MarketID">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Buildings"/>
+													<xs:enumeration value="Electric Power and Renewable energy"/>
+													<xs:enumeration value="Energy Education"/>
+													<xs:enumeration value="Industry"/>
+													<xs:enumeration value="Policy, Planning, and energy Security"/>
+													<xs:enumeration value="Transportation"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="State" type="codes:StateCodeDataType"/>
+							<xs:element name="DateGrouping">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="PY">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="1999"/>
+													<xs:maxInclusive value="9999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="DateStart" type="xs:date"/>
+										<xs:element name="DateEnd" type="xs:date"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CheckBoxGroup">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="T01" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T02" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T03" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T04" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T05" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T06" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T07" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T08" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T09" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T10" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T11" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T12" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T13" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T14" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T15" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T16" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T17" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T18" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T19" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T20" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T21" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T22" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T23" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T24" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T25" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T26" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T27" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T28" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T29" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T30" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T31" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T32" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T33" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T34" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T35" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T36" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T37" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T38" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T39" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T40" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T41" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T42" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T43" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T44" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T45" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T46" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T47" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T48" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T49" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T50" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T51" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T52" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T53" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T54" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="T55" type="globLib:YesNoDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="EnergySav">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:totalDigits value="14"/>
+										<xs:fractionDigits value="2"/>
+										<xs:minInclusive value="0.01"/>
+										<xs:maxInclusive value="999999999999.99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Descrip">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="4000"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProgramYearMilestones">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Milestone" maxOccurs="30">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="MilestoneSequenceNumber">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="100"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="MilestoneDescription">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="1"/>
+													<xs:maxLength value="255"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="PlannedNumber">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="99999999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="AdditionalMilestones" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="AttachedFile" type="att:AttachedFileDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OutterShellA" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DOEFunds" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="StateFunds" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="PVEDataType" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="PVESource" minOccurs="0" maxOccurs="6">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="AMOCO: Amoco"/>
+													<xs:enumeration value="DIAMOND/SH: Diamond Shamrock"/>
+													<xs:enumeration value="EXXON: Exxon"/>
+													<xs:enumeration value="OHA: Office of Hearings and Appeals"/>
+													<xs:enumeration value="OTHER: Other PVE sources"/>
+													<xs:enumeration value="PALOPINTO: Palopinto"/>
+													<xs:enumeration value="STRIPPER-M: Stripper Match"/>
+													<xs:enumeration value="STRIPPER: Stripper-Well"/>
+													<xs:enumeration value="VICKERS: Vickers"/>
+													<xs:enumeration value="WARNER: Warner"/>
+													<xs:enumeration value=""/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="PVEFunds" type="globLib:BudgetAmountDataType" minOccurs="0" maxOccurs="6"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ThirdPartyGroup" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ThirdPartyDataType" minOccurs="0" maxOccurs="3">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ThirdPartySource" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="3RD PARTY MATCH: Matching funds provided by third parties"/>
+																<xs:enumeration value="COMBINED: State and Utility"/>
+																<xs:enumeration value="INDUSTRY: Industry"/>
+																<xs:enumeration value="LIHEAP: Low Income Home Energy Assistance Program"/>
+																<xs:enumeration value="LOCAL GOV: Local Government"/>
+																<xs:enumeration value="LOCAL/PVE MATCH: Match for PVE institutional grantees"/>
+																<xs:enumeration value="OTHER: Other"/>
+																<xs:enumeration value="OTHER FED: Other Federal"/>
+																<xs:enumeration value="OTHER STATE: Other State Agencies"/>
+																<xs:enumeration value="STATE: State Government/Stripper"/>
+																<xs:enumeration value="STRIPPER: Stripper-Well"/>
+																<xs:enumeration value="SURCHARGE: Surcharge"/>
+																<xs:enumeration value="UTILITY: Utility companies"/>
+																<xs:enumeration value=""/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="ThirdPartyFunds" type="globLib:BudgetAmountDataType" minOccurs="0" maxOccurs="3"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SEPFundsTotal" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OutterShellB" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="LevFundsGroup" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="LevFundsDataType" minOccurs="0" maxOccurs="20">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="LevfundSource" minOccurs="0" maxOccurs="20">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="3RD PARTY MATCH: Matching funds provided by third parties"/>
+																<xs:enumeration value="COMBINED: State and Utility"/>
+																<xs:enumeration value="INDUSTRY: Industry"/>
+																<xs:enumeration value="LIHEAP: Low Income Home Energy Assistance Program"/>
+																<xs:enumeration value="LOCAL GOV: Local Government"/>
+																<xs:enumeration value="LOCAL/PVE MATCH: Match for PVE institutional grantees"/>
+																<xs:enumeration value="OTHER: Other"/>
+																<xs:enumeration value="OTHER FED: Other Federal"/>
+																<xs:enumeration value="OTHER STATE: Other State Agencies"/>
+																<xs:enumeration value="STATE: State Government/Stripper"/>
+																<xs:enumeration value="STRIPPER: Stripper-Well"/>
+																<xs:enumeration value="SURCHARGE: Surcharge"/>
+																<xs:enumeration value="UTILITY: Utility companies"/>
+																<xs:enumeration value=""/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="LevFunds" type="globLib:BudgetAmountDataType" minOccurs="0" maxOccurs="20"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="LevFundsTotal" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

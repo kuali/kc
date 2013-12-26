@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SSA_SF424_SectionG="http://apply.grants.gov/forms/SSA_SF424_SectionG-V1.1" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/SSA_SF424_SectionG-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.1">
+	<xsd:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<!-- IMPORT Attachment SCHEMA -->
+	<xsd:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<!-- IMPORT Global SCHEMA -->
+	<xsd:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<!-- MAIN ELEMENT GROUP -->
+	<xsd:element name="BudgetInformation">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Page" maxOccurs="2">
+					<xsd:complexType>
+						<xsd:sequence> 
+							<xsd:element ref="SSA_SF424_SectionG:Personnels" minOccurs="0"/>
+							<xsd:element name="TotalSalary" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xsd:element ref="SSA_SF424_SectionG:FringeBenefits" minOccurs="0"/>
+							<xsd:element name="TotalFringe" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xsd:element name="Total" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="AdditionalPersonnel" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xsd:element name="GrandTotalSalaries" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xsd:element name="GrandTotalFringe" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xsd:element name="GrandTotalAll" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!-- ELEMENTS -->
+	<xsd:element name="Personnels">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Personnel" minOccurs="0" maxOccurs="10">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Name" type="globLib:HumanNameDataType" minOccurs="0"/>
+							<xsd:element name="Title" type="globLib:HumanTitleDataType" minOccurs="0"/>
+							<xsd:element name="AnnualSalaryRate" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+							<xsd:element name="BudgetMonths" type="glob:IntegerMin1Max2Type" minOccurs="0"/>
+							<xsd:element name="UtilizationPercentage" type="glob:IntegerMin1Max3Type" minOccurs="0"/>
+							<xsd:element name="TotalAmountRequired" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FringeBenefits">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="FringeBenefit" minOccurs="0" maxOccurs="10">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="PositionTitle" type="globLib:HumanTitleDataType"/>
+							<xsd:element name="Rate">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:decimal">
+										<xsd:totalDigits value="5"/>
+										<xsd:fractionDigits value="2"/>
+										<xsd:minInclusive value="0.00"/>
+										<xsd:maxInclusive value="100.00"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="TotalFringeBenefitsAmount" type="glob:DecimalMin1Max14Places2Type"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
