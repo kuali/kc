@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.2  $ -->
+<xs:schema xmlns:COPS_Budget2="http://apply.grants.gov/forms/COPS_Budget2-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/COPS_Budget2-V2.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="2.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<!--Root element definition-->
+	<xs:element name="COPS_Budget2">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ApplicantOrganization" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="ApplicantORINumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="7"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ProgramName">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Tribal Resources Grant Program"/>
+							<xs:enumeration value="Targeted-Methamphetamine Initiative"/>
+							<xs:enumeration value="Community Policing Development Programs"/>
+							<xs:enumeration value="Secure Our Schools"/>
+							<xs:enumeration value="Targeted-Technology Program"/>
+							<xs:enumeration value="Universal Hiring Program"/>
+							<xs:enumeration value="Child Sexual Predator Program"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="no_officer_personnel" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="full_time_officers_requested" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="32000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="section_A_sworn_officer_positions" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="annual_base_salary" minOccurs="0"> 
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:minInclusive value="0.00"/>
+										<xs:maxInclusive value="999999.99"/>
+										<xs:totalDigits value="8"/>
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="years_project_base_salary" minOccurs="0"> 
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="9"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="sworn_base_salary_amount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_social_security" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_social_security" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_medicare" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_medicare" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_health_insurance" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_health_insurance" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_life_insurance" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_life_insurance" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_vacation" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_vacation" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_sick_leave" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_sick_leave" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_retirement" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_retirement" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_workers_comp" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_workers_comp" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_unemployment_ins" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_unemployment_ins" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_other1" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_other1" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_other2" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_other2" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_benefit_amount_other3" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_fringe_pct_base_salary_other3" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+							<xs:element name="sworn_soc_sec_exempt" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="soc_sec_fixed_rate" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sworn_medicare_exempt" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="medicare_fixed_rate" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sworn_family_coverage" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sworn_health_ins_fixed_rate" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sworn_vacation_hours" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="sworn_sick_leave_hours_per_yr" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="retirement_fixed" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="workers_comp_exempt" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="workers_comp_fixed_rate" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="unemployment_ins_exempt" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="unemployment_ins_fixed" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="description_sworn_fringe_other1" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="50"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="description_sworn_fringe_other2" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="50"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="description_sworn_fringe_other3" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="50"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="base_salary_amount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="sworn_total_fringe" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="num_positions" minOccurs="0"> 
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="sworn_officer_grand_total" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="section_A_sworn_officer_positions_part2" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="sal_incr_cola" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sal_incr_step_raise" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sal_incr_change_benefits" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sal_incr_other" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sal_incr_other_reason" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="sworn_exp_social_security" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="sworn_exp_medicare" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="sworn_exp_health_insurance" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="sworn_exp_retirement" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="sworn_exp_workers_comp" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="sworn_exp_unemployment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="no_civilian_personnel" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="section_B_civilian_other_personnel" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="civilian_other_personnel" minOccurs="0" maxOccurs="20">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="position_title" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="45"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="annual_base_salary" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="pct_project_base_salary" type="globLib:PercentageDecimalDataType" minOccurs="0"/>
+										<xs:element name="months_project_base_salary" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="civilian_base_salary_amount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_social_security" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_social_security" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_medicare" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_medicare" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_health_insurance" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_health_insurance" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_life_insurance" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_life_insurance" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_vacation" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_vacation" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_sick_leave" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_sick_leave" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_retirement" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_retirement" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_workers_comp" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_workers_comp" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_unemployment_ins" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_unemployment_ins" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_other1" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_other1" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_benefit_amount_other2" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_fringe_pct_base_salary_other2" type="COPS_Budget2:COPSBudgetPercentDataType" minOccurs="0"/>
+										<xs:element name="civilian_total_fringe" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_total_base_salary_and_fringe" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="civilian_soc_sec_exempt" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="soc_sec_fixed_rate" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="civilian_medicare_exempt" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="health_ins_rate" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="civilian_family_coverage" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="medicare_fixed_rate" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="civilian_vacation_hours" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="civilian_sick_leave_hours_per_yr" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="retirement_fixed" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="workers_comp_exempt" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="workers_comp_fixed_rate" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="unemployment_ins_exempt" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="unemployment_ins_fixed" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="civilian_description_fringe_other1" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="civilian_description_fringe_other2" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="total_base_salary_and_fringe_all_positions_civ" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="section_B_civilian_other_personnel_part2" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="sal_incr_cola" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sal_incr_step_raise" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sal_incr_change_benefits" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sal_incr_other" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="sal_incr_other_reason" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="civ_exp_social_security" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="civ_exp_medicare" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="civ_exp_health_insurance" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="civ_exp_retirement" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="civ_exp_workers_comp" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="civ_exp_unemployment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="equipment_section" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="no_equipment" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="equipment_budget_item" minOccurs="0" maxOccurs="30">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="equip_budget_item_description" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="100"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="equip_budget_item_count" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999999999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="equip_budget_unit_cost" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="equip_budget_item_subtotal" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="equip_budget_category_cost" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="othercosts_section" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="no_othercosts" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="othercosts_budget_item" minOccurs="0" maxOccurs="30">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="othercosts_budget_item_description" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="100"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="othercosts_budget_item_count" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999999999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="othercosts_budget_unit_cost" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="othercosts_budget_item_subtotal" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="othercosts_budget_category_cost" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="supplies_section" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="no_supplies" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="supplies_budget_item" minOccurs="0" maxOccurs="30">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="supplies_budget_item_description" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="100"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="supplies_budget_item_count" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999999999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="supplies_budget_unit_cost" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="supplies_budget_item_subtotal" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="supplies_budget_category_cost" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="travel_training_section" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="budget_category_not_used_equip_budget_travel" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="travel_training_budget_items" minOccurs="0" maxOccurs="30">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="item_reason_equip_budget_travel" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="item_desc_equip_budget_travel" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="number_of_staff_equip_budget_travel" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999999999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="unit_cost_equip_budget_travel" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="number_of_days_equip_budget_travel" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999999999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="per_item_subtotal_equip_budget_travel" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="budget_category_subtotal_equip_travel" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="contracts_section" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="budget_category_not_used_equip_budget_contracts" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="contracts_budget_items" minOccurs="0" maxOccurs="4">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="contract_item_desc_equip_budget_contracts" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="per_contract_subtotal_equip_budget_contracts" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="contracts_subtotal_equip_contracts" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="consultant_budget_items" minOccurs="0" maxOccurs="4">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="consultant_name_equip_budget_contracts" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="consultant_service_equip_budget_contracts" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="consultant_unit_cost_equip_budget_contracts" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="consultant_days_equip_budget_contracts" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999999999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="per_consultant_subtotal_equip_budget_contracts" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="consultant_subtotal_equip_budget_contracts" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="consultant_exp_budget_items" minOccurs="0" maxOccurs="4">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="consultant_exp_name_equip_budget_contracts" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="consultant_exp_service_equip_budget_contracts" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="consultant_exp_unit_cost_equip_budget_contracts" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="consultant_exp_days_equip_budget_contracts" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999999999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="per_consultant_exp_subtotal_equip_budget_contracts" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="consultant_exp_subtotal_equip_travel_contracts" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="budget_category_subtotal_equip_contracts" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="indirect_costs_section" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="budget_category_not_used_equip_budget_indirect" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="indirect_budget_items" minOccurs="0" maxOccurs="6">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="item_desc_equip_budget_indirect" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="100"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="computation_equip_budget_indirect" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="100"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="per_item_subtotal_equip_budget_indirect" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="budget_category_subtotal_equip_indirect" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="budget_summary" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="total_sworn_officer_costs_budget_summary" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="total_civ_costs_budget_summary" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="total_equipment_costs_budget_summary" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="total_other_costs_budget_summary" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="total_supplies_costs_budget_summary" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="total_travel_costs_budget_summary" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="total_contracts_costs_budget_summary" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="total_indirect_costs_budget_summary" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="total_project_cost" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="total_project_federal_share" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+							<xs:element name="total_project_local_share" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="budget_contact">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="budget_contact_name" type="globLib:HumanNameDataType"/>
+							<xs:element name="budget_contact_title" type="globLib:HumanTitleDataType"/>
+							<xs:element name="budget_contact_phone" type="globLib:TelephoneNumberDataType"/>
+							<xs:element name="budget_contact_fax" type="globLib:TelephoneNumberDataType"/>
+							<xs:element name="budget_contact_email" type="globLib:EmailDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="2.0"/>
+		</xs:complexType>
+	</xs:element>
+	<!--Custom types definitions-->
+	<xs:simpleType name="COPSBudgetPercentDataType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.00"/>
+			<xs:maxInclusive value="99.99"/>
+			<xs:totalDigits value="4"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

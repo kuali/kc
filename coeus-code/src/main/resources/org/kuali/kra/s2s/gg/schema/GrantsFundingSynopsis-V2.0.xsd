@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+		targetNamespace="http://apply.grants.gov/system/GrantsFundingSynopsis-V2.0"
+		
+	    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	    xmlns:GrantsFundingSynopsis="http://apply.grants.gov/system/GrantsFundingSynopsis-V2.0"
+		xmlns:GrantsCommonElements="http://apply.grants.gov/system/GrantsCommonElements-V1.0"
+	    
+	    elementFormDefault="qualified"
+	    attributeFormDefault="qualified"
+	    version="2.0">
+	<!--
+	<xs:import namespace="http://apply.grants.gov/system/GrantsCommonElements-V1.0" schemaLocation="file:/Dev/grants_schemas/Source/schema/bizobj/GrantsCommonElements-V1.0.xsd" />  
+ 	-->
+	<xs:import namespace="http://apply.grants.gov/system/GrantsCommonElements-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GrantsCommonElements-V1.0.xsd" />
+
+    <xs:element name="FundingOppModSynopsis_2_0" >
+        <xs:complexType>
+            <xs:sequence>                
+                <xs:element ref="GrantsCommonElements:PostingDate" minOccurs="1" maxOccurs="1"/>                					
+                <xs:element ref="GrantsCommonElements:UserID" minOccurs="1" maxOccurs="1" /> 								                
+                <xs:element name="Password" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="GrantsFundingSynopsis:FundingInstrument" minOccurs="1" maxOccurs="unbounded"/> 				          
+                <xs:element ref="GrantsFundingSynopsis:FundingActivityCategory" minOccurs="1" maxOccurs="unbounded"/>  				                
+                <xs:element ref="GrantsFundingSynopsis:OtherFundingCategoryExplanation" minOccurs="0" maxOccurs="1" /> 		
+				<xs:element ref="GrantsFundingSynopsis:ExpectedNumberOfAwards" minOccurs="0" maxOccurs="1" />		
+                <xs:element ref="GrantsFundingSynopsis:EstimatedFunding" minOccurs="0" maxOccurs="1" />						
+                <xs:element ref="GrantsFundingSynopsis:AwardCeiling" minOccurs="1" maxOccurs="1" />										
+                <xs:element ref="GrantsFundingSynopsis:AwardFloor" minOccurs="1" maxOccurs="1" />										
+                <xs:element ref="GrantsCommonElements:FundingOpportunityTitle" minOccurs="1" maxOccurs="1"/>													
+                <xs:element ref="GrantsCommonElements:FundingOpportunityNumber" minOccurs="1" maxOccurs="1"/> 	
+                <xs:element ref="GrantsCommonElements:ClosingDate" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="GrantsFundingSynopsis:ClosingDateExplanation" minOccurs="0" maxOccurs="1" /> 	
+                <xs:element ref="GrantsCommonElements:ArchiveDate" minOccurs="0" maxOccurs="1" />
+                <xs:element ref="GrantsFundingSynopsis:FundingOpportunityDescription" minOccurs="1" maxOccurs="1"/>									
+                <xs:element ref="GrantsCommonElements:CFDANumber" minOccurs="1" maxOccurs="unbounded" />
+                <xs:element ref="GrantsFundingSynopsis:EligibleApplicantTypes" minOccurs="1" maxOccurs="unbounded" />			               
+                <xs:element ref="GrantsFundingSynopsis:OtherEligibleApplicantExplanation" minOccurs="0"  maxOccurs="1"/>				
+                <xs:element ref="GrantsFundingSynopsis:CostSharingOrMatchingRequirement" minOccurs="1" maxOccurs="1" />					
+                <xs:element ref="GrantsFundingSynopsis:AdditionalInformation" minOccurs="0" maxOccurs="1" />												
+                <xs:element ref="GrantsFundingSynopsis:AgencyContact" minOccurs="1" maxOccurs="unbounded" />
+                <xs:element ref="GrantsCommonElements:SendChangeNotificationEmail" minOccurs="0" maxOccurs="1"  />                      
+                <xs:element ref="GrantsCommonElements:ModificationComments" minOccurs="1" maxOccurs="1" />	
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="FundingOppSynopsis_2_0" >
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="GrantsCommonElements:PostingDate" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="GrantsCommonElements:UserID" minOccurs="1" maxOccurs="1" />
+                <xs:element name="Password" type="xs:string"  minOccurs="1" maxOccurs="1" />
+                <xs:element ref="GrantsFundingSynopsis:FundingInstrument" minOccurs="1" maxOccurs="unbounded" />
+				<xs:element ref="GrantsFundingSynopsis:FundingActivityCategory" minOccurs="1" maxOccurs="unbounded" />
+				<xs:element ref="GrantsFundingSynopsis:OtherFundingCategoryExplanation" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsFundingSynopsis:ExpectedNumberOfAwards" minOccurs="0" maxOccurs="1" />
+                <xs:element ref="GrantsFundingSynopsis:EstimatedFunding" minOccurs="0" maxOccurs="1" />
+                <xs:element ref="GrantsFundingSynopsis:AwardCeiling" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="GrantsFundingSynopsis:AwardFloor" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="GrantsCommonElements:FundingOpportunityTitle" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="GrantsCommonElements:FundingOpportunityNumber" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="GrantsCommonElements:ClosingDate" minOccurs="0" maxOccurs="1" />
+                <xs:element ref="GrantsFundingSynopsis:ClosingDateExplanation" minOccurs="0" maxOccurs="1" />
+                <xs:element ref="GrantsCommonElements:ArchiveDate" minOccurs="0" maxOccurs="1" />
+                <xs:element ref="GrantsFundingSynopsis:FundingOpportunityDescription" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="GrantsCommonElements:CFDANumber" minOccurs="1" maxOccurs="unbounded" />
+                <xs:element ref="GrantsFundingSynopsis:EligibleApplicantTypes" minOccurs="1" maxOccurs="unbounded" />
+                <xs:element ref="GrantsFundingSynopsis:OtherEligibleApplicantExplanation" minOccurs="0"  maxOccurs="1" />
+                <xs:element ref="GrantsFundingSynopsis:CostSharingOrMatchingRequirement" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="GrantsFundingSynopsis:AdditionalInformation" minOccurs="0" maxOccurs="1" />
+                <xs:element ref="GrantsFundingSynopsis:AgencyContact" minOccurs="1" maxOccurs="unbounded" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+
+<!-- ================ --> 
+<!-- TYPE DEFINITIONS -->
+<!-- ================ --> 
+    
+    <xs:element name="FundingInstrument">
+		<xs:simpleType >
+			<xs:annotation>
+				<xs:documentation>CA - Cooperative Agreement</xs:documentation>
+				<xs:documentation>G - Grant</xs:documentation>
+				<xs:documentation>PC - Procurement Contract</xs:documentation>
+				<xs:documentation>O - Other</xs:documentation>
+			</xs:annotation>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="CA" />
+				<xs:enumeration value="G" />
+				<xs:enumeration value="PC" />
+				<xs:enumeration value="O" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+		
+	<xs:element name="FundingActivityCategory">
+		<xs:simpleType>
+			<xs:annotation>
+				<xs:documentation>RA - Recovery Act</xs:documentation>
+				<xs:documentation>AG - Agriculture</xs:documentation>
+				<xs:documentation>AR - Arts</xs:documentation>
+				<xs:documentation>BC - Business and Commerce</xs:documentation>
+				<xs:documentation>CD - Community Development</xs:documentation>
+				<xs:documentation>CP - Consumer Protection</xs:documentation>
+				<xs:documentation>DPR - Disaster Prevention and Relief</xs:documentation>
+				<xs:documentation>ED - Education</xs:documentation>
+				<xs:documentation>ELT - Employment, Labour and Training</xs:documentation>
+				<xs:documentation>EN - Energy</xs:documentation>
+				<xs:documentation>ENV - Environment</xs:documentation>
+				<xs:documentation>FN - Food and Nutrition</xs:documentation>
+				<xs:documentation>HL - Health</xs:documentation>
+				<xs:documentation>HO - Housing</xs:documentation>
+				<xs:documentation>HU - Humanities</xs:documentation>
+				<xs:documentation>IS - Information and Statistics</xs:documentation>
+				<xs:documentation>ISS - Income Security and Social Services</xs:documentation>
+				<xs:documentation>LJL - Law, Justice and Legal Services</xs:documentation>
+				<xs:documentation>NR - Natural Resources</xs:documentation>
+				<xs:documentation>O - Other</xs:documentation>
+				<xs:documentation>RD - Regional Development</xs:documentation>
+				<xs:documentation>ST - Science and Technology and Other Research and Development</xs:documentation>
+				<xs:documentation>T - Transportation</xs:documentation>
+			</xs:annotation>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="RA" />
+				<xs:enumeration value="AG" />
+				<xs:enumeration value="AR" />
+				<xs:enumeration value="BC" />
+				<xs:enumeration value="CD" />
+				<xs:enumeration value="CP" />
+				<xs:enumeration value="DPR" />
+				<xs:enumeration value="ED" />
+				<xs:enumeration value="ELT" />
+				<xs:enumeration value="EN" />
+				<xs:enumeration value="ENV" />
+				<xs:enumeration value="FN" />
+				<xs:enumeration value="HL" />
+				<xs:enumeration value="HO" />
+				<xs:enumeration value="HU" />
+				<xs:enumeration value="IS" />
+				<xs:enumeration value="ISS" />
+				<xs:enumeration value="LJL" />
+				<xs:enumeration value="NR" />
+				<xs:enumeration value="O" />
+				<xs:enumeration value="RD" />
+				<xs:enumeration value="ST" />
+				<xs:enumeration value="T" />
+			</xs:restriction>
+		</xs:simpleType>	
+	</xs:element>
+	
+	<xs:element name="OtherFundingCategoryExplanation">
+		<xs:simpleType >
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="2500" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	
+	<xs:element name="ExpectedNumberOfAwards">
+		<xs:simpleType >
+	  		<xs:restriction base="xs:string">
+	  			<!-- 
+					- Valid characters: Numbers
+					- maxlength of 15 
+				-->
+	   			<xs:pattern value="[0-9]*"/>
+	   			<xs:maxLength value="15" />
+	  		</xs:restriction>
+	  	</xs:simpleType>
+  	</xs:element>
+  	
+  	<xs:element name="EstimatedFunding">
+	  	<xs:simpleType >
+	   		<xs:restriction base="xs:string">
+	   			<!-- 
+					- Valid characters: Numbers
+					- maxlength of 15 
+				-->
+	   			<xs:pattern value="[0-9]*"/>
+	   			<xs:maxLength value="15" />
+	   		</xs:restriction>
+	   	</xs:simpleType>  
+   	</xs:element>
+
+   	<xs:element name="AwardCeiling">
+		<xs:simpleType>
+	   		<xs:restriction base="xs:string">
+	   			<!-- 
+					- Valid characters: Numbers
+					- maxlength of 15 
+				-->
+	   			<xs:pattern value="NONE|[0-9]{1,15}"/>
+	   			<!-- <xs:maxLength value="15" /> -->
+	   		</xs:restriction>
+	   	</xs:simpleType>
+   	</xs:element>
+   	
+   	<xs:element name="AwardFloor">
+	   	<xs:simpleType>
+	   		<xs:restriction base="xs:string">
+	   			<!-- 
+					- Valid characters: Numbers
+					- maxlength of 15 
+				-->
+	   			<xs:pattern value="NONE|[0-9]{1,15}"/>
+	   			<!-- <xs:maxLength value="15" /> -->
+	   		</xs:restriction>
+	   	</xs:simpleType>
+   	</xs:element>
+   	
+   	<xs:element name="FundingOpportunityDescription">
+	   	<xs:simpleType>
+	  		<xs:restriction base="xs:string">
+	  			<xs:maxLength value="18000" />
+	  		</xs:restriction>
+	  	</xs:simpleType>
+  	</xs:element>
+  		
+	<xs:element name="EligibleApplicantTypes">
+		<xs:simpleType>
+			<xs:annotation>
+				<xs:documentation>00 - State governments</xs:documentation>
+				<xs:documentation>01 - County governments</xs:documentation>
+				<xs:documentation>02 - City or township governments</xs:documentation>
+				<xs:documentation>04 - Special district governments</xs:documentation>
+				<xs:documentation>05 - Independent school districts</xs:documentation>
+				<xs:documentation>06 - Public and State controlled institutions of higher education</xs:documentation>
+				<xs:documentation>07 - Native American tribal governments (Federally recognized)</xs:documentation>
+				<xs:documentation>08 - Public housing authorities/Indian housing authorities</xs:documentation>
+				<xs:documentation>11 - Native American tribal organizations (other than Federally recognized tribal governments)</xs:documentation>
+				<xs:documentation>12 - Nonprofits having a 501(c)(3) status with the IRS, other than institutions of higher education</xs:documentation>
+				<xs:documentation>13 - Nonprofits that do not have a 501(c)(3) status with the IRS, other than institutions of higher education</xs:documentation>
+				<xs:documentation>20 - Private institutions of higher education</xs:documentation>
+				<xs:documentation>21 - Individuals</xs:documentation>
+				<xs:documentation>22 - For profit organizations other than small businesses</xs:documentation>
+				<xs:documentation>23 - Small businesses</xs:documentation>
+				<xs:documentation>25 - Others (see text field entitled "Additional Information on Eligibility" for clarification)</xs:documentation>
+				<xs:documentation>99 - Unrestricted (i.e., open to any type of entity above), subject to any clarification in text field entitled "Additional Information on Eligibility"</xs:documentation>
+			</xs:annotation>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="00" />
+				<xs:enumeration value="01" />
+				<xs:enumeration value="02" />
+				<xs:enumeration value="04" />
+				<xs:enumeration value="05" />
+				<xs:enumeration value="06" />
+				<xs:enumeration value="07" />
+				<xs:enumeration value="08" />
+				<xs:enumeration value="11" />
+				<xs:enumeration value="12" />
+				<xs:enumeration value="13" />
+				<xs:enumeration value="20" />
+				<xs:enumeration value="21" />
+				<xs:enumeration value="22" />
+				<xs:enumeration value="23" />
+				<xs:enumeration value="25" />
+				<xs:enumeration value="99" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	
+	<xs:element name="OtherEligibleApplicantExplanation">
+		<xs:simpleType>
+	   		<xs:restriction base="xs:string">
+	   			<xs:maxLength value="4000" />
+	   		</xs:restriction>
+	   	</xs:simpleType>
+	</xs:element>
+  	
+  	<xs:element name="ClosingDateExplanation">
+	  	<xs:simpleType>
+	   		<xs:restriction base="xs:string">
+	   			<xs:maxLength value="4000" />
+	   		</xs:restriction>
+	   	</xs:simpleType>
+   	</xs:element>
+  	
+  	<xs:element name="CostSharingOrMatchingRequirement">
+	  	<xs:simpleType>
+	  		<xs:restriction base="xs:string">
+	  			<xs:enumeration value="Yes" />
+	  			<xs:enumeration value="No" />
+	  		</xs:restriction>
+	  	</xs:simpleType>
+	</xs:element>
+  	
+  	<xs:element name="AdditionalInformation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AdditionalInformationURL" minOccurs="0" maxOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="250"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="URLDescription" minOccurs="0" maxOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="250"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+  		
+	<xs:element name="AgencyContact">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AgencyContactDescription"  minOccurs="1" maxOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="2500" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyEmailAddress" minOccurs="1" maxOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+	                			<xs:maxLength value ="130" /> 
+	                		</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyEmailDescription" minOccurs="1" maxOccurs="1">
+	               	<xs:simpleType>
+	               		<xs:restriction base="xs:string">
+	               			<xs:maxLength value ="102" /> 
+	               		</xs:restriction>
+	               	</xs:simpleType>
+	            </xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+    
+</xs:schema>

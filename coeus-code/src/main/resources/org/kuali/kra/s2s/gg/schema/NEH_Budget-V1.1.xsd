@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:NEH_Budget="http://apply.grants.gov/forms/NEH_Budget-V1.1" targetNamespace="http://apply.grants.gov/forms/NEH_Budget-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.1">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="NEH_Budget">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProjectDirector" type="globLib:HumanNameDataType"/>
+				<xs:element name="AppNumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="5"/>
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType> 
+				</xs:element>
+				<xs:element name="InstitutionName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="ReqGrantPeriod" type="NEH_Budget:BudgetPeriodDataType"/>
+				<xs:element name="DetailedBudget">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DetailedBudgetPeriod" type="NEH_Budget:BudgetPeriodDataType"/>
+							<xs:element name="SalariesWages" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SalaryWageItem" type="NEH_Budget:SalaryWageItemDataType" minOccurs="0" maxOccurs="10"/>
+										<xs:element name="SubTotal" type="NEH_Budget:BaseTotalFundDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FringeBenefits" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FringeBenefitsItem" type="NEH_Budget:FringeBenefitItemDataType" minOccurs="0" maxOccurs="10"/>
+										<xs:element name="SubTotal" type="NEH_Budget:BaseTotalFundDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ConsultantFees" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ConsultantFeeItem" type="NEH_Budget:ConsultantFeeItemDataType" minOccurs="0" maxOccurs="10"/>
+										<xs:element name="SubTotal" type="NEH_Budget:BaseTotalFundDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Travels" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TravelItem" type="NEH_Budget:TraveltemDataType" minOccurs="0" maxOccurs="10"/>
+										<xs:element name="SubTotal" type="NEH_Budget:BaseTotalFundDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SuppliesMaterials" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SupplyMaterialItem" type="NEH_Budget:ItemDataType" minOccurs="0" maxOccurs="10"/>
+										<xs:element name="SubTotal" type="NEH_Budget:BaseTotalFundDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Services" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ServiceItem" type="NEH_Budget:ItemDataType" minOccurs="0" maxOccurs="10"/>
+										<xs:element name="SubTotal" type="NEH_Budget:BaseTotalFundDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="OtherCosts" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="OtherCostItem" type="NEH_Budget:ItemDataType" minOccurs="0" maxOccurs="10"/>
+										<xs:element name="SubTotal" type="NEH_Budget:BaseTotalFundDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TotalDirectCosts" type="NEH_Budget:BaseTotalFundDataType" minOccurs="0"/>
+							<xs:element name="IndirectCosts" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="IndiectCostsType" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Current indirect cost rate(s) has/have been negotiated with federal agency."/>
+													<xs:enumeration value="Indirect cost proposal has been submitted to a federal agency but not yet negotiated."/>
+													<xs:enumeration value="Indirect cost proposal will be sent to NEH if application is funded. "/>
+													<xs:enumeration value="Applicant chooses to use a rate not to exceed 10% of direct costs, less distorting items, up to a maximum charge of $5000 per year. "/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="FederalAgencyName" type="globLib:AgencyNameDataType" minOccurs="0"/>
+										<xs:element name="AgreementDate" type="xs:date" minOccurs="0"/>
+										<xs:element name="IndirectCostItems" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="IndirectCostItem" type="NEH_Budget:IndiectCostItemDataType" minOccurs="0" maxOccurs="10"/>
+													<xs:element name="SubTotal" type="NEH_Budget:BaseTotalFundDataType" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TotalProjectCosts" type="NEH_Budget:BaseTotalFundDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BudgetSummary" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BudgetCategories" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="BudgetYears" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Year1" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="StartDate" type="xs:date" minOccurs="0"/>
+																<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Year2" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="StartDate" type="xs:date" minOccurs="0"/>
+																<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Year3" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="StartDate" type="xs:date" minOccurs="0"/>
+																<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SalariesWages" type="NEH_Budget:BudgtCategoryDataType" minOccurs="0"/>
+										<xs:element name="FringeBenefits" type="NEH_Budget:BudgtCategoryDataType" minOccurs="0"/>
+										<xs:element name="ConsultantFees" type="NEH_Budget:BudgtCategoryDataType" minOccurs="0"/>
+										<xs:element name="Travel" type="NEH_Budget:BudgtCategoryDataType" minOccurs="0"/>
+										<xs:element name="SuppliesMaterials" type="NEH_Budget:BudgtCategoryDataType" minOccurs="0"/>
+										<xs:element name="Services" type="NEH_Budget:BudgtCategoryDataType" minOccurs="0"/>
+										<xs:element name="OtherCosts" type="NEH_Budget:BudgtCategoryDataType" minOccurs="0"/>
+										<xs:element name="TotalDirectCosts" type="NEH_Budget:BudgtCategoryTotalDataType" minOccurs="0"/>
+										<xs:element name="IndirectCosts" type="NEH_Budget:BudgtCategoryTotalDataType" minOccurs="0"/>
+										<xs:element name="TotalProjectCosts" type="NEH_Budget:BudgtCategoryTotalDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ProjectFunding" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RequestedFromNEH" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Outright" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+													<xs:element name="FederalMatch" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+													<xs:element name="TotalNEHFund" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="CostSharing" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ApplicantContribution" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+													<xs:element name="ThirdPartyContribution" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+													<xs:element name="ProjectIncome" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+													<xs:element name="FederalAgencies" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+													<xs:element name="TotalCostSharing" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="TotalProjectFund" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="BaseFundDataType">
+		<xs:sequence>
+			<xs:element name="NEH_Funds" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+			<xs:element name="CostSharing" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+			<xs:element name="Total" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseTotalFundDataType">
+		<xs:sequence>
+			<xs:element name="NEH_Funds" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+			<xs:element name="CostSharing" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+			<xs:element name="Total" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SalaryWageItemDataType">
+		<xs:complexContent>
+			<xs:extension base="NEH_Budget:BaseFundDataType">
+				<xs:sequence>
+					<xs:element name="NamTitlePos" type="glob:StringMin1Max50Type" minOccurs="0"/>
+					<xs:element name="Number" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:nonNegativeInteger">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="9999"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="Method" type="glob:StringMin1Max50Type" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FringeBenefitItemDataType">
+		<xs:complexContent>
+			<xs:extension base="NEH_Budget:BaseFundDataType">
+				<xs:sequence>
+					<xs:element name="Rate" type="globLib:PercentageDecimalDataType" minOccurs="0"/>
+					<xs:element name="SalaryBase" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ConsultantFeeItemDataType">
+		<xs:complexContent>
+			<xs:extension base="NEH_Budget:BaseFundDataType">
+				<xs:sequence>
+					<xs:element name="ConsultantNameType" type="glob:StringMin1Max50Type" minOccurs="0"/>
+					<xs:element name="NumDays" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:nonNegativeInteger">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="9999"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="DailyRate" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TraveltemDataType">
+		<xs:complexContent>
+			<xs:extension base="NEH_Budget:BaseFundDataType">
+				<xs:sequence>
+					<xs:element name="FromTo" type="glob:StringMin1Max50Type" minOccurs="0"/>
+					<xs:element name="NumPersons" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:nonNegativeInteger">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="9999"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="TotalTravelDays" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="glob:DecimalMin1Max14Places2Type">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="9999"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="SubsistenceCosts" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+					<xs:element name="TransportationCosts" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ItemDataType">
+		<xs:complexContent>
+			<xs:extension base="NEH_Budget:BaseFundDataType">
+				<xs:sequence>
+					<xs:element name="Item" type="glob:StringMin1Max50Type" minOccurs="0"/>
+					<xs:element name="BasisMethod" type="glob:StringMin1Max50Type" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="IndiectCostItemDataType">
+		<xs:complexContent>
+			<xs:extension base="NEH_Budget:BaseFundDataType">
+				<xs:sequence>
+					<xs:element name="Rate" type="globLib:PercentageDecimalDataType" minOccurs="0"/>
+					<xs:element name="Base" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BudgtCategoryDataType">
+		<xs:sequence>
+			<xs:element name="Year1Budget" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+			<xs:element name="Year2Budget" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+			<xs:element name="Year3Budget" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+			<xs:element name="Total" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BudgtCategoryTotalDataType">
+		<xs:sequence>
+			<xs:element name="Year1Budget" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+			<xs:element name="Year2Budget" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+			<xs:element name="Year3Budget" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+			<xs:element name="Total" type="glob:DecimalMin1Max15Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BudgetPeriodDataType">
+		<xs:sequence>
+			<xs:element name="StartDate" type="xs:date"/>
+			<xs:element name="EndDate" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

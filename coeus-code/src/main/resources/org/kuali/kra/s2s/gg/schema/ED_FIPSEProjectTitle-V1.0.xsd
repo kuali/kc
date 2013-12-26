@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--*******************************************************************************************************************-->
+<!-- TITLE: FUND FOR THE IMPROVEMENT OF POSTSECONDARY EDUCATION INTERNATIONAL CONSORTIA PROGRAM / Project Title Form-->
+<!-- DESCRIPTION: -->
+<!-- FORM VERSION: -->
+<!-- SCHEMA VERSION: 1.0-->
+<!-- OMB NUMBER: -->
+<!-- FORM EXPIRATION DATE:  -->
+<!-- REVISION HISTORY:-->
+<!-- TO DO:-->
+<!--*******************************************************************************************************************-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:ED_FIPSEProjectTitle="http://apply.grants.gov/forms/ED_FIPSEProjectTitle-V1.0" targetNamespace="http://apply.grants.gov/forms/ED_FIPSEProjectTitle-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:element name="ED_FIPSEProjectTitle">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FIPSEProgramName">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="EU-U.S. Program"/>
+							<xs:enumeration value="U.S.-Brazil Program"/>
+							<xs:enumeration value="North American Program"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="US_Partner">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="USLeadInstitutionName" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="USSecondPartnerInstitutionName" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="USThirdPartnerInstitutionName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Foreign_Partner_I">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ForeignLeadInstitutionName" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="ForeignSecondPartnerInstitutionName" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="ForeignThirdPartnerInstitutionName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Foreign_Partner_II" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ForeignSecondLeadInstitutionName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+							<xs:element name="ForeignFourthPartnerInstitutionName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProjectTitle" type="globLib:ProjectTitleDataType"/>
+				<xs:element name="ProposalAbstractText">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ConsortiaProjectFormat">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Four-year"/>
+							<xs:enumeration value="Two-year"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Federal_Funds_Requested">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FederalFundsYear1RequestedAmount" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="FederalFundsYear2RequestedAmount" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="FederalFundsYear3RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="FederalFundsYear4RequestedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="FederalFundsTotalRequestedAmount" type="globLib:BudgetTotalAmountDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.2  $ -->
+<xs:schema xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:COPS_ApplicationAttachment="http://apply.grants.gov/forms/COPS_ApplicationAttachment-V1.0" targetNamespace="http://apply.grants.gov/forms/COPS_ApplicationAttachment-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="COPS_ApplicationAttachment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProgramName">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="COPS In Schools"/>
+							<xs:enumeration value="Tribal Programs"/>
+							<xs:enumeration value="Universal Hiring Program"/>
+							<xs:enumeration value="Community Policing Development Programs"/>
+							<xs:enumeration value="Targeted Programs"/>
+							<xs:enumeration value="Interoperable Communications Technology Program"/>
+							<xs:enumeration value="Secure Our Schools"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NoORI" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ApplicantORINumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="7"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NAGeneralApplicantInformation" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CognizantFederalAgency" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ApplicantFiscalYearFrom" type="xs:date" minOccurs="0"/>
+				<xs:element name="ApplicantFiscalYearTo" type="xs:date" minOccurs="0"/>
+				<xs:element name="PopulationServed" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NonCensusPopulation" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NALawEnforcementAgencyInformation" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ContactForServices" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="NonBIAContract" type="globLib:YesNoNotApplicableDataType" minOccurs="0"/>
+				<xs:element name="PrimaryLawEnforcementAuthority" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="PrimaryLawEnforcementPopulation" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NotPrimaryLawEnforcementAuthorityExplanation" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="1750"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="LandBaseCovered" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SwornForceLocalBudgetFullTime" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SwornForceLocalBudgetPartTime" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SwornForceLocalActualFullTime" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SwornForceLocalActualPartTime" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NAWaiversOfTheLocalMatch" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="WaiverRequested" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="DetailedWaiverJustification" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="LawEnforcementExecInformation" type="globLib:ContactPersonDataType" minOccurs="0"/>
+				<xs:element name="LawEnforcementExecAgencyName">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Municipal"/>
+							<xs:enumeration value="State"/>
+							<xs:enumeration value="County Police Department"/>
+							<xs:enumeration value="Sheriff*"/>
+							<xs:enumeration value="Tribal"/>
+							<xs:enumeration value="Transit*"/>
+							<xs:enumeration value="School*"/>
+							<xs:enumeration value="Consortium*"/>
+							<xs:enumeration value="University/College: Public*"/>
+							<xs:enumeration value="University/College: Private*"/>
+							<xs:enumeration value="Public Housing*"/>
+							<xs:enumeration value="New Startup* (please specify)"/>
+							<xs:enumeration value="Non-profit Organization"/>
+							<xs:enumeration value="Profit Organization"/>
+							<xs:enumeration value="Other* (please specify)"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyTypeStartup" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyTypeOther" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyTypeAdditionalInfo" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="GovtExecutiveInfo" type="globLib:ContactPersonDataType" minOccurs="0"/>
+				<xs:element name="GovtExecutiveEntityName">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="GovtEntityType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="State"/>
+							<xs:enumeration value="City"/>
+							<xs:enumeration value="Town"/>
+							<xs:enumeration value="County"/>
+							<xs:enumeration value="Village"/>
+							<xs:enumeration value="Borough"/>
+							<xs:enumeration value="Township"/>
+							<xs:enumeration value="Territory"/>
+							<xs:enumeration value="Region"/>
+							<xs:enumeration value="Council"/>
+							<xs:enumeration value="Community"/>
+							<xs:enumeration value="Pueblo"/>
+							<xs:enumeration value="Tribal Nation"/>
+							<xs:enumeration value="School District"/>
+							<xs:enumeration value="Not Applicable. If applying as a non-law enforcement agency, please select this option."/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NotApplyingForHiringGrant" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="RetentionForCOPSHiringGrantsExplanation" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="3500"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NeedForFederalAssistanceExplanation">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="1750"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NAExecutiveSummary" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ExecutiveSummary" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="NAProjectDescription" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescription" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="NABudgetNarrative" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="BudgetNarrative" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="NAMemorandumOfUnderstanding" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="MemorandumOfUnderstanding" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="NoPartnerRequired" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="OfficialPartners" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OfficialPartner1" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="OfficialPartner1ContactInfo" type="globLib:ContactPersonDataType" minOccurs="0"/>
+										<xs:element name="PartnerEntity1Name" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="85"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="PartnerEntity1Type" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="OfficialPartner2" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="OfficialPartner2ContactInfo" type="globLib:ContactPersonDataType" minOccurs="0"/>
+										<xs:element name="PartnerEntity2Name" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="85"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="PartnerEntity2Type" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="OfficialPartner3" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="OfficialPartner3ContactInfo" type="globLib:ContactPersonDataType" minOccurs="0"/>
+										<xs:element name="PartnerEntity3Name" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="85"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="PartnerEntity3Type" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="OfficialPartner4" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="OfficialPartner4ContactInfo" type="globLib:ContactPersonDataType" minOccurs="0"/>
+										<xs:element name="PartnerEntity4Name" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="85"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="PartnerEntity4Type" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AdditionalPartners" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="AuthorizedRepSignature" type="globLib:SignatureDataType"/>
+				<xs:element name="AuthorizedRepSignatureDate" type="xs:date"/>
+				<xs:element name="LE" type="globLib:HumanNameDataType" minOccurs="0"/>
+				<xs:element name="LESignatureDate" type="xs:date"/>
+				<xs:element name="GE" type="globLib:HumanNameDataType" minOccurs="0"/>
+				<xs:element name="GESignatureDate" type="xs:date"/>
+				<xs:element name="PartnerPersonSignatureAndName" minOccurs="0" maxOccurs="4">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PartnerPersonName" type="globLib:HumanNameDataType" minOccurs="0"/>
+							<xs:element name="PartnerPersonSignatureDate" type="xs:date"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<!--Custom types definitions-->
+</xs:schema>

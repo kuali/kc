@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by david xia (Northrop Grumman Information Technology) -->
+<!-- $Revision:   1.0  $ -->
+<xs:schema xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:HUD_CommentSuggestions="http://apply.grants.gov/forms/HUD_CommentSuggestions-V1.1" targetNamespace="http://apply.grants.gov/forms/HUD_CommentSuggestions-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="HUD_CommentSuggestions">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element name="NOFA" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NOFAProgramName" type="globLib:CFDATitleDataType" minOccurs="0"/>
+							<xs:element name="NOFA_Clearity" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="NOFAClearBox" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="NOFABetterBox" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="NOFABetterTxt" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="HUD_CommentSuggestions:TextDataType">
+														<xs:attribute name="NOFABetterBox" type="globLib:YesNoDataType" use="required" fixed="Y: Yes"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="NOFAOtherTxt" type="HUD_CommentSuggestions:TextDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+								<xs:key name="NOFABetterKey">
+									<xs:selector xpath="."/>
+									<xs:field xpath="HUD_CommentSuggestions:NOFABetterBox"/>
+								</xs:key>
+								<xs:keyref name="NOFABetterKeyRef" refer="HUD_CommentSuggestions:NOFABetterKey">
+									<xs:selector xpath="./HUD_CommentSuggestions:NOFABetterTxt"/>
+									<xs:field xpath="@HUD_CommentSuggestions:NOFABetterBox"/>
+								</xs:keyref>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ApplicationForm" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence minOccurs="0">
+							<xs:element name="ApplicationFormTitle" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="60"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Application_Clearity" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence minOccurs="0">
+										<xs:element name="ApplicationClearBox" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="ApplicationBetterBox" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="ApplicationBetterTxt" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="HUD_CommentSuggestions:TextDataType">
+														<xs:attribute name="AppBetterBox" type="globLib:YesNoDataType" use="required" fixed="Y: Yes"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ApplicationOtherTxt" type="HUD_CommentSuggestions:TextDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+								<xs:key name="AppBetterKey">
+									<xs:selector xpath="."/>
+									<xs:field xpath="HUD_CommentSuggestions:ApplicationBetterBox"/>
+								</xs:key>
+								<xs:keyref name="AppBetterKeyRef" refer="HUD_CommentSuggestions:AppBetterKey">
+									<xs:selector xpath="./HUD_CommentSuggestions:ApplicationBetterTxt"/>
+									<xs:field xpath="@HUD_CommentSuggestions:AppBetterBox"/>
+								</xs:keyref>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ApplicantName" type="globLib:HumanNameDataType" minOccurs="0"/>
+				<xs:element name="ApplicantOrgName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="TextDataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="250"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

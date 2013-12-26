@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:Form_14204="http://apply.grants.gov/forms/Form_14204-V1.0" targetNamespace="http://apply.grants.gov/forms/Form_14204-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="Form_14204">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ContactInformation">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="OrganizationAddress">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Street1" type="globLib:StreetDataType"/>
+										<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+										<xs:element name="City" type="globLib:CityDataType"/>
+										<xs:element name="State" type="codes:StateCodeDataType" minOccurs="0"/>
+										<xs:element name="Province" type="globLib:ProvinceDataType" minOccurs="0"/>
+										<xs:element name="Country" type="codes:CountryCodeDataType"/>
+										<xs:element name="ZipPostalCode" type="globLib:ZipPostalCodeDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="PhoneNumber" type="globLib:TelephoneNumberDataType"/>
+							<xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="POCName" type="globLib:HumanNameDataType"/>
+							<xs:element name="Title" type="globLib:HumanTitleDataType" minOccurs="0"/>
+							<xs:element name="Email" type="globLib:EmailDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AdministrativeInformation">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SAMRegistration" type="globLib:YesNoDataType"/>
+							<xs:element name="MultiyearGrant" type="globLib:YesNoDataType"/>
+							<xs:element name="CheckedEligible" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ApplicationChecklist">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Form14204" type="globLib:YesNoDataType"/>
+							<xs:element name="BackgroundNarrative" type="globLib:YesNoDataType"/>
+							<xs:element name="NonprofitStatus" type="globLib:YesNoDataType"/>
+							<xs:element name="ExplanationFederalTax" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ProgramBudgetPlan" type="globLib:YesNoDataType"/>
+							<xs:element name="Form8653" type="globLib:YesNoDataType"/>
+							<xs:element name="StandardForm424" type="globLib:YesNoDataType"/>
+							<xs:element name="CivilRightsNarrative" type="globLib:YesNoDataType"/>
+							<xs:element name="StandardFormLLL" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="OMBCircularA133" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element> 
+</xs:schema>

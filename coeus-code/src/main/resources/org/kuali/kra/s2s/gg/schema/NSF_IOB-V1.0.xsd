@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.0  $ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:NSF_IOB="http://apply.grants.gov/forms/NSF_IOB-V1.0" targetNamespace="http://apply.grants.gov/forms/NSF_IOB-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<!--Root element definition-->
+	<xs:element name="NSF_IOB">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="InvestigatorStatus">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Beginning Investigator"/>
+							<xs:enumeration value="Prior Federal support only"/>
+							<xs:enumeration value="Current Federal support only"/>
+							<xs:enumeration value="Current and prior Federal support"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OtherFields">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Astronomy" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chemistry" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ComputerScience" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EarthScience" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Engineering" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Mathematics" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Physics" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Psychology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SocialSciences" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="None" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SubstantiveArea">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BEHAVIORAL" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BIOENGINEERING" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BIOGEOGRAPHY" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="IslandBiogeography" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HEBiogeography" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Phylogeography" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Methods" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BIOMATERIALS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BIOTECHNOLOGY" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AnimalBiotechnology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PlantBiotechnology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EnvironmentalBiotechnology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MarineBiotechnology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MetabolicEngineering" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CHRONOBIOLOGY" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="COGNITIVENEUROSCIENCE" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="COMMUNITYECOLOGY" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CommunityAnalysis" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CommunityStructure" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CommunityStability" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Succession" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ExperimentalMicrocosms" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Disturbance" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Deforestation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Patch" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Foodwebs" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Keystonespecies" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="COMPARATIVEAPPROACHES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="COMPUTATIONALBIOLOGY" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CONSERVATION" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CORALREEFS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CURATION" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SubstantiveAreaDATABASES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DEVELOPMENTALBIOLOGY" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ECOSYSTEMSLEVEL" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PhysicalStructure" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Decomposition" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Biogeochemistry" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="LimnologyHydrology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ClimateMicroclimate" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="WholeSystemAnalysis" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ProductivityBiomass" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SystemEnergetics" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="LandscapeDynamics" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ChemicalBiochemicalControl" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GlobalChange" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ClimateChange" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="RegionalStudies" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GlobalStudies" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Forestry" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ResourceManagement" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AgriculturalEcology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ENDOCRINEDISRUPTORS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EPIGENETICS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EXTREMOPHILES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GENOMICS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Viral" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Microbial" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Fungal" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SubstantiveAreaPlant" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SubstantiveAreaAnimal" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HUMANNUTRITION" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="INFORMATICS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MARINEMAMMALS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MOLECULARAPPROACHES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MolecularEvolution" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NANOSCIENCE" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ORGANISMALSYSTEMS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PhysiologicalApproaches" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MetabolicProcesses" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HormonalRegulation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="StressResponses" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SensoryBiology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MovementStudies" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PALEONTOLOGY" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Floristic" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Faunistic" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Paleoecology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Biostratigraphy" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Palynology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Micropaleontology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Paleoclimatology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Archeozoic" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Paleozoic" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Mesozoic" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Cenozoic" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PHOTOSYNTHESIS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PLANTBIOLOGY" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ArabidopsisResearch" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="POPULATIONDYNAMICS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DemographyLifeHistory" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PopulationCycles" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DistributionPatchiness" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PopulationRegulation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="IntraspecificCompetition" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ReproductiveStrategies" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GenderAllocation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Metapopulations" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Extinction" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="POPULATIONGENETICS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Variation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Microevolution" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Speciation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hybridization" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InbreedingOutbreeding" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GeneFlowMeasurement" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InheritanceHeritability" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QuantitativeGenetics" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EcologicalGenetics" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GenderRatios" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ApomixisParthenogenesis" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="VegetativeReproduction" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="REPRODUCTIVEANIMALBIOLOGY" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SPECIESINTERACTIONS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Predation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Herbivory" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Omnivory" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InterspecificCompetition" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NicheRelationships" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PollinationSeedDispersal" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Parasitism" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MutualismCommensalism" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PlantFungalMicrobialInteractions" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Mimicry" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AnimalPathology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PlantPathology" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Coevolution" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BiologicalControl" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SPINALCORDNERVEREGENERATION" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="STATISTICSMODELING" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MethodsInstrumentationSoftware" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Modeling" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ModelingBiologicalMolecularSystems" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ComputationalModeling" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Statistics" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MultivariateMethods" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SpatialStatisticsModeling" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SamplingDesignAnalysis" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ExperimentalDesignAnalysis" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="STRUCTURALBIOLOGY" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SYSTEMATICS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TaxonomyClassification" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nomenclature" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MonographRevision" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Phylogenetics" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PheneticsCladisticsNumericalTaxonomy" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Macroevolution" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SubstantiveAreaNone" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="INFRASTRUCTURE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CollectionEnhancement" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CollectionRefurbishment" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="LivingOrganismStockCultures" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NaturalHistoryCollections" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DATABASES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DatabaseInitiation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DatabaseEnhancement" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DatabaseMaintenanceandCuration" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DatabaseMethods" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ControlledEnvironmentFacilities" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FieldStations" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FieldFacilityStructure" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FieldFacilityEquipment" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="LTERSite" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GENOMESEQUENCING" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ArabidopsisGenome_G226Sequencing" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="OtherPlantGenomeSequencing" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="INDUSTRYPARTICIPATION" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InstrumentDevelopment" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InstrumentAcquisition" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ComputationalHardwareDevelopmentAcquisition" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AnalyticalAlgorithmDevelopment" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="OtherSoftwareDevelopment" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InformaticsToolDevelopment" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TechniqueDevelopment" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GeographicInformationSystems" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="RemoteSensing" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MultiTraining" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="INFRASTRUCTURENONE" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HABITAT">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="GENERALTERRESTRIAL" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TUNDRA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BOREALFOREST" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TEMPERATE" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TEMPERATEDeciduousForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TEMPERATEConiferousForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TEMPERATERainForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TEMPERATEMixedForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TEMPERATEPrairieGrasslands" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TEMPERATEDesert" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SUBTROPICAL" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SUBTROPICALRainForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SUBTROPICALSeasonalForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SUBTROPICALSavanna" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SUBTROPICALThornwoods" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SUBTROPICALDeciduousForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SUBTROPICALConiferousForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SUBTROPICALDesert" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TROPICAL" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TROPICALRainForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TROPICALSeasonalForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TROPICALSavanna" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TROPICALThornwoods" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TROPICALDeciduousForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TROPICALConiferousForest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TROPICALDesert" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CHAPPARALSCLEROPHYLLSHRUBLANDS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ALPINE" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MONTANE" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CLOUDFOREST" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="RIPARIANZONES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ISLANDS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BEACHESDUNES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CAVESROCKOUTCROPS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CROPLANDSFALLOWFIELDSPASTURES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="URBANSUBURBAN" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SUBTERRANEANSOIL_G259SEDIMENTS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EXTREMETERRESTRIALENVIRONMENT" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AERIAL" type="globLib:YesNoDataType" minOccurs="0"/>	
+							<xs:element name="GENERALAQUATIC" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FRESHWATER" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="WetlandsBogsSwamps" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="LakesPonds" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="RiversStreams" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Reservoirs" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MARINE" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="OpenOceanContinentalShelf" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Bathyal" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Abyssal" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Estuarine" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="IntertidalTidalCoastal" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CoralReef" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HYPERSALINE" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EXTREMEAQUATICENVIRONMENT" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CAVESROCKOUTCROPSCLIFFS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MANGROVES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SUBSURFACEWATERSSPRINGS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EPHEMERALPOOLSSTREAMS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MICROPOOLS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CellTissueCulture" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InSilico" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="THEORETICALSYSTEMS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="OTHERARTIFICIALSYSTEMS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HABITATNOTAPPLICABLE" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="GEOGRAPHICAREA">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="WORLDWIDE" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NORTHAMERICA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="UnitedStates" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NortheastUS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NorthcentralUS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NorthwestUS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SoutheastUS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SouthcentralUS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SouthwestUS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Alaska" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hawaii" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PuertoRico" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Canada" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Mexico" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CENTRALAMERICA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CaribbeanIslands" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BermudaBahamas" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SOUTHAMERICA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EasternSouthAmerica" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NorthernSouthAmerica" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SouthernSouthAmerica" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="WesternSouthAmerica" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EUROPE" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EasternEurope" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Russia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Scandinavia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="WesternEurope" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ASIA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CentralAsia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FarEast" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MiddleEast" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Siberia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SouthAsia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SoutheastAsia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AFRICA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NorthAfrica" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AfricanSouthSahara" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EastAfrica" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Madagascar" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SouthAfrica" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="WestAfrica" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AUSTRALASIA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Australia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NewZealand" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PacificIslands" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ANTARCTICA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ARCTIC" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ATLANTICOCEAN" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PACIFICOCEAN" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="INDIANOCEAN" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="OTHERREGIONS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GEOGRAPHICAREANOTAPPLICABLE" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CLASSIFICATIONORGANISMS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="VIRUSES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Bacterial" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CLASSIFICATIONORGANISMSPlant" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CLASSIFICATIONORGANISMSAnimal" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PROKARYOTES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Archaebacteria" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CLASSIFICATIONORGANISMSCyanobacteria" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Eubacteria" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PROTISTA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Amoebae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Apicomplexa" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ciliophora" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Flagellates" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Foraminifera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Microspora" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Radiolaria" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FUNGI" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ascomycota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Basidiomycota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chytridiomycota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MitosporicFungi" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Oomycota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Yeasts" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Zygomycota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="LICHENS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SLIMEMOLDS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ALGAE" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Bacillariophyta" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Charophyta" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chlorophyta" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chrysophyta" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Dinoflagellata" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Euglenoids" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Phaeophyta" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Rhodophyta" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PLANTS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NONVASCULARPLANTS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BRYOPHYTA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Anthocerotae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hepaticae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Musci" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="VASCULARPLANTS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FERNSALLIES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GYMNOSPERMS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Coniferales" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Cycadales" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ginkgoales" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Gnetales" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ANGIOSPERMS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Monocots" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Arecaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Cyperaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Liliaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Orchidaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Poaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Dicots" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Apiaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Asteraceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Brassicaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Fabaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Lamiaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Rosaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Solanaceae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ANIMALS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="INVERTEBRATES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MESOZOAPLACOZOA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PORIFERA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CNIDARIA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hydrozoa" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Scyphozoa" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Anthozoa" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CTENOPHORA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PLATYHELMINTHES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Turbellaria" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Trematoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Cestoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Monogenea" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GNATHOSTOMULIDA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NEMERTINEA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ENTOPROCTABryozoaPlantlikeAnimals" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ASCHELMINTHES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Gastrotricha" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Kinorhyncha" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Loricifera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nematoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nematomorpha" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Rotifera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ACANTHOCEPHALA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PRIAPULOIDEA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BRYOZOA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PHORONIDEA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BRACHIOPODA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MOLLUSCA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Monoplacophora" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Aplacophora" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Polyplacophora" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Scaphopoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Gastropoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Pelecypoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Cephalopoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ANNELIDA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Polychaeta" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Oligochaeta" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hirudinida" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="POGONOPHORA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SIPUNCULOIDEA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ECHIUROIDEA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ARTHROPODA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Cheliceriformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Merostomata" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Pycnogonida" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Scorpionida" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Araneae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Pseudoscorpionida" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Acarina" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Parasitiformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Crustacea" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Branchiopoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ostracoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Copepoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Cirripedia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Amphipoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Isopoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Decapoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hexapoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Apterygota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Odonata" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ephemeroptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Orthoptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Dictyoptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Isoptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Plecoptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Phthiraptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hemiptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Homoptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Thysanoptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Neuroptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Trichoptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Lepidoptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Diptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Siphonaptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Coleoptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hymenoptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chilopoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Diplopoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Pauropoda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Symphyta" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PENTASTOMIDA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TARDIGRADA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ONYCHOPHORA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CHAETOGNATHA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ECHINODERMATA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Crinoidea" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Asteroidea" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ophiuroidea" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Echinoidea" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Holothuroidea" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HEMICHORDATA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="UROCHORDATA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CEPHALOCHORDATA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="VERTEBRATES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AGNATHA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FISHES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chondrichthyes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Osteichthyes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Sarcopterygia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Actinopterygia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AMPHIBIA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Anura" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Urodela" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Gymnophiona" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="REPTILIA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chelonia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Serpentes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Sauria" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Crocodylia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Rhyncocephalia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AVES" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Paleognathae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Sphenisciformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Procellariiformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Pelecaniformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ciconiiformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Anseriformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Falconiformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Galliformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Gruiformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Charadriiformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Columbiformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Psittaciformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Cuculiformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Strigiformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Apodiformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Coraciformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Piciformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Passeriformes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MAMMALIA" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Monotremata" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Marsupalia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Eutheria" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Insectivora" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chiroptera" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Edentata" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Primates" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Monkeys" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Apes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Humans" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Rodentia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="LaboratoryRodents" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Non-LaboratoryRodents" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Lagomorphs" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Tubulidenata" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Carnivora" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ungulates" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Perissodactyla" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Artiodactyla" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Sirenia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Proboscidea" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CLASSIFICATIONORGANISMSMarineMammals" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TRANSGENICORGANISMS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FOSSILEXTINCTORGANISMS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NOORGANISMS" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MODELORGANISM">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NOMODELORGANISM" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="LambdaPhage" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Rhizobacterium" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Escherichiacoli" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Bacillussubtilis" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MODELORGANISMCyanobacteria" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Acetabulariaacetabulum" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chlamydomonasreinhardtii" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Paramecium" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Tetrahymena" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Dictyostelium" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Neurospora" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Saccharomycescereviseae" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Saccharomycespombe" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MouseEarCress" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="IcePlant" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Barley" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Corn" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Pea" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Tobacco" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Spinach" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Alfalfa" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Tomato" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nematode" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SeaSlugAplysia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SeaSlugHermissenda" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PondSnail" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TerrestrialSnail" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SquidCuttlefish" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Octopus" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Leech" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HorseshoeCrab" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BrineShrimp" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Lobster" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Crayfish" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Dragonfly" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GrasshopperLocust" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Cockroach" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Mantis" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SixLinedHawkMoth" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Fruitfly" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SyrphidFly" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AppleMaggot" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Mosquito" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FlourBeetle" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Honeybee" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Parasiticwasp" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SeaUrchin" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ascidian" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Lancelet" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Lamprey" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Skate" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Croaker" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ElectricFish" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Goldfish" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Perch" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Zebrafish" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Axolotl" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Mudpuppy" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AfricanClawedFrog" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Bullfrog" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GrassFrog" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MarineToad" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Turtle" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Quail" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ChickenEmbryo" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HouseSparrow" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="WhiteCrownedSparrow" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ZebraFinch" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Opossum" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Bat" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="OwlMonkey" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="RhesusMonkey" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Tamarin" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chimpanzee" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Human" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Chinchilla" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DeerMouse" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="GuineaPig" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hamster" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="KangarooRat" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MouseLaboratory" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="RatLaboratory" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Vole" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DomesticDog" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DomesticCat" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ferret" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FarmAnimals" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ownmodelorganism" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="9"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

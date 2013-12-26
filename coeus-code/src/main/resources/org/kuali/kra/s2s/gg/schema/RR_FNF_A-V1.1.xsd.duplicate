@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:RR_FedNonFedBudget="http://apply.grants.gov/forms/RR_FedNonFedBudget-V1.1" targetNamespace="http://apply.grants.gov/forms/RR_FedNonFedBudget-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://localhost:7001/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://localhost:7001/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://localhost:7001/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="RR_FedNonFedBudget">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DUNSID" type="globLib:DUNSIDDataType"/>
+				<xs:element name="BudgetType" type="RR_FedNonFedBudget:BudgetTypeDataType"/>
+				<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+				<xs:element name="BudgetYear1" type="RR_FedNonFedBudget:BudgetYear1DataType"/>
+				<xs:element name="BudgetYear2" type="RR_FedNonFedBudget:BudgetYearDataType" minOccurs="0"/>
+				<xs:element name="BudgetYear3" type="RR_FedNonFedBudget:BudgetYearDataType" minOccurs="0"/>
+				<xs:element name="BudgetYear4" type="RR_FedNonFedBudget:BudgetYearDataType" minOccurs="0"/>
+				<xs:element name="BudgetYear5" type="RR_FedNonFedBudget:BudgetYearDataType" minOccurs="0"/>
+				<xs:element name="BudgetSummary">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CumulativeTotalFundsRequestedSeniorKeyPerson" type="RR_FedNonFedBudget:SummaryDataType"/>
+							<xs:element name="CumulativeTotalFundsRequestedOtherPersonnel" type="RR_FedNonFedBudget:SummaryDataType" minOccurs="0"/>
+							<xs:element name="CumulativeTotalNoOtherPersonnel" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:nonNegativeInteger">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="9999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="CumulativeTotalFundsRequestedPersonnel" type="RR_FedNonFedBudget:SummaryDataType"/>
+							<xs:element name="CumulativeEquipments" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CumulativeTotalFundsRequestedEquipment" type="RR_FedNonFedBudget:SummaryDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CumulativeTravels" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CumulativeTotalFundsRequestedTravel" type="RR_FedNonFedBudget:SummaryDataType"/>
+										<xs:element name="CumulativeDomesticTravelCosts" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeForeignTravelCosts" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CumulativeTrainee" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CumulativeTotalFundsRequestedTraineeCosts" type="RR_FedNonFedBudget:SummaryDataType"/>
+										<xs:element name="CumulativeTraineeTuitionFeesHealthInsurance" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeTraineeStipends" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeTraineeTravel" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeTraineeSubsistence" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeOtherTraineeCost" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeNoofTrainees" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:nonNegativeInteger">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CumulativeOtherDirect" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CumulativeTotalFundsRequestedOtherDirectCosts" type="RR_FedNonFedBudget:SummaryDataType"/>
+										<xs:element name="CumulativeMaterialAndSupplies" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativePublicationCosts" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeConsultantServices" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeADPComputerServices" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeSubawardConsortiumContractualCosts" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeEquipmentFacilityRentalFees" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeAlterationsAndRenovations" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeOther1DirectCost" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeOther2DirectCost" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+										<xs:element name="CumulativeOther3DirectCost" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CumulativeTotalFundsRequestedDirectCosts" type="RR_FedNonFedBudget:SummaryDataType"/>
+							<xs:element name="CumulativeTotalFundsRequestedIndirectCost" type="RR_FedNonFedBudget:SummaryDataType" minOccurs="0"/>
+							<xs:element name="CumulativeTotalFundsRequestedDirectIndirectCosts" type="RR_FedNonFedBudget:SummaryDataType"/>
+							<xs:element name="CumulativeFee" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="TotalDataType">
+		<xs:sequence>
+			<xs:element name="Federal" type="globLib:BudgetAmountDataType"/>
+			<xs:element name="NonFederal" type="globLib:BudgetAmountDataType"/>
+			<xs:element name="TotalFedNonFed" type="globLib:BudgetTotalAmountDataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SummaryDataType">
+		<xs:sequence>
+			<xs:element name="FederalSummary" type="globLib:BudgetTotalAmountDataType"/>
+			<xs:element name="NonFederalSummary" type="globLib:BudgetTotalAmountDataType"/>
+			<xs:element name="TotalFedNonFedSummary" type="globLib:BudgetTotalAmountDataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="BudgetTypeDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Project"/>
+			<xs:enumeration value="Subaward/Consortium"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SectACompensationDataType">
+		<xs:sequence>
+			<xs:element name="CalendarMonths" type="RR_FedNonFedBudget:Month2whole2fracDataType" minOccurs="0"/>
+			<xs:element name="AcademicMonths" type="RR_FedNonFedBudget:Month2whole2fracDataType" minOccurs="0"/>
+			<xs:element name="SummerMonths" type="RR_FedNonFedBudget:Month2whole2fracDataType" minOccurs="0"/>
+			<xs:element name="RequestedSalary" type="glob:DecimalMin1Max14Places2Type"/>
+			<xs:element name="FringeBenefits" type="glob:DecimalMin1Max14Places2Type"/>
+			<xs:element name="Total" type="RR_FedNonFedBudget:TotalDataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SectBCompensationDataType">
+		<xs:sequence>
+			<xs:element name="CalendarMonths" type="RR_FedNonFedBudget:Month3whole2fracDataType" minOccurs="0"/>
+			<xs:element name="AcademicMonths" type="RR_FedNonFedBudget:Month3whole2fracDataType" minOccurs="0"/>
+			<xs:element name="SummerMonths" type="RR_FedNonFedBudget:Month3whole2fracDataType" minOccurs="0"/>
+			<xs:element name="RequestedSalary" type="glob:DecimalMin1Max14Places2Type"/>
+			<xs:element name="FringeBenefits" type="glob:DecimalMin1Max14Places2Type"/>
+			<xs:element name="OtherTotal" type="RR_FedNonFedBudget:TotalDataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ProjectRoleDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PD/PI"/>
+			<xs:enumeration value="Co-PD/PI"/>
+			<xs:enumeration value="Faculty"/>
+			<xs:enumeration value="Post Doctoral"/>
+			<xs:enumeration value="Post Doctoral Associate"/>
+			<xs:enumeration value="Other Professional"/>
+			<xs:enumeration value="Graduate Student"/>
+			<xs:enumeration value="Undergraduate Student"/>
+			<xs:enumeration value="Technician"/>
+			<xs:enumeration value="Consultant"/>
+			<xs:enumeration value="Other (Specify)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CalcMonthDataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Month2whole2fracDataType">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="4"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Month3whole2fracDataType">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="5"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="KeyPersonCompensationDataType">
+		<xs:complexContent>
+			<xs:extension base="RR_FedNonFedBudget:SectACompensationDataType">
+				<xs:sequence>
+					<xs:element name="BaseSalary" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="KeyPersonDataType">
+		<xs:sequence>
+			<xs:element name="Name" type="globLib:HumanNameDataType"/>
+			<xs:element name="ProjectRole" type="glob:StringMin1Max100Type"/>
+			<xs:element name="Compensation" type="RR_FedNonFedBudget:KeyPersonCompensationDataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherPersonnelDataType">
+		<xs:sequence>
+			<xs:element name="NumberOfPersonnel">
+				<xs:simpleType>
+					<xs:restriction base="xs:nonNegativeInteger">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ProjectRole" type="glob:StringMin1Max100Type"/>
+			<xs:element name="Compensation" type="RR_FedNonFedBudget:SectBCompensationDataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BudgetYearDataType">
+		<xs:sequence>
+			<xs:element name="BudgetPeriodStartDate" type="xs:date"/>
+			<xs:element name="BudgetPeriodEndDate" type="xs:date"/>
+			<xs:element name="BudgetPeriod">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+						<xs:enumeration value="4"/>
+						<xs:enumeration value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="KeyPersons">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="KeyPerson" type="RR_FedNonFedBudget:KeyPersonDataType" maxOccurs="8"/>
+						<xs:element name="TotalFundForAttachedKeyPersons" type="RR_FedNonFedBudget:SummaryDataType" minOccurs="0"/>
+						<xs:element name="TotalFundForKeyPersons" type="RR_FedNonFedBudget:SummaryDataType"/>
+						<xs:element name="AttachedKeyPersons" type="att:AttachedFileDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OtherPersonnel" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PostDocAssociates" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="NumberOfPersonnel">
+										<xs:simpleType>
+											<xs:restriction base="xs:nonNegativeInteger">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="ProjectRole" type="glob:StringMin1Max100Type" fixed="Post Doctoral Associates"/>
+									<xs:element name="Compensation" type="RR_FedNonFedBudget:SectBCompensationDataType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="GraduateStudents" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="NumberOfPersonnel">
+										<xs:simpleType>
+											<xs:restriction base="xs:nonNegativeInteger">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="ProjectRole" type="glob:StringMin1Max100Type" fixed="Graduate Students"/>
+									<xs:element name="Compensation" type="RR_FedNonFedBudget:SectBCompensationDataType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="UndergraduateStudents" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="NumberOfPersonnel">
+										<xs:simpleType>
+											<xs:restriction base="xs:nonNegativeInteger">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="ProjectRole" type="glob:StringMin1Max100Type" fixed="Undergraduate Students"/>
+									<xs:element name="Compensation" type="RR_FedNonFedBudget:SectBCompensationDataType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="SecretarialClerical" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="NumberOfPersonnel">
+										<xs:simpleType>
+											<xs:restriction base="xs:nonNegativeInteger">
+												<xs:minInclusive value="0"/>
+												<xs:maxInclusive value="999"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="ProjectRole" type="glob:StringMin1Max100Type" fixed="Secretarial / Clerical"/>
+									<xs:element name="Compensation" type="RR_FedNonFedBudget:SectBCompensationDataType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Other" type="RR_FedNonFedBudget:OtherPersonnelDataType" minOccurs="0" maxOccurs="6"/>
+						<xs:element name="OtherPersonnelTotalNumber">
+							<xs:simpleType>
+								<xs:restriction base="xs:nonNegativeInteger">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="9999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="TotalOtherPersonnelFund" type="RR_FedNonFedBudget:SummaryDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TotalCompensation" type="RR_FedNonFedBudget:SummaryDataType"/>
+			<xs:element name="Equipment" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EquipmentList" minOccurs="0" maxOccurs="10">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="EquipmentItem">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="1"/>
+												<xs:maxLength value="64"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="FundsRequested" type="RR_FedNonFedBudget:TotalDataType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TotalFundForAttachedEquipment" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="TotalFund" type="RR_FedNonFedBudget:SummaryDataType" minOccurs="0"/>
+						<xs:element name="AdditionalEquipmentsAttachment" type="att:AttachedFileDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Travel" nillable="true" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DomesticTravelCost" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="ForeignTravelCost" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="TotalTravelCost" type="RR_FedNonFedBudget:SummaryDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ParticipantTraineeSupportCosts" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TuitionFeeHealthInsurance" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="Stipends" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="Travel" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="Subsistence" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="Other" nillable="true" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Description" type="glob:StringMin1Max100Type"/>
+									<xs:element name="Cost" type="RR_FedNonFedBudget:TotalDataType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ParticipantTraineeNumber" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:nonNegativeInteger">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="TotalCost" type="RR_FedNonFedBudget:SummaryDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OtherDirectCosts" nillable="true" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="MaterialsSupplies" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="PublicationCosts" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="ConsultantServices" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="ADPComputerServices" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="SubawardConsortiumContractualCosts" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="EquipmentRentalFee" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="AlterationsRenovations" type="RR_FedNonFedBudget:TotalDataType" minOccurs="0"/>
+						<xs:element name="Others" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Other" maxOccurs="3">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="Description">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="120"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="Cost" type="RR_FedNonFedBudget:TotalDataType"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TotalOtherDirectCost" type="RR_FedNonFedBudget:SummaryDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DirectCosts" type="RR_FedNonFedBudget:SummaryDataType"/>
+			<xs:element name="IndirectCosts" nillable="true" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="IndirectCost" maxOccurs="4">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="CostType">
+										<xs:simpleType>
+											<xs:restriction base="glob:StringMin1Max100Type">
+												<xs:maxLength value="64"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Rate" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:decimal">
+												<xs:minInclusive value="0.00"/>
+												<xs:maxInclusive value="999.99"/>
+												<xs:totalDigits value="5"/>
+												<xs:fractionDigits value="2"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Base" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+									<xs:element name="FundRequested" type="RR_FedNonFedBudget:TotalDataType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TotalIndirectCosts" type="RR_FedNonFedBudget:SummaryDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CognizantFederalAgency" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="180"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TotalCosts" type="RR_FedNonFedBudget:SummaryDataType"/>
+			<xs:element name="Fee" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BudgetYear1DataType">
+		<xs:complexContent>
+			<xs:extension base="RR_FedNonFedBudget:BudgetYearDataType">
+				<xs:sequence>
+					<xs:element name="BudgetJustificationAttachment" type="att:AttachedFileDataType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,569 @@
+<xs:schema xmlns:ED_900="http://apply.grants.gov/forms/ED_900-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" targetNamespace="http://apply.grants.gov/forms/ED_900-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="ED_900">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SectionA">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Type_Investment_Assistance">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="Public Works"/>
+										<xs:enumeration value="Economic Adjustment"/>
+										<xs:enumeration value="Partnership Planning"/>
+										<xs:enumeration value="Short-term Planning"/>
+										<xs:enumeration value="State Planning"/>
+										<xs:enumeration value="University Center"/>
+										<xs:enumeration value="Local Technical Assistance"/>
+										<xs:enumeration value="Research and Evaluation Assistance"/>
+										<xs:enumeration value="National Technical Assistance"/>
+										<xs:enumeration value="Revolving Loan Fund"/>
+										<xs:enumeration value="Design and Engineering"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Type_Applicant">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="Governmental"/>
+										<xs:enumeration value="Non-governmental"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="InvstPrjctRegn" type="ED_900:AN1to910"/>
+							<xs:element name="InvstPrjctDesc" type="ED_900:AN1to910"/>
+							<xs:element name="Region_have_Comprehensive_Economic_Development_Strategy" type="globLib:YesNoDataType"/>
+							<xs:element name="Source_of_CEDS" type="ED_900:AN1to80" minOccurs="0"/>
+							<xs:element name="Alternate_Strategic_Planning_Document" type="ED_900:AN1to80" minOccurs="0"/>
+							<xs:element name="Economic_Development_Needs_of_Region" type="ED_900:AN1to910"/>
+							<xs:element name="Economic_Conditions_of_RegionImpact" type="ED_900:AN1to1825"/>
+							<xs:element name="Satisfying_Guidelines_Priorities" type="ED_900:AN1to11000"/>
+							<xs:element name="Attract_Private_Sector_Investment" type="ED_900:AN1to1825"/>
+							<xs:element name="Proposed_Time_Schedule" type="ED_900:AN1to910"/>
+							<xs:element name="Civil_Rights_Compliance_Applicant" type="globLib:YesNoDataType"/>
+							<xs:element name="Civil_Rights_Compliance_Applicant_No" type="ED_900:AN1to80" minOccurs="0"/>
+							<xs:element name="Civil_Rights_Compliance_Other_Parties" type="globLib:YesNoNotApplicableDataType"/>
+							<xs:element name="Civil_Rights_Compliance_Other_Parties_No" type="ED_900:AN1to80" minOccurs="0"/>
+							<xs:element name="ForConstruction" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NonConstruction" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Source_nonEDAfunds" type="ED_900:AN1to910"/>
+							<xs:element name="NonEDA_funds_available" type="globLib:YesNoDataType"/>
+							<xs:element name="NonEDA_funds_available_No" type="ED_900:AN1to240" minOccurs="0"/>
+							<xs:element name="Action_nonEDA_funds" type="ED_900:AN1to320"/>
+							<xs:element name="Seek_other_federal_financial_assistance" type="globLib:YesNoDataType"/>
+							<xs:element name="Other_federal_financial_assistance" type="ED_900:AN1to320" minOccurs="0"/>
+							<xs:element name="Assistance_other_federal_economic_development_program" type="globLib:YesNoDataType"/>
+							<xs:element name="Identify_other_federal_economic_development_program" type="ED_900:AN1to240" minOccurs="0"/>
+							<xs:element name="Identify_efforts_federal_economic_development_assistance" type="ED_900:AN1to240" minOccurs="0"/>
+							<xs:element name="Certifications_Regarding_Lobbying" type="globLib:YesNoDataType"/>
+							<xs:element name="Disclosure_Lobbying_Activities" type="globLib:YesNoDataType"/>
+							<xs:element name="Process_Single_Point_Contact" type="globLib:YesNoDataType"/>
+							<xs:element name="Meet_SPOC_process_yes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SPOC_comments_received_yes" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Reason_no_comments" type="ED_900:AN1to80" minOccurs="0"/>
+							<xs:element name="Subcontract_work" type="globLib:YesNoDataType"/>
+							<xs:element name="Contracts_awarded_competitive_bid" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Justification_noncompetitive_bid" type="ED_900:AN1to320" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionB" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="RegionEligibility" type="ED_900:AN1to320"/>
+							<xs:element name="Region_differences" type="ED_900:AN1to320" minOccurs="0"/>
+							<xs:element name="RegPoliticalBoundaries" type="ED_900:AN1to320" minOccurs="0"/>
+							<xs:element name="Data_eligibility_determination">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RecentACS_data" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="FedData" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="StateData" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="OtherData" type="globLib:YesNoDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Establishing_economic_distress" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="UmemploymentRate" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="PerCapitaIncome" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="Type_special_need" type="globLib:YesNoDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="PopLoss" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Underemploy" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MilitaryBase" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NaturalDisaster" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ResourceDepletion" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="IndustrialClosing" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NegativeEffects" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="OtherCircumstances" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Other_circumstances_FFO" type="ED_900:AN1to160" minOccurs="0"/>
+							<xs:element name="Substantial_Direct_Benefit" type="globLib:YesNoDataType"/>
+							<xs:element name="Explanation_direct_benefit" type="ED_900:AN1to320" minOccurs="0"/>
+							<xs:element name="Beneficiaries_identified" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ProjectBeneficiaries" minOccurs="0" maxOccurs="5">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CompanyName" type="ED_900:AN0to100"/>
+										<xs:element name="Company_NAICS">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="5"/>
+													<xs:maxLength value="5"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Company_jobs_saved">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="1000000"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Company_jobs_created">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="1000000"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Company_investment" type="globLib:BudgetAmountDataType"/>
+										<xs:element name="Company_Committed_Interested">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Committed"/>
+													<xs:enumeration value="Interest Only"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionC" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Project_national_scope" type="globLib:YesNoDataType"/>
+							<xs:element name="Describe_national_scope" type="ED_900:AN0to910" minOccurs="0"/>
+							<xs:element name="No_benefit_incidental_benefit" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Lack_incidental_benefit" type="ED_900:AN0to400" minOccurs="0"/>
+							<xs:element name="Not_feasible_rate_greater_50_percent" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Feasible_rate_greater" type="ED_900:AN1to910" minOccurs="0"/>
+							<xs:element name="Rate_greater_50_percent" type="ED_900:AN1to910" minOccurs="0"/>
+							<xs:element name="Complete_NTA_Additional_Assurances" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionD" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Organization_officers" type="ED_900:AN1to400" minOccurs="0"/>
+							<xs:element name="Name_Check_attached" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Why_Name_Check_not_attached" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Certificate_Good_Standing" type="globLib:YesNoDataType"/>
+							<xs:element name="Certificate_Good_Standing_unavailable" type="ED_900:AN0to80" minOccurs="0"/>
+							<xs:element name="Articles_Incorporation_ByLaws" type="globLib:YesNoDataType"/>
+							<xs:element name="Articles_Incorporation_ByLaws_unavailable" type="ED_900:AN0to80" minOccurs="0"/>
+							<xs:element name="Cooperatrion_political_subdivision_State" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Cooperatrion_political_subdivision_State_no_proof" type="ED_900:AN0to80" minOccurs="0"/>
+							<xs:element name="General_purpose_governmental_authority_comments" type="globLib:YesNoNotApplicableDataType"/>
+							<xs:element name="General_purpose_governmental_authority_comments_not_provide" type="ED_900:AN0to80" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionE" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Amounts_budgeted_equipment_other" type="ED_900:AN0to485" minOccurs="0"/>
+							<xs:element name="Types_indirect_costs" type="ED_900:AN0to910" minOccurs="0"/>
+							<xs:element name="Key_applicant_staff" type="ED_900:AN1to3650"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionF" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Comprehensive_Econ_Dev_Strategy" type="ED_900:AN1to3650"/>
+							<xs:element name="Strategy_Committee_members" type="ED_900:AN1to3650"/>
+							<xs:element name="Governing_board" type="ED_900:AN1to5500"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionG" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Development_planning_capacity" type="ED_900:AN1to3650"/>
+							<xs:element name="Other_planning_assistance" type="ED_900:AN1to1825"/>
+							<xs:element name="Peformance_measures" type="ED_900:AN1to910"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionH" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="State_CEDS_exist" type="globLib:YesNoDataType"/>
+							<xs:element name="Development_of_CEDS" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="State_CEDS_local" type="ED_900:AN0to3650" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionI" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Strengthen_capacity_organizations"  type="ED_900:AN1to910"/>
+							<xs:element name="Benefit_distressed_regions" type="ED_900:AN1to910"/>
+							<xs:element name="Innovative_approaches" type="ED_900:AN1to910"/>
+							<xs:element name="Consistent_Approved_CEDS" type="ED_900:AN1to805" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionJ" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Address_needs_region" type="ED_900:AN1to1825"/>
+							<xs:element name="Unique_services_maximize_coordination" type="ED_900:AN1to1825"/>
+							<xs:element name="Consistent_sponsoring_institution" type="ED_900:AN1to1825"/>
+							<xs:element name="Sponsoring_institution_senior_management_support" type="ED_900:AN1to1825"/>
+							<xs:element name="sponsoring_institution_experience_administering_technical_assistance" type="ED_900:AN1to1825"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionK" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Question_K" type="globLib:YesNoDataType"/>
+							<xs:element name="Overcoming_obstacles_CEDS" type="ED_900:AN1to1825" minOccurs="0"/>
+							<xs:element name="How_meet_Special_Need" type="ED_900:AN1to910" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionL" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Need_expanded_public_financing_tool" type="ED_900:AN1to1825"/>
+							<xs:element name="Types_financing_activities_anticipated" type="ED_900:AN1to910"/>
+							<xs:element name="Capacity_RLF_organization" type="ED_900:AN1to1825"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionM" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Question_M" type="globLib:YesNoDataType"/>
+							<xs:element name="Involve_above_identified_developments" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="indicate_which_will_provide" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="Comments from the responsible metropolitan area clearinghouse/agency and a statement that such comments have been considered; or"/>
+										<xs:enumeration value="An explanation as to why comments are not available; or"/>
+										<xs:enumeration value="A statement indicating the date the application was made available to the appropriate metropolitan area clearinghouse/agency and units of general local government for review and certifying that the application has been before the metropolitan area clearinghouse/agency for a period of 60 days without comments or recommendations."/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="District_Organization_administer_project" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Administration_beyond_capacity" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="No_organization_administer_costeffectively" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Administer_without_subcontracting" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Explain_lack_certifications" type="ED_900:AN0to240" minOccurs="0"/>
+							<xs:element name="Able_provide_information" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Why_not_provide_information" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Title_elements_necessary" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Why_no_title_elements_necessary" type="ED_900:AN0to240" minOccurs="0"/>
+							<xs:element name="Plan_obtain_title" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="How_when_obtain_title" type="ED_900:AN0to240" minOccurs="0"/>
+							<xs:element name="Why_no_plan_obtain_title" type="ED_900:AN0to240" minOccurs="0"/>
+							<xs:element name="Hold_longtermlease_interest_property" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Why_not_require_title" type="ED_900:AN0to400" minOccurs="0"/>
+							<xs:element name="Required_State_permits" type="ED_900:AN1to910" minOccurs="0"/>
+							<xs:element name="Liens_mortgages_encumbrances" type="ED_900:AN1to910" minOccurs="0"/>
+							<xs:element name="InstallationClosedScheduled" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Construction_railroad_rightofway" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Construction_railroad_rightofway-Yes" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Construction_highway_Statelocal_owned" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Construction_highway_Statelocal_owned_Yes" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Intend_convey_interest_project" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Intend_convey_interest_project_explanation_of" type="ED_900:AN0to320" minOccurs="0"/>
+							<xs:element name="Construct_facilities_sale_lease_private_parties" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Details_sale_lease_EDA_benefit" type="ED_900:AN0to485" minOccurs="0"/>
+							<xs:element name="Construction_serve_privatelyowned_sites_salelease" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Owners_acreage_EDAbenefit" type="ED_900:AN0to910" minOccurs="0"/>
+							<xs:element name="Sale_price_fair_market_value" type="globLib:YesNoNotApplicableDataType" minOccurs="0"/>
+							<xs:element name="Sale_price_fair_market_value_Yes" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Construct_renovate_purchase_building" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Construct_renovate_purchase_building_Yes" type="ED_900:AN0to485" minOccurs="0"/>
+							<xs:element name="Leased_inwhole_part" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Leased_inwhole_part_Yes" type="ED_900:AN0to320" minOccurs="0"/>
+							<xs:element name="Incubator_space" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Incubator_space_Yes" type="ED_900:AN0to910" minOccurs="0"/>
+							<xs:element name="Lease_term_limitations" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Lease_term_limitations_Yes" type="ED_900:AN0to240" minOccurs="0"/>
+							<xs:element name="Terms_proposed_lease" type="ED_900:AN1to400" minOccurs="0"/>
+							<xs:element name="Plans_facilities_land" type="ED_900:AN1to1825" minOccurs="0"/>
+							<xs:element name="Owned_operated_by_nonapplicant" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Owned_operated_by_nonapplicant_Yes" type="ED_900:AN0to320" minOccurs="0"/>
+							<xs:element name="Property_used_collateralize_financing" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Property_used_collateralize_financing_Yes" type="ED_900:AN0to320" minOccurs="0"/>
+							<xs:element name="Provide_security_interest" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Provide_security_interest_No" type="ED_900:AN0to320" minOccurs="0"/>
+							<xs:element name="Eminent_domain_proceedings" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Eminent_domain_proceedings_Yes" type="ED_900:AN0to320" minOccurs="0"/>
+							<xs:element name="Tangible_personal_property" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Tangible_personal_property_Yes" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Relocation_expenses_part_of_budget" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Displacement_individuals_families_businesses_farms" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Comply_Uniform_Relocation_Assistance" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Physical_description_site" type="ED_900:AN1to910" minOccurs="0"/>
+							<xs:element name="Adjacent_floodplain_wetland" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Adjacent_floodplain_wetland_explain" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Adjacent_hazardous_toxic_contamination" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Adjacent_hazardous_toxic_contamination_explain" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Hazardous_waste_asbestos_removal_project" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hazardous_waste_asbestos_removal_project_explain" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Impact_archeological_historic_sites" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Impact_archeological_historic_sites_explain" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Other_adverse_environmental_impacts" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Other_adverse_environmental_impacts_explain" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Environmental_impact_statement_analysis" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Environmental_impact_statement_Yes" type="ED_900:AN0to320" minOccurs="0"/>
+							<xs:element name="Environmental_impact_statement_No" type="ED_900:AN0to160" minOccurs="0"/>
+							<xs:element name="Able_provide_environmental_conditions_info" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Able_provide_environmental_conditions_info_No" type="ED_900:AN0to160" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SectionN" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Question_N" type="globLib:YesNoDataType"/>
+							<xs:element name="Components_design_engineering" type="ED_900:AN1to320" minOccurs="0"/>
+							<xs:element name="Reasons_design_engineering_separate_construction" type="ED_900:AN1to320" minOccurs="0"/>
+							<xs:element name="Funding_construction_completion_design_engineering" type="ED_900:AN1to320" minOccurs="0"/>
+							<xs:element name="Months_before_construction" type="ED_900:AN1to160" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ExhibitA" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ApplicantName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+							<xs:element name="ApplicantAddress" type="globLib:AddressDataType" minOccurs="0"/>
+							<xs:element name="ApplicantPhone" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ExhibitB" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AORSignature" type="globLib:SignatureDataType"/>
+							<xs:element name="Title_Authorized_Certfying_Official" type="globLib:HumanTitleDataType"/>
+							<xs:element name="Applicant_Organization" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="Date" type="xs:date"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ExhibitC" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AORSignature" type="globLib:SignatureDataType"/>
+							<xs:element name="Title_Authorized_Certfying_Official" type="globLib:HumanTitleDataType"/>
+							<xs:element name="Applicant_Organization" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="Date" type="xs:date"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ExhibitD" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AORSignature" type="globLib:SignatureDataType"/>
+							<xs:element name="Title_Authorized_Certfying_Official" type="globLib:HumanTitleDataType"/>
+							<xs:element name="Applicant_Organization" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="Date" type="xs:date"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ExhibitE" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Apply_Const_Assist" type="globLib:YesNoDataType"/>
+							<xs:element name="Recording_fees" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Penalty_costs" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Real_Property_taxes" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Litigation_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Total_costs_transfer_title" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Tenants_moving_actual_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Tenants_moving_inlieul_payments" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Tenants_moving_total_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Tenants_rental_payments" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Tenants_down_payment" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Tenants_replacement_housing_total" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Tenants_estimated_tenants_total" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_moving_actual_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_moving_inlieul_payments" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_moving_total_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_purchase_payments" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_replacement_costs" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_increased_interest" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_closing_costs" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_rental_payments" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_down_payment" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_replacement_housing_total" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Owner_estimated_total" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Business_moving_actual_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Business_moving_loss_personal_property" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Business_moving_searching_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Business_moving_inlieul_payments" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Business_estimated_total" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Nonprofits_moving_actual_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Nonprofits_moving_loss_personal_property" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Nonprofits_moving_searching_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Nonprofits_moving_inlieul_payments" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Nonprofits_estimated_total" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Farm_moving_actual_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Farm_moving_loss_personal_property" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Farm_moving_searching_expenses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Farm_moving_inlieul_payments" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Farm_estimated_total" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Total_expenses_grantee_sec205" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Admin_contracting_sec212" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Admin_agreement_sec212" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Admin_estimated_total" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Grand_total_relocation" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="AN0to80">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN0to100">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN0to160">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="160"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN0to240">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="240"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN0to320">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="320"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN0to400">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="400"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN0to485">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="485"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN0to910">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="910"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN0to3650">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="3650"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AN1to80">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN1to160">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="160"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN1to240">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="240"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN1to320">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="320"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN1to400">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="400"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN1to805">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="805"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN1to910">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="910"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN1to1825">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="1825"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN1to3650">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="3650"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN1to5500">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="5500"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AN1to11000">
+		<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="11000"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
