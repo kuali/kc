@@ -23,6 +23,7 @@
         <budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>
         <s2s.schema.dir.base>src/main/resources/org/kuali/kra/s2s/gg/schema</s2s.schema.dir.base>
         <printing.schema.dir.base>src/main/resources/org/kuali/kra/printing/schema</printing.schema.dir.base>
+        <coeus.schema.dir.base>src/main/resources/org/kuali/kra/s2s/coeus/schema</coeus.schema.dir.base>
         <xmlbeans.gen.src.base>${project.build.directory}/generated-sources/xmlbeans</xmlbeans.gen.src.base>
         <xmlbeans.gen.cls.base>${project.build.directory}/generated-classes/xmlbeans</xmlbeans.gen.cls.base>
         <xmlbeans.gen.mrk.base>${project.build.directory}/xmlbeans-markers/xmlbeans</xmlbeans.gen.mrk.base>
@@ -186,6 +187,23 @@
                                 <mdefNamespace>http://apply.grants.gov/system/GlobalLibrary-V2.0</mdefNamespace>
                                 <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V1.0</mdefNamespace>
                                 <mdefNamespace>http://apply.grants.gov/system/UniversalCodes-V2.0</mdefNamespace>
+                            </mdefNamespaces>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>coeus</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>xmlbeans</goal>
+                        </goals>
+                        <configuration>
+                            <schemaDirectory>${coeus.schema.dir.base}</schemaDirectory>
+                            <sourceGenerationDirectory>${xmlbeans.gen.src.base}-coeus</sourceGenerationDirectory>
+                            <classGenerationDirectory>${xmlbeans.gen.cls.base}-coeus</classGenerationDirectory>
+                            <staleFile>${xmlbeans.gen.mrk.base}-coeus</staleFile>
+                            <catalogLocation>${coeus.schema.dir.base}/catalog.xml</catalogLocation>
+                            <mdefNamespaces>
+                                <mdefNamespace>http://apply.grants.gov/system/Global-V1.0</mdefNamespace>
                             </mdefNamespaces>
                         </configuration>
                     </execution>
@@ -635,11 +653,6 @@
                     <groupId>asm</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.kra.s2s</groupId>
-            <artifactId>kc-s2s-generated</artifactId>
         </dependency>
 
         <dependency>
