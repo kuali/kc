@@ -65,23 +65,7 @@
         <jsp-api.version>2.1</jsp-api.version>
         <jstl.version>1.2</jstl.version>
         <junit.version>4.11</junit.version>
-        <keycontacts-1.0-gg.version>1.0</keycontacts-1.0-gg.version>
         <kuali-cm.version>1.2.8</kuali-cm.version>
-        <phs398researchplan-2.0-gg.version>1.1</phs398researchplan-2.0-gg.version>
-        <phs398coverpagesupplement-2.0-gg.version>1.0</phs398coverpagesupplement-2.0-gg.version>
-        <rrkeypersonexpanded-2.0-gg.version>1.1</rrkeypersonexpanded-2.0-gg.version>
-        <performancesite-2.0-gg.version>1.0</performancesite-2.0-gg.version>
-        <rrbudget-1.3-gg.version>1.1</rrbudget-1.3-gg.version>
-        <phs398trainingsubawardbudget-2.0-gg.version>1.0</phs398trainingsubawardbudget-2.0-gg.version>
-        <rrsubawardbudget-1.3-gg.version>1.1</rrsubawardbudget-1.3-gg.version>
-        <rrotherproject-1.3-gg.version>1.1</rrotherproject-1.3-gg.version>
-        <phs398careerdevelopmentawardsup-2.0-gg.version>1.1</phs398careerdevelopmentawardsup-2.0-gg.version>
-        <phs398researchtrainingprogramplan-2.0-gg.version>1.0</phs398researchtrainingprogramplan-2.0-gg.version>
-        <phsfellowshipsupplemental-2.0-gg.version>1.2</phsfellowshipsupplemental-2.0-gg.version>
-        <rrsubawardbudget10-1.3-gg.version>1.0</rrsubawardbudget10-1.3-gg.version>
-        <rrsubawardbudget1_3-1.3-gg.version>1.0</rrsubawardbudget1_3-1.3-gg.version>
-        <rrsubawardbudget10_30-1.3-gg.version>1.0</rrsubawardbudget10_30-1.3-gg.version>
-        <rrbudget10-1.3-gg.version>1.0</rrbudget10-1.3-gg.version>
         <log4j.version>1.2.16</log4j.version>
         <mail.version>1.4.4</mail.version>
         <mysql.groupId>mysql</mysql.groupId>
@@ -93,10 +77,8 @@
         <oracle.version>10.2.0.3.0</oracle.version>
         <org.eclipse.birt.runtime.version>3.7.1</org.eclipse.birt.runtime.version>
         <pdfbox.version>1.7.1</pdfbox.version>
-        <phs398modularbudget-1.2-gg.version>1.0.5</phs398modularbudget-1.2-gg.version>
         <rice.version>2.4.0-M3</rice.version>
         <servlet.version>2.5</servlet.version>
-        <sf424-2.1-gg.version>1.0</sf424-2.1-gg.version>
         <slf4j.version>1.6.4</slf4j.version>
         <spring.version>3.2.3.RELEASE</spring.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
@@ -1108,114 +1090,6 @@
                         <groupId>asm</groupId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>keycontacts-1.0-gg</artifactId>
-                <version>${keycontacts-1.0-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>phs398modularbudget-1.2-gg</artifactId>
-                <version>${phs398modularbudget-1.2-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>phs398researchplan-2.0-gg</artifactId>
-                <version>${phs398researchplan-2.0-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>phs398coverpagesupplement-2.0-gg</artifactId>
-                <version>${phs398coverpagesupplement-2.0-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>rrkeypersonexpanded-2.0-gg</artifactId>
-                <version>${rrkeypersonexpanded-2.0-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>performancesite-2.0-gg</artifactId>
-                <version>${performancesite-2.0-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>rrbudget-1.3-gg</artifactId>
-                <version>${rrbudget-1.3-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>phs398trainingsubawardbudget-2.0-gg</artifactId>
-                <version>${phs398trainingsubawardbudget-2.0-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>rrsubawardbudget-1.3-gg</artifactId>
-                <version>${rrsubawardbudget-1.3-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>rrotherproject-1.3-gg</artifactId>
-                <version>${rrotherproject-1.3-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>phs398careerdevelopmentawardsup-2.0-gg</artifactId>
-                <version>${phs398careerdevelopmentawardsup-2.0-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>phs398researchtrainingprogramplan-2.0-gg</artifactId>
-                <version>${phs398researchtrainingprogramplan-2.0-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>phsfellowshipsupplemental-2.0-gg</artifactId>
-                <version>${phsfellowshipsupplemental-2.0-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>rrbudget10-1.3-gg</artifactId>
-                <version>${rrbudget10-1.3-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>rrsubawardbudget10-1.3-gg</artifactId>
-                <version>${rrsubawardbudget10-1.3-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>rrsubawardbudget1_3-1.3-gg</artifactId>
-                <version>${rrsubawardbudget1_3-1.3-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>rrsubawardbudget10_30-1.3-gg</artifactId>
-                <version>${rrsubawardbudget10_30-1.3-gg.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>sf424-2.1-gg</artifactId>
-                <version>${sf424-2.1-gg.version}</version>
             </dependency>
 
             <dependency>
