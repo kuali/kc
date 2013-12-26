@@ -65,7 +65,6 @@
         <jsp-api.version>2.1</jsp-api.version>
         <jstl.version>1.2</jstl.version>
         <junit.version>4.11</junit.version>
-        <kc-s2s-generated.version>1.0</kc-s2s-generated.version>
         <keycontacts-1.0-gg.version>1.0</keycontacts-1.0-gg.version>
         <kuali-cm.version>1.2.8</kuali-cm.version>
         <phs398researchplan-2.0-gg.version>1.1</phs398researchplan-2.0-gg.version>
@@ -525,6 +524,13 @@
                         <verbose>false</verbose>
                         <quiet>true</quiet>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.xmlbeans</groupId>
+                            <artifactId>xmlbeans</artifactId>
+                            <version>${xmlbeans.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
 
                 <plugin>
@@ -1102,12 +1108,6 @@
                         <groupId>asm</groupId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>kc-s2s-generated</artifactId>
-                <version>${kc-s2s-generated.version}</version>
             </dependency>
 
             <dependency>
