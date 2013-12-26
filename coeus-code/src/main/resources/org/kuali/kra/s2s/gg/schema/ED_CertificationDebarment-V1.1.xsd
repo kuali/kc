@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Eric Copen (Northrop Grumman IT) -->
+<!--************************************************************************************************-->
+<!-- TITLE:    Education Department, Certification Rearding Debarment, Suspension,  -->
+<!--               Ineligibility and Voluntary Exclsion -Lower Tier Covered Transactions   -->
+<!--               Form ED 80-0014                                                                                     -->
+<!-- DATE:     October 21, 2003                                                                                    -->
+<!-- VERSION:  1.0                                                                                                        -->
+<!--                                                                                                                                -->
+<!--                                                                                                                                -->
+<!-- REVISION HISTORY:                                                                                              -->
+<!--                                                                                                                                -->
+<!--************************************************************************************************-->
+<xs:schema xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:ED_CertificationDebarment="http://apply.grants.gov/forms/ED_CertificationDebarment-V1.1" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/ED_CertificationDebarment-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.1">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:element name="CertificationDebarment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+				<xs:element name="AuthorizedRepresentativeName" type="globLib:HumanNameDataType"/>
+				<xs:element name="AuthorizedRepresentativeTitle" type="globLib:HumanTitleDataType"/>
+				<xs:element name="Attachment" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="AuthorizedRepresentativeSignature" type="globLib:SignatureDataType"/>
+				<xs:element name="SubmittedDate" type="xs:date" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

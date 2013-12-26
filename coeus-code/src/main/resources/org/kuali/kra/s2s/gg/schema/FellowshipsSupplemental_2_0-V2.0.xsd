@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:FellowshipsSupplemental_2_0="http://apply.grants.gov/forms/FellowshipsSupplemental_2_0-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/FellowshipsSupplemental_2_0-V2.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="2.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="FellowshipsSupplemental_2_0">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FieldOfProject" type="FellowshipsSupplemental_2_0:FellowshipsSupplemental_2_0_Field_DataType"/>
+				<xs:element name="FieldOfProject2" type="FellowshipsSupplemental_2_0:FellowshipsSupplemental_2_0_Field_DataType" minOccurs="0"/>
+				<xs:element name="FieldOfProject3" type="FellowshipsSupplemental_2_0:FellowshipsSupplemental_2_0_Field_DataType" minOccurs="0"/>
+				<xs:element name="ProjectDirectorFOS" type="FellowshipsSupplemental_2_0:FellowshipsSupplemental_2_0_DirectorField_DataType"/>
+				<xs:element name="DefaultMailingAddress">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="work"/>
+							<xs:enumeration value="home"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>			
+				<xs:element name="InstitutionalAffiliation">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IsAffiliated" type="globLib:YesNoDataType"/>
+							<xs:element name="AffiliatedInstitution" type="FellowshipsSupplemental_2_0:FellowshipsSupplemental_2_0_AffiliatedInstitution_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>							
+				<xs:element name="ScholarlyStatus">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Senior Scholar"/>
+							<xs:enumeration value="Junior Scholar"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Reference1" type="FellowshipsSupplemental_2_0:FellowshipsSupplemental_2_0_Reference_DataType" minOccurs="0"/>
+				<xs:element name="Reference2" type="FellowshipsSupplemental_2_0:FellowshipsSupplemental_2_0_Reference_DataType" minOccurs="0"/>
+				<xs:element name="NominatingOfficial" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IsNomExempt" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Official" type="FellowshipsSupplemental_2_0:FellowshipsSupplemental_2_0_Official_DataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>	
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="2.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="FellowshipsSupplemental_2_0_Field_DataType">
+		<xs:restriction base="xs:string">			
+			<xs:enumeration value="117"/>
+			<xs:enumeration value="110"/>
+			<xs:enumeration value="111"/>
+			<xs:enumeration value="112"/>
+			<xs:enumeration value="113"/>
+			<xs:enumeration value="114"/>
+			<xs:enumeration value="2868"/>
+			<xs:enumeration value="142"/>
+			<xs:enumeration value="2869"/>
+			<xs:enumeration value="123"/>
+			<xs:enumeration value="124"/>
+			<xs:enumeration value="126"/>
+			<xs:enumeration value="1245"/>
+			<xs:enumeration value="1246"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="1247"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="2833"/>
+			<xs:enumeration value="2834"/>
+			<xs:enumeration value="2835"/>
+			<xs:enumeration value="2836"/>
+			<xs:enumeration value="2837"/>
+			<xs:enumeration value="2838"/>
+			<xs:enumeration value="2839"/>
+			<xs:enumeration value="2840"/>
+			<xs:enumeration value="2841"/>
+			<xs:enumeration value="2842"/>
+			<xs:enumeration value="2843"/>
+			<xs:enumeration value="2844"/>
+			<xs:enumeration value="2845"/>
+			<xs:enumeration value="2846"/>
+			<xs:enumeration value="2847"/>
+			<xs:enumeration value="2848"/>
+			<xs:enumeration value="2849"/>
+			<xs:enumeration value="140"/>
+			<xs:enumeration value="74"/>
+			<xs:enumeration value="75"/>
+			<xs:enumeration value="76"/>
+			<xs:enumeration value="2859"/>
+			<xs:enumeration value="2860"/>
+			<xs:enumeration value="77"/>
+			<xs:enumeration value="79"/>
+			<xs:enumeration value="80"/>
+			<xs:enumeration value="81"/>
+			<xs:enumeration value="82"/>
+			<xs:enumeration value="83"/>
+			<xs:enumeration value="84"/>
+			<xs:enumeration value="85"/>
+			<xs:enumeration value="86"/>
+			<xs:enumeration value="87"/>
+			<xs:enumeration value="88"/>
+			<xs:enumeration value="89"/>
+			<xs:enumeration value="90"/>
+			<xs:enumeration value="129"/>
+			<xs:enumeration value="125"/>
+			<xs:enumeration value="101"/>
+			<xs:enumeration value="102"/>
+			<xs:enumeration value="103"/>
+			<xs:enumeration value="104"/>
+			<xs:enumeration value="105"/>
+			<xs:enumeration value="106"/>
+			<xs:enumeration value="2861"/>
+			<xs:enumeration value="27"/>
+			<xs:enumeration value="28"/>
+			<xs:enumeration value="29"/>
+			<xs:enumeration value="30"/>
+			<xs:enumeration value="31"/>
+			<xs:enumeration value="32"/>
+			<xs:enumeration value="33"/>
+			<xs:enumeration value="34"/>
+			<xs:enumeration value="35"/>
+			<xs:enumeration value="36"/>
+			<xs:enumeration value="37"/>
+			<xs:enumeration value="38"/>
+			<xs:enumeration value="39"/>
+			<xs:enumeration value="40"/>
+			<xs:enumeration value="2851"/>
+			<xs:enumeration value="99"/>
+			<xs:enumeration value="2852"/>
+			<xs:enumeration value="2853"/>
+			<xs:enumeration value="127"/>
+			<xs:enumeration value="2870"/>
+			<xs:enumeration value="42"/>
+			<xs:enumeration value="43"/>
+			<xs:enumeration value="44"/>
+			<xs:enumeration value="45"/>
+			<xs:enumeration value="46"/>
+			<xs:enumeration value="47"/>
+			<xs:enumeration value="48"/>
+			<xs:enumeration value="49"/>
+			<xs:enumeration value="50"/>
+			<xs:enumeration value="52"/>
+			<xs:enumeration value="53"/>
+			<xs:enumeration value="54"/>
+			<xs:enumeration value="55"/>
+			<xs:enumeration value="56"/>
+			<xs:enumeration value="57"/>
+			<xs:enumeration value="59"/>
+			<xs:enumeration value="61"/>
+			<xs:enumeration value="2854"/>
+			<xs:enumeration value="2855"/>
+			<xs:enumeration value="60"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="1248"/>
+			<xs:enumeration value="1249"/>
+			<xs:enumeration value="19"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="21"/>
+			<xs:enumeration value="22"/>
+			<xs:enumeration value="23"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="25"/>
+			<xs:enumeration value="65"/>
+			<xs:enumeration value="2850"/>
+			<xs:enumeration value="69"/>
+			<xs:enumeration value="70"/>
+			<xs:enumeration value="71"/>
+			<xs:enumeration value="2856"/>
+			<xs:enumeration value="2857"/>
+			<xs:enumeration value="2858"/>
+			<xs:enumeration value="63"/>
+			<xs:enumeration value="64"/>
+			<xs:enumeration value="66"/>
+			<xs:enumeration value="67"/>
+			<xs:enumeration value="2882"/>
+			<xs:enumeration value="141"/>
+			<xs:enumeration value="108"/>
+			<xs:enumeration value="2862"/>
+			<xs:enumeration value="2863"/>
+			<xs:enumeration value="2864"/>
+			<xs:enumeration value="2865"/>
+			<xs:enumeration value="119"/>
+			<xs:enumeration value="130"/>
+			<xs:enumeration value="144"/>
+			<xs:enumeration value="145"/>
+			<xs:enumeration value="146"/>
+			<xs:enumeration value="2866"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FellowshipsSupplemental_2_0_DirectorField_DataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="117"/>
+			<xs:enumeration value="110"/>
+			<xs:enumeration value="111"/>
+			<xs:enumeration value="112"/>
+			<xs:enumeration value="113"/>
+			<xs:enumeration value="114"/>
+			<xs:enumeration value="2868"/>
+			<xs:enumeration value="142"/>
+			<xs:enumeration value="2869"/>
+			<xs:enumeration value="123"/>
+			<xs:enumeration value="124"/>
+			<xs:enumeration value="126"/>
+			<xs:enumeration value="1245"/>
+			<xs:enumeration value="1246"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="1247"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="2833"/>
+			<xs:enumeration value="2834"/>
+			<xs:enumeration value="2835"/>
+			<xs:enumeration value="2836"/>
+			<xs:enumeration value="2837"/>
+			<xs:enumeration value="2838"/>
+			<xs:enumeration value="2839"/>
+			<xs:enumeration value="2840"/>
+			<xs:enumeration value="2841"/>
+			<xs:enumeration value="2842"/>
+			<xs:enumeration value="2843"/>
+			<xs:enumeration value="2844"/>
+			<xs:enumeration value="2845"/>
+			<xs:enumeration value="2846"/>
+			<xs:enumeration value="2847"/>
+			<xs:enumeration value="2848"/>
+			<xs:enumeration value="2849"/>
+			<xs:enumeration value="140"/>
+			<xs:enumeration value="74"/>
+			<xs:enumeration value="75"/>
+			<xs:enumeration value="76"/>
+			<xs:enumeration value="2859"/>
+			<xs:enumeration value="2860"/>
+			<xs:enumeration value="77"/>
+			<xs:enumeration value="79"/>
+			<xs:enumeration value="80"/>
+			<xs:enumeration value="81"/>
+			<xs:enumeration value="82"/>
+			<xs:enumeration value="83"/>
+			<xs:enumeration value="84"/>
+			<xs:enumeration value="85"/>
+			<xs:enumeration value="86"/>
+			<xs:enumeration value="87"/>
+			<xs:enumeration value="88"/>
+			<xs:enumeration value="89"/>
+			<xs:enumeration value="90"/>
+			<xs:enumeration value="129"/>
+			<xs:enumeration value="125"/>
+			<xs:enumeration value="101"/>
+			<xs:enumeration value="102"/>
+			<xs:enumeration value="103"/>
+			<xs:enumeration value="104"/>
+			<xs:enumeration value="105"/>
+			<xs:enumeration value="106"/>
+			<xs:enumeration value="2861"/>
+			<xs:enumeration value="27"/>
+			<xs:enumeration value="28"/>
+			<xs:enumeration value="29"/>
+			<xs:enumeration value="30"/>
+			<xs:enumeration value="31"/>
+			<xs:enumeration value="32"/>
+			<xs:enumeration value="33"/>
+			<xs:enumeration value="34"/>
+			<xs:enumeration value="35"/>
+			<xs:enumeration value="36"/>
+			<xs:enumeration value="37"/>
+			<xs:enumeration value="38"/>
+			<xs:enumeration value="39"/>
+			<xs:enumeration value="40"/>
+			<xs:enumeration value="2851"/>
+			<xs:enumeration value="99"/>
+			<xs:enumeration value="2852"/>
+			<xs:enumeration value="2853"/>
+			<xs:enumeration value="127"/>
+			<xs:enumeration value="2870"/>
+			<xs:enumeration value="42"/>
+			<xs:enumeration value="43"/>
+			<xs:enumeration value="44"/>
+			<xs:enumeration value="45"/>
+			<xs:enumeration value="46"/>
+			<xs:enumeration value="47"/>
+			<xs:enumeration value="48"/>
+			<xs:enumeration value="49"/>
+			<xs:enumeration value="50"/>
+			<xs:enumeration value="52"/>
+			<xs:enumeration value="53"/>
+			<xs:enumeration value="54"/>
+			<xs:enumeration value="55"/>
+			<xs:enumeration value="56"/>
+			<xs:enumeration value="57"/>
+			<xs:enumeration value="59"/>
+			<xs:enumeration value="61"/>
+			<xs:enumeration value="2854"/>
+			<xs:enumeration value="2855"/>
+			<xs:enumeration value="60"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="1248"/>
+			<xs:enumeration value="1249"/>
+			<xs:enumeration value="19"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="21"/>
+			<xs:enumeration value="22"/>
+			<xs:enumeration value="23"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="25"/>
+			<xs:enumeration value="65"/>
+			<xs:enumeration value="2850"/>
+			<xs:enumeration value="69"/>
+			<xs:enumeration value="70"/>
+			<xs:enumeration value="71"/>
+			<xs:enumeration value="2856"/>
+			<xs:enumeration value="2857"/>
+			<xs:enumeration value="2858"/>
+			<xs:enumeration value="63"/>
+			<xs:enumeration value="64"/>
+			<xs:enumeration value="66"/>
+			<xs:enumeration value="67"/>
+			<xs:enumeration value="2882"/>
+			<xs:enumeration value="141"/>
+			<xs:enumeration value="108"/>
+			<xs:enumeration value="2862"/>
+			<xs:enumeration value="2863"/>
+			<xs:enumeration value="2864"/>
+			<xs:enumeration value="2865"/>
+			<xs:enumeration value="119"/>
+			<xs:enumeration value="130"/>
+			<xs:enumeration value="144"/>
+			<xs:enumeration value="145"/>
+			<xs:enumeration value="146"/>
+			<xs:enumeration value="2866"/>
+			<xs:enumeration value="96"/>
+			<xs:enumeration value="120"/>
+			<xs:enumeration value="2832"/>
+			<xs:enumeration value="2871"/>
+			<xs:enumeration value="2872"/>
+			<xs:enumeration value="2873"/>
+			<xs:enumeration value="92"/>
+			<xs:enumeration value="2874"/>
+			<xs:enumeration value="2875"/>
+			<xs:enumeration value="2876"/>
+			<xs:enumeration value="2877"/>
+			<xs:enumeration value="94"/>
+			<xs:enumeration value="2878"/>
+			<xs:enumeration value="97"/>
+			<xs:enumeration value="132"/>
+			<xs:enumeration value="72"/>
+			<xs:enumeration value="2880"/>
+			<xs:enumeration value="2881"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="FellowshipsSupplemental_2_0_AffiliatedInstitution_DataType">
+		<xs:sequence>
+			<xs:element name="InstitutionName" type="globLib:OrganizationNameDataType"/>
+			<xs:element name="Street1" type="globLib:StreetDataType" minOccurs="0"/>
+			<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+			<xs:element name="City" type="globLib:CityDataType"/>
+			<xs:element name="County" type="globLib:CountyDataType" minOccurs="0"/>
+			<xs:element name="State" type="codes:StateCodeDataType" minOccurs="0"/>
+			<xs:element name="Province" type="globLib:ProvinceDataType" minOccurs="0"/>
+			<xs:element name="Country" type="codes:CountryCodeDataType"/>
+			<xs:element name="ZipCode" type="globLib:ZipPostalCodeDataType" minOccurs="0"/>
+			<xs:element name="DUNSNumber" type="globLib:DUNSIDDataType"/>
+			<xs:element name="EmployerTaxpayerIdentificationNumber" type="globLib:EmployerIDDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>	
+	<xs:complexType name="FellowshipsSupplemental_2_0_Reference_DataType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="globLib:FirstNameDataType" minOccurs="0"/>
+			<xs:element name="LastName" type="globLib:LastNameDataType" minOccurs="0"/>
+			<xs:element name="Email" type="globLib:EmailDataType" minOccurs="0"/>
+			<xs:element name="Title" type="globLib:HumanTitleDataType" minOccurs="0"/>
+			<xs:element name="Department" type="globLib:DepartmentNameDataType" minOccurs="0"/>
+			<xs:element name="Institution" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FellowshipsSupplemental_2_0_Official_DataType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="globLib:FirstNameDataType" minOccurs="0"/>
+			<xs:element name="LastName" type="globLib:LastNameDataType" minOccurs="0"/>
+			<xs:element name="Email" type="globLib:EmailDataType" minOccurs="0"/>
+			<xs:element name="Title" type="globLib:HumanTitleDataType" minOccurs="0"/>
+			<xs:element name="Institution" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

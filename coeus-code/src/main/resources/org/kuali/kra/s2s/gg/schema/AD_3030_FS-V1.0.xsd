@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:AD_3030_FS="http://apply.grants.gov/forms/AD_3030_FS-V1.0" targetNamespace="http://apply.grants.gov/forms/AD_3030_FS-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="AD_3030_FS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ApplicantName" type="globLib:HumanNameDataType"/>
+				<xs:element name="ApplicantAddress">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Street1" type="globLib:StreetDataType"/>
+							<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+							<xs:element name="City" type="globLib:CityDataType"/>
+							<xs:element name="State" type="codes:StateCodeDataType"/>
+							<xs:element name="ZipCode" type="AD_3030_FS:AD_3030_FS_String_10DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TaxIDNumber" type="AD_3030_FS:AD_3030_FS_String_4DataType"/>
+				<xs:element name="ApplicantFelony" type="globLib:YesNoDataType"/>
+				<xs:element name="OfficerAgentFelony" type="globLib:YesNoDataType"/>
+				<xs:element name="UnpaidFederalTax" type="globLib:YesNoDataType"/>
+				<xs:element name="AORSignature" type="globLib:SignatureDataType"/>
+				<xs:element name="Title" type="globLib:HumanTitleDataType"/>
+				<xs:element name="DateSigned" type="xs:date"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element> 
+	<xs:simpleType name="AD_3030_FS_String_4DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="4"/>
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AD_3030_FS_String_10DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="10"/>
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

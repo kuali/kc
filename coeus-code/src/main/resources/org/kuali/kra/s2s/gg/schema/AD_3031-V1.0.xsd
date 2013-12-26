@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:AD_3031="http://apply.grants.gov/forms/AD_3031-V1.0" targetNamespace="http://apply.grants.gov/forms/AD_3031-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="AD_3031">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AORSignature" type="globLib:SignatureDataType"/>
+				<xs:element name="Title" type="globLib:HumanTitleDataType"/>
+				<xs:element name="BusinessName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="DateSigned" type="xs:date"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element> 
+</xs:schema>

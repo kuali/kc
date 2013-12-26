@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:Form_13424="http://apply.grants.gov/forms/Form_13424-V1.0" targetNamespace="http://apply.grants.gov/forms/Form_13424-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="Form_13424">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="GrantPeriod">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Single year request"/>
+							<xs:enumeration value="Multi-year request"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Year" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="1st of 3 years"/>
+							<xs:enumeration value="2nd of 3 years"/>
+							<xs:enumeration value="3rd of 3 years"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="GrantAmountRequested">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Controversy" type="Form_13424:Form_13424_0to100000DataType"/>
+							<xs:element name="ESL" type="Form_13424:Form_13424_0to100000DataType"/>
+							<xs:element name="Total" type="Form_13424:Form_13424_0to100000DataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ApplicantInformation">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SponsoringOrganization" type="Form_13424:Form_13424_String1_60DataType"/>
+							<xs:element name="Name" type="globLib:HumanNameDataType"/>
+							<xs:element name="Title" type="globLib:HumanTitleDataType"/>
+							<xs:element name="Phone" type="Form_13424:Form_13424_US-PhoneDataType"/>
+							<xs:element name="Fax" type="Form_13424:Form_13424_US-PhoneDataType" minOccurs="0"/>
+							<xs:element name="Email" type="globLib:EmailDataType"/>
+							<xs:element name="ApplicantMailingAddress">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Street1" type="globLib:StreetDataType"/>
+										<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+										<xs:element name="City" type="globLib:CityDataType"/>
+										<xs:element name="State" type="codes:StateCodeDataType"/>
+										<xs:element name="ZipCode" type="Form_13424:Form_13424_US-ZipcodeDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ClinicInformation">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ClinicName" type="Form_13424:Form_13424_String1_60DataType"/>
+							<xs:element name="PhoneNumber" type="Form_13424:Form_13424_US-PhoneDataType"/>
+							<xs:element name="TollFreePhone" type="Form_13424:Form_13424_US-PhoneDataType" minOccurs="0"/>
+							<xs:element name="WebsiteAddress" type="Form_13424:Form_13424_String1_60DataType" minOccurs="0"/>
+							<xs:element name="FaxNumber" type="Form_13424:Form_13424_US-PhoneDataType"/>
+							<xs:element name="Languages" type="Form_13424:Form_13424_String1_200DataType" minOccurs="0"/>
+							<xs:element name="StreetAddress">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Street" type="globLib:StreetDataType"/>
+										<xs:element name="City" type="globLib:CityDataType"/>
+										<xs:element name="State" type="codes:StateCodeDataType"/>
+										<xs:element name="ZipCode" type="Form_13424:Form_13424_US-ZipcodeDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MailingAddress">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Street" type="globLib:StreetDataType"/>
+										<xs:element name="City" type="globLib:CityDataType"/>
+										<xs:element name="State" type="codes:StateCodeDataType"/>
+										<xs:element name="ZipCode" type="Form_13424:Form_13424_US-ZipcodeDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DirectorInformation">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Name" type="globLib:HumanNameDataType"/>
+							<xs:element name="PhoneNumber" type="Form_13424:Form_13424_US-PhoneDataType"/>
+							<xs:element name="Email" type="globLib:EmailDataType"/>
+							<xs:element name="LicensesCertifications">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Attorney" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="CPA" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="EnrolledAgent" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="Other" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="OtherLicenses" type="Form_13424:Form_13424_String1_25DataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="QTE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Name" type="globLib:HumanNameDataType"/>
+							<xs:element name="PhoneNumber" type="Form_13424:Form_13424_US-PhoneDataType"/>
+							<xs:element name="Email" type="globLib:EmailDataType"/>
+							<xs:element name="LicensesCertifications">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Attorney" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="CPA" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="EnrolledAgent" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="Other" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="OtherLicenses" type="Form_13424:Form_13424_String1_25DataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="QBA">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Name" type="globLib:HumanNameDataType"/>
+							<xs:element name="PhoneNumber" type="Form_13424:Form_13424_US-PhoneDataType"/>
+							<xs:element name="Email" type="globLib:EmailDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+		</xs:element>
+		<xs:simpleType name="Form_13424_US-PhoneDataType">
+			<xs:restriction base="xs:string">
+					<xs:pattern value="[0-9]{3}-[0-9]{3}-[0-9]{4}"/>
+			</xs:restriction>
+		</xs:simpleType>
+		<xs:simpleType name="Form_13424_US-ZipcodeDataType">
+			<xs:restriction base="xs:string">
+					<xs:pattern value="[0-9]{5}-[0-9]{4}"/>
+			</xs:restriction>
+		</xs:simpleType>
+	<xs:simpleType name="Form_13424_0to100000DataType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.00"/>
+			<xs:maxInclusive value="100000.00"/>
+			<xs:totalDigits value="8"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Form_13424_String1_25DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Form_13424_String1_200DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Form_13424_String1_60DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

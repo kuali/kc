@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:Form_13424J="http://apply.grants.gov/forms/Form_13424J-V1.0" targetNamespace="http://apply.grants.gov/forms/Form_13424J-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="Form_13424J">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="LowIncomeTaxpayerClinic" type="Form_13424J:Form_13424J_String1_60DataType"/>
+				<xs:element name="GrantPeriodFrom" type="xs:date"/>
+				<xs:element name="GrantPeriodTo" type="xs:date"/>
+				<xs:element name="ControversyProgram" type="Form_13424J:Form_13424J_ProgramDataType"/>
+				<xs:element name="ESLProgram" type="Form_13424J:Form_13424J_ProgramDataType"/>
+				<xs:element name="Totals" type="Form_13424J:Form_13424J_ProgramDataType"/>
+				<xs:element name="DetailedExplanations">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Personnel" type="Form_13424J:Form_13424J_String1_600DataType"/>
+							<xs:element name="FringeBenefits" type="Form_13424J:Form_13424J_String1_600DataType"/>
+							<xs:element name="Travel" type="Form_13424J:Form_13424J_String1_600DataType"/>
+							<xs:element name="Equipment" type="Form_13424J:Form_13424J_String1_600DataType"/>
+							<xs:element name="Supplies" type="Form_13424J:Form_13424J_String1_600DataType"/>
+							<xs:element name="Contractual" type="Form_13424J:Form_13424J_String1_600DataType"/>
+							<xs:element name="Construction" type="Form_13424J:Form_13424J_String1_600DataType" minOccurs="0"/>
+							<xs:element name="OtherExpenses" type="Form_13424J:Form_13424J_String1_600DataType"/>
+							<xs:element name="IndirectCosts" type="Form_13424J:Form_13424J_String1_600DataType"/>
+							<xs:element name="MatchingFunds" type="Form_13424J:Form_13424J_String1_600DataType" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Form_13424J_ProgramDataType">
+		<xs:sequence>
+			<xs:element name="Federal" type="Form_13424J:Form_13424J_FederalTotalDataType"/>
+			<xs:element name="Match" type="Form_13424J:Form_13424J_MatchDataType"/>
+			<xs:element name="Total" type="Form_13424J:Form_13424J_FederalTotalDataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Form_13424J_FederalTotalDataType">
+		<xs:sequence>
+			<xs:element name="Personnel" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="FringeBenefits" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Travel" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Equipment" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Supplies" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Contractual" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Construction" type="Form_13424J:Form_13424J_0_to_999999999999_DataType" minOccurs="0"/>
+			<xs:element name="OtherExpenses" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="TotalDirectCharges" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="IndirectCharges" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Totals" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Form_13424J_MatchDataType">
+		<xs:sequence>
+			<xs:element name="Personnel" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="FringeBenefits" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Travel" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Equipment" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Supplies" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Contractual" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="Construction" type="Form_13424J:Form_13424J_0_to_999999999999_DataType" minOccurs="0"/>
+			<xs:element name="OtherExpenses" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="TotalDirectCharges" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+			<xs:element name="IndirectCharges" type="Form_13424J:Form_13424J_0_to_999999999999_DataType" minOccurs="0"/>
+			<xs:element name="Totals" type="Form_13424J:Form_13424J_0_to_999999999999_DataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Form_13424J_0_to_999999999999_DataType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999999999999"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="Form_13424J_String1_60DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Form_13424J_String1_600DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="600"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

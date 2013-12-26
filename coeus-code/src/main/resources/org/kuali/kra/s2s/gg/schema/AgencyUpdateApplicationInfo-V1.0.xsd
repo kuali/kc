@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	targetNamespace="http://apply.grants.gov/system/AgencyUpdateApplicationInfo-V1.0"
+	
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:GrantsCommonTypes="http://apply.grants.gov/system/GrantsCommonTypes-V1.0"
+	
+	elementFormDefault="qualified" 
+	attributeFormDefault="qualified" 
+	version="1.0">
+
+	<!-- 
+	<xs:import namespace="http://apply.grants.gov/system/GrantsCommonTypes-V1.0" schemaLocation="file:/Dev/grants_schemas/Source/schema/commons/GrantsCommonTypes-V1.0.xsd"  /> 
+	-->	
+	<xs:import namespace="http://apply.grants.gov/system/GrantsCommonTypes-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GrantsCommonTypes-V1.0.xsd" /> 
+
+			<xs:element name="AssignAgencyTrackingNumberResult">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Success" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+						<xs:element name="ErrorMessage" type="xs:string" minOccurs="0" maxOccurs="1" />
+					</xs:sequence>
+				</xs:complexType>
+         	</xs:element>
+         	
+			<xs:element name="SaveAgencyNotesResult">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Success" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+						<xs:element name="ErrorMessage" type="xs:string" minOccurs="0" maxOccurs="1" />
+					</xs:sequence>
+				</xs:complexType>
+         	</xs:element>
+		
+			<xs:element name="AssignAgencyTrackingNumber" type="GrantsCommonTypes:AgencyTrackingNumberType" />
+			
+			<xs:element name="SaveAgencyNotes" type="GrantsCommonTypes:AgencyNotesType" />
+			
+</xs:schema>

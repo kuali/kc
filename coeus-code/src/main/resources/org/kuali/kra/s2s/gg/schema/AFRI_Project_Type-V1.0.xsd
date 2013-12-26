@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:AFRI_Project_Type="http://apply.grants.gov/forms/AFRI_Project_Type-V1.0" targetNamespace="http://apply.grants.gov/forms/AFRI_Project_Type-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="AFRI_Project_Type">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProjectType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Research"/>
+							<xs:enumeration value="Education"/>
+							<xs:enumeration value="Extension"/>
+							<xs:enumeration value="Integrated"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="GrantType_Group">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="GrantType">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="Standard Grant"/>
+										<xs:enumeration value="Coordinated Agricultural Project (CAP) Grant"/>
+										<xs:enumeration value="Conference Grant"/>
+										<xs:enumeration value="Other"/>
+										<xs:enumeration value="Food and Agriculture Science Enhancement (FASE) Grant"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="OtherDescription" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="60"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="FASE_Group" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="NewInvestigator" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="PostdoctoralFellowship" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="PredoctoralFellowship" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="Strengthening" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="StrengtheningType" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Sabbatical"/>
+													<xs:enumeration value="Equipment"/>
+													<xs:enumeration value="Seed Grant"/>
+													<xs:enumeration value="Strengthening Standard"/>
+													<xs:enumeration value="Strengthening CAP"/>
+													<xs:enumeration value="Conference Grant"/>
+													<xs:enumeration value="Other"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>											
+										<xs:element name="OtherDescription" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="60"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

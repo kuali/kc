@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:FaithBased_SurveyOnEEO="http://apply.grants.gov/forms/FaithBased_SurveyOnEEO-V1.2" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/FaithBased_SurveyOnEEO-V1.2" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:element name="SurveyOnEEO">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+				<xs:element name="DUNSID" type="globLib:DUNSIDDataType" minOccurs="0"/>
+				<xs:element name="OpportunityTitle" type="globLib:OpportunityTitleDataType"/>
+				<xs:element name="CFDANumber" type="globLib:CFDANumberDataType" minOccurs="0"/>
+				<xs:element name="EverReceivedGovGrantContract" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="FaithBasedReligious" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="NonReligiousCommunityBased" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ApplicantHas501c3" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="LocalAffiliateOFNationalOrg" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="FullTimeEmployeeNumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="3 or fewer"/>
+							<xs:enumeration value="4-5"/>
+							<xs:enumeration value="6-14"/>
+							<xs:enumeration value="15-50"/>
+							<xs:enumeration value="51-100"/>
+							<xs:enumeration value="Over 100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ApplicantAnnualBudget" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Less Than $150,000"/>
+							<xs:enumeration value="$150,000 - $299,999"/>
+							<xs:enumeration value="$300,000 - $499,999"/>
+							<xs:enumeration value="$500,000 - $999,999"/>
+							<xs:enumeration value="$1,000,000 - $4,999,999"/>
+							<xs:enumeration value="$5,000,000 or more"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.2"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--*******************************************************************************************************************-->
+<!-- TITLE: NASA_Other Project Information-->
+<!-- DESCRIPTION: -->
+<!-- FORM VERSION: -->
+<!-- SCHEMA VERSION: 1.0-->
+<!-- OMB NUMBER: 2700-0085  and 2700-0087 -->
+<!-- FORM EXPIRATION DATE:  -->
+<!-- REVISION HISTORY:-->
+<!-- TO DO:-->
+<!--*******************************************************************************************************************-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:NASA_OtherProjectInformation="http://apply.grants.gov/forms/NASA_OtherProjectInformation-V1.0" targetNamespace="http://apply.grants.gov/forms/NASA_OtherProjectInformation-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:element name="NASA_OtherProjectInformation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NASACivilServicePersonnel">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CivilServicePersonnel" type="globLib:YesNoDataType"/>
+							<xs:element name="FYFTE1" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FY1" type="NASA_OtherProjectInformation:FYDataType" minOccurs="0"/>
+										<xs:element name="FTE1"  minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="99999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FYFTE2" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FY2" type="NASA_OtherProjectInformation:FYDataType" minOccurs="0"/>
+										<xs:element name="FTE2"  minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="99999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FYFTE3" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FY3" type="NASA_OtherProjectInformation:FYDataType" minOccurs="0"/>
+										<xs:element name="FTE3"  minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="99999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FYFTE4" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FY4" type="NASA_OtherProjectInformation:FYDataType" minOccurs="0"/>
+										<xs:element name="FTE4"  minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="99999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FYFTE5" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FY5" type="NASA_OtherProjectInformation:FYDataType" minOccurs="0"/>
+										<xs:element name="FTE5"  minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="99999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FYFTE6" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FY6" type="NASA_OtherProjectInformation:FYDataType" minOccurs="0"/>
+										<xs:element name="FTE6"  minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="99999.99"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HistoricImpact">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="HistoricImpactQ" type="globLib:YesNoDataType"/>
+							<xs:element name="HistoricImpactEx" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="2000"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="InternationalParticipation">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="InternationalParticipationQ" type="globLib:YesNoDataType"/>
+							<xs:element name="InternationalParticipationPI" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InternationalParticipationCo-I" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InternationalParticipationCollaborator" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InternationalParticipationEquipment" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InternationalParticipationFacility" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="InternationalParticipatioEx" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="2000"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PSDataAttach" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="AppendAttach" type="att:AttachmentGroupMin0Max100DataType" minOccurs="0"/>
+				<xs:element name="LetterEndorsAttach" type="att:AttachmentGroupMin0Max100DataType" minOccurs="0"/>
+				<xs:element name="IRBACUCLettersAttach" type="att:AttachmentGroupMin0Max100DataType" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="FYDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="2006"/>
+			<xs:enumeration value="2007"/>
+			<xs:enumeration value="2008"/>
+			<xs:enumeration value="2009"/>
+			<xs:enumeration value="2010"/>
+			<xs:enumeration value="2011"/>
+			<xs:enumeration value="2012"/>
+			<xs:enumeration value="2013"/>
+			<xs:enumeration value="2014"/>
+			<xs:enumeration value="2015"/>
+			<xs:enumeration value="2016"/>
+			<xs:enumeration value="2017"/>
+			<xs:enumeration value="2018"/>
+			<xs:enumeration value="2019"/>
+			<xs:enumeration value="2020"/>
+			<xs:enumeration value="2021"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

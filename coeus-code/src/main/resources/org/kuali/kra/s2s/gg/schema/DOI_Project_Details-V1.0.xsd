@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--*******************************************************************************************************************-->
+<!-- TITLE: Project Details-->
+<!-- DESCRIPTION: -->
+<!-- FORM VERSION: 1.0-->
+<!-- SCHEMA VERSION: 1-->
+<!-- OMB NUMBER: 1029-0059-->
+<!-- FORM EXPIRATION DATE:  2006-01-31-->
+<!-- REVISION HISTORY:-->
+<!-- TO DO:-->
+<!--............1. Find "xmlns-" and replace it by "xmlns:"-->
+<!--*******************************************************************************************************************-->
+<xs:schema xmlns:DOI_Project_Details="http://apply.grants.gov/forms/DOI_Project_Details-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/DOI_Project_Details-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:element name="DOI_Project_Details">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Address" type="globLib:AddressDataType"/>
+				<xs:element name="PRD_OF_ACCMP_TXT1" type="DOI_Project_Details:PeriodOfAccomplishmentRequired"/>
+				<xs:element name="OBJECTIVE_TXT1" type="DOI_Project_Details:GoalsAndObjectivesMandatory"/>
+				<xs:element name="PRD_OF_ACCMP_TXT2" type="DOI_Project_Details:PeriodOfAccomplishmentOptional" minOccurs="0"/>
+				<xs:element name="OBJECTIVE_TXT2" type="DOI_Project_Details:GoalsAndObjectivesOptional" minOccurs="0"/>
+				<xs:element name="PRD_OF_ACCMP_TXT3" type="DOI_Project_Details:PeriodOfAccomplishmentOptional" minOccurs="0"/>
+				<xs:element name="OBJECTIVE_TXT3" type="DOI_Project_Details:GoalsAndObjectivesOptional" minOccurs="0"/>
+				<xs:element name="PRD_OF_ACCMP_TXT4" type="DOI_Project_Details:PeriodOfAccomplishmentOptional" minOccurs="0"/>
+				<xs:element name="OBJECTIVE_TXT4" type="DOI_Project_Details:GoalsAndObjectivesOptional" minOccurs="0"/>
+				<xs:element name="PRD_OF_ACCMP_TXT5" type="DOI_Project_Details:PeriodOfAccomplishmentOptional" minOccurs="0"/>
+				<xs:element name="OBJECTIVE_TXT5" type="DOI_Project_Details:GoalsAndObjectivesOptional" minOccurs="0"/>
+				<xs:element name="PRD_OF_ACCMP_TXT6" type="DOI_Project_Details:PeriodOfAccomplishmentOptional" minOccurs="0"/>
+				<xs:element name="OBJECTIVE_TXT6" type="DOI_Project_Details:GoalsAndObjectivesOptional" minOccurs="0"/>
+				<xs:element name="PRD_OF_ACCMP_TXT7" type="DOI_Project_Details:PeriodOfAccomplishmentOptional" minOccurs="0"/>
+				<xs:element name="OBJECTIVE_TXT7" type="DOI_Project_Details:GoalsAndObjectivesOptional" minOccurs="0"/>
+				<xs:element name="PRD_OF_ACCMP_TXT8" type="DOI_Project_Details:PeriodOfAccomplishmentOptional" minOccurs="0"/>
+				<xs:element name="OBJECTIVE_TXT8" type="DOI_Project_Details:GoalsAndObjectivesOptional" minOccurs="0"/>
+				<xs:element name="PRD_OF_ACCMP_TXT9" type="DOI_Project_Details:PeriodOfAccomplishmentOptional" minOccurs="0"/>
+				<xs:element name="OBJECTIVE_TXT9" type="DOI_Project_Details:GoalsAndObjectivesOptional" minOccurs="0"/>
+				<xs:element name="PRD_OF_ACCMP_TXT10" type="DOI_Project_Details:PeriodOfAccomplishmentOptional" minOccurs="0"/>
+				<xs:element name="OBJECTIVE_TXT10" type="DOI_Project_Details:GoalsAndObjectivesOptional" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="PeriodOfAccomplishmentRequired">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PeriodOfAccomplishmentOptional">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GoalsAndObjectivesMandatory">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="2000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GoalsAndObjectivesOptional">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="2000"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--*******************************************************************************************************************-->
+<!-- TITLE: Supplemental Information Form-->
+<!-- DESCRIPTION: -->
+<!-- FORM VERSION: 1.0-->
+<!-- SCHEMA VERSION: 1.0-->
+<!-- OMB NUMBER: 0524-0039-->
+<!-- FORM EXPIRATION DATE:  -->
+<!-- REVISION HISTORY:-->
+<!-- TO DO:-->
+<!--............1. Find "xmlns-" and replace it by "xmlns:"-->
+<!--*******************************************************************************************************************-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:CSREES_Supplemental_Info="http://apply.grants.gov/forms/CSREES_Supplemental_Info-V1.0" targetNamespace="http://apply.grants.gov/forms/CSREES_Supplemental_Info-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:element name="CSREES_Supplemental_Info">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FundingOpportunity">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FundingOpportunityTitle" type="globLib:OpportunityTitleDataType"/>
+							<xs:element name="FundingOpportunityNumber" type="globLib:OpportunityIDDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProgramGroup">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ProgramCodeName">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="60"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="ProgramCode">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="5"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ApplicantTypeCode">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="85"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AdditionalApplicantTypes" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SupplementalApplicantType" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AlaskaNativeServingInstitution" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="CooperativeExtensionService" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HispanicServingInstitution" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HistoricallyBlackCollegeorUniversity" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MinorityServingInstitution" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NativeHawaiianServingInstitution" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PublicNonprofitJuniororCommunityCollege" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PublicSecondarySchool" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SchoolofForestry" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="StateAgriculturalExperimentStation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="TribalCollege" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="VeterinarySchoolorCollege" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HHS_AccountInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PMSAccount" type="globLib:YesNoDataType"/>
+							<xs:element name="PMSPIN" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="8"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="KeyWords">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ConflictofInterestList" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AttachedFile" type="att:AttachedFileDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

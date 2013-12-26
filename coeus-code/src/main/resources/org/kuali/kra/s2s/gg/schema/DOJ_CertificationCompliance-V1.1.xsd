@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:DOJ_CertificationCompliance="http://apply.grants.gov/forms/DOJ_CertificationCompliance-V1.1" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/DOJ_CertificationCompliance-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.1">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="ComplianceCertification">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AuthorizedRep" type="globLib:HumanNameDataType"/>
+				<xs:element name="LegalName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="Esignature" type="globLib:SignatureDataType"/>
+				<xs:element name="Title" type="globLib:HumanTitleDataType"/>
+				<xs:element name="DateSigned" type="xs:date"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
