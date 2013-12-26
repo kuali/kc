@@ -54,16 +54,6 @@
         <drools.version>5.5.0.Final</drools.version>
         <dwr.version>3.0.RC2</dwr.version>
         <fop.version>0.93</fop.version>
-        <gg-application.version>1.0</gg-application.version>
-        <gg-forms1.version>1.0</gg-forms1.version>
-        <gg-forms2.version>1.0</gg-forms2.version>
-        <gg-forms3.version>1.0</gg-forms3.version>
-        <gg-forms4.version>1.1</gg-forms4.version>
-        <gg-forms5.version>1.0</gg-forms5.version>
-        <gg-forms6.version>1.0</gg-forms6.version>
-        <gg-forms7.version>1.0.1</gg-forms7.version>
-        <!--<gg-forms8.version>2.6</gg-forms8.version>-->
-        <gg-system.version>1.0</gg-system.version>
         <hamcrest-library.version>1.3</hamcrest-library.version>
         <itext.version>2.1.7</itext.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
@@ -86,7 +76,6 @@
         <rrbudget-1.3-gg.version>1.1</rrbudget-1.3-gg.version>
         <phs398trainingsubawardbudget-2.0-gg.version>1.0</phs398trainingsubawardbudget-2.0-gg.version>
         <rrsubawardbudget-1.3-gg.version>1.1</rrsubawardbudget-1.3-gg.version>
-        <!--<sf424r-2.0-gg.version>1.5</sf424r-2.0-gg.version>-->
         <rrotherproject-1.3-gg.version>1.1</rrotherproject-1.3-gg.version>
         <phs398careerdevelopmentawardsup-2.0-gg.version>1.1</phs398careerdevelopmentawardsup-2.0-gg.version>
         <phs398researchtrainingprogramplan-2.0-gg.version>1.0</phs398researchtrainingprogramplan-2.0-gg.version>
@@ -109,7 +98,6 @@
         <phs398modularbudget-1.2-gg.version>1.0.5</phs398modularbudget-1.2-gg.version>
         <rice.version>2.4.0-M3</rice.version>
         <servlet.version>2.5</servlet.version>
-        <!--<s2sform.version>1.2.0</s2sform.version>-->
         <sf424-2.1-gg.version>1.0</sf424-2.1-gg.version>
         <slf4j.version>1.6.4</slf4j.version>
         <spring.version>3.2.3.RELEASE</spring.version>
@@ -531,9 +519,12 @@
                     <artifactId>xmlbeans-maven-plugin</artifactId>
                     <version>${xmlbeans-maven-plugin.version}</version>
                     <configuration>
-                        <memoryInitialSize>256m</memoryInitialSize>
-                        <memoryMaximumSize>512m</memoryMaximumSize>
-                        <download>true</download>
+                        <memoryInitialSize>512m</memoryInitialSize>
+                        <memoryMaximumSize>1024m</memoryMaximumSize>
+                        <download>false</download>
+                        <debug>false</debug>
+                        <verbose>false</verbose>
+                        <quiet>true</quiet>
                     </configuration>
                 </plugin>
 
@@ -1122,68 +1113,6 @@
 
             <dependency>
                 <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>gg-application</artifactId>
-                <version>${gg-application.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>gg-forms1</artifactId>
-                <version>${gg-forms1.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>gg-forms2</artifactId>
-                <version>${gg-forms2.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>gg-forms3</artifactId>
-                <version>${gg-forms3.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>gg-forms4</artifactId>
-                <version>${gg-forms4.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>gg-forms5</artifactId>
-                <version>${gg-forms5.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>gg-forms6</artifactId>
-                <version>${gg-forms6.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>gg-forms7</artifactId>
-                <version>${gg-forms7.version}</version>
-            </dependency>
-
-            <!--
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>gg-forms8</artifactId>
-                <version>${gg-forms8.version}</version>
-            </dependency>
-            -->
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>gg-system</artifactId>
-                <version>${gg-system.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
                 <artifactId>kc-s2s-generated</artifactId>
                 <version>${kc-s2s-generated.version}</version>
             </dependency>
@@ -1241,13 +1170,7 @@
                 <artifactId>rrsubawardbudget-1.3-gg</artifactId>
                 <version>${rrsubawardbudget-1.3-gg.version}</version>
             </dependency>
-<!--
-            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>sf424r-2.0-gg</artifactId>
-                <version>${sf424r-2.0-gg.version}</version>
-            </dependency>
--->
+
             <dependency>
                 <groupId>org.kuali.kra.s2s</groupId>
                 <artifactId>rrotherproject-1.3-gg</artifactId>
@@ -1296,12 +1219,6 @@
                 <version>${rrsubawardbudget10_30-1.3-gg.version}</version>
             </dependency>
 
-<!--            <dependency>
-                <groupId>org.kuali.kra.s2s</groupId>
-                <artifactId>s2sform</artifactId>
-                <version>${s2sform.version}</version>
-            </dependency>
--->
             <dependency>
                 <groupId>org.kuali.kra.s2s</groupId>
                 <artifactId>sf424-2.1-gg</artifactId>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Eric Copen (Northrop Grumman IT) -->
+<!--************************************************************************************************-->
+<!-- TITLE:    DOJ,  COPS in Schools Budget Information                                             -->
+<!--               OMB Number:     1103-0027                                                                    -->
+<!--                                                                                                                               -->
+<!--                                                                                                                                -->
+<!-- DATE:    March 8, 2004                                                                                          -->
+<!-- VERSION:  1.0                                                                                                        -->
+<!--                                                                                                                                -->
+<!--                                                                                                                                -->
+<!-- REVISION HISTORY:                                                                                              -->
+<!--                                                                                                                                -->
+<!--************************************************************************************************-->
+<xs:schema targetNamespace="http://apply.grants.gov/forms/DOJ_CIS_Budget-V1.0" xmlns:DOJ_CIS_Budget="http://apply.grants.gov/forms/DOJ_CIS_Budget-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:element name="Budget">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ApplicantName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="OriCode">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="7"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FullTimeOfficerCostYear1" type="DOJ_CIS_Budget:ResourceBudgetDataType" minOccurs="0"/>
+				<xs:element name="FullTimeOfficerCostYear2" type="DOJ_CIS_Budget:ResourceBudgetDataType" minOccurs="0"/>
+				<xs:element name="FullTimeOfficerCostYear3" type="DOJ_CIS_Budget:ResourceBudgetDataType" minOccurs="0"/>
+				<xs:element name="PartTimeOfficerCostYear1" type="DOJ_CIS_Budget:ResourceBudgetDataType" minOccurs="0"/>
+				<xs:element name="PartTimeOfficerCostYear2" type="DOJ_CIS_Budget:ResourceBudgetDataType" minOccurs="0"/>
+				<xs:element name="PartTimeOfficerCostYear3" type="DOJ_CIS_Budget:ResourceBudgetDataType" minOccurs="0"/>
+				<xs:element name="PartTimeOfficerInformation" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AveragePartTimeWorkHoursWeekly" type="DOJ_CIS_Budget:DecimalMin1Max6Places2Type" minOccurs="0"/>
+							<xs:element name="FullTimeWorkHours" type="DOJ_CIS_Budget:DecimalMin1Max6Places2Type" minOccurs="0"/>
+							<xs:element name="AveragePartTimeWorkHoursAnnually" type="DOJ_CIS_Budget:DecimalMin1Max6Places2Type" minOccurs="0"/>
+							<xs:element name="PartTimeHourlyRate" type="DOJ_CIS_Budget:DecimalMin1Max6Places2Type" minOccurs="0"/>
+							<xs:element name="AveragePartTimeOfficerSalary" type="DOJ_CIS_Budget:SalaryDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CostGreaterReason" type="DOJ_CIS_Budget:CostGreaterDataType" minOccurs="0" maxOccurs="4"/>
+				<xs:element name="CostGreaterReasonOtherExplanation" minOccurs="0">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="att:AttachedFileDataType">
+								<xs:attribute name="CostGreaterReason" type="DOJ_CIS_Budget:CostGreaterDataType" fixed="Other"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FedCogAgency" type="globLib:AgencyNameDataType" minOccurs="0"/>
+				<xs:element name="FiscalStartDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="FiscalEndDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="NoFundsDesc" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SocialSecurity" type="glob:StringMin1Max250Type" minOccurs="0"/>
+							<xs:element name="Medicare" type="glob:StringMin1Max250Type" minOccurs="0"/>
+							<xs:element name="Compensation" type="glob:StringMin1Max250Type" minOccurs="0"/>
+							<xs:element name="UnemploymentInsurance" type="glob:StringMin1Max250Type" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ThreeYearBudgetProjection" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FederalAmountForFullTimeOfficer" type="DOJ_CIS_Budget:BudgetProjectionPerOfficerDataType" minOccurs="0"/>
+							<xs:element name="LocalAmountForFullTimeOfficer" type="DOJ_CIS_Budget:BudgetProjectionPerOfficerDataType" minOccurs="0"/>
+							<xs:element name="TotalAmountForFullTimeOfficer" type="DOJ_CIS_Budget:BudgetProjectionPerOfficerDataType" minOccurs="0"/>
+							<xs:element name="FederalAmountForPartTimeOfficer" type="DOJ_CIS_Budget:BudgetProjectionPerOfficerDataType" minOccurs="0"/>
+							<xs:element name="LocalAmountForPartTimeOfficer" type="DOJ_CIS_Budget:BudgetProjectionPerOfficerDataType" minOccurs="0"/>
+							<xs:element name="TotalAmountForPartTimeOfficer" type="DOJ_CIS_Budget:BudgetProjectionPerOfficerDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0" /> 
+		</xs:complexType>
+		<xs:key name="CostGreaterReasonKey">
+			<xs:selector xpath="./CostGreaterReason"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:keyref name="CostGreaterReasonKeyRef" refer="DOJ_CIS_Budget:CostGreaterReasonKey">
+			<xs:selector xpath="./CostGreaterReasonOtherExplanation"/>
+			<xs:field xpath="@CostGreaterReason"/>
+		</xs:keyref>
+	</xs:element>
+	<xs:complexType name="ResourceBudgetDataType">
+		<xs:sequence>
+			<xs:element name="BaseSalary" type="DOJ_CIS_Budget:SalaryDataType" minOccurs="0"/>
+			<xs:element name="SocialSecurityBenefit" type="DOJ_CIS_Budget:BenefitSocialSecurityDataType" minOccurs="0"/>
+			<xs:element name="MedicareBenefit" type="DOJ_CIS_Budget:BenefitMedicareDataType" minOccurs="0"/>
+			<xs:element name="HealthInsuranceBenefit" type="DOJ_CIS_Budget:BenefitWithFamilyDataType" minOccurs="0"/>
+			<xs:element name="LifeInsuranceBenefit" type="DOJ_CIS_Budget:BaseBenefitDataType" minOccurs="0"/>
+			<xs:element name="VacationBenefit" type="DOJ_CIS_Budget:BenefitWithHourDataType" minOccurs="0"/>
+			<xs:element name="SickLeaveBenefit" type="DOJ_CIS_Budget:BenefitWithHourDataType" minOccurs="0"/>
+			<xs:element name="RetirementBenefit" type="DOJ_CIS_Budget:BaseBenefitDataType" minOccurs="0"/>
+			<xs:element name="WorkersCompBenefit" type="DOJ_CIS_Budget:BaseBenefitDataType" minOccurs="0"/>
+			<xs:element name="UnemploymentInsuranceBenefit" type="DOJ_CIS_Budget:BaseBenefitDataType" minOccurs="0"/>
+			<xs:element name="OtherBenefit1" type="DOJ_CIS_Budget:BaseBenefitDataType" minOccurs="0"/>
+			<xs:element name="OtherBenefit2" type="DOJ_CIS_Budget:BaseBenefitDataType" minOccurs="0"/>
+			<xs:element name="TotalFringeBenefits" type="DOJ_CIS_Budget:SalaryDataType" minOccurs="0"/>
+			<xs:element name="TotalSalaryBenefits" type="DOJ_CIS_Budget:SalaryDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SalaryDataType">
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="BaseBenefitDataType">
+		<xs:sequence>
+			<xs:element name="Amount" type="DOJ_CIS_Budget:SalaryDataType" minOccurs="0"/>
+			<xs:element name="Percentage" type="globLib:PercentageDecimalDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BenefitSocialSecurityDataType">
+		<xs:sequence>
+			<xs:element name="Amount" type="DOJ_CIS_Budget:SalaryDataType" minOccurs="0"/>
+			<xs:element name="Percentage" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="globLib:PercentageDecimalDataType">
+						<xs:maxInclusive value="6.20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="IsExempt" type="globLib:YesNoDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BenefitMedicareDataType">
+		<xs:sequence>
+			<xs:element name="Amount" type="DOJ_CIS_Budget:SalaryDataType" minOccurs="0"/>
+			<xs:element name="Percentage" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="globLib:PercentageDecimalDataType">
+						<xs:maxInclusive value="1.45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="IsExempt" type="globLib:YesNoDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BenefitWithHourDataType">
+		<xs:complexContent>
+			<xs:extension base="DOJ_CIS_Budget:BaseBenefitDataType">
+				<xs:sequence>
+					<xs:element name="AnnuallyHours" type="DOJ_CIS_Budget:SalaryDataType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BenefitWithFamilyDataType">
+		<xs:complexContent>
+			<xs:extension base="DOJ_CIS_Budget:BaseBenefitDataType">
+				<xs:sequence>
+					<xs:element name="IsFamilyCovered" type="globLib:YesNoDataType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="CostGreaterDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Cost of living adjustment"/>
+			<xs:enumeration value="Step raises"/>
+			<xs:enumeration value="Changes in benefit costs"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="BudgetProjectionPerOfficerDataType">
+		<xs:sequence>
+			<xs:element name="Year1" type="DOJ_CIS_Budget:ProjectSalaryDataType" minOccurs="0"/>
+			<xs:element name="Year2" type="DOJ_CIS_Budget:ProjectSalaryDataType" minOccurs="0"/>
+			<xs:element name="Year3" type="DOJ_CIS_Budget:ProjectSalaryDataType" minOccurs="0"/>
+			<xs:element name="Total" type="DOJ_CIS_Budget:ProjectSalaryDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="DecimalMin1Max6Places2Type">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="6"/>
+			<xs:fractionDigits value="2"/>
+			<xs:minInclusive value="0.00"/>
+			<xs:maxInclusive value="9999.99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProjectSalaryDataType">
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://apply.grants.gov/forms/NSF_Registration_1_3-V1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:NSF_Registration_1_3="http://apply.grants.gov/forms/NSF_Registration_1_3-V1.3" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="NSF_Registration_1_3">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OrganizationInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="OrganizationShortName" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="26"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="OrganizationType" type="NSF_Registration_1_3:OrganizationTypeDataType" minOccurs="0"/>
+							<xs:element name="PresidentName" type="globLib:HumanNameDataType" minOccurs="0"/>
+							<xs:element name="EIN">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="9"/>
+										<xs:maxLength value="30"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="DUNSID" type="globLib:DUNSIDDataType"/>
+							<xs:element name="Address" type="globLib:AddressDataType"/>
+							<xs:element name="Phone" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Email" type="globLib:EmailDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FastLaneContact">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Name" type="globLib:HumanNameDataType"/>
+							<xs:element name="NSFID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="9"/>
+										<xs:pattern value="[A-Za-z0-9]*"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Phone" type="globLib:TelephoneNumberDataType"/>
+							<xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Email" type="globLib:EmailDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="IndividualInfo" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Name" type="globLib:HumanNameDataType"/>
+							<xs:element name="TaxID">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="9"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NSFID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="9"/>
+										<xs:pattern value="[A-Za-z0-9]*"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Address" type="globLib:AddressDataType"/>
+							<xs:element name="Phone" type="globLib:TelephoneNumberDataType"/>
+							<xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Email" type="globLib:EmailDataType"/>
+							<xs:element name="DepartmentName" type="globLib:DepartmentNameDataType" minOccurs="0"/>
+							<xs:element name="DegreeType" type="NSF_Registration_1_3:DegreeTypeDataType"/>
+							<xs:element name="DegreeYear" type="xs:gYear"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.3"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="DegreeTypeDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AS: Associate in Science"/>
+			<xs:enumeration value="BA: Bachelor of Arts"/>
+			<xs:enumeration value="BComm: Bachelor of Commerce (Canada)"/>
+			<xs:enumeration value="BEd: Bachelor of Education"/>
+			<xs:enumeration value="BEng: Bachelor of Engineering"/>
+			<xs:enumeration value="BS: Bachelor of Science"/>
+			<xs:enumeration value="DA: Doctor of Arts"/>
+			<xs:enumeration value="DC: Doctor of Chiropractics"/>
+			<xs:enumeration value="DD: Doctor of Divinity"/>
+			<xs:enumeration value="DDS: Doctor of Dental Science"/>
+			<xs:enumeration value="DEng: Doctor of Engineering"/>
+			<xs:enumeration value="DFA: Doctor of Fine Arts"/>
+			<xs:enumeration value="DH: Doctor of Humanities"/>
+			<xs:enumeration value="DHA: Doctor of Hospital Administration"/>
+			<xs:enumeration value="DMin: Doctor of Ministry"/>
+			<xs:enumeration value="DPA: Doctor of Public Administration"/>
+			<xs:enumeration value="DSN: Doctorate of Science, in Nursing"/>
+			<xs:enumeration value="DVM: Doctor of Veterinary Medicine"/>
+			<xs:enumeration value="DVS: Doctor of Veterinary Science"/>
+			<xs:enumeration value="EdD: Doctor of Education"/>
+			<xs:enumeration value="HS: High School (or GED equivalent"/>
+			<xs:enumeration value="JD: Jurum Doctor (Doctor of Laws)"/>
+			<xs:enumeration value="LLD: Legum Doctor (Doctor of Laws)"/>
+			<xs:enumeration value="LLM: Legum Magister (Master of Laws)"/>
+			<xs:enumeration value="MA: Master of Arts"/>
+			<xs:enumeration value="MAEd: Master of Arts, in Education"/>
+			<xs:enumeration value="MArch: Master of Architecture"/>
+			<xs:enumeration value="MBA: Master of Business Administration"/>
+			<xs:enumeration value="MD: Medical Doctor"/>
+			<xs:enumeration value="MDiv: Master of Divinity"/>
+			<xs:enumeration value="MDS: Master of Dental Science"/>
+			<xs:enumeration value="MEd: Master of Education"/>
+			<xs:enumeration value="MEE: Master of Electrical Engineering"/>
+			<xs:enumeration value="MEng: Master of Engineering"/>
+			<xs:enumeration value="MFA: Master of Fine Arts"/>
+			<xs:enumeration value="MIS: Master of Information Systems"/>
+			<xs:enumeration value="MLS: Master of Library Science"/>
+			<xs:enumeration value="MPA: Master of Public Administration"/>
+			<xs:enumeration value="MPd: Master of Pedagogy"/>
+			<xs:enumeration value="MPE: Master of Physical Education"/>
+			<xs:enumeration value="MPH: Master of Public Health"/>
+			<xs:enumeration value="MPhil: Master of Philosophy"/>
+			<xs:enumeration value="MS: Master of Science"/>
+			<xs:enumeration value="MSEd: Master of Science, in Education"/>
+			<xs:enumeration value="MST: Master of Sacred Theology"/>
+			<xs:enumeration value="MSW: Master of Social Work"/>
+			<xs:enumeration value="MTh: Master of Theology, in Religion"/>
+			<xs:enumeration value="PharD: Doctor of Pharmacy"/>
+			<xs:enumeration value="PhD: Doctor of Philosophy"/>
+			<xs:enumeration value="ScD: Doctor of Science"/>
+			<xs:enumeration value="ThD: Doctor of Theology, in Religion"/>
+			<xs:enumeration value="UKNW: No degree information specified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OrganizationTypeDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="D12: 12th Grade less than 2 Yr College (Private US)"/>
+			<xs:enumeration value="A02: 12th Grade less than 2 Yr College (Public, Federal)"/>
+			<xs:enumeration value="C02: 12th Grade less than 2 Yr College (Public, Local)"/>
+			<xs:enumeration value="B02: 12th Grade less than 2 Yr College (Public, State)"/>
+			<xs:enumeration value="D13: 2 But less than 4 Yr College (Private US)"/>
+			<xs:enumeration value="A03: 2 But less than 4 Yr College (Public, Federal)"/>
+			<xs:enumeration value="C03: 2 But less than 4 Yr College (Public, Local)"/>
+			<xs:enumeration value="B03: 2 But less than 4 Yr College (Public, State)"/>
+			<xs:enumeration value="I60: All Foreign and International Organization"/>
+			<xs:enumeration value="D10: All U.S. Academic Institution NCE"/>
+			<xs:enumeration value="D14: Bachelor's 1st Prof Dgr (Private US)"/>
+			<xs:enumeration value="A04: Bachelor's 1st Prof Dgr (Public, Federal)"/>
+			<xs:enumeration value="C04: Bachelor's 1st Prof Dgr (Public, Local)"/>
+			<xs:enumeration value="B04: Bachelor's 1st Prof Dgr (Public, State)"/>
+			<xs:enumeration value="K81: Consortium Academic Institutions"/>
+			<xs:enumeration value="K82: Consortium NonAcad and Acad Orgs"/>
+			<xs:enumeration value="K80: Consortium NonAcademic Organizations"/>
+			<xs:enumeration value="E24: FFRDC"/>
+			<xs:enumeration value="E26: FFRDC (Industrial)"/>
+			<xs:enumeration value="E25: FFRDC (NonProfit)"/>
+			<xs:enumeration value="I66: Foreign Individual"/>
+			<xs:enumeration value="I65: Foreign National Government Agencies"/>
+			<xs:enumeration value="I63: Foreign NonProfit NonAcademic"/>
+			<xs:enumeration value="I62: Foreign Private Academic Institution"/>
+			<xs:enumeration value="I64: Foreign Private Profit Organization"/>
+			<xs:enumeration value="I61: Foreign Public Academic Institution"/>
+			<xs:enumeration value="I67: International Centers Outside the U.S."/>
+			<xs:enumeration value="I69: International Organizations Government"/>
+			<xs:enumeration value="I68: International Organizations NonGovt"/>
+			<xs:enumeration value="D11: Work Through 12th Grade (Private US)"/>
+			<xs:enumeration value="A01: Work Through 12th Grade (Public, Federal)"/>
+			<xs:enumeration value="C01: Work Through 12th Grade (Public, Local)"/>
+			<xs:enumeration value="B01: Work Through 12th Grade (Public, State)"/>
+			<xs:enumeration value="F30: Large Corporation Business"/>
+			<xs:enumeration value="E23: Local Government"/>
+			<xs:enumeration value="D15: Masters 2nd Prof Dgr (Private US)"/>
+			<xs:enumeration value="A05: Masters 2nd Prof Dgr (Public, Federal)"/>
+			<xs:enumeration value="C05: Masters 2nd Prof Dgr (Public, Local)"/>
+			<xs:enumeration value="B05: Masters 2nd Prof Dgr (Public, State)"/>
+			<xs:enumeration value="E20: NonProfit Academic Federal (NCE)"/>
+			<xs:enumeration value="D17: Other (Private US)"/>
+			<xs:enumeration value="A07: Other (Public, Federal)"/>
+			<xs:enumeration value="C07: Other (Public, Local)"/>
+			<xs:enumeration value="B07: Other (Public, State)"/>
+			<xs:enumeration value="D16: PhD and Equivalent Degree (Private US)"/>
+			<xs:enumeration value="A06: PhD and Equivalent Degree (Public, Federal)"/>
+			<xs:enumeration value="C06: PhD and Equivalent Degree (Public, Local)"/>
+			<xs:enumeration value="B06: PhD and Equivalent Degree (Public, State)"/>
+			<xs:enumeration value="E21: Private"/>
+			<xs:enumeration value="F31: Small Business"/>
+			<xs:enumeration value="E22: State Government"/>
+			<xs:enumeration value="H50: U.S. Citizen Resident"/>
+			<xs:enumeration value="G40: U.S. Government Agency"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

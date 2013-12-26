@@ -1,0 +1,140 @@
+<xs:schema xmlns:ANA_ApplicationInfo="http://apply.grants.gov/forms/ANA_ApplicationInfo-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/ANA_ApplicationInfo-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:element name="ANA_ApplicationInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Program">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Social and Economic Development Strategies (SEDS)"/>
+							<xs:enumeration value="Native Language Preservation and Maintenance"/>
+							<xs:enumeration value="Environmental Regulatory Enhancement"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="EmployerID" type="globLib:EmployerIDDataType"/>
+				<xs:element name="DUNSID" type="globLib:DUNSIDDataType"/>
+				<xs:element name="FederalEstimatedAmount_Year1" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="FederalEstimatedAmount_Year2" minOccurs="0" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="FederalEstimatedAmount_Year3" minOccurs="0" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ProjectDurationMonths">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="12 Months"/>
+							<xs:enumeration value="24 Months"/>
+							<xs:enumeration value="36 Months"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ApplicantType_SEDS" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Federally Recognized Indian Tribe"/>
+							<xs:enumeration value="Consortium of Indian Tribes"/>
+							<xs:enumeration value="Incorporated Non-Federally Recognized Tribe"/>
+							<xs:enumeration value="Incorporated Non-Profit Multi-Purpose Community-Based Native American Organization"/>
+							<xs:enumeration value="Urban Indian Center"/>
+							<xs:enumeration value="National or Regional Incorporated Non-Profit Native American Organization"/>
+							<xs:enumeration value="Alaska Native Village or Non-Profit Village Consortium"/>
+							<xs:enumeration value="Incorporated Non-Profit Alaska Native Multi-purpose Community Based Organization"/>
+							<xs:enumeration value="Non-Profit Alaska Native Regional Corporation/Association in Alaska"/>
+							<xs:enumeration value="Non-Profit Native Organization in Alaska"/>
+							<xs:enumeration value="Public or Non-Profit Private Agency Serving Native Hawaiians"/>
+							<xs:enumeration value="Agency Serving Native Peoples from Guam, American Samoa, or Northern Mariana Islands"/>
+							<xs:enumeration value="Tribally Controlled College or University, or Post-secondary Vocational Institution"/>
+							<xs:enumeration value="College or University Located in HI, GU, AS or MP Serving Native Pacific Islanders"/>
+							<xs:enumeration value="Non-Profit Alaska Native Community Entity or Tribal Governing Body"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ApplicantType_Environmental" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Federally Recognized Indian Tribe"/>
+							<xs:enumeration value="Consortium of Indian Tribes"/>
+							<xs:enumeration value="Incorporated Non-Federally Recognized Tribe"/>
+							<xs:enumeration value="Alaska Native Village or Non-Profit Village Consortium"/>
+							<xs:enumeration value="Non-Profit Alaska Native Regional Corporation/Association in Alaska"/>
+							<xs:enumeration value="Other Tribal or Village Organization"/>
+							<xs:enumeration value="Tribal Governing Body"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Partnership_other_federal_agencies_indicator" minOccurs="0" type="globLib:YesNoDataType"/>
+				<xs:element name="Partnership_community_organizations_indicator" minOccurs="0" type="globLib:YesNoDataType"/>
+				<xs:element name="Partnership_non_profit_indicator" minOccurs="0" type="globLib:YesNoDataType"/>
+				<xs:element name="Partnership_tribe" minOccurs="0" type="globLib:YesNoDataType"/>
+				<xs:element name="Partnership_state_local_government_indicator" minOccurs="0" type="globLib:YesNoDataType"/>
+				<xs:element name="Partnership_private_business_indicator" minOccurs="0" type="globLib:YesNoDataType"/>
+				<xs:element name="Partnership_philanthropy_indicator" minOccurs="0" type="globLib:YesNoDataType"/>
+				<xs:element name="Partnership_faith_based_organization_indicator" minOccurs="0" type="globLib:YesNoDataType"/>
+				<xs:element name="InterestArea_SEDS" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Economic Development: Business Development"/>
+							<xs:enumeration value="Economic Development: Community Strategic Planning"/>
+							<xs:enumeration value="Economic Development: Organizational Capacity Building"/>
+							<xs:enumeration value="Economic Development: Subsistence Project"/>
+							<xs:enumeration value="Economic Development: Emergency Response Activities"/>
+							<xs:enumeration value="Economic Development: Transportation for Elders and Disabled"/>
+							<xs:enumeration value="Economic Development: Transportation for Workforce Development"/>
+							<xs:enumeration value="Economic Development: International Tourism and Trade"/>
+							<xs:enumeration value="Economic Development: Job Training"/>
+							<xs:enumeration value="Social Development: Youth Development"/>
+							<xs:enumeration value="Social Development: Strengthening Family Relationship Skills"/>
+							<xs:enumeration value="Social Development: Cultural Preservation Activities"/>
+							<xs:enumeration value="Social Development: Family Violence Prevention"/>
+							<xs:enumeration value="Social Development: Education Development"/>
+							<xs:enumeration value="Social Development: Foster Parent Training"/>
+							<xs:enumeration value="Social Development: Supporting Elders"/>
+							<xs:enumeration value="Social Development: Supporting People with Disabilities"/>
+							<xs:enumeration value="Governance: Tribal Government Program Enhancement"/>
+							<xs:enumeration value="Governance: Management and Leadership Development"/>
+							<xs:enumeration value="Governance: Information Management Systems"/>
+							<xs:enumeration value="Governance: Codes and Ordinances"/>
+							<xs:enumeration value="Governance: Constitutional Reform"/>
+							<xs:enumeration value="Governance: Operational Planning"/>
+							<xs:enumeration value="Governance: Tribal Court Systems"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="InterestArea_Language" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Category 1: Data Collection"/>
+							<xs:enumeration value="Category 1: Formal Language Assessment"/>
+							<xs:enumeration value="Category 1: Informal Language Assessment"/>
+							<xs:enumeration value="Category 1: Long Range Community Goals for Language"/>
+							<xs:enumeration value="Category 1: Develop a Language Strategic Plan"/>
+							<xs:enumeration value="Category 2: Establish Intergenerational Program"/>
+							<xs:enumeration value="Category 2: Train Language Teachers"/>
+							<xs:enumeration value="Category 2: Develop Printed Materials to Teach Language"/>
+							<xs:enumeration value="Category 2: Programs to Broadcast Native Language"/>
+							<xs:enumeration value="Category 2: Preservation of Oral Testimony"/>
+							<xs:enumeration value="Category 2: Digitize Materials"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="InterestArea_Environmental" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Environmental Assessment"/>
+							<xs:enumeration value="Infrastructure Improvement"/>
+							<xs:enumeration value="Develop Regulations, Ordinances, or Laws"/>
+							<xs:enumeration value="Develop a Technical Program"/>
+							<xs:enumeration value="Training"/>
+							<xs:enumeration value="Enforcement"/>
+							<xs:enumeration value="Energy Assessment"/>
+							<xs:enumeration value="Energy Projects for Export"/>
+							<xs:enumeration value="Renewable Energy Resources"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

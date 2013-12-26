@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:PHS398_CumulativeInclusionReport="http://apply.grants.gov/forms/PHS398_CumulativeInclusionReport-V1.0" targetNamespace="http://apply.grants.gov/forms/PHS398_CumulativeInclusionReport-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="PHS398_CumulativeInclusionReport">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Study" maxOccurs="150">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="StudyTitle" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_String1_250DataType"/>
+							<xs:element name="Comments" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_String1_500DataType" minOccurs="0"/>
+							<xs:element name="NotHispanic" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_EthnicCategoryDataType"/>
+							<xs:element name="Hispanic" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_EthnicCategoryDataType"/>
+							<xs:element name="UnknownEthnicity" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_EthnicCategoryDataType"/>
+							<xs:element name="Total" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_TotalsDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="PHS398_CumulativeInclusionReport_EthnicCategoryDataType">
+		<xs:sequence>
+			<xs:element name="Female" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_RacialCategoryDataType"/>
+			<xs:element name="Male" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_RacialCategoryDataType"/>
+			<xs:element name="UnknownGender" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_RacialCategoryDataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PHS398_CumulativeInclusionReport_RacialCategoryDataType">
+		<xs:sequence>
+			<xs:element name="AmericanIndian" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_999999999_DataType"/>
+			<xs:element name="Asian" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_999999999_DataType"/>
+			<xs:element name="Hawaiian" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_999999999_DataType"/>
+			<xs:element name="Black" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_999999999_DataType"/>
+			<xs:element name="White" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_999999999_DataType"/>
+			<xs:element name="MultipleRace" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_999999999_DataType"/>
+			<xs:element name="UnknownRace" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_999999999_DataType"/>
+			<xs:element name="Total" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_9999999999_DataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PHS398_CumulativeInclusionReport_TotalsDataType">
+		<xs:sequence>
+			<xs:element name="AmericanIndian" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_9999999999_DataType"/>
+			<xs:element name="Asian" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_9999999999_DataType"/>
+			<xs:element name="Hawaiian" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_9999999999_DataType"/>
+			<xs:element name="Black" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_9999999999_DataType"/>
+			<xs:element name="White" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_9999999999_DataType"/>
+			<xs:element name="MultipleRace" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_9999999999_DataType"/>
+			<xs:element name="UnknownRace" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_9999999999_DataType"/>
+			<xs:element name="Total" type="PHS398_CumulativeInclusionReport:PHS398_CumulativeInclusionReport_0_to_99999999999_DataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PHS398_CumulativeInclusionReport_String1_250DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="250"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PHS398_CumulativeInclusionReport_String1_500DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="500"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PHS398_CumulativeInclusionReport_0_to_999999999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999999999"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="PHS398_CumulativeInclusionReport_0_to_9999999999_DataType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9999999999"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="PHS398_CumulativeInclusionReport_0_to_99999999999_DataType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999999999"/>
+		</xs:restriction>
+	</xs:simpleType>	
+</xs:schema>

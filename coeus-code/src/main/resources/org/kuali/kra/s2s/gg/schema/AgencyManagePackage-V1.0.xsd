@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	targetNamespace="http://apply.grants.gov/system/AgencyManagePackage-V1.0"
+
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+	xmlns:AgencyManagePackage="http://apply.grants.gov/system/AgencyManagePackage-V1.0"
+	xmlns:GrantsCommonTypes="http://apply.grants.gov/system/GrantsCommonTypes-V1.0"
+	xmlns:GrantsCommonElements="http://apply.grants.gov/system/GrantsCommonElements-V1.0"
+
+	elementFormDefault="qualified" 
+	attributeFormDefault="qualified" 
+	version="1.0">
+	
+ 	<!--
+	<xs:import namespace="http://apply.grants.gov/system/GrantsCommonTypes-V1.0" schemaLocation="file:/Dev/grants_schemas/Source/schema/commons/GrantsCommonTypes-V1.0.xsd"  /> 
+	<xs:import namespace="http://apply.grants.gov/system/GrantsCommonElements-V1.0" schemaLocation="file:/Dev/grants_schemas/Source/schema/bizobj/GrantsCommonElements-V1.0.xsd"  /> 
+	 -->   	
+	
+	<xs:import namespace="http://apply.grants.gov/system/GrantsCommonTypes-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GrantsCommonTypes-V1.0.xsd" /> 
+	<xs:import namespace="http://apply.grants.gov/system/GrantsCommonElements-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GrantsCommonElements-V1.0.xsd" />
+ 
+	<xs:element name="CreatePackageInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="GrantsCommonElements:CFDANumber" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:CompetitionInfo" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:ElectronicSignatureRequired" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:ExpectedApplicationCount" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:ExpectedApplicationSizeMB" minOccurs="0" maxOccurs="1" />
+				<xs:element name="OpeningDate" type="AgencyManagePackage:OpportunityDateType" minOccurs="0" maxOccurs="1" />
+				<xs:element name="ClosingDate" type="AgencyManagePackage:OpportunityDateType" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:GracePeriodDays" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:AgencyContactInfo" minOccurs="1" maxOccurs="1" />
+				<xs:element name="TemplateName" type="GrantsCommonTypes:TemplateNameType" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:InstructionFileInfo" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:OpenToApplicant" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+       	</xs:element>
+       	
+	<xs:element name="UpdatePackageInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="GrantsCommonElements:CFDANumber" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:CompetitionID" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:CompetitionTitle" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:ElectronicSignatureRequired" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:ExpectedApplicationCount" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:ExpectedApplicationSizeMB" minOccurs="0" maxOccurs="1" />
+				<xs:element name="OpeningDate" type="AgencyManagePackage:OpportunityDateType" minOccurs="0" maxOccurs="1" />
+				<xs:element name="ClosingDate" type="AgencyManagePackage:OpportunityDateType" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:GracePeriodDays" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:AgencyContactInfo" minOccurs="0" maxOccurs="1" />
+				<xs:element name="TemplateName" type="GrantsCommonTypes:TemplateNameType" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:InstructionFileInfo" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:OpenToApplicant" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:EmailInfo" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+       	</xs:element>
+       	
+       	<xs:element name="DeletePackageInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="GrantsCommonElements:CFDANumber" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:CompetitionID" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+       	</xs:element>
+       	
+	<xs:element name="CreatePackageResult" >
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="GrantsCommonElements:CompetitionID" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:CFDANumber" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:ErrorDetails" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+       	</xs:element>
+       	
+	<xs:element name="UpdatePackageResult">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="GrantsCommonElements:CompetitionID" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:CFDANumber" minOccurs="0" maxOccurs="1" />
+				<xs:element name="NotificationCount" type="xs:int" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:ErrorDetails" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+       	</xs:element>
+       	
+	<xs:element name="DeletePackageResult">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="GrantsCommonElements:CompetitionID" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:CFDANumber" minOccurs="0" maxOccurs="1" />
+				<xs:element name="NotificationCount" type="xs:int" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:ErrorDetails" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+       	</xs:element>
+       	
+       	<xs:element name="CreateOpportunityInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="GrantsCommonElements:FundingOpportunityTitle" minOccurs="1" maxOccurs="1"/>	
+				<xs:element name="OpportunityCategory" type="GrantsCommonTypes:OpportunityCategoryType" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="AgencyManagePackage:OpportunityCategoryExplanation" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:CFDANumber" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+       	         	
+	<xs:element name="OpportunityCategoryExplanation" >
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<!--
+				- begin with letter or number 
+				- followed by any sequence of characters -->
+					<xs:pattern value="[a-zA-Z0-9].*" />
+				<xs:maxLength value="100" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+		
+				         	         	
+	<xs:element name="GracePeriodDays">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<!--
+					Valid values:
+					- DELETE: to clear current value
+					- positive number 
+				-->
+				<xs:pattern value="DELETE|[0-9]+" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	
+	<xs:element name="ExpectedApplicationSizeMB">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<!--
+					Valid values:
+					- DELETE: to clear current value
+					- positive number 
+				-->
+				<xs:pattern value="DELETE|[0-9]+" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+				         	         	
+       	<xs:element name="EmailInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="GrantsCommonElements:SendChangeNotificationEmail" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="GrantsCommonElements:ModificationComments" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+       	</xs:element>
+      
+	<xs:element name="ElectronicSignatureRequired">
+		<xs:simpleType>
+	  		<xs:restriction base="xs:string">
+	  			<xs:enumeration value="Y" />
+	  			<xs:enumeration value="N" />
+	  		</xs:restriction>
+  		</xs:simpleType>
+	</xs:element>
+
+	<xs:element name="OpenToApplicant">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="ORGANIZATIONS_ONLY" />
+				<xs:enumeration value="INDIVIDUALS_ONLY" />
+				<xs:enumeration value="INDIVIDUALS_AND_ORGANIZATIONS" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+  		<xs:element name="ExpectedApplicationCount">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<!-- positive number -->
+				<xs:pattern value="[0-9]+" />
+				<xs:whiteSpace value="collapse" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	
+	<xs:simpleType name="OpportunityDateType">
+		<xs:restriction base="xs:string">
+			<!-- MM/DD/YYYY -->
+			<xs:pattern value="(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](20)\d\d" />
+			<xs:whiteSpace value="collapse" />
+		</xs:restriction>
+	</xs:simpleType>
+			
+</xs:schema>
