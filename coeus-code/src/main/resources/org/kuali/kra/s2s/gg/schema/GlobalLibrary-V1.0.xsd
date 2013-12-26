@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by David Xia (Northrop Grumman IT) -->
+<!--************************************************************************-->
+<!-- TITLE:          Global Library Schema                                       -->
+<!-- DATE:          October 17, 2003                                          -->
+<!-- VERSION:    1.0                                                                      -->
+<!--                                                                    -->
+<!-- COMMENTS: This schema contains general XML data          -->
+<!--                      constructs that are used by all the schemas   -->
+<!--                                                                                                -->
+<!--************************************************************************-->
+<xs:schema targetNamespace="http://apply.grants.gov/system/GlobalLibrary-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.1">
+   <!-- ****************************************************  -->
+   <!--   Import Other Schemas for Reuse                -->
+   <!-- ****************************************************  -->
+   <xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+   <xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V1.0.xsd"/>
+   <!-- ****************************************************  -->
+   <!--   General Data Element                                   -->
+   <!-- ****************************************************  -->
+   <xs:element name="AgencyName" type="glob:StringMin1Max60Type">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: NM1 Segment (Heading), Position 0900</xs:documentation>
+         <xs:documentation>NM101(Entity Identifier Code)/NM102(Entity Type Qualifier)/NM103(Name Last or Organization 
+       Name)</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="ApplicantID" type="glob:StringMin1Max30Type">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: BGN Segment (Heading), Position 0200</xs:documentation>
+         <xs:documentation>BGN02(Reference Identification)</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="CFDANumber" type="glob:StringMin1Max15Type">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: N9 Segment (Heading), Position 0600</xs:documentation>
+         <xs:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="CompetitionID" type="glob:StringMin1Max100Type"/>
+   <xs:element name="CongressionalDistrict" type="glob:StringMin1Max30Type">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: N9 Segment (Heading), Position 1300</xs:documentation>
+         <xs:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="DUNSID" type="glob:StringMin1Max13Type">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: NM1 Segment (Heading), Position 0900</xs:documentation>
+         <xs:documentation>NM108(Identification Code Qualifier)/NM109(Identification Code)</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="EmployerID" type="glob:StringMin1Max30Type">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: N9 Segment (Heading), Position 1300</xs:documentation>
+         <xs:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="FederalID" type="glob:StringMin1Max30Type">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: N9 Segment (Heading), Position 0600</xs:documentation>
+         <xs:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Grants_govTrackingNumber" type="glob:StringMin1Max240Type"/>
+   <xs:element name="OrganizationName" type="glob:StringMin1Max120Type"/>
+   <xs:element name="OpportunityID" type="glob:StringMin1Max100Type"/>
+   <xs:element name="OpportunityTitle" type="glob:StringMin1Max255Type"/>
+   <xs:element name="ProjectAwardNumber" type="glob:StringMin1Max25Type"/>
+   <!-- ****************************************************  -->
+   <!--   General Attributes                                       -->
+   <!-- ****************************************************  -->
+   <xs:attribute name="FormVersion" type="glob:StringMin1Max30Type"/>
+   <!-- ****************************************************  -->
+   <!--   General Data Type                                       -->
+   <!-- ****************************************************  -->
+   <xs:complexType name="AddressDataType">
+      <xs:sequence>
+         <xs:element name="Street1" type="glob:StringMin1Max55Type"/>
+         <xs:element name="Street2" type="glob:StringMin1Max55Type" minOccurs="0"/>
+         <xs:element name="City" type="glob:StringMin1Max35Type"/>
+         <xs:element name="County" type="glob:StringMin1Max30Type" minOccurs="0"/>
+         <xs:element name="State" type="glob:StringMin1Max30Type" minOccurs="0"/>
+         <xs:element name="ZipCode" type="glob:StringMin1Max30Type" minOccurs="0"/>
+         <xs:element name="Country" type="codes:CountryCodeType" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="AgencyNameDataType">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: NM1 Segment (Heading), Position 0900</xs:documentation>
+         <xs:documentation>NM101(Entity Identifier Code)/NM102(Entity Type Qualifier)/NM103(Name Last or Organization 
+       Name)</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="60"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ApplicantIDDataType">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: BGN Segment (Heading), Position 0200</xs:documentation>
+         <xs:documentation>BGN02(Reference Identification)</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ApplicantTypeCodeDataType">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: NX1 Segment (Detail), Position 0800</xs:documentation>
+         <xs:documentation>NX101(Entity Identifier Code)</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="State Government"/>
+         <xs:enumeration value="County Government"/>
+         <xs:enumeration value="City or Township Government"/>
+         <xs:enumeration value="Local Government"/>
+         <xs:enumeration value="Special District"/>
+         <xs:enumeration value="Independent School District"/>
+         <xs:enumeration value="Public/State-Controlled Institution of Higher Education"/>
+         <xs:enumeration value="Private Institution of Higher Education"/>
+         <xs:enumeration value="Native American Tribal Government (Federally Recognized)"/>
+         <xs:enumeration value="Native American Tribal Organization (other than Federally recognized)"/>
+         <xs:enumeration value="Individual"/>
+         <xs:enumeration value="Public/Indian Housing Authority"/>
+         <xs:enumeration value="For-profit Organization (other than small business)"/>
+         <xs:enumeration value="Small Business"/>
+         <xs:enumeration value="Nonprofit Organization (Other than Institution of Higher Education)Other (Specify) "/>
+         <xs:enumeration value="Other"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ApplicationTypeCodeDataType">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: BGN Segment (Heading), Position 0200</xs:documentation>
+         <xs:documentation>BGN01(Transaction Set Purpose Code)</xs:documentation>
+         <xs:documentation>The valid values are listed below:</xs:documentation>
+         <xs:documentation>N - New</xs:documentation>
+         <xs:documentation>C - Continuation</xs:documentation>
+         <xs:documentation>R - Revision</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="N"/>
+         <xs:enumeration value="C"/>
+         <xs:enumeration value="R"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:complexType name="AttachedFileDataType">
+      <xs:annotation>
+         <xs:documentation>Datatype describing a single attached file.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="FileName">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:minLength value="1"/>
+                  <xs:maxLength value="255"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="MimeType">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:minLength value="1"/>
+                  <xs:maxLength value="72"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="FileLocation">
+            <xs:complexType>
+               <xs:attribute name="href" type="xs:anyURI"/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="HashValue">
+            <xs:annotation>
+               <xs:documentation>Hash value used in Header and Footer schemas</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+               <xs:simpleContent>
+                  <xs:extension base="xs:base64Binary">
+                     <xs:attribute ref="glob:hashAlgorithm" use="required"/>
+                  </xs:extension>
+               </xs:simpleContent>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="BudgetAmountDataType">
+      <xs:annotation>
+         <xs:documentation>The valid Budget Amount can be Decimal - Min length 1, max length 14, 2 places after decimal </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:decimal">
+         <xs:totalDigits value="14"/>
+         <xs:fractionDigits value="2"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="BudgetTotalAmountDataType">
+      <xs:annotation>
+         <xs:documentation>The valid Budget Amount can be Decimal - Min length 1, max length 15, 2 places after decimal </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:decimal">
+         <xs:totalDigits value="15"/>
+         <xs:fractionDigits value="2"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="CFDANumberDataType">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: N9 Segment (Heading), Position 0600</xs:documentation>
+         <xs:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="CompetitionIDDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="100"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="CongressionalDistrictDataType">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: N9 Segment (Heading), Position 1300</xs:documentation>
+         <xs:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:complexType name="ContactPersonDataType">
+      <xs:sequence>
+         <xs:element name="Name" type="globLib:HumanNameDataType"/>
+         <xs:element name="Title" type="globLib:HumanTitleDataType" minOccurs="0"/>
+         <xs:element name="Address" type="globLib:AddressDataType"/>
+         <xs:element name="Phone" type="globLib:TelephoneNumberDataType"/>
+         <xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+         <xs:element name="Email" type="globLib:EmailDataType" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="DepartmentNameDataType">
+      <xs:annotation>
+         <xs:documentation>The department name can have from 1 to 30 characters </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="DivisionNameDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="DUNSIDDataType">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: NM1 Segment (Heading), Position 0900</xs:documentation>
+         <xs:documentation>NM108(Identification Code Qualifier)/NM109(Identification Code)</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="13"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="EducationDegreeDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="EmailDataType">
+      <xs:annotation>
+         <xs:documentation>The valid email address can have from 1 to 60 characters </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="60"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="EmployerIDDataType">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: N9 Segment (Heading), Position 1300</xs:documentation>
+         <xs:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="FederalIDDataType">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: N9 Segment (Heading), Position 0600</xs:documentation>
+         <xs:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="FormVersionDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="Grants_govTrackingNumberDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="240"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="HumanTitleDataType">
+      <xs:annotation>
+         <xs:documentation>The valid title of a person can have from 1 to 45 characters </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="45"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:complexType name="HumanNameDataType">
+      <xs:sequence>
+         <xs:element name="PrefixName" type="glob:StringMin1Max10Type" minOccurs="0"/>
+         <xs:element name="FirstName" type="glob:StringMin1Max35Type"/>
+         <xs:element name="MiddleName" type="glob:StringMin1Max25Type" minOccurs="0"/>
+         <xs:element name="LastName" type="glob:StringMin1Max60Type"/>
+         <xs:element name="SuffixName" type="glob:StringMin1Max10Type" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="OrganizationDataType">
+      <xs:sequence>
+         <xs:element ref="globLib:OrganizationName"/>
+         <xs:element ref="globLib:DUNSID" minOccurs="0"/>
+         <xs:element name="DepartmentName" type="glob:StringMin1Max30Type" minOccurs="0"/>
+         <xs:element name="DivisionName" type="glob:StringMin1Max30Type" minOccurs="0"/>
+         <xs:element ref="globLib:EmployerID" minOccurs="0"/>
+         <xs:element name="Address" type="globLib:AddressDataType" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="OrganizationDataTypeV2">
+      <xs:sequence>
+         <xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+         <xs:element name="DUNSID" type="globLib:DUNSIDDataType"/>
+         <xs:element name="DepartmentName" type="globLib:DepartmentNameDataType" minOccurs="0"/>
+         <xs:element name="DivisionName" type="globLib:DivisionNameDataType" minOccurs="0"/>
+         <xs:element name="Address" type="globLib:AddressRequireCountryDataType"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="AddressRequireCountryDataType">
+      <xs:complexContent>
+         <xs:restriction base="globLib:AddressDataType">
+            <xs:sequence>
+               <xs:element name="Street1" type="glob:StringMin1Max55Type"/>
+               <xs:element name="Street2" type="glob:StringMin1Max55Type" minOccurs="0"/>
+               <xs:element name="City" type="glob:StringMin1Max35Type"/>
+               <xs:element name="County" type="glob:StringMin1Max30Type" minOccurs="0"/>
+               <xs:element name="State" type="glob:StringMin1Max30Type" minOccurs="0"/>
+               <xs:element name="ZipCode" type="glob:StringMin1Max30Type" minOccurs="0"/>
+               <xs:element name="Country" type="codes:CountryCodeType"/>
+            </xs:sequence>
+         </xs:restriction>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:simpleType name="OrganizationNameDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="120"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="OpportunityIDDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="100"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="OpportunityTitleDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="255"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:complexType name="OrganizationContactPersonDataType">
+      <xs:complexContent>
+         <xs:extension base="globLib:ContactPersonDataType">
+            <xs:sequence>
+               <xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+               <xs:element name="DepartmentName" type="globLib:DepartmentNameDataType" minOccurs="0"/>
+               <xs:element name="DivisionName" type="globLib:DivisionNameDataType" minOccurs="0"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:simpleType name="PercentageIntegerDataType">
+      <xs:restriction base="xs:nonNegativeInteger">
+         <xs:minInclusive value="0"/>
+         <xs:maxInclusive value="100"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PercentageDecimalDataType">
+      <xs:restriction base="xs:decimal">
+         <xs:minInclusive value="0.00"/>
+         <xs:maxInclusive value="100.00"/>
+         <xs:totalDigits value="5"/>
+         <xs:fractionDigits value="2"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ProgramActivityTitleDataType">
+      <xs:annotation>
+         <xs:documentation>TS194 v4020: N9 Segment (Heading), Position 0600</xs:documentation>
+         <xs:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="120"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ProjectAwardNumberDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ProjectNameDataType">
+      <xs:annotation>
+         <xs:documentation>The project name can have from 1 to 60 characters </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="60"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ProjectTitleDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="200"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="RevisionCodeDataType">
+      <xs:annotation>
+         <xs:documentation>A - Increase Award</xs:documentation>
+         <xs:documentation>B - Decrease Award</xs:documentation>
+         <xs:documentation>C - Increase Duration</xs:documentation>
+         <xs:documentation>D - Decrease Duration</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="A"/>
+         <xs:enumeration value="B"/>
+         <xs:enumeration value="C"/>
+         <xs:enumeration value="D"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="SignatureDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="144"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="SocialSecurityNumberDataType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9]{3}\-[0-9]{2}\-[0-9]{4}"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="StateIDDataType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="SubmissionTypeCodeDataType">
+      <xs:annotation>
+         <xs:documentation>AC - Application, Construction</xs:documentation>
+         <xs:documentation>AN - Application, Non-Construction</xs:documentation>
+         <xs:documentation>PC - Pre-Application, Construction</xs:documentation>
+         <xs:documentation>PN - Pre-Application, Non-Construction</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="AC"/>
+         <xs:enumeration value="AN"/>
+         <xs:enumeration value="PC"/>
+         <xs:enumeration value="PN"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="TelephoneNumberDataType">
+      <xs:annotation>
+         <xs:documentation>The valid telephone number can have from 1 to 25 characters </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="YesNoDataType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Yes"/>
+         <xs:enumeration value="No"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="YesNoOtherDataType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Yes"/>
+         <xs:enumeration value="No"/>
+         <xs:enumeration value="Other"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="YesNoNotApplicableDataType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Yes"/>
+         <xs:enumeration value="No"/>
+         <xs:enumeration value="NotApplicable"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

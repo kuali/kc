@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:PlannedReport="http://apply.grants.gov/forms/PlannedReport-V1.0" targetNamespace="http://apply.grants.gov/forms/PlannedReport-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="PlannedReport">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Study" maxOccurs="150">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="StudyTitle" type="PlannedReport:PlannedReport_String1_250DataType"/>
+							<xs:element name="DomesticForeignIndicator">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="Domestic"/>
+										<xs:enumeration value="Foreign"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Comments" type="PlannedReport:PlannedReport_String1_500DataType" minOccurs="0"/>
+							<xs:element name="NotHispanic" type="PlannedReport:PlannedReport_EthnicCategoryDataType"/>
+							<xs:element name="Hispanic" type="PlannedReport:PlannedReport_EthnicCategoryDataType"/>
+							<xs:element name="Total" type="PlannedReport:PlannedReport_TotalsDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="PlannedReport_EthnicCategoryDataType">
+		<xs:sequence>
+			<xs:element name="Female" type="PlannedReport:PlannedReport_RacialCategoryDataType"/>
+			<xs:element name="Male" type="PlannedReport:PlannedReport_RacialCategoryDataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PlannedReport_RacialCategoryDataType">
+		<xs:sequence>
+			<xs:element name="AmericanIndian" type="PlannedReport:PlannedReport_0_to_999999999_DataType"/>
+			<xs:element name="Asian" type="PlannedReport:PlannedReport_0_to_999999999_DataType"/>
+			<xs:element name="Hawaiian" type="PlannedReport:PlannedReport_0_to_999999999_DataType"/>
+			<xs:element name="Black" type="PlannedReport:PlannedReport_0_to_999999999_DataType"/>
+			<xs:element name="White" type="PlannedReport:PlannedReport_0_to_999999999_DataType"/>
+			<xs:element name="MultipleRace" type="PlannedReport:PlannedReport_0_to_999999999_DataType"/>
+			<xs:element name="Total" type="PlannedReport:PlannedReport_0_to_9999999999_DataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PlannedReport_TotalsDataType">
+		<xs:sequence>
+			<xs:element name="AmericanIndian" type="PlannedReport:PlannedReport_0_to_9999999999_DataType"/>
+			<xs:element name="Asian" type="PlannedReport:PlannedReport_0_to_9999999999_DataType"/>
+			<xs:element name="Hawaiian" type="PlannedReport:PlannedReport_0_to_9999999999_DataType"/>
+			<xs:element name="Black" type="PlannedReport:PlannedReport_0_to_9999999999_DataType"/>
+			<xs:element name="White" type="PlannedReport:PlannedReport_0_to_9999999999_DataType"/>
+			<xs:element name="MultipleRace" type="PlannedReport:PlannedReport_0_to_9999999999_DataType"/>
+			<xs:element name="Total" type="PlannedReport:PlannedReport_0_to_99999999999_DataType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PlannedReport_String1_250DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="250"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PlannedReport_String1_500DataType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="500"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PlannedReport_0_to_999999999_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999999999"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="PlannedReport_0_to_9999999999_DataType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9999999999"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="PlannedReport_0_to_99999999999_DataType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999999999"/>
+		</xs:restriction>
+	</xs:simpleType>	
+</xs:schema>

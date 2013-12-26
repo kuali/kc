@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        targetNamespace="http://apply.grants.gov/system/GrantsCommonTypes-V1.0"
+	    
+	    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	    
+	    elementFormDefault="qualified"
+	    attributeFormDefault="qualified"
+	    version="1.0">
+    
+		<!-- ================ --> 
+		<!-- TYPE DEFINITIONS -->
+		<!-- ================ -->
+		<!-- 
+		    Re-usable Type Definitions
+		-->
+
+	    <!-- MM/DD/YYYY -->
+		<xs:simpleType name="MMDDYYYYFwdSlashType">
+			<xs:restriction base="xs:string">
+				<xs:pattern value="(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](20)\d\d" />
+				<xs:whiteSpace value="collapse" />
+			</xs:restriction>
+		</xs:simpleType>
+		
+		<xs:simpleType name="StringWithoutNewLine255Type">
+			<xs:restriction base="xs:string">
+				<!-- 
+					- CANNOT BEGIN with whitespace character (line feeds, tabs, spaces, carriage returns),
+					- can be followed by any sequence of characters except new line,
+					- max length of 255 
+				-->
+				<xs:pattern value="[^\s].{0,254}" />
+			</xs:restriction>
+		</xs:simpleType>
+		
+		<xs:simpleType name="StringMin1Max240Type">
+        	<xs:restriction base="xs:string">
+            	<xs:minLength value="1"/>
+            	<xs:maxLength value="240"/>
+        	</xs:restriction>
+    	</xs:simpleType>
+    
+		<xs:simpleType name="StringMin1Max255Type">
+        	<xs:restriction base="xs:string">
+            	<xs:minLength value="1"/>
+            	<xs:maxLength value="255"/>
+        	</xs:restriction>
+    	</xs:simpleType>
+    
+	    <!-- 
+	        - Valid characters: spaces and non-whitespace characters 
+	        - Invalid: line feeds, tabs, carriage returns
+	    -->
+	    <xs:simpleType name="UserIDType">
+	        <xs:restriction base="xs:string">
+	            <xs:pattern value="[ \S]+" />
+	        </xs:restriction>
+	    </xs:simpleType>
+    
+	    <!-- 
+	        - Valid characters: UPPERCASE letters, numeric, and hyphens
+	        - maxlength of 40 
+	    -->
+	    <xs:simpleType name="FundingOpportunityNumberType">
+	        <xs:restriction base="xs:string">
+	            <xs:pattern value="[A-Z0-9\-]{1,40}" />
+	            <xs:whiteSpace value="collapse" />
+	        </xs:restriction>
+	    </xs:simpleType>
+   
+	    <xs:simpleType name="OpportunityCategoryType">
+	        <xs:annotation>
+	            <xs:documentation>D - DISCRETIONARY</xs:documentation>
+	            <xs:documentation>M - MANDATORY</xs:documentation>
+	            <xs:documentation>C - CONTINUATION</xs:documentation>
+	            <xs:documentation>E - EARMARK</xs:documentation>
+	            <xs:documentation>O - OTHER</xs:documentation>
+	        </xs:annotation>
+	        <xs:restriction base="xs:string">
+	            <xs:enumeration value="D" />
+	            <xs:enumeration value="M" />
+	            <xs:enumeration value="C" />
+	            <xs:enumeration value="E" />
+	            <xs:enumeration value="O" />
+	        </xs:restriction>
+	    </xs:simpleType>
+    
+		<xs:simpleType name="TemplateNameType">
+			<xs:restriction base="xs:string">
+				<!-- 
+					- CANNOT BEGIN with whitespace character (line feeds, tabs, spaces, carriage returns),
+					- can be followed by any sequence of characters except new-line,
+					- max length of 255 
+				-->
+				<xs:pattern value="[^\s].{0,254}" />
+				<xs:whiteSpace value="collapse" />
+			</xs:restriction>
+		</xs:simpleType>
+			
+		<xs:simpleType name="FileNameType">
+			<xs:restriction base="xs:string">
+				<!-- 
+					- CANNOT BEGIN with whitespace character (line feeds, tabs, spaces, carriage returns),
+					- can be followed by any sequence of characters except new-line,
+					- max length of 255 
+				-->
+				<xs:pattern value="[^\s].{0,254}" />
+				<xs:whiteSpace value="collapse" />
+			</xs:restriction>
+		</xs:simpleType>
+		
+		<xs:simpleType name="FileExtensionType">
+			<xs:restriction base="xs:string">
+				<!-- 
+					- CANNOT BEGIN with whitespace character (line feeds, tabs, spaces, carriage returns),
+					- can be followed by any sequence of characters except new-line,
+					- max length of 255 
+				-->
+				<xs:pattern value="[^\s].{0,14}" />
+				<xs:whiteSpace value="collapse" />
+			</xs:restriction>
+		</xs:simpleType>
+		
+		<xs:simpleType name="FileContentIdType">
+			<xs:restriction base="xs:string">
+				<!-- 
+					- CANNOT BEGIN with whitespace character (line feeds, tabs, spaces, carriage returns),
+					- can be followed by any sequence of characters except new-line,
+					- max length of 255 
+				-->
+				<xs:pattern value="[^\s].{0,254}" />
+				<xs:whiteSpace value="collapse" />
+			</xs:restriction>
+		</xs:simpleType>
+		
+    
+    <!--
+        - Valid format: ##.###
+        - numeric
+    -->
+    <xs:simpleType name="CFDANumberType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{2}[\.][0-9]{3}" />
+            <xs:whiteSpace value="collapse" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <!-- 
+        - Valid characters: UPPERCASE letters, numeric, and hyphens
+        - maxlength of 40 
+    -->
+    <xs:simpleType name="CompetitionIDType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z0-9\-]{1,40}" />
+            <xs:whiteSpace value="collapse" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <!-- 
+        - CANNOT BEGIN with whitespace character (line feeds, tabs, spaces, carriage returns),
+        - can be followed by any sequence of characters except new line,
+        - max length of 255 
+    -->
+    <xs:simpleType name="CompetitionTitleType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[^\s].{0,254}" />
+            <xs:whiteSpace value="collapse" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+	<xs:simpleType name="GrantsGovTrackingNumberType">
+		<xs:restriction base="xs:string">
+			<!-- Valid format: UPPERCASE GRANTxxxxxxxx where 'x' is numeric only (i.e. GRANT12345678 ) -->
+			<xs:pattern value="GRANT[0-9]{8}" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="GrantsGovApplicationStatusType">
+            	<xs:restriction base="xs:string">
+               		<xs:enumeration value="Receiving"/>
+               		<xs:enumeration value="Received"/>
+               		<xs:enumeration value="Processing"/>
+               		<xs:enumeration value="Validated"/>
+               		<xs:enumeration value="Rejected with Errors"/>
+               		<xs:enumeration value="Download Preparation" />
+               		<xs:enumeration value="Received by Agency"/>
+               		<xs:enumeration value="Agency Tracking Number Assigned"/>
+            	</xs:restriction>
+    </xs:simpleType>
+	
+	<xs:simpleType name="TokenIdType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="2000" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="DUNSType" >
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-Za-z]{9,13}" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="FullNameType" >
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="240" />
+		</xs:restriction>
+	</xs:simpleType>
+						
+	<xs:simpleType name="AORStatusType" >
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AUTHORIZED"/>
+			<xs:enumeration value="UNAUTHORIZED"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="MessageCodeType" >
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{2}" />
+		</xs:restriction>
+	</xs:simpleType>
+						
+	<xs:simpleType name="MessageTextType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="2000" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="AgencyContactInfoType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="2000" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="AgencyTrackingNumberType">
+		<xs:restriction base="xs:string">
+			<!-- 
+				Valid characters: spaces and non-whitespace characters 
+				Invalid: line feeds, tabs, carriage returns
+			-->
+			<xs:pattern value="[ \S]+" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AgencyNotesType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="2048" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="StatusDetailType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	
+	
+</xs:schema>

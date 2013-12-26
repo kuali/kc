@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--*******************************************************************************************************************-->
+<!-- TITLE: CONSORTIUM PARTNERS IDENTIFICATION FORM-->
+<!-- DESCRIPTION: -->
+<!-- FORM VERSION: 1.0-->
+<!-- SCHEMA VERSION: 1.0-->
+<!-- OMB NUMBER: xxxx-xxxx-->
+<!-- FORM EXPIRATION DATE:  xx/xx/xxxx-->
+<!-- REVISION HISTORY:-->
+<!-- TO DO:-->
+<!--*******************************************************************************************************************-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:ED_FIPSEConsortiumPartnersIdentificationForm="http://apply.grants.gov/forms/ED_FIPSEConsortiumPartnersIdentificationForm-V1.0" targetNamespace="http://apply.grants.gov/forms/ED_FIPSEConsortiumPartnersIdentificationForm-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:element name="ED_FIPSEConsortiumPartnersIdentificationForm">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Partners" type="ED_FIPSEConsortiumPartnersIdentificationForm:PartnersDataType" maxOccurs="3"/>
+				<xs:element name="FilenameAtt01" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="255"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FilenameAtt02" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="255"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PartnersAttachment" type="ED_FIPSEConsortiumPartnersIdentificationForm:PartnersDataType" minOccurs="0" maxOccurs="2"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="PartnersDataType">
+		<xs:sequence>
+			<xs:element name="FIPSEProgramName">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="EU-U.S. Program"/>
+						<xs:enumeration value="U.S.-Brazil Program"/>
+						<xs:enumeration value="North American Program"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FIPSEConsortiumPartner">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="U.S."/>
+						<xs:enumeration value="Brazil"/>
+						<xs:enumeration value="Canada"/>
+						<xs:enumeration value="European Union"/>
+						<xs:enumeration value="Mexico"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ContactPersonOne" type="globLib:ContactPersonDataType"/>
+			<xs:element name="OrganizationNameOne" type="globLib:OrganizationNameDataType"/>
+			<xs:element name="DepartmentNameOne" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ContactPersonTwo" type="globLib:ContactPersonDataType"/>
+			<xs:element name="OrganizationNameTwo" type="globLib:OrganizationNameDataType"/>
+			<xs:element name="DepartmentNameTwo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ContactPersonThree" type="globLib:ContactPersonDataType" minOccurs="0"/>
+			<xs:element name="OrganizationNameThree" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+			<xs:element name="DepartmentNameThree" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:PHS_Fellowship_Supplemental="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental-V1.0" targetNamespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="PHS_Fellowship_Supplemental">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ApplicationType">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TypeOfApplication">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="New"/>
+										<xs:enumeration value="Resubmission"/>
+										<xs:enumeration value="Renewal"/>
+										<xs:enumeration value="Continuation"/>
+										<xs:enumeration value="Revision"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ResearchTrainingPlan">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IntroductionToApplication" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SpecificAims">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="BackgroundAndSignificance">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="PreliminaryStudiesProgressReport">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ResearchDesignAndMethods">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="InclusionEnrollmentReport" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ProgressReportPublicationList" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="HumanSubjectsInvolved" type="globLib:YesNoDataType"/>
+							<xs:element name="HumanSubjectsIndefinite" type="globLib:YesNoDataType"/>
+							<xs:element name="ClinicalTrial" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Phase3ClinicalTrial" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ProtectionOfHumanSubjects" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="InclusionOfWomenAndMinorities" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TargetedPlannedEnrollment" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="InclusionOfChildren" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="VertebrateAnimalsUsed" type="globLib:YesNoDataType"/>
+							<xs:element name="VertebrateAnimalsIndefinite" type="globLib:YesNoDataType"/>
+							<xs:element name="VertebrateAnimals" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SelectAgentResearch" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ResourceSharingPlan" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RespectiveContributions">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SelectionOfSponsorAndInstitution">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ResponsibleConductOfResearch">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AdditionalInformation">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="StemCells">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="isHumanStemCellsInvolved" type="globLib:YesNoDataType"/>
+										<xs:element name="StemCellsIndicator" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="CellLines" minOccurs="0" maxOccurs="20">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="4"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="AlernatePhoneNumber" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="GraduateDegreeEarned" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DegreeType" type="PHS_Fellowship_Supplemental:DegreeTypeDataType"/>
+										<xs:element name="OtherDegreeTypeText" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="10"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="DegreeDate">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="7"/>
+													<xs:maxLength value="7"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="GraduateDegreeSought" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DegreeType" type="PHS_Fellowship_Supplemental:DegreeTypeDataType"/>
+										<xs:element name="OtherDegreeTypeText" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="10"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="DegreeDate">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="7"/>
+													<xs:maxLength value="7"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FieldOfTraining" type="PHS_Fellowship_Supplemental:FieldOfTrainingDataType"/>
+							<xs:element name="CurrentPriorNRSASupportIndicator" type="globLib:YesNoDataType"/>
+							<xs:element name="CurrentPriorNRSASupport" minOccurs="0" maxOccurs="4">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Level">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Predoctoral"/>
+													<xs:enumeration value="Postdoctoral"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Type">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Individual"/>
+													<xs:enumeration value="Institutional"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="StartDate" type="xs:date" minOccurs="0"/>
+										<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+										<xs:element name="GrantNumber" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="19"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ConcurrentSupport" type="globLib:YesNoDataType"/>
+							<xs:element name="ConcurrentSupportDescription" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>							
+							<xs:element name="FellowshipTrainingAndCareerGoals">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ActivitiesPlannedUnderThisAward">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DissertationAndResearchExperience" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+							<xs:element name="Citizenship" type="PHS_Fellowship_Supplemental:CitizenshipDataType"/>
+							<xs:element name="ChangeOfInstitution" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FormerInstitution" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="60"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="AssurancesCertificationExplanation" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="attFile" type="att:AttachedFileDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>		
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Budget">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="InstitutionalBaseSalary" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Amount" type="globLib:BudgetAmountDataType"/>
+										<xs:element name="AcademicPeriod">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="6-month"/>
+													<xs:enumeration value="9-month"/>
+													<xs:enumeration value="10-month"/>
+													<xs:enumeration value="12-month"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="NumberOfMonths">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0.00"/>
+													<xs:maxInclusive value="24.00"/>
+													<xs:totalDigits value="4"/>
+													<xs:fractionDigits value="2"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FederalStipendRequested" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Amount" type="globLib:BudgetAmountDataType"/>
+										<xs:element name="NumberOfMonths">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0.00"/>
+													<xs:maxInclusive value="12.00"/>
+													<xs:totalDigits value="4"/>
+													<xs:fractionDigits value="2"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SupplementationFromOtherSources" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Amount" type="globLib:BudgetAmountDataType"/>
+										<xs:element name="NumberOfMonths">
+											<xs:simpleType>
+												<xs:restriction base="xs:decimal">
+													<xs:minInclusive value="0.00"/>
+													<xs:maxInclusive value="12.00"/>
+													<xs:totalDigits value="4"/>
+													<xs:fractionDigits value="2"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Type">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="30"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Source">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TuitionAndFeesRequested" type="globLib:YesNoDataType"/>
+							<xs:element name="TuitionRequestedYear1" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="TuitionRequestedYear2" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="TuitionRequestedYear3" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="TuitionRequestedYear4" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="TuitionRequestedYear5" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="TuitionRequestedYear6" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="TuitionRequestedTotal" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Appendix" type="att:AttachmentGroupMin0Max100DataType" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="DegreeTypeDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MA  : Master of Arts"/>
+			<xs:enumeration value="MBA : Master of Business Administration"/>
+			<xs:enumeration value="MLS : Master of Library Science"/>
+			<xs:enumeration value="MPA : Master of Public Administration"/>
+			<xs:enumeration value="MPH : Master of Public Health"/>
+			<xs:enumeration value="MS  : Master of Science"/>
+			<xs:enumeration value="MSN : Master of Science In Nursing"/>
+			<xs:enumeration value="MOTH: Other Masters Degree"/>
+			<xs:enumeration value="DC  : Doctor of Chiropractic"/>
+			<xs:enumeration value="DNSC: Doctor of Nursing Science"/>
+			<xs:enumeration value="DPH : Doctor of Public Health"/>
+			<xs:enumeration value="DRPH: Doctor of Public Health"/>
+			<xs:enumeration value="DSC : Doctor of Science"/>
+			<xs:enumeration value="EDD : Doctor of Education"/>
+			<xs:enumeration value="JD  : Doctor of Juris Prudence"/>
+			<xs:enumeration value="PHD : Doctor of Philosophy"/>
+			<xs:enumeration value="SCD : Doctor of Science"/>
+			<xs:enumeration value="DOTH: Other Doctorate"/>
+			<xs:enumeration value="DDS : Doctor of Dental Surgery"/>
+			<xs:enumeration value="DMD : Doctor of Medical Dentistry"/>
+			<xs:enumeration value="DO  : Doctor of Osteopathy"/>
+			<xs:enumeration value="DVM : Doctor of Veterinary Medicine"/>
+			<xs:enumeration value="MB  : Foreign - Bachelor of Medicine"/>
+			<xs:enumeration value="MBBS: Foreign - Bachelor of Medicine and Surgery"/>
+			<xs:enumeration value="MD  : Doctor of Medicine"/>
+			<xs:enumeration value="OD  : Doctor of Optometry"/>
+			<xs:enumeration value="VMD : Doctor of Veterinary Medicine"/>
+			<xs:enumeration value="DDOT: Other Doctor of Medical Dentistry"/>
+			<xs:enumeration value="MDOT: Other Doctor of Medicine"/>
+			<xs:enumeration value="VDOT: Other Doctor of Veterinary Medicine"/>
+			<xs:enumeration value="MDPHD: MD/PhD Program"/>
+			<xs:enumeration value="DBOTH: Other Double Degree Program"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FieldOfTrainingDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1100 BIOCHEMISTRY"/>
+			<xs:enumeration value="1110 Biological Chemistry"/>
+			<xs:enumeration value="1120 Bioenergetics"/>
+			<xs:enumeration value="1130 Enzymology"/>
+			<xs:enumeration value="1140 Metabolism"/>
+			<xs:enumeration value="1200 BIOENGINEERING"/>
+			<xs:enumeration value="1210 Bioelectric/Biomagnetic"/>
+			<xs:enumeration value="1220 Biomaterials"/>
+			<xs:enumeration value="1230 Biomechanical Engineering"/>
+			<xs:enumeration value="1240 Imaging"/>
+			<xs:enumeration value="1250 Instrumentation and Devices"/>
+			<xs:enumeration value="1260 Mathematical Modeling"/>
+			<xs:enumeration value="1270 Medical Implant Science"/>
+			<xs:enumeration value="1280 Nanotechnology"/>
+			<xs:enumeration value="1290 Rehabilitation Engineering"/>
+			<xs:enumeration value="1310 Tissue Engineering"/>
+			<xs:enumeration value="1400 BIOPHYSICS"/>
+			<xs:enumeration value="1410 Kinetics"/>
+			<xs:enumeration value="1420 Spectroscopy"/>
+			<xs:enumeration value="1430 Structural Biology"/>
+			<xs:enumeration value="1440 Theoretical Biophysics"/>
+			<xs:enumeration value="1500 BIOTECHNOLOGY"/>
+			<xs:enumeration value="1510 Applied Molecular Biology"/>
+			<xs:enumeration value="1520 Bioprocessing and Fermentation"/>
+			<xs:enumeration value="1530 Metabolic Engineering"/>
+			<xs:enumeration value="1600 CELL AND DEVELOPMENTAL BIOLOGY"/>
+			<xs:enumeration value="1610 Cell Biology"/>
+			<xs:enumeration value="1620 Developmental Biology"/>
+			<xs:enumeration value="1700 CHEMISTRY"/>
+			<xs:enumeration value="1710 Analytical Chemistry"/>
+			<xs:enumeration value="1720 Bioinorganic Chemistry"/>
+			<xs:enumeration value="1730 Bioorganic Chemistry"/>
+			<xs:enumeration value="1740 Biophysical Chemistry"/>
+			<xs:enumeration value="1750 Medicinal Chemistry"/>
+			<xs:enumeration value="1760 Physical Chemistry"/>
+			<xs:enumeration value="1770 Synthetic Chemistry"/>
+			<xs:enumeration value="1900 ENVIRONMENTAL SCIENCES"/>
+			<xs:enumeration value="2000 GENETICS"/>
+			<xs:enumeration value="2010 Behavioral Genetics"/>
+			<xs:enumeration value="2020 Developmental Genetics"/>
+			<xs:enumeration value="2030 Genetic Epidemiology"/>
+			<xs:enumeration value="2040 Genetics of Aging"/>
+			<xs:enumeration value="2050 Genomics"/>
+			<xs:enumeration value="2060 Human Genetics"/>
+			<xs:enumeration value="2070 Molecular Genetics"/>
+			<xs:enumeration value="2080 Population Genetics"/>
+			<xs:enumeration value="2200 IMMUNOLOGY"/>
+			<xs:enumeration value="2210 Asthma and Allergic Mechanisms"/>
+			<xs:enumeration value="2220 Autoimmunity"/>
+			<xs:enumeration value="2230 Immunodeficiency"/>
+			<xs:enumeration value="2240 Immunogenetics"/>
+			<xs:enumeration value="2250 Immunopathology"/>
+			<xs:enumeration value="2260 Immunoregulation"/>
+			<xs:enumeration value="2270 Inflammation"/>
+			<xs:enumeration value="2280 Structural Immunology"/>
+			<xs:enumeration value="2290 Transplantation Biology"/>
+			<xs:enumeration value="2310 Vaccine Development"/>
+			<xs:enumeration value="2400 MICROBIOLOGY AND INFECTIOUS DISEASES"/>
+			<xs:enumeration value="2410 Bacteriology"/>
+			<xs:enumeration value="2420 Etiology"/>
+			<xs:enumeration value="2430 HIV/AIDS"/>
+			<xs:enumeration value="2440 Mycology"/>
+			<xs:enumeration value="2450 Parasitology"/>
+			<xs:enumeration value="2460 Pathogenesis of Infectious Diseases"/>
+			<xs:enumeration value="2470 Virology"/>
+			<xs:enumeration value="2600 MOLECULAR BIOLOGY"/>
+			<xs:enumeration value="2800 NEUROSCIENCE"/>
+			<xs:enumeration value="2810 Behavioral Neuroscience"/>
+			<xs:enumeration value="2820 Cellular Neuroscience"/>
+			<xs:enumeration value="2830 Cognitive Neuroscience"/>
+			<xs:enumeration value="2840 Communication Neuroscience"/>
+			<xs:enumeration value="2850 Computational Neuroscience"/>
+			<xs:enumeration value="2860 Developmental Neuroscience"/>
+			<xs:enumeration value="2870 Molecular Neuroscience"/>
+			<xs:enumeration value="2880 Neurochemistry"/>
+			<xs:enumeration value="2890 Neurodegeneration"/>
+			<xs:enumeration value="2910 Neuropharmacology"/>
+			<xs:enumeration value="2920 Systems/Integrative Neuroscience"/>
+			<xs:enumeration value="3100 NUTRITIONAL SCIENCES"/>
+			<xs:enumeration value="3200 PHARMACOLOGY"/>
+			<xs:enumeration value="3210 Molecular Pharmacology"/>
+			<xs:enumeration value="3220 Pharmacodynamics"/>
+			<xs:enumeration value="3230 Pharmacogenetics"/>
+			<xs:enumeration value="3240 Toxicology"/>
+			<xs:enumeration value="3300 PHYSIOLOGY"/>
+			<xs:enumeration value="3310 Aging"/>
+			<xs:enumeration value="3320 Anesthesiology (basic science)"/>
+			<xs:enumeration value="3330 Endocrinology (basic science)"/>
+			<xs:enumeration value="3340 Exercise Physiology (basic science)"/>
+			<xs:enumeration value="3350 Integrative Biology"/>
+			<xs:enumeration value="3360 Molecular Medicine"/>
+			<xs:enumeration value="3370 Physiological Optics"/>
+			<xs:enumeration value="3380 Reproductive Physiology"/>
+			<xs:enumeration value="3500 PLANT BIOLOGY"/>
+			<xs:enumeration value="3600 PSYCHOLOGY, NON-CLINICAL"/>
+			<xs:enumeration value="3610 Behavioral Communication Sciences"/>
+			<xs:enumeration value="3620 Behavioral Medicine (non-clinical)"/>
+			<xs:enumeration value="3630 Cognitive Psychology"/>
+			<xs:enumeration value="3640 Developmental and Child Psychology"/>
+			<xs:enumeration value="3650 Experimental and General Psychology"/>
+			<xs:enumeration value="3660 Mind-Body Studies"/>
+			<xs:enumeration value="3680 Neuropsychology"/>
+			<xs:enumeration value="3690 Personality and Emotion"/>
+			<xs:enumeration value="3710 Physiological Psychology and Psychobiology"/>
+			<xs:enumeration value="3720 Psychology of Aging"/>
+			<xs:enumeration value="3730 Psychometrics"/>
+			<xs:enumeration value="3740 Psychophysics"/>
+			<xs:enumeration value="3750 Social Psychology"/>
+			<xs:enumeration value="3900 PUBLIC HEALTH"/>
+			<xs:enumeration value="3910 Disease Prevention and Control"/>
+			<xs:enumeration value="3920 Epidemiology"/>
+			<xs:enumeration value="3930 Health Economics"/>
+			<xs:enumeration value="3940 Health Education"/>
+			<xs:enumeration value="3950 Health Policy Research"/>
+			<xs:enumeration value="3960 Health Services Research"/>
+			<xs:enumeration value="3970 Occupational and Environmental Health"/>
+			<xs:enumeration value="4100 RADIATION, NON-CLINICAL"/>
+			<xs:enumeration value="4110 Nuclear Chemistry"/>
+			<xs:enumeration value="4120 Radiation Physics"/>
+			<xs:enumeration value="4130 Radiobiology"/>
+			<xs:enumeration value="4200 SOCIAL SCIENCES"/>
+			<xs:enumeration value="4210 Anthropology"/>
+			<xs:enumeration value="4220 Bioethics"/>
+			<xs:enumeration value="4230 Demography and Population Studies"/>
+			<xs:enumeration value="4240 Economics"/>
+			<xs:enumeration value="4250 Education"/>
+			<xs:enumeration value="4260 Language and Linguistics"/>
+			<xs:enumeration value="4270 Sociology"/>
+			<xs:enumeration value="4400 STATISTICS AND/OR RESEARCH METHODS AND/OR INFORMATICS"/>
+			<xs:enumeration value="4410 Biostatistics and/or Biometry"/>
+			<xs:enumeration value="4420 Bioinformatics"/>
+			<xs:enumeration value="4430 Computational Science"/>
+			<xs:enumeration value="4440 Information Science"/>
+			<xs:enumeration value="4450 Clinical Trials Methodology"/>
+			<xs:enumeration value="4600 TRAUMA, NON-CLINICAL"/>
+			<xs:enumeration value="6100 ALLIED HEALTH"/>
+			<xs:enumeration value="6110 Audiology"/>
+			<xs:enumeration value="6120 Community Psychology"/>
+			<xs:enumeration value="6130 Exercise Physiology (clinical)"/>
+			<xs:enumeration value="6140 Medical Genetics"/>
+			<xs:enumeration value="6150 Occupational Health"/>
+			<xs:enumeration value="6160 Palliative Care"/>
+			<xs:enumeration value="6170 Physical Therapy"/>
+			<xs:enumeration value="6180 Pharmacy"/>
+			<xs:enumeration value="6190 Social Work"/>
+			<xs:enumeration value="6210 Speech-language Pathology"/>
+			<xs:enumeration value="6211 Rehabilitation"/>
+			<xs:enumeration value="6400 CLINICAL DENTISTRY"/>
+			<xs:enumeration value="6500 MEDICAL DISCIPLINES"/>
+			<xs:enumeration value="6510 Allergy"/>
+			<xs:enumeration value="6520 Anesthesiology"/>
+			<xs:enumeration value="6530 Behavioral Medicine (clinical)"/>
+			<xs:enumeration value="6540 Cardiovascular Diseases"/>
+			<xs:enumeration value="6550 Clinical Laboratory Medicine"/>
+			<xs:enumeration value="6560 Clinical Nutrition"/>
+			<xs:enumeration value="6570 Clinical Pharmacology"/>
+			<xs:enumeration value="6580 Complementary and Alternative Medicine"/>
+			<xs:enumeration value="6590 Clinical Psychology"/>
+			<xs:enumeration value="6610 Connective Tissue Diseases"/>
+			<xs:enumeration value="6620 Dermatology"/>
+			<xs:enumeration value="6630 Diabetes"/>
+			<xs:enumeration value="6640 Gastroenterology"/>
+			<xs:enumeration value="6650 Endocrinology"/>
+			<xs:enumeration value="6660 Immunology"/>
+			<xs:enumeration value="6670 Gene Therapy (clinical)"/>
+			<xs:enumeration value="6680 Geriatrics"/>
+			<xs:enumeration value="6690 Hematology"/>
+			<xs:enumeration value="6710 HIV/AIDS"/>
+			<xs:enumeration value="6820 Infectious Diseases"/>
+			<xs:enumeration value="6830 Liver Diseases"/>
+			<xs:enumeration value="6840 Metabolic Diseases"/>
+			<xs:enumeration value="6850 Nephrology"/>
+			<xs:enumeration value="6860 Neurology"/>
+			<xs:enumeration value="6870 Ophthalmology"/>
+			<xs:enumeration value="6880 Nuclear Medicine"/>
+			<xs:enumeration value="6890 OB-GYN"/>
+			<xs:enumeration value="6910 Oncology"/>
+			<xs:enumeration value="6920 Orthopedics"/>
+			<xs:enumeration value="6930 Otorhinolarynology"/>
+			<xs:enumeration value="6940 Preventive Medicine"/>
+			<xs:enumeration value="6950 Radiation, Interventional"/>
+			<xs:enumeration value="6960 Pulmonary Diseases"/>
+			<xs:enumeration value="6970 Radiology, Diagnostic"/>
+			<xs:enumeration value="6980 Rehabilitation Medicine"/>
+			<xs:enumeration value="6990 Psychiatry"/>
+			<xs:enumeration value="7110 Surgery"/>
+			<xs:enumeration value="7120 Trauma"/>
+			<xs:enumeration value="7130 Urology"/>
+			<xs:enumeration value="7300 PEDIATRIC DISCIPLINES"/>
+			<xs:enumeration value="7310 Pediatric Endocrinology"/>
+			<xs:enumeration value="7320 Pediatric Hematology"/>
+			<xs:enumeration value="7330 Pediatric Oncology"/>
+			<xs:enumeration value="7340 Pediatric, Prematurity and Newborn"/>
+			<xs:enumeration value="7500 NURSING"/>
+			<xs:enumeration value="7700 VETERINARY MEDICINE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CitizenshipDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="U.S. Citizen or noncitizen national"/>
+			<xs:enumeration value="Permanent Resident of U.S."/>
+			<xs:enumeration value="Permanent Resident of U.S. Pending"/>
+			<xs:enumeration value="Non-U.S. Citizen with temporary visa"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

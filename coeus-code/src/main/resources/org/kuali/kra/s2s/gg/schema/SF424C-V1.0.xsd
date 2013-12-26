@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--************************************************************************************************-->
+<!-- TITLE:    SF424C                                                                                                     -->
+<!-- DATE:     October 15, 2003                                                                                    -->
+<!-- VERSION:  1.0                                                                                                        -->
+<!--                                                                                                                                -->
+<!-- COMMENTS: This schema conforms to OMB Standard Form 424C.OMB             -->
+<!--                      Approval Number 0348-001                                                             -->
+<!--                                                                                                                                -->
+<!-- REVISION HISTORY:                                                                                              -->
+<!--                                                                                                                                -->
+<!--************************************************************************************************-->
+<xsd:schema targetNamespace="http://apply.grants.gov/forms/SF424C-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424C="http://apply.grants.gov/forms/SF424C-V1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+    <!-- IMPORT GLOBAL SCHEMA -->
+    <xsd:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+    <!-- ELEMENTS -->
+    <!-- MAIN ELEMENT GROUP -->
+    <xsd:element name="BudgetInformation" type="SF424C:BudgetInformationType"/>
+    <!-- OTHER ELEMENTS -->
+    <xsd:element name="BudgetEstimatedCostAmount" type="glob:DecimalMin1Max14Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>"Total Project Costs" column, all rows</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="BudgetNonAllowableCostAmount" type="glob:DecimalMin1Max14Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>"Costs Not Allowable for Participation" column, all 	     rows</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="BudgetTotalAllowableCostAmount" type="glob:DecimalMin1Max14Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>"Total Allowable Costs" column, all rows</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="Contingencies">
+        <xsd:annotation>
+            <xsd:documentation>"Contingencies</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:group ref="SF424C:CostAmountGroup"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="CostLineItem">
+        <xsd:annotation>
+            <xsd:documentation>"Cost Classification" section, all rows</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:group ref="SF424C:CostAmountGroup"/>
+            </xsd:sequence>
+            <xsd:attribute ref="SF424C:classificationID" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="CostSubtotalAfterContingencies">
+        <xsd:annotation>
+            <xsd:documentation>"Subtotal (line 14), all rows</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:group ref="SF424C:CostAmountGroup"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="CostSubtotalBeforeContingencies">
+        <xsd:annotation>
+            <xsd:documentation>"Subtotal (line 12), all rows</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:group ref="SF424C:CostAmountGroup"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="FederalFundingPercentageShareValue" type="glob:IntegerMin1Max3Type"/>
+    <xsd:annotation>
+        <xsd:documentation>"Federal Funding" section, "Enter eligible costs from line 	         16c, Multiply X"</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="FederalFundingShareValue" type="glob:DecimalMin1Max14Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>"Federal Funding" section, Federal Share (bottom right)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ProgramIncome">
+        <xsd:annotation>
+            <xsd:documentation>"Program (project) income</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:group ref="SF424C:CostAmountGroup"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ProjectCosts">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="SF424C:CostLineItem" minOccurs="0" maxOccurs="11"/>
+                <xsd:element ref="SF424C:CostSubtotalBeforeContingencies" minOccurs="0"/>
+                <xsd:element ref="SF424C:Contingencies" minOccurs="0"/>
+                <xsd:element ref="SF424C:CostSubtotalAfterContingencies" minOccurs="0"/>
+                <xsd:element ref="SF424C:ProgramIncome" minOccurs="0"/>
+                <xsd:element ref="SF424C:TotalProjectCosts" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="TotalProjectCosts">
+        <xsd:annotation>
+            <xsd:documentation>Total Project Costs</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:group ref="SF424C:CostAmountGroup"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- ATTRIBUTES -->
+    <xsd:attribute name="classificationID" type="SF424C:classificationIDType"/>
+    <xsd:annotation>
+        <xsd:documentation>"Cost Classification" section, all rows</xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute name="programType" type="xsd:string" fixed="Construction"/>
+    <xsd:annotation>
+        <xsd:documentation>Denotes Construction</xsd:documentation>
+    </xsd:annotation>
+    <!-- DATATYPES -->
+    <!-- COMPLEX DATATYPES -->
+    <xsd:complexType name="BudgetInformationType">
+        <xsd:sequence>
+            <xsd:element ref="glob:FormVersionIdentifier"/>
+            <xsd:element ref="SF424C:ProjectCosts" minOccurs="0"/>
+            <xsd:element ref="SF424C:FederalFundingPercentageShareValue" minOccurs="0"/>
+            <xsd:element ref="SF424C:FederalFundingShareValue" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute ref="SF424C:programType" use="required"/>
+        <xsd:attribute ref="glob:coreSchemaVersion" use="required" fixed="1.0"/>
+    </xsd:complexType>
+    <!-- ENUMERATED DATATYPES -->
+    <xsd:simpleType name="classificationIDType">
+        <xsd:annotation>
+            <xsd:documentation>"Cost Classification" column, all rows</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Administration and legal expenses"/>
+            <xsd:enumeration value="Land, structures, rights-of-way, appraisals, etc."/>
+            <xsd:enumeration value="Relocation expenses and payments"/>
+            <xsd:enumeration value="Architectural and engineering fees"/>
+            <xsd:enumeration value="Other architectural and engineering fees"/>
+            <xsd:enumeration value="Project inspection fees"/>
+            <xsd:enumeration value="Site work"/>
+            <xsd:enumeration value="Demolition and removal"/>
+            <xsd:enumeration value="Construction"/>
+            <xsd:enumeration value="Equipment"/>
+            <xsd:enumeration value="Miscellaneous"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- MODEL GROUPS -->
+    <!-- HERE WE DEFINE MODEL GROUPS FOR ELEMENTS THAT APPEAR IN MULTIPLE PLACES IN THE SCHEMA. THIS   
+         ALLOWS US TO DEFINE THESE ELEMENTS IN ONE PLACE, AND REFER TO THEM MULTIPLE TIMES BY GROUP NAME. -->
+    <xsd:group name="CostAmountGroup">
+        <xsd:sequence>
+            <xsd:element ref="SF424C:BudgetEstimatedCostAmount" minOccurs="0"/>
+            <xsd:element ref="SF424C:BudgetNonAllowableCostAmount" minOccurs="0"/>
+            <xsd:element ref="SF424C:BudgetTotalAllowableCostAmount" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:group>
+</xsd:schema>

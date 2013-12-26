@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   2.0  $ -->
+<xs:schema xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:COPS_ApplicationAttachment2="http://apply.grants.gov/forms/COPS_ApplicationAttachment2-V2.0" targetNamespace="http://apply.grants.gov/forms/COPS_ApplicationAttachment2-V2.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="2.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="COPS_ApplicationAttachment2">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProgramName">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Targeted-Tribal Resources Grant Program"/>
+							<xs:enumeration value="Targeted-Methamphetamine Initiative"/>
+							<xs:enumeration value="Community Policing Development"/>
+							<xs:enumeration value="Secure our Schools"/>
+							<xs:enumeration value="Targeted-Technology Program"/>
+							<xs:enumeration value="Universal Hiring Program"/>
+							<xs:enumeration value="Child Sexual Predator Program"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ApplicantORINumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="7"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NoORI" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="LawEnforcementExecInformation" type="globLib:ContactPersonDataType"/>
+				<xs:element name="LawEnforcementExecAgencyName" type="globLib:AgencyNameDataType"/>
+				<xs:element name="AgencyType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Municipal"/>
+							<xs:enumeration value="State"/>
+							<xs:enumeration value="County Police Department"/>
+							<xs:enumeration value="Sheriff"/>
+							<xs:enumeration value="Tribal"/>
+							<xs:enumeration value="Transit*"/>
+							<xs:enumeration value="School*"/>
+							<xs:enumeration value="Consortium*"/>
+							<xs:enumeration value="University/College: Public*"/>
+							<xs:enumeration value="University/College: Private*"/>
+							<xs:enumeration value="Public Housing*"/>
+							<xs:enumeration value="New Startup* (please specify)"/>
+							<xs:enumeration value="Non-profit Organization"/>
+							<xs:enumeration value="Profit Organization"/>
+							<xs:enumeration value="Other* (please specify)"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyTypeStartup" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyTypeOther" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyTypeAdditionalInfo" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="GovtExecutiveInfo" type="globLib:ContactPersonDataType"/>
+				<xs:element name="GovtExecutiveEntityName" type="globLib:AgencyNameDataType"/>
+				<xs:element name="GovtEntityType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="State"/>
+							<xs:enumeration value="City"/>
+							<xs:enumeration value="Town"/>
+							<xs:enumeration value="County"/>
+							<xs:enumeration value="Village"/>
+							<xs:enumeration value="Borough"/>
+							<xs:enumeration value="Township"/>
+							<xs:enumeration value="Territory"/>
+							<xs:enumeration value="Region"/>
+							<xs:enumeration value="Council"/>
+							<xs:enumeration value="Community"/>
+							<xs:enumeration value="Pueblo"/>
+							<xs:enumeration value="Tribal Nation"/>
+							<xs:enumeration value="School District"/>
+							<xs:enumeration value="Not Applicable. Please check here if applying as a non-government agency (e.g., non-profit agency)"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CognizantFederalAgency" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ApplicantFiscalYearFrom" type="xs:date" minOccurs="0"/>
+				<xs:element name="ApplicantFiscalYearTo" type="xs:date" minOccurs="0"/>
+				<xs:element name="PopulationServed" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NonCensusPopulation" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ContactForServices" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="NonBIAContract" type="globLib:YesNoNotApplicableDataType" minOccurs="0"/>
+				<xs:element name="PrimaryLawEnforcementAuthority" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="PrimaryLawEnforcementPopulation" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NotPrimaryLawEnforcementAuthorityExplanation" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="1750"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SwornForceLocalBudgetFullTime" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SwornForceLocalBudgetPartTime" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SwornForceLocalActualFullTime" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SwornForceLocalActualPartTime" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="P1" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="P2" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="P3" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="P4" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="example_community_partnerships" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="1750"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PS1" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="PS2" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="PS3" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="PS4" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="example_problem_solving" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="1750"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OC1" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="OC2" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="OC3" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="OC4" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="example_org_alignment" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="1750"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="T1" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="T2" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="T3" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="T4" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="example_technology_activites" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="1750"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+
+				<xs:element name="NotApplyingForHiringGrant" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="RetentionForCOPSHiringGrantsExplanation" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="3500"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NeedForFederalAssistanceExplanation">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="1750"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NAWaiversOfTheLocalMatch" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="WaiverRequested" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="DetailedWaiverJustification" type="att:AttachedFileDataType" minOccurs="0"/>
+
+				<xs:element name="NAExecutiveSummary" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ExecutiveSummary" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescription" type="att:AttachedFileDataType"/>
+				<xs:element name="NABudgetNarrative" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="BudgetNarrative" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="NAMemorandumOfUnderstanding" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="MemorandumOfUnderstanding" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="NoPartnerRequired" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="OfficialPartner" minOccurs="0" maxOccurs="8">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OfficialPartnerContactInfo" type="globLib:ContactPersonDataType" minOccurs="0"/>
+							<xs:element name="PartnerEntityName" type="globLib:AgencyNameDataType" minOccurs="0"/>
+							<xs:element name="PartnerEntityType" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="50"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="NA_incident_data" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="Homicides" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Sex_offenses" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Assaults_fights" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Minor_assaults" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Theft_from_vehicles" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Weapons_possessions" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Vandalism_graffitti" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Underage_drinking" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Drug_possessions" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Disorderly_conduct" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Truancy" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Detentions" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Suspensions" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Expulsions" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Threats_to_school_property" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Participating_schools" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Total_student_population_for_involved_schools" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CriminalIntelligenceSystem" type="globLib:YesNoDataType"/>
+				<xs:element name="AuthorizedRepSignature" type="globLib:SignatureDataType"/>
+				<xs:element name="AuthorizedRepSignatureDate" type="xs:date"/>
+				<xs:element name="LE" type="globLib:HumanNameDataType" minOccurs="0"/>
+				<xs:element name="LESignatureDate" type="xs:date"/>
+				<xs:element name="GE" type="globLib:HumanNameDataType"/>
+				<xs:element name="GESignatureDate" type="xs:date"/>
+				<xs:element name="PartnerPersonSignatureAndName" minOccurs="0" maxOccurs="8">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PartnerPersonName" type="globLib:HumanNameDataType"/>
+							<xs:element name="PartnerPersonSignatureDate" type="xs:date"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PlaceOfPerformance" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="250"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CheckIfWorkPlace" type="globLib:YesNoDataType" minOccurs="0"/>
+ 				<xs:element name="GranteeNgVNameAdd">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="125"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+ 				<xs:element name="GranteeIRSVendorNumber">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="12"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="TypedNameTitleOfLaw" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="120"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="TypedNameTitleOfGov" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="120"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="2.0"/>
+		</xs:complexType>
+	</xs:element>
+	<!--Custom types definitions-->
+</xs:schema>

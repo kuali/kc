@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://apply.grants.gov/forms/NSF_CoverPage-V1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:NSF_CoverPage="http://apply.grants.gov/forms/NSF_CoverPage-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="NSF_CoverPage">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FundingOpportunityNumber">
+					<xs:simpleType>
+						<xs:restriction base="globLib:OpportunityIDDataType">
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="DueDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="NSFUnitConsideration">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DivisionCode">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="8"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="DivisionName" type="glob:StringMin1Max30Type" minOccurs="0"/>
+							<xs:element name="ProgramCode">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="4"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="ProgramName" type="glob:StringMin1Max30Type" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PIInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DegreeType" type="NSF_CoverPage:DegreeTypeDataType"/>
+							<xs:element name="DegreeYear">
+								<xs:simpleType>
+									<xs:restriction base="xs:gYear">
+										<xs:minInclusive value="1900"/>
+										<xs:maxInclusive value="9999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="isCurrentPI" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CoPIInfo" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CoPI" minOccurs="0" maxOccurs="4">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Name" type="globLib:HumanNameDataType"/>
+										<xs:element name="DegreeType" type="NSF_CoverPage:DegreeTypeDataType" minOccurs="0"/>
+										<xs:element name="DegreeYear" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:gYear">
+													<xs:minInclusive value="1900"/>
+													<xs:maxInclusive value="9999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OtherInfo" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="isBeginInvestigator" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="isDisclosureLobbyingActivities" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="isExploratoryResearch" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="isHistoricPlaces" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="isAccomplishmentRenewal" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="isHighResolutionGraphics" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Single-CopyDocuments" type="att:AttachmentGroupMin1Max100DataType" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="DegreeTypeDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AS: Associate in Science"/>
+			<xs:enumeration value="BA: Bachelor of Arts"/>
+			<xs:enumeration value="BComm: Bachelor of Commerce (Canada)"/>
+			<xs:enumeration value="BEd: Bachelor of Education"/>
+			<xs:enumeration value="BEng: Bachelor of Engineering"/>
+			<xs:enumeration value="BS: Bachelor of Science"/>
+			<xs:enumeration value="DA: Doctor of Arts"/>
+			<xs:enumeration value="DC: Doctor of Chiropractics"/>
+			<xs:enumeration value="DD: Doctor of Divinity"/>
+			<xs:enumeration value="DDS: Doctor of Dental Science"/>
+			<xs:enumeration value="DEng: Doctor of Engineering"/>
+			<xs:enumeration value="DFA: Doctor of Fine Arts"/>
+			<xs:enumeration value="DH: Doctor of Humanities"/>
+			<xs:enumeration value="DHA: Doctor of Hospital Administration"/>
+			<xs:enumeration value="DMin: Doctor of Ministry"/>
+			<xs:enumeration value="DPA: Doctor of Public Administration"/>
+			<xs:enumeration value="DSN: Doctorate of Science, in Nursing"/>
+			<xs:enumeration value="DVM: Doctor of Veterinary Medicine"/>
+			<xs:enumeration value="DVS: Doctor of Veterinary Science"/>
+			<xs:enumeration value="EdD: Doctor of Education"/>
+			<xs:enumeration value="HS: High School (or GED equivalent)"/>
+			<xs:enumeration value="JD: Jurum Doctor (Doctor of Laws)"/>
+			<xs:enumeration value="LLD: Legum Doctor (Doctor of Laws)"/>
+			<xs:enumeration value="LLM: Legum Magister (Master of Laws)"/>
+			<xs:enumeration value="MA: Master of Arts"/>
+			<xs:enumeration value="MAEd: Master of Arts, in Education"/>
+			<xs:enumeration value="MArch: Master of Architecture"/>
+			<xs:enumeration value="MBA: Master of Business Administration"/>
+			<xs:enumeration value="MD: Medical Doctor"/>
+			<xs:enumeration value="MDiv: Master of Divinity"/>
+			<xs:enumeration value="MDS: Master of Dental Science"/>
+			<xs:enumeration value="MEd: Master of Education"/>
+			<xs:enumeration value="MEE: Master of Electrical Engineering"/>
+			<xs:enumeration value="MEng: Master of Engineering"/>
+			<xs:enumeration value="MFA: Master of Fine Arts"/>
+			<xs:enumeration value="MIS: Master of Information Systems"/>
+			<xs:enumeration value="MLS: Master of Library Science"/>
+			<xs:enumeration value="MPA: Master of Public Administration"/>
+			<xs:enumeration value="MPd: Master of Pedagogy"/>
+			<xs:enumeration value="MPE: Master of Physical Education"/>
+			<xs:enumeration value="MPH: Master of Public Health"/>
+			<xs:enumeration value="MPhil: Master of Philosophy"/>
+			<xs:enumeration value="MS: Master of Science"/>
+			<xs:enumeration value="MSEd: Master of Science, in Education"/>
+			<xs:enumeration value="MST: Master of Sacred Theology"/>
+			<xs:enumeration value="MSW: Master of Social Work"/>
+			<xs:enumeration value="MTh: Master of Theology, in Religion"/>
+			<xs:enumeration value="PharD: Doctor of Pharmacy"/>
+			<xs:enumeration value="PhD: Doctor of Philosophy"/>
+			<xs:enumeration value="ScD: Doctor of Science"/>
+			<xs:enumeration value="ThD: Doctor of Theology, in Religion"/>
+			<xs:enumeration value="UKNW: No degree information specified"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

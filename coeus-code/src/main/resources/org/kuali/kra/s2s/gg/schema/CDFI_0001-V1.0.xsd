@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:CDFI_0001="http://apply.grants.gov/forms/CDFI_0001-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/CDFI_0001-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="CDFI_0001">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Organization">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="Street1" type="globLib:StreetDataType"/>
+							<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+							<xs:element name="City" type="globLib:CityDataType"/>
+							<xs:element name="State" type="codes:StateCodeDataType"/>
+							<xs:element name="ZipCode" type="globLib:ZipPostalCodeDataType"/>
+							<xs:element name="EIN" type="globLib:EmployerIDDataType"/>
+							<xs:element name="DUNSNumber" type="globLib:DUNSIDDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>							
+				<xs:element name="AuthorizedRep">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Prefix" type="globLib:PrefixNameDataType" minOccurs="0"/>
+							<xs:element name="FirstName" type="globLib:FirstNameDataType"/>
+							<xs:element name="LastName" type="globLib:LastNameDataType"/>
+							<xs:element name="Title" type="globLib:HumanTitleDataType"/>
+							<xs:element name="Email" type="globLib:EmailDataType"/>
+							<xs:element name="Phone" type="globLib:TelephoneNumberDataType"/>
+							<xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Street1" type="globLib:StreetDataType"/>
+							<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+							<xs:element name="City" type="globLib:CityDataType"/>
+							<xs:element name="State" type="codes:StateCodeDataType"/>
+							<xs:element name="ZipCode" type="globLib:ZipPostalCodeDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>	
+				<xs:element name="ApplicationPOC" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Prefix" type="globLib:PrefixNameDataType" minOccurs="0"/>
+							<xs:element name="FirstName" type="globLib:FirstNameDataType" minOccurs="0"/>
+							<xs:element name="LastName" type="globLib:LastNameDataType" minOccurs="0"/>
+							<xs:element name="Title" type="globLib:HumanTitleDataType" minOccurs="0"/>
+							<xs:element name="Email" type="globLib:EmailDataType" minOccurs="0"/>
+							<xs:element name="Phone" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Fax" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+							<xs:element name="Street1" type="globLib:StreetDataType" minOccurs="0"/>
+							<xs:element name="Street2" type="globLib:StreetDataType" minOccurs="0"/>
+							<xs:element name="City" type="globLib:CityDataType" minOccurs="0"/>
+							<xs:element name="State" type="codes:StateCodeDataType" minOccurs="0"/>
+							<xs:element name="ZipCode" type="globLib:ZipPostalCodeDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="OrganizationalProfile">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="1500"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="TypeAssistance">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="FA"/>
+							<xs:enumeration value="TA"/>
+							<xs:enumeration value="FA-HFFI"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FARequestedAmount" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Loan" type="CDFI_0001:CDFI_0001_0_to_2000000_DataType" minOccurs="0"/>
+							<xs:element name="Grant" type="CDFI_0001:CDFI_0001_0_to_2000000_DataType" minOccurs="0"/>
+							<xs:element name="Equity" type="CDFI_0001:CDFI_0001_0_to_2000000_DataType" minOccurs="0"/>
+							<xs:element name="SharesDeposits" type="CDFI_0001:CDFI_0001_0_to_2000000_DataType" minOccurs="0"/>
+							<xs:element name="SecondaryCapital" type="CDFI_0001:CDFI_0001_0_to_2000000_DataType" minOccurs="0"/>
+							<xs:element name="QID_54" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="1"/>
+										<xs:maxInclusive value="2000000"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>	
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="TARequestedAmount" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TotalTAGrantRequest" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="1"/>
+										<xs:maxInclusive value="100000"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>	
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="FAHFFIRequestedAmount" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Loan" type="CDFI_0001:CDFI_0001_0_to_5000000_DataType" minOccurs="0"/>
+							<xs:element name="Grant" type="CDFI_0001:CDFI_0001_0_to_5000000_DataType" minOccurs="0"/>
+							<xs:element name="Equity" type="CDFI_0001:CDFI_0001_0_to_5000000_DataType" minOccurs="0"/>
+							<xs:element name="SharesDeposits" type="CDFI_0001:CDFI_0001_0_to_5000000_DataType" minOccurs="0"/>
+							<xs:element name="SecondaryCapital" type="CDFI_0001:CDFI_0001_0_to_5000000_DataType" minOccurs="0"/>
+							<xs:element name="TotalHFFIRequest" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="1"/>
+										<xs:maxInclusive value="5000000"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>	
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>	
+				<xs:element name="OtherFunds" type="globLib:YesNoDataType"/>
+				<xs:element name="OtherFundsTable" minOccurs="0" maxOccurs="5">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AffiliateName">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="30"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="AffiliateEIN" type="globLib:EmployerIDDataType"/>
+							<xs:element name="CDFIFundProgram">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="BEA"/>
+										<xs:enumeration value="CMF"/>
+										<xs:enumeration value="FA"/>
+										<xs:enumeration value="FEC"/>
+										<xs:enumeration value="NACA"/>
+										<xs:enumeration value="NMTC"/>
+										<xs:enumeration value="TA"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="PriorAwardsTable" minOccurs="0" maxOccurs="10">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OrganizationName" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="100"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="EIN" type="globLib:EmployerIDDataType" minOccurs="0"/>
+							<xs:element name="ControlNumber" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="12"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="TotalAward" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="1"/>
+										<xs:maxInclusive value="999999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>	
+							<xs:element name="AwardType" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="BEA"/>
+										<xs:enumeration value="CMF"/>
+										<xs:enumeration value="FA"/>
+										<xs:enumeration value="FEC"/>
+										<xs:enumeration value="NACA"/>
+										<xs:enumeration value="NMTC"/>
+										<xs:enumeration value="TA"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="InstitutionType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Loan Fund"/>
+							<xs:enumeration value="Credit Union"/>
+							<xs:enumeration value="Bank Holding Company"/>
+							<xs:enumeration value="Bank or Thrift"/>
+							<xs:enumeration value="Venture Capital"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OrganizationStructure">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="For-Profit"/>
+							<xs:enumeration value="501(c)(4)"/>
+							<xs:enumeration value="Other Non-Profit"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="QID_65" type="globLib:YesNoDataType"/>
+				<xs:element name="DateofIncorporation" type="xs:date"/>
+				<xs:element name="DateStarted" type="xs:date"/>
+				<xs:element name="CongressionalDistrictApplicant" type="globLib:CongressionalDistrictDataType"/>
+				<xs:element name="QID_42" type="xs:date"/>
+				<xs:element name="QID_66">
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="-999999999999"/>
+							<xs:maxInclusive value="999999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>	
+				<xs:element name="RegulatoryBody" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="FDIC"/>
+							<xs:enumeration value="Federal Reserve"/>
+							<xs:enumeration value="NCUA"/>
+							<xs:enumeration value="OCC"/>
+							<xs:enumeration value="OTS"/>
+							<xs:enumeration value="Other"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OtherRegulatoryBody" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="40"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FDICCertification" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CharterNumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CertificationStatus">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="CDFI Certified"/>
+							<xs:enumeration value="Not Certified"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CDFICertificationNumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CertificationPending" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="SubmissionDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="CertificationChecklist" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="LegalEntityRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="PrimaryMissionRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="TargetMarketRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="FinancingEntityRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="DevelopmentServicesRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="AccountabilityRequirement" type="globLib:YesNoDataType"/>
+							<xs:element name="NonGovernmentEntityRequirement" type="globLib:YesNoDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="QID_58">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Major Urban"/>
+							<xs:enumeration value="Minor Urban"/>
+							<xs:enumeration value="Rural"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PrimaryMarket" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="QID_80" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_81" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_84" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_82" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_83" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="GeographicMarketServed" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Alabama" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Alaska" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="AmericanSamoa" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Arizona" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Arkansas" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="California" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Colorado" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Connecticut" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Delaware" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="DistrictofColumbia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederatedStatesofMicronesia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Florida" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Georgia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Guam" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Hawaii" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Idaho" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Illinois" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Indiana" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Iowa" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Kansas" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Kentucky" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Louisiana" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Maine" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Maryland" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Massachusetts" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Michigan" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="MidwayIslands" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Minnesota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Mississippi" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Missouri" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Montana" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nebraska" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nevada" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NewHampshire" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NewJersey" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NewMexico" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NewYork" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NorthCarolina" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NorthDakota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Ohio" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Oklahoma" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Oregon" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Pennsylvania" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="PuertoRico" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="RhodeIsland" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SouthCarolina" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SouthDakota" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Tennessee" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Texas" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="USVirginIslands" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Utah" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Vermont" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Virginia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Washington" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="WestVirginia" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Wisconsin" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Wyoming" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MarketProfile">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PrimaryBusiness">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Affordable Housing"/>
+							<xs:enumeration value="Consumer Finance"/>
+							<xs:enumeration value="Microenterprise"/>
+							<xs:enumeration value="Small Business"/>
+							<xs:enumeration value="Commercial"/>
+							<xs:enumeration value="Retail"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SecondaryBusiness" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AffordableHousing" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ConsumerFinance" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Microenterprise" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="SmallBusiness" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Commercial" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Retail" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProductsOffered" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IndividualDevelopmentAccounts" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="NoCostAccounts" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="LoansToRefinance" type="globLib:YesNoDataType" minOccurs="0"/> 
+							<xs:element name="LoansToBuild" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ShortTerm" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_56" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="QID_62" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="ServicesToDisabled" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="EquityInvestments" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="QID_24">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="9999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AssurancesCertifications" type="globLib:YesNoDataType"/>
+				<xs:element name="Details" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="4000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Questionnaire" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FederalLegislation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederalRule" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederalProgram" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nomination" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BackgroundWork" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederalLegislation2" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederalRule2" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="FederalProgram2" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="Nomination2" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="BackgroundWork2" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EnvironmentalReview">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CategoricalExclusion" type="globLib:YesNoDataType"/>
+							<xs:element name="EnvironmentalImpact" type="globLib:YesNoDataType"/>
+							<xs:element name="HistoricalSites" type="globLib:YesNoDataType"/>
+							<xs:element name="WildernessAreas" type="globLib:YesNoDataType"/>
+							<xs:element name="ScenicRivers" type="globLib:YesNoDataType"/>
+							<xs:element name="CriticalHabitats" type="globLib:YesNoDataType"/>
+							<xs:element name="NaturalLandmarks" type="globLib:YesNoDataType"/>
+							<xs:element name="CostalBarrier" type="globLib:YesNoDataType"/>
+							<xs:element name="CostalZone" type="globLib:YesNoDataType"/>
+							<xs:element name="SoleSourceAquifer" type="globLib:YesNoDataType"/>
+							<xs:element name="Wetlands" type="globLib:YesNoDataType"/>
+							<xs:element name="FloodPlains" type="globLib:YesNoDataType"/>
+							<xs:element name="PrimeFarmland" type="globLib:YesNoDataType"/>
+							<xs:element name="EPAList" type="globLib:YesNoDataType"/>
+							<xs:element name="ERNarrative" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="5000"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ApplicationChecklist">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SF424" type="globLib:YesNoDataType"/>
+							<xs:element name="FATAApplicationNarrative" type="globLib:YesNoDataType"/>
+							<xs:element name="FATADataTables" type="globLib:YesNoDataType"/>
+							<xs:element name="EINDocumentation" type="globLib:YesNoDataType"/>
+							<xs:element name="FinancialStatements" type="globLib:YesNoDataType"/>
+							<xs:element name="Resumes" type="globLib:YesNoDataType"/>
+							<xs:element name="OrganizationalChart" type="globLib:YesNoDataType"/>
+							<xs:element name="MatchingFundsDocumentation" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HFFIApplicationNarrative" type="globLib:YesNoDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="CDFI_0001_0_to_2000000_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="2000000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDFI_0001_0_to_5000000_DataType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="5000000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDFI_0001TotalDataType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="1.00"/>
+			<xs:maxInclusive value="9999999999.99"/>
+			<xs:totalDigits value="11"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by david xia (Northrop Grumman Information Technology) -->
+<!-- $Revision:   1.0  $ -->
+<xs:schema xmlns:HUD_DetailedBudget="http://apply.grants.gov/forms/HUD_DetailedBudget-V1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/HUD_DetailedBudget-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="HUD_DetailedBudget">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="ProjectActivityName" type="globLib:ProgramActivityTitleDataType"/>
+				<xs:element name="DetailedBudget" type="HUD_DetailedBudget:YearlyBudgetDataType" minOccurs="0" maxOccurs="4"/>
+				<xs:element name="BudgetAllYearsGrandToEstAmt" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="YearlyBudgetDataType">
+		<xs:sequence>
+			<xs:element name="BudgetYearText">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Year 1"/>
+						<xs:enumeration value="Year 2"/>
+						<xs:enumeration value="Year 3"/>
+						<xs:enumeration value="All Years"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Personnel" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="FringeBenefits" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="Travel" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="Equipment" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="Supplies" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="Contractual" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="ConstructionGroup" type="HUD_DetailedBudget:ConstructionGroupDataType" minOccurs="0"/>
+			<xs:element name="OtherDirectCosts" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="DirectCostsSubTotal" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="IndirectCosts" type="HUD_DetailedBudget:IndirectCostsDataType" minOccurs="0"/>
+			<xs:element name="YearllyTotal" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndirectCostsDataType">
+		<xs:sequence>
+			<xs:element name="IndirectCostRate" type="globLib:PercentageDecimalDataType" minOccurs="0"/>
+			<xs:element name="IndirectCostTotal" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ItemBudgetDataType">
+		<xs:sequence>
+			<xs:element name="HUDShareAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+			<xs:element name="ApplicantMatchAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+			<xs:element name="OtherHUDFundsAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+			<xs:element name="OtherFedFundsAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+			<xs:element name="StateShareAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+			<xs:element name="LocalTribalShareAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+			<xs:element name="OtherAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+			<xs:element name="ProgramIncomeAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+			<xs:element name="TotalAmount" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ConstructionGroupDataType">
+		<xs:sequence>
+			<xs:element name="AdminLegalExpenses" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="LandStructure" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="Relocation" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="ArchtEngFees" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="OtherArchtEngFees" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="ProjectInspectionFees" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="SiteWork" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="DemolitionRemoval" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="Construction" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="Equipment" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="Contingencies" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+			<xs:element name="Misc" type="HUD_DetailedBudget:ItemBudgetDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
