@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.3  $ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:EPA4700_4="http://apply.grants.gov/forms/EPA4700_4-V1.1" targetNamespace="http://apply.grants.gov/forms/EPA4700_4-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<!--Root element definition-->
+	<xs:element name="EPA4700_4">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ApplicantInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ApplicantName" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="ApplicantCityState" type="EPA4700_4:CityStateDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RecipientInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="RecipientName" type="globLib:HumanNameDataType"/>
+							<xs:element name="RecipientCityState" type="EPA4700_4:CityStateDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EPAProjectNum" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:long">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999999999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ProjectDescription">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="1500"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CivilRightsLawsuitsInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CivilRightsLawsuitsQuestion" type="globLib:YesNoDataType"/>
+							<xs:element name="CivilRightsLawsuits" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CivilRightsComplianceReviewInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CivilRightsComplianceReviewQuestion" type="globLib:YesNoDataType"/>
+							<xs:element name="CivilRightsComplianceReview" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FederalFinancialAssistanceInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FederalFinancialAssistanceQuestion" type="globLib:YesNoDataType"/>
+							<xs:element name="FederalFinancialAssistance" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ServiceNotOfferedReason" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PopulationInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ServiceAreaPopulation" type="EPA4700_4:PopulationNumberDataType"/>
+							<xs:element name="ServiceAreaMinorityPopulation" type="EPA4700_4:PopulationNumberDataType"/>
+							<xs:element name="CurrentPopulationServed" type="EPA4700_4:PopulationNumberDataType"/>
+							<xs:element name="CurrentMinorityPopulationServed" type="EPA4700_4:PopulationNumberDataType"/>
+							<xs:element name="PopulationToBeServed" type="EPA4700_4:PopulationNumberDataType"/>
+							<xs:element name="MinorityPopulationToBeServed" type="EPA4700_4:PopulationNumberDataType"/>
+							<xs:element name="PopulationWithoutService" type="EPA4700_4:PopulationNumberDataType"/>
+							<xs:element name="MinorityPopulationWithoutService" type="EPA4700_4:PopulationNumberDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HandicapAccessibleInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="HandicapAccessibleQuestion" type="globLib:YesNoDataType"/>
+							<xs:element name="NoHandicapAccessibleExplanation" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FutureProjectScheduleExplanation">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AORInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Signature" type="globLib:SignatureDataType"/>
+							<xs:element name="PersonTitle" type="globLib:HumanTitleDataType" minOccurs="0"/>
+							<xs:element name="SubmittedDate" type="xs:date"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- ****************************************************  -->
+	<!--   Custom types definitions                             -->
+	<!--   CityStateDataType                                      -->
+	<!-- ****************************************************  -->
+	<xs:complexType name="CityStateDataType">
+		<xs:sequence>
+			<xs:element name="City" type="globLib:CityDataType"/>
+			<xs:element name="State" type="codes:StateCodeDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PopulationNumberDataType">
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

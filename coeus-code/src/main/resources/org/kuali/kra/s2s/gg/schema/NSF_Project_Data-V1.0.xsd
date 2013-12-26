@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://apply.grants.gov/forms/NSF_Project_Data-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:NSF_Project_Data="http://apply.grants.gov/forms/NSF_Project_Data-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="NSF_Project_Data">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProgramTrack" type="NSF_Project_Data:ProgramTrackDataType"/>
+				<xs:element name="PDPIName" type="globLib:HumanNameDataType"/>
+				<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="OtherOrganizationName" type="globLib:OrganizationNameDataType" minOccurs="0" maxOccurs="20"/>
+				<xs:element name="MajorDiscCode" type="NSF_Project_Data:MajorDiscCodeDataType"/>
+				<xs:element name="AcadeFocusLevel" type="NSF_Project_Data:AcadeFocusLevelDataType"/>
+				<xs:element name="AcadDeg" type="NSF_Project_Data:AcadDegDataType"/>
+				<xs:element name="CatCode" type="NSF_Project_Data:CatCodeDataType"/>
+				<xs:element name="PrivateSector" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="Women" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="PD" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="PST" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="SS" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="Minority" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="Tech" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="IST" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="FacProfDev" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="InstCtrlCode" type="NSF_Project_Data:InstCtrlCodeDataType"/>
+				<xs:element name="StratAreaCode" type="NSF_Project_Data:StratAreaCodeDataType" minOccurs="0"/>
+				<xs:element name="CCLIStem" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CCLIDevFac" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CCLIAsseLearn" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CCLILearnMat" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="CCLIImpl" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ResTeaLearn" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="IntResEd" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="EdUseTech" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="FieldExp" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="BusInds" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="STEM" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="IntlActv" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="UndgCount" type="NSF_Project_Data:CountDataType"/>
+				<xs:element name="PCSCount" type="NSF_Project_Data:CountDataType"/>
+				<xs:element name="FacCount" type="NSF_Project_Data:CountDataType"/>
+				<xs:element name="PCTCount" type="NSF_Project_Data:CountDataType"/>
+				<xs:element name="GradCount" type="NSF_Project_Data:CountDataType"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="ProgramTrackDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ATE: Centers of Excellence"/>
+			<xs:enumeration value="ATE: Projects"/>
+			<xs:enumeration value="CCLI: Phase 1 (Exploratory)"/>
+			<xs:enumeration value="CCLI: Phase 2 (Expansion)"/>
+			<xs:enumeration value="CCLI: Phase 3 (Comprehensive)"/>
+			<xs:enumeration value="NSDL: Pathways"/>
+			<xs:enumeration value="NSDL: Services"/>
+			<xs:enumeration value="NSDL: Targeted Research"/>
+			<xs:enumeration value="SFS: Scholarships"/>
+			<xs:enumeration value="SFS: Capacity Building"/>
+			<xs:enumeration value="STEP: Type 1 Proposals"/>
+			<xs:enumeration value="STEP: Type 2 Proposals"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MajorDiscCodeDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ASTRONOMY"/>
+			<xs:enumeration value="BIOLOGICAL SCIENCES"/>
+			<xs:enumeration value="CHEMISTRY"/>
+			<xs:enumeration value="Computer Science"/>
+			<xs:enumeration value="Computer Engineering"/>
+			<xs:enumeration value="Information Science and Systems"/>
+			<xs:enumeration value="Software Engineering"/>
+			<xs:enumeration value="Computing--Other"/>
+			<xs:enumeration value="Earth Systems Science"/>
+			<xs:enumeration value="Atmospheric Sciences"/>
+			<xs:enumeration value="Geology"/>
+			<xs:enumeration value="Oceanography"/>
+			<xs:enumeration value="Aeronautical Engineering"/>
+			<xs:enumeration value="Chemical Engineering "/>
+			<xs:enumeration value="Civil Engineering"/>
+			<xs:enumeration value="Electrical Engineering"/>
+			<xs:enumeration value="Mechanical Engineering"/>
+			<xs:enumeration value="Materials Science &amp; Engineering"/>
+			<xs:enumeration value="Engineering Technology"/>
+			<xs:enumeration value="Engineering--Other"/>
+			<xs:enumeration value="INTERDISCIPLINARY/MULTIDISCIPLINARY"/>
+			<xs:enumeration value="MATHEMATICAL SCIENCES"/>
+			<xs:enumeration value="PHYSICS"/>
+			<xs:enumeration value="Biological Psychology"/>
+			<xs:enumeration value="Social Psychology"/>
+			<xs:enumeration value="Cognitive Psychology"/>
+			<xs:enumeration value="Anthropology "/>
+			<xs:enumeration value="Economics"/>
+			<xs:enumeration value="History"/>
+			<xs:enumeration value="Linguistics"/>
+			<xs:enumeration value="Political Science"/>
+			<xs:enumeration value="Sociology"/>
+			<xs:enumeration value="Geography"/>
+			<xs:enumeration value="Social Sciences--Other"/>
+			<xs:enumeration value="Science &amp; Technology Assessments"/>
+			<xs:enumeration value="Effects of Science &amp; Technology on Society"/>
+			<xs:enumeration value="Ethical Considerations"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AcadeFocusLevelDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Lower Division Undergraduate"/>
+			<xs:enumeration value="Upper Division Undergraduate"/>
+			<xs:enumeration value="Both Divisions Of Undergraduate"/>
+			<xs:enumeration value="Graduate"/>
+			<xs:enumeration value="Graduate and Undergraduate"/>
+			<xs:enumeration value="Pre-college (preK-12)"/>
+			<xs:enumeration value="Pre-college and Undergraduate"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AcadDegDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Associate"/>
+			<xs:enumeration value="Baccalaureate"/>
+			<xs:enumeration value="Masters"/>
+			<xs:enumeration value="Doctorate"/>
+			<xs:enumeration value="Non-academic Institution"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CatCodeDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ATE: Project--Program Improvement"/>
+			<xs:enumeration value="ATE: Project--Professional Devel. for Educators"/>
+			<xs:enumeration value="ATE: Project--Curriculum and Ed. Materials Devel."/>
+			<xs:enumeration value="ATE: Project--Teacher Preparation"/>
+			<xs:enumeration value="ATE: Project--Research on Technician Education"/>
+			<xs:enumeration value="ATE: Project--Institution-Level Reform of Technician Education"/>
+			<xs:enumeration value="ATE: Project--Multi-focus"/>
+			<xs:enumeration value="ATE: National Center"/>
+			<xs:enumeration value="ATE: Regional Center"/>
+			<xs:enumeration value="ATE: Resource Center"/>
+			<xs:enumeration value="ATE: Special Activities"/>
+			<xs:enumeration value="NDSL: Pathways"/>
+			<xs:enumeration value="NDSL: Services--Selection Services"/>
+			<xs:enumeration value="NDSL: Services--Usage Development"/>
+			<xs:enumeration value="NDSL: Services--Other Services"/>
+			<xs:enumeration value="NDSL: Targeted Research"/>
+			<xs:enumeration value="Other Programs: Not Applicable"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="InstCtrlCodeDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Public"/>
+			<xs:enumeration value="Private"/>
+			<xs:enumeration value="Consortium"/>
+			<xs:enumeration value="Non-academic"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StratAreaCodeDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Environment"/>
+			<xs:enumeration value="Information Technology"/>
+			<xs:enumeration value="Nanoscale Science and Engineering"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CountDataType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

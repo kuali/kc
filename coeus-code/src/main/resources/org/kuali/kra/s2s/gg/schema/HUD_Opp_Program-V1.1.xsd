@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by david xia (Northrop Grumman Information Technology) -->
+<!-- $Revision:   1.2  $ -->
+<xs:schema xmlns:HUD_Opp_Program="http://apply.grants.gov/forms/HUD_Opp_Program-V1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/HUD_Opp_Program-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:element name="HUD_Opp_Program">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PHAApplicantName" type="globLib:AgencyNameDataType"/>
+				<xs:element name="PHANmbr">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PHAAddress" type="globLib:AddressDataType"/>
+				<xs:element name="JointApplicantIndicator" type="globLib:YesNoDataType"/>
+				<xs:element name="JointPHAApplicantName" type="globLib:AgencyNameDataType" minOccurs="0"/>
+				<xs:element name="JointPHANmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="JointPHAAddress" type="globLib:AddressDataType" minOccurs="0"/>
+				<xs:element name="JointAdditionalInfo" type="att:AttachedFileDataType" minOccurs="0"/>
+				<xs:element name="PHAContactPerson" type="globLib:HumanNameDataType"/>
+				<xs:element name="PHAContactPersonPhoneNmbr" type="globLib:TelephoneNumberDataType"/>
+				<xs:element name="PHAContactPersonEmail" type="globLib:EmailDataType"/>
+				<xs:element name="PHAApplicationTypeIndicator">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="New"/>
+							<xs:enumeration value="Renewal"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PHAApprovedSlotsNmbr">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="25"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PHAFSSCrdntrFndYear" type="xs:date" minOccurs="0"/>
+				<xs:element name="PHAPositionsFundedNmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PHAPositionRequestedNmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PHAFSSCrdntrSlryAmt" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="PHAPrgmCrdntsTotlAmt" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="PHASalaryCmprIndicator"  type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="PHAContractAdmnFundingTotlAmt" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="PHASingleParentFamiliesNmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PHA50058Indicator" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="PHAFamiliesSince93003Nmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PHAPrtcpntsEscwGrtrZeroNmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PHAEscwDstrbtn1010293003Nmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FmlsCntrctCmpltn1010293003Nmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PHAGraduateMovedOutPHNmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FSSGradROSSHmOwnNmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FSSGradOtherHmOwnNmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PHAFSSCrdntrSlryAmtb" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+				<xs:element name="PHASalaryCmprIndicatorb" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="PHAContractAdmnFundingTotlAmtb" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+				<xs:element name="TrgtPopulationUnempldNmbr" type="globLib:PercentageDecimalDataType" minOccurs="0"/>
+				<xs:element name="TrgtPopulationSnglPrntNmbr" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

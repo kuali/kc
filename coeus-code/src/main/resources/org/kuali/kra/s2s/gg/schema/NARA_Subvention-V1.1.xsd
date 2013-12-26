@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.1  $ -->
+<xs:schema xmlns:NARA_Subvention="http://apply.grants.gov/forms/NARA_Subvention-V1.1" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" targetNamespace="http://apply.grants.gov/forms/NARA_Subvention-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.1">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:element name="NARA_Subvention">
+		<xs:annotation>
+			<xs:documentation>NARA Subvention Form</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="VolumeTitle" type="glob:StringMin1Max50Type"/>
+				<xs:element name="PressName" type="glob:StringMin1Max50Type"/>
+				<xs:element name="AddAddress" type="globLib:AddressDataType"/>
+				<xs:element name="ApplicationDate" type="xs:date"/>
+				<xs:element name="AmountRequested" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="GrantPeriodFrom" type="xs:date"/>
+				<xs:element name="GrantPeriodTo" type="xs:date"/>
+				<xs:element name="GrantRequest">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="GrantRequestType" type="NARA_Subvention:GrantRequestDataType"/>
+							<xs:element name="DateManuscriptReceived" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Valid Only when NARA_Subvention:GrantRequestType has the value of "Regular Subvention"</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:simpleContent> 
+										<xs:extension base="xs:date">
+											<xs:attribute name="GrantRequestType" type="NARA_Subvention:GrantRequestDataType" use="required" fixed="Regular Subvention"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+					<xs:key name="DateManuscriptReceivedKey">
+						<xs:selector xpath="./NARA_Subvention:GrantRequestType"/>
+						<xs:field xpath="."/>
+					</xs:key>
+					<xs:keyref name="DateManuscriptReceivedKeyRef" refer="NARA_Subvention:DateManuscriptReceivedKey">
+						<xs:selector xpath="./NARA_Subvention:DateManuscriptReceived"/>
+						<xs:field xpath="@NARA_Subvention:GrantRequestType"/>
+					</xs:keyref>
+				</xs:element>
+				<xs:element name="ManuscriptFormat" type="glob:StringMin1Max50Type"/>
+				<xs:element name="ScheduledPublicationDate" type="xs:date"/>
+				<xs:element name="WordLength" type="NARA_Subvention:Integer7DigitDataType"/>
+				<xs:element name="PrintedPages" type="NARA_Subvention:Integer5DigitDataType"/>
+				<xs:element name="TrimSize" type="glob:StringMin1Max10Type"/>
+				<xs:element name="NumberofHalftones" type="NARA_Subvention:Integer5DigitDataType"/>
+				<xs:element name="NumberOfLineDrawings" type="NARA_Subvention:Integer5DigitDataType"/>
+				<xs:element name="ListPrice" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="AverageDiscount" type="globLib:PercentageDecimalDataType"/>
+				<xs:element name="AverageNetPrice" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="FirstPrintingCopies" type="NARA_Subvention:Integer8DigitDataType"/>
+				<xs:element name="EstimatedTotalSalesCopies" type="NARA_Subvention:Integer8DigitDataType"/>
+				<xs:element name="EstimatedFirstYearSalesCopies" type="NARA_Subvention:Integer8DigitDataType"/>
+				<xs:element name="EstimatedSecondYearSalesCopies" type="NARA_Subvention:Integer8DigitDataType"/>
+				<xs:element name="EstimatedThirdYearSalesCopies" type="NARA_Subvention:Integer8DigitDataType"/>
+				<xs:element name="ManufacturingCostsCompositionTotal" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ManufacturingCostsCompositionNHPRC" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ManufacturingCostsDesignTotal" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ManufacturingCostsDesignNHPRC" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ManufacturingCostsPaperandPrintingTotal" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ManufacturingCostsPaperandPrintingNHPRC" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ManufacturingCostsBindingTotal" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ManufacturingCostsBindingNHPRC" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="ManufacturingCostsSumTotal" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="ManufacturingCostsTotalofNHPRCCosts" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="NonmanufacturingCostsEditorialTotal" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="NonmanufacturingCostsEditorialNHPRC" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="NonmanufacturingCostsProductionTotal" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="NonmanufacturingCostsProductionNHPRC" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="NonmanufacturingCostsMarketingandPromotionTotal" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="NonmanufacturingCostsMarketingandPromotionNHPRC" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="NonmanufacturingCostsOrderFulfillmentTotal" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="NonmanufacturingCostsOrderFulfillmentNHPRC" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="NonmanufacturingCostsSumTotal" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="NonmanufacturingCostsNHPRCSum" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="SumTotalManufacturingNonmanufacturingCosts" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="SumTotalManufacturingNonmanufacturingNHPRCCosts" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="AdditionalSubvention">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Proposal" type="globLib:YesNoDataType"/>
+							<xs:element name="Date" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:date">
+											<xs:attribute name="Proposal" type="globLib:YesNoDataType" use="required" fixed="Y: Yes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Agency" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="glob:StringMin1Max60Type">
+											<xs:attribute name="Proposal" type="globLib:YesNoDataType" use="required" fixed="Y: Yes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Amount" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="glob:DecimalMin1Max14Places2Type">
+											<xs:attribute name="Proposal" type="globLib:YesNoDataType" use="required" fixed="Y: Yes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+					<xs:key name="AdditionalSubventionKey">
+						<xs:selector xpath="./NARA_Subvention:Proposal"/>
+						<xs:field xpath="."/>
+					</xs:key>
+					<xs:keyref name="AddtionalSubventionKeyRef_Date" refer="NARA_Subvention:AdditionalSubventionKey">
+						<xs:selector xpath="./NARA_Subvention:Date"/>
+						<xs:field xpath="@NARA_Subvention:Proposal"/>
+					</xs:keyref>
+					<xs:keyref name="AddtionalSubventionKeyRef_Agency" refer="NARA_Subvention:AdditionalSubventionKey">
+						<xs:selector xpath="./NARA_Subvention:Agency"/>
+						<xs:field xpath="@NARA_Subvention:Proposal"/>
+					</xs:keyref>
+					<xs:keyref name="AddtionalSubventionKeyRef_Amount" refer="NARA_Subvention:AdditionalSubventionKey">
+						<xs:selector xpath="./NARA_Subvention:Amount"/>
+						<xs:field xpath="@NARA_Subvention:Proposal"/>
+					</xs:keyref>
+				</xs:element>
+				<xs:element name="PrintingBindingMeetStandards" type="globLib:YesNoDataType"/>
+				<xs:element name="Tradenameoftextpaper" type="glob:StringMin1Max50Type"/>
+				<xs:element name="TypeOfBindingUsed" type="NARA_Subvention:StringMin1Max125Type"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- ========================================================================== -->
+	<!-- Grant Request Type List                                                                                                              -->
+	<!-- ========================================================================== -->
+	<xs:simpleType name="GrantRequestDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Regular Subvention"/>
+			<xs:enumeration value="Reprint"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ========================================================================== -->
+	<!-- Custom Data Types                                                                                                                      -->
+	<!-- ========================================================================== -->
+	<xs:simpleType name="StringMin1Max125Type">
+		<xs:annotation>
+			<xs:documentation>String - Min length 1, max length 125</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="125"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Integer7DigitDataType">
+		<xs:annotation>
+			<xs:documentation>Integer - Min length 0, max 9999999</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Integer5DigitDataType">
+		<xs:annotation>
+			<xs:documentation>Integer - Min length 0, max 99999</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Integer8DigitDataType">
+		<xs:annotation>
+			<xs:documentation>Integer - Min length 0, max 99999999</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

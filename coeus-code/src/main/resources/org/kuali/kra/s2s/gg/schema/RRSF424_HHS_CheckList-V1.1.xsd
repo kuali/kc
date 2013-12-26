@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:RRSF424_HHS_CheckList="http://apply.grants.gov/forms/RRSF424_HHS_CheckList-V1.1" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" targetNamespace="http://apply.grants.gov/forms/RRSF424_HHS_CheckList-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified">
+	<!-- Import Schemas -->
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="CheckList">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ApplicationType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="New"/>
+							<xs:enumeration value="Noncompeting Continuation"/>
+							<xs:enumeration value="Competing Continuation"/>
+							<xs:enumeration value="Supplemental"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CheckSignDateSF424" type="globLib:YesNoDataType"/>
+				<xs:element name="CheckSignDatePHS5161-1" type="globLib:YesNoDataType"/>
+				<xs:element name="CheckSignDateSF424BD" type="globLib:YesNoDataType"/>
+				<xs:element name="CheckCivilRightAssurance" type="globLib:YesNoDataType"/>
+				<xs:element name="CivilRightAssuranceSignDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="CheckHandicappedAssurance" type="globLib:YesNoDataType"/>
+				<xs:element name="HandicappedAssuranceSignDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="CheckSexAssurance" type="globLib:YesNoDataType"/>
+				<xs:element name="SexAssuranceSignDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="CheckAgeAssurance" type="globLib:YesNoDataType"/>
+				<xs:element name="AgeAssuranceSignDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="CheckHumanSubjectCertification" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="CheckPHSImpactStatement" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="CheckIntergrovernmentalReview" type="globLib:YesNoDataType"/>
+				<xs:element name="CheckProjectIdentify13OnFacePage" type="globLib:YesNoDataType"/>
+				<xs:element name="CheckBiographicalSketch" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="CheckSF424AC" type="globLib:YesNoDataType"/>
+				<xs:element name="Check12MonthDetailedBudget" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="HasDetailProjectBudget" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="CheckAddressOnlyAdditionalFunds" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="CheckProgressReport" type="globLib:YesNoNotApplicableDataType"/>
+				<xs:element name="ContactPerson">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="globLib:ContactPersonDataType">
+								<xs:sequence>
+									<xs:element name="OrganizationName"  type ="globLib:OrganizationNameDataType" minOccurs="0"/>
+									<xs:element name="ApplicantOrganizationID" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:pattern value="(\d{2}-\d{7})|(\d-\d{2}-\d{7}-.{2})"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProjectDirector">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="globLib:ContactPersonDataType">
+								<xs:sequence>
+									<xs:element name="OrganizationName"  type ="globLib:OrganizationNameDataType" minOccurs="0"/>
+									<xs:element name="SocialSecurityNumber" type="globLib:SocialSecurityNumberDataType" minOccurs="0"/>
+									<xs:element name="HighestDegreeEarned" type="globLib:EducationDegreeDataType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="NonProfitClaim">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="NewlyFiled">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CheckReferenceIRSList" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="CheckIRSCertification" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="CheckStateTaxCertification" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="CheckIncorporationCertification" type="globLib:YesNoDataType" minOccurs="0"/>
+										<xs:element name="CheckParentOrganzationCertification" type="globLib:YesNoDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="PreviouslyFiled">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element  name="AgencyName"  type="globLib:AgencyNameDataType"/>
+										<xs:element name="PreviouslyFiledDate" type="xs:date"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

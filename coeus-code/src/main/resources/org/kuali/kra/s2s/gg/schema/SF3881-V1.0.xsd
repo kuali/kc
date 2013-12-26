@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:SF3881="http://apply.grants.gov/forms/SF3881-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/forms/SF3881-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="SF3881">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AgencyName" type="globLib:AgencyNameDataType"/>
+				<xs:element name="AgencyIdentifier" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="12"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyLocation" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="12"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ACHFormat" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="CCD+"/>
+							<xs:enumeration value="CTX"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyAddress" type="globLib:AddressDataType" minOccurs="0"/>
+				<xs:element name="ContactPersonName" type="globLib:HumanNameDataType" minOccurs="0"/>
+				<xs:element name="PhoneNumber" type="globLib:TelephoneNumberDataType" minOccurs="0"/>
+				<xs:element name="AddedInfo" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="500"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Payee">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+							<xs:element name="SSNTIN" type="globLib:EmployerIDDataType"/>
+							<xs:element name="PayeeAddress" type="globLib:AddressDataType"/>
+							<xs:element name="ContactName" type="globLib:HumanNameDataType"/>
+							<xs:element name="PhoneNumber" type="globLib:TelephoneNumberDataType"/>
+							</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FinancialInstitution">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BankName">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="55"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="BankAddress" type="globLib:AddressDataType"/>
+							<xs:element name="ACHCoordinator" type="globLib:HumanNameDataType"/>
+							<xs:element name="PhoneNumber" type="globLib:TelephoneNumberDataType"/>
+							<xs:element name="NineDigitRoutingTransitNumber">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="9"/>
+										<xs:maxLength value="9"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="DepositorAccountTitle">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="50"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="DepositorAccountNumber">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="4"/>
+										<xs:maxLength value="30"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="LockboxNumber" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="20"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="TypeofAccount" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="Checking"/>
+										<xs:enumeration value="Savings"/>
+										<xs:enumeration value="Lockbox"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="AOSignatureAndTitle">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="AOName" type="globLib:HumanNameDataType"/>
+										<xs:element name="AOTitle">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="1"/>
+													<xs:maxLength value="60"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="AOPhoneNumber" type="globLib:TelephoneNumberDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
