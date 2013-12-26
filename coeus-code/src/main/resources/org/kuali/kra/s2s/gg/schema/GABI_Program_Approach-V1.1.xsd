@@ -1,0 +1,965 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:GABI_Program_Approach="http://apply.grants.gov/forms/GABI_Program_Approach-V1.1" targetNamespace="http://apply.grants.gov/forms/GABI_Program_Approach-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<!--Root element definition-->
+	<xs:element name="GABI">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FederalID" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="25"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="DelegateID">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AgencyName" type="globLib:AgencyNameDataType"/>
+				<xs:element name="CBEnroll" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="9999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="HBEnroll" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="9999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="COEnroll" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="9999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FCCEnroll" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="9999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OTEnroll" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="9999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="TotalChildEnroll" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="99999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PregnantWomen" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="9999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Column1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="Check" type="globLib:YesNoDataType"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column2" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column3" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column4" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column5" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column6" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column7" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column8" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column9" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column10" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column11" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column12" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column13" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column14" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column15" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column16" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column17" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column18" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column19" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Column20" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ScheduleID" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Option" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="CB: Center-based"/>
+										<xs:enumeration value="HB: Home-based"/>
+										<xs:enumeration value="CO: Combination Program"/>
+										<xs:enumeration value="FC: Family Child Care"/>
+										<xs:enumeration value="OT: Other Program Option"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Enrollment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="99999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumClasses" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="Check" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HoursPCPD" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPW" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="DaysPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBHVPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBPHV" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="HoursHBSE" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+							<xs:element name="NumHBSEPCPY" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

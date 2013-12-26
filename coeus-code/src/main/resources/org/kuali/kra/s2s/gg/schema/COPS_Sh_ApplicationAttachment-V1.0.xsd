@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.0  $ -->
+<xs:schema xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:COPS_Sh_ApplicationAttachment="http://apply.grants.gov/forms/COPS_Sh_ApplicationAttachment-V1.0" targetNamespace="http://apply.grants.gov/forms/COPS_Sh_ApplicationAttachment-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="COPS_Sh_ApplicationAttachment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProgramSelection">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Child Sexual Predator Program"/>
+							<xs:enumeration value="Community Policing Development"/>
+							<xs:enumeration value="COPS Hiring Program"/>
+							<xs:enumeration value="Secure Our Schools"/>
+							<xs:enumeration value="Targeted - Technology Program"/>
+							<xs:enumeration value="Targeted - Methamphetamine Initiative"/>
+							<xs:enumeration value="Targeted - Safe Schools Initiative"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ORINumber">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="7"/>
+							<xs:maxLength value="7"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ORIVerification">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="7"/>
+							<xs:maxLength value="7"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

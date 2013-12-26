@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by david xia (Northrop Grumman Information Technology) -->
+<!-- $Revision:   1.0  $ -->
+<xs:schema xmlns:HUD_FiscalActivity="http://apply.grants.gov/forms/HUD_FiscalActivity-V1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/HUD_FiscalActivity-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="HUD_FiscalActivity">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CounselingAgencyName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="ContactPerson" type="globLib:ContactPersonDataType"/>
+				<xs:element name="NewInformationIndicator_Yes" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="NewInformationIndicator_No" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ReportingBeginDate">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1000"/>
+							<xs:maxInclusive value="9999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ReportingEndDate">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1000"/>
+							<xs:maxInclusive value="9999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="HispanicEthnicity" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="NotHispanicEthnicity" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RaceAmInAkNtv" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RaceAsian" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RaceBlkAfrAm" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RaceNtvHwOthPcfIs" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RaceWhite" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RaceAmInAkNtvWht" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RaceAsianWht" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RaceAsianBlkAfrAmWht" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RaceAmInAKBlk" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RaceOthrMltpl" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="IncmLvlLess50Nmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="IncmLvl50To80Nmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="IncmLvl80To100Nmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="IncmLvlGrtr100Nmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="CmplHmbyrEdWrkshpNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="CmPtPrchHmwWrkshpNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="FairHsngIssueNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="PrdtryLndngNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="PrchsdHsngNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="MrtgReady90DaysNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="MrtgRdyAftr90DaysNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="EntrdLsPrchPrgrmNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="DcdNotToPrchHsngNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="PrePrchHmbyrOthrNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="PrePrchHmbyrTotlNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="BrghtMrtgCrntNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="MrtgRfncdNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="MrtgModifiedNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="Received2ndMrtgNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="FrbrncAgrmntNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="DeedInLieuNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="SoldPropertyNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="MrtgFrclsdNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="FrclsPrvntCnslngNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="FrclsPartialClmNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="MtgDlnqOthrNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RslvMrtgDlnqTotlNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="ObtainedHECMNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="HomeEquityLoanNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="ConsumerLoanNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="CHEMrtgRfncdNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RfrdOthrSSANmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="SoldHouseNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="CnsldHECMNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="CHECrntlyCnslngNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="CnvrtHmEqtyOthrNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="CnvrtHmEqtyTotlNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RentalHousingNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="ObtndTmpryRntlRlfNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RfrdRntlAstPrgmNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RecertificationNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RfrdOthrSSANmbr2" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RfrdLegalAidNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="FndAltrnRntHsngNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RmnCrntHsngNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="DebtMngmntPlanNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RHCrntlyRcvCnslNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RntlHsngOthrNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RntlHsngTotlNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="HmlsOcpdEmShltrNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="HmlsOcpdTrnstHsNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="PrmHsngRntlAstnNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="PrmHsngNoRntAstNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="HmlsReferredSSANmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="RmndHomelessNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="HmlsCrntlyCnlngNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="HomelessOthrNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="HomelessTotlNmbr" type="HUD_FiscalActivity:HUDActivityDataType" minOccurs="0"/>
+				<xs:element name="HUDGrantActivity" type="HUD_FiscalActivity:ItemDataType" minOccurs="0" maxOccurs="10"/>
+				<xs:element name="CnslngAgncyTotlClntNmbr" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="CnslngAgncyTotlInvoicedAmount" type="globLib:BudgetTotalAmountDataType"/>
+				<xs:element name="AuthorizedRepresentativeTitle" type="globLib:HumanTitleDataType"/>
+				<xs:element name="AthrzdRprsntvSgntr" type="globLib:SignatureDataType"/>
+				<xs:element name="AthrzdRprsntvSgntrDate" type="xs:date"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="HUDActivityDataType">
+		<xs:sequence>
+			<xs:element name="AllCounselingActivities" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="HUDGrantActivities" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ItemDataType">
+		<xs:sequence>
+			<xs:element name="HUDGrantNum" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="HUDGrantAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+			<xs:element name="ClientNum" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InvoicedAmount" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

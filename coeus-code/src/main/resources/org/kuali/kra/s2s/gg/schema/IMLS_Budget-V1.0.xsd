@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:IMLS_Budget="http://apply.grants.gov/forms/IMLS_Budget-V1.0" targetNamespace="http://apply.grants.gov/forms/IMLS_Budget-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="IMLS_Budget">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ApplicantLegalName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="RequestedGrantPeriodFrom" type="xs:date"/>
+				<xs:element name="RequestedGrantPeriodTo" type="xs:date"/>
+				<xs:element name="ApplicationNumber" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="5"/>
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType> 
+				</xs:element>
+				<xs:element name="DetailedBudget" type="IMLS_Budget:DetailedBudgetDataType" minOccurs="1" maxOccurs="4"/>
+				<xs:element name="BudgetSummary" type="IMLS_Budget:BudgetSummaryDataType"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="DetailedBudgetDataType">
+		<xs:sequence>
+			<xs:element name="Year" minOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="BudgetDetailYearFrom" type="xs:date"/>
+			<xs:element name="BudgetDetailYearTo" type="xs:date"/>
+			<xs:element name="SalaryWages" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Item" type="IMLS_Budget:SalaryItemDataType" minOccurs="0" maxOccurs="10"/>
+						<xs:element name="Subtotal" type="IMLS_Budget:SalaryTotalDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FringeBenefits" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Item" type="IMLS_Budget:FringeItemDataType" minOccurs="0" maxOccurs="3"/>
+						<xs:element name="Subtotal" type="IMLS_Budget:FringeTotalDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ConsultantFees" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Item" type="IMLS_Budget:ConsultItemDataType" minOccurs="0" maxOccurs="6"/>
+						<xs:element name="Subtotal" type="IMLS_Budget:ConsultTotalDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Travel" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Item" type="IMLS_Budget:TravelItemDataType" minOccurs="0" maxOccurs="8"/>
+						<xs:element name="Subtotal" type="IMLS_Budget:TravelTotalDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SuppliesMaterials" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Item" type="IMLS_Budget:SupplyItemDataType" minOccurs="0" maxOccurs="10"/>
+						<xs:element name="Subtotal" type="IMLS_Budget:SupplyTotalDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Services" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Item" type="IMLS_Budget:ServicesItemDataType" minOccurs="0" maxOccurs="7"/>
+						<xs:element name="Subtotal" type="IMLS_Budget:ServicesTotalDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="StudentSupport" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Item" type="IMLS_Budget:SupportItemDataType" minOccurs="0" maxOccurs="3"/>
+						<xs:element name="Subtotal" type="IMLS_Budget:SupportTotalDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OtherCosts" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Item" type="IMLS_Budget:OtherItemDataType" minOccurs="0" maxOccurs="8"/>
+						<xs:element name="Subtotal" type="IMLS_Budget:OtherTotalDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TotalDirectCost" type="IMLS_Budget:TotalDirectCostsDataType" minOccurs="0"/>
+			<xs:element name="IndirectCosts" type="IMLS_Budget:IndirectCostsDataType" minOccurs="0"/>
+			<xs:element name="TotalProjectCosts" type="IMLS_Budget:TotalProjectCostsDataType" minOccurs="1"/>
+			<xs:element name="TotalDirectCostExcludingSupport" type="IMLS_Budget:TotalDirectCostsExcludingSupportDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BudgetSummaryDataType">
+		<xs:sequence>
+			<xs:element name="TotalCosts" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SalariesWages" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudSalWag1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudCostShr1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudSalWagTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FringeBenefits" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudFringe1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudCSFringe2" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudFringeTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ConsultantFees" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudConsult1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudConsult2" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudConsultTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Travel" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudTravel1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudTravel2" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudTravelTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="SuppliesMaterials" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudSuppl1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudSuppl2" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudSupplTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Services" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudSvc1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudSvc4" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudSvcTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="StudentSupport" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudStudSupp1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudStudSupp4" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudStudSuppTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="OtherCosts" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudOtherCost1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudOtherCost4" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudOtherCostTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="DirectCosts" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudTotDirctCost1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudTotDirctCost4" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudTotDirctCostotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="IndirectCosts" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudIndirectCost1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudIndirectCost4" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudIndirectCosttotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TotalProjectCosts" minOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SumBudTotalDirandIndCost1" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudTotalDirandIndCost4" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+									<xs:element name="SumBudTotalDirandIndCosttotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ProjectFunding" minOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReqIMLS" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+						<xs:element name="ShareCash" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+						<xs:element name="ShareKind" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+						<xs:element name="ShareFed" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+						<xs:element name="TotalCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+						<xs:element name="TotalProjectFunding" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+						<xs:element name="IMLSFundPercent" type="IMLS_Budget:IMLSFundPercentDataType" minOccurs="1"/>
+						<xs:element name="NameOtherFedAgencies" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="60"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>													
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SalaryItemDataType">
+		<xs:sequence>
+			<xs:element name="NameTitlePosition" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="37"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SalaryNoofPosition" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:nonNegativeInteger">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SalaryCostComputationMethod" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SalaryFunds" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>      
+			<xs:element name="SalaryCostSharing" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="SalaryPositionTotal" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/> 
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SalaryTotalDataType">
+		<xs:sequence>
+			<xs:element name="SalarySubtotalFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>     
+			<xs:element name="SalarySubtotalCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+			<xs:element name="SalarySubtotal" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FringeItemDataType">
+		<xs:sequence>
+			<xs:element name="FringeRate" type="IMLS_Budget:PercentageRateDataType" minOccurs="0"/>
+			<xs:element name="FringeBase" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="FringeFunds" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>      
+			<xs:element name="FringeCostSharing" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="FringeRateTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FringeTotalDataType">
+		<xs:sequence>
+			<xs:element name="FringeSubtotalFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>     
+			<xs:element name="FringeSubtotalCostSharing" type="glob:DecimalMin1Max14Places2Type" minOccurs="0"/> 
+			<xs:element name="FringeSubtotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ConsultItemDataType">
+		<xs:sequence>
+			<xs:element name="ConsultNameType" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="37"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ConsultNoofDays" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:nonNegativeInteger">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
+			<xs:element name="ConsultDailyRate" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>  
+			<xs:element name="ConsultFunds" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>      
+			<xs:element name="ConsultCostSharing" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="ConsultTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ConsultTotalDataType">
+		<xs:sequence>
+			<xs:element name="ConsultSubtotalFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>     
+			<xs:element name="ConsultSubtotalCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+			<xs:element name="ConsultSubtotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TravelItemDataType">
+		<xs:sequence>
+			<xs:element name="TravelItem" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TravelNumOfPersons" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:nonNegativeInteger">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TotalTravelDays" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:nonNegativeInteger">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TravelSubsistenceCosts" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="TravelTransportationCosts" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="TravelFunds" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="TravelCostSharing" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="TravelTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TravelTotalDataType">
+		<xs:sequence>
+			<xs:element name="TravelSubtotalFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>     
+			<xs:element name="TravelSubtotalCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+			<xs:element name="TravelSubtotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SupplyItemDataType">
+		<xs:sequence>
+			<xs:element name="SupplyItem" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="40"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SupplyBasisMethodOfComputation" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SupplyFunds" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="SupplyCostSharing" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="SupplyTotal" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/> 
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SupplyTotalDataType">
+		<xs:sequence>
+			<xs:element name="SupplySubtotalGrantFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>     
+			<xs:element name="SupplySubtotalCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+			<xs:element name="SupplySubtotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ServicesItemDataType">
+		<xs:sequence>
+			<xs:element name="ServicesItem" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="40"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ServicesBasisMethodOfComputation" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ServicesGrantFunds" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="ServicesCostSharing" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="ServicesTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ServicesTotalDataType">
+		<xs:sequence>
+			<xs:element name="ServicesSubtotalFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>     
+			<xs:element name="ServicesSubtotalCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+			<xs:element name="ServicesSubtotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SupportItemDataType">
+		<xs:sequence>
+			<xs:element name="SupportItem" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="40"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SupportBasisMethodOfComputation" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SupportGrantFunds" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="SupportCostSharing" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="SupportTotal" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/> 
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SupportTotalDataType">
+		<xs:sequence>
+			<xs:element name="SupportSubtotalGrantsFunds" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>     
+			<xs:element name="SupportSubtotalCostSharing" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/> 
+			<xs:element name="SupportSubtotal" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherItemDataType">
+		<xs:sequence>
+			<xs:element name="OtherCostsItem" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="40"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OtherBasisMethodOfComputation" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OtherGrantFunds" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="OtherCostSharing" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="OtherTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherTotalDataType">
+		<xs:sequence>
+			<xs:element name="OtherSubtotalGrntFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>     
+			<xs:element name="OtherSubtotalCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+			<xs:element name="OtherSubtotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TotalDirectCostsDataType">
+		<xs:sequence>
+			<xs:element name="TotalGrantFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>     
+			<xs:element name="TotalCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+			<xs:element name="TotalDirectCosts" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndirectCostsDataType">
+		<xs:sequence>
+			<xs:element name="IndirectCostsFedType" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Current indirect cost rate(s) have been negotiated with a federal agency (for Item A, indicate the name of the agency and date of agreement expiration; complete Item B.)"/>
+						<xs:enumeration value="Indirect cost proposal has been submitted to a federal agency but not yet negotiated (for Item A, indicate the name of the agency and date of proposal; complete Item B.)"/>
+						<xs:enumeration value="Applicant chooses a rate not to exceed 15% of direct costs. (Complete Item B.)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="IndirectCostsFederalAgencyName" type="globLib:AgencyNameDataType" minOccurs="0"/>
+			<xs:element name="IndirectCostsAgreementDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="IndirectCostsAgreementProposalDate" type="xs:date" minOccurs="0"/>										
+			<xs:element name="IndirectCostsItems" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Item" type="IMLS_Budget:IndirectCostsItemDataType" minOccurs="0" maxOccurs="3"/>
+						<xs:element name="Subtotal" type="IMLS_Budget:IndirectCostsTotalDataType" minOccurs="1"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndirectCostsItemDataType">
+		<xs:sequence>
+			<xs:element name="IndirectCostsRate" type="IMLS_Budget:PercentageRateDataType" minOccurs="0"/>
+			<xs:element name="IndirectCostsBase" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="IndirectCostsFunds" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>      
+			<xs:element name="IndirectCostsCostSharing" type="IMLS_Budget:DecimalMin1Max11Places2Type" minOccurs="0"/>
+			<xs:element name="IndirectCostsTotal" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndirectCostsTotalDataType">
+		<xs:sequence>
+			<xs:element name="SubtotalIndirectCostsGrantFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>     
+			<xs:element name="SubtotalIndirectCostsGrantCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/> 
+			<xs:element name="SubtotalIndirectCosts" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TotalProjectCostsDataType">
+		<xs:sequence>
+			<xs:element name="TotalProjectCostsFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>     
+			<xs:element name="TotalProjectCostsCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/> 
+			<xs:element name="SumTotalProjectCosts" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TotalDirectCostsExcludingSupportDataType">
+		<xs:sequence>
+			<xs:element name="TotalDirectCostsFundsExcludingSupportFunds" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>     
+			<xs:element name="TotalDirectCostsExcludingSupportCostSharing" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/> 
+			<xs:element name="TotalDirectCostsExcludingSupport" type="IMLS_Budget:DecimalMin1Max12Places2Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="DecimalMin1Max11Places2Type"> 
+		<xs:restriction base="xs:decimal">
+				<xs:totalDigits value="11"/>
+				<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DecimalMin1Max12Places2Type"> 
+		<xs:restriction base="xs:decimal">
+				<xs:totalDigits value="12"/>
+				<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PercentageRateDataType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.000"/>
+			<xs:maxInclusive value="99.999"/>
+			<xs:totalDigits value="5"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IMLSFundPercentDataType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.00"/>
+			<xs:maxInclusive value="99.99"/>
+			<xs:totalDigits value="4"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:PHS398_ModularBudget_1_2="http://apply.grants.gov/forms/PHS398_ModularBudget_1_2-V1.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/PHS398_ModularBudget_1_2-V1.2" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.2">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="PHS398_ModularBudget_1_2">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Periods" minOccurs="0" maxOccurs="5">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BudgetPeriodStartDate" type="xs:date" minOccurs="0"/>
+							<xs:element name="BudgetPeriodEndDate" type="xs:date" minOccurs="0"/>
+							<xs:element name="DirectCost">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DirectCostLessConsortiumFandA" type="globLib:BudgetAmountDataType"/>
+										<xs:element name="ConsortiumFandA" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+										<xs:element name="TotalFundsRequestedDirectCosts" type="globLib:BudgetTotalAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="IndirectCost" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="IndirectCostItems" minOccurs="0" maxOccurs="4">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="IndirectCostTypeDescription" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="0"/>
+																<xs:maxLength value="64"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="IndirectCostRate" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:decimal">
+																<xs:minInclusive value="0.00"/>
+																<xs:maxInclusive value="999.99"/>
+																<xs:totalDigits value="5"/>
+																<xs:fractionDigits value="2"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="IndirectCostBase" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+													<xs:element name="IndirectCostFundsRequested" type="globLib:BudgetAmountDataType" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="CognizantFederalAgency" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="0"/>
+													<xs:maxLength value="180"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="IndirectCostAgreementDate" type="xs:date" minOccurs="0"/>
+										<xs:element name="TotalFundsRequestedIndirectCost" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TotalFundsRequestedDirectIndirectCosts" type="globLib:BudgetTotalAmountDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CummulativeBudgetInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EntirePeriodTotalCost">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CumulativeDirectCostLessConsortiumFandA" type="globLib:BudgetTotalAmountDataType"/>
+										<xs:element name="CumulativeConsortiumFandA" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="CumulativeTotalFundsRequestedDirectCosts" type="globLib:BudgetTotalAmountDataType"/>
+										<xs:element name="CumulativeTotalFundsRequestedIndirectCost" type="globLib:BudgetTotalAmountDataType" minOccurs="0"/>
+										<xs:element name="CumulativeTotalFundsRequestedDirectIndirectCosts" type="globLib:BudgetTotalAmountDataType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="BudgetJustifications" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="PersonnelJustification" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="attFile" type="att:AttachedFileDataType"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ConsortiumJustification" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="attFile" type="att:AttachedFileDataType"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AdditionalNarrativeJustification" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="attFile" type="att:AttachedFileDataType"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.2"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

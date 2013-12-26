@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by David Xia (Northrop Grumman IT) -->
+<!-- $Revision:   1.1  $ -->
+<xs:schema xmlns:HUD_RaceEthnic="http://apply.grants.gov/forms/HUD_RaceEthnic-V1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="http://apply.grants.gov/forms/HUD_RaceEthnic-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<xs:element name="HUD_RaceEthnic">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProgramTitle" type="globLib:CFDATitleDataType"/>
+				<xs:element name="ComponentName" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="120"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="GranteeName" type="globLib:HumanNameDataType"/>
+				<xs:element name="GranteeReportingOrganization">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="120"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ReportingPeriodFromDate" type="xs:date"/>
+				<xs:element name="ReportingPeriodToDate" type="xs:date"/>
+				<xs:element name="AmrcnIndnAkNtvRaceRspns" type="HUD_RaceEthnic:RacialReportDataType"/>
+				<xs:element name="AsianRaceRspns" type="HUD_RaceEthnic:RacialReportDataType"/>
+				<xs:element name="BlckAfrcnAmrcnRaceRspns" type="HUD_RaceEthnic:RacialReportDataType"/>
+				<xs:element name="NtvHwnOthPcfcIslndrRaceRspns" type="HUD_RaceEthnic:RacialReportDataType"/>
+				<xs:element name="WhiteRaceRspns" type="HUD_RaceEthnic:RacialReportDataType"/>
+				<xs:element name="AmInAkNtvWhiteRaceRspns" type="HUD_RaceEthnic:RacialReportDataType"/>
+				<xs:element name="AsianWhiteRaceRspns" type="HUD_RaceEthnic:RacialReportDataType"/>
+				<xs:element name="BlckAfrcnAmWhiteRaceRspns" type="HUD_RaceEthnic:RacialReportDataType"/>
+				<xs:element name="AmrIndAkNtvBlkRaceRspns" type="HUD_RaceEthnic:RacialReportDataType"/>
+				<xs:element name="BalanceMoreOneRaceRspns" type="HUD_RaceEthnic:RacialReportDataType" minOccurs="0"/>
+				<xs:element name="TotalRaceRspns" type="HUD_RaceEthnic:RacialReportDataType"/>
+				<xs:element name="OtherRaceRspns" type="HUD_RaceEthnic:OtherRacialReportDataType" minOccurs="0" maxOccurs="5"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="RacialReportDataType">
+		<xs:sequence>
+			<xs:element name="TotalResponse">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TotalHispanicLatinoResponse">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherRacialReportDataType">
+		<xs:sequence>
+			<xs:element name="OthrMltplCmbntnRaceCategory">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="80"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OthrMltplCmbntnRaceRspnsNmbr">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OthrMltplCmbntnRaceRspnsPrcnt" type="globLib:PercentageIntegerDataType"/>
+			<xs:element name="OthrMltplCmbntnRaceHspRspNmbr">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

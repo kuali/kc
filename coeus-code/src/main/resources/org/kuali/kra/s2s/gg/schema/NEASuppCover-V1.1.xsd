@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.2  $ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:NEASuppCover="http://apply.grants.gov/forms/NEASuppCover-V1.1" targetNamespace="http://apply.grants.gov/forms/NEASuppCover-V1.1" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.1">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<!--Root element definition-->
+	<xs:element name="NEASuppCover">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="PopularOrganizationName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+				<xs:element name="ApplicantServiceType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="NA: Not Applicable"/>
+							<xs:enumeration value="LC: Lead Member of a Consortium"/>
+							<xs:enumeration value="IC: Parent of a Component"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OnBehalfEntity" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="0"/>
+							<xs:maxLength value="120"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="TotalOperatingExpenses" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="FYEndDate">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="7"/>
+							<xs:maxLength value="7"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ApplicantInformationGroup">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FieldDiscipline">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="33: Dance"/>
+										<xs:enumeration value="42: Design"/>
+										<xs:enumeration value="55: Folk &amp; Traditional Arts"/>
+										<xs:enumeration value="52: Literature"/>
+										<xs:enumeration value="62: Local Arts Agencies"/>
+										<xs:enumeration value="34: Media Arts: Film/Radio/Television"/>
+										<xs:enumeration value="44: Museums"/>
+										<xs:enumeration value="31: Music"/>
+										<xs:enumeration value="28: Musical Theater"/>
+										<xs:enumeration value="36: Opera"/>
+										<xs:enumeration value="54: Presenting"/>
+										<xs:enumeration value="32: Theater"/>
+										<xs:enumeration value="41: Visual Arts"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Category">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="7000000: Access to Artistic Excellence"/>
+										<xs:enumeration value="7780005: Challenge America Fast-Track Review Grants: artist/arts event"/>
+										<xs:enumeration value="7780002: Challenge America Fast-Track Review Grants: Public art"/>
+										<xs:enumeration value="7780004: Challenge America Fast-Track Review Grants: Civic design"/>
+										<xs:enumeration value="7780001: Challenge America Fast-Track Review Grants: Cultural tourism/districts"/>
+										<xs:enumeration value="8510027: Learning in the Arts for Children and Youth: School-Based"/>
+										<xs:enumeration value="8510028: Learning in the Arts for Children and Youth: Community-Based"/>
+										<xs:enumeration value="8510029: Learning in the Arts for Children and Youth: Combination"/>
+										<xs:enumeration value="8515100: Summer Schools in the Arts"/>
+										<xs:enumeration value="7344601: The Arts on Radio and Television: Radio"/>
+										<xs:enumeration value="7344602: The Arts on Radio and Television: Television"/>
+										<xs:enumeration value="0000000: Other"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OutComeGroup">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Outcome">
+								<xs:simpleType>
+									<xs:restriction base="xs:string"/>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AmountRequested" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="TotalMatch" type="globLib:BudgetAmountDataType"/>
+				<xs:element name="TotalProjectCosts" type="globLib:BudgetTotalAmountDataType"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.1"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

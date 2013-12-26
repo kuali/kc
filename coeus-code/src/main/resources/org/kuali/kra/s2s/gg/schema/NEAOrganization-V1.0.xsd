@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.9  $ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V2.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V2.0" xmlns:NEAOrganization="http://apply.grants.gov/forms/NEAOrganization-V1.0" targetNamespace="http://apply.grants.gov/forms/NEAOrganization-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V2.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"/>
+	<!--Root element definition-->
+	<xs:element name="NEAOrganization">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="OrganizationalStatus">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="02: Nonprofit organization"/>
+							<xs:enumeration value="05: State government"/>
+							<xs:enumeration value="07: County government"/>
+							<xs:enumeration value="08: Municipal government"/>
+							<xs:enumeration value="09: Tribal government"/>
+							<xs:enumeration value="99: None of the above"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OrganizationalDescription">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="49: Artists' Community, Arts Institute or Camp"/>
+							<xs:enumeration value="15: Arts Center"/>
+							<xs:enumeration value="16: Arts Council or Agency"/>
+							<xs:enumeration value="17: Arts Service Organization"/>
+							<xs:enumeration value="26: College or University"/>
+							<xs:enumeration value="32: Community Service Organization"/>
+							<xs:enumeration value="14: Fair or Festival"/>
+							<xs:enumeration value="30: Foundation"/>
+							<xs:enumeration value="10: Gallery/Exhibition Space"/>
+							<xs:enumeration value="38: Government"/>
+							<xs:enumeration value="28: Historical Society/Commission"/>
+							<xs:enumeration value="29: Humanities Council or Agency"/>
+							<xs:enumeration value="12: Independent Press"/>
+							<xs:enumeration value="27: Library"/>
+							<xs:enumeration value="13: Literary Magazine"/>
+							<xs:enumeration value="11: Media-Film"/>
+							<xs:enumeration value="45: Media-Radio"/>
+							<xs:enumeration value="46: Media-Television"/>
+							<xs:enumeration value="08: Museum-Art"/>
+							<xs:enumeration value="09: Museum-Other"/>
+							<xs:enumeration value="07: Performance Facility"/>
+							<xs:enumeration value="03: Performing Group"/>
+							<xs:enumeration value="47: Presenter/Cultural Series Organization"/>
+							<xs:enumeration value="19: School District"/>
+							<xs:enumeration value="48: School of the Arts"/>
+							<xs:enumeration value="50: Social Service Organization"/>
+							<xs:enumeration value="18: Union or Professional Association"/>
+							<xs:enumeration value="99: None of the above"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OrganizationalDiscipline">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="07: Crafts"/>
+							<xs:enumeration value="01: Dance"/>
+							<xs:enumeration value="06: Design"/>
+							<xs:enumeration value="12: Folklife/Traditional Arts"/>
+							<xs:enumeration value="13: Humanities"/>
+							<xs:enumeration value="10: Literature"/>
+							<xs:enumeration value="09: Media Arts"/>
+							<xs:enumeration value="02: Music"/>
+							<xs:enumeration value="03B: Musical Theater"/>
+							<xs:enumeration value="03A: Opera"/>
+							<xs:enumeration value="08: Photography"/>
+							<xs:enumeration value="04: Theater"/>
+							<xs:enumeration value="05: Visual Arts"/>
+							<xs:enumeration value="11: Interdisciplinary"/>
+							<xs:enumeration value="14: Multidisciplinary"/>
+							<xs:enumeration value="99: None of the above"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OrganizationalRaceEthnicity" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="N: American Indian or Alaska Native"/>
+							<xs:enumeration value="A: Asian"/>
+							<xs:enumeration value="B: Black or African American"/>
+							<xs:enumeration value="H: Hispanic or Latino"/>
+							<xs:enumeration value="O: Native Hawaiian or Other Pacific Islander"/>
+							<xs:enumeration value="W: White"/>
+							<xs:enumeration value="G: General"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OlderAdults" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="IndividualswithDisabilities" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDiscipline">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="07: Crafts"/>
+							<xs:enumeration value="01: Dance -"/>
+							<xs:enumeration value="01A: Ballet"/>
+							<xs:enumeration value="01C: Modern"/>
+							<xs:enumeration value="06: Design"/>
+							<xs:enumeration value="12: Folklife/Traditional Arts"/>
+							<xs:enumeration value="10: Literature"/>
+							<xs:enumeration value="09: Media Arts -"/>
+							<xs:enumeration value="09B: Audio"/>
+							<xs:enumeration value="09A: Film"/>
+							<xs:enumeration value="09C: Video"/>
+							<xs:enumeration value="09D: Technology/Experimental"/>
+							<xs:enumeration value="02: Music -"/>
+							<xs:enumeration value="02B: Chamber"/>
+							<xs:enumeration value="02C: Choral"/>
+							<xs:enumeration value="02F: Jazz"/>
+							<xs:enumeration value="02D: New"/>
+							<xs:enumeration value="02I: Orchestral"/>
+							<xs:enumeration value="03B: Musical Theater"/>
+							<xs:enumeration value="03A: Opera"/>
+							<xs:enumeration value="08: Photography"/>
+							<xs:enumeration value="04: Theater -"/>
+							<xs:enumeration value="04E: Theater for Young Audiences"/>
+							<xs:enumeration value="05: Visual Arts"/>
+							<xs:enumeration value="11: Interdisciplinary"/>
+							<xs:enumeration value="14: Multidisciplinary"/>
+							<xs:enumeration value="99: None of the above"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ProjectRaceEthnicity" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="N: American Indian or Alaska Native"/>
+							<xs:enumeration value="A: Asian"/>
+							<xs:enumeration value="B: Black or African American"/>
+							<xs:enumeration value="H: Hispanic or Latino"/>
+							<xs:enumeration value="O: Native Hawaiian or Other Pacific Islander"/>
+							<xs:enumeration value="W: White"/>
+							<xs:enumeration value="G: General"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ActivityType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="04: Artwork Creation"/>
+							<xs:enumeration value="05: Concert/Performance/Reading"/>
+							<xs:enumeration value="06: Exhibition "/>
+							<xs:enumeration value="08: Fair/Festival"/>
+							<xs:enumeration value="09: Identification/Documentation"/>
+							<xs:enumeration value="16: Recording/Filming/Taping"/>
+							<xs:enumeration value="17: Publication"/>
+							<xs:enumeration value="28: Writing About Art/Criticism"/>
+							<xs:enumeration value="18: Repair/Restoration/Conservation"/>
+							<xs:enumeration value="22: Seminar/Conference"/>
+							<xs:enumeration value="25: Apprenticeship"/>
+							<xs:enumeration value="02: Audience Services"/>
+							<xs:enumeration value="36: Broadcasting"/>
+							<xs:enumeration value="24: Distribution of Art"/>
+							<xs:enumeration value="13: Marketing"/>
+							<xs:enumeration value="14: Professional Support: Administrative"/>
+							<xs:enumeration value="15: Professional Support: Artistic"/>
+							<xs:enumeration value="29: Professional Development/Training"/>
+							<xs:enumeration value="19: Research/Planning"/>
+							<xs:enumeration value="33: Building Public Awareness"/>
+							<xs:enumeration value="34: Technical Assistance"/>
+							<xs:enumeration value="12: Arts Instruction"/>
+							<xs:enumeration value="20: School Residency"/>
+							<xs:enumeration value="21: Other Residency"/>
+							<xs:enumeration value="31: Curriculum Development/Implementation"/>
+							<xs:enumeration value="30: Student Assessment"/>
+							<xs:enumeration value="35: Web Site/Internet Development"/>
+							<xs:enumeration value="99: None of the above"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ProjectDescriptors9F" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescriptors9O" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescriptors9L" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescriptors9E" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescriptors9Q" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescriptors9D" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescriptors9C" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescriptors9I" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescriptors9B" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescriptors9M" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProjectDescriptors9A" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ArtsEducation">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="99: None"/>
+							<xs:enumeration value="02: Some, but less than 50%"/>
+							<xs:enumeration value="01A: K-Grade 12 Students"/>
+							<xs:enumeration value="01D: Adult Learners"/>
+							<xs:enumeration value="01C: Pre-Kindergarten Children"/>
+							<xs:enumeration value="01B: Higher Education Students"/>
+							<xs:enumeration value="01: Multiple Groups of Learners"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="NumberGroup" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NumberArtworksCreated" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberConcertsPerformances" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberLecturesDemos" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberExhibitions" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberBooksCatalogues" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberArtworksRestored" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberArtworksDocumented" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberArtistsResidencies" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberSchoolParticipate" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberOrganizationPartners" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberApprenticeships" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberBroadcastHrs" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="NumberGroup1" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NumberArtistsPartcipating" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberTeachersParticipating" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberChildrenParticipating" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberIndividualsBenefiting" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NumberBroadcastAudience" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="0"/>
+										<xs:maxInclusive value="999999999"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

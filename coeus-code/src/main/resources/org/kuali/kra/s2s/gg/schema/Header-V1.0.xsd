@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--************************************************************************-->
+<!-- TITLE:    	Header Schema	       		                            -->
+<!-- DATE:    	October 17, 2003				   		        -->
+<!-- VERSION:    1.0	 				   		                            -->
+<!--   								   	                                   -->
+<!-- COMMENTS: This schema contains information of the grant -->
+<!--                      application that describes the grant which is   -->
+<!--                      be applied.                                                        -->
+<!--   								   	                                  -->
+<!--************************************************************************-->
+<xsd:schema targetNamespace="http://apply.grants.gov/system/Header-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:header="http://apply.grants.gov/system/Header-V1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+    <!-- IMPORT GLOBAL SCHEMA -->
+    <xsd:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://at07apply.grants.gov/apply/system/schemas/Global-V1.0.xsd"/>
+    <!-- ELEMENTS -->
+    <!-- MAIN ELEMENT GROUP -->
+    <xsd:element name="GrantSubmissionHeader">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="glob:HashValue"/>
+                <xsd:element ref="header:AgencyName" minOccurs="0"/>
+                <xsd:element ref="header:CFDANumber" minOccurs="0"/>
+                <xsd:element ref="header:ActivityTitle" minOccurs="0"/>
+                <xsd:element ref="header:OpportunityID"/>
+                <xsd:element ref="header:OpportunityTitle" minOccurs="0"/>
+                <xsd:element ref="header:CompetitionID" minOccurs="0"/>
+                <xsd:element ref="header:OpeningDate" minOccurs="0"/>
+                <xsd:element ref="header:ClosingDate" minOccurs="0"/>
+                <xsd:element ref="header:SubmissionTitle" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute ref="glob:schemaVersion" use="required" fixed="1.0"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- OTHER ELEMENTS -->
+    <xsd:element name="ActivityTitle" type="glob:StringMin1Max120Type"/>
+    <xsd:element name="AgencyName" type="glob:StringMin1Max60Type"/>
+    <xsd:element name="CFDANumber" type="glob:StringMin1Max15Type"/>
+    <xsd:element name="ClosingDate" type="xsd:date"/>
+    <xsd:element name="CompetitionID" type="glob:StringMin1Max100Type"/>
+    <xsd:element name="OpeningDate" type="xsd:date"/>
+    <xsd:element name="OpportunityID" type="glob:StringMin1Max100Type"/>
+    <xsd:element name="OpportunityTitle" type="glob:StringMin1Max255Type"/>
+    <xsd:element name="SubmissionTitle" type="glob:StringMin1Max240Type"/>
+    <!-- DATATYPES -->
+</xsd:schema>
