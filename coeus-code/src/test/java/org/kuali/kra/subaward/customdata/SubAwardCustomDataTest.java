@@ -20,9 +20,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public class SubAwardCustomDataTest extends KcUnitTestBase{
+public class SubAwardCustomDataTest  {
     
     private static final int SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT = 6;
     
