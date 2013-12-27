@@ -20,7 +20,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.*;
 import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -31,6 +34,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
@@ -80,20 +84,22 @@ public class OjbRepositoryMappingTest {
     private static final String DATASOURCE_PASSWORD_NAME = "datasource.password";
     private static final String DATASOURCE_DRIVER_NAME = "datasource.driver.name";
     
-    private static final String[] repositoryFiles = {   "repository.xml", 
-                                                        "org/kuali/kra/award/repository-award.xml",  
-                                                        //"org/kuali/kra/budget/repository-budget.xml",
-                                                        "org/kuali/kra/coi/repository-coi.xml",
-                                                        "org/kuali/kra/committee/repository-committee.xml",
-                                                        //"org/kuali/kra/iacuc/repository-iacuc.xml",
-                                                        "org/kuali/kra/institutionalproposal/repository-institutionalproposal.xml",
-                                                        "org/kuali/kra/irb/repository-irb.xml",
-                                                        "org/kuali/kra/negotiation/repository-negotiation.xml",
-                                                        "org/kuali/kra/personmasschange/repository-personmasschange.xml",
-                                                        "org/kuali/kra/proposaldevelopment/repository-proposaldevelopment.xml",
-                                                        "org/kuali/kra/questionnaire/repository-questionnaire.xml",
-                                                        //"org/kuali/kra/subaward/repository-subAward.xml",
-                                                        "org/kuali/kra/timeandmoney/repository-timeandmoney.xml"
+    private static final String[] repositoryFiles = {   "classpath:repository.xml",
+                                                        "classpath:org/kuali/kra/award/repository-award.xml",
+                                                        "classpath:org/kuali/kra/budget/repository-budget.xml",
+                                                        "classpath:org/kuali/kra/coi/repository-coi.xml",
+                                                        "classpath:org/kuali/kra/committee/repository-committee.xml",
+                                                        "classpath:org/kuali/kra/iacuc/repository-iacuc.xml",
+                                                        "classpath:org/kuali/kra/institutionalproposal/repository-institutionalproposal.xml",
+                                                        "classpath:org/kuali/kra/irb/repository-irb.xml",
+                                                        "classpath:org/kuali/kra/negotiation/repository-negotiation.xml",
+                                                        "classpath:org/kuali/kra/personmasschange/repository-personmasschange.xml",
+                                                        "classpath:org/kuali/kra/proposaldevelopment/repository-proposaldevelopment.xml",
+                                                        "classpath:org/kuali/kra/questionnaire/repository-questionnaire.xml",
+                                                        "classpath:org/kuali/kra/subaward/repository-subAward.xml",
+                                                        "classpath:org/kuali/kra/timeandmoney/repository-timeandmoney.xml",
+                                                        "classpath:org/kuali/kra/iacuc/repository-iacucCommittee.xml",
+                                                        "classpath:org/kuali/kra/common/committee/repository-commonCommittee.xml"
                                                     };
 
     private static Map<String, String> configFileParms;
@@ -164,6 +170,12 @@ public class OjbRepositoryMappingTest {
         }        
     }
 
+    protected Resource getFileResource(String sourceName) {
+        DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+
+        return resourceLoader.getResource(sourceName);
+    }
+
     /**
      * This method verifies the tables for a repository file
      * @throws SQLException
@@ -180,9 +192,9 @@ public class OjbRepositoryMappingTest {
         final DefaultHandler handler = new TableValidationHandler(conn);
 
         LOG.debug(String.format("Starting XML validation"));
-        final URL repositoryUrl = getClass().getClassLoader().getResource(repositoryFilePath);
+        final InputStream repositoryStream = getFileResource(repositoryFilePath).getInputStream();
 
-        LOG.debug(String.format("Found repository url %s\n", repositoryUrl));
+        LOG.debug(String.format("Found repository url %s\n", repositoryFilePath));
 
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
@@ -190,7 +202,7 @@ public class OjbRepositoryMappingTest {
 
         final SAXParser parser = saxParserFactory.newSAXParser();
         try {
-            parser.parse(repositoryUrl.getFile(), handler);
+            parser.parse(repositoryStream, handler);
         }
         finally {
             try {
@@ -377,28 +389,14 @@ public class OjbRepositoryMappingTest {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    private void validateXml(String repositoryFilePath) throws ParserConfigurationException, SAXException {
+    private void validateXml(String repositoryFilePath) throws Exception {
         LOG.debug(String.format("Starting XML validation"));        
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
         saxParserFactory.setNamespaceAware(false);
 
         SAXParser parser = saxParserFactory.newSAXParser();
-        try {
-            parser.parse(findRepositoryFilePath(repositoryFilePath), new DefaultHandler());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            fail("Test should not encounter exceptions during parsing.");
-        }
-    }
-    
-    /**
-     * This method finds the file path for a repository file
-     * @param repositoryFilePath
-     * @return
-     */
-    private String findRepositoryFilePath(String repositoryFilePath) {
-        return getClass().getClassLoader().getResource(repositoryFilePath).getFile();
+        final InputStream repositoryStream = getFileResource(repositoryFilePath).getInputStream();
+        parser.parse(repositoryStream, new DefaultHandler());
     }
 }
