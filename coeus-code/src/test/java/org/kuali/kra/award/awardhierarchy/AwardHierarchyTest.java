@@ -21,7 +21,9 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.impl.VersionHistoryServiceImpl;
-import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -171,7 +173,7 @@ public class AwardHierarchyTest {
     }
 
     private VersionHistoryServiceImpl prepareVersionHistoryService(final Collection<Award> awards, final Collection<VersionHistory> versionHistories) {
-        BusinessObjectServiceAdapter bosAdapter = new BusinessObjectServiceAdapter() {
+        BusinessObjectService bosAdapter = new BusinessObjectService() {
             @Override
             public Collection findMatching(Class klass, Map fieldValues) {
                 if(klass.equals(Award.class)) {
@@ -181,6 +183,101 @@ public class AwardHierarchyTest {
                 } else {
                     return null;
                 }
+            }
+
+            @Override
+            public <T extends PersistableBusinessObject> T save(T bo) {
+                return null;
+            }
+
+            @Override
+            public List<? extends PersistableBusinessObject> save(List<? extends PersistableBusinessObject> businessObjects) {
+                return null;
+            }
+
+            @Override
+            public PersistableBusinessObject linkAndSave(PersistableBusinessObject bo) {
+                return null;
+            }
+
+            @Override
+            public List<? extends PersistableBusinessObject> linkAndSave(List<? extends PersistableBusinessObject> businessObjects) {
+                return null;
+            }
+
+            @Override
+            public <T extends BusinessObject> T findBySinglePrimaryKey(Class<T> clazz, Object primaryKey) {
+                return null;
+            }
+
+            @Override
+            public <T extends BusinessObject> T findByPrimaryKey(Class<T> clazz, Map<String, ?> primaryKeys) {
+                return null;
+            }
+
+            @Override
+            public PersistableBusinessObject retrieve(PersistableBusinessObject object) {
+                return null;
+            }
+
+            @Override
+            public <T extends BusinessObject> Collection<T> findAll(Class<T> clazz) {
+                return null;
+            }
+
+            @Override
+            public <T extends BusinessObject> Collection<T> findAllOrderBy(Class<T> clazz, String sortField, boolean sortAscending) {
+                return null;
+            }
+
+            @Override
+            public int countMatching(Class clazz, Map<String, ?> fieldValues) {
+                return 0;
+            }
+
+            @Override
+            public int countMatching(Class clazz, Map<String, ?> positiveFieldValues, Map<String, ?> negativeFieldValues) {
+                return 0;
+            }
+
+            @Override
+            public <T extends BusinessObject> Collection<T> findMatchingOrderBy(Class<T> clazz, Map<String, ?> fieldValues, String sortField, boolean sortAscending) {
+                return null;
+            }
+
+            @Override
+            public void delete(PersistableBusinessObject bo) {
+
+            }
+
+            @Override
+            public void delete(List<? extends PersistableBusinessObject> boList) {
+
+            }
+
+            @Override
+            public void deleteMatching(Class clazz, Map<String, ?> fieldValues) {
+
+            }
+
+            @Override
+            public BusinessObject getReferenceIfExists(BusinessObject bo, String referenceName) {
+                return null;
+            }
+
+            @Override
+            public void linkUserFields(PersistableBusinessObject bo) {
+
+            }
+
+            @Override
+            public void linkUserFields(List<PersistableBusinessObject> bos) {
+
+            }
+
+            @Override
+            public PersistableBusinessObject manageReadOnly(PersistableBusinessObject bo) {
+                return null;
             }
         };
         VersionHistoryServiceImpl vhs= new VersionHistoryServiceImpl();
