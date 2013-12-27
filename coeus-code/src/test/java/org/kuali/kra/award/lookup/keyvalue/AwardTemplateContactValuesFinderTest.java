@@ -25,7 +25,6 @@ import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class AwardTemplateContactValuesFinderTest extends KcUnitTestBase {
+public class AwardTemplateContactValuesFinderTest  {
     AwardTemplateContactValuesFinder awardTempContactValuesFinder;
     List<KeyValue> contactKeys;
     AwardTemplate template;
@@ -41,7 +40,7 @@ public class AwardTemplateContactValuesFinderTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+        //super.setUp();
         template = new AwardTemplate();
         contactList = new ArrayList<AwardTemplateContact>();
         this.addContacts("ContactType1", 1);
@@ -83,7 +82,7 @@ public class AwardTemplateContactValuesFinderTest extends KcUnitTestBase {
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
+        //super.tearDown();
         awardTempContactValuesFinder = null;
         template = null;
         contactKeys = null;
