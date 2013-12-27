@@ -21,12 +21,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.sql.Date;
 
-public class SubAwardFinancialActionTest extends KcUnitTestBase{
+public class SubAwardFinancialActionTest {
 
     SubAwardFinancialAction subAwardFinancialAction; 
     SubAward subAward;

@@ -19,9 +19,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public class SubAwardActionTest extends KcUnitTestBase{
+public class SubAwardActionTest  {
 
     SubAwardAction subAwardAction;
     public static final String MOCK_FORWARD_STRING = "FORWARD_STRING";
