@@ -188,7 +188,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     }
     
     protected String getFullTestName() {
-        return getClass().getSimpleName() + "." + method.getName();
+        return getClass().getSimpleName() + "." + method != null ? method.getName() : "UNKNOWN";
     }
 
     protected BusinessObjectService getBusinessObjectService() {
