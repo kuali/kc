@@ -411,8 +411,8 @@ public class OjbRepositoryMappingTest {
                     }
                 }
 
-                handleFieldDescriptor(qName, attributes);
             }
+            handleFieldDescriptor(qName, attributes);
         }
 
         /**
