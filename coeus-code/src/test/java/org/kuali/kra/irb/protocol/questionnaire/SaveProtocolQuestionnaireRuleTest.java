@@ -25,8 +25,8 @@ import org.kuali.kra.rules.TemplateRuleTest;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class SaveProtocolQuestionnaireRuleTest extends Assert {
+import static org.junit.Assert.*;
+public class SaveProtocolQuestionnaireRuleTest {
     
     
     /**

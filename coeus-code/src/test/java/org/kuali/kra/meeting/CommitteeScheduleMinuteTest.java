@@ -20,13 +20,12 @@ import org.junit.Test;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.committee.meeting.ScheduleActItemType;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 
 /**
  * TODO This class currently tests only the static comparator, could be extended to test other methods.
  */
-public class CommitteeScheduleMinuteTest extends KcUnitTestBase {
+public class CommitteeScheduleMinuteTest {
 
     @Test
     public void testEntryTypeComparator() {        
