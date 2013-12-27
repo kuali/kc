@@ -83,6 +83,7 @@ public class OjbRepositoryMappingTest {
     private static final String DATASOURCE_USERNAME_NAME = "datasource.username";
     private static final String DATASOURCE_PASSWORD_NAME = "datasource.password";
     private static final String DATASOURCE_DRIVER_NAME = "datasource.driver.name";
+    private static final String EXTENT_CLASS = "extent-class";
 
     public static final String REPOSITORY_XML = "classpath:repository.xml";
     public static final String REPOSITORY_AWARD_XML = "classpath:org/kuali/kra/award/repository-award.xml";
@@ -340,6 +341,7 @@ public class OjbRepositoryMappingTest {
         private Connection connection;
         private Locator locator;
         private String currentTableName;
+        private Boolean extents;
 
         /**
          * Default Constructor
@@ -366,45 +368,51 @@ public class OjbRepositoryMappingTest {
          */
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXParseException {
-            if (CLASS_DESCRIPTOR_NAME.equals(qName)) {
+            if(EXTENT_CLASS.equals(qName)) {
+                setExtents(true);
+            } else if (CLASS_DESCRIPTOR_NAME.equals(qName)) {
                 setCurrentTableName(attributes.getValue(TABLE_ATTRIBUTE_NAME));
-                // LOG.debug(String.format("Looking for table " + getCurrentTableName());
-                ResultSet results = null;
-                try {
-                    results = getConnection().getMetaData().getTables(null, dsSchema, getCurrentTableName(),
-                            new String[] { "TABLE", "VIEW" });
+                if (getCurrentTableName() != null) {
 
-                    boolean found = false;
-                    while (results.next() && !found) {
-                        String tableNameResult = results.getString("TABLE_NAME");
-                        if (getCurrentTableName().equalsIgnoreCase(tableNameResult)) {
-                            found = true;
-                        }
-                    }
 
-                    if (!found) {
-                        LOG.debug(String.format(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME)));
-                        throw createSaxParseException(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
-                    }
-                    else {
-                        LOG.debug(String.format("Found table or view %s\n", getCurrentTableName()));
-                    }
-                }
-                catch (Exception e) {
-                    throw createSaxParseException(e, TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
-                }
-                finally {
-                    if (results != null) {
-                        try {
-                            results.close();
+                    // LOG.debug(String.format("Looking for table " + getCurrentTableName());
+                    ResultSet results = null;
+                    try {
+                        results = getConnection().getMetaData().getTables(null, dsSchema, getCurrentTableName(),
+                                new String[] { "TABLE", "VIEW" });
+
+                        boolean found = false;
+                        while (results.next() && !found) {
+                            String tableNameResult = results.getString("TABLE_NAME");
+                            if (getCurrentTableName().equalsIgnoreCase(tableNameResult)) {
+                                found = true;
+                            }
                         }
-                        catch (Exception e) {
+
+                        if (!found) {
+                            LOG.debug(String.format(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME)));
+                            throw createSaxParseException(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
+                        }
+                        else {
+                            LOG.debug(String.format("Found table or view %s\n", getCurrentTableName()));
+                        }
+                    }
+                    catch (Exception e) {
+                        throw createSaxParseException(e, TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
+                    }
+                    finally {
+                        if (results != null) {
+                            try {
+                                results.close();
+                            }
+                            catch (Exception e) {
+                            }
                         }
                     }
                 }
+
+                handleFieldDescriptor(qName, attributes);
             }
-
-            handleFieldDescriptor(qName, attributes);
         }
 
         /**
@@ -466,7 +474,7 @@ public class OjbRepositoryMappingTest {
             new PrintWriter(writer).printf(pattern, (Object[]) params);
 
             return new SAXParseException(writer.toString() + "\n" + e.getMessage(), locator.getPublicId(), locator.getSystemId(),
-                locator.getLineNumber(), locator.getColumnNumber());
+                locator.getLineNumber(), locator.getColumnNumber(),e);
         }
 
         /**
@@ -489,6 +497,14 @@ public class OjbRepositoryMappingTest {
 
         public void setCurrentTableName(String currentTableName) {
             this.currentTableName = currentTableName;
+        }
+
+        public Boolean isExtents() {
+            return extents;
+        }
+
+        public void setExtents(Boolean extents) {
+            this.extents = extents;
         }
 
         public Connection getConnection() {
