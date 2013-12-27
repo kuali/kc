@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.kra.service;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.kra.service.impl.versioningartifacts.*;
 import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.AttachmentLargeData;
 import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.AttachmentMetaData;
