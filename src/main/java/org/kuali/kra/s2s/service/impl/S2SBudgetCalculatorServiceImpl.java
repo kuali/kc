@@ -1615,6 +1615,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     protected List<List<KeyPersonInfo>> getKeyPersons(BudgetPeriod budgetPeriod, ProposalDevelopmentDocument pdDoc,
             int numKeyPersons) {
         List<KeyPersonInfo> keyPersons = new ArrayList<KeyPersonInfo>();
+        List<KeyPersonInfo> seniorPersons = new ArrayList<KeyPersonInfo>();
         KeyPersonInfo keyPerson = new KeyPersonInfo();
         ProposalPerson principalInvestigator = s2SUtilService.getPrincipalInvestigator(pdDoc);
 
@@ -1755,67 +1756,14 @@ public class S2SBudgetCalculatorServiceImpl implements
                 }
             }
         }
-        List<KeyPersonInfo> allBudgetPersons = new ArrayList<KeyPersonInfo>();
-
-        List<ProposalPerson>  proposalPersons = new ArrayList<ProposalPerson>();
-        proposalPersons.addAll(pdDoc.getDevelopmentProposal().getProposalPersons());
-        List<String> personIds = new ArrayList<String>();
-        for (ProposalPerson proposalPerson: proposalPersons) { 
-
-            personIds.add(proposalPerson.getPersonId());
+        for(KeyPersonInfo seniorPerson : keyPersons){
+            if(keyPerson.getRole().equals(NID_PD_PI)||hasPersonnelBudget(budgetPeriod,seniorPerson)){
+                seniorPersons.add(seniorPerson);
+            }            
         }
 
-        HashMap<String, Long> valueMap = new HashMap<String, Long>();
-        valueMap.put("budgetId", budgetPeriod.getBudgetId());
-
-        List<BudgetPerson> budgetPersons = (List<BudgetPerson>) businessObjectService.findMatching(BudgetPerson.class, valueMap);
-        for (BudgetPerson budgetPerson : budgetPersons) {
-            KcPerson kcPerson = null;
-            try {
-                kcPerson = kcPersonService.getKcPersonByPersonId(budgetPerson.getPersonId());
-            }
-            catch (Exception e) {
-                LOG.error("Person not found " + e);
-            }
-            if (kcPerson != null) {
-                keyPerson = new KeyPersonInfo();
-                keyPerson.setPersonId(kcPerson.getPersonId());
-                keyPerson.setFirstName(kcPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN : kcPerson
-                        .getFirstName());
-                keyPerson.setLastName(kcPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN : kcPerson
-                        .getLastName());
-                keyPerson.setMiddleName(kcPerson.getMiddleName());
-                keyPerson.setNonMITPersonFlag(false);
-                keyPerson.setRole(getBudgetPersonRoleOther());
-                if(personIds.contains(keyPerson.getPersonId())){
-                    allBudgetPersons.add(keyPerson);
-                }  
-            }
-        }
-        List<KeyPersonInfo> keyPersonList = new ArrayList<KeyPersonInfo>();
-        List<KeyPersonInfo> extraBudgetPersonsList = new ArrayList<KeyPersonInfo>();
-
-        List<KeyPersonInfo> allPersons = new ArrayList<KeyPersonInfo>();
-        allPersons.addAll(keyPersons);
-        List<KeyPersonInfo> nKeyPersons = getNKeyPersons(keyPersons, true, numKeyPersons);
-        List<String> nKeyPersonsIds = new ArrayList<String>();
-
-        for (KeyPersonInfo nKeyPerson: nKeyPersons) { 
-            nKeyPersonsIds.add(nKeyPerson.getPersonId());
-        }
-
-        for (KeyPersonInfo budgetPerson: allBudgetPersons) { 
-
-            if(nKeyPersonsIds.contains(budgetPerson.getPersonId())){
-
-                keyPersonList.add(budgetPerson);
-            } else {
-
-                extraBudgetPersonsList.add(budgetPerson);
-            }
-        }
-        keyPersonList.addAll(extraBudgetPersonsList);
-        List<KeyPersonInfo> extraPersons = getNKeyPersons(keyPersonList, false, numKeyPersons);         
+        List<KeyPersonInfo> nKeyPersons = getNKeyPersons(seniorPersons, true, numKeyPersons);
+        List<KeyPersonInfo> extraPersons = getNKeyPersons(seniorPersons, false, numKeyPersons);         
         CompensationInfo compensationInfo;
         for (KeyPersonInfo keyPersonInfo : nKeyPersons) {
             keyPerson = keyPersonInfo;
@@ -1860,6 +1808,17 @@ public class S2SBudgetCalculatorServiceImpl implements
         return listKeyPersons;
     }
 
+    private Boolean hasPersonnelBudget(BudgetPeriod budgetPeriod,KeyPersonInfo keyPerson){
+
+        for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+            for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+                if( budgetPersonnelDetails.getPersonId().equals(keyPerson.getPersonId())){
+                    return true;
+                } 
+            }
+        }
+        return false;
+    }
     /**
      * This method...
      * @return
