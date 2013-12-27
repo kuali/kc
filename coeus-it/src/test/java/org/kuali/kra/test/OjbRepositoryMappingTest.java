@@ -83,24 +83,23 @@ public class OjbRepositoryMappingTest {
     private static final String DATASOURCE_USERNAME_NAME = "datasource.username";
     private static final String DATASOURCE_PASSWORD_NAME = "datasource.password";
     private static final String DATASOURCE_DRIVER_NAME = "datasource.driver.name";
-    
-    private static final String[] repositoryFiles = {   "classpath:repository.xml",
-                                                        "classpath:org/kuali/kra/award/repository-award.xml",
-                                                        "classpath:org/kuali/kra/budget/repository-budget.xml",
-                                                        "classpath:org/kuali/kra/coi/repository-coi.xml",
-                                                        "classpath:org/kuali/kra/committee/repository-committee.xml",
-                                                        "classpath:org/kuali/kra/iacuc/repository-iacuc.xml",
-                                                        "classpath:org/kuali/kra/institutionalproposal/repository-institutionalproposal.xml",
-                                                        "classpath:org/kuali/kra/irb/repository-irb.xml",
-                                                        "classpath:org/kuali/kra/negotiation/repository-negotiation.xml",
-                                                        "classpath:org/kuali/kra/personmasschange/repository-personmasschange.xml",
-                                                        "classpath:org/kuali/kra/proposaldevelopment/repository-proposaldevelopment.xml",
-                                                        "classpath:org/kuali/kra/questionnaire/repository-questionnaire.xml",
-                                                        "classpath:org/kuali/kra/subaward/repository-subAward.xml",
-                                                        "classpath:org/kuali/kra/timeandmoney/repository-timeandmoney.xml",
-                                                        "classpath:org/kuali/kra/iacuc/repository-iacucCommittee.xml",
-                                                        "classpath:org/kuali/kra/common/committee/repository-commonCommittee.xml"
-                                                    };
+
+    public static final String REPOSITORY_XML = "classpath:repository.xml";
+    public static final String REPOSITORY_AWARD_XML = "classpath:org/kuali/kra/award/repository-award.xml";
+    public static final String REPOSITORY_BUDGET_XML = "classpath:org/kuali/kra/budget/repository-budget.xml";
+    public static final String REPOSITORY_COI_XML = "classpath:org/kuali/kra/coi/repository-coi.xml";
+    public static final String REPOSITORY_COMMITTEE_XML = "classpath:org/kuali/kra/committee/repository-committee.xml";
+    public static final String REPOSITORY_IACUC_XML = "classpath:org/kuali/kra/iacuc/repository-iacuc.xml";
+    public static final String REPOSITORY_INSTITUTIONALPROPOSAL_XML = "classpath:org/kuali/kra/institutionalproposal/repository-institutionalproposal.xml";
+    public static final String REPOSITORY_IRB_XML = "classpath:org/kuali/kra/irb/repository-irb.xml";
+    public static final String REPOSITORY_NEGOTIATION_XML = "classpath:org/kuali/kra/negotiation/repository-negotiation.xml";
+    public static final String REPOSITORY_PERSONMASSCHANGE_XML = "classpath:org/kuali/kra/personmasschange/repository-personmasschange.xml";
+    public static final String REPOSITORY_PROPOSALDEVELOPMENT_XML = "classpath:org/kuali/kra/proposaldevelopment/repository-proposaldevelopment.xml";
+    public static final String REPOSITORY_QUESTIONNAIRE_XML = "classpath:org/kuali/kra/questionnaire/repository-questionnaire.xml";
+    public static final String REPOSITORY_SUB_AWARD_XML = "classpath:org/kuali/kra/subaward/repository-subAward.xml";
+    public static final String REPOSITORY_TIMEANDMONEY_XML = "classpath:org/kuali/kra/timeandmoney/repository-timeandmoney.xml";
+    public static final String REPOSITORY_IACUC_COMMITTEE_XML = "classpath:org/kuali/kra/iacuc/repository-iacucCommittee.xml";
+    public static final String REPOSITORY_COMMON_COMMITTEE_XML = "classpath:org/kuali/kra/common/committee/repository-commonCommittee.xml";
 
     private static Map<String, String> configFileParms;
     
@@ -152,22 +151,139 @@ public class OjbRepositoryMappingTest {
         dsDriver = null;
     }
 
-    /**
-     * Validate the XML against the DTD
-     * @throws Exception
-     */
     @Test
-    public void xmlValidation() throws Exception {
-        for(String repositoryFilePath : repositoryFiles) {
-            validateXml(repositoryFilePath);
-        }
+    public void xmlValidationRepositoryXml() throws Exception {
+        validateXml(REPOSITORY_XML);
+    }
+    @Test
+    public void xmlValidationAwardXml() throws Exception {
+        validateXml(REPOSITORY_AWARD_XML);
+    }
+    @Test
+    public void xmlValidationBudgetXml() throws Exception {
+        validateXml(REPOSITORY_BUDGET_XML);
+    }
+    @Test
+    public void xmlValidationCoiXml() throws Exception {
+        validateXml(REPOSITORY_COI_XML);
+    }
+    @Test
+    public void xmlValidationCommitteeXml() throws Exception {
+        validateXml(REPOSITORY_COMMITTEE_XML);
+    }
+    @Test
+    public void xmlValidationIacucXml() throws Exception {
+        validateXml(REPOSITORY_IACUC_XML);
+    }
+    @Test
+    public void xmlValidationIpXml() throws Exception {
+        validateXml(REPOSITORY_INSTITUTIONALPROPOSAL_XML);
+    }
+    @Test
+    public void xmlValidationIrbXml() throws Exception {
+        validateXml(REPOSITORY_IRB_XML);
+    }
+    @Test
+    public void xmlValidationNegotiationXml() throws Exception {
+        validateXml(REPOSITORY_NEGOTIATION_XML);
+    }
+    @Test
+    public void xmlValidationPmcXml() throws Exception {
+        validateXml(REPOSITORY_PERSONMASSCHANGE_XML);
+    }
+    @Test
+    public void xmlValidationPdXml() throws Exception {
+        validateXml(REPOSITORY_PROPOSALDEVELOPMENT_XML);
+    }
+    @Test
+    public void xmlValidationQuestionXml() throws Exception {
+        validateXml(REPOSITORY_QUESTIONNAIRE_XML);
     }
 
     @Test
-    public void verifyTables() throws Exception {
-        for(String repositoryFilePath : repositoryFiles) {
-            verifyTableForRepository(repositoryFilePath);
-        }        
+    public void xmlValidationSubAwardXml() throws Exception {
+        validateXml(REPOSITORY_SUB_AWARD_XML);
+    }
+    @Test
+    public void xmlValidationTimeMoneyXml() throws Exception {
+        validateXml(REPOSITORY_TIMEANDMONEY_XML);
+    }
+
+    @Test
+    public void xmlValidationIacucCommitteeXml() throws Exception {
+        validateXml(REPOSITORY_IACUC_COMMITTEE_XML);
+    }
+    @Test
+    public void xmlValidationCommonCommitteeXml() throws Exception {
+        validateXml(REPOSITORY_COMMON_COMMITTEE_XML);
+    }
+
+    @Test
+    public void verifyTablesRepositoryXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_XML);
+    }
+    @Test
+    public void verifyTablesAwardXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_AWARD_XML);
+    }
+    
+    @Test
+    public void verifyTablesBudgetXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_BUDGET_XML);
+    }
+    @Test
+    public void verifyTablesCoiXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_COI_XML);
+    }
+    @Test
+    public void verifyTablesCommitteeXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_COMMITTEE_XML);
+    }
+    @Test
+    public void verifyTablesIacucXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_IACUC_XML);
+    }
+    @Test
+    public void verifyTablesIpXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_INSTITUTIONALPROPOSAL_XML);
+    }
+    @Test
+    public void verifyTablesIrbXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_IRB_XML);
+    }
+    @Test
+    public void verifyTablesNegotiationXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_NEGOTIATION_XML);
+    }
+    @Test
+    public void verifyTablesPmcXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_PERSONMASSCHANGE_XML);
+    }
+    @Test
+    public void verifyTablesPdXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_PROPOSALDEVELOPMENT_XML);
+    }
+    @Test
+    public void verifyTablesQuestionXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_QUESTIONNAIRE_XML);
+    }
+
+    @Test
+    public void verifyTablesSubAwardXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_SUB_AWARD_XML);
+    }
+    @Test
+    public void verifyTablesTimeMoneyXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_TIMEANDMONEY_XML);
+    }
+
+    @Test
+    public void verifyTablesIacucCommitteeXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_IACUC_COMMITTEE_XML);
+    }
+    @Test
+    public void verifyTablesCommonCommitteeXml() throws Exception {
+        verifyTableForRepository(REPOSITORY_COMMON_COMMITTEE_XML);
     }
 
     protected Resource getFileResource(String sourceName) {
