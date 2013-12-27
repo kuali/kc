@@ -24,10 +24,11 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-public class AwardProjectPersonsAuditRuleTest {
+public class AwardProjectPersonsAuditRuleTest extends KcUnitTestBase{
     
     private static final String MISSING_UNIT_DETAILS_NOT_IDENTIFIED = "Missing unit Details not identified";
     private static final int ROLODEX_ID = 1002;
