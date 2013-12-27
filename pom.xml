@@ -440,26 +440,36 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-failsafe-plugin.version}</version>
-                    <configuration>
-                        <useFile>${failsafe.useFile}</useFile>
-                        <testFailureIgnore>${failsafe.testFailureIgnore}</testFailureIgnore>
-                        <reportFormat>${failsafe.reportFormat}</reportFormat>
-                        <forkMode>${failsafe.forkMode}</forkMode>
-                        <argLine>${failsafe.argLine}</argLine>
-                        <failIfNoTests>${failsafe.failIfNoTests}</failIfNoTests>
-                        <skipITs>${failsafe.skipITs}</skipITs>
-                        <includes>
-                            <include>${failsafe.include}</include>
-                        </includes>
-                    </configuration>
                     <executions>
                         <execution>
                             <id>integration-test</id>
                             <goals>
                                 <goal>integration-test</goal>
                             </goals>
+                            <configuration>
+                                <useFile>${failsafe.useFile}</useFile>
+                                <reportFormat>${failsafe.reportFormat}</reportFormat>
+                                <forkMode>${failsafe.forkMode}</forkMode>
+                                <argLine>${failsafe.argLine}</argLine>
+                                <includes>
+                                    <include>${failsafe.include}</include>
+                                </includes>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>verify</id>
+                            <goals>
+                                <goal>verify</goal>
+                            </goals>
+                            <configuration>
+                                <testFailureIgnore>${failsafe.testFailureIgnore}</testFailureIgnore>
+                            </configuration>
                         </execution>
                     </executions>
+                    <configuration>
+                        <failIfNoTests>${failsafe.failIfNoTests}</failIfNoTests>
+                        <skipITs>${failsafe.skipITs}</skipITs>
+                    </configuration>
                 </plugin>
 
                 <plugin>
