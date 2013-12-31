@@ -7,7 +7,9 @@
 
 <kul:tab defaultOpen="false" tabTitle="Correspondence"
     tabErrorKey="document.committee*">
-
+        <script type="text/javascript">
+		   var $j = jQuery.noConflict();
+		</script>
 <div class="tab-container" align="center">
     <h3>
         <span class="subhead-left"> Correspondence </span>
@@ -60,11 +62,11 @@
                     </td>
 						<td>
 							<div align="center">&nbsp;					
-              <c:if test="${admin or correspondence.finalFlag}">               
-                                    <html:image property="methodToCall.viewCorrespondence.line${status.index}.anchor${currentTabIndex}"
-                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-                                        alt="View Correspondence" onclick="excludeSubmitRestriction = true;"/>
-               </c:if>  
+              				<c:if test="${admin or correspondence.finalFlag}">               
+	                            <html:image property="methodToCall.viewCorrespondence.line${status.index}.anchor${currentTabIndex}"
+	                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+	                                alt="View Correspondence" onclick="excludeSubmitRestriction = true;"/>
+               				</c:if>  
 							</div>
 		                </td>
 	            </tr>
@@ -76,8 +78,8 @@
                                     <html:image property="methodToCall.regenerateCorrespondence.line${status.index}.anchor${currentTabIndex}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-regenerate.gif' styleClass="tinybutton"
                                         alt="Regenerate Correspondence" title="Regenerate Correspondence" onclick="excludeSubmitRestriction = true;"/>
-                                  <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$('.regenerateclass').attr('checked', true);return false;" />
-                                  <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$('.regenerateclass').attr('checked', false);return false;" />
+                                  <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$j('.regenerateclass').attr('checked', true);return false;" />
+                                  <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$j('.regenerateclass').attr('checked', false);return false;" />
                             </div>
                     </td>
                 </tr>    
