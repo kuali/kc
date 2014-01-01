@@ -455,16 +455,21 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         Narrative modifiedNarrative = pd.getDevelopmentProposal().getNarrative(getSelectedLine(request));
-        pd.getDevelopmentProposal().replaceAttachment(getSelectedLine(request));
-        ProposalDevelopmentNotificationContext context = 
-            new ProposalDevelopmentNotificationContext(pd.getDevelopmentProposal(), "102", "Proposal Data Override");
-        ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(modifiedNarrative);
-        if (proposalDevelopmentForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-            proposalDevelopmentForm.getNotificationHelper().initializeDefaultValues(context);
-            forward = mapping.findForward("notificationEditor");
-        } else {
-            getNotificationService().sendNotification(context);                
-        }                
+        
+        boolean rulePassed = getKualiRuleService().applyRules(new ReplaceNarrativeEvent("document.developmentProposalList[0].narrative" + getSelectedLine(request) + "]", pd, modifiedNarrative));
+        if(rulePassed) {
+            pd.getDevelopmentProposal().replaceAttachment(getSelectedLine(request));
+
+            ProposalDevelopmentNotificationContext context = 
+                new ProposalDevelopmentNotificationContext(pd.getDevelopmentProposal(), "102", "Proposal Data Override");
+            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(modifiedNarrative);
+            if (proposalDevelopmentForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                proposalDevelopmentForm.getNotificationHelper().initializeDefaultValues(context);
+                forward = mapping.findForward("notificationEditor");
+            } else {
+                getNotificationService().sendNotification(context);                
+            }
+        }
 
         return forward;
     }

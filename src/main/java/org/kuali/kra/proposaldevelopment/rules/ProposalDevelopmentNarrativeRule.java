@@ -24,8 +24,10 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
+import org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
@@ -52,7 +54,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * @author kualidev@oncourse.iu.edu
  * @version 1.0
  */
-public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule, NewNarrativeUserRightsRule { 
+public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, NewNarrativeUserRightsRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
     private static final String DOCUMENT_NARRATIVES = "document.narratives";
     private static final String PROPOSAL = "Proposal";
@@ -378,5 +380,44 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         }
         
         return this.personService;
+    }
+    @Override
+    public boolean processReplaceNarrativeBusinessRules(ReplaceNarrativeEvent replaceNarrativeEvent) {
+        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) replaceNarrativeEvent.getDocument();
+        Narrative narrative = replaceNarrativeEvent.getNarrative();
+        boolean rulePassed = true;
+        populateNarrativeType(narrative);
+        MessageMap map = GlobalVariables.getMessageMap();
+
+        if(narrative.getNarrativeType()==null)
+            rulePassed = false;
+        
+        String attachmentFileName = narrative.getFileName();
+        KcAttachmentService attachmentService = getKcAttachmentService();
+      
+        // Checking attachment file name for invalid characters.
+        String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
+        if (ObjectUtils.isNotNull(invalidCharacters)) {
+            String parameter = getParameterService().
+                               getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+           
+            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
+                rulePassed &= false;
+                reportError(replaceNarrativeEvent.getErrorPathPrefix() + ".narrativeFile", KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, invalidCharacters);
+            } else {
+                rulePassed &= true;
+                reportWarning(replaceNarrativeEvent.getErrorPathPrefix() + ".narrativeFile", KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, invalidCharacters);
+            }
+        }
+        
+        map.addToErrorPath(replaceNarrativeEvent.getErrorPathPrefix());
+        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
+        map.removeFromErrorPath(replaceNarrativeEvent.getErrorPathPrefix());
+        int size = map.getErrorMessages().keySet().size();
+        rulePassed &= size<=0;
+        
+        return rulePassed;
     }    
 }
