@@ -169,6 +169,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         reportTracking.setFrequencyBase(awardTerm.getFrequencyBase());
         reportTracking.setFrequencyBaseCode(awardTerm.getFrequencyBaseCode());
         reportTracking.setFrequencyCode(awardTerm.getFrequencyCode());
+        reportTracking.setOspDistributionCode(awardTerm.getOspDistributionCode());
         reportTracking.setLastUpdateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
         reportTracking.setLastUpdateUser(GlobalVariables.getUserSession().getPerson().getName());
         reportTracking.setLeadUnit(award.getLeadUnit());
@@ -183,7 +184,6 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         reportTracking.setReportClass(awardTerm.getReportClass());
         reportTracking.setReportClassCode(awardTerm.getReportClassCode());
         reportTracking.setReportCode(awardTerm.getReportCode());
-        
         ReportStatus pending = getPendingReportStatus();
         reportTracking.setReportStatus(pending);
         reportTracking.setStatusCode(pending.getReportStatusCode());
@@ -276,11 +276,27 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     
     @Override
     public List<ReportTracking> getReportTacking(AwardReportTerm awardTerm) {
-        Map params = new HashMap();
-        params.put("AWARD_REPORT_TERM_ID", awardTerm.getAwardReportTermId());
-        Collection<ReportTracking> reportTrackingCollection = this.getBusinessObjectService().findMatching(ReportTracking.class, params);
         List<ReportTracking> reportTrackings = new ArrayList<ReportTracking>();
-        reportTrackings.addAll(reportTrackingCollection);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("awardReportTermId", awardTerm.getAwardReportTermId());
+        Collection<ReportTracking> reportTrackingCollection = this.getBusinessObjectService().findMatching(ReportTracking.class, params);
+        //if there are none, check to make sure this isn't due to award versioning and the id changing
+        if (reportTrackingCollection != null && !reportTrackingCollection.isEmpty()) {
+            reportTrackings.addAll(reportTrackingCollection);    
+        } else {
+            params.clear();
+            params.put("awardNumber", awardTerm.getAwardNumber());
+            params.put("reportClassCode", awardTerm.getReportClassCode());
+            params.put("reportCode", awardTerm.getReportCode());
+            params.put("frequencyCode", awardTerm.getFrequencyCode());
+            params.put("frequencyBaseCode", awardTerm.getFrequencyBaseCode());
+            params.put("ospDistributionCode", awardTerm.getOspDistributionCode());
+            reportTrackingCollection = this.getBusinessObjectService().findMatching(ReportTracking.class, params);
+            for (ReportTracking reportTrack : reportTrackingCollection) {
+                reportTrack.setAwardReportTermId(awardTerm.getAwardReportTermId());
+            }
+            reportTrackings.addAll(reportTrackingCollection);
+        }
         Collections.sort(reportTrackings);
         return reportTrackings;
     }
