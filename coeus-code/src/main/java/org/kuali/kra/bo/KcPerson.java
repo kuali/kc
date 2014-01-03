@@ -36,6 +36,7 @@ import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfoContract;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
@@ -50,7 +51,7 @@ import java.util.Date;
 /**
  * Represents a person in KC.
  */
-public class KcPerson implements Contactable, BusinessObject {
+public class KcPerson extends TransientBusinessObjectBase implements Contactable  {
 
     private static final long serialVersionUID = 1L;
 
