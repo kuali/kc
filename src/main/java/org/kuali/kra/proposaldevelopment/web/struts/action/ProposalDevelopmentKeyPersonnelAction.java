@@ -606,16 +606,16 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
              * and we manually save them in correct order here. This may be a bug in how it's set up, but this works well, so we are going with it.  
              * Please feel free to to fix if you like.
              */
-            List peropleObjectsToSave = new ArrayList();
+            List peopleObjectsToSave = new ArrayList();
             for (ProposalPerson proposalPerson : keyPersonnel) {
                 this.getBusinessObjectService().save(proposalPerson);
                 if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
-                    peropleObjectsToSave.add(proposalPerson);
-                    peropleObjectsToSave.add(proposalPerson.getProposalPersonExtendedAttributes());
+                    peopleObjectsToSave.add(proposalPerson);
+                    peopleObjectsToSave.add(proposalPerson.getProposalPersonExtendedAttributes());
                     //this.getBusinessObjectService().save(proposalPerson.getProposalPersonExtendedAttributes());
                 }
             }
-            this.getBusinessObjectService().save(peropleObjectsToSave);
+            this.getBusinessObjectService().save(peopleObjectsToSave);
             
             for (ProposalPerson person : personsToDelete) {
                 if (person.getProposalPersonExtendedAttributes() != null) {
