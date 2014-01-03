@@ -112,26 +112,31 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
             if(isCoInvestigator(person) && (person.getUnits() != null) && (person.getUnits().size()==0)){
                 reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
-                            ERROR_ONE_UNIT, person.getFullName());            
+                            ERROR_ONE_UNIT, person.getFullName());
+                retval = false;
             }
             if(isKeyPerson(person) && (person.getOptInUnitStatus().equals("Y")) && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
                 reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
-                            ERROR_ONE_UNIT, person.getFullName());  
+                            ERROR_ONE_UNIT, person.getFullName());
+                retval = false;
             }
             if(isKeyPerson(person) && StringUtils.isBlank(person.getProjectRole())){
                 reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].projectRole",
                             RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
+                //retval = false;
             }
             
             if(person.getPercentageEffort()!= null && (person.getPercentageEffort().isLessThan(new KualiDecimal(0)) 
                     || person.getPercentageEffort().isGreaterThan(new KualiDecimal(100)))){
                 GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].percentageEffort", ERROR_PERCENTAGE,
                         new String[] {"Percentage Effort" });
+                //retval = false;
             }
             
             if(StringUtils.isNotBlank(person.getEraCommonsUserName()) && person.getEraCommonsUserName().length() < FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH){
                 GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].eraCommonsUserName", KeyConstants.ERROR_MINLENGTH,
                         new String[] {"eRA Commons User Name" , ""+ FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH});
+                //retval = false;
             }
             
             personIndex++;
