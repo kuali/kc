@@ -44,7 +44,7 @@ import static org.junit.Assert.assertTrue;
 public class CommitteeVersioningTest extends KcUnitTestBase {
 
     private VersioningService versioningService;
-    private Committee originalCommittee;
+    private transient Committee originalCommittee;
 
     
     @Before
@@ -149,42 +149,12 @@ public class CommitteeVersioningTest extends KcUnitTestBase {
     private CommitteeSchedule createCommitteeSchedule(String date) {
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
         List<ProtocolBase> protocols = new ArrayList<ProtocolBase>();
-        protocols.add(createProtocol());
+        protocols.add(new Protocol());
         committeeSchedule.setProtocols(protocols);
         
         committeeSchedule.setScheduledDate(Date.valueOf(date));
         committeeSchedule.setTime(Timestamp.valueOf(date + " 00:00:00"));
         return committeeSchedule;
-    }
-
-    /**
-     * This method...
-     * @return
-     */
-    private Protocol createProtocol() {
-        Protocol p = new Protocol() {
-            /**
-             * Comment for <code>serialVersionUID</code>
-             */
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {}
-
-            @Override
-            protected ProtocolLocationService getProtocolLocationService() {
-               return new ProtocolLocationService() {
-                public void addDefaultProtocolLocation(ProtocolBase protocol) {}
-                public void addProtocolLocation(ProtocolBase protocol, ProtocolLocationBase protocolLocation) {}
-                public void clearProtocolLocationAddress(ProtocolBase protocol, int lineNumber) { }
-               };
-            }
-            
-        };
-        p.setProtocolNumber("1001");
-        p.setSequenceNumber(1);
-        p.setProtocolId(1L);
-        return p;
     }
 
     private void verifyVersioning(Committee originalCommittee, Committee versionedCommittee) {
