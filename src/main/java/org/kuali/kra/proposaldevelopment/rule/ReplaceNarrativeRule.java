@@ -27,7 +27,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent;
 public interface ReplaceNarrativeRule extends AddNarrativeRule {
     
     /**
-     * Rule invoked upon adding a key person to a 
+     * Rule invoked upon replacing a proposal attachment within a
      * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
      *
      * @return boolean

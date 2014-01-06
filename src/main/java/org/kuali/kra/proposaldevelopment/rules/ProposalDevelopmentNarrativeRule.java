@@ -96,9 +96,21 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
             reportError("newNarrative.narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
         }
         
+        rulePassed &= validFileNameCharacters(narrative);
+        
+        map.addToErrorPath("newNarrative");
+        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
+        map.removeFromErrorPath("newNarrative");
+        int size = map.getErrorMessages().keySet().size();
+        rulePassed &= size<=0;
+        rulePassed &= checkNarrative(document.getDevelopmentProposal().getNarratives(), narrative);
+        
+        return rulePassed;
+    }
+    private boolean validFileNameCharacters(Narrative narrative) {
         String attachmentFileName = narrative.getFileName();
         KcAttachmentService attachmentService = getKcAttachmentService();
-      
+        boolean rulePassed = true;
         // Checking attachment file name for invalid characters.
         String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
         if (ObjectUtils.isNotNull(invalidCharacters)) {
@@ -115,14 +127,6 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
                         attachmentFileName, invalidCharacters);
             }
         }
-        
-        map.addToErrorPath("newNarrative");
-        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
-        map.removeFromErrorPath("newNarrative");
-        int size = map.getErrorMessages().keySet().size();
-        rulePassed &= size<=0;
-        rulePassed &= checkNarrative(document.getDevelopmentProposal().getNarratives(), narrative);
-        
         return rulePassed;
     }
     /**
@@ -157,6 +161,31 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         
         return rulePassed;
     }
+    
+    /**
+     * This method is used to validate characters in the attachment file name, and should be invoked when a user attempts
+     * to replace a narrative post-route.
+     * @see org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule#processReplaceNarrativeBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent)
+     */
+    public boolean processReplaceNarrativeBusinessRules(ReplaceNarrativeEvent replaceNarrativeEvent) {
+        Narrative narrative = replaceNarrativeEvent.getNarrative();
+        boolean rulePassed = true;
+        populateNarrativeType(narrative);
+        MessageMap map = GlobalVariables.getMessageMap();
+
+        if(narrative.getNarrativeType()==null)
+            rulePassed = false;
+        
+        rulePassed &= validFileNameCharacters(narrative);
+        
+        map.addToErrorPath(replaceNarrativeEvent.getErrorPathPrefix());
+        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
+        map.removeFromErrorPath(replaceNarrativeEvent.getErrorPathPrefix());
+        int size = map.getErrorMessages().keySet().size();
+        rulePassed &= size<=0 ;
+        
+        return rulePassed;
+    } 
     
     /**
      * Check to see if the user modified a narrative and verify that the
@@ -381,43 +410,5 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         
         return this.personService;
     }
-    @Override
-    public boolean processReplaceNarrativeBusinessRules(ReplaceNarrativeEvent replaceNarrativeEvent) {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) replaceNarrativeEvent.getDocument();
-        Narrative narrative = replaceNarrativeEvent.getNarrative();
-        boolean rulePassed = true;
-        populateNarrativeType(narrative);
-        MessageMap map = GlobalVariables.getMessageMap();
-
-        if(narrative.getNarrativeType()==null)
-            rulePassed = false;
-        
-        String attachmentFileName = narrative.getFileName();
-        KcAttachmentService attachmentService = getKcAttachmentService();
-      
-        // Checking attachment file name for invalid characters.
-        String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
-        if (ObjectUtils.isNotNull(invalidCharacters)) {
-            String parameter = getParameterService().
-                               getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
-           
-            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
-                rulePassed &= false;
-                reportError(replaceNarrativeEvent.getErrorPathPrefix() + ".narrativeFile", KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, invalidCharacters);
-            } else {
-                rulePassed &= true;
-                reportWarning(replaceNarrativeEvent.getErrorPathPrefix() + ".narrativeFile", KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, invalidCharacters);
-            }
-        }
-        
-        map.addToErrorPath(replaceNarrativeEvent.getErrorPathPrefix());
-        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
-        map.removeFromErrorPath(replaceNarrativeEvent.getErrorPathPrefix());
-        int size = map.getErrorMessages().keySet().size();
-        rulePassed &= size<=0;
-        
-        return rulePassed;
-    }    
+   
 }

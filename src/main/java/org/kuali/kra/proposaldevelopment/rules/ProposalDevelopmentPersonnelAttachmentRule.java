@@ -24,8 +24,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule;
+import org.kuali.kra.proposaldevelopment.rule.ReplacePersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.SavePersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.ReplacePersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
@@ -40,7 +42,7 @@ import java.util.Map;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule {
+public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule, ReplacePersonnelAttachmentRule {
     public static final String OTHER_DOCUMENT_TYPE_DESCRIPTION = "Other";
     
     private static final String DOC_TYPE_DESCRIPTION = "description";
@@ -77,8 +79,28 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
             reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, FILE_NAME_PARM);
         }
                 
+        rulePassed &= checkForInvalidCharacters(proposalPersonBiography);
+        
+        rulePassed &= checkForDescriptionWhenTypeIsOther(proposalPersonBiography);
+        
+        List<ProposalPersonBiography> existingPersonBiographyList = document.getDevelopmentProposal().getPropPersonBios();
+        if(CollectionUtils.isNotEmpty(existingPersonBiographyList)){
+            //Loop thru to filter attachment uploaded by the current user
+            for(ProposalPersonBiography personBiography: existingPersonBiographyList) {
+                if(personBiography.getProposalPersonNumber().equals(proposalPersonBiography.getProposalPersonNumber())
+                        && personBiography.getDocumentTypeCode().equals(proposalPersonBiography.getDocumentTypeCode())){
+                    rulePassed = false;
+                    reportError(buildErrorPath(DOCUMENT_TYPE_CODE), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
+                }
+            }
+        }
+        
+        return rulePassed;
+    }
+
+    private boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography) {
         KcAttachmentService attachmentService = getKcAttachmentService();
-       
+        boolean rulePassed = true;
         // Checking attachment file name for invalid characters.
         String attachmentFileName = proposalPersonBiography.getFileName();
         String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
@@ -95,21 +117,6 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
                         attachmentFileName, invalidCharacters);
             }
         }
-        
-        rulePassed &= checkForDescriptionWhenTypeIsOther(proposalPersonBiography);
-        
-        List<ProposalPersonBiography> existingPersonBiographyList = document.getDevelopmentProposal().getPropPersonBios();
-        if(CollectionUtils.isNotEmpty(existingPersonBiographyList)){
-            //Loop thru to filter attachment uploaded by the current user
-            for(ProposalPersonBiography personBiography: existingPersonBiographyList) {
-                if(personBiography.getProposalPersonNumber().equals(proposalPersonBiography.getProposalPersonNumber())
-                        && personBiography.getDocumentTypeCode().equals(proposalPersonBiography.getDocumentTypeCode())){
-                    rulePassed = false;
-                    reportError(buildErrorPath(DOCUMENT_TYPE_CODE), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
-                }
-            }
-        }
-        
         return rulePassed;
     }
 
@@ -187,6 +194,11 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
             this.parameterService = KraServiceLocator.getService(ParameterService.class);             
         }
         return this.parameterService;
+    }
+
+    @Override
+    public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
+        return checkForInvalidCharacters(event.getProposalPersonBiography());
     }
     
 }
