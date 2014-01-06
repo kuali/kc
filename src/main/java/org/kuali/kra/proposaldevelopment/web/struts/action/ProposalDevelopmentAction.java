@@ -58,6 +58,9 @@ import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.s2s.formmapping.FormMappingInfo;
+import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -315,6 +318,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_NARRATIVE_TYPE_GROUP, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_NARRATIVE_TYPE_GROUP));
             
             if(document.getDevelopmentProposal().getS2sOpportunity()!=null && document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms()!=null){
+                Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator3());
                 Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator2());
                 Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator1());
             }
@@ -1471,4 +1475,22 @@ class S2sOppFormsComparator2 implements Comparator<S2sOppForms> {
    
   }
 
+class S2sOppFormsComparator3 implements Comparator<S2sOppForms> {
+    public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
+        FormMappingInfo info1 = null;
+        FormMappingInfo info2 = null;
+        try {
+            info1 = new FormMappingLoader().getFormInfo(s2sOppForms1.getOppNameSpace()); 
+            info2 = new FormMappingLoader().getFormInfo(s2sOppForms2.getOppNameSpace());
+        }
+        catch (S2SGeneratorNotFoundException e) {
+        }
+        if(info1 != null && info2 != null) {
+            Integer sortIndex1 = info1.getSortIndex();               
+            Integer sortIndex2 = info2.getSortIndex();  
+            return  sortIndex1.compareTo(sortIndex2);
+        }
+        return 1;
+    }    
+}
 
