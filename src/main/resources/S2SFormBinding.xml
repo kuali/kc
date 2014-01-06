@@ -519,6 +519,7 @@
 			org/kuali/kra/s2s/stylesheet/RR_Budget-V1.1.fo.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.rrBudgetV11</pkgName>
+		<sortIndex>165</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_FedNonFedBudget-V1.0">
@@ -848,6 +849,7 @@
 		<pkgName>
 			gov.grants.apply.forms.rrKeyPersonExpanded12V12
 		</pkgName>
+		<sortIndex>155</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_OtherProjectInfo_1_2-V1.2">
@@ -882,6 +884,7 @@
 			org/kuali/kra/s2s/stylesheet/RR_SF424-V1.2.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.rrSF42412V12</pkgName>
+		<sortIndex>120</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_Checklist_1_3-V1.3">
@@ -893,6 +896,7 @@
 			org/kuali/kra/s2s/stylesheet/PHS398_Checklist-V1.3.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phs398Checklist13V13</pkgName>
+		<sortIndex>230</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_1_3-V1.3">
@@ -999,6 +1003,7 @@
 			org/kuali/kra/s2s/stylesheet/PHS_CoverLetter-V1.2.fo.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phsCoverLetter12V12</pkgName>
+		<sortIndex>110</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_ApplicationChecklist_1_3-V1.3">
@@ -1071,6 +1076,7 @@
 			org/kuali/kra/s2s/stylesheet/PerformanceSite-V1.4.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.performanceSite14V14</pkgName>
+		<sortIndex>130</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_1_4-V1.4">
@@ -1082,6 +1088,7 @@
 			org/kuali/kra/s2s/stylesheet/PHS398_CoverPageSupplement-V1.4.fo.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phs398CoverPageSupplement14V14</pkgName>
+		<sortIndex>185</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_ResearchPlan_1_3-V1.3">
@@ -1142,6 +1149,7 @@
 		<pkgName>
 			gov.grants.apply.forms.rrSubawardBudget30V12
 		</pkgName>
+		<sortIndex>180</sortIndex>
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_SubawardBudget10_10-V1.2">
 		<formName>RR_SubawardBudget10_10-V1.2</formName>
