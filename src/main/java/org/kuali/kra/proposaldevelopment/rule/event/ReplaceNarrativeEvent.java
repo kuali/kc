@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
@@ -31,7 +30,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
  */
 public class ReplaceNarrativeEvent extends AddNarrativeEvent {
     /**
-     * Constructs an AddNarrativeEvent with the given errorPathPrefix, document, and proposalPerson.
+     * Constructs a ReplaceNarrativeEvent with the given errorPathPrefix, document, and narrative.
      * 
      * @param errorPathPrefix
      * @param proposalDevelopmentDocument
@@ -56,7 +55,7 @@ public class ReplaceNarrativeEvent extends AddNarrativeEvent {
      * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
-        return AddNarrativeRule.class;
+        return ReplaceNarrativeRule.class;
     }
 
     /**
