@@ -49,6 +49,29 @@
             <artifactId>coeus-code</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
+            <!--exclude provided app server deps, allow app server implementation to include them for integration tests -->
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>javax.servlet.jsp</groupId>
+                    <artifactId>jsp-api</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.glassfish.web</groupId>
+                    <artifactId>jstl-impl</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>javax.servlet.jsp.jstl</groupId>
+                    <artifactId>jstl-api</artifactId>
+                </exclusion>
+
+            </exclusions>
         </dependency>
 
         <dependency>
