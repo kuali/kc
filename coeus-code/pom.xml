@@ -276,21 +276,11 @@
             </exclusions>
         </dependency>
 
-        <!-- temp solution to make jetty upgrade work.  we should downgrade to servlet 2.5 once we have a separate
-         module of int tests-->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet-api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <!--	we need to bring this back in once we get a separate module for our int tests
          <dependency>
-         <groupId>javax.servlet</groupId>
-         <artifactId>servlet-api</artifactId>
-         <version>${servlet.version}</version>
-         <scope>provided</scope>
-         </dependency>-->
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+         </dependency>
 
         <dependency>
             <groupId>junit</groupId>

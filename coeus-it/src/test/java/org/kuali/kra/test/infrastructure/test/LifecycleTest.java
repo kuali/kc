@@ -34,6 +34,8 @@ public class LifecycleTest extends KcUnitTestBase {
         int responseCode = connection.getResponseCode();
         connection.disconnect();
         assertTrue("Server not loaded", responseCode == 200);
+        //wait for a little while before shutting down the server
+        Thread.sleep(3000);
     }
 
 }
