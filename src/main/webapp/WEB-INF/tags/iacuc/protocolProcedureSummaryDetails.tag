@@ -62,6 +62,7 @@
   				</c:otherwise>
   			</c:choose>
  			<kra-iacuc:procedureSummaryGrouped
+ 				groupIndex="${status.index}"
             	tabTitle="${tabTitle}"
             	totalSpeciesCount="${totalSpeciesCount}"
                 studyProcedureCollectionReference="${studyProcedureCollectionReference}"/>

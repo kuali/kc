@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<%@ attribute name="groupIndex" required="true" 
+              description="Summary group index" %>
 <%@ attribute name="tabTitle" required="true" 
               description="Title for this group" %>
 <%@ attribute name="totalSpeciesCount" required="true" 
@@ -49,11 +51,11 @@
 					<c:forEach items="${studyProcedure.iacucProtocolStudyGroupPersons}" var="procedurePerson" varStatus="personIndex">
                  		<c:out value="${procedurePerson.protocolPerson.personName}"/> <br /> 
                      	Trained : <c:out value="${procedurePerson.protocolPerson.personTrainedStatus}"/> <br/>
-						<a href="#qualification-div${procedureIndex.index}${personIndex.index}" id="viewQualificationsLink" >
+						<a href="#qualification-div${groupIndex}${procedureIndex.index}${personIndex.index}" id="viewQualificationsLink" >
 				    		<img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewqualifications.gif" alt="View Qualifications" class="tinybutton addButton" />
 						</a>		               	
 						<br/><br/>		               	
-						<div id="qualification-div${procedureIndex.index}${personIndex.index}" style="display: none;">
+						<div id="qualification-div${groupIndex}${procedureIndex.index}${personIndex.index}" style="display: none;">
 						<div style="text-align:center; background-color:#666; color:#FFF;" align="center"><strong>Qualification</strong></div></br>
                   			<c:out value="${procedurePerson.protocolPerson.procedureQualificationDescription}"/> <br /> 
 						</div>
