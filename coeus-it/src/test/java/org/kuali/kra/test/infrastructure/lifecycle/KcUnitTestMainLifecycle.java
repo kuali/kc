@@ -16,7 +16,7 @@
 package org.kuali.kra.test.infrastructure.lifecycle;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.JettyServerLifecycle;
+import org.kuali.kra.test.infrastructure.ApplicationServerLifecycle;
 import org.kuali.kra.test.infrastructure.TestHarnessServiceLocator;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -44,27 +44,17 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
 
     private PlatformTransactionManager transactionManager;
     private SpringResourceLoader loader;
-    private JettyServerLifecycle jetty;
+    private ApplicationServerLifecycle jetty;
     private TransactionStatus perTestTransactionStatus;
-//    private TransactionStatus perClassTransactionStatus;
 
-    /**
-     * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle#doPerClassStart()
-     */
     @Override
     protected void doPerClassStart() throws Throwable {
     }
 
-    /**
-     * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle#doPerClassStop()
-     */
     @Override
     protected void doPerClassStop() throws Throwable {
     }
 
-    /**
-     * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle#doPerSuiteStart()
-     */
     @Override
     protected void doPerSuiteStart() throws Throwable {
         if (LOG.isInfoEnabled()) {
@@ -90,25 +80,18 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
         TestHarnessServiceLocator.setContext(loader.getContext());
         loader.start();
         if (LOG.isInfoEnabled()) {
-            LOG.info("Loading Jetty Server...");
+            LOG.info("Loading Application Server...");
         }
-        jetty = new JettyServerLifecycle(Integer.parseInt(KcUnitTestBaseLifecycle.getPort()), "/" + PORTAL_ADDRESS, RELATIVE_WEB_ROOT);
-        jetty.setConfigMode(JettyServerLifecycle.ConfigMode.MERGE);
+        jetty = new ApplicationServerLifecycle(Integer.parseInt(KcUnitTestBaseLifecycle.getPort()), "/" + PORTAL_ADDRESS, RELATIVE_WEB_ROOT, ApplicationServerLifecycle.ConfigMode.MERGE);
         jetty.start();
     }
 
-    /**
-     * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle#doPerSuiteStop()
-     */
     @Override
     protected void doPerSuiteStop() throws Throwable {
         jetty.stop();
         loader.stop();
     }
 
-    /**
-     * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle#doPerTestStart()
-     */
     @Override
     protected void doPerTestStart(boolean transactional) throws Throwable {
         if (transactional) {
@@ -121,9 +104,6 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
         }
     }
 
-    /**
-     * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle#doPerTestStop()
-     */
     @Override
     protected void doPerTestStop() throws Throwable {
         if (perTestTransactionStatus != null) {
@@ -131,21 +111,14 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
         }
     }
 
-    /**
-     * This method...
-     * @return
-     */
     private PlatformTransactionManager getTransactionManager() {
         if (transactionManager == null) {
             transactionManager = (PlatformTransactionManager) KraServiceLocator.getService(DEFAULT_TRANSACTION_MANAGER_NAME);
         }
         return transactionManager;
     }
-    
-    /**
-     * This method...
-     * @param transactionManager
-     */
+
+
     public void setTransactionManager(PlatformTransactionManager transactionManager) {
         this.transactionManager = transactionManager;
     }
