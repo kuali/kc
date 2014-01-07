@@ -125,7 +125,8 @@
         <surefire.testFailureIgnore>false</surefire.testFailureIgnore>
         <surefire.reportFormat>plain</surefire.reportFormat>
         <surefire.failIfNoTests>false</surefire.failIfNoTests>
-        <surefire.forkMode>once</surefire.forkMode>
+        <surefire.forkCount>1</surefire.forkCount>
+        <surefire.reuseForks>true</surefire.reuseForks>
         <surefire.argLine></surefire.argLine>
         <surefire.aggregate>true</surefire.aggregate>
         <surefire.skipTests>false</surefire.skipTests>
@@ -135,7 +136,8 @@
         <failsafe.testFailureIgnore>false</failsafe.testFailureIgnore>
         <failsafe.reportFormat>plain</failsafe.reportFormat>
         <failsafe.failIfNoTests>false</failsafe.failIfNoTests>
-        <failsafe.forkMode>once</failsafe.forkMode>
+        <failsafe.forkCount>1</failsafe.forkCount>
+        <failsafe.reuseForks>true</failsafe.reuseForks>
         <failsafe.argLine>-Xmx1024m -XX:MaxPermSize=512m ${javaagent.arg}</failsafe.argLine>
         <failsafe.aggregate>true</failsafe.aggregate>
         <failsafe.skipITs>true</failsafe.skipITs>
@@ -428,7 +430,8 @@
                         <useFile>${surefire.useFile}</useFile>
                         <testFailureIgnore>${surefire.testFailureIgnore}</testFailureIgnore>
                         <reportFormat>${surefire.reportFormat}</reportFormat>
-                        <forkMode>${surefire.forkMode}</forkMode>
+                        <forkCount>${surefire.forkCount}</forkCount>
+                        <reuseForks>${surefire.reuseForks}</reuseForks>
                         <argLine>${surefire.argLine}</argLine>
                         <failIfNoTests>${surefire.failIfNoTests}</failIfNoTests>
                         <skipTests>${surefire.skipTests}</skipTests>
@@ -448,7 +451,8 @@
                             <configuration>
                                 <useFile>${failsafe.useFile}</useFile>
                                 <reportFormat>${failsafe.reportFormat}</reportFormat>
-                                <forkMode>${failsafe.forkMode}</forkMode>
+                                <forkCount>${failsafe.forkCount}</forkCount>
+                                <reuseForks>${failsafe.reuseForks}</reuseForks>
                                 <argLine>${failsafe.argLine}</argLine>
                                 <includes>
                                     <include>${failsafe.include}</include>
