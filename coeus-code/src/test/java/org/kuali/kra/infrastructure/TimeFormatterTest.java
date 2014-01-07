@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.infrastructure;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 public class TimeFormatterTest {
+    private static final Log LOG = LogFactory.getLog(TimeFormatterTest.class);
     private static final ArrayList<String> TIME_LIST = new ArrayList<String>();
     
     private TimeFormatter formatter;
@@ -61,7 +64,7 @@ public class TimeFormatterTest {
     public void testConvertToObject2() {
         for (String[] values : valueChecks) {
             String canonicalized = (String) formatter.convertToObject(values[0]);
-            System.err.println("Original Value: '" + values[0] + "'  calculated value: '" + canonicalized + "'  expected value: '" + values[1] + "'");
+            LOG.info("Original Value: '" + values[0] + "'  calculated value: '" + canonicalized + "'  expected value: '" + values[1] + "'");
             assertEquals(values[1], canonicalized);
         }
     }
