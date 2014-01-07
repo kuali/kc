@@ -56,10 +56,9 @@
         <fop.version>0.93</fop.version>
         <hamcrest-library.version>1.3</hamcrest-library.version>
         <itext.version>2.1.7</itext.version>
-        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
         <jetty8.version>8.1.14.v20131031</jetty8.version>
-        <jetty9.version>9.1.0.v20131115</jetty9.version>
+        <jetty9.version>9.0.7.v20131107</jetty9.version>
         <jetty.version>${jetty9.version}</jetty.version>
         <jmock.version>2.6.0</jmock.version>
         <jsp-api.version>2.1</jsp-api.version>
@@ -702,21 +701,13 @@
                 </exclusions>
             </dependency>
 
-            <!-- temp solution to make jetty upgrade work.  we should downgrade to servlet 2.5 once we have a separate
-    module of int tests-->
+
             <dependency>
                 <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>${javax.servlet-api.version}</version>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <!--	we need to bring this back in once we get a separate module for our int tests
-                    <dependency>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                        <version>${servlet.version}</version>
-                        <scope>provided</scope>
-                    </dependency>-->
 
             <dependency>
                 <groupId>junit</groupId>
@@ -987,12 +978,6 @@
                 <artifactId>jetty-jsp</artifactId>
                 <version>${jetty.version}</version>
                 <scope>test</scope>
-                <!--<exclusions>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>javax.servlet-api</artifactId>
-                    </exclusion>
-                </exclusions> -->
             </dependency>
 
             <dependency>
@@ -1000,12 +985,6 @@
                 <artifactId>jetty-server</artifactId>
                 <version>${jetty.version}</version>
                 <scope>test</scope>
-                <!--<exclusions>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>javax.servlet-api</artifactId>
-                    </exclusion>
-                </exclusions>-->
             </dependency>
 
             <dependency>
