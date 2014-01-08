@@ -23,7 +23,15 @@ import org.kuali.kra.service.CitizenshipTypeService;
 
 /**
  * 
- * This class...
+ * This service has been made available for implementers who will be using an external source
+ * for citizenship data. It hooks into S2SUtilService via the system parameter
+ * PI_CITIZENSHIP_FROM_CUSTOM_DATA. Setting this to "0" will see that S2SUtilServiceImpl::getCitizenship receive a
+ * CitizenshipTypes from this service, as opposed to KcPerson's extended attributes
+ * 
+ * Schools who need external citizenship data are expected to override this service with their own
+ * implementation of "getCitizenshipDataFromExternalSource().
+ * 
+ * getEnumValueOfCitizenshipType has been included as a convenience method should it be needed.
  */
 public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
     
@@ -54,10 +62,7 @@ public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
     }
 
 	public CitizenshipTypes getCitizenshipDataFromExternalSource() {
-		// TODO  generate data for citizenship
-		throw new RuntimeException("Method not implemented");
-		
+		throw new UnsupportedOperationException("External Source Must be configured when system parameter PI_CITIZENSHIP_FROM_CUSTOM_DATA is set to '0'");
 	}
-   
 
 }
