@@ -714,13 +714,13 @@
         <property name="protocolDao" ref="protocolDao" />
         <property name="ruleFiles">
             <list>
-                <value>org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl</value>
-                <value>org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl</value>
-                <value>org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl</value>
-                <value>org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl</value>
-                <value>org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl</value>
-                <value>org/kuali/kra/irb/drools/rules/updateProtocolRules.drl</value>
-                <value>org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl</value>
+                <value>classpath:org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl</value>
+                <value>classpath:org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl</value>
+                <value>classpath:org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl</value>
+                <value>classpath:org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl</value>
+                <value>classpath:org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl</value>
+                <value>classpath:org/kuali/kra/irb/drools/rules/updateProtocolRules.drl</value>
+                <value>classpath:org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl</value>
             </list>
         </property>
     </bean>

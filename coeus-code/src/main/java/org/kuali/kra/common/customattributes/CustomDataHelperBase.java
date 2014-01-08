@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.customattributes;
 
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.infrastructure.KraServiceLocator;

@@ -619,5 +619,21 @@
             </build>
         </profile>
 
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.kuali.rice</groupId>
+                    <artifactId>rice-development-tools</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.kuali.rice</groupId>
+                    <artifactId>rice-krad-development-tools</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 </project>
