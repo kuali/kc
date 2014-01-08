@@ -1,7 +1,4 @@
-#created on: Apr 4, 2009
 package updateIacucProtocol
-
-#list any import classes here.
 
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionUpdateMapping;
 
