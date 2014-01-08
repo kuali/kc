@@ -1,7 +1,5 @@
-#created on: Apr 5, 2009
 package iacucStatusActionMapping
 
-#list any import classes here.
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionMapping;
 import java.util.Arrays;
 
@@ -168,7 +166,7 @@ end
 
 rule "Record Committee Decision"
 salience 100
-# TODO : need to create this action type : use code "318"
+// TODO : need to create this action type : use code "318"
 when
     protocolAction : IacucProtocolActionMapping(actionTypeCode == "318", protocolStatusCode == "101", submissionStatusCode == "103", protocolReviewTypeCode in ("2", "3", "4", "5", "6"))
 then    
