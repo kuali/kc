@@ -15,19 +15,25 @@
  */
 package org.kuali.kra.committee.service.impl;
 
-import org.kuali.kra.committee.print.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
+
+import org.kuali.kra.committee.print.CommitteeFutureScheduledMeetingsPrint;
+import org.kuali.kra.committee.print.CommitteeRosterPrint;
+import org.kuali.kra.committee.print.CommitteeTemplatePrint;
+import org.kuali.kra.committee.print.ProtocolBatchCorrespondencePrint;
+import org.kuali.kra.committee.print.ProtocolCorrespondenceTemplatePrint;
+import org.kuali.kra.committee.print.ScheduleTemplatePrint;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
+import org.kuali.kra.common.committee.print.TemplatePrintBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.impl.PrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
 
 /**
  * 
@@ -47,7 +53,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     /**
      * {@inheritDoc}
      */
-    public AbstractPrint getCommitteePrintable(CommitteeReportType reportType) {
+    public AbstractPrint getCommitteePrintable(CommitteeReportType reportType, String committeeId) {
         AbstractPrint printable = null;
         
         switch(reportType) {
@@ -72,7 +78,10 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
             default :
                 throw new IllegalArgumentException(ERROR_MESSAGE);
         }
-        
+        if(printable instanceof TemplatePrintBase) {
+            TemplatePrintBase printBase = (TemplatePrintBase)printable;
+            printBase.setCommitteeId(committeeId);
+        }
         return printable;
     }
     

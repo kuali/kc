@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.committee.print.service.impl;
 
 import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrintBase;
+import org.kuali.kra.common.committee.print.TemplatePrintBase;
 import org.kuali.kra.iacuc.committee.print.*;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
@@ -49,7 +50,7 @@ public class IacucCommitteePrintingServiceImpl extends PrintingServiceImpl imple
     /**
      * {@inheritDoc}
      */
-    public AbstractPrint getCommitteePrintable(CommitteeReportType reportType) {
+    public AbstractPrint getCommitteePrintable(CommitteeReportType reportType, String committeeId) {
         AbstractPrint printable = null;
         switch(reportType) {
             case COMMITTEE_TEMPLATE :
@@ -73,7 +74,10 @@ public class IacucCommitteePrintingServiceImpl extends PrintingServiceImpl imple
             default :
                 throw new IllegalArgumentException(ERROR_MESSAGE);
         }
-        
+        if(printable instanceof TemplatePrintBase) {
+            TemplatePrintBase printBase = (TemplatePrintBase)printable;
+            printBase.setCommitteeId(committeeId);
+        }
         return printable;
     }
     

@@ -37,7 +37,7 @@ public interface CommitteePrintingServiceBase {
      * @param printType
      * @return printable
      */
-    AbstractPrint getCommitteePrintable(CommitteeReportType reportType);
+    AbstractPrint getCommitteePrintable(CommitteeReportType reportType, String committeeId);
     
     /**
      * This method generates the required report and returns the PDF stream as

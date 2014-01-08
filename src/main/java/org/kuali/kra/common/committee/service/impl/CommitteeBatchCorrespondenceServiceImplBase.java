@@ -262,7 +262,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
         protocolCorrespondence.setActionId(protocolAction.getActionId());
         protocolCorrespondence.setProtoCorrespTypeCode(protocolCorrespondenceType.getProtoCorrespTypeCode());
         
-        AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.PROTOCOL_BATCH_CORRESPONDENCE);
+        AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.PROTOCOL_BATCH_CORRESPONDENCE, committeeId);
         printable.setPrintableBusinessObject(protocol);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(COMMITTEE_ID, committeeId);
