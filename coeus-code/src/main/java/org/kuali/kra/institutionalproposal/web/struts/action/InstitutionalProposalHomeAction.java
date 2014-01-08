@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
-import org.apache.commons.httpclient.auth.AuthenticationException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -49,6 +48,7 @@ import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Attachment;
+import org.kuali.rice.krad.exception.AuthenticationException;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;

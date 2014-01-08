@@ -663,8 +663,8 @@
         <property name="protocolDao" ref="iacucProtocolDao" />
         <property name="ruleFiles">
             <list>
-                <value>org/kuali/kra/iacuc/drools/rules/canPerformIacucProtocolActionRules.drl</value>
-                <value>org/kuali/kra/iacuc/drools/rules/updateIacucProtocolRules.drl</value>
+                <value>classpath:org/kuali/kra/iacuc/drools/rules/canPerformIacucProtocolActionRules.drl</value>
+                <value>classpath:org/kuali/kra/iacuc/drools/rules/updateIacucProtocolRules.drl</value>
             </list>
         </property>
     </bean>
