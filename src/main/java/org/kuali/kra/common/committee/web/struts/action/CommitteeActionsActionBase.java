@@ -322,17 +322,18 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
             CommitteeActionPrintCommitteeDocumentEvent event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
                     printRooster, printFutureScheduledMeeting);
             event.setPrintCorrespondence(printCorrespondence);
+            String committeeId = committeeForm.getCommitteeDocument().getCommittee().getCommitteeId();
             if (applyRules(event)) {
                 AbstractPrint printable;
                 List<Printable> printableArtifactList = new ArrayList<Printable>();
                 if (printRooster) {
-                    printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER);
+                    printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER, committeeId);
                     printable.setPrintableBusinessObject(committeeForm.getCommitteeDocument().getCommittee());
                     committeeForm.getCommitteeDocument().getCommittee().setPrintRooster(true);
                     printableArtifactList.add(printable);
                 }
                 if (printFutureScheduledMeeting) {
-                    printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS);
+                    printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS, committeeId);
                     printable.setPrintableBusinessObject(committeeForm.getCommitteeDocument().getCommittee());
                     committeeForm.getCommitteeDocument().getCommittee().setPrintRooster(false);
                     printableArtifactList.add(printable);
