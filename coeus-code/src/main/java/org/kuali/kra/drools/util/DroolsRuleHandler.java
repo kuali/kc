@@ -18,12 +18,18 @@ package org.kuali.kra.drools.util;
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.WorkingMemory;
+import org.drools.compiler.DroolsParserException;
 import org.drools.compiler.PackageBuilder;
 import org.drools.compiler.PackageBuilderConfiguration;
 import org.drools.rule.Package;
 import org.drools.rule.builder.dialect.java.JavaDialectConfiguration;
-import org.kuali.kra.drools.brms.FactBean;
 
+import org.kuali.kra.drools.brms.FactBean;
+import org.kuali.rice.core.api.util.ClassLoaderUtils;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
@@ -49,10 +55,10 @@ public class DroolsRuleHandler {
      * This method is get rule from rule file and compile it.
      */
     private RuleBase getRuleBase(String rulesFile) {
-        //RuleBase rules = null;
         try {
-            // Read in the rules source file
-            Reader source = new InputStreamReader(this.getClass().getResourceAsStream("/" + rulesFile));
+            DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+            Resource resource = resourceLoader.getResource(rulesFile);
+            Reader source =  new InputStreamReader(resource.getInputStream());
 
             PackageBuilderConfiguration pkgBuilderCfg = new PackageBuilderConfiguration(this.getClass().getClassLoader());
             JavaDialectConfiguration javaConf = (JavaDialectConfiguration)
@@ -70,8 +76,8 @@ public class DroolsRuleHandler {
             rules = RuleBaseFactory.newRuleBase();
             rules.addPackage(pkg);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (DroolsParserException|IOException e) {
+            throw new RuntimeException(e);
         }
         return rules;
     }
