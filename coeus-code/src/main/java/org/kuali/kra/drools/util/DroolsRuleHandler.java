@@ -15,9 +15,13 @@
  */
 package org.kuali.kra.drools.util;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
+import org.drools.RuntimeDroolsException;
 import org.drools.WorkingMemory;
+import org.drools.builder.ResultSeverity;
 import org.drools.compiler.DroolsParserException;
 import org.drools.compiler.PackageBuilder;
 import org.drools.compiler.PackageBuilderConfiguration;
@@ -38,7 +42,9 @@ import java.io.Reader;
  * This class is to compile rule and execute rule.
  */
 public class DroolsRuleHandler {
-   
+
+    private static final Log LOG = LogFactory.getLog(DroolsRuleHandler.class);
+
     private RuleBase rules;
     
     /**
@@ -68,16 +74,25 @@ public class DroolsRuleHandler {
 
             // This will parse and compile in one step
             builder.addPackageFromDrl(source);
+            if (builder.hasInfo()) {
+                LOG.info(builder.getProblems(ResultSeverity.INFO));
+            }
+            if (builder.hasWarnings()) {
+                LOG.warn(builder.getProblems(ResultSeverity.WARNING));
+            }
+            if (builder.hasErrors()) {
+                throw new RuntimeDroolsException(builder.getErrors().toString());
+            }
 
             // Get the compiled package
-             Package pkg = builder.getPackage();
+            Package pkg = builder.getPackage();
             
             // Add the package to a rulebase (deploy the rule package).
             rules = RuleBaseFactory.newRuleBase();
             rules.addPackage(pkg);
 
         } catch (DroolsParserException|IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeDroolsException(e);
         }
         return rules;
     }
