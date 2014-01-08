@@ -1,7 +1,5 @@
-#created on: Apr 5, 2009
 package statusActionMapping
 
-#list any import classes here.
 import org.kuali.kra.irb.actions.submit.ProtocolActionMapping;
 import java.util.Arrays;
 
@@ -386,7 +384,7 @@ when
 then	
 	setAction(protocolAction, true);
 end
-
+/*
 #rule "Notify IRB"
 #salience 100
 #when
@@ -395,7 +393,7 @@ end
 #then	
 #	setAction(protocolAction, true);
 #end
-
+*/
 rule "Make Administrative Correction"
 salience 100
 when

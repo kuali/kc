@@ -17,16 +17,16 @@ package org.kuali.kra.drools.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.drools.RuleBase;
-import org.drools.RuleBaseFactory;
-import org.drools.RuntimeDroolsException;
-import org.drools.WorkingMemory;
-import org.drools.builder.ResultSeverity;
-import org.drools.compiler.DroolsParserException;
-import org.drools.compiler.PackageBuilder;
-import org.drools.compiler.PackageBuilderConfiguration;
-import org.drools.rule.Package;
-import org.drools.rule.builder.dialect.java.JavaDialectConfiguration;
+import org.drools.compiler.rule.builder.dialect.java.JavaDialectConfiguration;
+import org.drools.core.RuleBase;
+import org.drools.core.RuleBaseFactory;
+import org.drools.core.RuntimeDroolsException;
+import org.drools.core.WorkingMemory;
+import org.kie.internal.builder.ResultSeverity;
+import org.drools.compiler.compiler.DroolsParserException;
+import org.drools.compiler.compiler.PackageBuilder;
+import org.drools.compiler.compiler.PackageBuilderConfiguration;
+import org.drools.core.rule.Package;
 
 import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;

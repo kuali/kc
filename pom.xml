@@ -54,7 +54,7 @@
         <cxf.version>2.7.0</cxf.version>
         <db-ojb.version>1.0.4-patch8</db-ojb.version>
         <displaytag.version>1.2</displaytag.version>
-        <drools.version>5.5.0.Final</drools.version>
+        <drools.version>6.0.1.Final</drools.version>
         <dwr.version>3.0.RC2</dwr.version>
         <ehcache.version>2.5.0</ehcache.version>
         <fop.version>0.93</fop.version>
@@ -987,18 +987,6 @@
                 <groupId>org.drools</groupId>
                 <artifactId>drools-compiler</artifactId>
                 <version>${drools.version}</version>
-                <exclusions>
-                    <!-- Causes conflict with Tomcat JDT-->
-                    <exclusion>
-                        <groupId>org.eclipse.jdt.core.compiler</groupId>
-                        <artifactId>ecj</artifactId>
-                    </exclusion>
-                    <!-- This interferes with Rice's xml parser causing all kinds of workflow havoc -->
-                    <exclusion>
-                        <groupId>com.thoughtworks.xstream</groupId>
-                        <artifactId>xstream</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
