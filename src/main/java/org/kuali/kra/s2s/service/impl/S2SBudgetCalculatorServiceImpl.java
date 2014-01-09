@@ -1757,7 +1757,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             }
         }
         for(KeyPersonInfo seniorPerson : keyPersons){
-            if(keyPerson.getRole().equals(NID_PD_PI)||hasPersonnelBudget(budgetPeriod,seniorPerson)){
+            if(seniorPerson.getRole().equals(NID_PD_PI)||hasPersonnelBudget(budgetPeriod,seniorPerson)){
                 seniorPersons.add(seniorPerson);
             }            
         }
