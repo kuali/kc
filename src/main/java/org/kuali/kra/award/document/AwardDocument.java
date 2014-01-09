@@ -103,7 +103,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
      */
     private static final long serialVersionUID = 1668673531338660064L;
     
-    public static final String DOCUMENT_TYPE_CODE = "AWARD";
+    public static final String DOCUMENT_TYPE_CODE = "AWRD";
     private static final String DEFAULT_TAB = "Versions";
     private static final String ALTERNATE_OPEN_TAB = "Parameters";
     
