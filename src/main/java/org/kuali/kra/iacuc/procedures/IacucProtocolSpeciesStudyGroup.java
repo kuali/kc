@@ -129,6 +129,9 @@ public class IacucProtocolSpeciesStudyGroup implements Serializable {
         this.allProceduresSelected = allProceduresSelected;
     }
 
+    public void addSpeciesCount(Integer speciesCount) {
+        this.totalSpeciesCount = this.totalSpeciesCount + speciesCount;
+    }
 
 }
 
