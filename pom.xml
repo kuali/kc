@@ -2100,7 +2100,7 @@ module of int tests -->
         <rrbudget-1.3-gg.version>1.1</rrbudget-1.3-gg.version>
         <phs398trainingsubawardbudget-2.0-gg.version>1.0</phs398trainingsubawardbudget-2.0-gg.version>
         <rrsubawardbudget-1.3-gg.version>1.1</rrsubawardbudget-1.3-gg.version>
-        <sf424r-2.0-gg.version>1.5</sf424r-2.0-gg.version>
+        <sf424r-2.0-gg.version>1.6</sf424r-2.0-gg.version>
         <rrotherproject-1.3-gg.version>1.1</rrotherproject-1.3-gg.version>      
         <phs398careerdevelopmentawardsup-2.0-gg.version>1.1</phs398careerdevelopmentawardsup-2.0-gg.version>    
         <phs398researchtrainingprogramplan-2.0-gg.version>1.0</phs398researchtrainingprogramplan-2.0-gg.version>
@@ -2119,7 +2119,7 @@ module of int tests -->
         <phs398modularbudget-1.2-gg.version>1.0.5</phs398modularbudget-1.2-gg.version>
         <rice.version>2.3.3-r43589</rice.version>
         <servlet.version>2.5</servlet.version>
-        <s2sform.version>1.2.0</s2sform.version>
+        <s2sform.version>1.2.1</s2sform.version>
         <sf424-2.1-gg.version>1.0</sf424-2.1-gg.version>
         <slf4j.version>1.6.4</slf4j.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
