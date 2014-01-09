@@ -36,6 +36,7 @@ import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
@@ -198,12 +199,16 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             }
 
             //copy existing questionnaires (if we can, otherwise copy the pieces of the questionnaires that we can. )
-            //if (criteria.getIncludeQuestionnaires()) {
             if (criteria.getIncludeQuestionnaire()) {
                 ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(doc.getDevelopmentProposal(), true);
                 List<AnswerHeader> answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
                 ModuleQuestionnaireBean destModuleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(newDoc.getDevelopmentProposal(), false);
                 questionnaireAnswerService.copyAnswerHeaders(moduleQuestionnaireBean, destModuleQuestionnaireBean);
+                
+                //also copy the s2s questionnaires/answers too 
+                moduleQuestionnaireBean = new ProposalDevelopmentS2sModuleQuestionnaireBean(doc.getDevelopmentProposal());
+                destModuleQuestionnaireBean = new ProposalDevelopmentS2sModuleQuestionnaireBean(newDoc.getDevelopmentProposal());
+                questionnaireAnswerService.copyAnswerHeaders(moduleQuestionnaireBean, destModuleQuestionnaireBean);                
             }
             
             //save extended attributes
