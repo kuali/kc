@@ -78,6 +78,12 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
         setIacucPersonTrainings(getIacucProtocolProcedureService().getIacucPersonTrainingDetails(getPersonId()));
     }
 
+    @Override
+    protected void postPersist() {
+        super.postPersist();
+        setIacucPersonTrainings(getIacucProtocolProcedureService().getIacucPersonTrainingDetails(getPersonId()));
+    }
+    
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
         return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
     }
