@@ -1085,6 +1085,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     public String administrativelyWithdrawProtocol(IacucProtocolForm protocolForm) throws Exception {
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+        boolean isVersion = isVersion(protocol);
         ProtocolDocumentBase pd = getProtocolWithdrawService().administrativelyWithdraw(protocol, protocolForm.getActionHelper().getProtocolAdminWithdrawBean());
         IacucProtocol newIacucProtocol = (IacucProtocol)pd.getProtocol();
         generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, newIacucProtocol);
@@ -1092,6 +1093,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(newIacucProtocol, IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, "Administratively Withdrawn");
         ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(newIacucProtocol, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
+        synchronizeWithdrawProcess(isVersion, protocol, newProtocolCorrespondence, notificationBean, protocolForm, newIacucProtocol);
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
@@ -1101,6 +1103,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     public String withdrawProtocol(IacucProtocolForm protocolForm) throws Exception {
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+        boolean isVersion = isVersion(protocol);
         ProtocolDocumentBase pd = getProtocolWithdrawService().withdraw(protocol, protocolForm.getActionHelper().getProtocolWithdrawBean());
         IacucProtocol newIacucProtocol = (IacucProtocol)pd.getProtocol();
         generateActionCorrespondence(IacucProtocolActionType.IACUC_WITHDRAWN, newIacucProtocol);
@@ -1108,7 +1111,40 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(newIacucProtocol, IacucProtocolActionType.IACUC_WITHDRAWN, "Withdrawn");
         ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(newIacucProtocol, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
+        synchronizeWithdrawProcess(isVersion, protocol, newProtocolCorrespondence, notificationBean, protocolForm, newIacucProtocol);
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
+    }
+    
+    /**
+     * This method is to make sure we have linked correspondence and notification to both previous and versioned protocol
+     * during withdraw action
+     * @param previousProtocol
+     * @param newProtocolCorrespondence
+     * @param notificationBean
+     * @param protocolForm
+     * @param currentProtocol
+     */
+    private void synchronizeWithdrawProcess(boolean isVersion, IacucProtocol previousProtocol, ProtocolCorrespondence newProtocolCorrespondence, 
+            IacucProtocolNotificationRequestBean notificationBean, IacucProtocolForm protocolForm, IacucProtocol currentProtocol) {
+        if(isVersion) {
+            ProtocolNotificationContextBase context = getProtocolNotificationContextHook(notificationBean, protocolForm);
+            ProtocolBase notificationProtocol = null;
+            if(newProtocolCorrespondence != null) {
+                getProtocolActionCorrespondenceGenerationService().attachProtocolCorrespondence(previousProtocol, newProtocolCorrespondence.getCorrespondence(), 
+                        newProtocolCorrespondence.getProtoCorrespTypeCode());
+                notificationProtocol = previousProtocol;
+            }else {
+                notificationProtocol = currentProtocol;
+            }
+            getNotificationService().sendNotificationAndPersist(context, getProtocolNotificationInstanceHook(), notificationProtocol);
+        }
+    }
+    
+    private boolean isVersion(IacucProtocol protocol) {
+        boolean isVersion = IacucProtocolStatus.IN_PROGRESS.equals(protocol.getProtocolStatusCode()) ||
+        IacucProtocolStatus.SUBMITTED_TO_IACUC.equals(protocol.getProtocolStatusCode()) ||
+        IacucProtocolStatus.TABLED.equals(protocol.getProtocolStatusCode());
+        return isVersion;
     }
     
     /**
@@ -1158,6 +1194,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
      */
     public String administrativelyMarkIncompleteProtocol(IacucProtocolForm protocolForm) throws Exception {
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
+        boolean isVersion = isVersion(protocol);
         ProtocolDocumentBase pd = getProtocolWithdrawService().administrativelyMarkIncomplete(protocol, protocolForm.getActionHelper().getProtocolAdminIncompleteBean());
         IacucProtocol newIacucProtocol = (IacucProtocol)pd.getProtocol();
         generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, newIacucProtocol);
@@ -1165,6 +1202,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(newIacucProtocol, IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, "Administratively Marked Incomplete");
         ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(newIacucProtocol, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
+        synchronizeWithdrawProcess(isVersion, protocol, newProtocolCorrespondence, notificationBean, protocolForm, newIacucProtocol);
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
 
@@ -1323,7 +1361,6 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             boolean valid = applyRules(new IacucProtocolRequestEvent<IacucProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
             if (valid) {
                 // find recently submitted action request and complete it
-System.out.println("fetching the one that matters...");                
                 List<ProtocolSubmissionBase> submissions = protocol.getProtocolSubmissions();
                 ProtocolSubmissionBase submission = null;
                 for (ProtocolSubmissionBase sub: submissions) {

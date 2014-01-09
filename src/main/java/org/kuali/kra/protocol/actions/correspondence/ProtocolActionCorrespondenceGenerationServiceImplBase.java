@@ -97,6 +97,10 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
         getBusinessObjectService().save(protocol);
     }
     
+    public void attachProtocolCorrespondence(ProtocolBase protocol, byte[] data, String correspTypeCode) {
+        buildAndAttachProtocolCorrespondence(protocol, data, correspTypeCode);
+    }
+    
     /**{@inheritDoc}**/
     public void generateCorrespondenceDocumentAndAttach(ProtocolActionsCorrespondenceBase printableCorrespondence) 
             throws PrintingException {
