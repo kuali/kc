@@ -79,6 +79,9 @@ public class IacucPersonTraining extends KraPersistableBusinessObjectBase {
     }
 
     public PersonTraining getPersonTraining() {
+        if(personTraining == null) {
+            this.refreshReferenceObject("personTraining");
+        }
         return personTraining;
     }
 
