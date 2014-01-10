@@ -15,6 +15,18 @@
  */
 package org.kuali.kra.protocol.actions;
 
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -73,22 +85,21 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.ken.util.NotificationConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.*;
 
 /**
  * The form helper class for the ProtocolBase Actions tab.
@@ -99,6 +110,9 @@ public abstract class ActionHelperBase implements Serializable {
     protected static final String NAMESPACE = "KC-UNT";
     protected transient QuestionnaireAnswerService questionnaireAnswerService;
 
+    private static final String DEFAULT_TAB = "Versions";
+    private static final String ALTERNATE_OPEN_TAB = "Parameters";
+    
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
@@ -2682,5 +2696,99 @@ public abstract class ActionHelperBase implements Serializable {
     public boolean isAllowedToRegenerateProtocolCorrespondence() {
         return this.allowedToRegenerateProtocolCorrespondence;
     }
+
+    public class AmendmentSummary {
+        private String amendmentType;
+        private String versionNumber;
+        private String versionNumberUrl;
+        private String description;
+        private String status;
+        private String createDate;
+        
+        public String getAmendmentType() {
+            return amendmentType;
+        }
+        public String getVersionNumber() {
+            return versionNumber;
+        }
+        public String getVersionNumberUrl() {
+            return versionNumberUrl;
+        }
+        public String getDescription() {
+            return description;
+        }
+        public String getStatus() {
+            return status;
+        }
+        public String getCreateDate() {
+            return createDate;
+        }
+        
+        public AmendmentSummary(ProtocolBase protocol) {
+            amendmentType = protocol.isRenewalWithoutAmendment() ? "Renewal" : protocol.isRenewal() ? "Renewal with Amendment" : protocol.isAmendment() ? "Amendment" : "New";
+            versionNumber = protocol.getProtocolNumber().substring(protocol.getProtocolNumber().length() - 3);
+            versionNumberUrl = buildForwardUrl(protocol.getProtocolDocument().getDocumentNumber());
+            if (protocol.isAmendment() || protocol.isRenewal()) {
+                ProtocolAmendRenewalBase correctAmendment = protocol.getProtocolAmendRenewal();
+                if (correctAmendment != null) {
+                    description = correctAmendment.getSummary();
+                    versionNumber = protocol.getProtocolNumber().substring(protocol.getProtocolNumber().length() - 3);
+                    versionNumberUrl = buildForwardUrl(protocol.getProtocolDocument().getDocumentNumber());
+                } else {
+                    description = "";
+                    versionNumber = "";
+                    versionNumberUrl = "";
+                }
+            }
+            status = protocol.getProtocolStatus().getDescription();
+            try {
+                ProtocolDocumentBase protocolDoc = (ProtocolDocumentBase)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+                Date docDate = new Date(protocolDoc.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+                createDate = new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(docDate);
+            } catch (Exception e) {
+                createDate = "";
+            }
+        }
+    }
     
+    public List<AmendmentSummary> getAmendmentSummaries() throws Exception {
+        List<AmendmentSummary> results = new ArrayList<AmendmentSummary>();
+        String originalProtocolNumber;
+        // Use the submission number to get the correct amendment details
+        if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
+            originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
+        } else {
+            // We want to display amendment details even if the document is not an amendment.
+            // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
+            originalProtocolNumber = getProtocol().getProtocolNumber();
+        }
+        List<ProtocolBase> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
+        Collections.sort(protocols, new Comparator<ProtocolBase>(){
+            public int compare(ProtocolBase p1, ProtocolBase p2) {
+                return p1.getDocumentNumberForPermission().compareTo(p2.getDocumentNumberForPermission());
+            }
+            });
+        for (ProtocolBase protocol: protocols) {
+            results.add(new AmendmentSummary(protocol));
+        }
+        return results;
+    }
+
+    protected String buildForwardUrl(String routeHeaderId) {
+        ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
+        String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
+        forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
+        if (forward.indexOf("?") == -1) {
+            forward += "?";
+        }
+        else {
+            forward += "&";
+        }
+        forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + routeHeaderId;
+        forward += "&" + KewApiConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        if (GlobalVariables.getUserSession().isBackdoorInUse()) {
+            forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+        }
+        return forward;
+    }
 }

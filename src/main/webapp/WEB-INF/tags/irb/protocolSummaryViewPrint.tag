@@ -21,6 +21,6 @@
 		<kra-irb:protocolSummaryPanel />
 		<kra-irb:protocolSubmissionDetailsPanel />
 		<kra-irb:protocolViewHistory />
-		
+		<kra-irb:protocolViewAmendmentHistory />		
     </div>	    
 </kul:tab>
