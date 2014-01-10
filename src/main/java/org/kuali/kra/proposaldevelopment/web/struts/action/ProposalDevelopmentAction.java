@@ -177,7 +177,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
                 proposalDevelopmentForm.setApproverViewDO(approverViewDO);
                 
-                super.docHandler(mapping, form, request, response);
+                loadDocument(proposalDevelopmentForm);
                 return approverView(mapping, form, request, response);
             }
             else if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
