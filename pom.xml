@@ -36,6 +36,7 @@
     <modules>
         <module>coeus-code</module>
         <module>coeus-config</module>
+        <module>coeus-form</module>
         <module>coeus-help</module>
         <module>coeus-it</module>
         <module>coeus-tool</module>
