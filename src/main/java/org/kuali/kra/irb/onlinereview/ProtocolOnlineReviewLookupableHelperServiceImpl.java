@@ -49,17 +49,55 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends ProtocolOnl
         return ProtocolSubmissionStatus.APPROVED;
     } 
     
+    protected String getProtocolSubmissionExemptdStatusCodeHook() {
+        return ProtocolSubmissionStatus.EXEMPT;
+    }
+    
+    protected String getProtocolSubmissionReturnedToPIStatusCodeHook() {
+        return ProtocolSubmissionStatus.RETURNED_TO_PI;
+    }
+    
+    protected String getProtocolSubmissionMajorRevisionStatusCodeHook() {
+        return ProtocolSubmissionStatus.SUBSTANTIVE_REVISIONS_REQUIRED;
+    }
+    
+    protected String getProtocolSubmissionMinorRevisionStatusCodeHook() {
+        return ProtocolSubmissionStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED;
+    }
+    
+    protected String getProtocolSubmissionInAgendaStatusCodeHook() {
+        return ProtocolSubmissionStatus.IN_AGENDA;
+    }
+    
+    protected String getProtocolSubmissionSubmittedToCommitteeStatusCodeHook() {
+        return ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE;
+    }
+    
     @Override
     protected List<ProtocolOnlineReviewBase> filterResults(List<ProtocolOnlineReviewBase> results) {
-        List<ProtocolOnlineReviewBase> onlineReviews = new ArrayList<ProtocolOnlineReviewBase>();
-        for (ProtocolOnlineReviewBase review : results) {           
-            if (review.getProtocolOnlineReviewDocument() != null) {
-                //ensure that only pending submission statuses are shown for online reviews, i.e. do not show reviews assigned but not completed for approved protocols.
-               if (!review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionApprovedStatusCodeHook())) {
-                   onlineReviews.add(review);
-               }
-            }
-        }
-        return onlineReviews;
+      List<ProtocolOnlineReviewBase> onlineReviews = new ArrayList<ProtocolOnlineReviewBase>();
+      for (ProtocolOnlineReviewBase review : results) {
+          if (review.getProtocolOnlineReviewDocument() != null) {
+          //ensure that only pending submission statuses are shown for online reviews, i.e. do not show reviews assigned but not completed for approved protocols.
+              
+              //ensure reviewers continue to see reviews that have been completed, accepted, and approved.
+              //reviewer_approved & admin_accepted & protocol_was_approved(final) & is_an_action_that_generates_an_online_review
+              if (review.isReviewerApproved() & review.isAdminAccepted() &
+                  review.getProtocolOnlineReviewStatusCode().equalsIgnoreCase(ProtocolOnlineReviewStatus.FINAL_STATUS_CD) &
+                  (review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionApprovedStatusCodeHook())      ||
+                   review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionExemptdStatusCodeHook())       ||
+                   review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionMinorRevisionStatusCodeHook()) ||
+                   review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionMajorRevisionStatusCodeHook()) ||
+                   review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionReturnedToPIStatusCodeHook()))) {
+                  onlineReviews.add(review);
+              }
+              else if ((review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionInAgendaStatusCodeHook()) ||
+                        review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionSubmittedToCommitteeStatusCodeHook())) &
+                        !(review.getProtocolOnlineReviewStatusCode().equalsIgnoreCase(ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) ) {
+                  onlineReviews.add(review);
+              }
+          }
+      }
+      return onlineReviews;
     }
 }
