@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__2402", [["Documents/deleteprotocolamendmentorrenewal.htm", "right", "Delete Protocol, Amendment, or Renewal"],["Documents/deleteprotocolamendmentrenewalorcontinuation.htm", "right", "Delete Protocol, Amendment, Renewal, or Continuation"]]);
