@@ -41,6 +41,7 @@
 				<ref bean="LookupableDevelopmentProposal-proposalTypeDescription" />
 				<ref bean="LookupableDevelopmentProposal-deadlineDate" />
 				<ref bean="LookupableDevelopmentProposal-investigator" />
+				<ref bean="LookupableDevelopmentProposal-documentNumber" />
             </list>
         </property>
         
@@ -64,6 +65,24 @@
         </property>
         <property name="summary" value="Proposal Number" />
         <property name="description" value="Proposal Number" />
+    </bean>
+    
+    <bean id="LookupableDevelopmentProposal-documentNumber" parent="LookupableDevelopmentProposal-documentNumber-parentBean" />
+    <bean id="LookupableDevelopmentProposal-documentNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="documentNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Document Number" />
+        <property name="shortLabel" value="Document Number" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="40" />
+        </property>
+        <property name="summary" value="Document Number" />
+        <property name="description" value="Document Number" />
     </bean>
     
     <bean id="LookupableDevelopmentProposal-title" parent="LookupableDevelopmentProposal-title-parentBean" />
@@ -237,6 +256,8 @@
           <bean parent="FieldDefinition"
                 p:attributeName="proposalNumber"
                 p:forceInquiry="true" />
+          <bean parent="FieldDefinition"
+                p:attributeName="documentNumber" />
           <bean parent="FieldDefinition"
                 p:attributeName="title" />
           <bean parent="FieldDefinition"

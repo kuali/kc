@@ -254,8 +254,19 @@
     
     <bean id="lookupableDevelopmentProposalLookupableHelperService" class="org.kuali.kra.proposaldevelopment.service.impl.LookupableDevelopmentProposalLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype">
+        <property name="proposalPersonDao" ref="proposalPersonDao" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
     </bean>
     
+    <bean id="proposalPersonDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.dao.ojb.ProposalPersonDaoOjb">
+        <property name="lookupDao" ref="lookupDao" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>  
+
+    <bean id="lookupDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupDao" />
+    </bean>
     
     <bean id="proposalAbstractsService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAbstractsServiceImpl">
         <property name="personService" ref="personService" />
