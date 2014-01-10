@@ -110,7 +110,7 @@
             	<th><kul:htmlAttributeLabel attributeEntry="${attachmentAttributes.description}" useShortLabel="true" /> <kul:htmlControlAttribute property="${activityPath}.newAttachment.description" attributeEntry="${attachmentAttributes.description}" readOnly="${readOnly}"/></th>
             	<th>
             		<html:image property="methodToCall.addAttachment.activityIndex${activityIndex}"
-            			src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton addButton"
+            			src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"
    		  				onclick="return ${fileDescriptionValidationFunctionName}();"/>
    		  				<script language="javascript">
    		  					<!--
