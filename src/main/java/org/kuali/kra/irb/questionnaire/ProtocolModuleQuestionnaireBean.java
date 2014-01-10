@@ -44,6 +44,8 @@ public class ProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaire
         String protocolNumber = getModuleItemKey().indexOf("|")==-1 ? getModuleItemKey() : getModuleItemKey().substring(0, getModuleItemKey().indexOf("|"));
         Integer sequenceNumber = Integer.valueOf(getModuleSubItemKey());
         Map<String, Object> values = new HashMap<String, Object>();
+        values.put("protocolNumber", protocolNumber);
+        values.put("sequenceNumber", sequenceNumber);
         List<Protocol> protocols = 
                 (List<Protocol>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(Protocol.class, values);
         if (protocols != null && !protocols.isEmpty()) {
@@ -52,8 +54,7 @@ public class ProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaire
             return null;
         }
     }
-
-   
+    
     private void setProtocolSubItemCode(Protocol protocol) {
         // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
         String subModuleCode = CoeusSubModule.ZERO_SUBMODULE;
