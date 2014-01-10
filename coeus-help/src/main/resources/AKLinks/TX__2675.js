@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__2675", [["Documents/frequencybase.htm", "right", "Frequency Base"],["Documents/gloss_frequencybase1.htm", "d2hWnd_SecondaryPopup", "Frequency Base"]]);

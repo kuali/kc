@@ -35,6 +35,33 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-help</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.kuali.coeus</groupId>
+                                    <artifactId>coeus-help</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/${project.build.finalName}/static/help</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat6-maven-plugin</artifactId>
                 <dependencies>
@@ -263,27 +290,6 @@
                                                 <exclude>**/.svn</exclude>
                                                 <exclude>**/.svn/**</exclude>
                                                 <exclude>rice-portal/scripts/easyXDM/resize_intermediate.html</exclude>
-                                            </excludes>
-                                        </fileset>
-                                    </filesets>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>delete-help</id>
-                                <phase>clean</phase>
-                                <goals>
-                                    <goal>clean</goal>
-                                </goals>
-                                <configuration>
-                                    <filesets>
-                                        <fileset>
-                                            <directory>src/main/webapp/static</directory>
-                                            <includes>
-                                                <include>help/</include>
-                                            </includes>
-                                            <excludes>
-                                                <exclude>**/.svn</exclude>
-                                                <exclude>**/.svn/**</exclude>
                                             </excludes>
                                         </fileset>
                                     </filesets>
