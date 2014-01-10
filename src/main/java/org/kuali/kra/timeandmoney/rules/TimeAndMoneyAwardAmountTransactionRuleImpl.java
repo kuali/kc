@@ -72,11 +72,12 @@ public class TimeAndMoneyAwardAmountTransactionRuleImpl extends ResearchDocument
             if (timeAndMoneyDocument.getPendingTransactions().size() > 0) {
                 for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()) {
                     Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
+                    award.refreshReferenceObject("awardAmountInfos");
                     AwardAmountInfo aai = getAwardAmountInfoService().fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
-                    Date obligatedStartDate = awardHierarchyNode.getValue().getCurrentFundEffectiveDate();
-                    Date obligatedEndDate = awardHierarchyNode.getValue().getObligationExpirationDate();
-                    KualiDecimal obligatedTotal = awardHierarchyNode.getValue().getAmountObligatedToDate();
-                    KualiDecimal anticipatedTotal = awardHierarchyNode.getValue().getAnticipatedTotalAmount();
+                    Date obligatedStartDate = aai.getCurrentFundEffectiveDate();
+                    Date obligatedEndDate = aai.getObligationExpirationDate();
+                    KualiDecimal obligatedTotal = aai.getAmountObligatedToDate();
+                    KualiDecimal anticipatedTotal = aai.getAnticipatedTotalAmount();                    
                     for (PendingTransaction pendingTransaction: timeAndMoneyDocument.getPendingTransactions()) {
                         if (!pendingTransaction.getProcessedFlag().booleanValue()) {
                             if (StringUtils.equals(pendingTransaction.getSourceAwardNumber(), award.getAwardNumber())) {
