@@ -27,7 +27,7 @@
     		<div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardFundingSourceHelpUrl" altText="help"/></div>
         </h3>
         <table cellpadding=0 cellspacing=0 summary="">
-        
+		<tbody class="addline">         
         <tr>
       	<th><div align="left">&nbsp;</div></th>
         <th colspan=3><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.awardId}" /></div></th>
@@ -80,12 +80,13 @@
    				 <c:if test="${readOnly!='true'}">
 						<html:image property="methodToCall.addFundingSource.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-						            styleClass="tinybutton"/>
+						            styleClass="tinybutton addButton"/>
 				 </c:if>
 	                </div>
 	            </td>   
    			</tr> 
    			</c:if>
+   			</tbody>
      	<c:forEach var="subAwardFundingSource" items="${KualiForm.document.subAwardList[0].subAwardFundingSourceList}" varStatus="status">
 		             <tr>
 		             
