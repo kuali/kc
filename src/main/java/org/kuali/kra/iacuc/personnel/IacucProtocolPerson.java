@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolSpeciesStudyGroup;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -34,6 +35,8 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
     
     private static final String PERSON_TRAINED_TRUE = "Yes";
     private static final String PERSON_TRAINED_FALSE = "No";
+    
+    private List<IacucProcedurePersonResponsible> iacucProcedurePersonResponsibleList;
     
     /* 
      * List of protocol studies and related procedures grouped by species
@@ -102,6 +105,14 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
 
     public void setAllProceduresSelected(boolean allProceduresSelected) {
         this.allProceduresSelected = allProceduresSelected;
+    }
+
+    public List<IacucProcedurePersonResponsible> getIacucProcedurePersonResponsibleList() {
+        return iacucProcedurePersonResponsibleList;
+    }
+
+    public void setIacucProcedurePersonResponsibleList(List<IacucProcedurePersonResponsible> iacucProcedurePersonResponsibleList) {
+        this.iacucProcedurePersonResponsibleList = iacucProcedurePersonResponsibleList;
     }
 
 }

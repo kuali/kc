@@ -809,6 +809,10 @@
         <reference-descriptor name="rolodex" class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
+
+        <collection-descriptor name="iacucProcedurePersonResponsibleList" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolPersonId" />
+        </collection-descriptor>
         
     </class-descriptor>
     
