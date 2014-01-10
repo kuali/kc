@@ -42,6 +42,8 @@ public class LookupableDevelopmentProposal extends KraPersistableBusinessObjectB
 
     private String proposalNumber;
 
+    private String documentNumber;
+
     private String title;
 
     private String ownedByUnitNumber;
@@ -88,6 +90,14 @@ public class LookupableDevelopmentProposal extends KraPersistableBusinessObjectB
 
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
+    }
+
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     public String getTitle() {
@@ -167,4 +177,13 @@ public class LookupableDevelopmentProposal extends KraPersistableBusinessObjectB
         return this.proposalPersons;
     }
 
+public String toString() {
+    return "Proposal: sponsorCode = " + sponsorCode
+    + ", proposalNumber = " + proposalNumber
+    + ", documentNumber = " + documentNumber 
+    + ", title = " + title 
+    + ", unit = " + ownedByUnitNumber
+    + ", type = " + proposalTypeCode
+    + ", deadline = " + deadlineDate;
+}
 }
