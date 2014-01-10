@@ -30,7 +30,10 @@
 <span class="subhead-right"><kul:help parameterNamespace="KC-NEGOTIATION" parameterDetailType="Document" parameterName="negotiationActivitiesHelp" altText="help"/></span>
 <kul:innerTab parentTab="${parentTab}" tabTitle="${tabTitle}" defaultOpen="false" tabErrorKey="${activityPath}*" useCurrentTabIndexAsKey="true" overrideDivClass="${tabDivClass}">
             <div class="innerTab-container" align="left">
-        
+
+        <table cellpadding="0" cellspacing="0" border="0">
+        <tbody class="addline"> 
+        <td>
         <table cellpadding="4" cellspacing="0" summary="">
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${activityAttributes.locationId}" /></div></th>
@@ -107,7 +110,7 @@
             	<th><kul:htmlAttributeLabel attributeEntry="${attachmentAttributes.description}" useShortLabel="true" /> <kul:htmlControlAttribute property="${activityPath}.newAttachment.description" attributeEntry="${attachmentAttributes.description}" readOnly="${readOnly}"/></th>
             	<th>
             		<html:image property="methodToCall.addAttachment.activityIndex${activityIndex}"
-            			src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"
+            			src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton addButton"
    		  				onclick="return ${fileDescriptionValidationFunctionName}();"/>
    		  				<script language="javascript">
    		  					<!--
@@ -158,7 +161,7 @@
 			<tr>
 			    <td class="infoline" style="text-align:center;" colspan="6">
 					<html:image property="methodToCall.addActivity"
-   		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addactivity.gif" styleClass="tinybutton"
+   		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addactivity.gif" styleClass="tinybutton addButton"
    		  				onclick="return validateForm()"/>
    		  			<script language="javascript">
    		  			<!--
@@ -204,6 +207,7 @@
 			    </td>
 			</tr>
 			</c:if>
+			
 			 <c:if test="${!newActivity && !readOnly}">
 				<tr>
 			     <td class="infoline" style="text-align:center;" colspan="6">
@@ -215,7 +219,9 @@
 			</tr>
 			</c:if>
         </table>
-        
+        </td>
+        </tbody>
+        </table>
         </div>
 </kul:innerTab>
 
