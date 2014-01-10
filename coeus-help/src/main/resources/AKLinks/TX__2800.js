@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__2800", [["Documents/postalcode.htm", "right", "Postal Code"],["Documents/gloss_postalcode1.htm", "d2hWnd_SecondaryPopup", "Postal Code"]]);
