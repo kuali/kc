@@ -254,13 +254,12 @@
                                      <maxJdkVersion>${enforcer.max.jdk.version}</maxJdkVersion>
                                      </enforceBytecodeVersion>
                                      -->
-                                    <!--
-                                     When upgrading to rice 1.1 it is recommended to merge in the banned dependencies from rice's parent pom.
-                                     This way we do not have to do all the analysis done in rice for lib upgrades/jdk6 support all over again.
-                                     -->
+
                                     <bannedDependencies>
                                         <excludes>
+                                            <!-- using the kuali version of ojb -->
                                             <exclude>ojb</exclude>
+
                                             <!-- renamed (decrecated) groupids -->
                                             <exclude>struts</exclude>
                                             <exclude>wss4j</exclude>
@@ -275,6 +274,11 @@
                                             <exclude>opensymphony:quartz</exclude>
                                             <exclude>javassist</exclude>
                                             <exclude>org.jasig.cas</exclude>
+                                            <exclude>com.google.code.google-collections</exclude>
+                                            <exclude>com.google.collections</exclude>
+                                            <exclude>avalon-framework</exclude>
+                                            <exclude>hsqldb</exclude>
+
                                             <!-- jcl-over-slf4j is an alternate implementation of commons-logging - excluding commons-logging -->
                                             <exclude>commons-logging</exclude>
                                             <!-- already including a different jcl-over-slf4j -->
@@ -284,9 +288,12 @@
 
                                             <!-- already including cglib-nodep -->
                                             <exclude>cglib:cglib</exclude>
-                                            <!-- already including the jdk15 version -->
+                                            <!-- already including the jdk16 version -->
                                             <exclude>org.bouncycastle:bcprov-jdk14</exclude>
+                                            <!-- already including the jdk16 version -->
                                             <exclude>org.bouncycastle:bcprov-jdk15</exclude>
+
+                                            <!-- excluding old jstl implementations which can cause hard-to-detect errors -->
                                             <exclude>taglibs:standard</exclude>
                                             <exclude>javax.servlet:jstl</exclude>
                                             <!-- allowing (including) a specific version below -->
@@ -306,7 +313,7 @@
                                             <exclude>geronimo-spec:geronimo-spec-jta</exclude>
                                             <exclude>org.ow2.spec.ee:ow2-jta-1.1-spec</exclude>
                                             <exclude>jta</exclude>
-                                            <exclude>javax.persistence</exclude>
+
                                             <!-- activation apis - in jdk 6 -->
                                             <exclude>javax.activation</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-activation_1.0.2_spec</exclude>
@@ -315,24 +322,30 @@
                                             <!-- metadata apis - in jdk 6 -->
                                             <exclude>javax.jws</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-ws-metadata_2.0_spec</exclude>
+
                                             <!-- These are repackaged parser apis - some of these apis are
-										     included in jdk 6. The non-jdk parsers can be added indivually if needed. -->
+                                              included in jdk 6. The non-jdk parsers can be added indivually if needed. -->
                                             <exclude>xerces:xmlParserAPIs</exclude>
                                             <exclude>xml-apis</exclude>
 
                                             <!-- group ids for many sun xml apis - in jdk 6 -->
                                             <exclude>javax.xml</exclude>
                                             <exclude>com.sun.xml</exclude>
-                                            <exclude>javax.xml.bind</exclude>
+
                                             <!-- jaxb apis - in jdk 6 -->
+                                            <exclude>javax.xml.bind</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-jaxb_2.1_spec</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-jaxb_2.2_spec</exclude>
+                                            <exclude>com.sun.xml.bind:jaxb-impl</exclude>
 
                                             <!-- jaxws apis - in jdk 6 -->
                                             <exclude>javax.xml.ws</exclude>
                                             <exclude>com.sun.xml.ws</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-jaxws_2.1_spec</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-jaxws_2.2_spec</exclude>
+
+                                            <!-- jax-rs -->
+                                            <exclude>javax.ws.rs:jsr311-api</exclude>
 
                                             <!-- stax apis - in jdk 6 -->
                                             <exclude>javax.xml.stream</exclude>
@@ -344,12 +357,8 @@
                                             <!-- jaxp apis - in jdk 6 -->
                                             <exclude>javax.xml.parsers</exclude>
                                             <exclude>com.sun.xml.parsers</exclude>
-                                            <exclude>
-                                                org.apace.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.4
-                                            </exclude>
-                                            <exclude>
-                                                org.apache.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.3
-                                            </exclude>
+                                            <exclude>org.apace.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.4</exclude>
+                                            <exclude>org.apache.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.3</exclude>
 
                                             <!-- saaj apis - in jdk 6 -->
                                             <exclude>javax.xml.soap</exclude>
@@ -358,16 +367,41 @@
                                             <exclude>com.sun.xml.messaging.saaj</exclude>
                                             <exclude>org.apache.geronimo.specs:geronimo-saaj_1.3_spec</exclude>
                                             <exclude>geronimo-spec:geronimo-spec-saaj</exclude>
-                                            <exclude>
-                                                org.apache.servicemix.specs:org.apache.servicemix.specs.saaj-api-1.3
-                                            </exclude>
+                                            <exclude>org.apache.servicemix.specs:org.apache.servicemix.specs.saaj-api-1.3</exclude>
+
+                                            <!--
+                                              excluding standard release - we are using a patches kuali version
+                                              because of
+                                              http://bugs.sun.com/view_bug.do?bug_id=6528714
+                                              https://issues.apache.org/jira/browse/BEANUTILS-340
+                                            -->
                                             <exclude>commons-beanutils:commons-beanutils</exclude>
                                             <exclude>org.apache.commons:commons-beanutils</exclude>
+
+                                            <!-- exclude eh cache in general - only allow at a specific scope -->
+                                            <exclude>net.sf.ehcache</exclude>
+
+                                            <!--
+                                              KULRICE-7262: Bad jstl version in maven repository
+                                              When we go back to the javax.servlet artifact, we'll need to remove this
+                                            -->
+                                            <exclude>javax.servlet:jstl</exclude>
+
+                                            <!-- included in eclipselink -->
+                                            <exclude>javax.persistence</exclude>
+
+                                            <!-- old rice deps -->
+                                            <exclude>htmlunit:htmlunit</exclude>
+                                            <exclude>org.apache.derby:derby</exclude>
                                         </excludes>
 
                                         <includes>
                                             <!-- only allow in this specific version -->
+                                            <include>org.glassfish.web:jstl-impl:${jstl.version}</include>
+
                                             <include>org.slf4j:*:${slf4j.version}</include>
+                                            <include>net.sf.ehcache:*:${ehcache.version}:jar:runtime</include>
+                                            <include>com.sun.xml.bind:jaxb-impl:${jaxb-impl.version}</include>
                                         </includes>
                                     </bannedDependencies>
                                 </rules>
@@ -999,28 +1033,99 @@
                 <groupId>org.eclipse.birt.runtime</groupId>
                 <artifactId>org.eclipse.birt.runtime</artifactId>
                 <version>${org.eclipse.birt.runtime.version}</version>
+                <!-- the birt runtime includes copies of many common libraries under different groupIds -->
                 <exclusions>
-                    <exclusion>
-                        <artifactId>commons-logging</artifactId>
-                        <groupId>commons-logging</groupId>
-                    </exclusion>
-
                     <exclusion>
                         <groupId>xml-apis</groupId>
                         <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.eclipse.birt.runtime</groupId>
+                        <artifactId>org.apache.commons.logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-codec</groupId>
+                        <artifactId>commons-codec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
                     </exclusion>
                     <exclusion>
                         <groupId>xerces</groupId>
                         <artifactId>xercesImpl</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>org.eclipse.birt.runtime</groupId>
-                        <artifactId>org.apache.commons.logging</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                        <artifactId>org.apache.xerces</artifactId>
                     </exclusion>
-
                     <exclusion>
-                        <groupId>commons-codec</groupId>
-                        <artifactId>commons-codec</artifactId>
+                        <artifactId>com.lowagie.text</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>javax.wsdl</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.xml.resolver</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.xml.serializer</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.bridge</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.css</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.dom</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.dom.svg</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.ext.awt</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.parser</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.pdf</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.svggen</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.transcoder</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.util</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.util.gui</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.batik.xml</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>org.apache.commons.codec</artifactId>
+                        <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1201,6 +1306,10 @@
                         <groupId>commons-codec</groupId>
                         <artifactId>commons-codec</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1216,6 +1325,14 @@
                 <version>${rice.version}</version>
                 <exclusions>
                     <exclusion>
+                        <groupId>javax.ws.rs</groupId>
+                        <artifactId>jsr311-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>avalon-framework</groupId>
+                        <artifactId>avalon-framework</artifactId>
+                    </exclusion>
+                    <exclusion>
                         <groupId>com.oracle</groupId>
                         <artifactId>ojdbc14</artifactId>
                     </exclusion>
@@ -1224,16 +1341,8 @@
                         <artifactId>ojdbc6</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>htmlunit</groupId>
-                        <artifactId>htmlunit</artifactId>
-                    </exclusion>
-                    <exclusion>
                         <groupId>itext</groupId>
                         <artifactId>itext</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>javax.resource</groupId>
-                        <artifactId>connector</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>javax.resource</groupId>
@@ -1250,10 +1359,6 @@
                     <exclusion>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.derby</groupId>
-                        <artifactId>derby</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>org.mortbay.jetty</groupId>
