@@ -93,7 +93,9 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
                     valid &= validateObligatedDateIsSet(event, award);
                 }
                 //need to remove the award amount info created from this process transactions call so there won't be a double entry in collection.
-                award.refreshReferenceObject("awardAmountInfos");
+                for (Award curAward : awards) {
+                    curAward.refreshReferenceObject("awardAmountInfos");
+                }
             }
         }
         return valid;                    
