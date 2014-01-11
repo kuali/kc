@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>AwardBudgetDocument</name>
+			<description>Create an Award Budget</description>
+			<label>Award Budget Document</label>
+			<parent>KC</parent>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+			<docHandler>${kuali.docHandler.url.prefix}/awardBudgetVersions.do?methodToCall=docHandler</docHandler>
+		    <helpDefinitionURL>default.htm?turl=Documents/awardbudget.htm</helpDefinitionURL>
+			<active>true</active>
+			<attributes>
+				<attribute>
+					<name>AwardBudgetAwardIdSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>AwardBudgetAwardTitleSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>AwardBudgetAccountNumberSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>AwardBudgetInvestigatorSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>AwardBudgetLeadUnitSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>AwardBudgetSponsorSearchAttribute</name>
+				</attribute>
+			</attributes>
+			<policies>
+              <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+              </policy>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+				<policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>				
+            </policies>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" nextNode="AwardBudgetOSPApproval"/><!--
+					<requests name="AwardBudgetInitialApproval" nextNode="AwardBudgetOSPApproval"/>
+					--><requests name="AwardBudgetOSPApproval"/>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>S</activationType>
+				</start><!--
+				<role name="AwardBudgetInitialApproval">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <activationType>S</activationType>
+	            </role>
+				--><role name="AwardBudgetOSPApproval">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <activationType>S</activationType>
+                    <finalApproval>true</finalApproval>
+	            </role>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+	<ruleAttribute>
+			<name>AwardBudgetAwardIdSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AwardBudgetAwardIdSearchAttribute</label>
+			<description>AwardBudgetAwardIdSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="awardBudgetAwardId" title="Award ID">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="awardNumber" localFieldName="awardBudgetAwardId"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//currentAward/awardNumber</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>AwardBudgetAwardTitleSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AwardBudgetAwardTitleSearchAttribute</label>
+			<description>AwardBudgetAwardTitleSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="awardBudgetAwardTitle" title="Award Title">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="title" localFieldName="awardBudgetAwardTitle"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//currentAward/title</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>AwardBudgetAccountNumberSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AwardBudgetAccountNumberSearchAttribute</label>
+			<description>AwardBudgetAccountNumberSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="awardBudgetAccountNumber" title="Account ID">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="accountNumber" localFieldName="awardBudgetAccountNumber"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//currentAward/accountNumber</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>AwardBudgetInvestigatorSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AwardBudgetInvestigatorSearchAttribute</label>
+			<description>AwardBudgetInvestigatorSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="awardBudgetInvestigator" title="Investigator">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.KcPerson">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="fullName" localFieldName="awardBudgetInvestigator"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//currentAward/principalInvestigatorName</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>AwardBudgetLeadUnitSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AwardBudgetLeadUnitSearchAttribute</label>
+			<description>AwardBudgetLeadUnitSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="awardBudgetLeadUnit" title="Lead Unit">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.Unit">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="unitNumber" localFieldName="awardBudgetLeadUnit"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//currentAward/leadUnit/unitNumber</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>AwardBudgetSponsorSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AwardBudgetSponsorSearchAttribute</label>
+			<description>AwardBudgetSponsorSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="awardBudgetSponsor" title="Sponsor">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.Sponsor">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="sponsorCode" localFieldName="awardBudgetSponsor"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//currentAward/sponsor/sponsorCode</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		</ruleAttributes>
+</data>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>TimeAndMoneyDocument</name>
+			<description>Manage TimeAndMoney</description>
+			<label>KC TimeAndMoney</label>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+			<docHandler>${kuali.docHandler.url.prefix}/timeAndMoney.do?methodToCall=docHandler</docHandler>
+			<parent>KC</parent>
+		    <helpDefinitionURL>default.htm?turl=Documents/timeandmoney.htm</helpDefinitionURL>
+			<active>true</active>
+			<attributes>
+				<attribute>
+					<name>TimeAndMoneyAwardIdSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>TimeAndMoneyAwardTitleSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>TimeAndMoneyAccoutNumberSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>TimeAndMoneyInvestigatorSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>TimeAndMoneyLeadUnitSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>TimeAndMoneySponsorSearchAttribute</name>
+				</attribute>
+				
+			</attributes>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+	<ruleAttribute>
+			<name>TimeAndMoneyAwardIdSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>TimeAndMoneyAwardIdSearchAttribute</label>
+			<description>TimeAndMoneyAwardIdSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="timeAndMoneyAwardId" title="Award ID">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="awardNumber" localFieldName="timeAndMoneyAwardId"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//award/awardNumber</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TimeAndMoneyAwardTitleSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>TimeAndMoneyAwardTitleSearchAttribute</label>
+			<description>TimeAndMoneyAwardTitleSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="timeAndMoneyAwardTitle" title="Award Title">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="title" localFieldName="timeAndMoneyAwardTitle"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//award/title</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TimeAndMoneyAccoutNumberSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>TimeAndMoneyAccoutNumberSearchAttribute</label>
+			<description>TimeAndMoneyAccoutNumberSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="timeAndMoneyAccountNumber" title="Account ID">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="accountNumber" localFieldName="timeAndMoneyAccountNumber"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//award/accountNumber</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TimeAndMoneyInvestigatorSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>TimeAndMoneyInvestigatorSearchAttribute</label>
+			<description>TimeAndMoneyInvestigatorSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="timeAndMoneyInvestigator" title="Investigator">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.KcPerson">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="fullName" localFieldName="timeAndMoneyInvestigator"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//award/principalInvestigatorName</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TimeAndMoneyLeadUnitSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>TimeAndMoneyLeadUnitSearchAttribute</label>
+			<description>TimeAndMoneyLeadUnitSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="timeAndMoneyLeadUnit" title="Lead Unit">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.Unit">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="unitNumber" localFieldName="timeAndMoneyLeadUnit"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//award/leadUnit/unitNumber</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TimeAndMoneySponsorSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>TimeAndMoneySponsorSearchAttribute</label>
+			<description>TimeAndMoneySponsorSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="timeAndMoneySponsor" title="Sponsor">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.Sponsor">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="sponsorCode" localFieldName="timeAndMoneySponsor"/>
+				      </fieldConversions>
+				    </lookup>
+					<fieldEvaluation>
+						<xpathexpression>//award/sponsor/sponsorCode</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		</ruleAttributes>
+</data>
