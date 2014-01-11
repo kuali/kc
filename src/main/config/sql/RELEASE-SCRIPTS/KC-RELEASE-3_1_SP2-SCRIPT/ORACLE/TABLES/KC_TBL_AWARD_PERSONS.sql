@@ -1,1 +1,0 @@
-alter table AWARD_PERSONS add MULTIPLE_PI CHAR(1);
