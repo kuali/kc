@@ -1,1 +1,0 @@
-drop sequence sequence_submission_history;

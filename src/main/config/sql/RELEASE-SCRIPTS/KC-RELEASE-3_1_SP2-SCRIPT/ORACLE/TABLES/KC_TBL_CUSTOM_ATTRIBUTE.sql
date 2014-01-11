@@ -1,1 +1,0 @@
-alter table custom_attribute modify group_name not null;

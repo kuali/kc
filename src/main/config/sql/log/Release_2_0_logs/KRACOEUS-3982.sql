@@ -1,2 +1,0 @@
-UPDATE S2S_SUBMISSION_TYPE SET DESCRIPTION='Preapplication' WHERE DESCRIPTION='PreApplication';
-commit;

@@ -1,2 +1,0 @@
-insert into COST_ELEMENT (COST_ELEMENT,DESCRIPTION,BUDGET_CATEGORY_CODE,ON_OFF_CAMPUS_FLAG, UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('400315','Fellows - Non-Student- Not MTDC',25,'N',sysdate,'admin',1,sys_guid());
-commit;

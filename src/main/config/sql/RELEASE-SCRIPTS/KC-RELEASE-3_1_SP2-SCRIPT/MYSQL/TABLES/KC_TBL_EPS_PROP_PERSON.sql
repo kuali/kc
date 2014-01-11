@@ -1,1 +1,0 @@
-alter table EPS_PROP_PERSON add MULTIPLE_PI CHAR(1);

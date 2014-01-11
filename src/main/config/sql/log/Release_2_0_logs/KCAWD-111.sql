@@ -1,1 +1,0 @@
-alter table AWARD_SPECIAL_REVIEW rename column EXPIRED_DATE to EXPIRATION_DATE;
