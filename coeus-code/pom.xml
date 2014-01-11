@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
     <name>Kuali Coeus Code</name>
     <description>
-        The Kuali Coeus Code module contains the main source code for the Kuali Coeus application.
+        The Kuali Coeus Code module contains the main source code and unit tests for the Kuali Coeus application.
     </description>
 
     <properties>
