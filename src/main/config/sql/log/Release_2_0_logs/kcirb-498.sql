@@ -1,1 +1,0 @@
-alter table comm_schedule_minutes add FINAL_FLAG VARCHAR2(1); 

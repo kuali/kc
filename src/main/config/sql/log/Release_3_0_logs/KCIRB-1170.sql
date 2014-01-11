@@ -1,2 +1,0 @@
-INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user,OBJ_ID) VALUES ('221','Open for Enrollment',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'KRADEV','b793fdd3-32b5-4e36-95ad-0272f49f9e20');
-INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user,OBJ_ID) VALUES ('222','Data Analysis Only',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'KRADEV','b793fdd3-32b5-4e36-95ad-0272f49f9e21');

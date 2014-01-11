@@ -1,1 +1,0 @@
-alter table award_funding_proposals add ACTIVE char(1);

@@ -1,1 +1,0 @@
-alter table NARRATIVE add CONTENT_TYPE varchar2(100);

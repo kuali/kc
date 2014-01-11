@@ -1,1 +1,0 @@
-alter table proposal enable constraint uq_proposal;

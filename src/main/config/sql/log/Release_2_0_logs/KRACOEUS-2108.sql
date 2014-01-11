@@ -1,1 +1,0 @@
-alter table VALID_CE_RATE_TYPES add ACTIVE_FLAG varchar2(1) DEFAULT 'Y' NOT NULL;
