@@ -15,8 +15,4 @@
     <description>
         The Kuali Coeus Form module contains grants.gov forms for the Kuali Coeus application.
     </description>
-
-    <properties>
-        <maven.skip.packaging>false</maven.skip.packaging>
-    </properties>
 </project>

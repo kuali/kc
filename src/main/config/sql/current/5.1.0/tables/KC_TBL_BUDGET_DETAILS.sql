@@ -1,2 +1,0 @@
-alter table BUDGET_DETAILS add SUBAWARD_NUMBER NUMBER(3,0)
-/

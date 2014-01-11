@@ -17,8 +17,4 @@
         This help content is used directly by the Kuali Coeus webapp.
         This module should only contain artifacts that belong in the Kuali Coeus webapp.
     </description>
-
-    <properties>
-        <maven.skip.packaging>false</maven.skip.packaging>
-    </properties>
 </project>

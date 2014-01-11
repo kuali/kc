@@ -1,1 +1,0 @@
-create index idx_qrtz_j_req_recovery on kc_qrtz_job_details(REQUESTS_RECOVERY);
