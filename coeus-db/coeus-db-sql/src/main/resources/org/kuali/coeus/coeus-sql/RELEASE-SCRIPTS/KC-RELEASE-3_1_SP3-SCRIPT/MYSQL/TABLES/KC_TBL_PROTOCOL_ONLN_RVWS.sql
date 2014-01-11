@@ -1,0 +1,1 @@
+alter table  PROTOCOL_ONLN_RVWS add ACTIONS_PERFORMED varchar(1000);

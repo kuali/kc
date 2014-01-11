@@ -1,0 +1,1 @@
+alter table comm_memberships modify PERSON_ID VARCHAR2(9) NULL;

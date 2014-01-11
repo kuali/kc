@@ -1,0 +1,5 @@
+CREATE TABLE kc_qrtz_paused_trigger_grps
+  (
+    TRIGGER_GROUP  VARCHAR2(200) NOT NULL, 
+    PRIMARY KEY (TRIGGER_GROUP)
+);
