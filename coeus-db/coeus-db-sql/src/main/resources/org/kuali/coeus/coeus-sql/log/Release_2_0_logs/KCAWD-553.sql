@@ -1,0 +1,11 @@
+--comment types
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-AWARD','D','scope.sync.PAYMENTS_AND_INVOICES_TAB.AwardComment.commentTypeCode','CONFG','1','Comma delimited list of comment type codes to sync on the Payments and Invoices Tab.','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-AWARD','D','scope.sync.COMMENTS_TAB.AwardComment.commentTypeCode','CONFG','2,3,4,5,6','Comma delimited list of comment type codes to sync on the Comments Tab.','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-AWARD','D','scope.sync.COST_SHARE.AwardComment.commentTypeCode','CONFG','9','Comma delimited list of comment type codes to sync on the Cost Share Tab.','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-AWARD','D','scope.sync.PREAWARD_AUTHORIZATIONS_TAB.AwardComment.commentTypeCode','CONFG','18,19','Comma delimited list of comment type codes to sync on the PreAward Authorizations Tab.','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-AWARD','D','scope.sync.RATES_TAB.AwardComment.commentTypeCode','CONFG','20','Comma delimited list of comment type codes to sync on the Rates Tab.','A');
+--Report TermS
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-AWARD','D','scope.sync.PAYMENTS_AND_INVOICES_TAB.AwardReportTerm.reportClassCode','CONFG','1,2,3,4,5,7','Comma delimited list of reportClassCodes for reports to sync on the Reports tab.','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KC-AWARD','D','scope.sync.REPORTS_TAB.AwardReportTerm.reportClassCode','CONFG','','Comma delimited list of reportClassCodes for reports to sync on the Payments and Invoices tab.','A');
+
+commit;

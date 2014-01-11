@@ -1,0 +1,3 @@
+update krew_doc_typ_t set parnt_id = (select parnt_id from krew_doc_typ_t t where t.doc_typ_nm = 'RiceDocument' and t.lbl = 'Rice Document' and cur_ind = 1) where doc_typ_nm = 'KC'; 
+update krew_rte_node_t set doc_typ_id = (select parnt_id from krew_doc_typ_t t where t.doc_typ_nm = 'RiceDocument' and t.lbl = 'Rice Document' and cur_ind = 1) where doc_typ_id = (select parnt_id from krew_doc_typ_t t where t.doc_typ_nm = 'RiceDocument' and t.lbl = 'Undefined' and cur_ind = 1);
+update krew_doc_typ_proc_t set doc_typ_id = (select parnt_id from krew_doc_typ_t t where t.doc_typ_nm = 'RiceDocument' and t.lbl = 'Rice Document' and cur_ind = 1) where doc_typ_id = (select parnt_id from krew_doc_typ_t t where t.doc_typ_nm = 'RiceDocument' and t.lbl = 'Undefined' and cur_ind = 1);

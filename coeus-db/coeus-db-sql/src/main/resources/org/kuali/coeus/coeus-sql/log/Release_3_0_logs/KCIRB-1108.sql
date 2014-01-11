@@ -1,0 +1,1 @@
+alter table protocol_submission_doc add content_type varchar2(255);

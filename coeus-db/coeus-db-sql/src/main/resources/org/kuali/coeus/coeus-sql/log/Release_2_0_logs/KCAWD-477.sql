@@ -1,0 +1,4 @@
+INSERT INTO RATE_TYPE (RATE_CLASS_CODE, RATE_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('5', '6', 'Award Special EB Rate', TO_DATE('12-DEC-09', 'DD-MON-RR'), 'KCDEV');
+commit;
+
+alter table eps_prop_rates drop constraint FK_EPS_PROP_RATES_CLASS_KRA;
