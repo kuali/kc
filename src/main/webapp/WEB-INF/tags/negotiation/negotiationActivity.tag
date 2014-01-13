@@ -19,20 +19,21 @@
   <c:set var="tabTitle" value="Add Activity"/>
   <c:set var="activityPath" value="negotiationActivityHelper.newActivity"/>
   <c:set var="fileDescriptionValidationFunctionName" value="validateNewFileDescriptionField"/>
+  <c:set var="bodyClass" value="addline"/>
 </c:when><c:otherwise>
   <c:set var="activityPath" value="document.negotiationList[0].activities[${activityIndex}]"/>
   <c:set var="fileDescriptionValidationFunctionName" value="validateFileDescriptionField${activityIndex}"/>
   <c:set var="startDate"><bean:write name="KualiForm" property="${activityPath}.startDate"/></c:set>
   <c:set var="lastUpdate"><bean:write name="KualiForm" property="${activityPath}.lastModifiedDate"/></c:set>
   <c:set var="tabTitle" value="${activity.activityType.description} - ${activity.location.description} - ${startDate} - ${activity.lastModifiedUserFullName} - ${lastUpdate}"/>
-  
+  <c:set var="bodyClass" value=""/>
 </c:otherwise></c:choose>
 <span class="subhead-right"><kul:help parameterNamespace="KC-NEGOTIATION" parameterDetailType="Document" parameterName="negotiationActivitiesHelp" altText="help"/></span>
 <kul:innerTab parentTab="${parentTab}" tabTitle="${tabTitle}" defaultOpen="false" tabErrorKey="${activityPath}*" useCurrentTabIndexAsKey="true" overrideDivClass="${tabDivClass}">
             <div class="innerTab-container" align="left">
 
         <table cellpadding="0" cellspacing="0" border="0">
-        <tbody class="addline"> 
+        <tbody class="${bodyClass}"> 
         <td>
         <table cellpadding="4" cellspacing="0" summary="">
             <tr>
@@ -98,7 +99,20 @@
                 </td>
             </tr>
         </table>
+		<c:choose>
+			<c:when test="${activityIndex == -1}">
+			  <c:set var="addButtonStyleClass" value="tinybutton"/>
+			  <c:set var="newBody" value="false"/>
+			</c:when>
+			<c:otherwise>
+			  <c:set var="addButtonStyleClass" value="tinybutton addButton"/>
+			  <c:set var="newBody" value="true"/>
+			</c:otherwise>
+		</c:choose>
         <table cellpadding="4" cellspacing="0" summary="">
+            <c:if test="${newBody}">
+            	<tbody class="addline">
+            </c:if>
             <c:if test="${!readOnly}">
             <tr>
             	<th><div align="right">Attachments:</div></th>
@@ -110,7 +124,7 @@
             	<th><kul:htmlAttributeLabel attributeEntry="${attachmentAttributes.description}" useShortLabel="true" /> <kul:htmlControlAttribute property="${activityPath}.newAttachment.description" attributeEntry="${attachmentAttributes.description}" readOnly="${readOnly}"/></th>
             	<th>
             		<html:image property="methodToCall.addAttachment.activityIndex${activityIndex}"
-            			src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"
+            			src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="${addButtonStyleClass}"
    		  				onclick="return ${fileDescriptionValidationFunctionName}();"/>
    		  				<script language="javascript">
    		  					<!--
@@ -134,6 +148,9 @@
    		  				</script>
             	</th>
             </tr>
+            </c:if>
+            <c:if test="${newBody}">
+            	</tbody>
             </c:if>
             <c:forEach items="${activity.attachments}" var="attachment" varStatus="ctr">
               <c:if test="${!attachment.restricted || KualiForm.editingMode['view_unrestricted']}">
