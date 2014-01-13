@@ -16,4 +16,8 @@
         The Kuali Coeus Database XML module contains ingest xml files for the Kuali Coeus application.  These files are
         meant to be ingested using the Kuali Rice ingester.
     </description>
+
+    <properties>
+        <copy.javaagent.off>true</copy.javaagent.off>
+    </properties>
 </project>
