@@ -17,4 +17,8 @@
         This help content is used directly by the Kuali Coeus webapp.
         This module should only contain artifacts that belong in the Kuali Coeus webapp.
     </description>
+
+    <properties>
+        <copy.javaagent.off>true</copy.javaagent.off>
+    </properties>
 </project>
