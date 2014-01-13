@@ -378,7 +378,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      * @return
      */
     public boolean isRenewal() {
-        return getProtocol().getProtocolNumber().contains(RENEWAL_KEY);
+        return getProtocol().isRenewal();
     }
 
     /**
@@ -386,7 +386,15 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      * @return
      */
     public boolean isAmendment() {
-        return getProtocol().getProtocolNumber().contains(AMENDMENT_KEY);
+        return getProtocol().isAmendment();
+    }
+    
+    /**
+     * Is this an amendment protocol document?
+     * @return
+     */
+    public boolean isRenewalWithAmendment() {
+        return getProtocol().isRenewalWithAmendment();
     }
     
     /**

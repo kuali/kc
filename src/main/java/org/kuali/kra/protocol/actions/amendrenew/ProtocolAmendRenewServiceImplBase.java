@@ -194,7 +194,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         
         markProtocolAttachmentsAsFinalized(renewProtocolDocument.getProtocol().getAttachmentProtocols());
 
-        ProtocolActionBase protocolAction = createCreateRenewalProtocolAction(protocolDocument.getProtocol(),
+        ProtocolActionBase protocolAction = createCreateRenewalWithAmendmentProtocolAction(protocolDocument.getProtocol(),
                                                                           renewProtocolDocument.getProtocol().getProtocolNumber());
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
         
@@ -343,6 +343,18 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     }
 
     /**
+     * Create a ProtocolBase Action indicating that a renewal with amendment has been created.
+     * @param protocol
+     * @param protocolNumber protocol number of the renewal
+     * @return a protocol action
+     */
+    protected ProtocolActionBase createCreateRenewalWithAmendmentProtocolAction(ProtocolBase protocol, String protocolNumber) {
+        ProtocolActionBase protocolAction = getNewRenewalWithAmendmentProtocolActionInstanceHook(protocol);
+        protocolAction.setComments(RENEWAL + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        return protocolAction;
+    }
+
+    /**
      * @see org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#getAmendmentAndRenewals(java.lang.String)
      */
     public List<ProtocolBase> getAmendmentAndRenewals(String protocolNumber) throws Exception {
@@ -451,6 +463,8 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     protected abstract ProtocolActionBase getNewAmendmentProtocolActionInstanceHook(ProtocolBase protocol);
     
     protected abstract ProtocolActionBase getNewRenewalProtocolActionInstanceHook(ProtocolBase protocol);
+
+    protected abstract ProtocolActionBase getNewRenewalWithAmendmentProtocolActionInstanceHook(ProtocolBase protocol);
 
     protected abstract ModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(ProtocolBase protocol);
     

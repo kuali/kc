@@ -17,6 +17,9 @@
 
 <c:set var="attributes" value="${DataDictionary.IacucProtocolAmendmentBean.attributes}" />
 <c:choose>
+    <c:when test="${KualiForm.protocolDocument.renewalWithAmendment}">
+        <c:set var="tabTitle" value="Renewal With Amendment Details"/>
+    </c:when>
     <c:when test="${KualiForm.protocolDocument.renewal}">
         <c:set var="tabTitle" value="Renewal Details"/>
     </c:when>

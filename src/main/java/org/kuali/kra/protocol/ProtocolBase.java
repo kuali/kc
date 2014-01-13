@@ -1606,6 +1606,10 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         return protocolNumber != null && protocolNumber.contains(RENEWAL_LETTER);
     }
     
+    public boolean isRenewalWithAmendment() {
+        return isRenewal() && CollectionUtils.isNotEmpty(this.getProtocolAmendRenewal().getModules());
+    }
+    
     public boolean isRenewalWithoutAmendment() {
         return isRenewal() && CollectionUtils.isEmpty(this.getProtocolAmendRenewal().getModules());
     }

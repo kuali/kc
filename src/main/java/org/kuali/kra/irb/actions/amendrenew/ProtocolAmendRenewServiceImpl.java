@@ -47,6 +47,11 @@ public class ProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImpl
     }
 
     @Override
+    protected ProtocolActionBase getNewRenewalWithAmendmentProtocolActionInstanceHook(ProtocolBase protocol) {
+        return new ProtocolAction((Protocol)protocol, ProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED);
+    }
+
+    @Override
     protected ModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(ProtocolBase protocol) {
         return new ProtocolModuleQuestionnaireBean((Protocol) protocol);
     }
