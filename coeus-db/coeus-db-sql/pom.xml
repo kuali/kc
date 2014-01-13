@@ -16,4 +16,8 @@
         The Kuali Coeus Database SQL module contains sql files for the Kuali Coeus application.  These scripts include
         support for MySQL, and Oracle.  They include both bootstrap and demo data.
     </description>
+
+    <properties>
+        <copy.javaagent.off>true</copy.javaagent.off>
+    </properties>
 </project>
