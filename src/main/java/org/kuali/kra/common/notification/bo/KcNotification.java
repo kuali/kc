@@ -18,9 +18,12 @@ package org.kuali.kra.common.notification.bo;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Defines a document-specific instance of a Notification Type.
@@ -147,4 +150,14 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
         setNotificationId(null);
         setOwningDocumentIdFk(null);
     }
+    
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        if (StringUtils.isEmpty(createUser)) {
+            createUser = GlobalVariables.getUserSession().getPrincipalName();
+            createTimestamp = KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp();  
+        }
+    }
+
 }
