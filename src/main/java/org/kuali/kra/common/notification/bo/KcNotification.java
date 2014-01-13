@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.common.notification.bo;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
-
-import java.text.SimpleDateFormat;
 
 /**
  * Defines a document-specific instance of a Notification Type.
@@ -45,6 +46,8 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
     private NotificationType notificationType;
 
     private String createUser;
+
+    private Timestamp createTimestamp;
     
     public Long getNotificationId() {
         return notificationId;
@@ -122,9 +125,18 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
         this.createUser = createUser;
     }
 
+    public Timestamp getCreateTimestamp() {
+        // fall back to update timestamp for backwards compatibility
+        return createTimestamp != null ? createTimestamp : getUpdateTimestamp();
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
     public String getUpdateTimestampString() {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        return (getUpdateTimestamp() == null ? "" : dateFormat.format(getUpdateTimestamp()));
+        return (getCreateTimestamp() == null ? "" : dateFormat.format(getCreateTimestamp()));
     }
 
     public void persistOwningObject(KraPersistableBusinessObjectBase object) {
