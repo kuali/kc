@@ -382,6 +382,7 @@ public class IacucActionHelper extends ActionHelperBase {
         hidePrivateFinalFlagsForPublicCommentsAttachments = checkToHidePrivateFinalFlagsForPublicCommentsAttachments();
 
         initSummaryDetails();
+        setAmendmentDetails();
         initFilterDatesView();
         
         if(canSubmitProtocol) {
@@ -902,7 +903,7 @@ public class IacucActionHelper extends ActionHelperBase {
     protected IacucProtocolAmendRenewal getCorrectAmendment(List<ProtocolBase> protocols) {
         for (ProtocolBase protocol : protocols) {
             // There should always be an amendment with the current submission number.
-            if (protocol.isAmendment() && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
+            if ((protocol.isAmendment() || protocol.isRenewalWithAmendment()) && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
                 && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
                 IacucProtocol iacucProtocol = (IacucProtocol)protocol;
                 return (IacucProtocolAmendRenewal) iacucProtocol.getProtocolAmendRenewal();
