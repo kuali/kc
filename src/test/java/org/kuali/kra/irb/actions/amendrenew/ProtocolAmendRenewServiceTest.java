@@ -112,7 +112,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "R001", amendmentDocument.getProtocol().getProtocolNumber());
         
-        verifyAction(protocolDocument.getProtocol(), ProtocolActionType.RENEWAL_CREATED, "Renewal-001: Created");
+        verifyAction(protocolDocument.getProtocol(), ProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED, "Renewal-001: Created");
         verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 2);
     }
 
