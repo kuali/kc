@@ -204,7 +204,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		           		    	                        <tr>
 															<td>
 																<div align="center">
-																    <fmt:formatDate value="${notification.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> 
+																    <fmt:formatDate value="${notification.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> 
 															    </div>
 															</td>    
                     										<td align="center" valign="middle">

@@ -604,10 +604,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             if(resultList != "") {
                 notification.setRecipients(resultList.substring(2));
             }
-            if (notification.getCreateUser() == null) {
-                notification.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-                notification.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-            }
         }
     }
     
