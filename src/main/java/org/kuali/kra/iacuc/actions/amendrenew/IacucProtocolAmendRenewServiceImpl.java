@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -29,10 +33,6 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * The ProtocolBase Amendment/Renewal Service Implementation.
@@ -162,6 +162,11 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     @Override
     protected ProtocolActionBase getNewRenewalProtocolActionInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolAction((IacucProtocol)protocol, IacucProtocolActionType.RENEWAL_CREATED);
+    }
+
+    @Override
+    protected ProtocolActionBase getNewRenewalWithAmendmentProtocolActionInstanceHook(ProtocolBase protocol) {
+        return new IacucProtocolAction((IacucProtocol)protocol, IacucProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED);
     }
 
     @Override

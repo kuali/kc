@@ -2116,7 +2116,7 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolAmendRenewalBase getCorrectAmendment(List<ProtocolBase> protocols) {
         for (ProtocolBase protocol : protocols) {
             // There should always be an amendment with the current submission number.
-            if (protocol.isAmendment() && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
+            if ((protocol.isAmendment() || protocol.isRenewalWithAmendment()) && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
                 && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
                 return protocol.getProtocolAmendRenewal();
             }
