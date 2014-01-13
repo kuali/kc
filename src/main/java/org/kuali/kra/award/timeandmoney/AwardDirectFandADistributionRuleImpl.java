@@ -420,7 +420,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     }
     
     /**
-     * This method This method tests if target start date falls after project start date.
+     * This method tests if target end date falls before project end date.
      * @param awardDirectFandADistributions
      * @return
      */
@@ -478,9 +478,6 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      */
     public void setAwardDirectFandADistributions(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
         this.awardDirectFandADistributions = awardDirectFandADistributions;
-    }
-    
-    
-    
+    }    
 
 }

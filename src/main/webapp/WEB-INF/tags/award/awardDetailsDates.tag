@@ -345,75 +345,100 @@
 <kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Time & Money" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="">
-				 <tr>
+				<tr>
 					<th>
-						<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardEffectiveDate}" /></div>
-			        </th>
-			        <td align="left" valign="middle">
-			        	<kul:htmlControlAttribute property="document.awardList[0].awardEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" />
+						<div align="right">
+							<kul:htmlAttributeLabel
+								attributeEntry="${awardAttributes.awardEffectiveDate}" />
+						</div>
+					</th>
+					<td align="left" valign="middle"><kul:htmlControlAttribute
+							property="document.awardList[0].awardEffectiveDate"
+							attributeEntry="${awardAttributes.awardEffectiveDate}" />
 					</td>
-					
-        			<th>
-						<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" /></div>
-        			</th>
-		<c:choose>
-			<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned or KualiForm.awardInMultipleNodeHierarchy}">				
-        			
-       				<td align="left" valign="middle">
-       				<div align="left">
-        				<fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].currentFundEffectiveDate}" pattern="MM/dd/yyyy" />
-        			</div>
-        			</td>
-    			</tr>
-    		</c:when>
-	     	<c:otherwise>
-	     			<td align="left" valign="middle">
-			        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfAwardAmountInfoForDisplay}].currentFundEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}"/>
-			        </td>
-			    </tr>	
-    		</c:otherwise>
-		</c:choose>  		
-		<tr>
-    				<th>
-						<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" /></div>
-        			</th>
-        			
-        <c:choose>
-			<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned or KualiForm.awardInMultipleNodeHierarchy}">	
-        			<td align="left" valign="middle">
-        			<div align="left">
-        				<fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].finalExpirationDate}" pattern="MM/dd/yyyy" />
-        			</div>
-        			</td>
-        			
-        	</c:when>
-	     	<c:otherwise>
-	     			<td align="left" valign="middle">
-			        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfAwardAmountInfoForDisplay}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}"/>
-			        </td>
-	     	</c:otherwise>
-		</c:choose>		
-			        <th>
-			        	<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" /></div>
-			        </th>
-			        
-		<c:choose>
-			<c:when test="${KualiForm.awardHasAssociatedTandMOrIsVersioned or KualiForm.awardInMultipleNodeHierarchy}">		        
-			        <td align="left" valign="middle">
-			        <div align="left">
-			            <fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].obligationExpirationDate}" pattern="MM/dd/yyyy" />
-			        </div>
-			        </td>
-			    
-		</c:when>
-	     	<c:otherwise>
-	     		    <td align="left" valign="middle">
-			            <kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfAwardAmountInfoForDisplay}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}"/>
-			        </td>
-			</c:otherwise>
-		</c:choose>	
-			    </tr>
- 			<tr>
+					<c:if test="${not empty awardAmountInfoAttributes}">
+						<th>
+							<div align="right">
+								<kul:htmlAttributeLabel
+									attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" />
+							</div>
+						</th>
+						<td align="left" valign="middle">
+						<c:choose>
+							<c:when
+								test="${KualiForm.awardHasAssociatedTandMOrIsVersioned or KualiForm.awardInMultipleNodeHierarchy}">
+
+								<div align="left">
+									<fmt:formatDate
+										value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].currentFundEffectiveDate}"
+										pattern="MM/dd/yyyy" />
+								</div>
+
+							</c:when>
+							<c:otherwise>
+								<kul:htmlControlAttribute
+									property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfAwardAmountInfoForDisplay}].currentFundEffectiveDate"
+									attributeEntry="${awardAttributes.awardEffectiveDate}" />
+							</c:otherwise>
+						</c:choose>
+						</td>
+					</c:if>
+				</tr>
+				<tr>
+					<th>
+						<div align="right">
+							<kul:htmlAttributeLabel
+								attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" />
+						</div>
+					</th>
+
+					<c:choose>
+						<c:when
+							test="${KualiForm.awardHasAssociatedTandMOrIsVersioned or KualiForm.awardInMultipleNodeHierarchy}">
+							<td align="left" valign="middle">
+								<div align="left">
+									<fmt:formatDate
+										value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].finalExpirationDate}"
+										pattern="MM/dd/yyyy" />
+								</div>
+							</td>
+
+						</c:when>
+						<c:otherwise>
+							<td align="left" valign="middle"><kul:htmlControlAttribute
+									property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfAwardAmountInfoForDisplay}].finalExpirationDate"
+									attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" />
+							</td>
+						</c:otherwise>
+					</c:choose>
+					<th>
+						<div align="right">
+							<kul:htmlAttributeLabel
+								attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" />
+						</div>
+					</th>
+
+					<c:choose>
+						<c:when
+							test="${KualiForm.awardHasAssociatedTandMOrIsVersioned or KualiForm.awardInMultipleNodeHierarchy}">
+							<td align="left" valign="middle">
+								<div align="left">
+									<fmt:formatDate
+										value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].obligationExpirationDate}"
+										pattern="MM/dd/yyyy" />
+								</div>
+							</td>
+
+						</c:when>
+						<c:otherwise>
+							<td align="left" valign="middle"><kul:htmlControlAttribute
+									property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfAwardAmountInfoForDisplay}].obligationExpirationDate"
+									attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" />
+							</td>
+						</c:otherwise>
+					</c:choose>
+				</tr>
+				<tr>
  			        <th>
 			            <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardExecutionDate}" /></div>
 			        </th>
@@ -497,71 +522,71 @@
 							</c:choose>
 				        </c:when>
 				        <c:otherwise>
-				        <c:choose>
-				        	<c:when test="${KualiForm.directIndirectViewEnabled == '1'}">
-				        		<tr>
-									<th>
-				            			<div align="right">Anticipated Direct:</div>
-				        			</th>
-									<td align="left" valign="middle">
-				            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].anticipatedTotalDirect" attributeEntry="${awardAmountInfoAttributes.anticipatedTotalDirect}"/>
-				        			</td>
-				        			<th>
-				            			<div align="right">Obligated Direct:</div>
-				        			</th>
-				        			<td align="left" valign="middle">
-				            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].obligatedTotalDirect" attributeEntry="${awardAmountInfoAttributes.obligatedTotalDirect}"/>
-				        			</td>
-		        				</tr>
-		        				<tr>
-									<th>
-				            			<div align="right">Anticipated F&A:</div>
-				        			</th>
-									<td align="left" valign="middle">
-				            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].anticipatedTotalIndirect" attributeEntry="${awardAmountInfoAttributes.anticipatedTotalIndirect}"/>
-				        			</td>
-				        			<th>
-				            			<div align="right">Obligated F&A:</div>
-				        			</th>
-				        			<td align="left" valign="middle">
-				            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].obligatedTotalIndirect" attributeEntry="${awardAmountInfoAttributes.obligatedTotalIndirect}"/>
-				        			</td>
-		        				</tr>
-		        				<tr>
-				        			<th>
-				            			<div align="right">Anticipated Total:</div>
-				        			</th>
-				        			<th align="left">
-					        			<div>
-					            			<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].anticipatedTotal}"/>
-					        			</div>
-				        			</th>
-				        			<th>
-				            			<div align="right">Obligated Total:</div>
-				        			</th>
-				        			<th align="left">
-					        			<div>
-					           				<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].obligatedTotal}"/>
-					        			</div>
-				        			</th>
-				        		</tr>
-	        				</c:when>
-							<c:otherwise>
-								<tr>
-									<th>
-				            			<div align="right">Anticipated Amount:</div>
-				        			</th>
-									<td align="left" valign="middle">
-				            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].anticipatedTotalAmount" attributeEntry="${awardAttributes.anticipatedTotal}"/>
-				        			</td>
-				        			<th>
-				            			<div align="right">Obligated Amount:</div>
-				        			</th>
-				        			<td align="left" valign="middle">
-				            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].amountObligatedToDate" attributeEntry="${awardAttributes.obligatedTotal}"/>
-				        			</td>
-		        				</tr>
-							</c:otherwise>
+					        <c:choose>
+					        	<c:when test="${KualiForm.directIndirectViewEnabled == '1'}">
+					        		<tr>
+										<th>
+					            			<div align="right">Anticipated Direct:</div>
+					        			</th>
+										<td align="left" valign="middle">
+					            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].anticipatedTotalDirect" attributeEntry="${awardAmountInfoAttributes.anticipatedTotalDirect}"/>
+					        			</td>
+					        			<th>
+					            			<div align="right">Obligated Direct:</div>
+					        			</th>
+					        			<td align="left" valign="middle">
+					            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].obligatedTotalDirect" attributeEntry="${awardAmountInfoAttributes.obligatedTotalDirect}"/>
+					        			</td>
+			        				</tr>
+			        				<tr>
+										<th>
+					            			<div align="right">Anticipated F&A:</div>
+					        			</th>
+										<td align="left" valign="middle">
+					            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].anticipatedTotalIndirect" attributeEntry="${awardAmountInfoAttributes.anticipatedTotalIndirect}"/>
+					        			</td>
+					        			<th>
+					            			<div align="right">Obligated F&A:</div>
+					        			</th>
+					        			<td align="left" valign="middle">
+					            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].obligatedTotalIndirect" attributeEntry="${awardAmountInfoAttributes.obligatedTotalIndirect}"/>
+					        			</td>
+			        				</tr>
+			        				<tr>
+					        			<th>
+					            			<div align="right">Anticipated Total:</div>
+					        			</th>
+					        			<th align="left">
+						        			<div>
+						            			<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].anticipatedTotal}"/>
+						        			</div>
+					        			</th>
+					        			<th>
+					            			<div align="right">Obligated Total:</div>
+					        			</th>
+					        			<th align="left">
+						        			<div>
+						           				<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].obligatedTotal}"/>
+						        			</div>
+					        			</th>
+					        		</tr>
+		        				</c:when>
+								<c:otherwise>
+									<tr>
+										<th>
+					            			<div align="right">Anticipated Amount:</div>
+					        			</th>
+										<td align="left" valign="middle">
+					            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].anticipatedTotalAmount" attributeEntry="${awardAttributes.anticipatedTotal}"/>
+					        			</td>
+					        			<th>
+					            			<div align="right">Obligated Amount:</div>
+					        			</th>
+					        			<td align="left" valign="middle">
+					            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].amountObligatedToDate" attributeEntry="${awardAttributes.obligatedTotal}"/>
+					        			</td>
+			        				</tr>
+								</c:otherwise>
 							</c:choose>
 						</c:otherwise>
 					</c:choose>
