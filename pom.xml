@@ -59,6 +59,7 @@
         <drools.version>6.0.1.Final</drools.version>
         <dwr.version>3.0.RC2</dwr.version>
         <ehcache.version>2.5.0</ehcache.version>
+        <el.version>2.2.1</el.version>
         <fop.version>0.93</fop.version>
         <guava.version>11.0</guava.version>
         <hamcrest.version>1.3</hamcrest.version>
@@ -66,10 +67,8 @@
         <jackson.version>1.8.8</jackson.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
         <jdom.version>1.1</jdom.version>
-        <jetty8.javax.servlet.version>3.0.0.v201112011016</jetty8.javax.servlet.version>
         <jetty9.javax.servlet.version>3.0.0.v201112011016</jetty9.javax.servlet.version>
         <jetty.javax.servlet.version>${jetty9.javax.servlet.version}</jetty.javax.servlet.version>
-        <jetty8.javax.servlet.jsp.version>2.2.0.v201112011158</jetty8.javax.servlet.jsp.version>
         <jetty9.javax.servlet.jsp.version>2.2.0.v201112011158</jetty9.javax.servlet.jsp.version>
         <jetty.javax.servlet.jsp.version>${jetty9.javax.servlet.jsp.version}</jetty.javax.servlet.jsp.version>
         <jetty8.version>8.1.14.v20131031</jetty8.version>
@@ -77,8 +76,8 @@
         <jetty.version>${jetty9.version}</jetty.version>
         <jmock.version>2.6.0</jmock.version>
         <joda-time.version>2.0</joda-time.version>
-        <jsp-api.version>2.1</jsp-api.version>
-        <jstl.version>1.2</jstl.version>
+        <jsp.version>2.2.1</jsp.version>
+        <jstl.version>1.2.1</jstl.version>
         <junit.version>4.11</junit.version>
         <kuali-cm.version>1.2.8</kuali-cm.version>
         <log4j.version>1.2.16</log4j.version>
@@ -94,7 +93,7 @@
         <pdfbox.version>1.8.3</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
         <rice.version>2.4.0-M3</rice.version>
-        <servlet.version>2.5</servlet.version>
+        <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.6.4</slf4j.version>
         <spring.version>3.2.3.RELEASE</spring.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
@@ -108,7 +107,6 @@
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
-        <jetty-maven-plugin8.groupId>org.mortbay.jetty</jetty-maven-plugin8.groupId>
         <jetty-maven-plugin9.groupId>org.eclipse.jetty</jetty-maven-plugin9.groupId>
         <jetty-maven-plugin.groupId>${jetty-maven-plugin9.groupId}</jetty-maven-plugin.groupId>
         <jetty-maven-plugin.artifactId>jetty-maven-plugin</jetty-maven-plugin.artifactId>
@@ -130,7 +128,6 @@
         <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
         <maven-war-plugin.version>2.4</maven-war-plugin.version>
         <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
-        <tomcat6-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat6-maven-plugin.version>
         <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
         <velocity.version>1.6.4</velocity.version>
         <xmlbeans-maven-plugin.version>2.3.3</xmlbeans-maven-plugin.version>
@@ -394,12 +391,15 @@
                                             <!-- old rice deps -->
                                             <exclude>htmlunit:htmlunit</exclude>
                                             <exclude>org.apache.derby:derby</exclude>
+
+                                            <!--legacy app server support (tomcat 6)-->
+                                            <exclude>javax.servlet:servlet-api</exclude>
+                                            <exclude>javax.servlet.jsp.jstl:jstl-api</exclude>
+                                            <exclude>javax.servlet.jsp:jsp-api</exclude>
+                                            <include>org.glassfish.web:jstl-impl</include>
                                         </excludes>
 
                                         <includes>
-                                            <!-- only allow in this specific version -->
-                                            <include>org.glassfish.web:jstl-impl:${jstl.version}</include>
-
                                             <include>org.slf4j:*:${slf4j.version}</include>
                                             <include>net.sf.ehcache:*:${ehcache.version}:jar:runtime</include>
                                             <include>com.sun.xml.bind:jaxb-impl:${jaxb-impl.version}</include>
@@ -547,12 +547,6 @@
                             </manifestEntries>
                         </archive>
                     </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat6-maven-plugin</artifactId>
-                    <version>${tomcat6-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
@@ -766,6 +760,13 @@
             </dependency>
 
             <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>javax.el-api</artifactId>
+                <version>${el.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
                 <version>${mail.version}</version>
@@ -779,9 +780,36 @@
 
             <dependency>
                 <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
+                <artifactId>javax.servlet-api</artifactId>
                 <version>${servlet.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>javax.servlet.jsp-api</artifactId>
+                <version>${jsp.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet.jsp.jstl</groupId>
+                <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+                <version>${jstl.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.el</groupId>
+                        <artifactId>el-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet.jsp</groupId>
+                        <artifactId>jsp-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1175,10 +1203,14 @@
 
             <dependency>
                 <groupId>org.glassfish.web</groupId>
-                <artifactId>jstl-impl</artifactId>
+                <artifactId>javax.servlet.jsp.jstl</artifactId>
                 <version>${jstl.version}</version>
                 <scope>compile</scope>
                 <exclusions>
+                    <exclusion>
+                        <groupId>javax.el</groupId>
+                        <artifactId>el-api</artifactId>
+                    </exclusion>
                     <exclusion>
                         <groupId>javax.servlet</groupId>
                         <artifactId>servlet-api</artifactId>
@@ -1186,6 +1218,10 @@
                     <exclusion>
                         <groupId>javax.servlet.jsp</groupId>
                         <artifactId>jsp-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet.jsp.jstl</groupId>
+                        <artifactId>jstl-api</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1325,6 +1361,10 @@
                 <artifactId>rice-impl</artifactId>
                 <version>${rice.version}</version>
                 <exclusions>
+                    <exclusion>
+                        <groupId>org.glassfish.web</groupId>
+                        <artifactId>jstl-impl</artifactId>
+                    </exclusion>
                     <exclusion>
                         <groupId>javax.ws.rs</groupId>
                         <artifactId>jsr311-api</artifactId>
@@ -1627,16 +1667,6 @@
                 <db.groupId>${oracle.groupId}</db.groupId>
                 <db.artifactId>${oracle.artifactId}</db.artifactId>
                 <db.version>${oracle.version}</db.version>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>jetty-8</id>
-            <properties>
-                <jetty.version>${jetty8.version}</jetty.version>
-                <jetty-maven-plugin.groupId>${jetty-maven-plugin8.groupId}</jetty-maven-plugin.groupId>
-                <jetty.javax.servlet.version>${jetty8.javax.servlet.version}</jetty.javax.servlet.version>
-                <jetty.javax.servlet.jsp.version>${jetty8.javax.servlet.jsp.version}</jetty.javax.servlet.jsp.version>
             </properties>
         </profile>
 
