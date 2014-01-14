@@ -63,31 +63,6 @@
 
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat6-maven-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>${db.groupId}</groupId>
-                        <artifactId>${db.artifactId}</artifactId>
-                        <version>${db.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-instrument-tomcat</artifactId>
-                        <version>${spring.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <classLoaderClass>org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader</classLoaderClass>
-                    <port>${kc.port}</port>
-                    <path>${kc.context.path}</path>
-                    <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <dependencies>
                     <dependency>
@@ -415,34 +390,6 @@
                     </plugin>
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
-                        <artifactId>tomcat6-maven-plugin</artifactId>
-                        <version>${tomcat6-maven-plugin.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>${db.groupId}</groupId>
-                                <artifactId>${db.artifactId}</artifactId>
-                                <version>${db.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.springframework</groupId>
-                                <artifactId>spring-instrument-tomcat</artifactId>
-                                <version>${spring.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                        </dependencies>
-                        <configuration>
-                            <classLoaderClass>
-                                org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader
-                            </classLoaderClass>
-                            <port>${rice.port}</port>
-                            <path>${rice.context.path}</path>
-                            <warDirectory>${rice.war.file}</warDirectory>
-                            <warSourceDirectory>${rice.war.dir}</warSourceDirectory>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.tomcat.maven</groupId>
                         <artifactId>tomcat7-maven-plugin</artifactId>
                         <version>${tomcat7-maven-plugin.version}</version>
                         <dependencies>
@@ -474,45 +421,6 @@
         </profile>
 
         <profile>
-            <id>precompile-jsp-tomcat-6</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jasig.mojo.jspc</groupId>
-                        <artifactId>jspc-maven-plugin</artifactId>
-                        <version>${jspc-maven-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>compile</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.jasig.mojo.jspc</groupId>
-                                <artifactId>jspc-compiler-tomcat6</artifactId>
-                                <version>${jspc-maven-plugin.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.slf4j</groupId>
-                                <artifactId>slf4j-api</artifactId>
-                                <version>${slf4j.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.slf4j</groupId>
-                                <artifactId>slf4j-simple</artifactId>
-                                <version>${slf4j.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
             <id>precompile-jsp-tomcat-7</id>
             <build>
                 <plugins>
@@ -533,43 +441,6 @@
                                 <artifactId>jspc-compiler-tomcat7</artifactId>
                                 <version>${jspc-maven-plugin.version}</version>
                             </dependency>
-                            <dependency>
-                                <groupId>org.slf4j</groupId>
-                                <artifactId>slf4j-api</artifactId>
-                                <version>${slf4j.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.slf4j</groupId>
-                                <artifactId>slf4j-simple</artifactId>
-                                <version>${slf4j.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>precompile-jsp-jetty-8</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>${jetty-maven-plugin8.groupId}</groupId>
-                        <artifactId>jetty-jspc-maven-plugin</artifactId>
-                        <version>${jetty8.version}</version>
-                        <executions>
-                            <execution>
-                                <id>jspc</id>
-                                <goals>
-                                    <goal>jspc</goal>
-                                </goals>
-                                <configuration>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <dependencies>
                             <dependency>
                                 <groupId>org.slf4j</groupId>
                                 <artifactId>slf4j-api</artifactId>
