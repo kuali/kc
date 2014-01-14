@@ -52,25 +52,29 @@
             <!--exclude provided app server deps, allow app server implementation to include them for integration tests -->
             <exclusions>
                 <exclusion>
+                    <groupId>javax.el</groupId>
+                    <artifactId>javax.el-api</artifactId>
+                </exclusion>
+
+                <exclusion>
                     <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
+                    <artifactId>javax.servlet-api</artifactId>
                 </exclusion>
 
                 <exclusion>
                     <groupId>javax.servlet.jsp</groupId>
-                    <artifactId>jsp-api</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>org.glassfish.web</groupId>
-                    <artifactId>jstl-impl</artifactId>
+                    <artifactId>javax.servlet.jsp-api</artifactId>
                 </exclusion>
 
                 <exclusion>
                     <groupId>javax.servlet.jsp.jstl</groupId>
-                    <artifactId>jstl-api</artifactId>
+                    <artifactId>javax.servlet.jsp.jstl-api</artifactId>
                 </exclusion>
 
+                <exclusion>
+                    <groupId>org.glassfish.web</groupId>
+                    <artifactId>javax.servlet.jsp.jstl</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
