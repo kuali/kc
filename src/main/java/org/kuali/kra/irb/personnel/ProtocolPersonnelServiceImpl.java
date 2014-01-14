@@ -62,11 +62,10 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
                     protocol.getProtocolPersons().add(newPrincipalInvestigator);
                 }
                 
-                // Assign the PI the AGGREGATOR role if PI has a personId.
+                // Assign the PI the APPROVER role if PI has a personId (for doc cancel).
                 if (newPrincipalInvestigator.getPersonId() != null) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
                     KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
                     kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
                 } else {
                     personEditableService.populateContactFieldsFromRolodexId(newPrincipalInvestigator);

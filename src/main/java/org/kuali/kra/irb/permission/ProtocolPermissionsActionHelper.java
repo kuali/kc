@@ -113,8 +113,7 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
         for (Role role : roles) {
             if (RoleConstants.VIEWER.equalsIgnoreCase(role.getDisplayName()) 
                     || RoleConstants.AGGREGATOR.equalsIgnoreCase(role.getDisplayName()) 
-                        || role.getDisplayName().equalsIgnoreCase(MAINTAIN_IRB_QUESTIONNAIRE) 
-                            || role.getDisplayName().equalsIgnoreCase(PROTOCOL_DELETER)) {
+                    || role.getDisplayName().equalsIgnoreCase(PROTOCOL_DELETER)) {
                 PermissionsRoleState roleState = new PermissionsRoleState(role);
                 roleStates.add(roleState);
             }
