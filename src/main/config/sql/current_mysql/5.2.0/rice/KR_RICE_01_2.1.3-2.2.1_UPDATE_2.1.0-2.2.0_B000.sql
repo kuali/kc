@@ -45,9 +45,9 @@ perm_id = (select perm_id from krim_perm_t where nm = 'Add Message to Route Log'
 --     KULRICE-6676 - external message tables
 --
 
--------------------------------------------------------------------------
+--
 -- krad_msg_t
--------------------------------------------------------------------------
+--
 CREATE TABLE krad_msg_t
 (
     nmspc_cd VARCHAR(20) NOT NULL,

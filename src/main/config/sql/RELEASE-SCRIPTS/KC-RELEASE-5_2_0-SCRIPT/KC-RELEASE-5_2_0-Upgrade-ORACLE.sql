@@ -22,6 +22,7 @@ spool KC-RELEASE-5_2_0-Upgrade-ORACLE-Install.log
 @../../current/5.2.0/tables/KC_TBL_IACUC_PROC_PERSON_RESPONSIBLE_3.sql
 @../../current/5.2.0/tables/KC_TBL_IACUC_PROTOCOL_ACTIONS.sql
 @../../current/5.2.0/tables/KC_TBL_IACUC_PROTOCOL_AFFIILIATION_TYPE.sql
+@../../current/5.2.0/tables/KC_TBL_IACUC_PROTOCOL_NOTIFICATION.sql
 @../../current/5.2.0/tables/KC_TBL_IACUC_PROTOCOL_PERSONS.sql
 @../../current/5.2.0/tables/KC_TBL_IACUC_PROTOCOL_STUDY_GROUPS.sql
 @../../current/5.2.0/tables/KC_TBL_IACUC_PROTOCOL_STUDY_GROUPS_2.sql
@@ -42,6 +43,7 @@ spool KC-RELEASE-5_2_0-Upgrade-ORACLE-Install.log
 @../../current/5.2.0/tables/KC_TBL_PERSON_SIGNATURE.sql
 @../../current/5.2.0/tables/KC_TBL_PERSON_SIGNATURE_MODULE.sql
 @../../current/5.2.0/tables/KC_TBL_PROTOCOL_ACTIONS.sql
+@../../current/5.2.0/tables/KC_TBL_PROTOCOL_NOTIFICATION.sql
 @../../current/5.2.0/tables/KC_TBL_S2S_OPPORTUNITY.sql
 @../../current/5.2.0/tables/KC_TBL_VALID_IACUC_PROTO_ACTION_CORESP.sql
 @../../current/5.2.0/tables/KC_TBL_WATERMARK.sql
