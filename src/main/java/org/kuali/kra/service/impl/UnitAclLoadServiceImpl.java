@@ -23,6 +23,7 @@ import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
@@ -56,7 +57,7 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
      * @see org.kuali.kra.service.UnitAclLoadService#loadUnitAcl(org.kuali.kra.document.ResearchDocumentBase)
      */
     public void loadUnitAcl(Permissionable permissionable) {
-        String creatorUserId = getCreator();
+        String creatorUserId = GlobalVariables.getUserSession().getPrincipalId();
         Map<String, String> roleIdMap = new HashMap<String, String>();
         Role role = null;
         
@@ -74,15 +75,6 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
         }
     }
     
-    /**
-     * Gets the creator of the document.  Actually, I'm being sneaky.  The addUsers method is only
-     * used when the document is being created.  Therefore, the current user corresponds to the
-     * creator of the document.
-     * @return the creator's username
-     */
-    public String getCreator() {
-        return GlobalVariables.getUserSession().getPrincipalId();
-    }
 
     /**
      * Get the access control list for the document type as specified by the system administrator.
@@ -95,12 +87,25 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put("unitNumber", unitNumber);
         List<String> roleIds = new ArrayList<String>();
-        List<Role> proposalRoles = systemAuthorizationService.getRoles(documentTypeCode);
-        for(Role role : proposalRoles) {
+        List<Role> roles = systemAuthorizationService.getRoles(documentTypeCode);
+        filterDefaultDerivedRoles(roles);
+        for(Role role : roles) {
             roleIds.add(role.getId());
         }
         List<RoleMembership> membershipInfoList = roleManagementService.getRoleMembers(roleIds,new HashMap<String,String>(qualifiedRoleAttributes));
-        return membershipInfoList;
         
+        return membershipInfoList;        
+    }
+    
+    protected void filterDefaultDerivedRoles(List<Role> roles) {
+        Iterator<Role> iter = roles.iterator();
+        while (iter.hasNext()) {
+            Role role = iter.next();
+            KimType type = systemAuthorizationService.getKimTypeInfoForRole(role);
+            // filter out derived roles and roles that are not based on Unit or workflow
+            if (StringUtils.startsWith(type.getName(), "Derived Role") || StringUtils.startsWith(type.getName(), "Default")) {
+                iter.remove();
+            }
+        }
     }
 }

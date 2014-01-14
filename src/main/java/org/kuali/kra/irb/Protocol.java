@@ -327,7 +327,7 @@ public class Protocol extends ProtocolBase {
      * @see org.kuali.kra.UnitAclLoadable#getDocumentRoleTypeCode()
      */
     public String getDocumentRoleTypeCode() {
-        return RoleConstants.PROTOCOL_ROLE_TYPE;
+        return RoleConstants.PROTOCOL_DOC_ROLE_TYPE;
     }
 
     public void initializeProtocolAttachmentFilter() {

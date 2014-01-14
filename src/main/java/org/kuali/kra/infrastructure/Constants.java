@@ -98,6 +98,7 @@ public interface Constants {
     public static final String SPONSOR_HIERARCHY_ROUTING = "Routing";
     public static final String SPONSOR_HIERARCHY_NIH_OSC = "NIH Other Significant Contributor";
     public static final String MODULE_NAMESPACE_PROTOCOL = "KC-PROTOCOL"; 
+    public static final String MODULE_DOC_ROLE_NAMESPACE_PROTOCOL = "KC-PROTOCOL-DOC"; 
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID1 = "irb.protocol.referenceID1";
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID2 = "irb.protocol.referenceID2";
     public static final String PARAMETER_MODULE_PROTOCOL_BILLABLE = "irb.protocol.billable";

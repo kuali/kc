@@ -354,7 +354,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the PI the AGGREGATOR role.
                     KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
                     
