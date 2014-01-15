@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.persistence.config.DescriptorCustomizer;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
@@ -26,6 +27,8 @@ import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.jpa.temp.CompositeDescriptorCustomizer;
+import org.kuali.kra.infrastructure.jpa.temp.FilterByMapDescriptorCustomizer;
 import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
@@ -2280,4 +2283,83 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
     }
 
+    public abstract static class AbstractHiddenInHierarchyCustomizer extends FilterByMapDescriptorCustomizer {
+
+        @Override
+        public Map<String, ?> getFilterMap() {
+            return Collections.singletonMap("hiddenInHierarchy", "N");
+        }
+    }
+
+    public static class NarrativeCustomizer extends AbstractHiddenInHierarchyCustomizer {
+
+        @Override
+        public String getAttributeName() {
+            return "narratives";
+        }
+    }
+
+    public static class ProposalSpecialReviewCustomizer extends AbstractHiddenInHierarchyCustomizer {
+
+        @Override
+        public String getAttributeName() {
+            return "propSpecialReviews";
+        }
+    }
+
+    public static class PropScienceKeywordCustomizer extends AbstractHiddenInHierarchyCustomizer {
+
+        @Override
+        public String getAttributeName() {
+            return "propScienceKeywords";
+        }
+    }
+
+    public static class ProposalPersonCustomizer extends AbstractHiddenInHierarchyCustomizer {
+
+        @Override
+        public String getAttributeName() {
+            return "proposalPersons";
+        }
+    }
+
+    public static class InstituteAttachmentsCustomizer extends FilterByMapDescriptorCustomizer {
+
+        private static final String ATTR_NAME = "narrativeType.narrativeTypeGroup";
+
+        @Override
+        public String getAttributeName() {
+            return "instituteAttachments";
+        }
+
+        @Override
+        public Map<String, ?> getFilterMap() {
+            final String value = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ATTR_NAME, "0");
+            return Collections.singletonMap("narrativeType.narrativeTypeGroup", value);
+        }
+
+        protected ParameterService getParameterService() {
+            return KraServiceLocator.getService(ParameterService.class);
+        }
+    }
+
+    public static class DevelopmentProposalCustomizer extends CompositeDescriptorCustomizer {
+
+        private static final Collection<DescriptorCustomizer> CUSTOMIZERS;
+
+        static {
+            final Collection<DescriptorCustomizer> customizers = new ArrayList<DescriptorCustomizer>();
+            customizers.add(new NarrativeCustomizer());
+            customizers.add(new InstituteAttachmentsCustomizer());
+            customizers.add(new ProposalSpecialReviewCustomizer());
+            customizers.add(new PropScienceKeywordCustomizer());
+            customizers.add(new ProposalPersonCustomizer());
+            CUSTOMIZERS = Collections.unmodifiableCollection(customizers);
+        }
+
+        @Override
+        protected Collection<DescriptorCustomizer> getCustomizers() {
+            return CUSTOMIZERS;
+        }
+    }
 }
