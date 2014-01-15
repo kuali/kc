@@ -15,7 +15,7 @@
 	    <fail unless="password">database.password not set</fail>
 		 
 		<path id="liquibase-classpath">
-			<pathelement location="liquibase-2.0.0.jar" />
+			<pathelement location="${liquibase.directory}/liquibase-2.0.0.jar" />
 			<fileset dir="${drivers.directory}" includes="${drivers.file.pattern}" />
 		</path>	
 		
