@@ -255,9 +255,6 @@ public class InstitutionalProposalXmlStream extends
 			if (proposalPerson.isPrincipalInvestigator() || proposalPerson.isCoInvestigator() || proposalPerson.isKeyPerson()) {
 				investigatorType = InvestigatorType2.Factory.newInstance();
 				PersonType personType = PersonType.Factory.newInstance();
-System.out.println("\npersonType = " + personType);				
-System.out.println("proposalPerson = " + proposalPerson);             
-System.out.println("\nperson = " + proposalPerson.getPerson());             
                 KcPerson person = proposalPerson.getPerson();
                 if (person != null) {
                     if (person.getAddressLine1() != null) {

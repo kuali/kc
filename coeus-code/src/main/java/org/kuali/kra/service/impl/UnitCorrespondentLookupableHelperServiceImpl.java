@@ -93,7 +93,6 @@ public class UnitCorrespondentLookupableHelperServiceImpl extends KualiLookupabl
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<UnitCorrespondent> searchResults = (List<UnitCorrespondent>)super.getSearchResults(fieldValues);
-System.out.println("\n\nUnitCorr.getSearchResults called, # results = " + searchResults.size());
         if (!searchResults.isEmpty()) {
             if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
                 return filterSearchResults(searchResults, fieldValues.get("person.userName"));

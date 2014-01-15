@@ -21,6 +21,7 @@ import org.jmock.Mockery;
 import org.jmock.api.Invocation;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.action.CustomAction;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -63,7 +64,7 @@ public class AwardSubcontractingGoalsExpendituresRuleTest {
     protected static final Long AWARD_ID_VAL = 4444L;
 
         
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     
     private AwardSubcontractingGoalsExpendituresRule rule;

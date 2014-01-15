@@ -56,7 +56,6 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
         if (isValidToSave(newFinancialEntityDisclosure, NEW_FINANCIAL_ENTITY)) {
             saveNewFinancialEntity(form);
             // send notification to admins that FE has been modified
-System.out.println("New financial entity, sponsor code = " + newFinancialEntityDisclosure.getSponsorCode() + ", entity name = " + newFinancialEntityDisclosure.getEntityName());            
             sendNotificationAndPersist(CoiActionType.FE_CREATED_EVENT, "Financial Entity Modified", newFinancialEntityDisclosure);
             if (StringUtils.isNotBlank(financialEntityForm.getCoiDocId())) {
                 String forward = buildForwardUrl(financialEntityForm.getCoiDocId());

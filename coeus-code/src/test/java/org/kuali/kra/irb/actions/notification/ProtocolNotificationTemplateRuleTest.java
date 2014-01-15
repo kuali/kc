@@ -19,6 +19,7 @@ import org.apache.struts.upload.FormFile;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,7 +34,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ProtocolNotificationTemplateRuleTest {
-    Mockery context = new JUnit4Mockery();
+    Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     FormFile mockedFile = null;
 
     @Before

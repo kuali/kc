@@ -21,6 +21,7 @@ import org.hamcrest.core.IsEqual;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,7 +72,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
     private static final String EMAIL_ADDRESS_UNIVERSITY = "firstname@kuali.org";
     private static final String DEFAULT_FROM_ADDRESS_VALUE = "bogus@kuali.org";
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     private KcNotificationServiceImpl service;
     

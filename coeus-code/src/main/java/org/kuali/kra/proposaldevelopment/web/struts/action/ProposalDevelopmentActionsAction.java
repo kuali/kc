@@ -539,36 +539,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        //System.err.println("******************* Got to the reject action **************************");
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-
-        //Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        //Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-        //String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
-       // String methodToCall = ((KualiForm) form).getMethodToCall();
-        //if (question == null) {
-          //  System.err.println("               question null");
             ((ProposalDevelopmentForm)form).setShowRejectionConfirmation(true);
             return mapping.findForward(Constants.MAPPING_BASIC);
-            //return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,
-              //      "Are you sure you want to reject this document?", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
-        //}
-        //else if ((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-          //  System.err.println("               question answered NO");
-            //return mapping.findForward(Constants.MAPPING_BASIC);
-        //}
-        //else {
-          //  System.err.println("               question answered YES");
-            // reject the document using the service.
-            //ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) kualiDocumentFormBase.getDocument();
-            
-            //ProposalDevelopmentRejectionBean bean = ((ProposalDevelopmentForm)form).getProposalDevelopmentRejectionBean();
-            
-            //ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
-            //phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(), GlobalVariables
-              //      .getUserSession().getPrincipalId());
-            //return super.returnToSender(request, mapping, kualiDocumentFormBase);
-        //}
     }
     
     public ActionForward rejectNo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)

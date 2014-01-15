@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.genericactions;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
@@ -39,6 +40,7 @@ public class ProtocolGenericActionRuleTest extends ProtocolRuleTestBase {
     
     private Mockery context = new JUnit4Mockery() {{
         setImposteriser(ClassImposteriser.INSTANCE);
+        setThreadingPolicy(new Synchroniser());
     }};
 
     /**

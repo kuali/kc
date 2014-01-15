@@ -19,6 +19,7 @@ import org.apache.struts.upload.FormFile;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -42,7 +43,7 @@ public class ProtocolCorrespondenceTemplateServiceTest extends KcUnitTestBase {
     private static final String  AGENDA_TYPE = "9";
     private static final String  AGENDA_FILE_NAME = "agenda.xml";
 
-    Mockery context = new JUnit4Mockery();
+    Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     FormFile mockedFile = null;
 
     @Before
