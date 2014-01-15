@@ -115,7 +115,6 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
     protected void addFieldToUserSessionMap(String fieldName) {
         if (KNSGlobalVariables.getKualiForm() instanceof TimeAndMoneyForm) {
             TimeAndMoneyForm form = (TimeAndMoneyForm) KNSGlobalVariables.getKualiForm();
-            System.err.println("addFieldToUserSessionMap: fieldName: '" + fieldName + "'");
             form.getFieldsInError().add(fieldName);
         }
     }
@@ -123,7 +122,6 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
     protected void clearFieldsFromUserSessionMap() {
         if (KNSGlobalVariables.getKualiForm() instanceof TimeAndMoneyForm) {
             TimeAndMoneyForm form = (TimeAndMoneyForm) KNSGlobalVariables.getKualiForm();
-            System.err.println("clearFieldsFromUserSessionMap");
             form.getFieldsInError().clear();
         }
     }

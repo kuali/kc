@@ -108,11 +108,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
     
     private boolean proccessValidateSponsor(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        System.err.println("proccessValidateSponsor");
         boolean valid = true;
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
         if (!this.getSponsorService().validateSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getSponsor())) {
-            System.err.println("  Invalid sponsor");
             valid = false;
             //this.reportError("document.developmentProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
             //GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
@@ -120,13 +118,11 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         }
         if (!StringUtils.isEmpty(proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode()) && 
                 !this.getSponsorService().validateSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsor())) {
-            System.err.println("  Invalid  prime sponsor");
             valid = false;
             //this.reportError("document.developmentProposalList[0].primeSponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
             GlobalVariables.getMessageMap().putError("primeSponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "primeSponsorCode"));
             
         }
-        System.err.println("  returning: " +  (valid));
         return valid;
     }
     

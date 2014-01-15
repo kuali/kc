@@ -1350,7 +1350,6 @@ public class AwardAction extends BudgetParentActionBase {
         AwardTemplateSyncScope[] scopes;
         String syncScopes = getSyncScopesString( request );
         
-        System.err.println("syncScopes: " + syncScopes);
         if (awardDocument.getAward().getTemplateCode() == null || awardDocument.getAward().getAwardTemplate() == null) {
             //return now since there is no template code.
             GlobalVariables.getMessageMap().clearErrorMessages(); 

@@ -19,6 +19,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -33,7 +34,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JMock.class)
 public class QuestionServiceTest {
     
-        private Mockery context = new JUnit4Mockery();
+        private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 
         /**
          * Verify that the correct question is returned if it is found 

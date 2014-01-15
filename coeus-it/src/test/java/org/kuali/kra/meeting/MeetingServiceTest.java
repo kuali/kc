@@ -18,6 +18,7 @@ package org.kuali.kra.meeting;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
@@ -50,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MeetingServiceTest extends KcUnitTestBase {
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     private static final String PERSON_ID = "jtester";
     private static final String PERSON_ID_1 = "1";

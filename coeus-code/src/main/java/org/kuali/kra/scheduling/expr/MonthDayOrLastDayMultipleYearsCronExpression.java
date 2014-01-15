@@ -83,7 +83,6 @@ public class MonthDayOrLastDayMultipleYearsCronExpression extends CronExpression
         exp.append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.STAR).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.QUESTION).append(CronSpecialChars.SPACE);     
-        System.err.println("MonthDayMultipleYearsCronExpression getExpression: " + exp.toString());
         return exp.toString();
     }
 

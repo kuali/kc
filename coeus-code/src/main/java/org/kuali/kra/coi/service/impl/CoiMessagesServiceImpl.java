@@ -16,6 +16,8 @@
 package org.kuali.kra.coi.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.service.CoiMessagesService;
@@ -33,6 +35,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class CoiMessagesServiceImpl implements CoiMessagesService {
+
+    private static final Log LOG = LogFactory.getLog(CoiMessagesServiceImpl.class);
 
     private transient BusinessObjectService businessObjectService;
     private transient ParameterService parameterService;
@@ -54,7 +58,7 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                     renewalDue = new Date(new SimpleDateFormat("MM/dd").parse(renewalDateString).getTime());
                 }
                 catch (Exception e) {
-                    System.err.println("***** no valid Annual Disclosure Certification renewal date found.  Defaulting to anniversary of last Annual");
+                    LOG.error("***** no valid Annual Disclosure Certification renewal date found.  Defaulting to anniversary of last Annual");
                 }
                 String advanceNoticeString = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_COIDISCLOSURE, ParameterConstants.DOCUMENT_COMPONENT, "ANNUAL_DISCLOSURE_ADVANCE_NOTICE");
                 int advanceDays = -1;
@@ -62,7 +66,7 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                     advanceDays = Integer.parseInt(advanceNoticeString);
                 } 
                 catch (Exception e) {
-                    System.err.println("***** no valid Annual Disclosure Certification advance notice parameter found.  Defaulting to 30 days.");
+                    LOG.error("***** no valid Annual Disclosure Certification advance notice parameter found.  Defaulting to 30 days.");
                     advanceDays = 30;
                 }
                 // find latest existing annual review

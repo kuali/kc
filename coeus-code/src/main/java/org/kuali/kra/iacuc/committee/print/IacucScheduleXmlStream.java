@@ -62,7 +62,6 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 		ScheduleDocument.Factory.newInstance();
         scheduleDocument.setSchedule(getSchedule(committeeSchedule));
         xmlObjectList.put("Schedule", scheduleDocument);   
-        System.out.print(xmlObjectList);
         return xmlObjectList;
     }
 

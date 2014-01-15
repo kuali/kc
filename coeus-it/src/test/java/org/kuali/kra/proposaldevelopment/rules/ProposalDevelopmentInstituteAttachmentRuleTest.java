@@ -126,7 +126,6 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
 
         List errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleTitle");
         assertTrue(errors.size() == 1);
-        System.out.println("errors: "+ errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_MAX_LENGTH);
 }

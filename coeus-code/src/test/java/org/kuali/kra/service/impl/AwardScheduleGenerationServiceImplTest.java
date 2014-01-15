@@ -19,6 +19,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -67,7 +68,7 @@ public class AwardScheduleGenerationServiceImplTest {
     Calendar calendar1;
     Map<String, java.util.Date> mapOfDates;
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     @Before
     public void setUp() throws Exception {

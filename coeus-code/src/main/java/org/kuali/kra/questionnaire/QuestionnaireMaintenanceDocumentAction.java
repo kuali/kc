@@ -112,7 +112,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     }
     
     private boolean validateTemplateField(QuestionnaireMaintenanceForm qnForm) {
-        System.err.println("validateTemplateField");
         boolean retVal = true;
         final String fieldName = "document.newMaintainableObject.businessObject.fileName";
         try {

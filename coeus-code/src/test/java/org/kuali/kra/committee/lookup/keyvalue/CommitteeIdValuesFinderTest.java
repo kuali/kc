@@ -18,6 +18,7 @@ package org.kuali.kra.committee.lookup.keyvalue;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
@@ -56,7 +57,7 @@ public class CommitteeIdValuesFinderTest {
     private static final Integer C3_OLD_SEQ = 1;
     private static final Integer C3_OLDER_SEQ = 0;
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     
     @Test

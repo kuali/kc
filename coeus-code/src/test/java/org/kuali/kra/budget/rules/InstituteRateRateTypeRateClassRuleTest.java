@@ -18,6 +18,7 @@ package org.kuali.kra.budget.rules;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
     /** sets up the Mockery. */
     @Before
     public void setupMockery() {
-        this.context = new JUnit4Mockery();
+        this.context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     }
     
     /** sets a new error map. */
