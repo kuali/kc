@@ -21,6 +21,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -255,6 +256,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     }
     
     @Test
+    @Ignore // KCINFR-983
     public void testDisapprove() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
