@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -23,7 +26,9 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.iacuc.questionnaire.IacucSubmissionQuestionnaireHelper;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 
 /**
  * 
@@ -67,6 +72,24 @@ public class IacucProtocolAction extends ProtocolActionBase {
     protected ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelperHook(ProtocolBase protocol, String actionTypeCode,
             String submissionNumber) {
         return new IacucSubmissionQuestionnaireHelper(protocol, actionTypeCode, submissionNumber, true);
+    }
+    
+    @Override
+    public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
+        IacucSubmissionQuestionnaireHelper questionnaireHelper = (IacucSubmissionQuestionnaireHelper) super.getQuestionnaireHelper();
+        
+        if(StringUtils.equals(getProtocolActionTypeCode(),IacucProtocolActionType.SUBMITTED_TO_IACUC)) {
+            //add ZERO_SUBMODULE answer headers. These headers do not get picked up by populateAnswers() above.
+            ProtocolModuleQuestionnaireBeanBase protocolBaseQnBean = questionnaireHelper.getBaseProtocolModuleQuestionnaireBean(getSequenceNumber() == null ? null : getSequenceNumber().toString());
+            List<AnswerHeader> protocolAnswerHeaders = questionnaireHelper.getQuestionnaireAnswerService().getQuestionnaireAnswer(protocolBaseQnBean);
+            List<AnswerHeader> submissionAnswerHeaders = questionnaireHelper.getAnswerHeaders();
+            submissionAnswerHeaders.addAll(protocolAnswerHeaders);
+            questionnaireHelper.setAnswerHeaders(submissionAnswerHeaders);
+            questionnaireHelper.resetHeaderLabels();
+            setQuestionnaireHelper(questionnaireHelper);
+        }
+        
+        return questionnaireHelper;
     }
     
 }
