@@ -18,6 +18,7 @@ package org.kuali.kra.irb.noteattachment;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
@@ -34,7 +35,7 @@ import static org.hamcrest.core.Is.is;
  */
 public class ProtocolAttachmentServiceImplTest {
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     /** tests calling getStatusFromCode with null arg. */
     @Test(expected=IllegalArgumentException.class)

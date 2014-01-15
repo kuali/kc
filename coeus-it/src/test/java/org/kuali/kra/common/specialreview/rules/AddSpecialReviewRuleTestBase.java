@@ -18,6 +18,7 @@ package org.kuali.kra.common.specialreview.rules;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
@@ -93,6 +94,7 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
         super.setUp();
         context = new JUnit4Mockery() {{
             setImposteriser(ClassImposteriser.INSTANCE);
+            setThreadingPolicy(new Synchroniser());
         }};
         rule = new AddSpecialReviewRule<T>();
         dateFormat = DateFormat.getDateInstance();

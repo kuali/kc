@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.service;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -49,7 +50,7 @@ public class ProposalStateServiceTest extends KcUnitTestBase {
     
     @Before
     public void initTest() {
-        mockery = new JUnit4Mockery();
+        mockery = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
         service = KraServiceLocator.getService(ProposalStateService.class);
         mock = mockery.mock(WorkflowDocument.class);
     }

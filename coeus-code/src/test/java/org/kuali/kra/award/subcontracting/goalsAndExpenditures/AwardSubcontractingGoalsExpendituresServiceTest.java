@@ -18,6 +18,7 @@ package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class AwardSubcontractingGoalsExpendituresServiceTest {
     private static final String PRESTORED_BO_NUMBER = "prestored BO number";
     private static final String SAVE_BO_NUMBER = "save BO number";
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     private AwardSubcontractingGoalsExpendituresServiceImpl serviceImpl;
     

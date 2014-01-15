@@ -19,6 +19,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,7 +58,7 @@ public class CommitteeServiceTest {
     private static final String RESEARCH_AREA_CODE_3 = "01.0103";
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     /**
      * Verify that the correct committee is returned if it is found.
@@ -180,7 +181,18 @@ public class CommitteeServiceTest {
      */
     @Test
     public void testAvailDates() {
-        CommitteeServiceImpl committeeService = new CommitteeServiceImpl();
+        CommitteeServiceImpl committeeService = new CommitteeServiceImpl() {
+            //work around because service now calls refresh
+            @Override
+            protected boolean isOkayToScheduleReview(Committee committee, CommitteeSchedule schedule) {
+                Calendar now = getCalendar(new java.util.Date());
+
+
+                boolean dateRangeOK = now.compareTo(getCalendar(schedule.getProtocolSubDeadline())) <= 0;
+                boolean statusOK = "Scheduled".equals(schedule.getScheduleStatus().getDescription());
+                return dateRangeOK && statusOK;
+            }
+        };
         Committee committee = new Committee();
         initCommitteeService(committeeService, committee);
  

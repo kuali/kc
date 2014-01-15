@@ -18,6 +18,7 @@ package org.kuali.kra.committee.service;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
@@ -53,7 +54,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
     private static final String PROTOCOL_NUMBER = "1";
     private static final int SEQUENCE_NUMBER = 0;
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     private CommitteeBatchCorrespondenceServiceImpl committeeBatchCorrespondenceServiceImpl;
     
     @Before

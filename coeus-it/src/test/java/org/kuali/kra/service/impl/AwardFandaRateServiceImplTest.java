@@ -41,8 +41,6 @@ public class AwardFandaRateServiceImplTest extends KcUnitTestBase {
     private static final List<String> MOCK_EXPECTED_DATE_EMPTY = new ArrayList<String>();
     private AwardFandaRateServiceImpl awardFandaRateService;
 
-    //private Mockery context = new JUnit4Mockery();
-    
     @Before
     public void setUp() throws Exception {
         awardFandaRateService = (AwardFandaRateServiceImpl) KraServiceLocator.getService(AwardFandaRateService.class);

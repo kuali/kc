@@ -18,6 +18,7 @@ package org.kuali.kra.questionnaire.question;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.*;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -45,7 +46,7 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
     
     private QuestionLookupableHelperServiceImpl questionLookupableHelperServiceImpl;
     private DocumentService documentService;
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     @Before
     public void setUp() throws Exception {

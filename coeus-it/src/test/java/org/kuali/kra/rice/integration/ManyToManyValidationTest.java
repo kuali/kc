@@ -17,6 +17,7 @@ package org.kuali.kra.rice.integration;
 
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +43,7 @@ public class ManyToManyValidationTest extends KcUnitTestBase { //KraWebTestBase 
 
     private DictionaryValidationService dictionaryValidationService;
     private ProtocolDocument doc;
-    private Mockery mockery = new JUnit4Mockery(); 
+    private Mockery mockery = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     /**
      * Create a ProtocolDocument used for testing.

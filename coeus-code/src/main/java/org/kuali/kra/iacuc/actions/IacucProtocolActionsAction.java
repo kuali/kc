@@ -1192,7 +1192,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     public ActionForward addRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
             throws Exception {
-        System.err.println("addRequestAttachment");
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
         IacucProtocol protocol = document.getIacucProtocol();
@@ -1224,7 +1223,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             int lineNumber = getSelectedLine(request);
             ProtocolActionAttachment actionAttachment = requestBean.getActionAttachments().get(lineNumber);
             if (actionAttachment.getFile() != null) {
-                System.err.println("actionAttachment.getFile().getContentType(): " + actionAttachment.getFile().getContentType());                
                 this.streamToResponse(actionAttachment.getFile().getFileData(), actionAttachment.getFileName(), actionAttachment.getFile().getContentType(), response);
                 return RESPONSE_ALREADY_HANDLED;
             }

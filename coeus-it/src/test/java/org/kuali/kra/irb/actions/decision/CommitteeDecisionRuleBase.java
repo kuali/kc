@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.decision;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
@@ -40,6 +41,7 @@ public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
     
     private Mockery context = new JUnit4Mockery() {{
         setImposteriser(ClassImposteriser.INSTANCE);
+        setThreadingPolicy(new Synchroniser());
     }};
     
     protected CommitteeScheduleAttendanceService getMockCommitteeScheduleAttendanceService(final Integer yesCount, final Integer noCount) {

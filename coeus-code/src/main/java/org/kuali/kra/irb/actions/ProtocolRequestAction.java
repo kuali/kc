@@ -133,7 +133,6 @@ public enum ProtocolRequestAction {
         ProtocolRequestAction protocolRequestAction = null;
         
         for (ProtocolRequestAction action : values()) {
-System.err.println("comparing " + taskName + " against " + action.getTaskName());            
             if (action.getTaskName().equals(taskName)) {
                 protocolRequestAction = action;
             }
