@@ -88,24 +88,22 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
         qualifiedRoleAttributes.put("unitNumber", unitNumber);
         List<String> roleIds = new ArrayList<String>();
         List<Role> roles = systemAuthorizationService.getRoles(documentTypeCode);
-        filterDefaultDerivedRoles(roles);
         for(Role role : roles) {
-            roleIds.add(role.getId());
+            if (isAccessListRole(role)) {
+                roleIds.add(role.getId());
+            }
         }
         List<RoleMembership> membershipInfoList = roleManagementService.getRoleMembers(roleIds,new HashMap<String,String>(qualifiedRoleAttributes));
         
         return membershipInfoList;        
     }
     
-    protected void filterDefaultDerivedRoles(List<Role> roles) {
-        Iterator<Role> iter = roles.iterator();
-        while (iter.hasNext()) {
-            Role role = iter.next();
-            KimType type = systemAuthorizationService.getKimTypeInfoForRole(role);
-            // filter out derived roles and roles that are not based on Unit or workflow
-            if (StringUtils.startsWith(type.getName(), "Derived Role") || StringUtils.startsWith(type.getName(), "Default")) {
-                iter.remove();
-            }
-        }
+    /* 
+     * This method filters out derived roles and roles that are not based on Unit or workflow
+     */
+    protected boolean isAccessListRole(Role role) {
+        KimType type = systemAuthorizationService.getKimTypeInfoForRole(role);
+        return (!StringUtils.startsWith(type.getName(), "Derived Role") && !StringUtils.startsWith(type.getName(), "Default"));
     }
+    
 }
