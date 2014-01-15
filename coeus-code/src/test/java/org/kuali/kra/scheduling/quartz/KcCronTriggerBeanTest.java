@@ -19,6 +19,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -38,7 +39,7 @@ public class KcCronTriggerBeanTest {
     
     private static final String CRON_EXPRESSION = "1 3 22 * * ?";
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     /**
      * The KC Cron Trigger needs to be tested to simply verify that it is getting the

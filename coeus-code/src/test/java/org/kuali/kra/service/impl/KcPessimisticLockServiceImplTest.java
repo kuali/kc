@@ -19,6 +19,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +39,7 @@ public class KcPessimisticLockServiceImplTest {
 
     private static final long ONE_DAY = 24L * 60L * 60L * 1000L;
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     private List<PessimisticLock> locks;
     private Timestamp cronJobTime;

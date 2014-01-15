@@ -31,7 +31,6 @@ public class CertifyDisclosureRule extends ResearchDocumentRuleBase implements B
         boolean isValid = true;
 
 // TODO Implement any business rules for Disclosure Certification here...
-System.out.println("\nBusiness rules for Certification invoked...");        
         isValid &= GlobalVariables.getMessageMap().hasNoErrors();
         GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
         return isValid;

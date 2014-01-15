@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public class BudgetSubAwardServiceTest {
     
     @Before
     public void setUp() throws Exception {
-        context = new JUnit4Mockery();
+        context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
         service = new BudgetSubAwardServiceImpl();
         budget = new Budget();
         budget.setBudgetId(1L+12);

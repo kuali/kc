@@ -19,6 +19,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.bo.Organization;
@@ -36,7 +37,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JMock.class)
 public class OrganizationServiceTest {
 
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     private static final String ORGANIZATION_ID = "organizationId";
     private static final String ORGANIZATION_VALID_ID_VALUE = "000001";
     private static final String ORGANIZATION_INVALID_ID_VALUE = "100001";

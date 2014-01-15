@@ -33,11 +33,6 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
     @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-System.err.println("\nfieldValues = ");
-for (String key: fieldValues.keySet()) {
-  System.err.println("  key = " + key + ", value = " + fieldValues.get(key));
-}
-System.err.println("\n");
         List<LookupableDevelopmentProposal> unboundedResults = (List<LookupableDevelopmentProposal>) super.getSearchResultsUnbounded(fieldValues);
         List<LookupableDevelopmentProposal> filteredResults = filterForPermissions(unboundedResults);
         return filteredResults;

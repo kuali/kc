@@ -18,6 +18,7 @@ package org.kuali.kra.coi.personfinancialentity;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -52,7 +53,7 @@ public class FinancialEntityServiceTest {
     private static final Integer  SORT_ID_2= 2;
     private static final String  COMMENT_1= "Comment 1";
 
-    Mockery context = new JUnit4Mockery();
+    Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 
     @Before
     public void setUp() throws Exception {

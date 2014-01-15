@@ -19,6 +19,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +42,7 @@ public class ProtocolValuesFinderTest {
      * Is it  ok to add this test as part of MeetingWebTest, then it will make this much easier.
      */
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 
     @Test
     public void testGetKeyValues() throws Exception {

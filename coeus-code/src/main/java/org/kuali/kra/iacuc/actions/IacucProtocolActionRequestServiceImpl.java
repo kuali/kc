@@ -1323,7 +1323,6 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             boolean valid = applyRules(new IacucProtocolRequestEvent<IacucProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
             if (valid) {
                 // find recently submitted action request and complete it
-System.out.println("fetching the one that matters...");                
                 List<ProtocolSubmissionBase> submissions = protocol.getProtocolSubmissions();
                 ProtocolSubmissionBase submission = null;
                 for (ProtocolSubmissionBase sub: submissions) {

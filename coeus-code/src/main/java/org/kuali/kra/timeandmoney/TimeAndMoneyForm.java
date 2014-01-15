@@ -805,7 +805,6 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     
     public boolean getIsFieldInErrorList(String fieldName) {
         boolean returnValue = this.getFieldsInError().contains(fieldName);
-        System.err.println("getIsFieldInErrorList  fieldName: " + fieldName + "   returningL " + (returnValue));
         return returnValue;
     }
     

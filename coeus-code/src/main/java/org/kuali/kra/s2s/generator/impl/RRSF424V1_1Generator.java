@@ -437,7 +437,6 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
                 Collection<ArgValueLookup> argDescription = KraServiceLocator.getService(BusinessObjectService.class).findAll(ArgValueLookup.class);
                 if (argDescription != null) {
                     for (ArgValueLookup argValue : argDescription) {
-                        System.out.println(argValue.getValue());
                         if (argValue.getValue().equals(answerExplanation)) {
                             String description = argValue.getDescription();
                             String submissionExplanation = description.substring(5);

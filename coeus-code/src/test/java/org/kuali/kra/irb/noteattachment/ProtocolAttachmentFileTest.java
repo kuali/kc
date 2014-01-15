@@ -19,6 +19,7 @@ import org.apache.struts.upload.FormFile;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.bo.AttachmentFile;
@@ -33,7 +34,7 @@ import static org.hamcrest.core.Is.is;
  */
 public class ProtocolAttachmentFileTest {
 
-    Mockery context = new JUnit4Mockery();
+    Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     /**
      * Tests that the factory method works correctly with normal input.

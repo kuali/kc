@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
@@ -60,6 +61,7 @@ public class ProtocolRouteTest extends KcUnitTestBase {
     
     private Mockery context = new JUnit4Mockery() {{
         setImposteriser(ClassImposteriser.INSTANCE);
+        setThreadingPolicy(new Synchroniser());
     }};
     
     @Override
@@ -101,12 +103,7 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         WorkflowDocumentActionsService info = GlobalResourceLoader.getService("rice.kew.workflowDocumentActionsService");
         RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
         DocumentDetail results1 = info.executeSimulation(reportCriteriaBuilder.build());
-        for(ActionRequest actionRequest : results1.getActionRequests() ){
-            if(actionRequest.isPending() && actionRequest.getActionRequested().getCode().equalsIgnoreCase(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ)) {
-                System.out.println(actionRequest.getPrincipalId() + " | " + actionRequest.getGroupId());
-                System.out.println(actionRequest.getNodeName());
-            }
-        }
+
         assertTrue(workflowDoc.isFinal());
         
         //the status update is not happening within doRouteStatusChange anymore

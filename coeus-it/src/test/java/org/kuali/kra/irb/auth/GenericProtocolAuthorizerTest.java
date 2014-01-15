@@ -56,7 +56,6 @@ public class GenericProtocolAuthorizerTest extends KcUnitTestBase {
         protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
         auth.setKraAuthorizationService(kraAuthorizationService);
         auth.setProtocolActionService(protocolActionService);
-        //context = new JUnit4Mockery();
     }
 
     @After

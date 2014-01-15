@@ -18,6 +18,7 @@ package org.kuali.kra.common.notification.rules;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +50,7 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
     
     private NotificationTypeMaintenanceDocumentRule rule;
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     
     @Before
     public void setUp() throws Exception {

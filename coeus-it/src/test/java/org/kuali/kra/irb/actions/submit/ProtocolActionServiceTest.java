@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.submit;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
@@ -50,7 +51,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
 
     @Before
     public void setUp() {
-        context = new JUnit4Mockery();
+        context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
         protocol = getProtocol(context);
         protocolActionService = new ProtocolActionServiceImpl();
 

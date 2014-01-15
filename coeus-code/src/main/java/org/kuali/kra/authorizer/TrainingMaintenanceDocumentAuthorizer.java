@@ -34,7 +34,6 @@ public class TrainingMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
         
         boolean retVal =  getPermissionService().isAuthorized(user.getPrincipalId(), KC_SYS, PERMISSION_MAINTAIN_TRAINING, permissionDetails);
-        System.err.println("canInitiate: '" + retVal + "'");
         return retVal;
     }
     

@@ -20,6 +20,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +42,7 @@ import java.util.*;
 @RunWith(JMock.class)
 public class ResearchAreasServiceTest {
     
-    private Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     private static String RESEARCH_AREAS_04_CHILDREN="<h3>04.02 %3A Architecture %4A true</h3><h3>04.03 %3A CityUrban %4A true</h3><h3>04.04 %3A Environmental Design %4A true</h3><h3>04.05 %3A Interior Architecture %4A true</h3><h3>04.06 %3A Landscape Architecture %4A true</h3><h3>04.08 %3A Architectural History and Criticism %4A true</h3><h3>04.09 %3A Architectural TechnologyTechnician %4A true</h3><h3>04.99 %3A Architecture and Related Services %4A true</h3>";
     
 

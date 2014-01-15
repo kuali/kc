@@ -228,12 +228,9 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         List<FinancialEntityReporter> reporters = (List<FinancialEntityReporter>) businessObjectService.findMatching(
                 FinancialEntityReporter.class, fieldValues);
         if (reporters.isEmpty()) {
-            // TODO : temporary debug app double save issue
-            System.out.println("Save FE reporter person id " + personId);
             Object reporterSaved = GlobalVariables.getUserSession().retrieveObject("reporterSaved-"+GlobalVariables.getUserSession().getPrincipalName());
             if (reporterSaved == null) {
                 GlobalVariables.getUserSession().addObject("reporterSaved-"+GlobalVariables.getUserSession().getPrincipalName(),"saved");
-                System.out.println("Save FE reporter person id " + personId+" not saved ");
             }
             FinancialEntityReporter reporter = new FinancialEntityReporter();
             reporter.setFinancialEntityReporterUnits(new ArrayList<FinancialEntityReporterUnit>());
@@ -244,8 +241,6 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
                 reporter.getFinancialEntityReporterUnits().add(leadUnit);
             }
             if (reporterSaved == null) {
-                // TODO : temporary debug app double save issue
-                System.out.println("Save FE reporter person id " + personId+" save reporter ");
                 businessObjectService.save(reporter);
             }
             return reporter;

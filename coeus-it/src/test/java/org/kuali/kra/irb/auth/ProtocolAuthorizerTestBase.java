@@ -18,6 +18,7 @@ package org.kuali.kra.irb.auth;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.infrastructure.Constants;
@@ -46,7 +47,7 @@ public abstract class ProtocolAuthorizerTestBase extends KcUnitTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        context = new JUnit4Mockery();
+        context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     }
     
     @After
