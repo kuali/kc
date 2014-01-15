@@ -20,6 +20,7 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
@@ -60,6 +61,7 @@ public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
     }
     
     @Test
+    @Ignore // KCINFR-983
     public void testPerformActionsPermission() throws WorkflowException {
         CommitteeActionAuthorizer authorizer = new CommitteeActionAuthorizer();
         
