@@ -21,6 +21,6 @@
 		<kra-iacuc:protocolSummaryPanel />
 		<kra-iacuc:protocolSubmissionDetailsPanel />
 		<kra-iacuc:protocolViewHistory />
-		<kra-iacuc:protocolViewAmendmentHistory />
+<%--		<kra-iacuc:protocolViewAmendmentHistory />  --%>
     </div>	    
 </kul:tab>
