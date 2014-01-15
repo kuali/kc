@@ -42,6 +42,8 @@ public abstract class ProtocolSubmissionQuestionnaireHelper extends Questionnair
 
     @Override
     public abstract String getModuleCode();
+    
+    public abstract ProtocolModuleQuestionnaireBeanBase getBaseProtocolModuleQuestionnaireBean(String sequenceNumber);
 
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {

@@ -177,7 +177,7 @@ public abstract class QuestionnaireHelperBase implements Serializable {
         this.headerLabels = headerLabels;
     }
 
-    protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
+    public QuestionnaireAnswerService getQuestionnaireAnswerService() {
         if (questionnaireAnswerService == null) {
             questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         }
