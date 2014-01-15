@@ -18,6 +18,7 @@ package org.kuali.kra.questionnaire.print;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -47,6 +48,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
      * This method tests QuestionnairePrintingService. It generates Questionnaire report.
      */
     @Test
+    @Ignore //KCINFR-981
     public void testQuestionnairePrinting() {
         try {
             String docNumber = createQuestionnaireMaintDocument();
@@ -117,6 +119,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
      * This method tests QuestionnairePrintingService. It generates Questionnaire Answer report.
      */
     @Test
+    @Ignore //KCINFR-981
     public void testQuestionnaireAnswerPrinting() {
         try {
             Map<String, Object> reportParameters = new HashMap<String, Object>();

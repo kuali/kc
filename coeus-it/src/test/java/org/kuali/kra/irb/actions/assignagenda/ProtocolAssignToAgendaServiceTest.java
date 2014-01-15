@@ -225,19 +225,15 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         com.setCommitteeName(passedInCommitteeName);
         submission.setCommittee(com);
         
-        DocumentHeader documentHeader = new DocumentHeader();
-        documentHeader.setDocumentNumber("101");
-        documentHeader.setDocumentDescription("super cool description");
         CommitteeDocument cd = (CommitteeDocument) getDocumentService().getNewDocument(CommitteeDocument.class);
         cd.setCommittee(com);
         cd.setDocumentNumber("1");
-        cd.setDocumentHeader(documentHeader);
+        cd.getDocumentHeader().setDocumentDescription("super cool description");
         cd.setUpdateTimestamp(new Timestamp(20100305));
         cd.setUpdateUser("quickstart");
         cd.setVersionNumber(new Long(1));
         com.setCommitteeDocument(cd);
         
-        legacyDataAdapter.save(documentHeader);
         businessObjectService.save(cd);
         legacyDataAdapter.save(com);
         
@@ -281,21 +277,16 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         List<CommitteeSchedule> committeeSchedules = new ArrayList<CommitteeSchedule>();
         committeeSchedules.add(cs);
         com.setCommitteeSchedules(committeeSchedules);
-        
-        
-        DocumentHeader documentHeader = new DocumentHeader();
-        documentHeader.setDocumentNumber("101");
-        documentHeader.setDocumentDescription("super cool description");
-        CommitteeDocument cd = new CommitteeDocument();
+
+        CommitteeDocument cd = (CommitteeDocument) getDocumentService().getNewDocument(CommitteeDocument.class);
         cd.setCommittee(com);
         cd.setDocumentNumber("1");
-        cd.setDocumentHeader(documentHeader);
+        cd.getDocumentHeader().setDocumentDescription("super cool description");
         cd.setUpdateTimestamp(new Timestamp(20100305));
         cd.setUpdateUser("quickstart");
         cd.setVersionNumber(new Long(1));
         com.setCommitteeDocument(cd);
         
-        legacyDataAdapter.save(documentHeader);
         businessObjectService.save(cd);
         legacyDataAdapter.save(com);
         legacyDataAdapter.save(cs);

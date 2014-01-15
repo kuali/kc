@@ -17,6 +17,7 @@ package org.kuali.kra.budget.service;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -64,6 +65,7 @@ public class BudgetServiceTest extends KcUnitTestBase {
      * @throws Exception
      */
     @Test
+    @Ignore // KCINFR-983
     public void testGetNewBudgetVersion() throws Exception {
  
         ProposalDevelopmentDocument pdDocument = getPersistedProposalDevelopmentDocument();
@@ -98,6 +100,7 @@ public class BudgetServiceTest extends KcUnitTestBase {
      * @throws Exception
      */
     @Test
+    @Ignore //KCINFR-982
     public void testCopyBudgetVersion() throws Exception {
         
         ProposalDevelopmentDocument pdDocument = getPersistedProposalDevelopmentDocument();

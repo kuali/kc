@@ -179,6 +179,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         Calendar scheduleCalendar = getCalendar(schedule.getScheduledDate());
        // now.add(Calendar.DAY_OF_MONTH, committee.getAdvancedSubmissionDaysRequired());
         boolean dateRangeOK = now.compareTo(getCalendar(schedule.getProtocolSubDeadline())) <= 0;
+        schedule.refreshReferenceObject("scheduleStatus");
         boolean statusOK = "Scheduled".equals(schedule.getScheduleStatus().getDescription());
         return dateRangeOK && statusOK;
     }
