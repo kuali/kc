@@ -556,23 +556,19 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
-        this.questionnaireHelper = getProtocolSubmissionQuestionnaireHelperHook(getProtocol(), protocolActionTypeCode, submissionNumber == null ? null : submissionNumber.toString());
-        questionnaireHelper.populateAnswers();
-        ProtocolSubmissionBase submission = null;
-        /*            for (ProtocolActionBase action : this.getProtocol().getSortedActions()) {
-                if (action.getActionId() < this.actionId && action.getSubmissionNumber() != null) {
-                    submission = getSubmissionForAction(action.getSubmissionNumber());
-                }
-            }*/
-        if(ObjectUtils.isNotNull(protocolSubmission) && 
-                StringUtils.equals(protocolSubmission.getSubmissionStatusCode(),ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-            //add ZERO_SUBMODULE answer headers. These headers do not get picked up by populateAnswers() above.
-            ProtocolModuleQuestionnaireBeanBase protocolBaseQnBean = questionnaireHelper.getBaseProtocolModuleQuestionnaireBean(getSequenceNumber() == null ? null : getSequenceNumber().toString());
-            List<AnswerHeader> protocolAnswerHeaders = questionnaireHelper.getQuestionnaireAnswerService().getQuestionnaireAnswer(protocolBaseQnBean);
-            List<AnswerHeader> submissionAnswerHeaders = questionnaireHelper.getAnswerHeaders();
-            submissionAnswerHeaders.addAll(protocolAnswerHeaders);
-            questionnaireHelper.setAnswerHeaders(submissionAnswerHeaders);
-            questionnaireHelper.resetHeaderLabels();
+        if(questionnaireHelper == null) {
+            setQuestionnaireHelper(getProtocolSubmissionQuestionnaireHelperHook(getProtocol(), protocolActionTypeCode, submissionNumber == null ? null : submissionNumber.toString()));
+            getQuestionnaireHelper().populateAnswers();
+            if(ObjectUtils.isNotNull(protocolSubmission) && 
+                    StringUtils.equals(protocolSubmission.getSubmissionStatusCode(),ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+                //add ZERO_SUBMODULE answer headers. These headers do not get picked up by populateAnswers() above.
+                ProtocolModuleQuestionnaireBeanBase protocolBaseQnBean = getQuestionnaireHelper().getBaseProtocolModuleQuestionnaireBean(getSequenceNumber() == null ? null : getSequenceNumber().toString());
+                List<AnswerHeader> protocolAnswerHeaders = getQuestionnaireHelper().getQuestionnaireAnswerService().getQuestionnaireAnswer(protocolBaseQnBean);
+                List<AnswerHeader> submissionAnswerHeaders = getQuestionnaireHelper().getAnswerHeaders();
+                submissionAnswerHeaders.addAll(protocolAnswerHeaders);
+                getQuestionnaireHelper().setAnswerHeaders(submissionAnswerHeaders);
+                getQuestionnaireHelper().resetHeaderLabels();
+            }
         }
         return questionnaireHelper;
     }
