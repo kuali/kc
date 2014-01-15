@@ -92,7 +92,7 @@
         <org.eclipse.birt.runtime.version>4.3.1</org.eclipse.birt.runtime.version>
         <pdfbox.version>1.8.3</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.4.0-M3</rice.version>
+        <rice.version>2.4.0-M4-r44107</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.6.4</slf4j.version>
         <spring.version>3.2.3.RELEASE</spring.version>
