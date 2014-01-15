@@ -22,6 +22,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -67,7 +68,8 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
      * This method to test getSearchResults
      * @throws Exception
      */
-    @Test 
+    @Test
+    @Ignore //KCINFR-981
     public void testGetSearchResults() throws Exception {
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
@@ -111,6 +113,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
      * @throws Exception
      */
     @Test 
+    @Ignore //KCINFR-981
     public void testCustomActionUrlWithVIEW_QUESTIONNAIRE() throws Exception {
         final QuestionnaireAuthorizationService questionnaireAuthorizationService = context.mock(QuestionnaireAuthorizationService.class);
         questionnaireLookupableHelperServiceImpl.setQuestionnaireAuthorizationService(questionnaireAuthorizationService);
@@ -143,6 +146,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
      * @throws Exception
      */
     @Test 
+    @Ignore //KCINFR-981
     public void testCustomActionUrlWithMODIFY_QUESTIONNAIRE() throws Exception {
         final QuestionnaireAuthorizationService questionnaireAuthorizationService = context.mock(QuestionnaireAuthorizationService.class);
         questionnaireLookupableHelperServiceImpl.setQuestionnaireAuthorizationService(questionnaireAuthorizationService);
@@ -175,7 +179,8 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
      * This method to test getCustomActionUrls for someone with no permission to modify/view questionnaire.
      * @throws Exception
      */
-    @Test 
+    @Test
+    @Ignore //KCINFR-981
     public void testCustomActionUrlWithNoPermission() throws Exception {
         final QuestionnaireAuthorizationService questionnaireAuthorizationService = context.mock(QuestionnaireAuthorizationService.class);
         questionnaireLookupableHelperServiceImpl.setQuestionnaireAuthorizationService(questionnaireAuthorizationService);
