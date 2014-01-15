@@ -22,11 +22,15 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -133,5 +137,23 @@ public class ProtocolAction extends ProtocolActionBase {
     protected ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelperHook(ProtocolBase protocol, String actionTypeCode,
             String submissionNumber) {
         return new IrbSubmissionQuestionnaireHelper(protocol, actionTypeCode, submissionNumber, true);
-    }   
+    }
+    
+    @Override
+    public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
+        IrbSubmissionQuestionnaireHelper questionnaireHelper = (IrbSubmissionQuestionnaireHelper) super.getQuestionnaireHelper();
+        
+        if(StringUtils.equals(getProtocolActionTypeCode(),ProtocolActionType.SUBMIT_TO_IRB)) {
+            //add ZERO_SUBMODULE answer headers. These headers do not get picked up by populateAnswers() above.
+            ProtocolModuleQuestionnaireBeanBase protocolBaseQnBean = questionnaireHelper.getBaseProtocolModuleQuestionnaireBean(getSequenceNumber() == null ? null : getSequenceNumber().toString());
+            List<AnswerHeader> protocolAnswerHeaders = questionnaireHelper.getQuestionnaireAnswerService().getQuestionnaireAnswer(protocolBaseQnBean);
+            List<AnswerHeader> submissionAnswerHeaders = questionnaireHelper.getAnswerHeaders();
+            submissionAnswerHeaders.addAll(protocolAnswerHeaders);
+            questionnaireHelper.setAnswerHeaders(submissionAnswerHeaders);
+            questionnaireHelper.resetHeaderLabels();
+        }
+        
+        return questionnaireHelper;
+    }
+
 }

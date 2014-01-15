@@ -22,22 +22,17 @@ import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 /**
  * 
  * This class manages all the attributes needed to maintain a protocol action.
@@ -102,18 +97,18 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     public ProtocolActionBase(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolActionTypeCode) {
-        initializeProtocolAction(protocol, protocolActionTypeCode);
+        initializeProtocolAction(protocol, protocolSubmission, protocolActionTypeCode);
+    }
+
+    public ProtocolActionBase(ProtocolBase protocol, String protocolActionTypeCode) {
+        initializeProtocolAction(protocol, null, protocolActionTypeCode);
+    }
+    
+    protected void initializeProtocolAction(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolActionTypeCode) {
         if (protocolSubmission != null) {
             setSubmissionIdFk(protocolSubmission.getSubmissionId());
             setSubmissionNumber(protocolSubmission.getSubmissionNumber());
         }
-    }
-
-    public ProtocolActionBase(ProtocolBase protocol, String protocolActionTypeCode) {
-        initializeProtocolAction(protocol, protocolActionTypeCode);
-    }
-    
-    protected void initializeProtocolAction(ProtocolBase protocol, String protocolActionTypeCode) {
         setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
         setSequenceNumber(0);
@@ -124,6 +119,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         setProtocol(protocol);
         createUser = GlobalVariables.getUserSession().getPrincipalName();
         createTimestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
+
 //        createTimestamp = ((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp();
     }
     
@@ -556,20 +552,8 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
-        if(questionnaireHelper == null) {
-            setQuestionnaireHelper(getProtocolSubmissionQuestionnaireHelperHook(getProtocol(), protocolActionTypeCode, submissionNumber == null ? null : submissionNumber.toString()));
-            getQuestionnaireHelper().populateAnswers();
-            if(ObjectUtils.isNotNull(protocolSubmission) && 
-                    StringUtils.equals(protocolSubmission.getSubmissionStatusCode(),ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                //add ZERO_SUBMODULE answer headers. These headers do not get picked up by populateAnswers() above.
-                ProtocolModuleQuestionnaireBeanBase protocolBaseQnBean = getQuestionnaireHelper().getBaseProtocolModuleQuestionnaireBean(getSequenceNumber() == null ? null : getSequenceNumber().toString());
-                List<AnswerHeader> protocolAnswerHeaders = getQuestionnaireHelper().getQuestionnaireAnswerService().getQuestionnaireAnswer(protocolBaseQnBean);
-                List<AnswerHeader> submissionAnswerHeaders = getQuestionnaireHelper().getAnswerHeaders();
-                submissionAnswerHeaders.addAll(protocolAnswerHeaders);
-                getQuestionnaireHelper().setAnswerHeaders(submissionAnswerHeaders);
-                getQuestionnaireHelper().resetHeaderLabels();
-            }
-        }
+        setQuestionnaireHelper(getProtocolSubmissionQuestionnaireHelperHook(getProtocol(), protocolActionTypeCode, submissionNumber == null ? null : submissionNumber.toString()));
+        questionnaireHelper.populateAnswers();
         return questionnaireHelper;
     }
 
