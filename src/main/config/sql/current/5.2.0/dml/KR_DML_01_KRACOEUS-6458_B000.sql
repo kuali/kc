@@ -6,8 +6,8 @@ VALUES ('KC-PROTOCOL-DOC',SYS_GUID(),1, 'IRB Protocol Doc Level Nmspc' , 'Y', 'K
 -- Add new (permissionless) Aggregator role for Protocol Doc namespace
 INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
   VALUES(CONCAT('KC',KRIM_ROLE_ID_S.NEXTVAL), SYS_GUID(), 1, 'Protocol Aggregator', 'KC-PROTOCOL-DOC', 'Added to Document Qualified Role memberships for corresponding Role in KC-PROTOCOL namespace', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'), 'Y', sysdate)
-  /
-  
+/
+
 -- Add new (permissionless) Viewer role for Protocol Doc namespace
 INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
   VALUES(CONCAT('KC',KRIM_ROLE_ID_S.NEXTVAL), SYS_GUID(), 1, 'Protocol Viewer', 'KC-PROTOCOL-DOC', 'Added to Document Qualified Role memberships for corresponding Role in KC-PROTOCOL namespace', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'), 'Y', sysdate)
