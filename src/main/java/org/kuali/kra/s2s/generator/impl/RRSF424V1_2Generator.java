@@ -54,7 +54,9 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
@@ -152,13 +154,17 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 				BudgetDecimal totalCost = BudgetDecimal.ZERO;
 				// get modular budget amounts instead of budget detail amounts
 				for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-					totalDirectCost = totalDirectCost.add(budgetPeriod
-							.getBudgetModular().getTotalDirectCost());
-					for (BudgetModularIdc budgetModularIdc : budgetPeriod
-							.getBudgetModular().getBudgetModularIdcs()) {
-						fundsRequested = fundsRequested.add(budgetModularIdc
-								.getFundsRequested());
-					}
+	                if(budgetPeriod.getBudgetModular()==null){
+	                    getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.MODULAR_BUDGET_REQUIRED));
+	                }else{
+    					totalDirectCost = totalDirectCost.add(budgetPeriod
+    							.getBudgetModular().getTotalDirectCost());
+    					for (BudgetModularIdc budgetModularIdc : budgetPeriod
+    							.getBudgetModular().getBudgetModularIdcs()) {
+    						fundsRequested = fundsRequested.add(budgetModularIdc
+    								.getFundsRequested());
+    					}
+	                }
 				}
 				totalCost = totalCost.add(totalDirectCost);
 				totalCost = totalCost.add(fundsRequested);
