@@ -589,8 +589,7 @@
                             <phase>generate-resources</phase>
                             <configuration>
                                 <thirdPartyFilename>META-INF/THIRD-PARTY.txt</thirdPartyFilename>
-                                <artifactLicenseMapping>classpath:org/kuali/common/cm/license/THIRD-PARTY.properties
-                                </artifactLicenseMapping>
+                                <artifactLicenseMapping>classpath:org/kuali/common/cm/license/THIRD-PARTY.properties</artifactLicenseMapping>
                                 <useMissingFile>true</useMissingFile>
                                 <groupByLicense>true</groupByLicense>
                                 <deployMissingFile>false</deployMissingFile>
@@ -1352,6 +1351,12 @@
 
             <dependency>
                 <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-development-tools</artifactId>
+                <version>${rice.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-edl-impl</artifactId>
                 <version>${rice.version}</version>
             </dependency>
@@ -1458,6 +1463,12 @@
                         <artifactId>commons-codec</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-krad-development-tools</artifactId>
+                <version>${rice.version}</version>
             </dependency>
 
             <dependency>
@@ -1638,29 +1649,6 @@
 
 
     <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-development-tools</artifactId>
-                        <version>${rice.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-krad-development-tools</artifactId>
-                        <version>${rice.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
-        </profile>
-
         <profile>
             <id>oracle</id>
             <properties>

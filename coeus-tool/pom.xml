@@ -28,5 +28,10 @@
             <artifactId>coeus-code</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-development-tools</artifactId>
+        </dependency>
     </dependencies>
 </project>
