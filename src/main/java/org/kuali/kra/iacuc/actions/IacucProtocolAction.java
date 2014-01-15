@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.iacuc.actions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
@@ -26,6 +29,7 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.iacuc.questionnaire.IacucSubmissionQuestionnaireHelper;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -40,6 +44,9 @@ public class IacucProtocolAction extends ProtocolActionBase {
 
     private boolean createdSubmission;
     
+    private transient QuestionnairePrintOption questionnairePrintOption;
+
+    
     public IacucProtocolAction() {
     }
 
@@ -49,6 +56,70 @@ public class IacucProtocolAction extends ProtocolActionBase {
         
     public IacucProtocolAction(IacucProtocol protocol, String protocolActionTypeCode) {
         super(protocol, protocolActionTypeCode);
+    }
+    
+
+    public QuestionnairePrintOption getQuestionnairePrintOption() {
+        return questionnairePrintOption;
+    }
+
+    public void setQuestionnairePrintOption(QuestionnairePrintOption questionnairePrintOption) {
+        this.questionnairePrintOption = questionnairePrintOption;
+    }
+
+    public void setQuestionnairePrintOptionFromHelper(IacucActionHelper actionHelper) {
+        if (getSubmissionNumber() != null
+                && !IacucProtocolActionType.SUBMITTED_TO_IACUC.equals(getProtocolActionTypeCode())) {
+            if (getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+                setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
+                                getSubmissionNumber().toString(), CoeusSubModule.PROTOCOL_SUBMISSION));
+            }
+        } else if (IacucProtocolActionType.SUBMITTED_TO_IACUC.equals(getProtocolActionTypeCode())
+                && ("Submitted to IACUC").equals(getComments())) {
+            if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
+                setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
+                                getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL));
+
+            } else {
+                setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
+                                getInitialSequence(this, ""), CoeusSubModule.ZERO_SUBMODULE));
+            }
+        } else if (IacucProtocolActionType.SUBMITTED_TO_IACUC.equals(getProtocolActionTypeCode()) && StringUtils.isNotBlank(getComments())
+                                                            && (getComments().startsWith("Amendment-") || getComments().startsWith("Renewal-"))) {
+            String amendmentRenewalNumber = getAmendmentRenewalNumber(getComments());
+            setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber() + amendmentRenewalNumber, 
+                                        getInitialSequence(this, amendmentRenewalNumber), CoeusSubModule.AMENDMENT_RENEWAL));
+        }
+    }
+    
+    private QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode) {
+
+        if (!getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+            QuestionnairePrintOption qnPrintOption = new QuestionnairePrintOption();
+            qnPrintOption.setItemKey(itemKey);
+            qnPrintOption.setSubItemCode(subItemCode);
+            qnPrintOption.setSubItemKey(subItemKey);
+            return qnPrintOption;
+        } else {
+            return null;
+        }
+    }
+
+    /*
+     * get the sequence number of the protocol that the action initially created
+     */
+    private String getInitialSequence(IacucProtocolAction protocolAction, String amendmentRenewalNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber() + amendmentRenewalNumber);
+        if (StringUtils.isBlank(amendmentRenewalNumber)) {
+            fieldValues.put("actionId", protocolAction.getActionId().toString());
+        }
+        else {
+            fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber().toString());
+        }
+        fieldValues.put("protocolActionTypeCode", IacucProtocolActionType.SUBMITTED_TO_IACUC);
+        return ((List<IacucProtocolAction>) getBusinessObjectService().findMatchingOrderBy(IacucProtocolAction.class, fieldValues,
+                "protocolActionId", true)).get(0).getProtocol().getSequenceNumber().toString();
     }
 
     protected String getCoeusModule() {
