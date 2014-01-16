@@ -584,7 +584,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             for (Method method : methods) {
                 if (method.getName().equals("setProposalNumber")) {
                     method.invoke(object, proposalNumber);
-                } else if (isPropertyGetterMethod(method, methods)) {
+                } else if (isPropertyGetterMethod(method, methods)
+                        && !StringUtils.equals(method.getName(), "getProposalDocument")
+                        && !StringUtils.equals(method.getName(), "getDocumentHeader")) {
                     Object value = method.invoke(object);
                     if (value instanceof Collection) {
                         Collection c = (Collection) value;
