@@ -2117,7 +2117,7 @@ module of int tests -->
         <org.eclipse.birt.runtime.version>3.7.1</org.eclipse.birt.runtime.version>
         <pdfbox.version>1.7.1</pdfbox.version>
         <phs398modularbudget-1.2-gg.version>1.0.5</phs398modularbudget-1.2-gg.version>
-        <rice.version>2.3.3-r43589</rice.version>
+        <rice.version>2.3.3</rice.version>
         <servlet.version>2.5</servlet.version>
         <s2sform.version>1.2.1</s2sform.version>
         <sf424-2.1-gg.version>1.0</sf424-2.1-gg.version>
