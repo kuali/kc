@@ -156,6 +156,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 				for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 	                if(budgetPeriod.getBudgetModular()==null){
 	                    getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.MODULAR_BUDGET_REQUIRED));
+	                    break;
 	                }else{
     					totalDirectCost = totalDirectCost.add(budgetPeriod
     							.getBudgetModular().getTotalDirectCost());

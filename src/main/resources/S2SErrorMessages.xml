@@ -1668,6 +1668,12 @@
 		<Message>You must provide participant support costs when defining the number of participants.</Message>
 		<FixLink>budgetVersions</FixLink>
 	</Error>
+
+	<Error>
+ 		<MessageKey>s2s.budget.modularbudget.required</MessageKey> 
+ 		<Message>Complete Modular Budget in the Modular Budget tab for each budget period</Message> 
+  		<FixLink>budgetVersions</FixLink> 
+	</Error>
 	
 </S2SErrors>
 
