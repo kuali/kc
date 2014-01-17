@@ -15,18 +15,30 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
  * This class...
  */
+@Entity
+@Table(name = "CITIZENSHIP_TYPE_T")
 public class CitizenshipType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
-    private int citizenshipTypeCode;
+    @Id
+    @Column(name = "CITIZENSHIP_TYPE_CODE")
+    private Integer citizenshipTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "ACTIVE_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean active;
 
     /**
@@ -36,11 +48,11 @@ public class CitizenshipType extends KraPersistableBusinessObjectBase implements
         super();
     }
 
-    public int getCitizenshipTypeCode() {
+    public Integer getCitizenshipTypeCode() {
         return citizenshipTypeCode;
     }
 
-    public void setCitizenshipTypeCode(int citizenTypeCode) {
+    public void setCitizenshipTypeCode(Integer citizenTypeCode) {
         this.citizenshipTypeCode = citizenTypeCode;
     }
 

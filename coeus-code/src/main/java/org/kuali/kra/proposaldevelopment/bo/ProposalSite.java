@@ -15,23 +15,44 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 
 /**
  * This class represents a Proposal Site. It can either refer to an Organization, or to
  * a Rolodex entry.
  */
+@Entity
+@Table(name = "EPS_PROP_SITES")
+@IdClass(ProposalSite.ProposalSiteId.class)
 public class ProposalSite extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -1657749549230077805L;
 
-    // prroposal site types, see LOCATION_TYPE table 
+    // prroposal site types, see LOCATION_TYPE table  
     public static final int PROPOSAL_SITE_APPLICANT_ORGANIZATION = 1;
 
     public static final int PROPOSAL_SITE_PERFORMING_ORGANIZATION = 2;
@@ -40,22 +61,38 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
 
     public static final int PROPOSAL_SITE_PERFORMANCE_SITE = 4;
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "SITE_NUMBER")
     private Integer siteNumber;
 
+    @Column(name = "LOCATION_NAME", nullable = false)
     private String locationName;
 
+    @Column(name = "LOCATION_TYPE_CODE", nullable = false)
     private Integer locationTypeCode;
 
+    @Column(name = "ORGANIZATION_ID")
     private String organizationId;
 
+    @ManyToOne(targetEntity = Organization.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 
+    @Column(name = "ROLODEX_ID")
     private Integer rolodexId;
 
+    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ROLODEX_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 
+    @OneToMany(targetEntity = CongressionalDistrict.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "SITE_NUMBER", referencedColumnName = "SITE_NUMBER", insertable = false, updatable = false) })
+    @OrderBy("siteNumber")
     private List<CongressionalDistrict> congressionalDistricts;
 
     public ProposalSite() {
@@ -115,7 +152,7 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
     }
 
     public void setRolodexId(Integer rolodexId) {
-        // When the Rolodex entry changes, remove the congressional districts of the old Rolodex 
+        // When the Rolodex entry changes, remove the congressional districts of the old Rolodex  
         if (this.rolodexId != null && !this.rolodexId.equals(rolodexId)) {
             congressionalDistricts.clear();
         }
@@ -227,6 +264,56 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
             if (!StringUtils.isEmpty(defaultDistrict)) {
                 setDefaultCongressionalDistrictIdentifier(defaultDistrict);
             }
+        }
+    }
+
+    public static final class ProposalSiteId implements Serializable, Comparable<ProposalSiteId> {
+
+        private String proposalNumber;
+
+        private Integer siteNumber;
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public Integer getSiteNumber() {
+            return this.siteNumber;
+        }
+
+        public void setSiteNumber(Integer siteNumber) {
+            this.siteNumber = siteNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("siteNumber", this.siteNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalSiteId rhs = (ProposalSiteId) other;
+            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.siteNumber, rhs.siteNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.siteNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalSiteId other) {
+            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.siteNumber, other.siteNumber).toComparison();
         }
     }
 }

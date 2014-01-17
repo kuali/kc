@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.document;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import javax.persistence.*;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,31 +40,46 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.data.jpa.DisableVersioning;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.LegacyDetectionAdvice;
 import org.kuali.rice.krad.workflow.DocumentInitiator;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+@DisableVersioning
+@MappedSuperclass
+@AttributeOverride(name="documentNumber", column = @Column(name = "DOCUMENT_NUMBER",length=14) )
 public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
+
     private static final long serialVersionUID = -1879382692835231633L;
+
     private static final Log LOG = LogFactory.getLog(ResearchDocumentBase.class);
 
+    @Column(name = "UPDATE_USER")
     private String updateUser;
+
+    @Column(name = "UPDATE_TIMESTAMP")
     private Timestamp updateTimestamp;
+
+    @OneToMany(targetEntity = DocumentNextvalue.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
     private List<DocumentNextvalue> documentNextvalues;
+
+    @Transient
     private Map<String, CustomAttributeDocument> customAttributeDocuments;
+
+    @Transient
     private boolean viewOnly = false;
+
+    @Transient
     private transient PersonService personService;
 
     public ResearchDocumentBase() {
@@ -68,36 +88,51 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     }
 
     public void initialize() {
-
     }
 
     @Override
     public void prepareForSave() {
         super.prepareForSave();
         String updateUser = GlobalVariables.getUserSession().getPrincipalName();
-
         // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
         if (updateUser.length() > 60) {
             updateUser = updateUser.substring(0, 60);
         }
-
         setUpdateTimestamp((this.getService(DateTimeService.class)).getCurrentTimestamp());
         setUpdateUser(updateUser);
-
         //CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
         //customAttributeService.saveCustomAttributeValues(this);
-        if (this.getVersionNumber() == null) this.setVersionNumber(new Long(0));
-        
-        // Since we aren't doing optimistic locking, might need to update doc header's version number
-        //DocumentHeader dbDocHeader = (DocumentHeader) getService(LegacyDataAdapter.class).retrieve(this.getDocumentHeader());
-        //if (dbDocHeader != null) {
-        //    this.getDocumentHeader().setVersionNumber(dbDocHeader.getVersionNumber());
-        //}
+        if (this.getVersionNumber() == null) {
+            this.setVersionNumber(new Long(0));
+        }
+
+        documentHeader = KRADServiceLocatorWeb.getDocumentHeaderService().saveDocumentHeader(documentHeader);
     }
 
     @Override
-    public void processAfterRetrieve() {
-        super.processAfterRetrieve();
+    protected void prePersist() {
+        //do not call super to remove the call to  DocumentHeaderService.saveDocumentHeader(documentHeader)
+        if (StringUtils.isEmpty(getObjectId())) {
+            setObjectId(UUID.randomUUID().toString());
+        }
+    }
+
+    @Override
+    protected void postPersist() {
+        super.postPersist();
+        DocumentHeader temp = KRADServiceLocatorWeb.getDocumentHeaderService().getDocumentHeaderById(documentNumber);
+        if (temp != null && temp.getWorkflowDocument() != null) {
+            documentHeader = temp;
+        }
+    }
+
+    @Override
+    public void postProcessSave(KualiDocumentEvent event) {
+        super.postProcessSave(event);
+        DocumentHeader temp =  KRADServiceLocatorWeb.getDocumentHeaderService().getDocumentHeaderById(documentNumber);
+        if (temp != null && temp.getWorkflowDocument() != null) {
+            documentHeader = temp;
+        }
     }
 
     /**
@@ -108,19 +143,26 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     public void validateBusinessRules(KualiDocumentEvent event) {
         try {
             super.validateBusinessRules(event);
-        } catch(ValidationException e) {
-            LOG.error(String.format("ValidationException when validating event: %s. Check log entries preceding this error for details.", event.getName()));
+        } catch (ValidationException e) {
+            String errors = "";
+            for (Map.Entry<String, List<ErrorMessage>> entry : GlobalVariables.getMessageMap().getErrorMessages().entrySet()) {
+                for (ErrorMessage msg : entry.getValue()) {
+                    errors += entry.getKey() + "=" + msg.getErrorKey()  + (msg.getMessageParameters() != null ? Arrays.asList(msg.getMessageParameters()) : Collections.emptyList());
+                }
+            }
+
+            LOG.error(String.format("ValidationException when validating event: %s. Check log entries preceding this error for details. Errors: %s", event.getName(), errors));
             throw e;
         }
     }
 
     public void updateDocumentDescriptions(List<BudgetDocumentVersion> budgetVersionOverviews) {
         BudgetService budgetService = this.getService(BudgetService.class);
-        for (BudgetDocumentVersion budgetDocumentVersion: budgetVersionOverviews) {
+        for (BudgetDocumentVersion budgetDocumentVersion : budgetVersionOverviews) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             if (budgetVersion.isDescriptionUpdatable() && !StringUtils.isBlank(budgetVersion.getDocumentDescription())) {
                 budgetService.updateDocumentDescription(budgetVersion);
-                budgetVersion.setDescriptionUpdatable(false); // Only get one chance to set this
+                budgetVersion.setDescriptionUpdatable(false);
             }
         }
     }
@@ -135,12 +177,13 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         }
         return customAttributeDocuments;
     }
-    
+
     public abstract List<? extends DocumentCustomData> getDocumentCustomData();
 
     public Timestamp getUpdateTimestamp() {
         return updateTimestamp;
     }
+
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
     }
@@ -148,6 +191,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     public String getUpdateUser() {
         return updateUser;
     }
+
     public void setUpdateUser(String updateUser) {
         this.updateUser = updateUser;
     }
@@ -162,15 +206,15 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
 
     public Integer getDocumentNextValue(String propertyName) {
         Integer propNextValue = 1;
-        // search for property and get the latest number - increment for next call
+        // search for property and get the latest number - increment for next call 
         for (DocumentNextvalue documentNextvalue : documentNextvalues) {
-            if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
+            if (documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 propNextValue = documentNextvalue.getNextValue();
                 documentNextvalue.setNextValue(propNextValue + 1);
             }
         }
-        // property does not exist - set initial value and increment for next call
-        if(propNextValue == 1) {
+        // property does not exist - set initial value and increment for next call 
+        if (propNextValue == 1) {
             DocumentNextvalue documentNextvalue = new DocumentNextvalue();
             documentNextvalue.setNextValue(propNextValue + 1);
             documentNextvalue.setPropertyName(propertyName);
@@ -181,19 +225,19 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         return propNextValue;
     }
 
-    // TODO : this is for the attachment that save attachment only when click 'add
+    // TODO : this is for the attachment that save attachment only when click 'add 
     public DocumentNextvalue getDocumentNextvalueBo(String propertyName) {
         for (DocumentNextvalue documentNextvalue : documentNextvalues) {
-            if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
+            if (documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 return documentNextvalue;
             }
         }
-        // following should not happen because it already got the next value for this property before calling this for updating
+        // following should not happen because it already got the next value for this property before calling this for updating 
         DocumentNextvalue documentNextvalue = new DocumentNextvalue();
         documentNextvalue.setNextValue(1);
         documentNextvalue.setPropertyName(propertyName);
         return documentNextvalue;
-    } 
+    }
 
     /**
      * Sets the customAttributeDocuments attribute value.
@@ -210,7 +254,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     public CustomAttributeDocument getCustomAttributeDocument(String key) {
         return customAttributeDocuments.get(key);
     }
-    
+
     /**
      * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
      * 
@@ -223,13 +267,11 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         final Person initiatorUser = this.getPersonService().getPersonByPrincipalName(initiatorNetworkId);
         initiatior.setPerson(initiatorUser);
- 
         transInfo.setDocumentInitiator(initiatior);
-        
-        KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer(); 
-        xmlWrapper.setDocument(this); 
-        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo); 
-        return xmlWrapper; 
+        KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer();
+        xmlWrapper.setDocument(this);
+        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
+        return xmlWrapper;
     }
 
     /*
@@ -241,14 +283,12 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     @Override
     public String getCustomLockDescriptor(Person user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-       
         if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getDocumentBoNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName(); 
+            return this.getDocumentBoNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName();
         }
-
         return null;
     }
-    
+
     @Override
     public boolean useCustomLockDescriptors() {
         return true;
@@ -259,7 +299,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
      * Gets the proposalNumber, awardNumber, negotiationNumber etc.
      */
     public abstract String getDocumentBoNumber();
-    
+
     /**
      * Get the list of roles for the document along with each of the individuals in those roles.
      * This information will be serialized into XML for workflow routing purposes.  It is
@@ -269,8 +309,8 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
      */
     protected List<RolePersons> getAllRolePersons() {
         return new ArrayList<RolePersons>();
-    } 
-    
+    }
+
     /**
      * Lookups and returns a service class.  This method can be overriden for easier unit testing.
      * 
@@ -281,17 +321,17 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     protected <T> T getService(Class<T> serviceClass) {
         return KraServiceLocator.getService(serviceClass);
     }
-    
+
     public abstract String getDocumentTypeCode();
 
     public boolean isViewOnly() {
         return viewOnly;
     }
-    
+
     public void setViewOnly(boolean viewOnly) {
         this.viewOnly = viewOnly;
     }
-    
+
     /**
      * In documents that support it, this method should answer T/F for a SplitNode question
      * regarding routing.  The SimpleBooleanSplitNode will supply the route node name which implementations
@@ -311,39 +351,38 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
      * 
      */
     public boolean answerSplitNodeQuestion(String routeNodeName) throws Exception {
-       throw new UnsupportedOperationException( "Document does not support answerSplitNodeQuestion for routeNodeName:"+routeNodeName );   
+        throw new UnsupportedOperationException("Document does not support answerSplitNodeQuestion for routeNodeName:" + routeNodeName);
     }
-    
+
     /**
      * Looks up and returns the PersonService.
      * @return the person service. 
      */
     private PersonService getPersonService() {
         if (this.personService == null) {
-            this.personService = KraServiceLocator.getService(PersonService.class);        
+            this.personService = KraServiceLocator.getService(PersonService.class);
         }
         return this.personService;
     }
-    
-    //default implementation for the permissionable interface.
+
+    //default implementation for the permissionable interface. 
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
     }
 
     @Override
     public void toCopy() throws WorkflowException, IllegalStateException {
         super.toCopy();
-        //Temporary workaround for fixing budget notes OptimisticLockException due to auto-added copy notes
-        for(Note note : this.getNotes()) {
+        //Temporary workaround for fixing budget notes OptimisticLockException due to auto-added copy notes 
+        for (Note note : this.getNotes()) {
             note.setNoteIdentifier(null);
             note.setObjectId(null);
         }
-        //Temporary workaround ends here
     }
-    
+
     /**
      * Returns whether the post-processing is considered complete for this document.
      * @return true if the post-processing is complete, false otherwise
      */
-    // TODO : have NOT found a consistent indicator of whether a document route is processed or not, so this is a hack
+    // TODO : have NOT found a consistent indicator of whether a document route is processed or not, so this is a hack 
     public abstract boolean isProcessComplete();
 }

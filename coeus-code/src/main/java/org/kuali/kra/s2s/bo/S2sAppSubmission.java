@@ -15,33 +15,60 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
+import javax.persistence.*;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
+@Entity
+@Table(name = "S2S_APP_SUBMISSION")
+@IdClass(S2sAppSubmission.S2sAppSubmissionId.class)
 public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "SUBMISSION_NUMBER")
     private Integer submissionNumber;
 
+    @Column(name = "AGENCY_TRACKING_ID")
     private String agencyTrackingId;
 
+    @Column(name = "COMMENTS")
     private String comments;
 
+    @Column(name = "GG_TRACKING_ID")
     private String ggTrackingId;
 
+    @Column(name = "LAST_MODIFIED_DATE")
     private Timestamp lastModifiedDate;
 
+    @Column(name = "LAST_NOTIFIED_DATE")
     private Timestamp lastNotifiedDate;
 
+    @Column(name = "RECEIVED_DATE")
     private Timestamp receivedDate;
 
+    @Column(name = "STATUS")
     private String status;
 
-    private List<S2sApplication> s2sApplication;
+    @ManyToOne(targetEntity = S2sApplication.class, fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private S2sApplication s2sApplication;
 
+    @Transient
     private List<S2sAppAttachments> s2sAppAttachmentList;
 
     public String getProposalNumber() {
@@ -120,15 +147,15 @@ public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
      * Gets the s2sApplications attribute. 
      * @return Returns the s2sApplications.
      */
-    public List<S2sApplication> getS2sApplication() {
+    public S2sApplication getS2sApplication() {
         return s2sApplication;
     }
 
     /**
      * Sets the s2sApplications attribute value.
-     * @param applications The s2sApplications to set.
+     * @param s2sApplication The s2sApplications to set.
      */
-    public void setS2sApplication(List<S2sApplication> s2sApplication) {
+    public void setS2sApplication(S2sApplication s2sApplication) {
         this.s2sApplication = s2sApplication;
     }
 
@@ -137,14 +164,61 @@ public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
      * @return Returns the s2sAppAttachmentList.
      */
     public List<S2sAppAttachments> getS2sAppAttachmentList() {
+        if ((s2sAppAttachmentList == null || s2sAppAttachmentList.isEmpty()) && StringUtils.isNotBlank(proposalNumber)) {
+            s2sAppAttachmentList = (List<S2sAppAttachments>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+                    S2sAppAttachments.class, Collections.singletonMap("proposalNumber", proposalNumber));
+        }
+
         return s2sAppAttachmentList;
     }
 
-    /**
-     * Sets the s2sAppAttachmentList attribute value.
-     * @param appAttachmentList The s2sAppAttachmentList to set.
-     */
-    public void setS2sAppAttachmentList(List<S2sAppAttachments> appAttachmentList) {
-        s2sAppAttachmentList = appAttachmentList;
+    public static final class S2sAppSubmissionId implements Serializable, Comparable<S2sAppSubmissionId> {
+
+        private String proposalNumber;
+
+        private Integer submissionNumber;
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public Integer getSubmissionNumber() {
+            return this.submissionNumber;
+        }
+
+        public void setSubmissionNumber(Integer submissionNumber) {
+            this.submissionNumber = submissionNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("submissionNumber", this.submissionNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final S2sAppSubmissionId rhs = (S2sAppSubmissionId) other;
+            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.submissionNumber, rhs.submissionNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.submissionNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(S2sAppSubmissionId other) {
+            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.submissionNumber, other.submissionNumber).toComparison();
+        }
     }
 }

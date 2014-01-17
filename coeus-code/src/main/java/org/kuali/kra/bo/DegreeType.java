@@ -15,18 +15,29 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Class representation of the Degree Type Business Object
  *
  * $Id: DegreeType.java,v 1.2 2008-07-23 19:16:44 gmcgrego Exp $
  */
+@Entity
+@Table(name = "DEGREE_TYPE")
 public class DegreeType extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "DEGREE_CODE")
     private String degreeCode;
 
+    @Transient
     private Integer degreeLevel;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     /**

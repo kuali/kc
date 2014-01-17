@@ -15,24 +15,53 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
+@Entity
+@Table(name = "S2S_OPP_FORMS")
+@IdClass(S2sOppForms.S2sOppFormsId.class)
 public class S2sOppForms extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "OPP_NAME_SPACE")
     private String oppNameSpace;
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Column(name = "AVAILABLE")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean available;
 
+    @Column(name = "FORM_NAME")
     private String formName;
 
+    @Column(name = "INCLUDE")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean include;
 
+    @Column(name = "MANDATORY")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean mandatory;
 
+    @Transient
     private String schemaUrl;
 
+    @Transient
     private Boolean selectToPrint;
 
     public String getOppNameSpace() {
@@ -97,5 +126,55 @@ public class S2sOppForms extends KraPersistableBusinessObjectBase {
 
     public void setSelectToPrint(Boolean selectToPrint) {
         this.selectToPrint = selectToPrint;
+    }
+
+    public static final class S2sOppFormsId implements Serializable, Comparable<S2sOppFormsId> {
+
+        private String oppNameSpace;
+
+        private String proposalNumber;
+
+        public String getOppNameSpace() {
+            return this.oppNameSpace;
+        }
+
+        public void setOppNameSpace(String oppNameSpace) {
+            this.oppNameSpace = oppNameSpace;
+        }
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("oppNameSpace", this.oppNameSpace).append("proposalNumber", this.proposalNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final S2sOppFormsId rhs = (S2sOppFormsId) other;
+            return new EqualsBuilder().append(this.oppNameSpace, rhs.oppNameSpace).append(this.proposalNumber, rhs.proposalNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.oppNameSpace).append(this.proposalNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(S2sOppFormsId other) {
+            return new CompareToBuilder().append(this.oppNameSpace, other.oppNameSpace).append(this.proposalNumber, other.proposalNumber).toComparison();
+        }
     }
 }

@@ -15,28 +15,59 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-
+import java.io.Serializable;
 import java.sql.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kra.bo.Organization;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.data.jpa.converters.KualiDecimalConverter;
 
+@Entity
+@Table(name = "ORGANIZATION_IDC")
+@IdClass(OrganizationIndirectcost.OrganizationIndirectcostId.class)
 public class OrganizationIndirectcost extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "IDC_NUMBER")
     private Integer idcNumber;
 
+    @Id
+    @Column(name = "ORGANIZATION_ID")
     private String organizationId;
 
+    @Column(name = "APPLICABLE_IDC_RATE")
+    @Convert(converter = KualiDecimalConverter.class)
     private KualiDecimal applicableIndirectcostRate;
 
+    @Column(name = "END_DATE")
     private Date endDate;
 
+    @Column(name = "IDC_COMMENT")
     private String idcComment;
 
+    @Column(name = "IDC_RATE_TYPE_CODE")
     private Integer idcRateTypeCode;
 
+    @Column(name = "REQUESTED_DATE")
     private Date requestedDate;
 
+    @Column(name = "START_DATE")
     private Date startDate;
 
+    @ManyToOne(targetEntity = Organization.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 
     public OrganizationIndirectcost() {
@@ -113,5 +144,55 @@ public class OrganizationIndirectcost extends KraPersistableBusinessObjectBase {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public static final class OrganizationIndirectcostId implements Serializable, Comparable<OrganizationIndirectcostId> {
+
+        private Integer idcNumber;
+
+        private String organizationId;
+
+        public Integer getIdcNumber() {
+            return this.idcNumber;
+        }
+
+        public void setIdcNumber(Integer idcNumber) {
+            this.idcNumber = idcNumber;
+        }
+
+        public String getOrganizationId() {
+            return this.organizationId;
+        }
+
+        public void setOrganizationId(String organizationId) {
+            this.organizationId = organizationId;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("idcNumber", this.idcNumber).append("organizationId", this.organizationId).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final OrganizationIndirectcostId rhs = (OrganizationIndirectcostId) other;
+            return new EqualsBuilder().append(this.idcNumber, rhs.idcNumber).append(this.organizationId, rhs.organizationId).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.idcNumber).append(this.organizationId).toHashCode();
+        }
+
+        @Override
+        public int compareTo(OrganizationIndirectcostId other) {
+            return new CompareToBuilder().append(this.idcNumber, other.idcNumber).append(this.organizationId, other.organizationId).toComparison();
+        }
     }
 }

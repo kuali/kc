@@ -125,7 +125,7 @@
             <foreignkey field-ref="coiDisclosureId"/>
         </reference-descriptor>
         <!-- don't auto delete file as there may be other versions of COI attached to this file. -->
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="false"> 
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="false">
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		<reference-descriptor name="financialEntity" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="true" auto-update="none" auto-delete="false">
@@ -728,7 +728,7 @@
             <foreignkey field-ref="financialEntityId"/>
         </reference-descriptor>
         
-        <reference-descriptor name="attachmentFile" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+        <reference-descriptor name="attachmentFile" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
         

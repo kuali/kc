@@ -15,9 +15,25 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.data.jpa.converters.KualiDecimalConverter;
 
 /**
  * Class representation of the Proposal Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
@@ -25,20 +41,36 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * @author $Id: ProposalUnitCreditSplit.java,v 1.8 2008-07-28 14:48:12 vsoni Exp $
  * @version $Revision: 1.8 $
  */
+@Entity
+@Table(name = "EPS_PROP_UNIT_CREDIT_SPLIT")
+@IdClass(ProposalUnitCreditSplit.ProposalUnitCreditSplitId.class)
 public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit {
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "PROP_PERSON_NUMBER")
     private Integer proposalPersonNumber;
 
+    @Id
+    @Column(name = "UNIT_NUMBER")
     private String unitNumber;
 
+    @Id
+    @Column(name = "INV_CREDIT_TYPE_CODE")
     private String invCreditTypeCode;
 
+    @Column(name = "CREDIT")
+    @Convert(converter = KualiDecimalConverter.class)
     private KualiDecimal credit;
 
+    @Transient
     private Unit unit;
 
+    @ManyToOne(targetEntity = InvestigatorCreditType.class)
+    @JoinColumn(name = "INV_CREDIT_TYPE_CODE", referencedColumnName = "INV_CREDIT_TYPE_CODE", insertable = false, updatable = false)
     private InvestigatorCreditType investigatorCreditType;
 
     /**
@@ -160,5 +192,75 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
 
     public Unit getUnit() {
         return unit;
+    }
+
+    public static final class ProposalUnitCreditSplitId implements Serializable, Comparable<ProposalUnitCreditSplitId> {
+
+        private Integer proposalPersonNumber;
+
+        private String proposalNumber;
+
+        private String invCreditTypeCode;
+
+        private String unitNumber;
+
+        public Integer getProposalPersonNumber() {
+            return this.proposalPersonNumber;
+        }
+
+        public void setProposalPersonNumber(Integer proposalPersonNumber) {
+            this.proposalPersonNumber = proposalPersonNumber;
+        }
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public String getInvCreditTypeCode() {
+            return this.invCreditTypeCode;
+        }
+
+        public void setInvCreditTypeCode(String invCreditTypeCode) {
+            this.invCreditTypeCode = invCreditTypeCode;
+        }
+
+        public String getUnitNumber() {
+            return this.unitNumber;
+        }
+
+        public void setUnitNumber(String unitNumber) {
+            this.unitNumber = unitNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalPersonNumber", this.proposalPersonNumber).append("proposalNumber", this.proposalNumber).append("invCreditTypeCode", this.invCreditTypeCode).append("unitNumber", this.unitNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalUnitCreditSplitId rhs = (ProposalUnitCreditSplitId) other;
+            return new EqualsBuilder().append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.proposalNumber, rhs.proposalNumber).append(this.invCreditTypeCode, rhs.invCreditTypeCode).append(this.unitNumber, rhs.unitNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalPersonNumber).append(this.proposalNumber).append(this.invCreditTypeCode).append(this.unitNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalUnitCreditSplitId other) {
+            return new CompareToBuilder().append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.proposalNumber, other.proposalNumber).append(this.invCreditTypeCode, other.invCreditTypeCode).append(this.unitNumber, other.unitNumber).toComparison();
+        }
     }
 }

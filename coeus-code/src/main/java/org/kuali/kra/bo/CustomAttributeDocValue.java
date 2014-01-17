@@ -15,19 +15,43 @@
  */
 package org.kuali.kra.bo;
 
+import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kra.bo.CustomAttribute;
 
 /**
  * 
  * This class is bo of CustomAttributeDocValue.
  */
+@Entity
+@Table(name = "CUSTOM_ATTRIBUTE_DOC_VALUE")
+@IdClass(CustomAttributeDocValue.CustomAttributeDocValueId.class)
 public class CustomAttributeDocValue extends KraPersistableBusinessObjectBase implements DocumentCustomData {
 
+    @Id
+    @Column(name = "CUSTOM_ATTRIBUTE_ID")
     private Long customAttributeId;
 
+    @Id
+    @Column(name = "DOCUMENT_NUMBER")
     private String documentNumber;
 
+    @Column(name = "VALUE")
     private String value;
 
+    @ManyToOne(targetEntity = CustomAttribute.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "CUSTOM_ATTRIBUTE_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     private CustomAttribute customAttribute;
 
     public CustomAttributeDocValue() {
@@ -72,5 +96,55 @@ public class CustomAttributeDocValue extends KraPersistableBusinessObjectBase im
      */
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
+    }
+
+    public static final class CustomAttributeDocValueId implements Serializable, Comparable<CustomAttributeDocValueId> {
+
+        private String documentNumber;
+
+        private Long customAttributeId;
+
+        public String getDocumentNumber() {
+            return this.documentNumber;
+        }
+
+        public void setDocumentNumber(String documentNumber) {
+            this.documentNumber = documentNumber;
+        }
+
+        public Long getCustomAttributeId() {
+            return this.customAttributeId;
+        }
+
+        public void setCustomAttributeId(Long customAttributeId) {
+            this.customAttributeId = customAttributeId;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("documentNumber", this.documentNumber).append("customAttributeId", this.customAttributeId).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final CustomAttributeDocValueId rhs = (CustomAttributeDocValueId) other;
+            return new EqualsBuilder().append(this.documentNumber, rhs.documentNumber).append(this.customAttributeId, rhs.customAttributeId).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.documentNumber).append(this.customAttributeId).toHashCode();
+        }
+
+        @Override
+        public int compareTo(CustomAttributeDocValueId other) {
+            return new CompareToBuilder().append(this.documentNumber, other.documentNumber).append(this.customAttributeId, other.customAttributeId).toComparison();
+        }
     }
 }

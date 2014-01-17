@@ -94,7 +94,8 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
     public void testInvalidAbstractType() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         ProposalAbstract proposalAbstract = new ProposalAbstract();
-        proposalAbstract.setAbstractTypeCode("20");
+        proposalAbstract.setAbstractTypeCode("FOO_JUNK");
+
         assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
         
         List errors = GlobalVariables.getMessageMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);

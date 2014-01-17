@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +41,7 @@ import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -48,6 +50,7 @@ import java.util.List;
 
 public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
     
+    private DataObjectService dataObjectService;
     private BusinessObjectService businessObjectService;
     private QuestionnaireAnswerService questionnaireAnswerService;
     private DocumentService documentService;
@@ -65,6 +68,7 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
+        dataObjectService = KraServiceLocator.getService(DataObjectService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         documentService = KraServiceLocator.getService(DocumentService.class);
@@ -79,7 +83,7 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
 
     @After
     public void tearDown() throws Exception {
-        businessObjectService = null;
+        dataObjectService = null;
         questionnaireAnswerService  = null;
 
         documentService = null;
@@ -97,8 +101,8 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001", "000120");
-        
-        documentService.saveDocument(document);
+
+        document = (ProposalDevelopmentDocument) documentService.saveDocument(document);
         
         if (document.getDevelopmentProposal().getProposalPersons().isEmpty()) {
             KcPerson person = KraServiceLocator.getService(KcPersonService.class).getKcPersonByUserName("quickstart");
@@ -107,7 +111,9 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
             pp.setDevelopmentProposal(document.getDevelopmentProposal());
             pp.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
             pp.setProposalPersonNumber(new Integer(0));
-            ProposalPersonRole role = (ProposalPersonRole)this.businessObjectService.findAll(ProposalPersonRole.class).iterator().next();
+            pp.setDevelopmentProposal(document.getDevelopmentProposal());
+
+            ProposalPersonRole role = (ProposalPersonRole)this.dataObjectService.findMatching(ProposalPersonRole.class, org.kuali.rice.core.api.criteria.QueryByCriteria.Builder.create().build()).getResults().iterator().next();
             pp.setRole(role);
             pp.setProposalPersonRoleId(role.getRoleCode());
             pp.setOptInUnitStatus("Y");
@@ -115,6 +121,8 @@ public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
             pp.setUserName(person.getUserName());
             pp.setLastName(person.getLastName());
             pp.setFullName(person.getFullName());
+
+            this.dataObjectService.save(pp);
             document.getDevelopmentProposal().getProposalPersons().add(pp);
         }
 

@@ -455,16 +455,6 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
         }
     }
 
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
-        if (ObjectUtils.isNull(this.getVersionNumber())) {
-            this.setVersionNumber(new Long(0));
-        }
-    }
-    
-    
-    
     /*
      * Initialize protocol location.
      * Add default organization.

@@ -21,6 +21,8 @@
         <ref bean="DocumentNextvalue-propertyName" />
         <ref bean="DocumentNextvalue-documentKey" />
         <ref bean="DocumentNextvalue-nextValue" />
+        <ref bean="DocumentNextvalue-updateUser"/>
+        <ref bean="DocumentNextvalue-updateTimestamp"/>
       </list>
     </property>
   </bean>
@@ -82,6 +84,17 @@
     <property name="summary" value="Next Value" />
     <property name="description" value="Next Value" />
   </bean>
+
+    <bean id="DocumentNextvalue-updateUser" parent="DocumentNextvalue-updateUser-parentBean" />
+
+    <bean id="DocumentNextvalue-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser">
+        <property name="description" value="The user who created or last modified the Document Next Value." />
+    </bean>
+    <bean id="DocumentNextvalue-updateTimestamp" parent="DocumentNextvalue-updateTimestamp-parentBean" />
+
+    <bean id="DocumentNextvalue-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
+        <property name="description" value="The timestamp when the Document Next Value was created or last modified." />
+    </bean>
 
 <!-- Business Object Inquiry Definition -->
 

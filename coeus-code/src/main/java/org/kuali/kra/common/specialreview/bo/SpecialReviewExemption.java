@@ -15,18 +15,26 @@
  */
 package org.kuali.kra.common.specialreview.bo;
 
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * Defines the base class for the Special Review Exemption business object for all modules.
  */
+@MappedSuperclass
 public abstract class SpecialReviewExemption extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -3039637933149436453L;
 
+    @Column(name = "EXEMPTION_TYPE_CODE")
     private String exemptionTypeCode;
 
+    @ManyToOne(targetEntity = ExemptionType.class)
+    @JoinColumn(name = "EXEMPTION_TYPE_CODE", referencedColumnName = "EXEMPTION_TYPE_CODE", insertable = false, updatable = false)
     private ExemptionType exemptionType;
 
     public String getExemptionTypeCode() {

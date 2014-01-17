@@ -15,11 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * The Proposal State represents the current state of a proposal.
  */
+@Entity
+@Table(name = "PROPOSAL_STATE")
 public class ProposalState extends KraPersistableBusinessObjectBase {
 
     public static final String IN_PROGRESS = "1";
@@ -48,8 +54,11 @@ public class ProposalState extends KraPersistableBusinessObjectBase {
 
     public static final String APPROVED = "13";
 
+    @Id
+    @Column(name = "STATE_TYPE_CODE")
     private String stateTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     /**

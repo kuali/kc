@@ -49,7 +49,6 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
     
     private DocumentService documentService;
     private VersioningService versioningService;
-    private ProtocolDocument ver1;
 
     @Override
     public void setUp() throws Exception {
@@ -58,7 +57,6 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
        GlobalVariables.setMessageMap(new MessageMap());
        KNSGlobalVariables.setAuditErrorMap(new HashMap());
        locateServices();
-       ver1 = ProtocolFactory.createProtocolDocument();
     }
     
     /**
@@ -69,6 +67,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
      */
     @Test
     public void test_basic_versioning() throws Exception {
+        ProtocolDocument ver1 = ProtocolFactory.createProtocolDocument();
         assertIsVersioned(ver1, createAndSaveVersion(ver1));
     }
     
@@ -79,6 +78,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
      */
     @Test
     public void test_many_associates_versioning() throws Exception {
+        ProtocolDocument ver1 = ProtocolFactory.createProtocolDocument();
         List<ProtocolLocationBase> locations = new ArrayList<ProtocolLocationBase>();
         
         ProtocolLocation location = new ProtocolLocation();
@@ -94,7 +94,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
         locations.add(location2);
         
         ver1.getProtocol().setProtocolLocations(locations);
-        documentService.saveDocument(ver1);
+        ver1 = (ProtocolDocument) documentService.saveDocument(ver1);
         
         ProtocolDocument ver2 = createAndSaveVersion(ver1);
         
@@ -110,9 +110,11 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
      */
     @Test
     public void test_many_separate_sequenced_associates_version_protocol_only() throws Exception {
-        ver1.getProtocol().addAttachmentsByType(createAttachment1());
-        ver1.getProtocol().addAttachmentsByType(createAttachment2());
-        documentService.saveDocument(ver1);
+        ProtocolDocument ver1 = ProtocolFactory.createProtocolDocument();
+
+        ver1.getProtocol().addAttachmentsByType(createAttachment1(ver1));
+        ver1.getProtocol().addAttachmentsByType(createAttachment2(ver1));
+        ver1 = (ProtocolDocument) documentService.saveDocument(ver1);
         
         ProtocolDocument ver2 = createAndSaveVersion(ver1);
         assertIsVersioned(ver1, ver2);
@@ -132,9 +134,11 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
      */
     @Test
     public void test_separate_sequenced_associate_version() throws Exception {
-        ProtocolAttachmentProtocol attachment1 = createAttachment1();
+        ProtocolDocument ver1 = ProtocolFactory.createProtocolDocument();
+
+        ProtocolAttachmentProtocol attachment1 = createAttachment1(ver1);
         ver1.getProtocol().addAttachmentsByType(attachment1);
-        documentService.saveDocument(ver1);
+        ver1 = (ProtocolDocument) documentService.saveDocument(ver1);
         
         ProtocolDocument ver2 = createAndSaveVersion(ver1);
         assertIsVersioned(ver1, ver2);
@@ -146,7 +150,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
         assertIsVersioned(oldVersion, newVersion);
     }
     
-    private ProtocolAttachmentProtocol createAttachment1() {
+    private ProtocolAttachmentProtocol createAttachment1(ProtocolDocument ver1) {
         ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol(ver1.getProtocol());
         attachment.setTypeCode("1");
         attachment.setDocumentId(1);
@@ -155,7 +159,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
         return attachment;
     }
     
-    private ProtocolAttachmentProtocol createAttachment2() {
+    private ProtocolAttachmentProtocol createAttachment2(ProtocolDocument ver1) {
         ProtocolAttachmentProtocol attachment2 = new ProtocolAttachmentProtocol(ver1.getProtocol());
         attachment2.setTypeCode("2");
         attachment2.setDocumentId(1);      
@@ -177,8 +181,8 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
         protocolDocument.getDocumentHeader().setDocumentDescription("A new version");
         protocolDocument.setDocumentNextvalues(new ArrayList<DocumentNextvalue>());
         protocolDocument.setProtocol(newVersion);
-            
-        documentService.saveDocument(protocolDocument);
+
+        protocolDocument = (ProtocolDocument) documentService.saveDocument(protocolDocument);
         
         
         return protocolDocument;

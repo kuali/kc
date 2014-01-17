@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -24,16 +28,24 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * @version $Revision: 1.4 $
  */
+@Entity
+@Table(name = "NARRATIVE_TYPE")
 public class NarrativeType extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "NARRATIVE_TYPE_CODE")
     private String narrativeTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "SYSTEM_GENERATED")
     private String systemGenerated;
 
+    @Column(name = "ALLOW_MULTIPLE")
     private String allowMultiple;
 
+    @Column(name = "NARRATIVE_TYPE_GROUP")
     private String narrativeTypeGroup;
 
     public String getAllowMultiple() {
@@ -81,7 +93,8 @@ public class NarrativeType extends KraPersistableBusinessObjectBase {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
-        if (obj == this) return true;
+        if (obj == this)
+            return true;
         if (obj instanceof NarrativeType) {
             NarrativeType other = (NarrativeType) obj;
             return StringUtils.equals(this.narrativeTypeCode, other.narrativeTypeCode) && StringUtils.equals(this.description, other.description) && StringUtils.equals(this.systemGenerated, other.systemGenerated) && StringUtils.equals(this.allowMultiple, other.allowMultiple) && StringUtils.equals(this.narrativeTypeGroup, other.narrativeTypeGroup);

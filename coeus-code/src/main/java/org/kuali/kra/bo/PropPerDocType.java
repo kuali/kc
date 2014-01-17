@@ -15,11 +15,20 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "EPS_PROP_PER_DOC_TYPE")
 public class PropPerDocType extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "DOCUMENT_TYPE_CODE")
     private String documentTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public String getDocumentTypeCode() {

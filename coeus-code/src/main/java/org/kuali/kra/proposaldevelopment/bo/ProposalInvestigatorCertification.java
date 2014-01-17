@@ -15,9 +15,20 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
+import java.io.Serializable;
 import java.sql.Date;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
  * Represents the Proposal Investigator Certification <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
@@ -27,16 +38,27 @@ import java.sql.Date;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $
  */
+@Entity
+@Table(name = "PROPOSAL_INV_CERTIFICATION")
+@IdClass(ProposalInvestigatorCertification.ProposalInvestigatorCertificationId.class)
 public class ProposalInvestigatorCertification extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "PROP_PERSON_NUMBER")
     private Integer proposalPersonNumber;
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Column(name = "CERTIFIED_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean certified;
 
+    @Column(name = "DATE_CERTIFIED")
     private Date dateCertified;
 
+    @Column(name = "DATE_RECEIVED_BY_OSP")
     private Date dateReceivedByOsp;
 
     /**
@@ -127,5 +149,55 @@ public class ProposalInvestigatorCertification extends KraPersistableBusinessObj
      */
     public final void setDateReceivedByOsp(Date argDateReceivedByOsp) {
         this.dateReceivedByOsp = argDateReceivedByOsp;
+    }
+
+    public static final class ProposalInvestigatorCertificationId implements Serializable, Comparable<ProposalInvestigatorCertificationId> {
+
+        private Integer proposalPersonNumber;
+
+        private String proposalNumber;
+
+        public Integer getProposalPersonNumber() {
+            return this.proposalPersonNumber;
+        }
+
+        public void setProposalPersonNumber(Integer proposalPersonNumber) {
+            this.proposalPersonNumber = proposalPersonNumber;
+        }
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalPersonNumber", this.proposalPersonNumber).append("proposalNumber", this.proposalNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalInvestigatorCertificationId rhs = (ProposalInvestigatorCertificationId) other;
+            return new EqualsBuilder().append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.proposalNumber, rhs.proposalNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalPersonNumber).append(this.proposalNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalInvestigatorCertificationId other) {
+            return new CompareToBuilder().append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.proposalNumber, other.proposalNumber).toComparison();
+        }
     }
 }

@@ -15,14 +15,23 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Class representation of a Notice of Opportunity Business Object
  */
+@Entity
+@Table(name = "NOTICE_OF_OPPORTUNITY")
 public class NoticeOfOpportunity extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "NOTICE_OF_OPPORTUNITY_CODE")
     private String noticeOfOpportunityCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     /**

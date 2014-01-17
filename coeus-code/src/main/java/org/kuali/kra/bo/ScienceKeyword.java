@@ -15,7 +15,13 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "SCIENCE_KEYWORD")
 public class ScienceKeyword extends KraPersistableBusinessObjectBase {
 
     /**
@@ -23,8 +29,11 @@ public class ScienceKeyword extends KraPersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = 7064465474079964486L;
 
+    @Id
+    @Column(name = "SCIENCE_KEYWORD_CODE")
     private String scienceKeywordCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public String getDescription() {

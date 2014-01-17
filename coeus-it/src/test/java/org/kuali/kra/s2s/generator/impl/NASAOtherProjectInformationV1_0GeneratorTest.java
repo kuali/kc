@@ -25,8 +25,12 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
+import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -66,6 +70,10 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         person.setOptInCertificationStatus("Y");
         person.setOptInUnitStatus("Y");
         person.setProposalPersonNumber(1000);
+        person.setDevelopmentProposal(document.getDevelopmentProposal());
+        person.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        saveBO(person);
+
         List<ProposalPerson> perList = new ArrayList<ProposalPerson>();
         perList.add(person);
         List<ProposalYnq> proList = new ArrayList<ProposalYnq>();
@@ -74,11 +82,14 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
         NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
-        File file = new File(S2STestConstants.ATT_DIR_PATH + "exercise5.pdf");
-        InputStream inStream = new FileInputStream(file);
+        DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+        Resource resource = resourceLoader.getResource(S2STestConstants.ATT_PACKAGE + "/exercise5.pdf");
+        InputStream inStream = resource.getInputStream();
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setNarrativeData(narrativePdf);
+        narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        narrativeAttachment.setModuleNumber(1);
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
         narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
@@ -90,8 +101,13 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         narrative.setObjectId("12345678890abcd");
         narrative.setFileName("exercise5");
         NarrativeType narrativeType = new NarrativeType();
+        narrativeType.setNarrativeTypeCode("1");
+        narrativeType.setAllowMultiple("Y");
+        narrativeType.setSystemGenerated("N");
         narrativeType.setDescription("Testing for Project Attachment");
+        getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);
+        narrative.setNarrativeTypeCode("1");
         naList.add(narrative);
         document.getDevelopmentProposal().setNarratives(naList);
         

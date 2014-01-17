@@ -15,20 +15,36 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
  * This class models the UnitAdministratorType
  */
+@Entity
+@Table(name = "UNIT_ADMINISTRATOR_TYPE")
 public class UnitAdministratorType extends KraPersistableBusinessObjectBase implements ContactRole {
 
     public static final String ADMINISTRATIVE_OFFICER_TYPE_CODE = "1";
+
     public static final String OSP_ADMINISTRATOR_TYPE_CODE = "2";
+
     public static final String UNIT_HEAD_TYPE_CODE = "3";
+
     public static final String DEAN_VP_TYPE_CODE = "4";
+
     public static final String OTHER_INDIVIDUAL_TO_NOTIFY_TYPE_CODE = "5";
+
     public static final String GRANTS_GOV_PROPOSAL_CONTACT_TYPE_CODE = "6";
+
     public static final String ADMINISTRATIVE_CONTACT_TYPE_CODE = "7";
+
     public static final String FINANCIAL_CONTACT_TYPE_CODE = "8";
 
     /**
@@ -36,14 +52,21 @@ public class UnitAdministratorType extends KraPersistableBusinessObjectBase impl
      */
     private static final long serialVersionUID = -8872381393239718701L;
 
+    @Id
+    @Column(name = "UNIT_ADMINISTRATOR_TYPE_CODE")
     private String unitAdministratorTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "MULTIPLES_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean multiplesFlag;
 
+    @Column(name = "DEFAULT_GROUP_FLAG")
     private String defaultGroupFlag;
 
+    @Transient
     private UnitContactType unitContactType;
 
     public UnitAdministratorType() {

@@ -15,24 +15,43 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
+@Entity
+@Table(name = "BUDGET_COLUMNS_TO_ALTER")
 public class BudgetColumnsToAlter extends KraPersistableBusinessObjectBase {
-    
+
+    @Id
+    @Column(name = "COLUMN_NAME")
     private String columnName;
 
+    @Column(name = "COLUMN_LABEL")
     private String columnLabel;
 
+    @Column(name = "DATA_LENGTH")
     private Integer dataLength;
 
+    @Column(name = "DATA_TYPE")
     private String dataType;
 
+    @Column(name = "HAS_LOOKUP")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean hasLookup;
 
+    @Column(name = "LOOKUP_ARGUMENT")
     private String lookupClass;
 
+    @Column(name = "LOOKUP_RETURN")
     private String lookupReturn;
 
+    @Transient
     private String lookupPkReturn;
 
     public BudgetColumnsToAlter() {
