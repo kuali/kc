@@ -1682,8 +1682,8 @@ public class S2SBudgetCalculatorServiceImpl implements
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 personAlreadyAdded = false;
-                for (ProposalPerson coInvestigator : pdDoc.getDevelopmentProposal().getInvestigators()) {
-                    if (s2SUtilService.proposalPersonEqualsBudgetPerson(coInvestigator, budgetPersonnelDetails)) {
+                for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+                    if (s2SUtilService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
                         personAlreadyAdded = true;
                         break;
                     }
