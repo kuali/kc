@@ -15,24 +15,39 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
 
 /**
  * This class represents a congressional district. A congressional district consists of a two-letter
  * state code and a district number, although it is represented by a single string.
  */
+@Entity
+@Table(name = "EPS_PROP_CONG_DISTRICT")
 public class CongressionalDistrict extends KraPersistableBusinessObjectBase {
 
     public static final int DISTRICT_NUMBER_LENGTH = 3;
 
     private static final long serialVersionUID = 9043098848918407500L;
 
+    @PortableSequenceGenerator(name = "SEQ_CONG_DISTRICT_ID_KRA")
+    @GeneratedValue(generator = "SEQ_CONG_DISTRICT_ID_KRA")
+    @Id
+    @Column(name = "CONG_DISTRICT_ID")
     private Long congressionalDistrictId;
 
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Column(name = "SITE_NUMBER")
     private Integer siteNumber;
 
+    @Column(name = "CONG_DISTRICT")
     private String congressionalDistrict;
 
     public void setCongressionalDistrictId(Long congressionalDistrictId) {

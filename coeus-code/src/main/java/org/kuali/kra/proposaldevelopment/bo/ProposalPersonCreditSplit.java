@@ -15,8 +15,23 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.data.jpa.converters.KualiDecimalConverter;
 
 /**
  * Class representation of the Proposal Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
@@ -24,16 +39,29 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * @author $Author: vsoni $
  * @version $Revision: 1.9 $
  */
+@Entity
+@Table(name = "EPS_PROP_PER_CREDIT_SPLIT")
+@IdClass(ProposalPersonCreditSplit.ProposalPersonCreditSplitId.class)
 public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit {
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "PROP_PERSON_NUMBER")
     private Integer proposalPersonNumber;
 
+    @Id
+    @Column(name = "INV_CREDIT_TYPE_CODE")
     private String invCreditTypeCode;
 
+    @Column(name = "CREDIT")
+    @Convert(converter = KualiDecimalConverter.class)
     private KualiDecimal credit;
 
+    @ManyToOne(targetEntity = InvestigatorCreditType.class)
+    @JoinColumn(name = "INV_CREDIT_TYPE_CODE", referencedColumnName = "INV_CREDIT_TYPE_CODE", insertable = false, updatable = false)
     private InvestigatorCreditType investigatorCreditType;
 
     /**
@@ -124,5 +152,65 @@ public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjec
      */
     public void setCredit(KualiDecimal argCredit) {
         this.credit = argCredit;
+    }
+
+    public static final class ProposalPersonCreditSplitId implements Serializable, Comparable<ProposalPersonCreditSplitId> {
+
+        private Integer proposalPersonNumber;
+
+        private String proposalNumber;
+
+        private String invCreditTypeCode;
+
+        public Integer getProposalPersonNumber() {
+            return this.proposalPersonNumber;
+        }
+
+        public void setProposalPersonNumber(Integer proposalPersonNumber) {
+            this.proposalPersonNumber = proposalPersonNumber;
+        }
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public String getInvCreditTypeCode() {
+            return this.invCreditTypeCode;
+        }
+
+        public void setInvCreditTypeCode(String invCreditTypeCode) {
+            this.invCreditTypeCode = invCreditTypeCode;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalPersonNumber", this.proposalPersonNumber).append("proposalNumber", this.proposalNumber).append("invCreditTypeCode", this.invCreditTypeCode).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalPersonCreditSplitId rhs = (ProposalPersonCreditSplitId) other;
+            return new EqualsBuilder().append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.proposalNumber, rhs.proposalNumber).append(this.invCreditTypeCode, rhs.invCreditTypeCode).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalPersonNumber).append(this.proposalNumber).append(this.invCreditTypeCode).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalPersonCreditSplitId other) {
+            return new CompareToBuilder().append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.proposalNumber, other.proposalNumber).append(this.invCreditTypeCode, other.invCreditTypeCode).toComparison();
+        }
     }
 }

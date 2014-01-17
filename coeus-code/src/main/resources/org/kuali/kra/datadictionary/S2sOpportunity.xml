@@ -37,6 +37,7 @@
         <ref bean="S2sOpportunity-s2sSubmissionTypeCode" />
         <ref bean="S2sOpportunity-schemaUrl" />
         <ref bean="S2sOpportunity-providerCode" />
+        <ref bean="S2sOpportunity-multiProject" />
         <ref bean="S2sOpportunity-versionNumber" />
       </list>
     </property>
@@ -292,7 +293,18 @@
     </property>
     <property name="summary" value="S2S Provider" />
     <property name="description" value="S2S Provider" />
-  </bean>  
+  </bean>
+
+  <bean id="S2sOpportunity-multiProject" parent="S2sOpportunity-multiProject-parentBean" />
+
+  <bean id="S2sOpportunity-multiProject-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="multiProject" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Multiple Project" />
+    <property name="shortLabel" value="Multi Project" />
+    <property name="summary" value="Is this a multiple project opportunity?" />
+    <property name="description" value="Is this a multiple project opportunity?" />
+  </bean>
   
   <bean id="S2sOpportunity-versionNumber" parent="S2sOpportunity-versionNumber-parentBean" />
 

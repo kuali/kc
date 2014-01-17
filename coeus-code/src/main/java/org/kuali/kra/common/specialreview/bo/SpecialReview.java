@@ -15,52 +15,79 @@
  */
 package org.kuali.kra.common.specialreview.bo;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewExemption;
 
 /**
  * Defines the base class for the Special Review business object for all modules.
  * @param <T> SpecialReviewExemption
  */
+@MappedSuperclass
 public abstract class SpecialReview<T extends SpecialReviewExemption> extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -2168706171397009621L;
 
+    @Column(name = "SPECIAL_REVIEW_NUMBER")
     private Integer specialReviewNumber;
 
+    @Column(name = "SPECIAL_REVIEW_CODE")
     private String specialReviewTypeCode;
 
+    @Column(name = "APPROVAL_TYPE_CODE")
     private String approvalTypeCode;
 
+    @Column(name = "PROTOCOL_NUMBER")
     private String protocolNumber;
 
+    @Column(name = "APPLICATION_DATE")
     private Date applicationDate;
 
+    @Column(name = "APPROVAL_DATE")
     private Date approvalDate;
 
+    @Column(name = "EXPIRATION_DATE")
     private Date expirationDate;
 
+    @Column(name = "COMMENTS")
+    @Lob
     private String comments;
 
+    @ManyToOne(targetEntity = SpecialReviewType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "SPECIAL_REVIEW_CODE", referencedColumnName = "SPECIAL_REVIEW_CODE", insertable = false, updatable = false)
     private SpecialReviewType specialReviewType;
 
+    @ManyToOne(targetEntity = SpecialReviewApprovalType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "APPROVAL_TYPE_CODE", referencedColumnName = "APPROVAL_TYPE_CODE", insertable = false, updatable = false)
     private SpecialReviewApprovalType approvalType;
 
+    @Column(name = "PROTOCOL_STATUS_DESCRIPTION")
     private String protocolStatus;
 
-    // Struts 1 does not like having objects in multiselect boxes, so these two fields are a hack to make this work nicely with Struts. 
-    // 
-    // The field specialReviewExemptions holds the objects stored in the database, while exemptionTypeCodes has just the currently selected string codes. 
-    // These need to be initialized here so the syncing algorithms below can handle multiple calls to afterLookup during page load and not erase the already  
-    // synced data. 
+    // Struts 1 does not like having objects in multiselect boxes, so these two fields are a hack to make this work nicely with Struts.  
+    //  
+    // The field specialReviewExemptions holds the objects stored in the database, while exemptionTypeCodes has just the currently selected string codes.  
+    // These need to be initialized here so the syncing algorithms below can handle multiple calls to afterLookup during page load and not erase the already   
+    // synced data.  
+    @OneToMany(mappedBy = "proposalSpecialReview")
+    @JoinColumn(name = "PROPOSAL_SPECIAL_REVIEW_ID", referencedColumnName = "PROPOSAL_SPECIAL_REVIEW_ID", insertable = false, updatable = false)
     private List<T> specialReviewExemptions = new ArrayList<T>();
 
+    @Transient
     private transient List<String> exemptionTypeCodes = new ArrayList<String>();
 
     public Integer getSpecialReviewNumber() {
@@ -243,8 +270,8 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
                 }
             }
         }
-        // The field specialReviewExemptions is loaded several times before the page is rendered, and the isEmpty does not always report accurate results, 
-        // so we must double check here before changing the exemptionTypeCodes. 
+        // The field specialReviewExemptions is loaded several times before the page is rendered, and the isEmpty does not always report accurate results,  
+        // so we must double check here before changing the exemptionTypeCodes.  
         if (!syncedExemptionTypeCodes.isEmpty()) {
             exemptionTypeCodes = new ArrayList<String>(syncedExemptionTypeCodes);
         }

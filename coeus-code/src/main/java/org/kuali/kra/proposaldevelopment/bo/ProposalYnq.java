@@ -15,33 +15,65 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.Serializable;
+import java.sql.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
 
-import java.sql.Date;
-
+@Entity
+@Table(name = "EPS_PROP_YNQ")
+@IdClass(ProposalYnq.ProposalYnqId.class)
 public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implements Comparable<ProposalYnq> {
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "QUESTION_ID")
     private String questionId;
 
+    @Column(name = "ANSWER")
     private String answer;
 
+    @Column(name = "EXPLANATION")
+    @Lob
     private String explanation;
 
+    @Column(name = "REVIEW_DATE")
     private Date reviewDate;
 
+    @ManyToOne(targetEntity = Ynq.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", insertable = false, updatable = false)
     private Ynq ynq;
 
+    @Transient
     private String dummyAnswer;
 
+    @Transient
     private boolean explanationRequried = true;
 
+    @Transient
     private boolean reviewDateRequired = true;
 
+    @Transient
     private String explanationRequiredDescription;
 
+    @Transient
     private String reviewDateRequiredDescription;
 
     public Ynq getYnq() {
@@ -144,5 +176,55 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
             comparator = getQuestionId().compareTo(proposalYnq.getQuestionId());
         }
         return comparator;
+    }
+
+    public static final class ProposalYnqId implements Serializable, Comparable<ProposalYnqId> {
+
+        private String proposalNumber;
+
+        private String questionId;
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public String getQuestionId() {
+            return this.questionId;
+        }
+
+        public void setQuestionId(String questionId) {
+            this.questionId = questionId;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("questionId", this.questionId).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalYnqId rhs = (ProposalYnqId) other;
+            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.questionId, rhs.questionId).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.questionId).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalYnqId other) {
+            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.questionId, other.questionId).toComparison();
+        }
     }
 }

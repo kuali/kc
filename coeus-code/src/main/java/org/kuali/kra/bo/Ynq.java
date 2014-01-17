@@ -15,31 +15,52 @@
  */
 package org.kuali.kra.bo;
 
-import org.springframework.util.AutoPopulatingList;
-
 import java.sql.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import org.kuali.kra.bo.YnqExplanation;
+import org.springframework.util.AutoPopulatingList;
 
+@Entity
+@Table(name = "YNQ")
 public class Ynq extends KraSortablePersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "QUESTION_ID")
     private String questionId;
 
+    @Column(name = "DATE_REQUIRED_FOR")
     private String dateRequiredFor;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "EFFECTIVE_DATE")
     private Date effectiveDate;
 
+    @Column(name = "EXPLANATION_REQUIRED_FOR")
     private String explanationRequiredFor;
 
+    @Column(name = "GROUP_NAME")
     private String groupName;
 
+    @Column(name = "NO_OF_ANSWERS")
     private Integer noOfAnswers;
 
+    @Column(name = "QUESTION_TYPE")
     private String questionType;
 
+    @Column(name = "STATUS")
     private String status;
 
+    @OneToMany(targetEntity = YnqExplanation.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", insertable = false, updatable = false)
     private List<YnqExplanation> ynqExplanations;
 
     public Ynq() {

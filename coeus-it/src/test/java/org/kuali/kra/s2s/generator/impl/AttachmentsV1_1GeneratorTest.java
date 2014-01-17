@@ -19,6 +19,7 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
@@ -47,10 +48,14 @@ public class AttachmentsV1_1GeneratorTest extends S2STestBase<AttachmentsV1_1Gen
         narrative.setObjectId("12345678890abcd");
         narrative.setFileName("exercise1");
         NarrativeType narrativeType = new NarrativeType();
+        narrativeType.setNarrativeTypeCode("1");
+        narrativeType.setAllowMultiple("Y");
+        narrativeType.setSystemGenerated("N");
         narrativeType.setDescription("Testing for Attachments Attachment");
+        getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);
+        narrative.setNarrativeTypeCode("1");
         naList.add(narrative);
-        getService(BusinessObjectService.class).save(narrative);
         narrative.getNarrativeAttachmentList().clear();
         document.getDevelopmentProposal().setNarratives(naList);
     }

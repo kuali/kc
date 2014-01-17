@@ -72,6 +72,7 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -82,6 +83,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -91,12 +93,11 @@ import java.util.*;
 
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 
-
-// TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
 
     protected final Log LOG = LogFactory.getLog(AwardSyncServiceImpl.class);
     private BusinessObjectService businessObjectService;
+    private DataObjectService dataObjectService;
     private UnitAuthorizationService unitAuthService;
     private KraPersistenceStructureService kraPersistenceStructureService;
     private BudgetService budgetService;
@@ -481,14 +482,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         // database constraint that requires removing these first
         Map<String, Object> keyValues = new HashMap<String, Object>();
         keyValues.put("proposalNumber", proposalDocument.getDevelopmentProposal().getProposalNumber());
-        getBusinessObjectService().deleteMatching(ProposalBudgetStatus.class, keyValues);
+        dataObjectService.deleteMatching(ProposalBudgetStatus.class, QueryByCriteria.Builder.andAttributes(keyValues).build());
         proposalDocument.getDevelopmentProposalList().clear();
         proposalDocument.getBudgetDocumentVersions().clear();
         proposalDocument.setProposalDeleted(true);
 
         // because the devproplist was cleared above the dev prop and associated BOs will be
         // deleted upon save
-        getBusinessObjectService().save(proposalDocument);
+        dataObjectService.save(proposalDocument);
         getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
     }
 
@@ -503,7 +504,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             getDocumentService().saveDocument(document);
         }
         catch (WorkflowException e) {
-            LOG.warn("Error getting budget document to delete", e);
+            throw new RuntimeException(e);
         }
 
     }
@@ -613,13 +614,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     /**
      * Return the institutional proposal linked to the development proposal.
-     * 
-     * @param proposalDevelopmentDocument
-     * @param instProposalNumber
-     * @return
      */
     public InstitutionalProposal getInstitutionalProposal(String devProposalNumber) {
-        Long instProposalId = null;
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("devProposalNumber", devProposalNumber);
         Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class,
@@ -778,7 +774,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * Proposal, Narratives, and Budget must all be treated separately and therefore the other portions of the document,
      * outside of the one currently being saved, must be updated from the database to make sure the sessions do not stomp
      * changes already persisted by another session.
-     * @param pdForm
      * @throws Exception
      */
     public ProposalDevelopmentDocument updateProposalDocument(ProposalDevelopmentDocument pdDocument, ProposalLockingRegion region) throws Exception {
@@ -978,4 +973,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         this.keyPersonnelService = keyPersonnelService;
     }
 
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

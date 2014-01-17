@@ -50,6 +50,11 @@ public class RRPersonalDataV1_0GeneratorTest extends S2STestBase<RRPersonalDataV
         proposalPerson.setProposalPersonNumber(1001);
         proposalPerson.setRace("English");
         ProposalPerson keyPerson = new ProposalPerson();
+
+        proposalPerson.setDevelopmentProposal(document.getDevelopmentProposal());
+        proposalPerson.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        saveBO(proposalPerson);
+
         keyPerson.setProposalPersonRoleId("COI");
         keyPerson.setFirstName("Terry");
         keyPerson.setLastName("Durkin");
@@ -62,6 +67,11 @@ public class RRPersonalDataV1_0GeneratorTest extends S2STestBase<RRPersonalDataV
         keyPerson.setOptInUnitStatus("Y");
         keyPerson.setProposalPersonNumber(1002);
         keyPerson.setRace("English");
+
+        keyPerson.setDevelopmentProposal(document.getDevelopmentProposal());
+        keyPerson.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        saveBO(keyPerson);
+
         List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
         proposalPersonList.add(proposalPerson);
         proposalPersonList.add(keyPerson);

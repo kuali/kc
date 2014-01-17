@@ -47,6 +47,7 @@ public class KraDocumentServiceImpl implements DocumentService {
 
     @Override
     public Document validateAndPersistDocument(Document document, KualiDocumentEvent event) throws ValidationException {
+        if (true) throw new RuntimeException();
         if (document == null) {
             LOG.error("document passed to validateAndPersist was null");
             throw new IllegalArgumentException("invalid (null) document");

@@ -15,24 +15,34 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Defines the Special Review Approval Type business object for all modules.
  */
+@Entity
+@Table(name = "SP_REV_APPROVAL_TYPE")
 public class SpecialReviewApprovalType extends KraPersistableBusinessObjectBase {
 
     /**
      * The type code for Approval Type 'Approved'.
      */
     public static final String PENDING = "1";
+
     public static final String APPROVED = "2";
+
     public static final String NOT_YET_APPLIED = "3";
+
     public static final String EXEMPT = "4";
 
     /**
      * The type code for Approval Type 'Link to IRB'.
      */
     public static final String LINK_TO_IRB = "5";
+
     /**
      * The type code for Approval Type 'Link to IACUC'.
      */
@@ -40,8 +50,11 @@ public class SpecialReviewApprovalType extends KraPersistableBusinessObjectBase 
 
     private static final long serialVersionUID = -3695729124365459765L;
 
+    @Id
+    @Column(name = "APPROVAL_TYPE_CODE")
     private String approvalTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public String getApprovalTypeCode() {

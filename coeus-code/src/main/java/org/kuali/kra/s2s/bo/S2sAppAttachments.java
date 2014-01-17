@@ -15,18 +15,43 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
 
+@Entity
+@Table(name = "S2S_APP_ATTACHMENTS")
+@IdClass(S2sAppAttachments.S2sAppAttachmentsId.class)
 public class S2sAppAttachments extends KraPersistableBusinessObjectBase {
 
+    @PortableSequenceGenerator(name = "SEQ_S2S_APP_ATTACHMENT_ID")
+    @GeneratedValue(generator = "SEQ_S2S_APP_ATTACHMENT_ID")
+    @Id
+    @Column(name = "S2S_APP_ATTACHMENT_ID")
     private Long s2sAppAttachmentId;
 
+    @Id
+    @Column(name = "CONTENT_ID")
     private String contentId;
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Column(name = "CONTENT_TYPE")
     private String contentType;
 
+    @Column(name = "HASH_CODE")
     private String hashCode;
 
     public String getContentId() {
@@ -75,5 +100,65 @@ public class S2sAppAttachments extends KraPersistableBusinessObjectBase {
      */
     public void setS2sAppAttachmentId(Long appAttachmentId) {
         s2sAppAttachmentId = appAttachmentId;
+    }
+
+    public static final class S2sAppAttachmentsId implements Serializable, Comparable<S2sAppAttachmentsId> {
+
+        private Long s2sAppAttachmentId;
+
+        private String contentId;
+
+        private String proposalNumber;
+
+        public Long getS2sAppAttachmentId() {
+            return this.s2sAppAttachmentId;
+        }
+
+        public void setS2sAppAttachmentId(Long s2sAppAttachmentId) {
+            this.s2sAppAttachmentId = s2sAppAttachmentId;
+        }
+
+        public String getContentId() {
+            return this.contentId;
+        }
+
+        public void setContentId(String contentId) {
+            this.contentId = contentId;
+        }
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("s2sAppAttachmentId", this.s2sAppAttachmentId).append("contentId", this.contentId).append("proposalNumber", this.proposalNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final S2sAppAttachmentsId rhs = (S2sAppAttachmentsId) other;
+            return new EqualsBuilder().append(this.s2sAppAttachmentId, rhs.s2sAppAttachmentId).append(this.contentId, rhs.contentId).append(this.proposalNumber, rhs.proposalNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.s2sAppAttachmentId).append(this.contentId).append(this.proposalNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(S2sAppAttachmentsId other) {
+            return new CompareToBuilder().append(this.s2sAppAttachmentId, other.s2sAppAttachmentId).append(this.contentId, other.contentId).append(this.proposalNumber, other.proposalNumber).toComparison();
+        }
     }
 }

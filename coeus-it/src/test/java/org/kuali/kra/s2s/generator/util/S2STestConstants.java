@@ -16,5 +16,5 @@
 package org.kuali.kra.s2s.generator.util;
 
 public class S2STestConstants {
-    public static final String ATT_DIR_PATH = "src/test/resources/testAttachments/";
+    public static final String ATT_PACKAGE = "classpath:testAttachments";
 }

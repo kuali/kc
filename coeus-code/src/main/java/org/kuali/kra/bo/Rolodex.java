@@ -15,75 +15,126 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-
 import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
+@Entity
+@Table(name = "ROLODEX")
 public class Rolodex extends KraPersistableBusinessObjectBase implements Contactable, MutableInactivatable {
 
     private static final long serialVersionUID = -278526635683595863L;
 
+    @Id
+    @Column(name = "ROLODEX_ID")
     private Integer rolodexId;
 
+    @Column(name = "ADDRESS_LINE_1")
     private String addressLine1;
 
+    @Column(name = "ADDRESS_LINE_2")
     private String addressLine2;
 
+    @Column(name = "ADDRESS_LINE_3")
     private String addressLine3;
 
+    @Column(name = "CITY")
     private String city;
 
+    @Column(name = "COMMENTS")
     private String comments;
 
+    @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
+    @Column(name = "COUNTY")
     private String county;
 
+    @Column(name = "DELETE_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean deleteFlag;
 
+    @Column(name = "EMAIL_ADDRESS")
     private String emailAddress;
 
+    @Column(name = "FAX_NUMBER")
     private String faxNumber;
 
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
+    @Column(name = "LAST_NAME")
     private String lastName;
 
+    @Column(name = "MIDDLE_NAME")
     private String middleName;
 
+    @Column(name = "ORGANIZATION")
     private String organization;
 
+    @Column(name = "OWNED_BY_UNIT")
     private String ownedByUnit;
 
+    @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
 
+    @Column(name = "POSTAL_CODE")
     private String postalCode;
 
+    @Column(name = "PREFIX")
     private String prefix;
 
+    @Column(name = "SPONSOR_ADDRESS_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean sponsorAddressFlag;
 
+    @Transient
     private String isSponsorAddress = "N";
 
+    @Column(name = "SPONSOR_CODE")
     private String sponsorCode;
 
+    @Column(name = "STATE")
     private String state;
 
+    @Column(name = "SUFFIX")
     private String suffix;
 
+    @Column(name = "TITLE")
     private String title;
 
+    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "OWNED_BY_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
+    @ManyToOne(targetEntity = Sponsor.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
     private Sponsor sponsor;
 
+    @ManyToOne(targetEntity = Organization.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ORGANIZATION", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organizations;
-    
+
+    @Column(name = "CREATE_USER")
     private String createUser;
-    
+
+    @Column(name = "ACTV_IND")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean active;
 
-    // = Boolean.TRUE; 
+    // = Boolean.TRUE;  
     public String getCreateUser() {
         return createUser;
     }
@@ -107,16 +158,16 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getAddressLine1() {
-        if(this.isSponsorAddress != null) {
-            if(this.isSponsorAddress.equalsIgnoreCase("Y")){
-                if(sponsor != null && sponsor.getPostalCode() != null) {
+        if (this.isSponsorAddress != null) {
+            if (this.isSponsorAddress.equalsIgnoreCase("Y")) {
+                if (sponsor != null && sponsor.getPostalCode() != null) {
                     return sponsor.getPostalCode();
                 }
             }
-            if(this.isSponsorAddress.equalsIgnoreCase("N")) {
-                if(organizations != null && organizations.getAddress() != null) {
+            if (this.isSponsorAddress.equalsIgnoreCase("N")) {
+                if (organizations != null && organizations.getAddress() != null) {
                     return organizations.getAddress();
-                } 
+                }
             }
         }
         return addressLine1;
@@ -127,19 +178,19 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getAddressLine2() {
-        if(this.isSponsorAddress != null) {
-            if(this.isSponsorAddress.equalsIgnoreCase("Y")) {
-                if(sponsor != null && sponsor.getState() != null) {
+        if (this.isSponsorAddress != null) {
+            if (this.isSponsorAddress.equalsIgnoreCase("Y")) {
+                if (sponsor != null && sponsor.getState() != null) {
                     return sponsor.getState();
                 }
-            }if(this.isSponsorAddress.equalsIgnoreCase("N")) {
-                if(organizations != null) {
-                    return null; 
+            }
+            if (this.isSponsorAddress.equalsIgnoreCase("N")) {
+                if (organizations != null) {
+                    return null;
                 }
             }
         }
         return addressLine2;
-
     }
 
     public void setAddressLine2(String addressLine2) {
@@ -147,15 +198,15 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getAddressLine3() {
-        if(this.isSponsorAddress != null) {
-            if(this.isSponsorAddress.equalsIgnoreCase("Y")) {
-                if(sponsor != null && sponsor.getCountryCode() != null) {
+        if (this.isSponsorAddress != null) {
+            if (this.isSponsorAddress.equalsIgnoreCase("Y")) {
+                if (sponsor != null && sponsor.getCountryCode() != null) {
                     return sponsor.getCountryCode();
                 }
             }
-            if(this.isSponsorAddress.equalsIgnoreCase("N")) {
-                if(organizations != null){
-                    return null; 
+            if (this.isSponsorAddress.equalsIgnoreCase("N")) {
+                if (organizations != null) {
+                    return null;
                 }
             }
         }
@@ -247,14 +298,14 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getOrganization() {
-        if(this.isSponsorAddress != null) {
-            if(this.isSponsorAddress.equalsIgnoreCase("Y")) {
-                if(sponsor != null && sponsor.getSponsorName() != null) {
+        if (this.isSponsorAddress != null) {
+            if (this.isSponsorAddress.equalsIgnoreCase("Y")) {
+                if (sponsor != null && sponsor.getSponsorName() != null) {
                     return sponsor.getSponsorName();
                 }
             }
-            if(this.isSponsorAddress.equalsIgnoreCase("N")) {
-                if(organizations != null && organizations.getOrganizationName() != null) {
+            if (this.isSponsorAddress.equalsIgnoreCase("N")) {
+                if (organizations != null && organizations.getOrganizationName() != null) {
                     return organizations.getOrganizationName();
                 }
             }
@@ -265,7 +316,7 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     public void setOrganization(String organization) {
         this.organization = organization;
     }
-    
+
     public String getOwnedByUnit() {
         return ownedByUnit;
     }
@@ -389,16 +440,14 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     public Sponsor getSponsor() {
         return sponsor;
     }
-    
 
-    public void setOrganizations(Organization organizations) { 
+    public void setOrganizations(Organization organizations) {
         this.organizations = organizations;
     }
-    
-    public Organization getOrganizations() {
-       return organizations;
-    }
 
+    public Organization getOrganizations() {
+        return organizations;
+    }
 
     public boolean isActive() {
         return active;

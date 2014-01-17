@@ -15,8 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name = "PROPOSAL_TYPE")
 public class ProposalType extends KraPersistableBusinessObjectBase {
 
     public static final String RESUBMISSION_TYPE_CODE = "2";
@@ -30,8 +36,11 @@ public class ProposalType extends KraPersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = -7629520657077311450L;
 
+    @Id
+    @Column(name = "PROPOSAL_TYPE_CODE")
     private String proposalTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public String getDescription() {

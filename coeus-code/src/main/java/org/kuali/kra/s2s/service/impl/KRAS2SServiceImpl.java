@@ -565,7 +565,7 @@ public class KRAS2SServiceImpl implements S2SService {
 			appSubmission.setReceivedDate(new Timestamp(response
 					.getReceivedDateTime().toGregorianCalendar()
 					.getTimeInMillis()));
-			appSubmission.setS2sApplication(s2sApplicationList);
+			appSubmission.setS2sApplication(s2sApplicationList.get(0));
 			appSubmission.setProposalNumber(proposalNumber);
 
 			List<S2sAppSubmission> appList = pdDoc.getDevelopmentProposal()

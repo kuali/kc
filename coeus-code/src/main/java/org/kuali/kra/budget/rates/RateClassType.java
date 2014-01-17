@@ -15,16 +15,30 @@
  */
 package org.kuali.kra.budget.rates;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
+@Entity
+@Table(name = "RATE_CLASS_TYPE")
 public class RateClassType extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "RATE_CLASS_TYPE")
     private String rateClassType;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "SORT_ID")
     private String sortId;
 
+    @Column(name = "PREFIX_ACTIVITY_TYPE")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean prefixActivityType;
 
     public RateClassType() {

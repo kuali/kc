@@ -15,11 +15,20 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "SPONSOR_TYPE")
 public class SponsorType extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "SPONSOR_TYPE_CODE")
     private String sponsorTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     /**

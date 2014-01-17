@@ -15,12 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name = "BUDGET_STATUS")
 public class BudgetStatus extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "BUDGET_STATUS_CODE")
     private String budgetStatusCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public String getBudgetStatusCode() {

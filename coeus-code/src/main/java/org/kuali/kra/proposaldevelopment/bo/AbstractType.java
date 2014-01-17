@@ -15,12 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name = "ABSTRACT_TYPE")
 public class AbstractType extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "ABSTRACT_TYPE_CODE")
     private String abstractTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public String getAbstractTypeCode() {

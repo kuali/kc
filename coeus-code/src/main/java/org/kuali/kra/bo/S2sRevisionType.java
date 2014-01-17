@@ -15,15 +15,24 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * 
  * This class is represents S2S_REVISION_TYPE table
  */
+@Entity
+@Table(name = "S2S_REVISION_TYPE")
 public class S2sRevisionType extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "S2S_REVISION_TYPE_CODE")
     private String s2sRevisionTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public String getS2sRevisionTypeCode() {

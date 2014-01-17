@@ -15,55 +15,98 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.service.KcAttachmentService;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
  * This is bo for eps_prop_person_bio.
  */
+@Entity
+@Table(name = "EPS_PROP_PERSON_BIO")
+@IdClass(ProposalPersonBiography.ProposalPersonBiographyId.class)
 public class ProposalPersonBiography extends KraPersistableBusinessObjectBase implements KcAttachment {
 
+    @Id
+    @Column(name = "PROP_PERSON_NUMBER")
     private Integer proposalPersonNumber;
 
+    @Column(name = "PERSON_ID")
     private String personId;
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "BIO_NUMBER")
     private Integer biographyNumber;
 
+    @Column(name = "ROLODEX_ID")
     private Integer rolodexId;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "DOCUMENT_TYPE_CODE")
     private String documentTypeCode;
 
+    @Column(name = "FILE_NAME")
     private String fileName;
 
+    @Column(name = "CONTENT_TYPE")
     private String contentType;
 
+    @Transient
     private transient FormFile personnelAttachmentFile;
 
+    @OneToMany(targetEntity = ProposalPersonBiographyAttachment.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+
+    @JoinColumns({ @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "BIO_NUMBER", referencedColumnName = "BIO_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false) })
     private List<ProposalPersonBiographyAttachment> personnelAttachmentList;
 
+    @ManyToOne(targetEntity = PropPerDocType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DOCUMENT_TYPE_CODE", referencedColumnName = "DOCUMENT_TYPE_CODE", insertable = false, updatable = false)
     private PropPerDocType propPerDocType;
 
+    @Transient
     private Timestamp timestampDisplay;
 
+    @Transient
     private String uploadUserDisplay;
 
+    @Transient
     private String uploadUserFullName;
-    
+
+    @Transient
     private transient int positionNumber;
 
     public ProposalPersonBiography() {
@@ -218,10 +261,11 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase im
     public void setPositionNumber(int positionNumber) {
         this.positionNumber = positionNumber;
     }
-    
+
     public void populateAttachment() {
         FormFile personnelFile = getPersonnelAttachmentFile();
-        if (personnelFile == null) return;
+        if (personnelFile == null)
+            return;
         byte[] personnellFileData;
         try {
             personnellFileData = personnelFile.getFileData();
@@ -242,7 +286,7 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase im
                 personnelAttachment.setContentType(personnelFile.getContentType());
                 personnelAttachment.setBiographyData(personnelFile.getFileData());
                 personnelAttachment.setProposalNumber(getProposalNumber());
-                //personnelAttachment.setPositionNumber(getPositionNumber());
+                //personnelAttachment.setPositionNumber(getPositionNumber()); 
                 setFileName(personnelAttachment.getFileName());
                 setContentType(personnelAttachment.getContentType());
             } else {
@@ -252,6 +296,66 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase im
             getPersonnelAttachmentList().clear();
         } catch (IOException e) {
             getPersonnelAttachmentList().clear();
+        }
+    }
+
+    public static final class ProposalPersonBiographyId implements Serializable, Comparable<ProposalPersonBiographyId> {
+
+        private Integer proposalPersonNumber;
+
+        private Integer biographyNumber;
+
+        private String proposalNumber;
+
+        public Integer getProposalPersonNumber() {
+            return this.proposalPersonNumber;
+        }
+
+        public void setProposalPersonNumber(Integer proposalPersonNumber) {
+            this.proposalPersonNumber = proposalPersonNumber;
+        }
+
+        public Integer getBiographyNumber() {
+            return this.biographyNumber;
+        }
+
+        public void setBiographyNumber(Integer biographyNumber) {
+            this.biographyNumber = biographyNumber;
+        }
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalPersonNumber", this.proposalPersonNumber).append("biographyNumber", this.biographyNumber).append("proposalNumber", this.proposalNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalPersonBiographyId rhs = (ProposalPersonBiographyId) other;
+            return new EqualsBuilder().append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.biographyNumber, rhs.biographyNumber).append(this.proposalNumber, rhs.proposalNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalPersonNumber).append(this.biographyNumber).append(this.proposalNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalPersonBiographyId other) {
+            return new CompareToBuilder().append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.biographyNumber, other.biographyNumber).append(this.proposalNumber, other.proposalNumber).toComparison();
         }
     }
 }

@@ -146,7 +146,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         for( int j = 0; j < proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs().size();j++) {
             ProposalYnq proposalYnq = proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs().get(j);
-            
+
             String groupName = proposalYnq.getYnq().getGroupName();
             HashMap<String,Integer> questionSerial = getQuestionSerialNumberBasedOnGroup( proposalDevelopmentDocument );
             String[] errorParameter = {groupName};
