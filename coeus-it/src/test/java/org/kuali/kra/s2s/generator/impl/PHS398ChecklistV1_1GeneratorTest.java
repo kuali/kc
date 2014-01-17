@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,20 @@ public class PHS398ChecklistV1_1GeneratorTest extends S2STestBase<PHS398Checklis
         proposalYnq.setAnswer("Y");
         proposalYnq.setQuestionId("22");
         proposalYnq.setExplanation("David,Blain");
+
+        Ynq ynq = new Ynq();
+        ynq.setQuestionId("22");
+        ynq.setGroupName("groupName");
+        ynq.setDescription("description");
+        ynq.setEffectiveDate(new Date(1));
+        ynq.setNoOfAnswers(1);
+        ynq.setQuestionType("A");
+        ynq.setStatus("A");
+        proposalYnq.setYnq(ynq);
+        proposalYnq.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        saveBO(ynq);
+
+
         List<ProposalYnq> ynqList = new ArrayList<ProposalYnq>();
         ynqList.add(proposalYnq);
         document.getDevelopmentProposal().setProposalYnqs(ynqList);

@@ -21,7 +21,11 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
+import org.kuali.rice.core.api.util.ClassLoaderUtils;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -47,11 +51,16 @@ public class PHS398CoverLetterV1_0GeneratorTest extends S2STestBase<PHS398CoverL
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
         NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
-        File file = new File(S2STestConstants.ATT_DIR_PATH + "exercise1.pdf");
-        InputStream inStream = new FileInputStream(file);
+        DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+        Resource resource = resourceLoader.getResource(S2STestConstants.ATT_PACKAGE + "/exercise1.pdf");
+        InputStream inStream = resource.getInputStream();
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setNarrativeData(narrativePdf);
+        narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        narrativeAttachment.setModuleNumber(1);
+        saveBO(narrativeAttachment);
+
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
         narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
@@ -63,11 +72,16 @@ public class PHS398CoverLetterV1_0GeneratorTest extends S2STestBase<PHS398CoverL
         narrative.setObjectId("12345678890abcd");
         narrative.setFileName("exercise1");
         NarrativeType narrativeType = new NarrativeType();
+        narrativeType.setNarrativeTypeCode("39");
+        narrativeType.setAllowMultiple("Y");
+        narrativeType.setSystemGenerated("N");
         narrativeType.setDescription("Testing for Project Attachment");
+        getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);
+        narrative.setNarrativeTypeCode("39");
         naList.add(narrative);
-        getService(BusinessObjectService.class).save(narrative);
-        narrative.getNarrativeAttachmentList().clear();
+
         document.getDevelopmentProposal().setNarratives(naList);
+        saveBO(document.getDevelopmentProposal());
     }
 }

@@ -77,6 +77,7 @@ public class ProtocolFactory {
         DocumentService documentService = KRADServiceLocatorWeb.getDocumentService();
         ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument("ProtocolDocument");
         setProtocolRequiredFields(protocolDocument, protocolNumber);
+
         protocolDocument.getProtocol().setSequenceNumber(sequenceNumber);
         
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
@@ -87,9 +88,8 @@ public class ProtocolFactory {
         if(!kraAuthorizationService.hasRole(principalId, protocolDocument.getProtocol(), RoleConstants.PROTOCOL_APPROVER)) {
             kraAuthorizationService.addRole(principalId, RoleConstants.PROTOCOL_APPROVER, protocolDocument.getProtocol());
         }
-        
-        documentService.saveDocument(protocolDocument);
-        return protocolDocument;
+
+        return (ProtocolDocument) documentService.saveDocument(protocolDocument);
     }
 
 

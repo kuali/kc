@@ -15,26 +15,57 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 
+@Entity
+@Table(name = "EPS_PROP_CHANGED_DATA")
+@IdClass(ProposalChangedData.ProposalChangedDataId.class)
 public class ProposalChangedData extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "CHANGE_NUMBER")
     private Integer changeNumber;
 
+    @Id
+    @Column(name = "COLUMN_NAME")
     private String columnName;
 
+    @Transient
     private String attributeName;
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Column(name = "CHANGED_VALUE")
     private String changedValue;
 
+    @Column(name = "COMMENTS")
     private String comments;
 
+    @Column(name = "DISPLAY_VALUE")
     private String displayValue;
 
+    @Column(name = "OLD_DISPLAY_VALUE")
     private String oldDisplayValue;
 
+    @ManyToOne(targetEntity = ProposalColumnsToAlter.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "COLUMN_NAME", referencedColumnName = "COLUMN_NAME", insertable = false, updatable = false)
     private ProposalColumnsToAlter editableColumn;
 
     public ProposalChangedData() {
@@ -111,5 +142,65 @@ public class ProposalChangedData extends KraPersistableBusinessObjectBase {
 
     public void setAttributeName(String attributeName) {
         this.attributeName = attributeName;
+    }
+
+    public static final class ProposalChangedDataId implements Serializable, Comparable<ProposalChangedDataId> {
+
+        private String proposalNumber;
+
+        private String columnName;
+
+        private Integer changeNumber;
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public String getColumnName() {
+            return this.columnName;
+        }
+
+        public void setColumnName(String columnName) {
+            this.columnName = columnName;
+        }
+
+        public Integer getChangeNumber() {
+            return this.changeNumber;
+        }
+
+        public void setChangeNumber(Integer changeNumber) {
+            this.changeNumber = changeNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("columnName", this.columnName).append("changeNumber", this.changeNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalChangedDataId rhs = (ProposalChangedDataId) other;
+            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.columnName, rhs.columnName).append(this.changeNumber, rhs.changeNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.columnName).append(this.changeNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalChangedDataId other) {
+            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.columnName, other.columnName).append(this.changeNumber, other.changeNumber).toComparison();
+        }
     }
 }

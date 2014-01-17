@@ -15,87 +15,147 @@
  */
 package org.kuali.kra.bo;
 
-import org.springframework.util.AutoPopulatingList;
-
 import java.sql.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import org.kuali.kra.bo.OrganizationAudit;
+import org.kuali.kra.bo.OrganizationIndirectcost;
+import org.kuali.kra.bo.OrganizationType;
+import org.kuali.kra.bo.OrganizationYnq;
+import org.kuali.kra.bo.Rolodex;
+import org.springframework.util.AutoPopulatingList;
 
+@Entity
+@Table(name = "ORGANIZATION")
 public class Organization extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2010946634885248282L;
 
+    @Id
+    @Column(name = "ORGANIZATION_ID")
     private String organizationId;
 
+    @Column(name = "ADDRESS")
     private String address;
 
+    @Column(name = "AGENCY_SYMBOL")
     private String agencySymbol;
 
+    @Column(name = "ANIMAL_WELFARE_ASSURANCE")
     private String animalWelfareAssurance;
 
+    @Column(name = "CABLE_ADDRESS")
     private String cableAddress;
 
+    @Column(name = "CAGE_NUMBER")
     private String cageNumber;
 
+    @Column(name = "COGNIZANT_AUDITOR")
     private Integer cognizantAuditor;
 
+    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "COGNIZANT_AUDITOR", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex cognizantAuditorRolodex;
 
+    @Column(name = "COM_GOV_ENTITY_CODE")
     private String comGovEntityCode;
 
+    @Column(name = "CONGRESSIONAL_DISTRICT")
     private String congressionalDistrict;
 
+    @Column(name = "CONTACT_ADDRESS_ID")
     private Integer contactAddressId;
 
+    @Column(name = "COUNTY")
     private String county;
 
+    @Column(name = "DODAC_NUMBER")
     private String dodacNumber;
 
+    @Column(name = "DUNS_NUMBER")
     private String dunsNumber;
 
+    @Column(name = "DUNS_PLUS_FOUR_NUMBER")
     private String dunsPlusFourNumber;
 
+    @Column(name = "FEDRAL_EMPLOYER_ID")
     private String federalEmployerId;
 
+    @Column(name = "HUMAN_SUB_ASSURANCE")
     private String humanSubAssurance;
 
+    @Column(name = "INCORPORATED_DATE")
     private Date incorporatedDate;
 
+    @Column(name = "INCORPORATED_IN")
     private String incorporatedIn;
 
+    @Column(name = "INDIRECT_COST_RATE_AGREEMENT")
     private String indirectCostRateAgreement;
 
+    @Column(name = "IRS_TAX_EXCEMPTION")
     private String irsTaxExemption;
 
+    @Column(name = "MASS_EMPLOYEE_CLAIM")
     private String stateEmployeeClaim;
 
+    @Column(name = "MASS_TAX_EXCEMPT_NUM")
     private String stateTaxExemptNum;
 
+    @Column(name = "NSF_INSTITUTIONAL_CODE")
     private String nsfInstitutionalCode;
 
+    @Column(name = "NUMBER_OF_EMPLOYEES")
     private Integer numberOfEmployees;
 
+    @Column(name = "ONR_RESIDENT_REP")
     private Integer onrResidentRep;
 
+    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ONR_RESIDENT_REP", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex onrResidentRepRolodex;
 
+    @Column(name = "ORGANIZATION_NAME")
     private String organizationName;
 
+    @Column(name = "PHS_ACOUNT")
     private String phsAccount;
 
+    @Column(name = "SCIENCE_MISCONDUCT_COMPL_DATE")
     private Date scienceMisconductComplDate;
 
+    @Column(name = "TELEX_NUMBER")
     private String telexNumber;
 
+    @Column(name = "VENDOR_CODE")
     private String vendorCode;
 
+    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "CONTACT_ADDRESS_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 
+    @OneToMany(mappedBy = "organization")
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private List<OrganizationYnq> organizationYnqs;
 
+    @OneToMany(targetEntity = OrganizationType.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private List<OrganizationType> organizationTypes;
 
+    @OneToMany(mappedBy = "organization")
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private List<OrganizationIndirectcost> organizationIdcs;
 
+    @OneToMany(mappedBy = "organization")
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private List<OrganizationAudit> organizationAudits;
 
     @SuppressWarnings("unchecked")
@@ -439,7 +499,6 @@ public class Organization extends KraPersistableBusinessObjectBase {
         this.onrResidentRepRolodex = onrResidentRepRolodex;
     }
 
-
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -447,5 +506,4 @@ public class Organization extends KraPersistableBusinessObjectBase {
         managedLists.add(this.organizationTypes);
         return managedLists;
     }
-
 }

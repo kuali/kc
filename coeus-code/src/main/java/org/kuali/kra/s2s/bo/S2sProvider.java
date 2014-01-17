@@ -15,38 +15,62 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
+@Entity
+@Table(name = "S2S_PROVIDERS")
 public class S2sProvider extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 7014451402458842899L;
-    
+
+    @Id
+    @Column(name = "CODE")
     private String code;
+
+    @Column(name = "DESCRIPTION")
     private String description;
+
+    @Column(name = "CONNECTOR_SERVICE_NAME")
     private String connectorServiceName;
+
+    @Column(name = "ACTIVE")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean active = true;
-    
+
     public String getCode() {
         return code;
     }
+
     public void setCode(String code) {
         this.code = code;
     }
+
     public String getConnectorServiceName() {
         return connectorServiceName;
     }
+
     public void setConnectorServiceName(String connectorServiceName) {
         this.connectorServiceName = connectorServiceName;
     }
+
     public boolean isActive() {
         return active;
     }
+
     public void setActive(boolean active) {
         this.active = active;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }

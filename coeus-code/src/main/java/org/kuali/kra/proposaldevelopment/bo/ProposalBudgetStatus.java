@@ -15,7 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.proposaldevelopment.bo.BudgetStatus;
 
 /**
  * This class represents a proposal status.  It maps to a separate table in
@@ -24,12 +32,19 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * Development module without causing a wholesale collision between the two
  * documents.
  */
+@Entity
+@Table(name = "EPS_PROPOSAL_BUDGET_STATUS")
 public class ProposalBudgetStatus extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Column(name = "BUDGET_STATUS_CODE")
     private String budgetStatusCode;
 
+    @ManyToOne(targetEntity = BudgetStatus.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_STATUS_CODE", referencedColumnName = "BUDGET_STATUS_CODE", insertable = false, updatable = false)
     private BudgetStatus budgetStatus;
 
     public String getProposalNumber() {

@@ -15,17 +15,45 @@
  */
 package org.kuali.kra.bo;
 
+import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kra.bo.Organization;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
+@Entity
+@Table(name = "ORGANIZATION_AUDIT")
+@IdClass(OrganizationAudit.OrganizationAuditId.class)
 public class OrganizationAudit extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "FISCAL_YEAR")
     private String fiscalYear;
 
+    @Id
+    @Column(name = "ORGANIZATION_ID")
     private String organizationId;
 
+    @Column(name = "AUDIT_ACCEPTED")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean auditAccepted;
 
+    @Column(name = "AUDIT_COMMENT")
     private String auditComment;
 
+    @ManyToOne(targetEntity = Organization.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 
     public OrganizationAudit() {
@@ -70,5 +98,55 @@ public class OrganizationAudit extends KraPersistableBusinessObjectBase {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public static final class OrganizationAuditId implements Serializable, Comparable<OrganizationAuditId> {
+
+        private String fiscalYear;
+
+        private String organizationId;
+
+        public String getFiscalYear() {
+            return this.fiscalYear;
+        }
+
+        public void setFiscalYear(String fiscalYear) {
+            this.fiscalYear = fiscalYear;
+        }
+
+        public String getOrganizationId() {
+            return this.organizationId;
+        }
+
+        public void setOrganizationId(String organizationId) {
+            this.organizationId = organizationId;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("fiscalYear", this.fiscalYear).append("organizationId", this.organizationId).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final OrganizationAuditId rhs = (OrganizationAuditId) other;
+            return new EqualsBuilder().append(this.fiscalYear, rhs.fiscalYear).append(this.organizationId, rhs.organizationId).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.fiscalYear).append(this.organizationId).toHashCode();
+        }
+
+        @Override
+        public int compareTo(OrganizationAuditId other) {
+            return new CompareToBuilder().append(this.fiscalYear, other.fiscalYear).append(this.organizationId, other.organizationId).toComparison();
+        }
     }
 }

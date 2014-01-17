@@ -15,16 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class helps create the foundation of attachment data sources.
  */
+@MappedSuperclass
 public abstract class AttachmentDataSource extends KraPersistableBusinessObjectBase {
 
+    @Column(name = "FILE_NAME")
     private String fileName;
 
+    @Column(name = "CONTENT_TYPE")
     private String contentType;
 
     public String getFileName() {

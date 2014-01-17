@@ -15,6 +15,13 @@
  */
 package org.kuali.kra.bo;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -25,25 +32,30 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
+import org.kuali.rice.krad.data.jpa.DisableVersioning;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.sql.Timestamp;
-import java.util.List;
-
+@DisableVersioning
+@MappedSuperclass
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
-    
+
     protected static final int UPDATE_USER_LENGTH = 60;
 
+    @Transient
     private transient KcPersonService kcPersonService;
-    
+
+    @Column(name = "UPDATE_USER")
     private String updateUser;
+
+    @Column(name = "UPDATE_TIMESTAMP")
     private Timestamp updateTimestamp;
+
+    @Transient
     private boolean updateUserSet;
-    
+
+    @Transient
     private transient PersistableBusinessObjectExtension temporaryExtension;
 
     /**
@@ -55,13 +67,12 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
         super.prePersist();
         this.setVersionNumber(new Long(0));
         setUpdateFields();
-
         if (extension != null) {
             temporaryExtension = extension;
             extension = null;
         }
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#afterInsert(org.apache.ojb.broker.PersistenceBroker)
@@ -98,8 +109,8 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     @Override
     protected void preUpdate() {
         super.preUpdate();
-        // Optimistic Locking has been disabled so adding null check and setting version number to 0
-        // If we ever turn Optimistic Locking back on, we need to remove this code
+        // Optimistic Locking has been disabled so adding null check and setting version number to 0                                                                         
+        // If we ever turn Optimistic Locking back on, we need to remove this code                                                                         
         if (this.getVersionNumber() == null) {
             this.setVersionNumber(new Long(0));
         }
@@ -112,12 +123,10 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     private void setUpdateFields() {
         if (!isUpdateUserSet()) {
             String principalName = GlobalVariables.getUserSession().getPrincipalName();
-            
             String lastPrincipalId = (String) GlobalVariables.getUserSession().retrieveObject(Constants.LAST_ACTION_PRINCIPAL_ID);
             if (StringUtils.isNotBlank(lastPrincipalId)) {
                 principalName = getKcPersonService().getKcPersonByPersonId(lastPrincipalId).getUserName();
             }
-            
             setUpdateUser(principalName);
         }
         setUpdateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
@@ -126,15 +135,15 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     public Timestamp getUpdateTimestamp() {
         return updateTimestamp;
     }
-    
+
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
     }
-    
+
     public String getUpdateUser() {
         return updateUser;
     }
-    
+
     /**
      * Sets the update user, making sure it is not the system user and truncating the name so it will fit.
      *
@@ -161,24 +170,24 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     public void setUpdateUserSet(boolean updateUserSet) {
         this.updateUserSet = updateUserSet;
     }
-    
+
     /**
      * 
      * This is ahelper method to get author person name
      * @return
      */
-    public String getAuthorPersonName(){
+    public String getAuthorPersonName() {
         KcPerson person = this.getKcPersonService().getKcPersonByUserName(getUpdateUser());
         return ObjectUtils.isNull(person) ? "Person not found" : person.getFullName();
     }
-    
+
     /**
      * Looks up and returns the KcPersonService.
      * @return the person service. 
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);        
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

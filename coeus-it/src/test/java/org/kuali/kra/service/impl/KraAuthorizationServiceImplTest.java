@@ -45,11 +45,7 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
     private KraAuthorizationService kraAuthService;
     private IdentityService identityManagementService;
     private ProposalDevelopmentService proposalDevelopmentService;
-    
-    /**
-     * Create the mock services and insert them into the kra auth service.
-     * @see org.kuali.kra.KraTestBase#setUp()
-     */
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -65,7 +61,7 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
     public void testGetUsernames() throws Exception {
         ProposalDevelopmentDocument doc = createProposal("Proposal-1", "000001");
         List<String> usernames = kraAuthService.getUserNames(doc, RoleConstants.AGGREGATOR);
-        assertTrue(usernames.size() == 1);
+        assertEquals(1, usernames.size());
     }
     
     /**
@@ -77,7 +73,7 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
         PrincipalContract userMajors = identityManagementService.getPrincipalByPrincipalName("majors");
         kraAuthService.addRole(userMajors.getPrincipalId(), RoleConstants.AGGREGATOR, doc);
         List<String> usernames = kraAuthService.getUserNames(doc, RoleConstants.AGGREGATOR);
-        assertTrue(usernames.size() == 2);
+        assertEquals(2, usernames.size());
         assertTrue(usernames.contains("majors"));
     }
 
@@ -242,11 +238,11 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
 
         proposalDevelopmentService.initializeUnitOrganizationLocation(document);
         proposalDevelopmentService.initializeProposalSiteNumbers(document);
-        
-        getDocumentService().saveDocument(document);
+
+        document = (ProposalDevelopmentDocument) getDocumentService().saveDocument(document);
         initializeProposalUsers(document);
-        
-        getDocumentService().saveDocument(document);
+
+        document = (ProposalDevelopmentDocument) getDocumentService().saveDocument(document);
         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertNotNull(savedDocument);
 

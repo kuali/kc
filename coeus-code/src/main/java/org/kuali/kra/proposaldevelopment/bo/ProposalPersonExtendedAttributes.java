@@ -15,16 +15,33 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.PrimaryKeyJoinColumns;
+import javax.persistence.Table;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.PersonAppointment;
 import org.kuali.kra.bo.PersonDegree;
-
-import java.util.List;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 /**
  * 
  * This class manages the copy of each proposal person's extended attributes, and are edit-able.
  */
+@Entity
+@Table(name = "EPS_PROP_PERSON_EXT")
+@IdClass(ProposalPersonExtendedAttributes.ProposalPersonExtendedAttributesId.class)
 public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes {
 
     /**
@@ -34,12 +51,19 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
 
     private static final String UNSUPPORTED_OPPERATION_ERROR_MESSAGE = "ProposalPersonExtendedAttributes intentionally not supporting this method.";
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "PROP_PERSON_NUMBER")
     private Integer proposalPersonNumber;
 
+    @Column(name = "PROP_PERSON_ROLE_ID")
     private String proposalPersonRoleId;
 
+    @OneToOne(mappedBy="proposalPersonExtendedAttributes")
+    @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
     private ProposalPerson proposalPerson;
 
     /**
@@ -173,5 +197,55 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
     @Override
     public void setPersonAppointments(List<PersonAppointment> personAppointments) {
         throw new UnsupportedOperationException(UNSUPPORTED_OPPERATION_ERROR_MESSAGE);
+    }
+
+    public static final class ProposalPersonExtendedAttributesId implements Serializable, Comparable<ProposalPersonExtendedAttributesId> {
+
+        private String proposalNumber;
+
+        private Integer proposalPersonNumber;
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public Integer getProposalPersonNumber() {
+            return this.proposalPersonNumber;
+        }
+
+        public void setProposalPersonNumber(Integer proposalPersonNumber) {
+            this.proposalPersonNumber = proposalPersonNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("proposalPersonNumber", this.proposalPersonNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalPersonExtendedAttributesId rhs = (ProposalPersonExtendedAttributesId) other;
+            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.proposalPersonNumber, rhs.proposalPersonNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.proposalPersonNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalPersonExtendedAttributesId other) {
+            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.proposalPersonNumber, other.proposalPersonNumber).toComparison();
+        }
     }
 }

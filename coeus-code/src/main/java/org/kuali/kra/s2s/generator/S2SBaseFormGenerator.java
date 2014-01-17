@@ -222,7 +222,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     protected AttachedFileDataType getAttachedFileType(Narrative narrative) {
         AttachedFileDataType attachedFileDataType = null;
         byte[] attachementContent = null;
-        narrative.refreshReferenceObject("narrativeAttachmentList");
+        //narrative.refreshReferenceObject("narrativeAttachmentList");
         if(narrative.getNarrativeAttachmentList()!= null && narrative.getNarrativeAttachmentList().size() > 0 ){
         	attachementContent = narrative.getNarrativeAttachmentList().get(0).getContent();
         }
@@ -236,7 +236,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 	        attachedFileDataType.setFileLocation(fileLocation);
 	        attachedFileDataType.setFileName(narrative.getFileName());
 	        attachedFileDataType.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-	        narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
+	        //narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
 			attachedFileDataType.setHashValue(getHashValue(attachementContent));
 	        AttachmentData attachmentData = new AttachmentData();
 	        attachmentData.setContent(attachementContent);
@@ -323,7 +323,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
                 attachedFileDataType.setFileLocation(fileLocation);
                 attachedFileDataType.setFileName(proposalPersonBiography.getFileName());
                 attachedFileDataType.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-                proposalPersonBiography.refreshReferenceObject("personnelAttachmentList");
+                //proposalPersonBiography.refreshReferenceObject("personnelAttachmentList");
                 attachedFileDataType.setHashValue(getHashValue(proposalPersonBiography.getPersonnelAttachmentList().get(0)
                         .getContent()));
                 AttachmentData attachmentData = new AttachmentData();

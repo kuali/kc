@@ -634,7 +634,7 @@
             <foreignkey field-ref="typeCode"/>
         </reference-descriptor>
         
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none">
             <foreignkey field-ref="fileId"/>
         </reference-descriptor>
         
@@ -667,7 +667,7 @@
             <foreignkey field-ref="typeCode"/>
         </reference-descriptor>
         
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none">
             <foreignkey field-ref="fileId"/>
         </reference-descriptor>
         
@@ -1098,7 +1098,7 @@
 	    <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="privateFlag" column="PRIVATE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="protocolPersonCanView" column="PROTOCOL_PERSON_CAN_VIEW_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none">
             <foreignkey field-ref="fileId"/>
          </reference-descriptor>
 		 <reference-descriptor name="protocolOnlineReview" class-ref="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 

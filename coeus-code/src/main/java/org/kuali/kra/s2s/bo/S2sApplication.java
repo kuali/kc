@@ -15,16 +15,33 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.s2s.bo.S2sAppAttachments;
 
+@Entity
+@Table(name = "S2S_APPLICATION")
 public class S2sApplication extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Column(name = "APPLICATION")
+    @Lob
     private String application;
 
+    @OneToMany(targetEntity = S2sAppAttachments.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sAppAttachments> s2sAppAttachmentList;
 
     public String getProposalNumber() {

@@ -15,93 +15,145 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.rice.krad.bo.PersistableAttachmentList;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.springframework.util.AutoPopulatingList;
-
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.kuali.kra.bo.CitizenshipType;
+import org.kuali.rice.krad.bo.PersistableAttachmentList;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * Class contains attributes related to a KIM entity that do not currently have a home inside of KIM.
  */
+@MappedSuperclass
 public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase implements PersistableAttachmentList<PersonBiosketch> {
 
     private static final long serialVersionUID = 4705483839362366571L;
 
+    @Column(name = "PERSON_ID")
     private String personId;
 
+    @Column(name = "AGE_BY_FISCAL_YEAR")
     private Integer ageByFiscalYear;
 
+    @Column(name = "RACE")
     private String race;
 
+    @Column(name = "EDUCATION_LEVEL")
     private String educationLevel;
 
+    @Column(name = "DEGREE")
     private String degree;
 
+    @Column(name = "MAJOR")
     private String major;
 
+    @Column(name = "IS_HANDICAPPED")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean handicappedFlag;
 
+    @Column(name = "HANDICAP_TYPE")
     private String handicapType;
 
+    @Column(name = "IS_VETERAN")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean veteranFlag;
 
+    @Column(name = "VETERAN_TYPE")
     private String veteranType;
 
+    @Column(name = "VISA_CODE")
     private String visaCode;
 
+    @Column(name = "VISA_TYPE")
     private String visaType;
 
+    @Column(name = "VISA_RENEWAL_DATE")
     private Date visaRenewalDate;
 
+    @Column(name = "HAS_VISA")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean hasVisa;
 
+    @Column(name = "OFFICE_LOCATION")
     private String officeLocation;
 
+    @Column(name = "SECONDRY_OFFICE_LOCATION")
     private String secondaryOfficeLocation;
 
+    @Column(name = "SCHOOL")
     private String school;
 
+    @Column(name = "YEAR_GRADUATED")
     private String yearGraduated;
 
+    @Column(name = "DIRECTORY_DEPARTMENT")
     private String directoryDepartment;
 
+    @Column(name = "PRIMARY_TITLE")
     private String primaryTitle;
 
+    @Column(name = "DIRECTORY_TITLE")
     private String directoryTitle;
 
+    @Column(name = "VACATION_ACCURAL")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean vacationAccrualFlag;
 
+    @Column(name = "IS_ON_SABBATICAL")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean onSabbaticalFlag;
 
+    @Column(name = "ID_PROVIDED")
     private String idProvided;
 
+    @Column(name = "ID_VERIFIED")
     private String idVerified;
 
+    @Column(name = "COUNTY")
     private String county;
 
+    @Column(name = "CITIZENSHIP_TYPE_CODE")
     private Integer citizenshipTypeCode;
 
+    @Transient
     private String multiCampusPrincipalId;
 
+    @Transient
     private String multiCampusPrincipalName;
-    
+
+    @Transient
     private String eraCommonUserName;
-    
+
+    @Transient
     private Date salaryAnniversaryDate;
-    
+
+    @Transient
     private List<PersonBiosketch> attachments = new AutoPopulatingList<PersonBiosketch>(PersonBiosketch.class);
 
+    @Transient
     private List<PersonDegree> personDegrees = new AutoPopulatingList<PersonDegree>(PersonDegree.class);
 
+    @Transient
     private List<PersonAppointment> personAppointments = new AutoPopulatingList<PersonAppointment>(PersonAppointment.class);
 
+    @Transient
     private List<PersonCustomData> personCustomDataList = new AutoPopulatingList<PersonCustomData>(PersonCustomData.class);
 
+    @ManyToOne(targetEntity = CitizenshipType.class, cascade = { CascadeType.REFRESH, CascadeType.PERSIST })
+    @JoinColumn(name = "CITIZENSHIP_TYPE_CODE", referencedColumnName = "CITIZENSHIP_TYPE_CODE", insertable = false, updatable = false)
     private CitizenshipType citizenshipType;
-    
 
     /**
      * Gets the value of personId which is actually the KIM principal id.
@@ -518,7 +570,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     public void setCounty(String argCounty) {
         this.county = argCounty;
     }
-    
+
     @Override
     public List<PersonBiosketch> getAttachments() {
         return attachments;
@@ -600,7 +652,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     public void setSalaryAnniversaryDate(Date salaryAnniversaryDate) {
         this.salaryAnniversaryDate = salaryAnniversaryDate;
     }
-    
+
     /**
      * Gets the eraCommonUserName attribute. 
      * @return Returns the eraCommonUserName.
@@ -608,7 +660,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     public String getEraCommonUserName() {
         return this.eraCommonUserName;
     }
-    
+
     /**
      * Sets the eraCommonUserName attribute value.
      * @param eraCommonUserName The eraCommonUserName to set.
@@ -626,5 +678,4 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
         deleteAwareList.add((Collection) getPersonAppointments());
         return deleteAwareList;
     }
-    
 }

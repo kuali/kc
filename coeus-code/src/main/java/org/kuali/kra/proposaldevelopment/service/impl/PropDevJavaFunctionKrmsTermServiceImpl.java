@@ -55,7 +55,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     @Override
     public Boolean specifiedGGForm(DevelopmentProposal developmentProposal, String formNames) {
         String[] formNamesArray = buildArrayFromCommaList(formNames);
-        developmentProposal.refreshReferenceObject("s2sOppForms");
+        //developmentProposal.refreshReferenceObject("s2sOppForms");
         List<S2sOppForms> s2sOppForms = developmentProposal.getS2sOppForms();
         for (int i = 0; i < formNamesArray.length; i++) {
             String formName = formNamesArray[i].trim();

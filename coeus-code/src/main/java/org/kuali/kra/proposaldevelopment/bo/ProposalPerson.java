@@ -15,20 +15,50 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.*;
-import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.Sponsorable;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.PrimaryKeyJoinColumns;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.bo.*;
+import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.data.jpa.converters.KualiDecimalConverter;
 
 /**
  * Class representation of the Proposal Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
@@ -38,205 +68,334 @@ import java.util.List;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.42 $
  */
+@Entity
+@Table(name = "EPS_PROP_PERSON")
+@IdClass(ProposalPerson.ProposalPersonId.class)
 public class ProposalPerson extends KraPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditableInterface, AbstractProjectPerson {
 
     private static final long serialVersionUID = -4110005875629288373L;
 
+    @ManyToOne(targetEntity = DevelopmentProposal.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private DevelopmentProposal developmentProposal;
 
+    @Column(name = "CONFLICT_OF_INTEREST_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean conflictOfInterestFlag;
 
+    @Column(name = "IS_OSC")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean otherSignificantContributorFlag;
 
+    @Column(name = "PERCENTAGE_EFFORT")
+    @Convert(converter = KualiDecimalConverter.class)
     private KualiDecimal percentageEffort;
 
+    @Column(name = "FEDR_DEBR_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean fedrDebrFlag;
 
+    @Column(name = "FEDR_DELQ_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean fedrDelqFlag;
 
+    @Column(name = "ROLODEX_ID")
     private Integer rolodexId;
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "PROP_PERSON_NUMBER")
     private Integer proposalPersonNumber;
 
+    @Column(name = "PROP_PERSON_ROLE_ID")
     private String proposalPersonRoleId;
 
+    @OneToOne(targetEntity = ProposalInvestigatorCertification.class, cascade = { CascadeType.REFRESH })
+    @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
     private ProposalInvestigatorCertification certification;
 
+    @ManyToOne(targetEntity = ProposalPersonRole.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROP_PERSON_ROLE_ID", referencedColumnName = "PROP_PERSON_ROLE_ID", insertable = false, updatable = false)
     private ProposalPersonRole role;
 
+    @Transient
     private boolean delete;
 
+    @Transient
     private boolean isInvestigator;
 
+    @Transient
     private boolean roleChanged;
 
+    @OneToMany(targetEntity = ProposalPersonYnq.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false) })
+    @OrderBy("questionId")
     private List<ProposalPersonYnq> proposalPersonYnqs;
 
+    @OneToMany(targetEntity = ProposalPersonUnit.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH, CascadeType.PERSIST })
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false) })
     private List<ProposalPersonUnit> units;
 
+    @OneToMany(targetEntity = ProposalPersonDegree.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH, CascadeType.PERSIST })
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false) })
     private List<ProposalPersonDegree> proposalPersonDegrees;
 
+    @OneToMany(targetEntity = ProposalPersonCreditSplit.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false) })
     private List<ProposalPersonCreditSplit> creditSplits;
 
+    @Transient
     private String simpleName;
 
+    @Column(name = "OPT_IN_UNIT_STATUS")
     private String optInUnitStatus;
 
+    @Column(name = "OPT_IN_CERTIFICATION_STATUS")
     private String optInCertificationStatus;
 
+    @Transient
     private boolean unitdelete;
 
+    @Column(name = "PROJECT_ROLE")
     private String projectRole;
 
+    @Column(name = "ORDINAL_POSITION")
     private Integer ordinalPosition;
 
+    @Column(name = "MULTIPLE_PI")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean multiplePi;
 
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
 
+    @Column(name = "HIDE_IN_HIERARCHY")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
+    @Column(name = "PERSON_ID")
     private String personId;
 
+    @Column(name = "SSN")
     private String socialSecurityNumber;
 
+    @Column(name = "LAST_NAME")
     private String lastName;
 
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
+    @Column(name = "MIDDLE_NAME")
     private String middleName;
 
+    @Column(name = "FULL_NAME")
     private String fullName;
 
+    @Column(name = "PRIOR_NAME")
     private String priorName;
 
+    @Column(name = "USER_NAME")
     private String userName;
 
+    @Column(name = "EMAIL_ADDRESS")
     private String emailAddress;
 
+    @Column(name = "DATE_OF_BIRTH")
     private Date dateOfBirth;
 
+    @Column(name = "AGE")
     private Integer age;
 
+    @Column(name = "AGE_BY_FISCAL_YEAR")
     private Integer ageByFiscalYear;
 
+    @Column(name = "GENDER")
     private String gender;
 
+    @Column(name = "RACE")
     private String race;
 
+    @Column(name = "EDUCATION_LEVEL")
     private String educationLevel;
 
+    @Column(name = "DEGREE")
     private String degree;
 
+    @Column(name = "MAJOR")
     private String major;
 
+    @Column(name = "IS_HANDICAPPED")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean handicappedFlag;
 
+    @Column(name = "HANDICAP_TYPE")
     private String handicapType;
 
+    @Column(name = "IS_VETERAN")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean veteranFlag;
 
+    @Column(name = "VETERAN_TYPE")
     private String veteranType;
 
+    @Column(name = "VISA_CODE")
     private String visaCode;
 
+    @Column(name = "VISA_TYPE")
     private String visaType;
 
+    @Column(name = "VISA_RENEWAL_DATE")
     private Date visaRenewalDate;
 
+    @Column(name = "HAS_VISA")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean hasVisa;
 
+    @Column(name = "OFFICE_LOCATION")
     private String officeLocation;
 
+    @Column(name = "OFFICE_PHONE")
     private String officePhone;
 
+    @Column(name = "SECONDRY_OFFICE_LOCATION")
     private String secondaryOfficeLocation;
 
+    @Column(name = "SECONDRY_OFFICE_PHONE")
     private String secondaryOfficePhone;
 
+    @Column(name = "SCHOOL")
     private String school;
 
+    @Column(name = "YEAR_GRADUATED")
     private String yearGraduated;
 
+    @Column(name = "DIRECTORY_DEPARTMENT")
     private String directoryDepartment;
 
+    @Column(name = "SALUTATION")
     private String saluation;
 
+    @Column(name = "COUNTRY_OF_CITIZENSHIP")
     private String countryOfCitizenship;
 
+    @Column(name = "PRIMARY_TITLE")
     private String primaryTitle;
 
+    @Column(name = "DIRECTORY_TITLE")
     private String directoryTitle;
 
+    @Column(name = "HOME_UNIT")
     private String homeUnit;
 
+    @Column(name = "IS_FACULTY")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean facultyFlag;
 
+    @Column(name = "IS_GRADUATE_STUDENT_STAFF")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean graduateStudentStaffFlag;
 
+    @Column(name = "IS_RESEARCH_STAFF")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean researchStaffFlag;
 
+    @Column(name = "IS_SERVICE_STAFF")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean serviceStaffFlag;
 
+    @Column(name = "IS_SUPPORT_STAFF")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean supportStaffFlag;
 
+    @Column(name = "IS_OTHER_ACCADEMIC_GROUP")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean otherAcademicGroupFlag;
 
+    @Column(name = "IS_MEDICAL_STAFF")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean medicalStaffFlag;
 
+    @Column(name = "VACATION_ACCURAL")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean vacationAccrualFlag;
 
+    @Column(name = "IS_ON_SABBATICAL")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean onSabbaticalFlag;
 
+    @Column(name = "ID_PROVIDED")
     private String idProvided;
 
+    @Column(name = "ID_VERIFIED")
     private String idVerified;
 
+    @Column(name = "ADDRESS_LINE_1")
     private String addressLine1;
 
+    @Column(name = "ADDRESS_LINE_2")
     private String addressLine2;
 
+    @Column(name = "ADDRESS_LINE_3")
     private String addressLine3;
 
+    @Column(name = "CITY")
     private String city;
 
+    @Column(name = "COUNTY")
     private String county;
 
+    @Column(name = "STATE")
     private String state;
 
+    @Column(name = "POSTAL_CODE")
     private String postalCode;
 
+    @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
+    @Column(name = "FAX_NUMBER")
     private String faxNumber;
 
+    @Column(name = "PAGER_NUMBER")
     private String pagerNumber;
 
+    @Column(name = "MOBILE_PHONE_NUMBER")
     private String mobilePhoneNumber;
 
+    @Column(name = "ERA_COMMONS_USER_NAME")
     private String eraCommonsUserName;
-    
+
+    @Column(name = "DIVISION")
     private String division;
 
+    @Transient
     private Boolean active = true;
 
+    @Transient
     private Unit homeUnitRef;
 
+    @OneToOne(targetEntity = ProposalPersonExtendedAttributes.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE })
+    @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
     private ProposalPersonExtendedAttributes proposalPersonExtendedAttributes;
 
+    @Transient
     private transient boolean moveDownAllowed;
 
+    @Transient
     private transient boolean moveUpAllowed;
 
+    @Transient
     private transient KcPersonService kcPersonService;
 
     /**
      * This list is not automatically populated by the ORM by design.
      * Call ProposalDevelopmentPersonQuestionnaireService.setAnswerHeaders() to set this list.
      */
-    //private List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>(); 
+    //private List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();  
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;
     }
@@ -751,7 +910,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         if (obj == null) {
             return false;
         }
-        // Assume if obj is a String, then it must represent the PERSON_ID or ROLODEX_ID 
+        // Assume if obj is a String, then it must represent the PERSON_ID or ROLODEX_ID  
         if (obj instanceof String) {
             return (obj.equals(getPersonId()) || obj.equals(getRolodexId()));
         }
@@ -1946,8 +2105,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      */
     public String getEraCommonsUserName() {
         if (StringUtils.isBlank(eraCommonsUserName) && personId != null) {
-            this.eraCommonsUserName = getKcPersonService().getKcPersonByPersonId(personId).
-                                        getExtendedAttributes().getEraCommonUserName();
+            this.eraCommonsUserName = getKcPersonService().getKcPersonByPersonId(personId).getExtendedAttributes().getEraCommonUserName();
         }
         return this.eraCommonsUserName;
     }
@@ -1960,7 +2118,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public void setEraCommonsUserName(String argEraCommonsUserName) {
         this.eraCommonsUserName = argEraCommonsUserName;
     }
-    
+
     /**
      * 
      * Gets the value of division;
@@ -1970,7 +2128,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public String getDivision() {
         return division;
     }
-       /**
+
+    /**
      * Sets the value of division
      * 
      * @param division Value to assign to this.division
@@ -2132,5 +2291,55 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     @Override
     public String getRoleCode() {
         return this.getRole().getRoleCode();
+    }
+
+    public static final class ProposalPersonId implements Serializable, Comparable<ProposalPersonId> {
+
+        private String proposalNumber;
+
+        private Integer proposalPersonNumber;
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public Integer getProposalPersonNumber() {
+            return this.proposalPersonNumber;
+        }
+
+        public void setProposalPersonNumber(Integer proposalPersonNumber) {
+            this.proposalPersonNumber = proposalPersonNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("proposalPersonNumber", this.proposalPersonNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalPersonId rhs = (ProposalPersonId) other;
+            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.proposalPersonNumber, rhs.proposalPersonNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.proposalPersonNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalPersonId other) {
+            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.proposalPersonNumber, other.proposalPersonNumber).toComparison();
+        }
     }
 }

@@ -121,6 +121,8 @@
     <property name="attributes">
       <list>
         <ref bean="ProposalDevelopmentDocument-versionNumber"/>
+        <ref bean="ProposalDevelopmentDocument-updateUser"/>
+        <ref bean="ProposalDevelopmentDocument-updateTimestamp"/>
       </list>
     </property>
   </bean>
@@ -131,6 +133,17 @@
 
   <bean id="ProposalDevelopmentDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
+
+    <bean id="ProposalDevelopmentDocument-updateUser" parent="ProposalDevelopmentDocument-updateUser-parentBean" />
+
+    <bean id="ProposalDevelopmentDocument-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser">
+        <property name="description" value="The user who created or last modified the Proposal Development Document." />
+    </bean>
+    <bean id="ProposalDevelopmentDocument-updateTimestamp" parent="ProposalDevelopmentDocument-updateTimestamp-parentBean" />
+
+    <bean id="ProposalDevelopmentDocument-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
+        <property name="description" value="The timestamp when the Proposal Development Document was created or last modified." />
+    </bean>
   
   <bean id="ProposalDevelopmentDocument-workflowProperties" parent="ProposalDevelopmentDocument-workflowProperties-parentBean"/>
   <bean id="ProposalDevelopmentDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >

@@ -15,11 +15,20 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "ORGANIZATION_TYPE_LIST")
 public class OrganizationTypeList extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "ORGANIZATION_TYPE_CODE")
     private Integer organizationTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public OrganizationTypeList() {

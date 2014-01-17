@@ -15,22 +15,40 @@
  */
 package org.kuali.kra.proposaldevelopment.specialreview;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
 
 /**
  * Defines a Special Review for a Development Proposal.
  */
+@Entity
+@Table(name = "EPS_PROP_SPECIAL_REVIEW")
 public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewExemption> implements HierarchyMaintainable {
 
     private static final long serialVersionUID = 4616138222389685155L;
 
+    @PortableSequenceGenerator(name = "SEQ_EPS_PROP_SPECIAL_REVIEW_ID")
+    @GeneratedValue(generator = "SEQ_EPS_PROP_SPECIAL_REVIEW_ID")
+    @Id
+    @Column(name = "PROPOSAL_SPECIAL_REVIEW_ID")
     private Long proposalSpecialReviewId;
 
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
 
+    @Column(name = "HIDE_IN_HIERARCHY")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
     public void setProposalSpecialReviewId(Long proposalSpecialReviewId) {
