@@ -1,5 +1,5 @@
 /*
-kc * Copyright 2005-2013 The Kuali Foundation.
+kc * Copyright 2005-2014 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
