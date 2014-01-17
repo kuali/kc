@@ -15,11 +15,41 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
@@ -27,64 +57,90 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
  * 
  * This class is BO for narrarive
  */
+@Entity
+@Table(name = "NARRATIVE")
+@IdClass(Narrative.NarrativeId.class)
 public class Narrative extends KraPersistableBusinessObjectBase implements HierarchyMaintainable, KcAttachment {
 
-
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "MODULE_NUMBER")
     private Integer moduleNumber;
 
+    @Column(name = "COMMENTS")
     private String comments;
 
+    @Column(name = "CONTACT_NAME")
     private String contactName;
 
+    @Column(name = "EMAIL_ADDRESS")
     private String emailAddress;
 
+    @Column(name = "MODULE_SEQUENCE_NUMBER")
     private Integer moduleSequenceNumber;
 
+    @Column(name = "MODULE_STATUS_CODE")
     private String moduleStatusCode;
 
+    @Column(name = "MODULE_TITLE")
     private String moduleTitle;
 
+    @Column(name = "NARRATIVE_TYPE_CODE")
     private String narrativeTypeCode;
 
+    @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
 
+    @ManyToOne(targetEntity = NarrativeType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "NARRATIVE_TYPE_CODE", referencedColumnName = "NARRATIVE_TYPE_CODE", insertable = false, updatable = false)
     private NarrativeType narrativeType;
 
+    @ManyToOne(targetEntity = NarrativeStatus.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "MODULE_STATUS_CODE", referencedColumnName = "NARRATIVE_STATUS_CODE", insertable = false, updatable = false)
     private NarrativeStatus narrativeStatus;
 
+    @Column(name = "FILE_NAME")
     private String fileName;
 
+    @Column(name = "CONTENT_TYPE")
     private String contentType;
 
+    @OneToMany(targetEntity = NarrativeUserRights.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "MODULE_NUMBER", referencedColumnName = "MODULE_NUMBER", insertable = false, updatable = false) })
     private List<NarrativeUserRights> narrativeUserRights;
 
+    @OneToMany(targetEntity = NarrativeAttachment.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "MODULE_NUMBER", referencedColumnName = "MODULE_NUMBER", insertable = false, updatable = false) })
     private List<NarrativeAttachment> narrativeAttachmentList;
 
+    @Transient
     private transient FormFile narrativeFile;
 
+    @Transient
     private Timestamp timestampDisplay;
 
+    @Transient
     private String uploadUserDisplay;
 
+    @Transient
     private String uploadUserFullName;
 
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
 
+    @Column(name = "HIDE_IN_HIERARCHY")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
     public Narrative() {
@@ -187,10 +243,12 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
                 public int compare(Object o1, Object o2) {
                     NarrativeUserRights r1 = (NarrativeUserRights) o1;
                     NarrativeUserRights r2 = (NarrativeUserRights) o2;
-                    if (r1 == null || r2 == null) return 0;
+                    if (r1 == null || r2 == null)
+                        return 0;
                     String name1 = r1.getPersonName();
                     String name2 = r2.getPersonName();
-                    if (name1 == null || name2 == null) return 0;
+                    if (name1 == null || name2 == null)
+                        return 0;
                     return name1.compareTo(name2);
                 }
             });
@@ -261,7 +319,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
      * @param institutionalAttachmentTypeCode
      */
     public void setInstitutionalAttachmentTypeCode(String institutionalAttachmentTypeCode) {
-        //this.institutionalAttachmentTypeCode = institutionalAttachmentTypeCode; 
+        //this.institutionalAttachmentTypeCode = institutionalAttachmentTypeCode;  
         this.narrativeTypeCode = institutionalAttachmentTypeCode;
     }
 
@@ -301,13 +359,13 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
     }
-    
+
     /**
      * Can the current user change the status of attachment?
      * @return true if the user can modify the status of attachments; otherwise false
      */
     public boolean getModifyAttachmentStatus(String userId) {
-        if(getNarrativeUserRights().isEmpty()) {
+        if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
         TaskAuthorizationService taskAuthorizatioNService = KraServiceLocator.getService(TaskAuthorizationService.class);
@@ -347,7 +405,8 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
      */
     public void populateAttachment() {
         FormFile narrativeFile = getNarrativeFile();
-        if (narrativeFile == null) return;
+        if (narrativeFile == null)
+            return;
         byte[] narrativeFileData;
         try {
             narrativeFileData = narrativeFile.getFileData();
@@ -433,49 +492,78 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         Narrative other = (Narrative) obj;
         if (comments == null) {
-            if (other.comments != null) return false;
-        } else if (!comments.equals(other.comments)) return false;
+            if (other.comments != null)
+                return false;
+        } else if (!comments.equals(other.comments))
+            return false;
         if (contactName == null) {
-            if (other.contactName != null) return false;
-        } else if (!contactName.equals(other.contactName)) return false;
+            if (other.contactName != null)
+                return false;
+        } else if (!contactName.equals(other.contactName))
+            return false;
         if (emailAddress == null) {
-            if (other.emailAddress != null) return false;
-        } else if (!emailAddress.equals(other.emailAddress)) return false;
+            if (other.emailAddress != null)
+                return false;
+        } else if (!emailAddress.equals(other.emailAddress))
+            return false;
         if (fileName == null) {
-            if (other.fileName != null) return false;
-        } else if (!fileName.equals(other.fileName)) return false;
+            if (other.fileName != null)
+                return false;
+        } else if (!fileName.equals(other.fileName))
+            return false;
         if (moduleNumber == null) {
-            if (other.moduleNumber != null) return false;
-        } else if (!moduleNumber.equals(other.moduleNumber)) return false;
+            if (other.moduleNumber != null)
+                return false;
+        } else if (!moduleNumber.equals(other.moduleNumber))
+            return false;
         if (moduleSequenceNumber == null) {
-            if (other.moduleSequenceNumber != null) return false;
-        } else if (!moduleSequenceNumber.equals(other.moduleSequenceNumber)) return false;
+            if (other.moduleSequenceNumber != null)
+                return false;
+        } else if (!moduleSequenceNumber.equals(other.moduleSequenceNumber))
+            return false;
         if (moduleStatusCode == null) {
-            if (other.moduleStatusCode != null) return false;
-        } else if (!moduleStatusCode.equals(other.moduleStatusCode)) return false;
+            if (other.moduleStatusCode != null)
+                return false;
+        } else if (!moduleStatusCode.equals(other.moduleStatusCode))
+            return false;
         if (moduleTitle == null) {
-            if (other.moduleTitle != null) return false;
-        } else if (!moduleTitle.equals(other.moduleTitle)) return false;
+            if (other.moduleTitle != null)
+                return false;
+        } else if (!moduleTitle.equals(other.moduleTitle))
+            return false;
         if (narrativeStatus == null) {
-            if (other.narrativeStatus != null) return false;
-        } else if (!narrativeStatus.equals(other.narrativeStatus)) return false;
+            if (other.narrativeStatus != null)
+                return false;
+        } else if (!narrativeStatus.equals(other.narrativeStatus))
+            return false;
         if (narrativeType == null) {
-            if (other.narrativeType != null) return false;
-        } else if (!narrativeType.equals(other.narrativeType)) return false;
+            if (other.narrativeType != null)
+                return false;
+        } else if (!narrativeType.equals(other.narrativeType))
+            return false;
         if (narrativeTypeCode == null) {
-            if (other.narrativeTypeCode != null) return false;
-        } else if (!narrativeTypeCode.equals(other.narrativeTypeCode)) return false;
+            if (other.narrativeTypeCode != null)
+                return false;
+        } else if (!narrativeTypeCode.equals(other.narrativeTypeCode))
+            return false;
         if (phoneNumber == null) {
-            if (other.phoneNumber != null) return false;
-        } else if (!phoneNumber.equals(other.phoneNumber)) return false;
+            if (other.phoneNumber != null)
+                return false;
+        } else if (!phoneNumber.equals(other.phoneNumber))
+            return false;
         if (proposalNumber == null) {
-            if (other.proposalNumber != null) return false;
-        } else if (!proposalNumber.equals(other.proposalNumber)) return false;
+            if (other.proposalNumber != null)
+                return false;
+        } else if (!proposalNumber.equals(other.proposalNumber))
+            return false;
         return true;
     }
 
@@ -581,4 +669,53 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
         return getContentType();
     }
 
+    public static final class NarrativeId implements Serializable, Comparable<NarrativeId> {
+
+        private String proposalNumber;
+
+        private Integer moduleNumber;
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public Integer getModuleNumber() {
+            return this.moduleNumber;
+        }
+
+        public void setModuleNumber(Integer moduleNumber) {
+            this.moduleNumber = moduleNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("moduleNumber", this.moduleNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final NarrativeId rhs = (NarrativeId) other;
+            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.moduleNumber, rhs.moduleNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.moduleNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(NarrativeId other) {
+            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.moduleNumber, other.moduleNumber).toComparison();
+        }
+    }
 }

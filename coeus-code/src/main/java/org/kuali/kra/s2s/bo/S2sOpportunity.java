@@ -15,58 +15,103 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.S2sRevisionType;
-
 import java.sql.Timestamp;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.S2sRevisionType;
+import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.kra.s2s.bo.S2sProvider;
+import org.kuali.kra.s2s.bo.S2sSubmissionType;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
+@Entity
+@Table(name = "S2S_OPPORTUNITY")
 public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Column(name = "CFDA_NUMBER")
     private String cfdaNumber;
 
+    @Column(name = "CLOSING_DATE")
     private Timestamp closingDate;
 
+    @Column(name = "COMPETETION_ID")
     private String competetionId;
 
+    @Column(name = "INSTRUCTION_URL")
     private String instructionUrl;
 
+    @Column(name = "OPENING_DATE")
     private Timestamp openingDate;
 
+    @Column(name = "OPPORTUNITY")
+    @Lob
     private String opportunity;
 
-    // opportunityId was changed to fundingOpportunityNumber in V2
+    // opportunityId was changed to fundingOpportunityNumber in V2 
+    @Column(name = "OPPORTUNITY_ID")
     private String opportunityId;
 
-    // this is fundingOpportunityTitle in V2
+    // this is fundingOpportunityTitle in V2 
+    @Column(name = "OPPORTUNITY_TITLE")
     private String opportunityTitle;
 
+    @Column(name = "REVISION_CODE")
     private String revisionCode;
 
+    @Column(name = "REVISION_OTHER_DESCRIPTION")
     private String revisionOtherDescription;
 
+    @Column(name = "S2S_SUBMISSION_TYPE_CODE")
     private String s2sSubmissionTypeCode;
 
+    @Column(name = "SCHEMA_URL")
     private String schemaUrl;
-    
-    private String offeringAgency;
-    
-    private String agencyContactInfo;
-    
-    private String cfdaDescription;
-    
-    private boolean isMultiProject;
 
+    @Column(name = "OFFERING_AGENCY")
+    private String offeringAgency;
+
+    @Column(name = "AGENCY_CONTACT_INFO")
+    private String agencyContactInfo;
+
+    @Column(name = "CFDA_DESCRIPTION")
+    private String cfdaDescription;
+
+    @Column(name = "MULTI_PROJECT")
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean multiProject;
+
+    @OneToMany(targetEntity = S2sOppForms.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sOppForms> s2sOppForms;
 
+    @ManyToOne(targetEntity = S2sSubmissionType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "S2S_SUBMISSION_TYPE_CODE", referencedColumnName = "S2S_SUBMISSION_TYPE_CODE", insertable = false, updatable = false)
     private S2sSubmissionType s2sSubmissionType;
 
+    @ManyToOne(targetEntity = S2sRevisionType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "REVISION_CODE", referencedColumnName = "S2S_REVISION_TYPE_CODE", insertable = false, updatable = false)
     private S2sRevisionType s2sRevisionType;
-    
+
+    @Column(name = "PROVIDER")
     private String providerCode;
-    
+
+    @ManyToOne(targetEntity = S2sProvider.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROVIDER", referencedColumnName = "CODE", insertable = false, updatable = false)
     private S2sProvider s2sProvider;
 
     public String getProposalNumber() {
@@ -249,11 +294,10 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
     }
 
     public boolean isMultiProject() {
-        return isMultiProject;
+        return multiProject;
     }
 
-    public void setMultiProject(boolean isMultiProject) {
-        this.isMultiProject = isMultiProject;
+    public void setMultiProject(boolean multiProject) {
+        this.multiProject = multiProject;
     }
-    
 }

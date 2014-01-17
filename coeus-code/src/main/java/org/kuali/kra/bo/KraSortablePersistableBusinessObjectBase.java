@@ -15,13 +15,19 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+
 /**
  * Defines a sortable Business Object that sorts via a {@code sortId}.
  */
+@MappedSuperclass
 public abstract class KraSortablePersistableBusinessObjectBase extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1375643268900632092L;
-    
+
+    @Column(name = "SORT_ID")
     private Integer sortId;
 
     public Integer getSortId() {
@@ -31,5 +37,4 @@ public abstract class KraSortablePersistableBusinessObjectBase extends KraPersis
     public void setSortId(Integer sortId) {
         this.sortId = sortId;
     }
-
 }

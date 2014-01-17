@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.budget.document;
 
+import java.util.Collections;
+import java.util.List;
+import javax.persistence.MappedSuperclass;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -29,29 +32,25 @@ import org.kuali.rice.kns.datadictionary.KNSDocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
-import java.util.Collections;
-import java.util.List;
-
 @SuppressWarnings("serial")
-public abstract class BudgetParentDocument<T extends BudgetParent> extends ResearchDocumentBase 
-                                                            implements BudgetVersionCollection,BudgetDocumentTypeChecker, Permissionable  {
-    
+@MappedSuperclass
+public abstract class BudgetParentDocument<T extends BudgetParent> extends ResearchDocumentBase implements BudgetVersionCollection, BudgetDocumentTypeChecker, Permissionable {
+
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
      */
     protected ParameterService getParameterService() {
-            return KraServiceLocator.getService(ParameterService.class);        
+        return KraServiceLocator.getService(ParameterService.class);
     }
-    
 
     public BudgetDocumentVersion getFinalBudgetVersion() {
-      for (BudgetDocumentVersion version : getBudgetDocumentVersions()) {
-          if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
-              return version;
-          }
-      }
-      return null;
+        for (BudgetDocumentVersion version : getBudgetDocumentVersions()) {
+            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
+                return version;
+            }
+        }
+        return null;
     }
 
     /**
@@ -69,21 +68,30 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends Resea
         BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);
         return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;
     }
+
     public BudgetDocumentVersion getBudgetDocumentVersion(int selectedLine) {
         return getBudgetDocumentVersions().get(selectedLine);
     }
+
     public abstract Permissionable getBudgetPermissionable();
 
     public abstract boolean isComplete();
+
     public abstract void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument);
+
     public abstract void processAfterRetrieveForBudget(BudgetDocument budgetDocument);
+
     public abstract String getTaskGroupName();
+
     public abstract Task getParentAuthZTask(String taskName);
+
     public abstract ExtraButton configureReturnToParentTopButton();
-    public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
-      DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-      KNSDocumentEntry docEntry = (KNSDocumentEntry) dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
-      return docEntry.getHeaderNavigationList();
+
+    public List<HeaderNavigation> getBudgetHeaderNavigatorList() {
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+        KNSDocumentEntry docEntry = (KNSDocumentEntry) dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
+        return docEntry.getHeaderNavigationList();
     }
+
     public abstract T getBudgetParent();
 }

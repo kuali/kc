@@ -15,17 +15,22 @@
  */
 package org.kuali.kra.budget.versions;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Entity
+@Table(name = "BUDGET_DOCUMENT")
 public class BudgetDocumentVersion extends KraPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion> {
 
     private static final String BUDGET_COMPLETE = "1";
@@ -35,14 +40,22 @@ public class BudgetDocumentVersion extends KraPersistableBusinessObjectBase impl
      */
     private static final long serialVersionUID = -2143813153034264031L;
 
+    @Column(name = "PARENT_DOCUMENT_KEY")
     private String parentDocumentKey;
 
+    @Column(name = "PARENT_DOCUMENT_TYPE_CODE")
     private String parentDocumentTypeCode;
 
+    @OneToMany(targetEntity = BudgetVersionOverview.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
     private List<BudgetVersionOverview> budgetVersionOverviews;
 
+    @Id
+    @Column(name = "DOCUMENT_NUMBER")
     private String documentNumber;
 
+    @OneToOne(targetEntity = DocumentHeader.class, orphanRemoval = true)
+    @PrimaryKeyJoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOC_HDR_ID")
     private DocumentHeader documentHeader;
 
     public BudgetDocumentVersion() {

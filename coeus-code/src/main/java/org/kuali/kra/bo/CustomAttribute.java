@@ -15,32 +15,60 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.kuali.kra.bo.CustomAttributeDataType;
+import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
 
 /**
  * This is bo class of CustomAttribute.
  */
+@Entity
+@Table(name = "CUSTOM_ATTRIBUTE")
 public class CustomAttribute extends KraPersistableBusinessObjectBase {
 
+    @PortableSequenceGenerator(name = "SEQ_CUSTOM_ATTRIBUTE")
+    @GeneratedValue(generator = "SEQ_CUSTOM_ATTRIBUTE")
+    @Id
+    @Column(name = "ID")
     private Integer id;
 
+    @Column(name = "DATA_LENGTH")
     private Integer dataLength;
 
+    @Column(name = "DATA_TYPE_CODE")
     private String dataTypeCode;
 
+    @Column(name = "DEFAULT_VALUE")
     private String defaultValue;
 
+    @Column(name = "GROUP_NAME")
     private String groupName;
 
+    @Column(name = "LABEL")
     private String label;
 
+    @Column(name = "LOOKUP_CLASS")
     private String lookupClass;
 
+    @Column(name = "LOOKUP_RETURN")
     private String lookupReturn;
 
+    @Column(name = "NAME")
     private String name;
 
+    @Transient
     private String value;
 
+    @ManyToOne(targetEntity = CustomAttributeDataType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DATA_TYPE_CODE", referencedColumnName = "DATA_TYPE_CODE", insertable = false, updatable = false)
     private CustomAttributeDataType customAttributeDataType;
 
     public CustomAttribute() {

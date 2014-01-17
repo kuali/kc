@@ -15,9 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
 import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
@@ -28,30 +40,49 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.9 $
  */
+@Entity
+@Table(name = "EPS_PROP_PERSON_DEGREE")
+@IdClass(ProposalPersonDegree.ProposalPersonDegreeId.class)
 public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "PROP_PERSON_NUMBER")
     private Integer proposalPersonNumber;
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "DEGREE_SEQUENCE_NUMBER")
     private Integer degreeSequenceNumber;
 
+    @Column(name = "GRADUATION_YEAR")
     private String graduationYear;
 
+    @Column(name = "DEGREE_CODE")
     private String degreeCode;
 
+    @Column(name = "DEGREE")
     private String degree;
 
+    @Column(name = "FIELD_OF_STUDY")
     private String fieldOfStudy;
 
+    @Column(name = "SPECIALIZATION")
     private String specialization;
 
+    @Column(name = "SCHOOL")
     private String school;
 
+    @Column(name = "SCHOOL_ID_CODE")
     private String schoolIdCode;
 
+    @Column(name = "SCHOOL_ID")
     private String schoolId;
 
+    @ManyToOne(targetEntity = DegreeType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DEGREE_CODE", referencedColumnName = "DEGREE_CODE", insertable = false, updatable = false)
     private DegreeType degreeType;
 
     /**
@@ -263,5 +294,65 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
 
     public void setDegreeSequenceNumber(Integer degreeSequenceNumber) {
         this.degreeSequenceNumber = degreeSequenceNumber;
+    }
+
+    public static final class ProposalPersonDegreeId implements Serializable, Comparable<ProposalPersonDegreeId> {
+
+        private String proposalNumber;
+
+        private Integer proposalPersonNumber;
+
+        private Integer degreeSequenceNumber;
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public Integer getProposalPersonNumber() {
+            return this.proposalPersonNumber;
+        }
+
+        public void setProposalPersonNumber(Integer proposalPersonNumber) {
+            this.proposalPersonNumber = proposalPersonNumber;
+        }
+
+        public Integer getDegreeSequenceNumber() {
+            return this.degreeSequenceNumber;
+        }
+
+        public void setDegreeSequenceNumber(Integer degreeSequenceNumber) {
+            this.degreeSequenceNumber = degreeSequenceNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("proposalPersonNumber", this.proposalPersonNumber).append("degreeSequenceNumber", this.degreeSequenceNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalPersonDegreeId rhs = (ProposalPersonDegreeId) other;
+            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.degreeSequenceNumber, rhs.degreeSequenceNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.proposalPersonNumber).append(this.degreeSequenceNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalPersonDegreeId other) {
+            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.degreeSequenceNumber, other.degreeSequenceNumber).toComparison();
+        }
     }
 }

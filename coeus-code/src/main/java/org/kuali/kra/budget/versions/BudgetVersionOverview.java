@@ -15,18 +15,31 @@
  */
 package org.kuali.kra.budget.versions;
 
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.BudgetDecimalConverter;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
-
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Class representation of a Budget Overview Business Object.  This BO maps to
@@ -34,6 +47,8 @@ import java.util.Map;
  * 
  * @author kra-developers-l@indiana.edu
  */
+@Entity
+@Table(name = "BUDGET")
 public class BudgetVersionOverview extends KraPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
 
     /**
@@ -41,61 +56,106 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
      */
     private static final long serialVersionUID = -4997453399414404715L;
 
+    @Column(name = "VERSION_NUMBER")
     private Integer budgetVersionNumber;
 
     @DeepCopyIgnore
+    @PortableSequenceGenerator(name = "SEQ_BUDGET_ID")
+    @GeneratedValue(generator = "SEQ_BUDGET_ID")
+    @Id
+    @Column(name = "BUDGET_ID")
     private Long budgetId;
 
+    @Column(name = "DOCUMENT_NUMBER")
     private String documentNumber;
 
+    @Transient
     private String documentDescription;
 
+    @Column(name = "COST_SHARING_AMOUNT")
+    @Convert(converter = BudgetDecimalConverter.class)
     private BudgetDecimal costSharingAmount;
 
+    @Column(name = "END_DATE")
     private Date endDate;
 
+    @Column(name = "START_DATE")
     private Date startDate;
 
+    @Column(name = "FINAL_VERSION_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean finalVersionFlag;
 
+    @Column(name = "OH_RATE_TYPE_CODE")
     private String ohRateTypeCode;
 
+    @Column(name = "OH_RATE_CLASS_CODE")
     private String ohRateClassCode;
 
+    @Column(name = "RESIDUAL_FUNDS")
+    @Convert(converter = BudgetDecimalConverter.class)
     private BudgetDecimal residualFunds;
 
+    @Column(name = "TOTAL_COST")
+    @Convert(converter = BudgetDecimalConverter.class)
     private BudgetDecimal totalCost;
 
+    @Column(name = "TOTAL_DIRECT_COST")
+    @Convert(converter = BudgetDecimalConverter.class)
     private BudgetDecimal totalDirectCost;
 
+    @Column(name = "TOTAL_INDIRECT_COST")
+    @Convert(converter = BudgetDecimalConverter.class)
     private BudgetDecimal totalIndirectCost;
 
+    @Column(name = "TOTAL_COST_LIMIT")
+    @Convert(converter = BudgetDecimalConverter.class)
     private BudgetDecimal totalCostLimit;
 
+    @Column(name = "TOTAL_DIRECT_COST_LIMIT")
+    @Convert(converter = BudgetDecimalConverter.class)
     private BudgetDecimal totalDirectCostLimit;
 
+    @Column(name = "UNDERRECOVERY_AMOUNT")
+    @Convert(converter = BudgetDecimalConverter.class)
     private BudgetDecimal underrecoveryAmount;
 
+    @Column(name = "COMMENTS")
+    @Lob
     private String comments;
 
+    @Transient
     private boolean descriptionUpdatable;
 
+    @ManyToOne(targetEntity = RateClass.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "OH_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
+    @Transient
     private String name;
 
+    @Transient
     private String budgetStatus;
 
+    @Column(name = "MODULAR_BUDGET_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean modularBudgetFlag;
 
+    @Column(name = "UR_RATE_CLASS_CODE")
     private String urRateClassCode;
 
+    @Column(name = "ON_OFF_CAMPUS_FLAG")
     private String onOffCampusFlag;
 
+    @Transient
     private String printBudgetCommentFlag;
 
+    @Column(name = "SUBMIT_COST_SHARING")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean submitCostSharingFlag = Boolean.TRUE;
-    
+
+    @ManyToOne(targetEntity = RateClass.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "UR_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass urRateClass;
 
     public Integer getBudgetVersionNumber() {
@@ -146,13 +206,13 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         this.rateClass = rateClass;
     }
 
-    //    public String getProposalNumber() { 
-    //        return proposalNumber; 
-    //    } 
-    //     
-    //    public void setProposalNumber(String proposalNumber) { 
-    //        this.proposalNumber = proposalNumber; 
-    //    } 
+    //    public String getProposalNumber() {  
+    //        return proposalNumber;  
+    //    }  
+    //      
+    //    public void setProposalNumber(String proposalNumber) {  
+    //        this.proposalNumber = proposalNumber;  
+    //    }  
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -274,8 +334,8 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
      */
     @Override
     protected void postLoad() {
-        // The purpose of this lookup is to get the document description from the doc header, 
-        // without mapping the enire doc header (which can be large) in ojb. 
+        // The purpose of this lookup is to get the document description from the doc header,  
+        // without mapping the enire doc header (which can be large) in ojb.  
         super.postLoad();
         DocumentHeader docHeader = getDocHeader();
         if (docHeader != null) {
@@ -402,78 +462,127 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         BudgetVersionOverview other = (BudgetVersionOverview) obj;
         if (budgetId == null) {
-            if (other.budgetId != null) return false;
-        } else if (!budgetId.equals(other.budgetId)) return false;
+            if (other.budgetId != null)
+                return false;
+        } else if (!budgetId.equals(other.budgetId))
+            return false;
         if (budgetStatus == null) {
-            if (other.budgetStatus != null) return false;
-        } else if (!budgetStatus.equals(other.budgetStatus)) return false;
+            if (other.budgetStatus != null)
+                return false;
+        } else if (!budgetStatus.equals(other.budgetStatus))
+            return false;
         if (budgetVersionNumber == null) {
-            if (other.budgetVersionNumber != null) return false;
-        } else if (!budgetVersionNumber.equals(other.budgetVersionNumber)) return false;
+            if (other.budgetVersionNumber != null)
+                return false;
+        } else if (!budgetVersionNumber.equals(other.budgetVersionNumber))
+            return false;
         if (comments == null) {
-            if (other.comments != null) return false;
-        } else if (!comments.equals(other.comments)) return false;
+            if (other.comments != null)
+                return false;
+        } else if (!comments.equals(other.comments))
+            return false;
         if (costSharingAmount == null) {
-            if (other.costSharingAmount != null) return false;
-        } else if (!costSharingAmount.equals(other.costSharingAmount)) return false;
-        if (descriptionUpdatable != other.descriptionUpdatable) return false;
+            if (other.costSharingAmount != null)
+                return false;
+        } else if (!costSharingAmount.equals(other.costSharingAmount))
+            return false;
+        if (descriptionUpdatable != other.descriptionUpdatable)
+            return false;
         if (documentDescription == null) {
-            if (other.documentDescription != null) return false;
-        } else if (!documentDescription.equals(other.documentDescription)) return false;
+            if (other.documentDescription != null)
+                return false;
+        } else if (!documentDescription.equals(other.documentDescription))
+            return false;
         if (documentNumber == null) {
-            if (other.documentNumber != null) return false;
-        } else if (!documentNumber.equals(other.documentNumber)) return false;
+            if (other.documentNumber != null)
+                return false;
+        } else if (!documentNumber.equals(other.documentNumber))
+            return false;
         if (endDate == null) {
-            if (other.endDate != null) return false;
-        } else if (!endDate.equals(other.endDate)) return false;
-        if (finalVersionFlag != other.finalVersionFlag) return false;
+            if (other.endDate != null)
+                return false;
+        } else if (!endDate.equals(other.endDate))
+            return false;
+        if (finalVersionFlag != other.finalVersionFlag)
+            return false;
         if (modularBudgetFlag == null) {
-            if (other.modularBudgetFlag != null) return false;
-        } else if (!modularBudgetFlag.equals(other.modularBudgetFlag)) return false;
+            if (other.modularBudgetFlag != null)
+                return false;
+        } else if (!modularBudgetFlag.equals(other.modularBudgetFlag))
+            return false;
         if (name == null) {
-            if (other.name != null) return false;
-        } else if (!name.equals(other.name)) return false;
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
         if (ohRateClassCode == null) {
-            if (other.ohRateClassCode != null) return false;
-        } else if (!ohRateClassCode.equals(other.ohRateClassCode)) return false;
+            if (other.ohRateClassCode != null)
+                return false;
+        } else if (!ohRateClassCode.equals(other.ohRateClassCode))
+            return false;
         if (ohRateTypeCode == null) {
-            if (other.ohRateTypeCode != null) return false;
-        } else if (!ohRateTypeCode.equals(other.ohRateTypeCode)) return false;
+            if (other.ohRateTypeCode != null)
+                return false;
+        } else if (!ohRateTypeCode.equals(other.ohRateTypeCode))
+            return false;
         if (onOffCampusFlag == null) {
-            if (other.onOffCampusFlag != null) return false;
-        } else if (!onOffCampusFlag.equals(other.onOffCampusFlag)) return false;
+            if (other.onOffCampusFlag != null)
+                return false;
+        } else if (!onOffCampusFlag.equals(other.onOffCampusFlag))
+            return false;
         if (rateClass == null) {
-            if (other.rateClass != null) return false;
-        } else if (!rateClass.equals(other.rateClass)) return false;
+            if (other.rateClass != null)
+                return false;
+        } else if (!rateClass.equals(other.rateClass))
+            return false;
         if (residualFunds == null) {
-            if (other.residualFunds != null) return false;
-        } else if (!residualFunds.equals(other.residualFunds)) return false;
+            if (other.residualFunds != null)
+                return false;
+        } else if (!residualFunds.equals(other.residualFunds))
+            return false;
         if (startDate == null) {
-            if (other.startDate != null) return false;
-        } else if (!startDate.equals(other.startDate)) return false;
+            if (other.startDate != null)
+                return false;
+        } else if (!startDate.equals(other.startDate))
+            return false;
         if (totalCost == null) {
-            if (other.totalCost != null) return false;
-        } else if (!totalCost.equals(other.totalCost)) return false;
+            if (other.totalCost != null)
+                return false;
+        } else if (!totalCost.equals(other.totalCost))
+            return false;
         if (totalCostLimit == null) {
-            if (other.totalCostLimit != null) return false;
-        } else if (!totalCostLimit.equals(other.totalCostLimit)) return false;
+            if (other.totalCostLimit != null)
+                return false;
+        } else if (!totalCostLimit.equals(other.totalCostLimit))
+            return false;
         if (totalDirectCost == null) {
-            if (other.totalDirectCost != null) return false;
-        } else if (!totalDirectCost.equals(other.totalDirectCost)) return false;
+            if (other.totalDirectCost != null)
+                return false;
+        } else if (!totalDirectCost.equals(other.totalDirectCost))
+            return false;
         if (totalIndirectCost == null) {
-            if (other.totalIndirectCost != null) return false;
-        } else if (!totalIndirectCost.equals(other.totalIndirectCost)) return false;
+            if (other.totalIndirectCost != null)
+                return false;
+        } else if (!totalIndirectCost.equals(other.totalIndirectCost))
+            return false;
         if (underrecoveryAmount == null) {
-            if (other.underrecoveryAmount != null) return false;
-        } else if (!underrecoveryAmount.equals(other.underrecoveryAmount)) return false;
+            if (other.underrecoveryAmount != null)
+                return false;
+        } else if (!underrecoveryAmount.equals(other.underrecoveryAmount))
+            return false;
         if (urRateClassCode == null) {
-            if (other.urRateClassCode != null) return false;
-        } else if (!urRateClassCode.equals(other.urRateClassCode)) return false;
+            if (other.urRateClassCode != null)
+                return false;
+        } else if (!urRateClassCode.equals(other.urRateClassCode))
+            return false;
         return true;
     }
 

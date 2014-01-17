@@ -24,6 +24,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.core.api.criteria.CountFlag;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -77,10 +80,11 @@ public class ProposalDevelopmentAbstractsRule extends ResearchDocumentRuleBase i
      */
     private boolean isInvalid(String abstractTypeCode) {
         if (abstractTypeCode != null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            DataObjectService dataObjectService = KraServiceLocator.getService(DataObjectService.class);
             Map<String,String> fieldValues = new HashMap<String,String>();
             fieldValues.put("abstractTypeCode", abstractTypeCode);
-            if (businessObjectService.countMatching(AbstractType.class, fieldValues) == 1) {
+            if (dataObjectService.findMatching(AbstractType.class,
+                    QueryByCriteria.Builder.andAttributes(fieldValues).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount() == 1) {
                 return false;
             }
         }

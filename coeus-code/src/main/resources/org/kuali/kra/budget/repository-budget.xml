@@ -50,11 +50,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    	
+
     <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    	
+
     	<collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.budget.versions.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>

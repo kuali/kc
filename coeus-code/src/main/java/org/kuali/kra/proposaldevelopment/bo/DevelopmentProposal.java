@@ -15,8 +15,26 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.sql.Date;
+import java.util.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.config.DescriptorCustomizer;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
@@ -31,6 +49,17 @@ import org.kuali.kra.infrastructure.jpa.temp.CompositeDescriptorCustomizer;
 import org.kuali.kra.infrastructure.jpa.temp.FilterByMapDescriptorCustomizer;
 import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.kra.proposaldevelopment.bo.ProposalState;
+import org.kuali.kra.proposaldevelopment.bo.ProposalType;
+import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
@@ -45,16 +74,18 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
-import java.sql.Date;
-import java.util.*;
-
 /**
  * This class...
  */
+@Entity
+@Table(name = "EPS_PROPOSAL")
+@Customizer(DevelopmentProposal.DevelopmentProposalCustomizer.class)
 public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable, KcKrmsContextBo {
 
     private static final long serialVersionUID = -9211313487776934111L;
@@ -64,211 +95,334 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private static final String ATTACHMENTS_INCOMPLETE = "Inomplete";
 
     private static final String ATTACHMENTS_NONE = "None";
-    
+
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
 
+    @PortableSequenceGenerator(name = "SEQ_PROPOSAL_NUMBER_KRA")
+    @GeneratedValue(generator = "SEQ_PROPOSAL_NUMBER_KRA")
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Column(name = "PROPOSAL_TYPE_CODE")
     private String proposalTypeCode;
 
+    @ManyToOne(targetEntity = ProposalType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_TYPE_CODE", referencedColumnName = "PROPOSAL_TYPE_CODE", insertable = false, updatable = false)
     private ProposalType proposalType;
 
+    @Column(name = "CONTINUED_FROM")
     private String continuedFrom;
 
+    @Column(name = "SPONSOR_CODE")
     private String sponsorCode;
 
+    @Column(name = "ACTIVITY_TYPE_CODE")
     private String activityTypeCode;
 
+    @Column(name = "OWNED_BY_UNIT")
     private String ownedByUnitNumber;
 
+    @Column(name = "REQUESTED_START_DATE_INITIAL")
     private Date requestedStartDateInitial;
 
+    @Column(name = "REQUESTED_END_DATE_INITIAL")
     private Date requestedEndDateInitial;
 
+    @Column(name = "TITLE")
     private String title;
 
+    @Column(name = "CURRENT_AWARD_NUMBER")
     private String currentAwardNumber;
 
+    @Column(name = "DEADLINE_DATE")
     private Date deadlineDate;
-    
+
+    @Column(name = "DEADLINE_TIME")
     private String deadlineTime;
 
+    @Column(name = "NOTICE_OF_OPPORTUNITY_CODE")
     private String noticeOfOpportunityCode;
 
+    @ManyToOne(targetEntity = NoticeOfOpportunity.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "NOTICE_OF_OPPORTUNITY_CODE", referencedColumnName = "NOTICE_OF_OPPORTUNITY_CODE", insertable = false, updatable = false)
     private NoticeOfOpportunity noticeOfOpportunity;
 
+    @Column(name = "DEADLINE_TYPE")
     private String deadlineType;
-    
+
+    @Column(name = "ANTICIPATED_AWARD_TYPE_CODE")
     private Integer anticipatedAwardTypeCode;
+
+    @ManyToOne(targetEntity = AwardType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ANTICIPATED_AWARD_TYPE_CODE", referencedColumnName = "AWARD_TYPE_CODE", insertable = false, updatable = false)
     private AwardType anticipatedAwardType;
 
+    @Column(name = "CFDA_NUMBER")
     private String cfdaNumber;
 
+    @Column(name = "PROGRAM_ANNOUNCEMENT_NUMBER")
     private String programAnnouncementNumber;
 
+    @Column(name = "PRIME_SPONSOR_CODE")
     private String primeSponsorCode;
 
+    @Column(name = "SPONSOR_PROPOSAL_NUMBER")
     private String sponsorProposalNumber;
 
+    @Column(name = "NSF_CODE")
     private String nsfCode;
 
+    @Transient
     private NsfCode nsfCodeBo;
 
+    @Column(name = "SUBCONTRACT_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean subcontracts;
 
+    @Column(name = "AGENCY_DIVISION_CODE")
     private String agencyDivisionCode;
 
+    @Column(name = "AGENCY_PROGRAM_CODE")
     private String agencyProgramCode;
 
+    @Column(name = "PROGRAM_ANNOUNCEMENT_TITLE")
     private String programAnnouncementTitle;
 
+    @Column(name = "MAIL_BY")
     private String mailBy;
 
+    @Column(name = "MAIL_TYPE")
     private String mailType;
 
+    @Column(name = "MAIL_ACCOUNT_NUMBER")
     private String mailAccountNumber;
 
+    @Column(name = "MAIL_DESCRIPTION")
     private String mailDescription;
 
+    @Column(name = "MAILING_ADDRESS_ID")
     private Integer mailingAddressId;
 
+    @Column(name = "NUMBER_OF_COPIES")
     private String numberOfCopies;
 
+    @Column(name = "STATUS_CODE")
     private String proposalStateTypeCode;
 
+    @ManyToOne(targetEntity = ProposalState.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "STATUS_CODE", referencedColumnName = "STATE_TYPE_CODE", insertable = false, updatable = false)
     private ProposalState proposalState;
 
+    //@OneToMany(targetEntity = ProposalSite.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    //@JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    //@OrderBy("siteNumber")
+    @Transient //Transient for now because this mapping is messed up
     private List<ProposalSite> proposalSites;
 
-    // TODO: just for delivery panel. not a real reference  
+    // TODO: just for delivery panel. not a real reference   
+    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "MAILING_ADDRESS_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 
+    @OneToMany(targetEntity = ProposalSpecialReview.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<ProposalSpecialReview> propSpecialReviews;
 
+    @OneToMany(targetEntity = PropScienceKeyword.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<PropScienceKeyword> propScienceKeywords;
 
+    @OneToMany(mappedBy = "developmentProposal")
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OrderBy("ordinalPosition")
     private List<ProposalPerson> proposalPersons;
 
+    @OneToMany(targetEntity = S2sOppForms.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sOppForms> s2sOppForms;
 
+    @OneToOne(targetEntity = S2sOpportunity.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
     private S2sOpportunity s2sOpportunity;
 
+    @OneToMany(targetEntity = S2sAppSubmission.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sAppSubmission> s2sAppSubmission;
 
+    @Transient
     private String newScienceKeywordCode;
 
+    @Transient
     private String newDescription;
 
+    @ManyToOne(targetEntity = Sponsor.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
     private Sponsor sponsor;
 
+    @Transient
     private Integer nextProposalPersonNumber;
 
+    @Transient
     private String budgetStatus;
 
+    @Transient
     private String budgetStatusDescription;
 
+    @OneToMany(targetEntity = Narrative.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<Narrative> narratives;
 
+    @OneToMany(targetEntity = ProposalAbstract.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<ProposalAbstract> proposalAbstracts;
 
+    @OneToMany(targetEntity = Narrative.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<Narrative> instituteAttachments;
 
+    @OneToMany(targetEntity = ProposalPersonBiography.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<ProposalPersonBiography> propPersonBios;
 
+    @Transient
     private List<ProposalPerson> investigators;
 
+    @Transient
     private Collection<InvestigatorCreditType> investigatorCreditTypes;
 
+    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "OWNED_BY_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit ownedByUnit;
-    transient private NarrativeService narrativeService;
-    transient private ProposalPersonBiographyService proposalPersonBiographyService;
+
+    @Transient
+    private transient NarrativeService narrativeService;
+
+    @Transient
+    private transient ProposalPersonBiographyService proposalPersonBiographyService;
+
+    @ManyToOne(targetEntity = ActivityType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ACTIVITY_TYPE_CODE", referencedColumnName = "ACTIVITY_TYPE_CODE", insertable = false, updatable = false)
     private ActivityType activityType;
 
+    @OneToMany(targetEntity = ProposalYnq.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OrderBy("sortId")
     private List<ProposalYnq> proposalYnqs;
 
+    @Transient
     private List<YnqGroupName> ynqGroupNames;
 
-    //    private List<BudgetDocumentVersion> budgetDocumentVersions;  
+    //    private List<BudgetDocumentVersion> budgetDocumentVersions;   
+    @Column(name = "CREATION_STATUS_CODE")
     private String creationStatusCode;
 
+    @Transient
     private Map<String, String> nihDescription;
 
+    @Transient
     private boolean sponsorNihMultiplePi;
 
+    @Transient
     private boolean sponsorNihOsc;
 
+    @OneToMany(targetEntity = ProposalChangedData.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OrderBy("columnName DESC, changeNumber DESC")
     private List<ProposalChangedData> proposalChangedDataList;
-    
+
+    @OneToMany(targetEntity = BudgetChangedData.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OrderBy("columnName DESC, changeNumber DESC")
     private List<BudgetChangedData> budgetChangedDataList;
 
+    @Transient
     private Map<String, List<ProposalChangedData>> proposalChangeHistory;
-    
+
+    @Transient
     private Map<String, List<BudgetChangedData>> budgetChangeHistory;
 
+    @Column(name = "SUBMIT_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean submitFlag = Boolean.FALSE;
-    
+
+    @Transient
     private Boolean grantsGovSelectFlag = Boolean.FALSE;
 
+    @ManyToOne(targetEntity = ProposalDevelopmentDocument.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER")
     private ProposalDevelopmentDocument proposalDocument;
 
+    @Column(name = "IS_HIERARCHY")
     private String hierarchyStatus;
 
+    @Transient
     private String hierarchyStatusName;
+
+    @Column(name = "HIERARCHY_ORIG_CHILD_PROP_NBR")
     private String hierarchyOriginatingChildProposalNumber;
 
-
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyParentProposalNumber;
 
+    @Column(name = "HIERARCHY_HASH_CODE")
     private Integer hierarchyLastSyncHashCode;
 
+    @Column(name = "HIERARCHY_BUDGET_TYPE")
     private String hierarchyBudgetType;
-    
+
+    @Column(name = "HIERARCHY_LAST_BUDGET_DOC_NBR")
     private String lastSyncedBudgetDocumentNumber;
 
+    @Transient
     private transient ParameterService parameterService;
 
+    @Transient
     private transient ProposalHierarchyService proposalHierarchyService;
+
+    @Transient
     private transient KeyPersonnelService keyPersonnelService;
+
+    @ManyToOne(targetEntity = Sponsor.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PRIME_SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
     private Sponsor primeSponsor;
- 
+
+    @Column(name = "PROPOSALNUMBER_GG")
     private String proposalNumberForGG;
-    
+
+    @Column(name = "OPPORTUNITYID_GG")
     private String opportunityIdForGG;
- 
 
     /**
      * Gets the proposalNumberForGG attribute. 
      * @return Returns the proposalNumberForGG.
      */
     public String getProposalNumberForGG() {
-        if(s2sOpportunity != null){
+        if (s2sOpportunity != null) {
             proposalNumberForGG = s2sOpportunity.getProposalNumber();
         }
         return proposalNumberForGG;
     }
-    
+
     public String getOpportunityIdForGG() {
-        if(s2sOpportunity != null){
+        if (s2sOpportunity != null) {
             opportunityIdForGG = s2sOpportunity.getOpportunityId();
         }
         return opportunityIdForGG;
     }
-    
+
     /**
      * Sets the proposalNumberForGG attribute value.
      * @param proposalNumberForGG The proposalNumberForGG to set.
      */
     public void setProposalNumberForGG(String proposalNumberForGG) {
-       this.proposalNumberForGG = proposalNumberForGG;
-       
+        this.proposalNumberForGG = proposalNumberForGG;
     }
 
     public void setOpportunityIdForGG(String opportunityIdForGG) {
         this.opportunityIdForGG = opportunityIdForGG;
-        
-     }
+    }
 
-    
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
@@ -369,7 +523,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public String getHierarchyStatusName() {
         hierarchyStatusName = HierarchyStatusConstants.None.description();
         for (HierarchyStatusConstants status : HierarchyStatusConstants.values()) {
-            if (status.code().equals(getHierarchyStatus())) hierarchyStatusName = status.description();
+            if (status.code().equals(getHierarchyStatus()))
+                hierarchyStatusName = status.description();
         }
         return hierarchyStatusName;
     }
@@ -449,17 +604,11 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private void evaluateMoveOptions() {
         for (int i = 0; i < proposalPersons.size(); i++) {
             ProposalPerson person = proposalPersons.get(i);
-            person.setMoveUpAllowed(i > 0
-                    && !getKeyPersonnelService().isPrincipalInvestigator(person)
-                    && !getKeyPersonnelService().isPrincipalInvestigator(proposalPersons.get(i - 1))
-                    && !(isSponsorNihMultiplePi() && proposalPersons.get(i - 1).isMultiplePi()));
-            person.setMoveDownAllowed(i < (proposalPersons.size() - 1)
-                    && !getKeyPersonnelService().isPrincipalInvestigator(person));
+            person.setMoveUpAllowed(i > 0 && !getKeyPersonnelService().isPrincipalInvestigator(person) && !getKeyPersonnelService().isPrincipalInvestigator(proposalPersons.get(i - 1)) && !(isSponsorNihMultiplePi() && proposalPersons.get(i - 1).isMultiplePi()));
+            person.setMoveDownAllowed(i < (proposalPersons.size() - 1) && !getKeyPersonnelService().isPrincipalInvestigator(person));
             if (isSponsorNihMultiplePi() && getKeyPersonnelService().isCoInvestigator(person) && person.isMultiplePi()) {
-                person.setMoveUpAllowed(i > 0 
-                        && person.isMultiplePi() == proposalPersons.get(i - 1).isMultiplePi());
-                person.setMoveDownAllowed(person.isMoveDownAllowed() 
-                        && person.isMultiplePi() == proposalPersons.get(i + 1).isMultiplePi());
+                person.setMoveUpAllowed(i > 0 && person.isMultiplePi() == proposalPersons.get(i - 1).isMultiplePi());
+                person.setMoveDownAllowed(person.isMoveDownAllowed() && person.isMultiplePi() == proposalPersons.get(i + 1).isMultiplePi());
             }
         }
     }
@@ -504,6 +653,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public String getOwnedByUnitNumberRestricted() {
         return ownedByUnitNumber;
     }
+
     public void setOwnedByUnitNumberRestricted(String ownedByUnit) {
         this.ownedByUnitNumber = ownedByUnit;
     }
@@ -679,10 +829,11 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setAnticipatedAwardTypeCode(Integer anticipatedAwardTypeCode) {
         this.anticipatedAwardTypeCode = anticipatedAwardTypeCode;
     }
-    
+
     public void setAnticipatedAwardType(AwardType anticipatedAwardType) {
         this.anticipatedAwardType = anticipatedAwardType;
     }
+
     /**
      * Gets the anticipatedAwardType attribute.
      * 
@@ -691,6 +842,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public Integer getAnticipatedAwardTypeCode() {
         return anticipatedAwardTypeCode;
     }
+
     public AwardType getAnticipatedAwardType() {
         return anticipatedAwardType;
     }
@@ -903,8 +1055,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setApplicantOrgFromOrganization(Organization organization) {
         if (organization == null) {
             setApplicantOrganization((ProposalSite) null);
-        }
-        else {
+        } else {
             ProposalSite applicantSite = new ProposalSite();
             applicantSite.setOrganization(organization);
             setApplicantOrganization(applicantSite);
@@ -913,7 +1064,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public ProposalSite getApplicantOrganization() {
         ProposalSite applicant = getProposalSiteForType(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
-        if (applicant != null) applicant.setRolodex(applicant.getOrganization() == null ? null : applicant.getOrganization().getRolodex());
+        if (applicant != null)
+            applicant.setRolodex(applicant.getOrganization() == null ? null : applicant.getOrganization().getRolodex());
         return applicant;
     }
 
@@ -929,8 +1081,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setPerformingOrgFromOrganization(Organization organization) {
         if (organization == null) {
             setPerformingOrganization((ProposalSite) null);
-        }
-        else {
+        } else {
             ProposalSite performingSite = new ProposalSite();
             performingSite.setOrganization(organization);
             setPerformingOrganization(performingSite);
@@ -958,7 +1109,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      */
     private void setProposalSiteForType(ProposalSite proposalSite, int locationType) {
         deleteAllProposalSitesOfType(locationType);
-        proposalSite.setLocationTypeCode(locationType);   // make sure the location type is set
+        proposalSite.setLocationTypeCode(locationType);
+        // make sure the location type is set 
         addProposalSite(proposalSite);
     }
 
@@ -971,7 +1123,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private void setProposalSitesForType(List<ProposalSite> proposalSites, int locationType) {
         deleteAllProposalSitesOfType(locationType);
         for (ProposalSite proposalSite : proposalSites) {
-            proposalSite.setLocationTypeCode(locationType);   // make sure the location type is set
+            proposalSite.setLocationTypeCode(locationType);
         }
         proposalSites.addAll(proposalSites);
     }
@@ -989,8 +1141,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         List<ProposalSite> matchingSites = getProposalSitesForType(locationType);
         if (matchingSites.isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return matchingSites.get(0);
         }
     }
@@ -1014,7 +1165,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     public void addPerformanceSite(ProposalSite performanceSite) {
-        performanceSite.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);   // make sure the location type is set
+        performanceSite.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);
+        // make sure the location type is set 
         addProposalSite(performanceSite);
     }
 
@@ -1039,7 +1191,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     public void addOtherOrganization(ProposalSite otherOrganization) {
-        otherOrganization.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);   // make sure the location type is set
+        otherOrganization.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
+        // make sure the location type is set 
         addProposalSite(otherOrganization);
     }
 
@@ -1127,8 +1280,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setPropSpecialReviews(List<ProposalSpecialReview> propSpecialReviews) {
         this.propSpecialReviews = propSpecialReviews;
     }
-    
-     /*
+
+    /*
      * Refreshes the rolodex from the mailingAddressId
      */
     protected void refreshRolodex() {
@@ -1140,6 +1293,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         setRolodex(rolodex);
     }
+
     /**
      * Build an identifier map for the BOS lookup
      * @param identifierField
@@ -1151,7 +1305,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         map.put(identifierField, identifierValue);
         return map;
     }
-    
+
     /**
      * This method looks up BOS
      * @return
@@ -1159,6 +1313,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     protected BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -1201,8 +1356,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         if (s2sOppForms != null && s2sOppForms.size() > 0) {
             managedLists.add(s2sOppForms);
-        }
-        else {
+        } else {
             managedLists.add(new ArrayList<S2sOppForms>());
         }
         managedLists.add(opportunities);
@@ -1533,8 +1687,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.ynqGroupNames = ynqGroupNames;
     }
 
-    // getters to auto-grow list to prevent arrayindexoutofbound exception  
-    // also used in JSP  
+    // getters to auto-grow list to prevent arrayindexoutofbound exception   
+    // also used in JSP   
     /**
      * Gets index i from the propSpecialReviews list.
      * 
@@ -1669,28 +1823,28 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.budgetStatus = budgetStatus;
     }
 
-    //    public List<BudgetDocumentVersion> getBudgetDocumentVersions() {  
-    //        return getProposalDocument().getBudgetDocumentVersions();  
-    //    }  
-    //  
-    //    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {  
-    //        this.getProposalDocument().setBudgetDocumentVersions(budgetDocumentVersions);  
-    //    }  
+    //    public List<BudgetDocumentVersion> getBudgetDocumentVersions() {   
+    //        return getProposalDocument().getBudgetDocumentVersions();   
+    //    }   
+    //   
+    //    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {   
+    //        this.getProposalDocument().setBudgetDocumentVersions(budgetDocumentVersions);   
+    //    }   
     /**
      * This method gets the next budget version number for this proposal. We can't use documentNextVersionNumber because that
      * requires a save and we don't want to save the proposal development document before forwarding to the budget document.
      * 
      * @return Integer
      */
-    //    public Integer getNextBudgetVersionNumber() {  
-    //        List<BudgetDocumentVersion> versions = getBudgetDocumentVersions();  
-    //        if (versions.isEmpty()) {  
-    //            return 1;  
-    //        }  
-    //        Collections.sort(versions);  
-    //        BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);  
-    //        return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;  
-    //    }  
+    //    public Integer getNextBudgetVersionNumber() {   
+    //        List<BudgetDocumentVersion> versions = getBudgetDocumentVersions();   
+    //        if (versions.isEmpty()) {   
+    //            return 1;   
+    //        }   
+    //        Collections.sort(versions);   
+    //        BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);   
+    //        return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;   
+    //    }   
     /**
      * Sets the budgetStatusDescription attribute value.
      * @param budgetStatusDescription The budgetStatusDescription to set.
@@ -1716,12 +1870,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @param index
      * @return BudgetVersionOverview at index i
      */
-    //    public BudgetDocumentVersion getBudgetDocumentVersion(int index) {  
-    //        while (getBudgetDocumentVersions().size() <= index) {  
-    //            getBudgetDocumentVersions().add(new BudgetDocumentVersion());  
-    //        }  
-    //        return getBudgetDocumentVersions().get(index);  
-    //    }  
+    //    public BudgetDocumentVersion getBudgetDocumentVersion(int index) {   
+    //        while (getBudgetDocumentVersions().size() <= index) {   
+    //            getBudgetDocumentVersions().add(new BudgetDocumentVersion());   
+    //        }   
+    //        return getBudgetDocumentVersions().get(index);   
+    //    }   
     public List<S2sOppForms> getS2sOppForms() {
         return s2sOppForms;
     }
@@ -1829,11 +1983,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     public boolean isProposalComplete() {
-        String budgetStatusCompleteCode = this.getParameterService().getParameterValueAsString(
-               BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-
-        if (this.getBudgetStatus() != null && budgetStatusCompleteCode != null
-                && this.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+        String budgetStatusCompleteCode = this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        if (this.getBudgetStatus() != null && budgetStatusCompleteCode != null && this.getBudgetStatus().equals(budgetStatusCompleteCode)) {
             return true;
         }
         return false;
@@ -1846,18 +1997,17 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
                 DevelopmentProposal parent = getProposalHierarchyService().lookupParent(this);
                 KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(parent);
                 retval = parent.isProposalComplete();
-            }
-            catch (ProposalHierarchyException x) {
-                // this should never happen  
+            } catch (ProposalHierarchyException x) {
+                // this should never happen   
                 throw new IllegalStateException(x);
             }
         }
         return retval;
     }
 
-    //    public int getNumberOfVersions() {  
-    //        return this.getBudgetDocumentVersions().size();  
-    //    }  
+    //    public int getNumberOfVersions() {   
+    //        return this.getBudgetDocumentVersions().size();   
+    //    }   
     public Map<String, String> getNihDescription() {
         return nihDescription;
     }
@@ -1922,7 +2072,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return this.submitFlag;
     }
 
-
     public Boolean getGrantsGovSelectFlag() {
         return grantsGovSelectFlag;
     }
@@ -1937,25 +2086,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public void setProposalStateTypeCode(String proposalStateTypeCode) {
         this.proposalStateTypeCode = proposalStateTypeCode;
-        if (proposalStateTypeCode == null) {
-            this.proposalState = null;
-        }
-        else {
-            try {
-                refreshReferenceObject("proposalState");
-            }
-            catch (NullPointerException ex) {
-                // do nothing: this will happen when
-                // creating a proposal from a unit test
-                // without access to a database.
-            }
-        }
     }
 
     public ProposalState getProposalState() {
         return proposalState;
     }
-    
+
     /**
      * 
      * This method returns the linked ProposalDevelopmentDocument.  If there isn't a linked ProposalDevelopmentDocument, then a 
@@ -1975,16 +2111,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public void updateProposalChangeHistory() {
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
-        // Arranging Proposal Change History  
+        // Arranging Proposal Change History   
         if (CollectionUtils.isNotEmpty(this.getProposalChangedDataList())) {
             for (ProposalChangedData proposalChangedData : this.getProposalChangedDataList()) {
                 if (this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()) == null) {
-                    this.getProposalChangeHistory().put(proposalChangedData.getEditableColumn().getColumnLabel(),
-                            new ArrayList<ProposalChangedData>());
+                    this.getProposalChangeHistory().put(proposalChangedData.getEditableColumn().getColumnLabel(), new ArrayList<ProposalChangedData>());
                 }
-
-                this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()).add(
-                        proposalChangedData);
+                this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()).add(proposalChangedData);
             }
         }
     }
@@ -2011,20 +2144,20 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return proposalType;
     }
 
-    //    /**  
-    //     * Gets the children attribute.   
-    //     * @return Returns the children.  
-    //     */  
-    //    public List<ProposalHierarchyChild> getChildren() {  
-    //        return children;  
-    //    }  
-    //    /**  
-    //     * Sets the children attribute value.  
-    //     * @param children The children to set.  
-    //     */  
-    //    public void setChildren(List<ProposalHierarchyChild> children) {  
-    //        this.children = children;  
-    //    }  
+    //    /**   
+    //     * Gets the children attribute.    
+    //     * @return Returns the children.   
+    //     */   
+    //    public List<ProposalHierarchyChild> getChildren() {   
+    //        return children;   
+    //    }   
+    //    /**   
+    //     * Sets the children attribute value.   
+    //     * @param children The children to set.   
+    //     */   
+    //    public void setChildren(List<ProposalHierarchyChild> children) {   
+    //        this.children = children;   
+    //    }   
     /**
      * In the case where a person is in the proposal twice (Investigator and Key Person),
      * this method's return list contains only the Investigator.
@@ -2034,7 +2167,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public List<PersonRolodex> getPersonRolodexList() {
         ArrayList<PersonRolodex> filtered = new ArrayList<PersonRolodex>();
         for (ProposalPerson person : getProposalPersons()) {
-            if (!filtered.contains(person)) filtered.add(person);
+            if (!filtered.contains(person))
+                filtered.add(person);
             else {
                 if (person.isInvestigator()) {
                     filtered.remove(person);
@@ -2061,7 +2195,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         for (ProposalSite site : getProposalSites()) {
             site.setProposalNumber(proposalNumber);
         }
-        if(s2sOpportunity!=null){
+        if (s2sOpportunity != null) {
             s2sOpportunity.setProposalNumber(proposalNumber);
             this.proposalNumberForGG = proposalNumber;
         }
@@ -2111,7 +2245,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         for (int i = 0; i < srcSpecialReviews.size(); i++) {
             ProposalSpecialReview srcSpecialReview = srcSpecialReviews.get(i);
             ProposalSpecialReview dstSpecialReview = dstSpecialReviews.get(i);
-            // copy exemption codes, since they are transient and ignored by deepCopy()  
+            // copy exemption codes, since they are transient and ignored by deepCopy()   
             if (srcSpecialReview.getExemptionTypeCodes() != null) {
                 List<String> exemptionCodeCopy = new ArrayList<String>();
                 for (String s : srcSpecialReview.getExemptionTypeCodes()) {
@@ -2119,13 +2253,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
                 }
                 dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
             }
-            // force new SQL table inserts  
+            // force new SQL table inserts   
             dstSpecialReview.resetPersistenceState();
         }
     }
 
-    // Note: following the pattern of Sponsor, this getter indirectly calls a service.  
-    // Is there a better way?  
+    // Note: following the pattern of Sponsor, this getter indirectly calls a service.   
+    // Is there a better way?   
     public Sponsor getPrimeSponsor() {
         if (outOfSync(primeSponsorCode, primeSponsor)) {
             this.refreshReferenceObject("primeSponsor");
@@ -2140,8 +2274,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @return true if needs refreshing
      */
     private static boolean outOfSync(String code, Sponsor spon) {
-        return spon == null && !StringUtils.isEmpty(code) || (spon != null && !StringUtils.equals(spon.getSponsorCode(), code))
-                && !StringUtils.isEmpty(code);
+        return spon == null && !StringUtils.isEmpty(code) || (spon != null && !StringUtils.equals(spon.getSponsorCode(), code)) && !StringUtils.isEmpty(code);
     }
 
     public void setPrimeSponsor(Sponsor primeSponsor) {
@@ -2156,8 +2289,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public String getParentPIName() {
         String proposalInvestigatorName = null;
         for (ProposalPerson pPerson : this.getProposalPersons()) {
-            if (pPerson.getPersonId() != null && pPerson.getProposalPersonRoleId().equals("PI"))
-            {
+            if (pPerson.getPersonId() != null && pPerson.getProposalPersonRoleId().equals("PI")) {
                 proposalInvestigatorName = pPerson.getFullName();
                 break;
             }
@@ -2174,9 +2306,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         String proposalNumber = this.getProposalNumber();
         proposalNumberMap.put("proposalNumber", proposalNumber);
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-      LookupableDevelopmentProposal lookupDevProposal = (LookupableDevelopmentProposal) businessObjectService
-              .findByPrimaryKey(LookupableDevelopmentProposal.class,
-                      proposalNumberMap);
+        LookupableDevelopmentProposal lookupDevProposal = (LookupableDevelopmentProposal) businessObjectService.findByPrimaryKey(LookupableDevelopmentProposal.class, proposalNumberMap);
         if (lookupDevProposal != null) {
             return lookupDevProposal.getSponsor().getOwnedByUnit();
         }
@@ -2185,10 +2315,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public Integer getParentInvestigatorFlag(String personId, Integer flag) {
         for (ProposalPerson pPerson : this.getProposalPersons()) {
-            if (pPerson.getPersonId() != null
-                    && pPerson.getPersonId().equals(personId)
-                    || pPerson.getRolodexId() != null
-                    && pPerson.getRolodexId().equals(personId)) {
+            if (pPerson.getPersonId() != null && pPerson.getPersonId().equals(personId) || pPerson.getRolodexId() != null && pPerson.getRolodexId().equals(personId)) {
                 flag = 2;
                 if (pPerson.getProposalPersonRoleId().equals("PI")) {
                     flag = 1;
@@ -2205,79 +2332,76 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     @Override
     public String getProjectName() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub 
         return getTitle();
     }
-    
+
     @Override
     public String getProjectId() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub 
         return getProposalNumber();
     }
+
     public void setBudgetChangeHistory(Map<String, List<BudgetChangedData>> budgetChangeHistory) {
         this.budgetChangeHistory = budgetChangeHistory;
     }
-    
+
     public Map<String, List<BudgetChangedData>> getBudgetChangeHistory() {
         return budgetChangeHistory;
     }
+
     /*
     This method will update the budget change data history
     */
-    
     public void updateBudgetChangeHistory() {
         budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
-        // Arranging Budget Change History  
-       if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
+        // Arranging Budget Change History   
+        if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
             for (BudgetChangedData budgetChangedData : this.getBudgetChangedDataList()) {
                 if (this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()) == null) {
-                    this.getBudgetChangeHistory().put(budgetChangedData.getEditableColumn().getColumnLabel(),
-                            new ArrayList<BudgetChangedData>());
+                    this.getBudgetChangeHistory().put(budgetChangedData.getEditableColumn().getColumnLabel(), new ArrayList<BudgetChangedData>());
                 }
-    
-                this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()).add(
-                        budgetChangedData);
+                this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()).add(budgetChangedData);
             }
         }
     }
-    
+
     public void setBudgetChangedDataList(List<BudgetChangedData> budgetChangedDataList) {
         this.budgetChangedDataList = budgetChangedDataList;
     }
-    
+
     public List<BudgetChangedData> getBudgetChangedDataList() {
         return budgetChangedDataList;
     }
-    
+
     public KrmsRulesContext getKrmsRulesContext() {
         return (KrmsRulesContext) getProposalDocument();
     }
-    
+
     public String getLastSyncedBudgetDocumentNumber() {
         return lastSyncedBudgetDocumentNumber;
     }
-    
+
     public void setLastSyncedBudgetDocumentNumber(String lastSyncedBudgetDocumentNumber) {
         this.lastSyncedBudgetDocumentNumber = lastSyncedBudgetDocumentNumber;
     }
-    
+
     public void markNarratives(NarrativeStatus narrativeStatus) {
-        if(narrativeStatus != null) {
-            for(Narrative narrative : narratives) {
-                if(narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
+        if (narrativeStatus != null) {
+            for (Narrative narrative : narratives) {
+                if (narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
                     narrative.setNarrativeStatus(narrativeStatus);
                     narrative.setModuleStatusCode(narrativeStatus.getNarrativeStatusCode());
                     narrative.refreshReferenceObject("narrativeStatus");
                     getBusinessObjectService().save(narrative);
                 }
             }
-            //proposalDocument.getDevelopmentProposalList().get(0).setNarratives(narratives);
         }
     }
-    
+
     public void modifyNarrativeStatus(int selectedLine) {
         Narrative narrative = getNarratives().get(selectedLine);
-        if(narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
+        if (narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
             narrative.refreshReferenceObject("narrativeStatus");
             getBusinessObjectService().save(narrative);
         }

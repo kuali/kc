@@ -32,6 +32,9 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.rice.core.api.util.ClassLoaderUtils;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -84,9 +87,9 @@ public class PrintFormTest extends KcUnitTestBase {
         List<Narrative> naList = new ArrayList<Narrative>();
 
         NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
-        //InputStream inStream = getClass().getResourceAsStream("pdftestDoc4.pdf");
-        File file = new File(S2STestConstants.ATT_DIR_PATH + "exercise5.pdf");
-        InputStream inStream = new FileInputStream(file);
+        DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+        Resource resource = resourceLoader.getResource(S2STestConstants.ATT_PACKAGE + "/exercise5.pdf");
+        InputStream inStream = resource.getInputStream();
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         bis.read(narrativePdf);

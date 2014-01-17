@@ -15,18 +15,36 @@
  */
 package org.kuali.kra.budget.rates;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.rates.RateClassType;
 
+@Entity
+@Table(name = "RATE_CLASS")
 public class RateClass extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "RATE_CLASS_CODE")
     private String rateClassCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "RATE_CLASS_TYPE")
     private String rateClassType;
 
+    @Transient
     private String rateClassTypeDescription;
 
+    @ManyToOne(targetEntity = RateClassType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "RATE_CLASS_TYPE", referencedColumnName = "RATE_CLASS_TYPE", insertable = false, updatable = false)
     private RateClassType rateClassTypeT;
 
     public String getRateClassCode() {

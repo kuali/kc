@@ -17,6 +17,7 @@ package org.kuali.kra.s2s.generator;
 
 import org.apache.xmlbeans.XmlObject;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -28,8 +29,12 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
@@ -40,12 +45,11 @@ import java.util.Calendar;
  */
 public abstract class S2STestBase<T> extends KcUnitTestBase {
     private S2SBaseFormGenerator generatorObject;
-    private static ProposalDevelopmentDocument document;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        initializeApp();
+
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
@@ -61,12 +65,15 @@ public abstract class S2STestBase<T> extends KcUnitTestBase {
     @Test
     public void testValidateForm() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
+        ProposalDevelopmentDocument document = initializeApp();
+
         prepareData(document);
-        saveBO(document);
+        document = saveBO(document);
         ArrayList<AuditError> errors = new ArrayList<AuditError>();
         generatorObject.setAuditErrors(errors);
         generatorObject.setAttachments(new ArrayList<AttachmentData>());
-        //XmlObject object=generatorObject.getFormObject(document);
+        XmlObject object=generatorObject.getFormObject(document);
+        System.out.println(object);
         getService(S2SValidatorService.class).validate(generatorObject.getFormObject(document), errors);
         for (AuditError auditError : errors) {
             assertNull(auditError.getMessageKey()+":"+auditError.getErrorKey(),auditError.getErrorKey());
@@ -87,6 +94,7 @@ public abstract class S2STestBase<T> extends KcUnitTestBase {
 
     private ProposalDevelopmentDocument initializeDocument() throws Exception {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) getDocumentService().getNewDocument("ProposalDevelopmentDocument");
+        Assert.assertNotNull(pd.getDocumentHeader().getWorkflowDocument());
         ProposalDevelopmentService pdService = getService(ProposalDevelopmentService.class);
         pdService.initializeUnitOrganizationLocation(pd);
         pdService.initializeProposalSiteNumbers(pd);
@@ -119,18 +127,24 @@ public abstract class S2STestBase<T> extends KcUnitTestBase {
      * This method...
      * @param pd
      */
-    protected void saveBO(PersistableBusinessObjectBase bo) {
-        getService(BusinessObjectService.class).save(bo);
+    protected ProposalDevelopmentDocument saveBO(Document bo) throws Exception {
+        return (ProposalDevelopmentDocument) getService(DocumentService.class).saveDocument(bo);
     }
 
-    private void initializeApp() throws Exception {
+    protected void saveBO(PersistableBusinessObject bo) throws Exception {
+        getService(DataObjectService.class).save(bo);
+    }
+
+    private ProposalDevelopmentDocument initializeApp() throws Exception {
         try {
             generatorObject = (S2SBaseFormGenerator) getFormGeneratorClass().newInstance();
-            document = initializeDocument();
+            ProposalDevelopmentDocument document = initializeDocument();
             initializeDevelopmentProposal(document);
+            Assert.assertNotNull(document.getDocumentHeader().getWorkflowDocument());
             saveProposalDocument(document);
             document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
             assertNotNull(document.getDevelopmentProposal());
+            return document;
         } catch (Throwable e) {
             e.printStackTrace();
             tearDown();

@@ -15,15 +15,24 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * 
  * This class is bo of CustomAttributeDataType.
  */
+@Entity
+@Table(name = "CUSTOM_ATTRIBUTE_DATA_TYPE")
 public class CustomAttributeDataType extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "DATA_TYPE_CODE")
     private String dataTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public CustomAttributeDataType() {

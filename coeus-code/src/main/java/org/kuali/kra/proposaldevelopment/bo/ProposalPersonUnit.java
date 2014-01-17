@@ -15,12 +15,31 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Unit;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
@@ -31,20 +50,37 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.14 $
  */
+@Entity
+@Table(name = "EPS_PROP_PERSON_UNITS")
+@IdClass(ProposalPersonUnit.ProposalPersonUnitId.class)
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Id
+    @Column(name = "PROP_PERSON_NUMBER")
     private Integer proposalPersonNumber;
 
+    @Id
+    @Column(name = "UNIT_NUMBER")
     private String unitNumber;
 
+    @Column(name = "LEAD_UNIT_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean leadUnit;
 
+    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
+    @OneToMany(targetEntity = ProposalUnitCreditSplit.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false) })
     private List<ProposalUnitCreditSplit> creditSplits;
 
+    @Transient
     private boolean delete;
 
     /**
@@ -161,7 +197,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
     /**
      * Assigns a reference to a <code>{@link Unit}</code> instance
      *
-     * @param unit to refer to
+     * @param u to refer to
      */
     public final void setUnit(Unit u) {
         unit = u;
@@ -180,9 +216,6 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
         return (ProposalUnitCreditSplit) getCreditSplits().get(index);
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.bo.CreditSplitable#getName()
-     */
     public String getName() {
         return getUnitNumber();
     }
@@ -203,5 +236,65 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
      */
     public void setDelete(boolean delete) {
         this.delete = delete;
+    }
+
+    public static final class ProposalPersonUnitId implements Serializable, Comparable<ProposalPersonUnitId> {
+
+        private String proposalNumber;
+
+        private Integer proposalPersonNumber;
+
+        private String unitNumber;
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        public Integer getProposalPersonNumber() {
+            return this.proposalPersonNumber;
+        }
+
+        public void setProposalPersonNumber(Integer proposalPersonNumber) {
+            this.proposalPersonNumber = proposalPersonNumber;
+        }
+
+        public String getUnitNumber() {
+            return this.unitNumber;
+        }
+
+        public void setUnitNumber(String unitNumber) {
+            this.unitNumber = unitNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("proposalPersonNumber", this.proposalPersonNumber).append("unitNumber", this.unitNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalPersonUnitId rhs = (ProposalPersonUnitId) other;
+            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.unitNumber, rhs.unitNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.proposalPersonNumber).append(this.unitNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalPersonUnitId other) {
+            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.unitNumber, other.unitNumber).toComparison();
+        }
     }
 }

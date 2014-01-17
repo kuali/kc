@@ -15,14 +15,24 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name = "ACTIVITY_TYPE")
 public class ActivityType extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "ACTIVITY_TYPE_CODE")
     private String activityTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "HIGHER_EDUCATION_FUNCTION_CODE")
     private String higherEducationFunctionCode;
 
     public String getHigherEducationFunctionCode() {

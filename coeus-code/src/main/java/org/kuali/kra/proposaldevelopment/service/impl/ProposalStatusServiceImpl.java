@@ -21,6 +21,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -28,7 +29,7 @@ import java.util.Map;
 
 public class ProposalStatusServiceImpl implements ProposalStatusService {
     
-    private BusinessObjectService businessObjectService;
+    private DataObjectService dataObjectService;
     
     public void saveBudgetFinalVersionStatus(ProposalDevelopmentDocument pdDocument) {
         ProposalBudgetStatus proposalStatus = getProposalStatus(pdDocument.getDevelopmentProposal().getProposalNumber());
@@ -38,12 +39,12 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
                 proposalStatus = new ProposalBudgetStatus();
                 proposalStatus.setProposalNumber(pdDocument.getDevelopmentProposal().getProposalNumber());
                 proposalStatus.setBudgetStatusCode(pdDocument.getDevelopmentProposal().getBudgetStatus());
-                businessObjectService.save(proposalStatus);
+                dataObjectService.save(proposalStatus);
             }
         } else if (proposalStatus.getBudgetStatusCode() == null || 
                 !proposalStatus.getBudgetStatusCode().equals(pdDocument.getDevelopmentProposal().getBudgetStatus())) {
             proposalStatus.setBudgetStatusCode(pdDocument.getDevelopmentProposal().getBudgetStatus());
-            businessObjectService.save(proposalStatus);
+            dataObjectService.save(proposalStatus);
         } // else there is no change - do nothing.
     }
     
@@ -75,16 +76,12 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
         return proposalStatus;
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
     public void loadBudgetStatusByProposalDocumentNumber(String documentNumber) {
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put("documentNumber", documentNumber);
-        DevelopmentProposal proposal = (DevelopmentProposal)businessObjectService.findByPrimaryKey(DevelopmentProposal.class, keyMap);
+        DevelopmentProposal proposal = dataObjectService.find(DevelopmentProposal.class, documentNumber);
         loadBudgetStatus(proposal);
     }
-    
-    
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

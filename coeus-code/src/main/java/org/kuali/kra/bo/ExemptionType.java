@@ -15,13 +15,25 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "EXEMPTION_TYPE")
 public class ExemptionType extends KraPersistableBusinessObjectBase implements Comparable<ExemptionType> {
 
+    @Id
+    @Column(name = "EXEMPTION_TYPE_CODE")
     private String exemptionTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "DETAILED_DESCRIPTION")
+    @Lob
     private String detailedDescription;
 
     public String getDescription() {

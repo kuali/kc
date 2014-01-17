@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -26,6 +31,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.8 $
  */
+@Entity
+@Table(name = "EPS_PROP_PERSON_ROLE")
 public class ProposalPersonRole extends KraPersistableBusinessObjectBase implements ContactRole {
 
     public static final String PRINCIPAL_INVESTIGATOR = "PI";
@@ -33,17 +40,23 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase impleme
     public static final String CO_INVESTIGATOR = "COI";
 
     public static final String KEY_PERSON = "KP";
-    
+
     private static final long serialVersionUID = -2184772940618843909L;
 
+    @Id
+    @Column(name = "PROP_PERSON_ROLE_ID")
     private String proposalPersonRoleId;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "CERTIFICATION_REQUIRED")
     private String certificationRequired;
 
+    @Transient
     private Boolean readOnly;
 
+    @Column(name = "UNIT_DETAILS_REQUIRED")
     private String unitDetailsRequired;
 
     /**

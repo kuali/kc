@@ -15,16 +15,26 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name = "S2S_SUBMISSION_TYPE")
 public class S2sSubmissionType extends KraPersistableBusinessObjectBase {
 
     public static final String CHANGE_CORRECTED_CODE = "3";
 
+    @Id
+    @Column(name = "S2S_SUBMISSION_TYPE_CODE")
     private String s2sSubmissionTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "SORT_ID")
     private String sortId;
 
     public String getS2sSubmissionTypeCode() {

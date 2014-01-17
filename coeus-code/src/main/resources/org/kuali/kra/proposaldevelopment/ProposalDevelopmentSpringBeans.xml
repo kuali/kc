@@ -243,6 +243,7 @@
     
 	<bean id="proposalDevelopmentService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
+        <property name="dataObjectService" ref="dataObjectService" />
 		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
 		<property name="kraPersistenceStructureService" ref="kraPersistenceStructureService" />
 		<property name="budgetService" ref="budgetService" />
@@ -370,7 +371,7 @@
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 	
     <bean id="proposalStatusService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStatusServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dataObjectService" ref="dataObjectService" />
     </bean>
 
 	<bean id="narrativeService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeServiceImpl">

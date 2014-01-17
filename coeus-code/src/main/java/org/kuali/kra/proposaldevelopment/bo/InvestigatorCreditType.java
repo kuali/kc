@@ -15,8 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
  * Class representation of the Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
@@ -25,16 +31,25 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
  * @see org.kuali.rice.krad.bo.PersistableBusinessObject
  * $Id: InvestigatorCreditType.java,v 1.6 2008-07-23 19:16:37 gmcgrego Exp $
  */
+@Entity
+@Table(name = "INV_CREDIT_TYPE")
 public class InvestigatorCreditType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 2881039955568764530L;
 
+    @Id
+    @Column(name = "INV_CREDIT_TYPE_CODE")
     private String invCreditTypeCode;
 
+    @Column(name = "ADDS_TO_HUNDRED")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean addsToHundred;
 
+    @Column(name = "ACTIVE_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean active;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     /**

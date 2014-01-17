@@ -15,22 +15,52 @@
  */
 package org.kuali.kra.bo;
 
+import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
-public class UnitAdministrator extends KraPersistableBusinessObjectBase implements AbstractUnitAdministrator , Comparable<UnitAdministrator> {
+@Entity
+@Table(name = "UNIT_ADMINISTRATOR")
+@IdClass(UnitAdministrator.UnitAdministratorId.class)
+public class UnitAdministrator extends KraPersistableBusinessObjectBase implements AbstractUnitAdministrator, Comparable<UnitAdministrator> {
 
+    @Id
+    @Column(name = "PERSON_ID")
     private String personId;
 
+    @Id
+    @Column(name = "UNIT_ADMINISTRATOR_TYPE_CODE")
     private String unitAdministratorTypeCode;
 
+    @Id
+    @Column(name = "UNIT_NUMBER")
     private String unitNumber;
 
+    @ManyToOne(targetEntity = Unit.class)
+    @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
+    @ManyToOne(targetEntity = UnitAdministratorType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "UNIT_ADMINISTRATOR_TYPE_CODE", referencedColumnName = "UNIT_ADMINISTRATOR_TYPE_CODE", insertable = false, updatable = false)
     private UnitAdministratorType unitAdministratorType;
 
+    @Transient
     private transient KcPersonService kcPersonService;
 
     public UnitAdministrator() {
@@ -91,24 +121,82 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase implemen
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
-    
-    //KRACOEUS-5499 Implemented Comparable interface.
+
+    //KRACOEUS-5499 Implemented Comparable interface. 
     @Override
-    public int compareTo(UnitAdministrator unitAdmin) {        
+    public int compareTo(UnitAdministrator unitAdmin) {
         int result = 0;
-        if(unitAdmin == null){
+        if (unitAdmin == null) {
             result = 1;
-        }else{
-            if (! getUnitAdministratorTypeCode().equalsIgnoreCase(unitAdmin.getUnitAdministratorTypeCode())){
+        } else {
+            if (!getUnitAdministratorTypeCode().equalsIgnoreCase(unitAdmin.getUnitAdministratorTypeCode())) {
                 result = getUnitAdministratorTypeCode().compareTo(unitAdmin.getUnitAdministratorTypeCode());
-            }else{
-                if(getPerson() != null &&  StringUtils.isNotEmpty(getPerson().getLastName()) && 
-                   unitAdmin.getPerson() != null && StringUtils.isNotEmpty(unitAdmin.getPerson().getLastName())){
+            } else {
+                if (getPerson() != null && StringUtils.isNotEmpty(getPerson().getLastName()) && unitAdmin.getPerson() != null && StringUtils.isNotEmpty(unitAdmin.getPerson().getLastName())) {
                     result = getPerson().getLastName().compareTo(unitAdmin.getPerson().getLastName());
-                }             
+                }
             }
         }
         return result;
-    } 
-    
+    }
+
+    public static final class UnitAdministratorId implements Serializable, Comparable<UnitAdministratorId> {
+
+        private String unitNumber;
+
+        private String personId;
+
+        private String unitAdministratorTypeCode;
+
+        public String getUnitNumber() {
+            return this.unitNumber;
+        }
+
+        public void setUnitNumber(String unitNumber) {
+            this.unitNumber = unitNumber;
+        }
+
+        public String getPersonId() {
+            return this.personId;
+        }
+
+        public void setPersonId(String personId) {
+            this.personId = personId;
+        }
+
+        public String getUnitAdministratorTypeCode() {
+            return this.unitAdministratorTypeCode;
+        }
+
+        public void setUnitAdministratorTypeCode(String unitAdministratorTypeCode) {
+            this.unitAdministratorTypeCode = unitAdministratorTypeCode;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("unitNumber", this.unitNumber).append("personId", this.personId).append("unitAdministratorTypeCode", this.unitAdministratorTypeCode).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final UnitAdministratorId rhs = (UnitAdministratorId) other;
+            return new EqualsBuilder().append(this.unitNumber, rhs.unitNumber).append(this.personId, rhs.personId).append(this.unitAdministratorTypeCode, rhs.unitAdministratorTypeCode).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.unitNumber).append(this.personId).append(this.unitAdministratorTypeCode).toHashCode();
+        }
+
+        @Override
+        public int compareTo(UnitAdministratorId other) {
+            return new CompareToBuilder().append(this.unitNumber, other.unitNumber).append(this.personId, other.personId).append(this.unitAdministratorTypeCode, other.unitAdministratorTypeCode).toComparison();
+        }
+    }
 }

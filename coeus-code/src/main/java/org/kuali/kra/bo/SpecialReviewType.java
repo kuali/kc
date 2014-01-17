@@ -15,22 +15,32 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Defines the type of the Special Review.
  */
+@Entity
+@Table(name = "SPECIAL_REVIEW")
 public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase {
 
     /**
      * The Human Subjects Special Review type.
      */
     public static final String HUMAN_SUBJECTS = "1";
+
     public static final String ANIMAL_USAGE = "2";
 
     private static final long serialVersionUID = -7939863013575475658L;
 
+    @Id
+    @Column(name = "SPECIAL_REVIEW_CODE")
     private String specialReviewTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public String getSpecialReviewTypeCode() {

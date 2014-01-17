@@ -15,22 +15,51 @@
  */
 package org.kuali.kra.bo;
 
+import java.io.Serializable;
 import java.sql.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.Ynq;
 
+@Entity
+@Table(name = "ORGANIZATION_YNQ")
+@IdClass(OrganizationYnq.OrganizationYnqId.class)
 public class OrganizationYnq extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "ORGANIZATION_ID")
     private String organizationId;
 
+    @Id
+    @Column(name = "QUESTION_ID")
     private String questionId;
 
+    @Column(name = "ANSWER")
     private String answer;
 
+    @Column(name = "EXPLANATION")
     private String explanation;
 
+    @Column(name = "REVIEW_DATE")
     private Date reviewDate;
 
+    @ManyToOne(targetEntity = Organization.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 
+    @ManyToOne(targetEntity = Ynq.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", insertable = false, updatable = false)
     private Ynq ynq;
 
     public OrganizationYnq() {
@@ -91,5 +120,55 @@ public class OrganizationYnq extends KraPersistableBusinessObjectBase {
 
     public void setYnq(Ynq ynq) {
         this.ynq = ynq;
+    }
+
+    public static final class OrganizationYnqId implements Serializable, Comparable<OrganizationYnqId> {
+
+        private String organizationId;
+
+        private String questionId;
+
+        public String getOrganizationId() {
+            return this.organizationId;
+        }
+
+        public void setOrganizationId(String organizationId) {
+            this.organizationId = organizationId;
+        }
+
+        public String getQuestionId() {
+            return this.questionId;
+        }
+
+        public void setQuestionId(String questionId) {
+            this.questionId = questionId;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("organizationId", this.organizationId).append("questionId", this.questionId).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final OrganizationYnqId rhs = (OrganizationYnqId) other;
+            return new EqualsBuilder().append(this.organizationId, rhs.organizationId).append(this.questionId, rhs.questionId).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.organizationId).append(this.questionId).toHashCode();
+        }
+
+        @Override
+        public int compareTo(OrganizationYnqId other) {
+            return new CompareToBuilder().append(this.organizationId, other.organizationId).append(this.questionId, other.questionId).toComparison();
+        }
     }
 }

@@ -15,14 +15,29 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.sql.Timestamp;
 
 /**
  * Every Proposal can have zero or more Abstracts attached to it.
@@ -31,6 +46,9 @@ import java.sql.Timestamp;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Entity
+@Table(name = "EPS_PROP_ABSTRACT")
+@IdClass(ProposalAbstract.ProposalAbstractId.class)
 public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 
     ;
@@ -39,16 +57,22 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
      * Each Abstract is associated with one and only one proposal
      * which is identified by its unique <code>proposalNumber</code>.
      */
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
     /**
      * Identifies what type of abstract this is.
      */
+    @Id
+    @Column(name = "ABSTRACT_TYPE_CODE")
     private String abstractTypeCode;
 
     /**
 	 * The user-defined textual string for the abstract.
 	 */
+    @Column(name = "ABSTRACT_DETAILS")
+    @Lob
     private String abstractDetails;
 
     /**
@@ -56,12 +80,17 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 	 * refers to.  It is stored here to make it easy for a JSP page to
 	 * access the abstract type's description.
 	 */
+    @ManyToOne(targetEntity = AbstractType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ABSTRACT_TYPE_CODE", referencedColumnName = "ABSTRACT_TYPE_CODE", insertable = false, updatable = false)
     private AbstractType abstractType;
 
+    @Column(name = "TIMESTAMP_DISPLAY")
     private Timestamp timestampDisplay;
 
+    @Column(name = "USER_DISPLAY")
     private String uploadUserDisplay;
 
+    @Transient
     private String uploadUserFullName;
 
     /**
@@ -106,15 +135,6 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
      */
     public void setAbstractTypeCode(String abstractTypeCode) {
         this.abstractTypeCode = abstractTypeCode;
-        // When the abstract type code changes, the corresponding 
-        // abstractType field must also be updated.  A refresh will 
-        // cause the abstract type to be read from the database. By 
-        // the magic of OJB, the data member is automatically updated. 
-        if (this.abstractTypeCode == null || this.abstractTypeCode.equals("")) {
-            abstractType = null;
-        } else {
-            this.refreshReferenceObject("abstractType");
-        }
     }
 
     /**
@@ -158,7 +178,7 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
      */
     public void setAbstractType(AbstractType abstractType) {
         this.abstractType = abstractType;
-        this.abstractTypeCode = abstractType.getAbstractTypeCode();
+        this.abstractTypeCode = abstractType != null ? abstractType.getAbstractTypeCode() : null;
     }
 
     public Timestamp getTimestampDisplay() {
@@ -169,18 +189,12 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
         this.timestampDisplay = timestampDisplay;
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
-     */
     @Override
     protected void prePersist() {
         super.prePersist();
         setUpdateDisplayFields();
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
-     */
     @Override
     protected void preUpdate() {
         super.preUpdate();
@@ -193,7 +207,7 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
     private void setUpdateDisplayFields() {
         if (uploadUserDisplay == null || timestampDisplay == null) {
             String updateUser = GlobalVariables.getUserSession().getPrincipalName();
-            // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters 
+            // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters  
             if (updateUser.length() > 60) {
                 updateUser = updateUser.substring(0, 60);
             }
@@ -216,5 +230,55 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 
     public void setUploadUserFullName(String uploadUserFullName) {
         this.uploadUserFullName = uploadUserFullName;
+    }
+
+    public static final class ProposalAbstractId implements Serializable, Comparable<ProposalAbstractId> {
+
+        private String abstractTypeCode;
+
+        private String proposalNumber;
+
+        public String getAbstractTypeCode() {
+            return this.abstractTypeCode;
+        }
+
+        public void setAbstractTypeCode(String abstractTypeCode) {
+            this.abstractTypeCode = abstractTypeCode;
+        }
+
+        public String getProposalNumber() {
+            return this.proposalNumber;
+        }
+
+        public void setProposalNumber(String proposalNumber) {
+            this.proposalNumber = proposalNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("abstractTypeCode", this.abstractTypeCode).append("proposalNumber", this.proposalNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ProposalAbstractId rhs = (ProposalAbstractId) other;
+            return new EqualsBuilder().append(this.abstractTypeCode, rhs.abstractTypeCode).append(this.proposalNumber, rhs.proposalNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.abstractTypeCode).append(this.proposalNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ProposalAbstractId other) {
+            return new CompareToBuilder().append(this.abstractTypeCode, other.abstractTypeCode).append(this.proposalNumber, other.proposalNumber).toComparison();
+        }
     }
 }

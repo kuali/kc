@@ -15,50 +15,91 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.SponsorType;
+import org.kuali.kra.bo.Unit;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
 
 /**
  * Class representing a Sponsor Business Object
  */
+@Entity
+@Table(name = "SPONSOR")
 public class Sponsor extends KraPersistableBusinessObjectBase {
 
+    @PortableSequenceGenerator(name = "SEQ_SPONSOR_CODE")
+    @GeneratedValue(generator = "SEQ_SPONSOR_CODE")
+    @Id
+    @Column(name = "SPONSOR_CODE")
     private String sponsorCode;
 
+    @Column(name = "ACRONYM")
     private String acronym;
 
+    @Column(name = "AUDIT_REPORT_SENT_FOR_FY")
     private String auditReportSentForFy;
 
+    @Column(name = "CAGE_NUMBER")
     private String cageNumber;
 
+    @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
+    @Column(name = "DODAC_NUMBER")
     private String dodacNumber;
 
+    @Column(name = "DUN_AND_BRADSTREET_NUMBER")
     private String dunAndBradstreetNumber;
 
+    @Column(name = "DUNS_PLUS_FOUR_NUMBER")
     private String dunsPlusFourNumber;
 
+    @Column(name = "OWNED_BY_UNIT")
     private String ownedByUnit;
 
+    @Column(name = "POSTAL_CODE")
     private String postalCode;
 
+    @Column(name = "ROLODEX_ID")
     private Integer rolodexId;
 
+    @Column(name = "SPONSOR_NAME")
     private String sponsorName;
 
+    @Column(name = "SPONSOR_TYPE_CODE")
     private String sponsorTypeCode;
 
+    @Column(name = "STATE")
     private String state;
 
+    @Column(name = "CREATE_USER")
     private String createUser;
 
+    @ManyToOne(targetEntity = SponsorType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "SPONSOR_TYPE_CODE", referencedColumnName = "SPONSOR_TYPE_CODE", insertable = false, updatable = false)
     private SponsorType sponsorType;
 
+    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "OWNED_BY_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
+    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ROLODEX_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
-    
+
+    @Column(name = "ACTV_IND")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean active;
-    
 
     public Sponsor() {
         super();
@@ -224,8 +265,7 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }
-    
-    
+
     public boolean isActive() {
         return active;
     }
@@ -233,5 +273,4 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
 }
