@@ -19,6 +19,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppClassLoader;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
@@ -29,7 +31,9 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.jar.Manifest;
 
@@ -40,14 +44,14 @@ public class ApplicationServer implements Lifecycle {
 
 	private final int port;
 	private final String contextName;
-	private final String relativeWebappRoot;
+	private final Collection<String> relativeWebappRoots;
     private Server server;
     private WebAppContext context;
 
-    public ApplicationServer(int port, String contextName, String relativeWebappRoot) {
+    public ApplicationServer(int port, String contextName, Collection<String> relativeWebappRoots) {
         this.port = port;
         this.contextName = contextName;
-        this.relativeWebappRoot = relativeWebappRoot;
+        this.relativeWebappRoots = new ArrayList<>(relativeWebappRoots);
     }
 
     //need to expose the webapp's classloader
@@ -82,20 +86,30 @@ public class ApplicationServer implements Lifecycle {
 
         LOG.info("baseDir: " + baseDir);
         LOG.info("tempDir: " + tempDir);
-        LOG.info("relativeWebappRoot: " + relativeWebappRoot);
+        LOG.info("relativeWebappRoot: " + relativeWebappRoots);
         LOG.info("contextName: " + contextName);
         LOG.info("port: " + port);
         LOG.info("Application Server: " + "Jetty " + Server.getVersion());
 
-        context = new WebAppContext(baseDir + relativeWebappRoot, contextName);
+        final Collection<Resource> dirs = new ArrayList<Resource>() {{
+            for (String root : relativeWebappRoots) {
+                add(Resource.newResource(baseDir + root));
+            }
+        }};
+        final ResourceCollection resources = new ResourceCollection();
+        resources.setResources(dirs.toArray(new Resource[] {}));
+
+        context = new WebAppContext();
         final Server server = new Server(port);
         server.setHandler(context);
         context.setServer(server);
-        context.preConfigure();
-
         final File tmp = new File(tempDir);
         tmp.mkdirs();
         context.setTempDirectory(tmp);
+        context.setBaseResource(resources);
+        context.setContextPath(contextName);
+        context.preConfigure();
+
         context.setClassLoader(createClassLoaderForJasper(context.getClassLoader()));
         return server;
 	}
@@ -163,14 +177,14 @@ public class ApplicationServer implements Lifecycle {
         return contextName;
     }
 
-    public String getRelativeWebappRoot() {
-        return relativeWebappRoot;
+    public Collection<String> getRelativeWebappRoots() {
+        return new ArrayList<>(relativeWebappRoots);
     }
 
     public String toString() {
 	    return new ToStringBuilder(this).append("port", port)
 	                                    .append("contextName", contextName)
-	                                    .append("relativeWebappRoot", relativeWebappRoot)
+	                                    .append("relativeWebappRoot", relativeWebappRoots)
 	                                    .toString();
 	}
 }
