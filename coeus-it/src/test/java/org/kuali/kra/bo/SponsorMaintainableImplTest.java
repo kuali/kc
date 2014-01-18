@@ -16,12 +16,15 @@
 package org.kuali.kra.bo;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.coreservice.impl.parameter.ParameterServiceImpl;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
+
+import static org.junit.Assert.*;
 
 public class SponsorMaintainableImplTest extends KcUnitTestBase {
 
@@ -32,17 +35,28 @@ public class SponsorMaintainableImplTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         parameterService = new ParameterServiceMock();
         sponsorMaintainableImpl = new SponsorMaintainableImpl();
         sponsorMaintainableImpl.setBoClass(Sponsor.class);
         sponsorMaintainableImpl.setBusinessObject(new Sponsor());
         sponsorMaintainableImpl.setParameterService(parameterService);
-    }
-    
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
+        sponsorMaintainableImpl.setSponsorCodeIncrementer(new DataFieldMaxValueIncrementer() {
+            int i = 0;
+            @Override
+            public int nextIntValue() throws DataAccessException {
+                return i++;
+            }
+
+            @Override
+            public long nextLongValue() throws DataAccessException {
+                return i++;
+            }
+
+            @Override
+            public String nextStringValue() throws DataAccessException {
+                return String.valueOf(i++);
+            }
+        });
     }
     
     @Test

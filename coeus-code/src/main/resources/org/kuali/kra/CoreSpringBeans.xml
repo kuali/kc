@@ -1918,6 +1918,11 @@
     <bean id="kcNotificationDocumentSecurityTypeServiceCallback" parent="kcCallbackService"
       p:callbackService-ref="kcNotificationDocumentSecurityTypeService"
       p:localServiceName="kcNotificationDocumentSecurityTypeService"
-      p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute"/>     
-     
+      p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute"/>
+
+    <bean id="sponsorCodeIncrementer" class="org.kuali.rice.krad.data.platform.MaxValueIncrementerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="incrementerName" value="SEQ_SPONSOR_CODE" />
+    </bean>
+
 </beans>
