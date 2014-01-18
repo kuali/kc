@@ -23,6 +23,8 @@ import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 
+import java.util.Collection;
+
 /**
  * A lifecycle for running a Application web server.
  */
@@ -51,8 +53,8 @@ public class ApplicationServerLifecycle implements Lifecycle {
     private final ConfigMode configMode;
 	private final ApplicationServer server;
 
-	public ApplicationServerLifecycle(int port, String contextName, String relativeWebappRoot, ConfigMode configMode) {
-        server = new ApplicationServer(port, contextName, relativeWebappRoot);
+	public ApplicationServerLifecycle(int port, String contextName, Collection<String> relativeWebappRoots, ConfigMode configMode) {
+        server = new ApplicationServer(port, contextName, relativeWebappRoots);
         this.configMode = configMode;
 	}
 
@@ -94,7 +96,7 @@ public class ApplicationServerLifecycle implements Lifecycle {
                 server.stop();
             }
         } catch (Exception e) {
-	        LOG.error("Error shutting down Application Server " + server.getContextName() + " " + server.getRelativeWebappRoot(), e);
+	        LOG.error("Error shutting down Application Server " + server.getContextName() + " " + server.getRelativeWebappRoots(), e);
         }
         started = false;
     }

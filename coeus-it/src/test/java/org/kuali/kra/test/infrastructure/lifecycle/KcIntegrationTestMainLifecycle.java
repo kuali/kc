@@ -29,6 +29,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -39,7 +40,16 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
     private static final String TEST_CONFIG_XML = "classpath:META-INF/kc-test-config.xml";
     private static final String TEST_CONFIG_DEFAULTS_XML = "classpath:META-INF/test-config-defaults.xml";
     private static final String DEFAULT_TEST_HARNESS_SPRING_BEANS = "classpath:TestHarnessSpringBeans.xml";
-    private static final String RELATIVE_WEB_ROOT = "coeus-webapp/src/main/webapp";
+    private static final String RELATIVE_KC_WEB_ROOT = "coeus-webapp/src/main/webapp";
+    private static final String RELATIVE_HELP_WEB_ROOT = "coeus-webapp/target/generated-web-sources/help-web-sources";
+    private static final String RELATIVE_RICE_WEB_ROOT = "coeus-webapp/target/generated-web-sources/rice-web-sources";
+
+    private static final Collection<String> WEB_ROOTS = new ArrayList<String>(){{
+        add(RELATIVE_KC_WEB_ROOT);
+        add(RELATIVE_HELP_WEB_ROOT);
+        add(RELATIVE_RICE_WEB_ROOT);
+    }};
+
     private static final String DEFAULT_TRANSACTION_MANAGER_NAME = "transactionManager";
 
     private PlatformTransactionManager transactionManager;
@@ -82,7 +92,9 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
         if (LOG.isInfoEnabled()) {
             LOG.info("Loading Application Server...");
         }
-        jetty = new ApplicationServerLifecycle(Integer.parseInt(KcIntegrationTestBaseLifecycle.getPort()), "/" + PORTAL_ADDRESS, RELATIVE_WEB_ROOT, ApplicationServerLifecycle.ConfigMode.MERGE);
+
+        jetty = new ApplicationServerLifecycle(Integer.parseInt(KcIntegrationTestBaseLifecycle.getPort()), "/" + PORTAL_ADDRESS,
+                WEB_ROOTS, ApplicationServerLifecycle.ConfigMode.MERGE);
         jetty.start();
     }
 
