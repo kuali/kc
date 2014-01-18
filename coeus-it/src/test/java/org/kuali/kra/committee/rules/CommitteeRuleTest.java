@@ -22,7 +22,7 @@ import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-
+import static org.junit.Assert.*;
 /**
  * Test the Committee Rules.
  */

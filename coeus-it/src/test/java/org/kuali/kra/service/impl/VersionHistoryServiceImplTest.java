@@ -25,27 +25,25 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
 
-public class VersionHistoryServiceImplTest extends KcUnitTestBase {
+public class VersionHistoryServiceImplTest extends KcIntegrationTestBase {
     private static final String PROTOCOL_VERSION_NAME = "2001";
     private static final String AWARD_VERSION_NAME = "1001-001";
     private VersionHistoryService versioningHistoryService;
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         versioningHistoryService = KraServiceLocator.getService(VersionHistoryService.class);
     }
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
     
     @Test

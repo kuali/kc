@@ -18,7 +18,7 @@ package org.kuali.kra.irb.protocol.participant;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class ProtocolParticipantServiceTest extends KcUnitTestBase {
+public class ProtocolParticipantServiceTest extends KcIntegrationTestBase {
 
     private Protocol protocol;
 

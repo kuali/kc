@@ -22,7 +22,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.*;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -39,7 +39,7 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 @Ignore("6.0 failure - deadlock")
-public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
+public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
     
     private static final String SEQUENCE_STATUS_CURRENT = "C";
     private static final String SEQUENCE_STATUS_ARCHIVED = "A";
@@ -50,7 +50,6 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         questionLookupableHelperServiceImpl = new QuestionLookupableHelperServiceImpl();
         questionLookupableHelperServiceImpl.setBusinessObjectClass(Question.class);
         Map<String, String[]> parameters = new HashMap<String, String[]>();
@@ -65,7 +64,6 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
         questionLookupableHelperServiceImpl = null;
         documentService = null;
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     
     /**

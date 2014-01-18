@@ -24,13 +24,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.service.KraPersistenceStructureService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Map;
-
-public class ProposalColumnsToAlterMaintainableImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProposalColumnsToAlterMaintainableImplTest extends KcIntegrationTestBase {
 
     private ProposalColumnsToAlterMaintainableImpl columnsToAlterMaintainable;
     private Map<String, String> columnToAttrMap;

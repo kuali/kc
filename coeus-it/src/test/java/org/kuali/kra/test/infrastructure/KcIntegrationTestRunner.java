@@ -24,27 +24,27 @@ import org.junit.runners.model.Statement;
 /**
  * This class is a custom JUnit4 Runner.  It overrides a few methods to insert custom KC functionality.
  */
-public class KcUnitTestRunner extends BlockJUnit4ClassRunner {
+public class KcIntegrationTestRunner extends BlockJUnit4ClassRunner {
     private static boolean listenerAdded = false;
 
     /**
-     * Constructs a KcUnitTestRunner to run <code>klass</code>.
+     * Constructs a KcIntegrationTestRunner to run <code>klass</code>.
      * 
      * @see org.junit.runners.BlockJUnit4ClassRunner#BlockJUnit4ClassRunner(java.lang.Class)
      */
-    public KcUnitTestRunner(Class<?> klass) throws InitializationError {
+    public KcIntegrationTestRunner(Class<?> klass) throws InitializationError {
         super(klass);
     }
 
     /**
-     * Overridden to call setMethod if test class is implementer of <code>KcUnitTestMethodAware</code>
+     * Overridden to call setMethod if test class is implementer of <code>KcIntegrationTestMethodAware</code>
      * 
      * @see org.junit.runners.BlockJUnit4ClassRunner#methodInvoker(org.junit.runners.model.FrameworkMethod, java.lang.Object)
      */
     @Override
     protected Statement methodInvoker(FrameworkMethod method, Object test) {
-        if (test instanceof KcUnitTestMethodAware) {
-            ((KcUnitTestMethodAware) test).setTestMethod(method.getMethod());
+        if (test instanceof KcIntegrationTestMethodAware) {
+            ((KcIntegrationTestMethodAware) test).setTestMethod(method.getMethod());
         }
         return super.methodInvoker(method, test);
     }
@@ -59,7 +59,7 @@ public class KcUnitTestRunner extends BlockJUnit4ClassRunner {
     @Override
     public void run(RunNotifier notifier) {
         if (!listenerAdded) {
-            notifier.addListener(KcUnitTestBase.getRunListener());
+            notifier.addListener(KcIntegrationTestBase.getRunListener());
             listenerAdded = true;
         }
         super.run(notifier);

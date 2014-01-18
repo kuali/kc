@@ -25,14 +25,14 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RunWith(JMock.class)
-public class MeetingAddMinuteRuleTest extends KcUnitTestBase {
+public class MeetingAddMinuteRuleTest extends KcIntegrationTestBase {
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 
     @Test

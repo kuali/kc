@@ -42,7 +42,7 @@ import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -50,13 +50,13 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.junit.Assert.*;
 // import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 
 /**
  * Test the ProtocolWithdrawService implementation.
  */
-public class UndoLastActionServiceTest extends KcUnitTestBase {
+public class UndoLastActionServiceTest extends KcIntegrationTestBase {
 
     private static final String COMMENTS = "something silly";
     
@@ -82,11 +82,9 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         setThreadingPolicy(new Synchroniser());
     }};
 
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new UndoLastActionServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setBusinessObjectService(getMockBusinessObjectService());
@@ -99,7 +97,6 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         protocolGenericActionService = KraServiceLocator.getService(ProtocolGenericActionService.class);
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         service = null;
@@ -109,7 +106,6 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         protocolRequestService = null;
         protocolGenericActionService = null;
         
-        super.tearDown();
     }
 
     @Test

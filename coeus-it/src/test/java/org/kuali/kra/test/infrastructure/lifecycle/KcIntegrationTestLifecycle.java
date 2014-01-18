@@ -18,7 +18,7 @@ package org.kuali.kra.test.infrastructure.lifecycle;
 /**
  * This interface models a unit test lifecycle which has a "per test" component, a "per class" component and a "per suite" component.
  */
-public interface KcUnitTestLifecycle {
+public interface KcIntegrationTestLifecycle {
     /**
      * This method starts the "per test" portion of the lifecycle.
      */

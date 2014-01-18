@@ -21,23 +21,22 @@ import org.junit.Test;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.dao.RolodexDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * Tests the {@link NonOrganizationalLookupableHelperServiceImpl}.
  */
-public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends KcUnitTestBase {
+public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends KcIntegrationTestBase {
     
     private NonOrganizationalRolodexLookupableHelperServiceImpl nonOrganizationalRolodexLookupableHelperServiceImpl;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         nonOrganizationalRolodexLookupableHelperServiceImpl = new NonOrganizationalRolodexLookupableHelperServiceImpl();
         nonOrganizationalRolodexLookupableHelperServiceImpl.setBusinessObjectClass(NonOrganizationalRolodex.class);
         nonOrganizationalRolodexLookupableHelperServiceImpl.setRolodexDao(KraServiceLocator.getService(RolodexDao.class));
@@ -45,7 +44,6 @@ public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends KcU
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         nonOrganizationalRolodexLookupableHelperServiceImpl = null;
     }
     

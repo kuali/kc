@@ -23,7 +23,7 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -36,7 +36,7 @@ import java.util.Map;
 /**
  * This class tests AwardApprovedForeignTravelRuleImpl behavior
  */
-public class AwardApprovedForeignTravelRuleIntegrationTest extends KcUnitTestBase {
+public class AwardApprovedForeignTravelRuleIntegrationTest extends KcIntegrationTestBase {
     private static final String ERROR_KEY = AwardApprovedForeignTravelRule.APPROVED_FOREIGN_TRAVEL_LIST_ERROR_KEY;
     private static final double ZERO_AMOUNT = 0.00;
     private static final double AMOUNT1 = 100.00;
@@ -67,7 +67,6 @@ public class AwardApprovedForeignTravelRuleIntegrationTest extends KcUnitTestBas
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         this.approvedForeignTravelRule = new AwardApprovedForeignTravelRuleImpl();
         award = new Award();
@@ -88,7 +87,6 @@ public class AwardApprovedForeignTravelRuleIntegrationTest extends KcUnitTestBas
         award = null;
         approvedForeignTravelRule = null;
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     
     @Test

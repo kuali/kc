@@ -35,16 +35,16 @@ import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGene
 import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.ArrayList;
-
+import static org.junit.Assert.*;
 /**
  * Test the ProtocolWithdrawService implementation.
  */
-public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
+public class ProtocolWithdrawServiceTest extends KcIntegrationTestBase {
 
     private static final String REASON = "my test reason";
     
@@ -58,7 +58,6 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
 
         service = new ProtocolWithdrawServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
@@ -77,7 +76,6 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         service = null;
         protocolSubmitActionService = null;
         
-        super.tearDown();
     }
     
     @Test

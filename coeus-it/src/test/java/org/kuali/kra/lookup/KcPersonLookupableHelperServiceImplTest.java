@@ -24,15 +24,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
-
-public class KcPersonLookupableHelperServiceImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class KcPersonLookupableHelperServiceImplTest extends KcIntegrationTestBase {
     
     private static final int LOOKUP_CRITERIA_FIELD_COUNT = 9;
     private static final String CAMPUS_CODE_FIELD = "code";
@@ -46,15 +46,13 @@ public class KcPersonLookupableHelperServiceImplTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new KcPersonLookupableHelperServiceImpl();
     }
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
-        
+
         service = null;
     }
     

@@ -17,15 +17,15 @@ package org.kuali.kra.budget.document;
 
 import org.junit.Test;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.util.ObjectUtils;
-
+import static org.junit.Assert.*;
 /**
  * Testing ObjectUtils equalsByKey logic change
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class ObjectUtilsTest extends KcUnitTestBase {
+public class ObjectUtilsTest extends KcIntegrationTestBase {
     @Test
     public void testObjectUtils_equalsByKey() throws Exception {
         BudgetPeriod periodDB = new BudgetPeriod();

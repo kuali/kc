@@ -19,14 +19,14 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.impl.parameter.ParameterServiceImpl;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 
 import static org.junit.Assert.*;
 
-public class SponsorMaintainableImplTest extends KcUnitTestBase {
+public class SponsorMaintainableImplTest extends KcIntegrationTestBase {
 
     public static final String SPONSOR_DOC_TYPE_NAME = "SponsorMaintenanceDocument";
     

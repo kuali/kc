@@ -27,7 +27,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
-
+import static org.junit.Assert.*;
+import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 /**
  * Test the business rules for Proposal Abstracts.
  * 

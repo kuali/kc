@@ -19,25 +19,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
-public abstract class BaseDataFeedCommandTest extends KcUnitTestBase {
+public abstract class BaseDataFeedCommandTest extends KcIntegrationTestBase {
     Award award;
     InstitutionalProposal proposal;
     
     @Before
-    @Override
     public void setUp() throws Exception {
-        super.setUp();
         award = new Award();
         proposal = new InstitutionalProposal();
         proposal.setProposalNumber("1234");
     }
     
     @After
-    @Override
     public void tearDown() throws Exception {
-        super.tearDown();
         award = null;
         proposal = null;
     }

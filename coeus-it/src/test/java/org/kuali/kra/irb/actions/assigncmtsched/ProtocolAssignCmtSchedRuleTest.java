@@ -24,7 +24,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
-
+import static org.junit.Assert.*;
 /**
  * Test the business rules for Assigning a protocol to a committee.
  * 

@@ -23,6 +23,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 
 import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
+import static org.junit.Assert.*;
 /**
  * This class is to test protocol personnel audit rule error message
  */

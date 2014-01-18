@@ -20,28 +20,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Timestamp;
 import java.util.Date;
-
+import static org.junit.Assert.*;
 /**
  * This class tests ResearchDocumentBase.
  */
-public class ResearchDocumentBaseTest extends KcUnitTestBase {
+public class ResearchDocumentBaseTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         GlobalVariables.setUserSession(null);
     }
 

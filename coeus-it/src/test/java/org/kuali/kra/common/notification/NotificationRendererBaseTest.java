@@ -16,15 +16,15 @@
 package org.kuali.kra.common.notification;
 
 import org.junit.Test;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * This class contains tests for NotificationRendererBase
  */
-public class NotificationRendererBaseTest extends KcUnitTestBase {
+public class NotificationRendererBaseTest extends KcIntegrationTestBase {
     
     private static final String USER_FULLNAME_VAL = "Geoff  McGregor";
     

@@ -29,7 +29,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 public class FinEntitiesDataGroupMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     
     private static final String GROUP_SORT_ID_FIELD_NAME = "dataGroupSortId";
@@ -46,8 +46,7 @@ public class FinEntitiesDataGroupMaintenanceDocumentRuleTest extends Maintenance
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         rule = new FinEntitiesDataGroupMaintenanceDocumentRule();
         rule.setBusinessObjectService(getMockBusinessObjectService());
     }
@@ -56,7 +55,6 @@ public class FinEntitiesDataGroupMaintenanceDocumentRuleTest extends Maintenance
     public void tearDown() throws Exception {
         rule = null;
         
-        super.tearDown();
     }
     
     @Test

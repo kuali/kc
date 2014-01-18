@@ -20,6 +20,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AddProtocolSpecialReviewRuleTest extends AddSpecialReviewRuleTestBase<ProtocolSpecialReview> {
@@ -27,7 +28,7 @@ public class AddProtocolSpecialReviewRuleTest extends AddSpecialReviewRuleTestBa
     @Override
     public Document getDocument() throws WorkflowException {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        Document document = getDocumentService().getNewDocument(ProtocolDocument.class);
+        Document document = KRADServiceLocatorWeb.getDocumentService().getNewDocument(ProtocolDocument.class);
         return document;
     }
 

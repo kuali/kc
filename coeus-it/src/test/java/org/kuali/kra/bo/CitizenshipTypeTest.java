@@ -22,13 +22,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CitizenshipTypeService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
 import java.util.Map;
-
-public class CitizenshipTypeTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class CitizenshipTypeTest extends KcIntegrationTestBase {
     
     private BusinessObjectService businessObjectService;
     

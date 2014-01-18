@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.util.PrintingServiceTestBase;
-
+import static org.junit.Assert.*;
 public class ProtocolPrintingServiceTest extends PrintingServiceTestBase {
     private ProtocolPrintingService protocolPrintingService;
 

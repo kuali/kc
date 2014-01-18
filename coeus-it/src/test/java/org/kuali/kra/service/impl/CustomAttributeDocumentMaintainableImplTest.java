@@ -25,12 +25,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Collection;
-
-public class CustomAttributeDocumentMaintainableImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class CustomAttributeDocumentMaintainableImplTest extends KcIntegrationTestBase {
     
     Collection<CoeusModule> modules;
     CustomAttributeDocumentMaintainableImpl maintainable;

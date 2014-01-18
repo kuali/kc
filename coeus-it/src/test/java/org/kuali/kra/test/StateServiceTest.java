@@ -19,27 +19,25 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
 
 import java.util.List;
+import static org.junit.Assert.*;
 
-
-public class StateServiceTest extends KcUnitTestBase{
+public class StateServiceTest extends KcIntegrationTestBase {
     private StateService stateService;
     private static final String POSTAL_CNTRY_CD_UNITED_STATES = "US";
     private static final String ALT_POSTAL_CNTRY_CD_UNITED_STATES = "USA";
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         stateService = KraServiceLocator.getService(StateService.class);
     }
     @After
     public void tearDown() throws Exception {
         stateService = null;
-        super.tearDown();
     }
     
     @Test 

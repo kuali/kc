@@ -32,13 +32,12 @@ import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
-
+import static org.junit.Assert.*;
 public class KcPersonExtendedAttributesMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private KcPersonExtendedAttributesMaintenanceDocumentRule rule = null;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         rule = new KcPersonExtendedAttributesMaintenanceDocumentRule();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
@@ -46,7 +45,6 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRuleTest extends Maint
     @After
     public void tearDown() throws Exception {
         rule = null;
-        super.tearDown();
     }
 
     @Test

@@ -22,30 +22,26 @@ import org.junit.Test;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class MinimalAwardTest extends KcUnitTestBase {
+public class MinimalAwardTest extends KcIntegrationTestBase {
 
     private Award award;
     private DocumentService docService;
     private AwardDocument awardDocument;
 
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         award = AwardFixtureFactory.createAwardFixture();
         docService = KraServiceLocator.getService(DocumentService.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     @Test

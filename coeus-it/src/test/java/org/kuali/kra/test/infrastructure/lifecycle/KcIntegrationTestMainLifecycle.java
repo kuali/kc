@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * This class implements all of the common lifecycle elements of a KC Unit Test
  */
-public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
+public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecycle {
     
     private static final String TEST_CONFIG_XML = "classpath:META-INF/kc-test-config.xml";
     private static final String TEST_CONFIG_DEFAULTS_XML = "classpath:META-INF/test-config-defaults.xml";
@@ -82,7 +82,7 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
         if (LOG.isInfoEnabled()) {
             LOG.info("Loading Application Server...");
         }
-        jetty = new ApplicationServerLifecycle(Integer.parseInt(KcUnitTestBaseLifecycle.getPort()), "/" + PORTAL_ADDRESS, RELATIVE_WEB_ROOT, ApplicationServerLifecycle.ConfigMode.MERGE);
+        jetty = new ApplicationServerLifecycle(Integer.parseInt(KcIntegrationTestBaseLifecycle.getPort()), "/" + PORTAL_ADDRESS, RELATIVE_WEB_ROOT, ApplicationServerLifecycle.ConfigMode.MERGE);
         jetty.start();
     }
 

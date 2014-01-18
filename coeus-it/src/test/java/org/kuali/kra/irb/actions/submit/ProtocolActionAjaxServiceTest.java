@@ -28,19 +28,19 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
-
+import static org.junit.Assert.*;
 /**
  * Test the ProtocolActionAjaxService implementation.
  */
 //@RunWith(JMock.class)
-public class ProtocolActionAjaxServiceTest extends KcUnitTestBase {
+public class ProtocolActionAjaxServiceTest extends KcIntegrationTestBase {
 
     private ProtocolActionAjaxServiceImpl protocolActionAjaxService;
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
@@ -48,7 +48,6 @@ public class ProtocolActionAjaxServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         protocolActionAjaxService = new ProtocolActionAjaxServiceImpl();
         ProtocolForm protocolForm = new ProtocolForm() {
             ActionHelper actionHelper1 = new ActionHelper(this) {
@@ -67,7 +66,6 @@ public class ProtocolActionAjaxServiceTest extends KcUnitTestBase {
     
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         GlobalVariables.getUserSession().removeObject(DOC_FORM_KEY);
     }
     

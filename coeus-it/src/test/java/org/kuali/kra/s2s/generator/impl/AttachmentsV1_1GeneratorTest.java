@@ -24,7 +24,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 /**
  * This class tests the AttachmentsV1_1GeneratorTest
  */

@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.rules.SoftError;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * This class tests AwardApprovedEquipmentRuleImpl behavior
  */
-public class AwardApprovedEquipmentRuleIntegrationTest extends KcUnitTestBase {
+public class AwardApprovedEquipmentRuleIntegrationTest extends KcIntegrationTestBase {
     private static final double ONE_PENNY = 0.01;
     private static final double FEDERAL_MIN_AMOUNT = 100.00;
     private static final double INSTITUTE_MIN_AMOUNT = 50.00;
@@ -51,7 +51,6 @@ public class AwardApprovedEquipmentRuleIntegrationTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         this.approvedEquipmentRule = new AwardApprovedEquipmentRuleImpl();
         String requirement = EquipmentCapitalizationMinimumLoader.INSTITUTION_REQUIREMENT;
@@ -69,7 +68,6 @@ public class AwardApprovedEquipmentRuleIntegrationTest extends KcUnitTestBase {
         award = null;
         approvedEquipmentRule = null;
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     
     @Test

@@ -28,14 +28,14 @@ import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDet
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.impl.BusinessObjectServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class AwardBudgetServiceImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
 
     protected AwardBudgetService awardBudgetService;
     protected String testAwardNumber = "000000-00000";

@@ -20,6 +20,7 @@ import org.kuali.kra.common.specialreview.rules.AddSpecialReviewRuleTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AddAwardSpecialReviewRuleTest extends AddSpecialReviewRuleTestBase<AwardSpecialReview> {
@@ -27,7 +28,7 @@ public class AddAwardSpecialReviewRuleTest extends AddSpecialReviewRuleTestBase<
     @Override
     public Document getDocument() throws WorkflowException {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        Document document = getDocumentService().getNewDocument(AwardDocument.class);
+        Document document = KRADServiceLocatorWeb.getDocumentService().getNewDocument(AwardDocument.class);
         return document;
     }
 

@@ -21,7 +21,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
@@ -30,16 +30,15 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.HashMap;
 import java.util.List;
-
+import static org.junit.Assert.*;
 /**
  * Base class for Protocol business rule tests.
  * 
  */
-public abstract class ProtocolRuleTestBase extends KcUnitTestBase {
+public abstract class ProtocolRuleTestBase extends KcIntegrationTestBase {
 
     protected DocumentService documentService = null;
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";
@@ -55,7 +54,6 @@ public abstract class ProtocolRuleTestBase extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         GlobalVariables.setMessageMap(new MessageMap());
         KNSGlobalVariables.setAuditErrorMap(new HashMap());
@@ -68,7 +66,6 @@ public abstract class ProtocolRuleTestBase extends KcUnitTestBase {
         GlobalVariables.setMessageMap(null);
         KNSGlobalVariables.setAuditErrorMap(null);
         documentService = null;
-        super.tearDown();
     }
     
     /**

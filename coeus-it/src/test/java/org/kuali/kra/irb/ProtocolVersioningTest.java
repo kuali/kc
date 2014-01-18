@@ -16,6 +16,7 @@
 package org.kuali.kra.irb;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.SeparateAssociate;
 import org.kuali.kra.bo.AttachmentFile;
@@ -27,7 +28,7 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
@@ -45,14 +46,13 @@ import static org.hamcrest.core.IsNot.not;
 /**
  * Integration test for protocol versioning.  Does not test attachment versioning.
  */
-public class ProtocolVersioningTest extends KcUnitTestBase {
+public class ProtocolVersioningTest extends KcIntegrationTestBase {
     
     private DocumentService documentService;
     private VersioningService versioningService;
 
-    @Override
+    @Before
     public void setUp() throws Exception {
-       super.setUp();
        GlobalVariables.setUserSession(new UserSession("quickstart"));
        GlobalVariables.setMessageMap(new MessageMap());
        KNSGlobalVariables.setAuditErrorMap(new HashMap());

@@ -28,11 +28,11 @@ import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.*;
-
-public class AwardFundingProposalBeanTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class AwardFundingProposalBeanTest extends KcIntegrationTestBase {
     private AwardFundingProposalBean bean;
     
     private Award award1;

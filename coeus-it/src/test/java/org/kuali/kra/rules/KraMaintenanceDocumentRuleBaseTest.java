@@ -25,13 +25,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 public class KraMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase {
     private KraMaintenanceDocumentRuleBase rule = null;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         rule = new KraMaintenanceDocumentRuleBase();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
@@ -39,7 +38,6 @@ public class KraMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase 
     @After
     public void tearDown() throws Exception {
         rule = null;
-        super.tearDown();
     }
 
     @Test

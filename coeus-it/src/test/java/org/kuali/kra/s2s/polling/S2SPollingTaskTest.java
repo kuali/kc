@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -35,14 +35,13 @@ import java.util.Map;
  * This class tests execution of {@link S2SPollingTask}
  * 
  */
-public class S2SPollingTaskTest extends KcUnitTestBase {
+public class S2SPollingTaskTest extends KcIntegrationTestBase {
 	private DateTimeService dateTimeService = null;
 	private BusinessObjectService businessObjectService = null;
 	private S2SService s2sService = null;
 
 	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		businessObjectService = KraServiceLocator
 				.getService(BusinessObjectService.class);
 		dateTimeService = KraServiceLocator.getService(DateTimeService.class);
@@ -54,7 +53,6 @@ public class S2SPollingTaskTest extends KcUnitTestBase {
 		businessObjectService = null;
 		dateTimeService = null;
 		s2sService = null;
-		super.tearDown();
 	}
 
 	@Test

@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupService;
@@ -37,8 +37,8 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
     
     private TimeAndMoneyDocument timeAndMoneyDocument;
     private DocumentService documentService;

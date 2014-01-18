@@ -25,9 +25,10 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -37,7 +38,7 @@ import java.util.Map;
 
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.logging.FormattedLogger.info;
-
+import static org.junit.Assert.*;
 
 /**
  * Class intended to exercise testing of units of functionality within the
@@ -46,7 +47,7 @@ import static org.kuali.kra.logging.FormattedLogger.info;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.9 $
  */
-public class KeyPersonnelServiceTest extends KcUnitTestBase {
+public class KeyPersonnelServiceTest extends KcIntegrationTestBase {
     private ProposalDevelopmentDocument document;
     private ProposalDevelopmentDocument blankDocument;
     private DocumentService documentService = null;
@@ -61,7 +62,6 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KRADServiceLocatorWeb.getDocumentService();
         parameterService = KraServiceLocator.getService(ParameterService.class);
@@ -72,7 +72,6 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
    
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
     
     @Test
@@ -158,7 +157,7 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
         //setting to true as it should be ignored for non-nih sponsors
         person.setMultiplePi(true);
         person.setDevelopmentProposal(document.getDevelopmentProposal());
-        assertEquals(getBusinessObjectService().findBySinglePrimaryKey(ProposalPersonRole.class, COI_ROLE_ID).getRoleDescription(), 
+        assertEquals(KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ProposalPersonRole.class, COI_ROLE_ID).getRoleDescription(),
                 getKeyPersonnelService().getPersonnelRoleDesc(person));        
     }
     
@@ -184,13 +183,7 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
                 getKeyPersonnelService().getPersonnelRoleDesc(person));        
     }
     
-    
-    /**
-     * Locate the <code>{@link KeyPersonnelService}</code>
-     * 
-     * @return KeyPersonnelService
-     * @see KraTestBase#getService(Class)
-     */
+
     private KeyPersonnelServiceImpl getKeyPersonnelService() {
         return (KeyPersonnelServiceImpl) KraServiceLocator.getService(KeyPersonnelService.class);
     }

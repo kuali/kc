@@ -31,18 +31,18 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
-
+import static org.junit.Assert.*;
 /**
  * Test the ProtocolWithdrawService implementation.
  */
-public class ProtocolGrantExemptionServiceTest extends KcUnitTestBase {
+public class ProtocolGrantExemptionServiceTest extends KcIntegrationTestBase {
 
     private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
     private static final Date APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
@@ -59,7 +59,6 @@ public class ProtocolGrantExemptionServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
 
         service = new ProtocolGrantExemptionServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
@@ -74,7 +73,6 @@ public class ProtocolGrantExemptionServiceTest extends KcUnitTestBase {
         service = null;
         protocolSubmitActionService = null;
         
-        super.tearDown();
     }
     
     @Test

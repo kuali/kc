@@ -27,12 +27,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddProtocolFundingSourceTest extends KcUnitTestBase {
+public class AddProtocolFundingSourceTest extends KcIntegrationTestBase {
     
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 

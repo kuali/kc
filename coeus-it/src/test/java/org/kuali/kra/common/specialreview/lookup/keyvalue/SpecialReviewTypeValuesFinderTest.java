@@ -26,7 +26,7 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.SpecialReviewUsage;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -38,8 +38,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-public class SpecialReviewTypeValuesFinderTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class SpecialReviewTypeValuesFinderTest extends KcIntegrationTestBase {
     
     private static final String MODULE_CODE_NAME = "moduleCode";
     private static final String PERMISSION_NAME = "View Active Special Review Types";
@@ -56,11 +56,9 @@ public class SpecialReviewTypeValuesFinderTest extends KcUnitTestBase {
     
     private SpecialReviewTypeValuesFinder valuesFinder;
     
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         valuesFinder = new SpecialReviewTypeValuesFinder() {
             public String getModuleCode() {
                 return Constants.EMPTY_STRING;
@@ -70,12 +68,10 @@ public class SpecialReviewTypeValuesFinderTest extends KcUnitTestBase {
         valuesFinder.setBusinessObjectService(getMockBusinessObjectService());
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         valuesFinder = null;
         
-        super.tearDown();
     }
 
     @Test

@@ -23,12 +23,14 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
-public class TestSubAwardAuthorizersTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class TestSubAwardAuthorizersTest extends KcIntegrationTestBase {
     
     TaskAuthorizationService taskAuthorizationService;
     Person quickstart;
@@ -99,7 +101,7 @@ public class TestSubAwardAuthorizersTest extends KcUnitTestBase {
     }
     
     private SubAwardDocument getSubAwardDocument() throws WorkflowException {
-        SubAwardDocument document = (SubAwardDocument) getDocumentService().getNewDocument(SubAwardDocument.class);
+        SubAwardDocument document = (SubAwardDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument(SubAwardDocument.class);
         document.getDocumentHeader().setDocumentDescription("SubcontractDocumentTest test doc");
         SubAward subAward = new SubAward();
         subAward.setOrganizationId("000001");
@@ -110,7 +112,7 @@ public class TestSubAwardAuthorizersTest extends KcUnitTestBase {
         subAward.setRequisitionerId("1");
         
         document.setSubAward(subAward);
-        getDocumentService().saveDocument(document);
+        KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
         return document;
     }
     

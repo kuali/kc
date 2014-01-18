@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
@@ -34,13 +34,12 @@ import java.util.HashMap;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public abstract class ProposalDevelopmentRuleTestBase extends KcUnitTestBase {
+public abstract class ProposalDevelopmentRuleTestBase extends KcIntegrationTestBase {
 
     protected DocumentService documentService = null;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         GlobalVariables.setMessageMap(new MessageMap());
         KNSGlobalVariables.setAuditErrorMap(new HashMap());
@@ -53,7 +52,6 @@ public abstract class ProposalDevelopmentRuleTestBase extends KcUnitTestBase {
         GlobalVariables.setMessageMap(null);
         KNSGlobalVariables.setAuditErrorMap(null);
         documentService = null;
-        super.tearDown();
     }
     
     /**

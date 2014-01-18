@@ -19,12 +19,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 /**
  * This class tests ApprovedEquipmentActionHelper 
  */
-public class AwardApprovedEquipmentRuleHelperIntegrationTest extends KcUnitTestBase {
+public class AwardApprovedEquipmentRuleHelperIntegrationTest extends KcIntegrationTestBase {
     private static final double DELTA = 0.001;
     private static final double INSTITUTION_MINIMUM = 0.00;
     private static final double FEDERAL_MINIMUM = 0.00;
@@ -34,13 +34,11 @@ public class AwardApprovedEquipmentRuleHelperIntegrationTest extends KcUnitTestB
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         helper = new EquipmentCapitalizationMinimumLoader();
     }
     @After
     public void tearDown() throws Exception {
         helper = null;
-        super.tearDown();
     }
     
     @Test

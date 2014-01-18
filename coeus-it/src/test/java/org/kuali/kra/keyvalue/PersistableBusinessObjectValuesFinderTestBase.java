@@ -18,14 +18,14 @@ package org.kuali.kra.keyvalue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public abstract class PersistableBusinessObjectValuesFinderTestBase extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public abstract class PersistableBusinessObjectValuesFinderTestBase extends KcIntegrationTestBase {
     private Class valuesFinderClass;
     private Class businessObjectClass;
     private String keyAttributeName;
@@ -44,16 +44,6 @@ public abstract class PersistableBusinessObjectValuesFinderTestBase extends KcUn
      * to add the specific key/value pairs to test against.
      */
     protected abstract void addKeyValues();
-    
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     @Test public void testGetKeyValues() throws Exception {
         PersistableBusinessObjectValuesFinder persistableBusinessObjectValuesFinder = (PersistableBusinessObjectValuesFinder) getValuesFinderClass().newInstance();        

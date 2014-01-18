@@ -22,12 +22,12 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.Collection;
 import java.util.List;
-
-public class UnitServiceImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class UnitServiceImplTest extends KcIntegrationTestBase {
     
     private UnitService unitService;
     private UnitServiceImpl unitServiceImpl;

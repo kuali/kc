@@ -20,13 +20,13 @@ import org.junit.Test;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AddManualProjectRuleTest extends KcUnitTestBase {
+public class AddManualProjectRuleTest extends KcIntegrationTestBase {
 
     @Test
     public void testAddProposalEventOK() {
