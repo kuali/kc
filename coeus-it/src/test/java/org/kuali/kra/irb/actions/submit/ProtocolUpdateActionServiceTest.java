@@ -28,7 +28,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.junit.Assert.*;
 public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBase{
     
     public static final String ATC200 = "200";

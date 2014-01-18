@@ -21,7 +21,7 @@ import org.junit.runner.Description;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
-import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestLifecycle;
+import org.kuali.kra.test.infrastructure.lifecycle.KcIntegrationTestLifecycle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +29,15 @@ import java.util.List;
 /**
  * This class provides the mechanism to shut down the persistent portions of lifecycles at the end of a full test run.
  */
-public class KcUnitTestRunListener extends RunListener {
-    protected final Log LOG = LogFactory.getLog(this.getClass());
+public class KcIntegrationTestRunListener extends RunListener {
+    private static final Log LOG = LogFactory.getLog(KcIntegrationTestRunListener.class);
     
-    KcUnitTestLifecycle lifecycle;
+    KcIntegrationTestLifecycle lifecycle;
     List<Failure> assumptionFailures = new ArrayList<Failure>();
     List<Failure> failures = new ArrayList<Failure>();
     List<Description> ignoredTests = new ArrayList<Description>();
     
-    public KcUnitTestRunListener (KcUnitTestLifecycle lifecycle) {
+    public KcIntegrationTestRunListener(KcIntegrationTestLifecycle lifecycle) {
         this.lifecycle = lifecycle;
     }
 

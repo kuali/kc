@@ -28,14 +28,14 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolPersonnelServiceTest extends KcIntegrationTestBase {
     protected static final String CO_INVESTIGATOR_PERSON_ID = "10000000003";
     protected static final String CO_INVESTIGATOR_NAME = "Nicholas Majors";
     protected static final String CO_INVESTIGATOR_ROLE_ID = "COI";
@@ -51,7 +51,6 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         protocolPersonTrainingService = buildPersonTrainingService(); 
         //protocolPersonnelService  = new ProtocolPersonnelServiceImpl();
@@ -68,7 +67,6 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
         GlobalVariables.setUserSession(null);
         service = null;
         protocolPersonnelService = null;
-        super.tearDown();
     }
     
     @Test

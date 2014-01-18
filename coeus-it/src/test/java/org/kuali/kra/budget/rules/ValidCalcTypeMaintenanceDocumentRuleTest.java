@@ -31,13 +31,12 @@ import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private ValidCalcTypeMaintenanceDocumentRule rule = null;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         rule = new ValidCalcTypeMaintenanceDocumentRule();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
@@ -45,7 +44,6 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
     @After
     public void tearDown() throws Exception {
         rule = null;
-        super.tearDown();
     }
 
     @Test

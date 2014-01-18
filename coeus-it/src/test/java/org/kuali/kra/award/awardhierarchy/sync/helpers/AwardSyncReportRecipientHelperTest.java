@@ -25,7 +25,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.rice.krad.util.ObjectUtils;
-
+import static org.junit.Assert.*;
 public class AwardSyncReportRecipientHelperTest extends AwardSyncReportHelperTest {
 
     public AwardSyncReportRecipientHelperTest() { 

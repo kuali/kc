@@ -23,21 +23,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
+import static org.junit.Assert.*;
 
-
-public class QuestionnaireServiceTest  extends KcUnitTestBase {
+public class QuestionnaireServiceTest  extends KcIntegrationTestBase {
     
         private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
         private Set<String> expectedModules;
         @Before
         public void setUp() throws Exception {
-            super.setUp();
             expectedModules = new HashSet<String>();
             expectedModules.add("3");
             expectedModules.add("7");

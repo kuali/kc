@@ -20,7 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
-
+import static org.junit.Assert.*;
 public class CommitteeDecisionAbstainerRuleTest extends CommitteeDecisionRuleBase {
     
     private CommitteeDecisionAbstainerRule rule;

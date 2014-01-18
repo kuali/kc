@@ -27,7 +27,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 
 import java.sql.Date;
-
+import static org.junit.Assert.*;
 /**
  * Test the Committee Membership Add Rules
  */

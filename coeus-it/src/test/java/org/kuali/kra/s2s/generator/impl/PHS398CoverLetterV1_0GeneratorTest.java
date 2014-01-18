@@ -33,7 +33,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 /**
  * 
  * This class is used to test PHS398CoverLetterV1_0 form

@@ -26,7 +26,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
 import java.util.List;
-
+import static org.junit.Assert.*;
 public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestBase{
 
     private ProposalDevelopmentDocumentRule rule = null;

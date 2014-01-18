@@ -30,14 +30,14 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
 import java.util.Collections;
-
-public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolModifySubmissionServiceTest extends KcIntegrationTestBase {
     
     private ProtocolModifySubmissionServiceImpl service;
     private BusinessObjectService businessObjectService;
@@ -47,11 +47,9 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         setThreadingPolicy(new Synchroniser());
     }};
 
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         
         service = new ProtocolModifySubmissionServiceImpl();
@@ -60,13 +58,11 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         service = null;
         businessObjectService = null;
         
-        super.tearDown();
     }
 
     @Test

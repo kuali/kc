@@ -20,13 +20,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 /**
  * 
  * This class tests methods in Award.java class
  */
-public class AwardCommentFactoryTest extends KcUnitTestBase{ 
+public class AwardCommentFactoryTest extends KcIntegrationTestBase {
     private static final int AWARD_COMMENT_ATTRIBUTES_COUNT = 7;
     
     private AwardCommentFactory awardCommentFactory;
@@ -37,7 +37,6 @@ public class AwardCommentFactoryTest extends KcUnitTestBase{
      */
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         awardCommentFactory = new AwardCommentFactory();
     }
 
@@ -47,7 +46,6 @@ public class AwardCommentFactoryTest extends KcUnitTestBase{
      */
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         awardCommentFactory = null;
     }
     

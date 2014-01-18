@@ -23,14 +23,11 @@ import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -41,7 +38,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class CommitteeVersioningTest extends KcUnitTestBase {
+public class CommitteeVersioningTest extends KcIntegrationTestBase {
 
     private VersioningService versioningService;
     private transient Committee originalCommittee;

@@ -18,7 +18,7 @@ package org.kuali.kra.infrastructure;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -36,11 +36,11 @@ import java.util.List;
 
 import static org.kuali.kra.infrastructure.Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.rice.coreservice.framework.parameter.ParameterConstants.DOCUMENT_COMPONENT;
-
+import static org.junit.Assert.*;
 /**
  * This class tests the KraServiceLocator
  */ 
-public class KraServiceLocatorTest extends KcUnitTestBase {
+public class KraServiceLocatorTest extends KcIntegrationTestBase {
 
     private ParameterRepositoryService parameterRepositoryService;
     

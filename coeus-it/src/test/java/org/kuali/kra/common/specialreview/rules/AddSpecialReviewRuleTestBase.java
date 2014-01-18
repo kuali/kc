@@ -35,19 +35,18 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
 
 import java.sql.Date;
 import java.text.DateFormat;
 import java.util.*;
-
-public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? extends SpecialReviewExemption>> extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? extends SpecialReviewExemption>> extends KcIntegrationTestBase {
     
     private static final String SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE = "2";
     
@@ -91,7 +90,6 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         context = new JUnit4Mockery() {{
             setImposteriser(ClassImposteriser.INSTANCE);
             setThreadingPolicy(new Synchroniser());
@@ -103,7 +101,6 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         context = null;
         rule = null;
         dateFormat = null;

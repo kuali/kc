@@ -29,7 +29,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 public class FinEntitiesDataMatrixMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     
     private static final String COLUMN_SORT_ID_FIELD_NAME = "columnSortId";
@@ -46,8 +46,7 @@ public class FinEntitiesDataMatrixMaintenanceDocumentRuleTest extends Maintenanc
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         rule = new FinEntitiesDataMatrixMaintenanceDocumentRule();
     }
 
@@ -55,7 +54,6 @@ public class FinEntitiesDataMatrixMaintenanceDocumentRuleTest extends Maintenanc
     public void tearDown() throws Exception {
         rule = null;
         
-        super.tearDown();
     }
     
     @Test

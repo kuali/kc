@@ -22,12 +22,12 @@ import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.common.committee.meeting.MemberPresentBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 
 
-public class MeetingAddOtherRuleTest extends KcUnitTestBase {
+public class MeetingAddOtherRuleTest extends KcIntegrationTestBase {
 
     @Test
     public void testOK() {    

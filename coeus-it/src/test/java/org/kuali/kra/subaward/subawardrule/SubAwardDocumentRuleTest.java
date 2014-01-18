@@ -20,13 +20,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.subaward.bo.*;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.sql.Date;
 
 
-public class SubAwardDocumentRuleTest extends KcUnitTestBase {
+public class SubAwardDocumentRuleTest extends KcIntegrationTestBase {
     
     SubAward subAward;
     SubAwardDocumentRule subAwardDocumentRule;

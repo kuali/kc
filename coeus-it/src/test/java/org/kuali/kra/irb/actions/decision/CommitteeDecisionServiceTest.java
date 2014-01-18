@@ -38,13 +38,13 @@ import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.ArrayList;
-
-public class CommitteeDecisionServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class CommitteeDecisionServiceTest extends KcIntegrationTestBase {
     
     private static final Integer YES_COUNT = 2;
     private static final Integer NO_COUNT = 0;
@@ -61,11 +61,9 @@ public class CommitteeDecisionServiceTest extends KcUnitTestBase {
         setThreadingPolicy(new Synchroniser());
     }};
 
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new CommitteeDecisionServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
@@ -76,14 +74,12 @@ public class CommitteeDecisionServiceTest extends KcUnitTestBase {
         protocolAssignCmtSchedService = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         service = null;
         protocolSubmitActionService = null;
         protocolAssignCmtSchedService = null;
         
-        super.tearDown();
     }
 
     @Test

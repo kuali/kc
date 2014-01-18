@@ -20,26 +20,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardTemplateReportTermService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-public class AwardTemplateReportTermServiceImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class AwardTemplateReportTermServiceImplTest extends KcIntegrationTestBase {
 
     private AwardTemplateReportTermService awardTemplateReportTermService = null;
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         awardTemplateReportTermService = KraServiceLocator.getService(AwardTemplateReportTermService.class);
     }
 
     @After
     public void tearDown() throws Exception {
         awardTemplateReportTermService = null;
-        super.tearDown();
     }
     
     @Test public void testGetReportTypesUsingReportClassCode() throws Exception {

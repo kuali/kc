@@ -32,7 +32,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     
     private static final String MODULE_CODE_FIELD_NAME = "moduleCode";
@@ -54,8 +54,7 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         rule = new NotificationTypeMaintenanceDocumentRule();
         rule.setBusinessObjectService(getMockBusinessObjectService());
     }
@@ -64,7 +63,6 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
     public void tearDown() throws Exception {
         rule = null;
         
-        super.tearDown();
     }
     
     @Test

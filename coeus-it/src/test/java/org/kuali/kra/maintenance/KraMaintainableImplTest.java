@@ -19,21 +19,20 @@ import org.junit.After;
 import org.junit.Test;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Timestamp;
 import java.util.Date;
-
+import static org.junit.Assert.*;
 /**
  * This class tests KraMaintainableImpl.
  */
-public class KraMaintainableImplTest extends KcUnitTestBase {
+public class KraMaintainableImplTest extends KcIntegrationTestBase {
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         GlobalVariables.setUserSession(null);
     }
 

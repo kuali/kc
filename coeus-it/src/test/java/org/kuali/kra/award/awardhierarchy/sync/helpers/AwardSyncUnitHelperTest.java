@@ -27,7 +27,7 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.bo.Unit;
 import org.kuali.rice.krad.util.ObjectUtils;
-
+import static org.junit.Assert.*;
 public class AwardSyncUnitHelperTest extends AwardSyncPersonHelperTest {
 
     protected AwardPersonUnit unit;

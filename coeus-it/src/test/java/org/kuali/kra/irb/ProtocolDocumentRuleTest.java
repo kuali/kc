@@ -31,7 +31,7 @@ import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.junit.Assert.*;
 public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
 
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";

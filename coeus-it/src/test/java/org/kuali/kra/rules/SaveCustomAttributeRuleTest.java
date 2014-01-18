@@ -40,7 +40,7 @@ import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
 import java.util.UUID;
-
+import static org.junit.Assert.*;
 
 // TODO : temporary extends ProposalDevelopmentRuleTestBase to test proposal document custom data 
 // need more generic class for extension, so we can test other modules, such as budget too

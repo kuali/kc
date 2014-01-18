@@ -20,20 +20,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.paymentreports.ReportClass;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportClassValuesFinderTest extends KcUnitTestBase {
+public class ReportClassValuesFinderTest extends KcIntegrationTestBase {
     
     ReportClassValuesFinder reportClassValuesFinder;
     List<KeyValue> reportClasses;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         reportClassValuesFinder = new ReportClassValuesFinder();
         reportClasses = new ArrayList<KeyValue>();
         reportClasses = reportClassValuesFinder.getKeyValues();
@@ -41,14 +41,13 @@ public class ReportClassValuesFinderTest extends KcUnitTestBase {
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         reportClassValuesFinder = null;
         reportClasses = null;
     }
 
     @Test
     public final void testGetKeyValues() {
-        int count = getBusinessObjectService().findAll(ReportClass.class).size();
+        int count = KNSServiceLocator.getBusinessObjectService().findAll(ReportClass.class).size();
         Assert.assertEquals(count, reportClasses.size());
         
         for(KeyValue KeyValue:reportClasses){

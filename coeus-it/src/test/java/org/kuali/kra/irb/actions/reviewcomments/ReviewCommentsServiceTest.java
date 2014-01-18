@@ -40,7 +40,7 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -53,8 +53,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-public class ReviewCommentsServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ReviewCommentsServiceTest extends KcIntegrationTestBase {
     
     private static final String FIRST_COMMENT = "First Review Comment";
     private static final String SECOND_COMMENT = "Second Review Comment";
@@ -68,21 +68,17 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         setThreadingPolicy(new Synchroniser());
     }};
     
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new ReviewCommentsServiceImpl();
 //        service.setDateTimeService(getMockDateTimeService());
     }
     
-    @Override
     @After
     public void tearDown() throws Exception {
         service = null;
         
-        super.tearDown();
     }
     
     @Test

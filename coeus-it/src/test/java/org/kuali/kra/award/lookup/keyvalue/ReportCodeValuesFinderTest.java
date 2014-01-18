@@ -20,14 +20,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ReportCodeValuesFinderTest extends KcUnitTestBase {
+public class ReportCodeValuesFinderTest extends KcIntegrationTestBase {
     
     ReportCodeValuesFinder reportCodeValuesFinder;
     List<KeyValue> reportCodes;
@@ -35,15 +35,13 @@ public class ReportCodeValuesFinderTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        reportCodeValuesFinder = new ReportCodeValuesFinder("1");        
+        reportCodeValuesFinder = new ReportCodeValuesFinder("1");
         reportCodes = new ArrayList<KeyValue>();        
         validClassReportFrequencies = new ArrayList<ValidClassReportFrequency>();      
     }
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         reportCodeValuesFinder = null;
         reportCodes = null;
     }

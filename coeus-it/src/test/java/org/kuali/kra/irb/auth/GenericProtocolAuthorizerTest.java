@@ -28,14 +28,14 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class GenericProtocolAuthorizerTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class GenericProtocolAuthorizerTest extends KcIntegrationTestBase {
     
     private static final String VALID_TASK_NAME = GenericProtocolAuthorizer.TERMINATE_PROTOCOL;
     private static final String INVALID_TASK_NAME = "foobar";
@@ -49,7 +49,6 @@ public class GenericProtocolAuthorizerTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         auth = new GenericProtocolAuthorizer();
         kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
@@ -65,7 +64,6 @@ public class GenericProtocolAuthorizerTest extends KcUnitTestBase {
         protocolActionService = null;
         GlobalVariables.setUserSession(null);
         //context = null;
-        super.tearDown();
     }
 
     @Test

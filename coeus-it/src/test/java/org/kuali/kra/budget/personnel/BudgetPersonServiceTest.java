@@ -25,12 +25,12 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;
 import java.util.Calendar;
-
-public class BudgetPersonServiceTest extends KcUnitTestBase{
+import static org.junit.Assert.*;
+public class BudgetPersonServiceTest extends KcIntegrationTestBase {
 
     protected final static String testAppointmentPersonId = "10000000033";
     protected final static String testOtherPersonId = "10000000034";
@@ -60,12 +60,10 @@ public class BudgetPersonServiceTest extends KcUnitTestBase{
         endDate = createDate(2010, 12, 30);
         budget.setStartDate(startDate);
         budget.setEndDate(endDate);
-        super.setUp();
     }
     
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
     
     @Test

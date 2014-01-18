@@ -27,7 +27,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.irb.test.ProtocolTestUtil;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.DocumentService;
@@ -39,7 +39,7 @@ import static org.hamcrest.core.Is.is;
  * This is an integration test that makes sure the {@link DictionaryValidationService DictionaryValidationService} does not
  * fail validating BO relationships that are many-to-many.
  */
-public class ManyToManyValidationTest extends KcUnitTestBase { //KraWebTestBase {
+public class ManyToManyValidationTest extends KcIntegrationTestBase { //KraWebTestBase {
 
     private DictionaryValidationService dictionaryValidationService;
     private ProtocolDocument doc;

@@ -35,7 +35,7 @@ import org.springframework.util.AutoPopulatingList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * 
  * This class is to test the rules to add institutional attachment

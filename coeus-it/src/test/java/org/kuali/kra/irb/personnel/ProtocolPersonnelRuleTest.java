@@ -26,7 +26,8 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonnelRuleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-
+import static org.junit.Assert.*;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
     private ProtocolPersonnelRuleBase rule;
     private static final String CO_INVESTIGATOR_PERSON_ID = "10000000003";

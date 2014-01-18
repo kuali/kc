@@ -38,7 +38,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -46,11 +46,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-
+import static org.junit.Assert.*;
 /**
  * Test the ProtocolDeleteService implementation.
  */
-public class ProtocolAssignReviewersServiceTest extends KcUnitTestBase {
+public class ProtocolAssignReviewersServiceTest extends KcIntegrationTestBase {
     
     private static final String PERSON_ID = "000000003";
     private static final String MEMBERSHIP_TYPE_CD = "1";
@@ -72,7 +72,6 @@ public class ProtocolAssignReviewersServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolAssignCmtSchedService = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
@@ -83,7 +82,6 @@ public class ProtocolAssignReviewersServiceTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     
     /**

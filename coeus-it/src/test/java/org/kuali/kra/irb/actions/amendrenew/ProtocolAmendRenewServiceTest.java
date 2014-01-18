@@ -34,17 +34,18 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.List;
-
+import static org.junit.Assert.*;
 /**
  * Test the ProtocolAmendRenewService implementation.
  */
-public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
+public class ProtocolAmendRenewServiceTest extends KcIntegrationTestBase {
 
     private static final String SUMMARY = "my test summary";
     
@@ -57,7 +58,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
 
         service = new ProtocolAmendRenewServiceImpl();
         service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
@@ -72,7 +72,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     public void tearDown() throws Exception {
         service = null;
         
-        super.tearDown();
     }
     
     @Test
@@ -82,7 +81,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         
         String docNbr = service.createAmendment(protocolDocument, protocolAmendmentBean);
         
-        ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
+        ProtocolDocument amendmentDocument = (ProtocolDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docNbr);
     
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "A001", amendmentDocument.getProtocol().getProtocolNumber());
         
@@ -95,7 +94,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         String docNbr = service.createRenewal(protocolDocument, SUMMARY);
         
-        ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
+        ProtocolDocument amendmentDocument = (ProtocolDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docNbr);
     
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "R001", amendmentDocument.getProtocol().getProtocolNumber());
         
@@ -110,7 +109,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         
         String docNbr = service.createRenewalWithAmendment(protocolDocument, protocolAmendmentBean);
         
-        ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
+        ProtocolDocument amendmentDocument = (ProtocolDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docNbr);
     
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "R001", amendmentDocument.getProtocol().getProtocolNumber());
         

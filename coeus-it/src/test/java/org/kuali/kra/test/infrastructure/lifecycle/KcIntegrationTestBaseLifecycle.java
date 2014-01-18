@@ -32,7 +32,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
  * <li>does not allow lifecycle stages to be called at incorrect times (twice without the opposite in between)</li>
  * </ul>
  */
-public abstract class KcUnitTestBaseLifecycle implements KcUnitTestLifecycle {
+public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTestLifecycle {
     
     public static final String BROWSER_PROTOCOL = "http";
     public static final String BROWSER_ADDRESS = "127.0.0.1";

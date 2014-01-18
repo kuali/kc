@@ -26,6 +26,7 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -38,7 +39,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 /**
  * 
  * This class is used to test NasaOtherProjectInformationV1_0 form
@@ -143,6 +144,6 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
                 }
             }
         }
-        getBusinessObjectService().save(answerHeaders);
+        KNSServiceLocator.getBusinessObjectService().save(answerHeaders);
     }
 }

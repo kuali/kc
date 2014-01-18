@@ -33,7 +33,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
+import static org.junit.Assert.*;
 public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest {
 
     private Unit unit1;

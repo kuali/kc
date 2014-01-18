@@ -23,14 +23,14 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.*;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-public class NegotiationServiceImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class NegotiationServiceImplTest extends KcIntegrationTestBase {
     
     private NegotiationService negotiationService;
     private BusinessObjectService businessObjectService;

@@ -33,12 +33,12 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -48,11 +48,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * Test the ProtocolDeleteService implementation.
  */
-public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
+public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
     private static final String COMMITTEE_ID = "699";
 
     private DocumentService documentService;
@@ -63,10 +63,8 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
     private BusinessObjectService businessObjectService;
     private LegacyDataAdapter legacyDataAdapter;
 
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KraServiceLocator.getService(DocumentService.class);
         protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
@@ -76,7 +74,6 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         legacyDataAdapter = KraServiceLocator.getService(LegacyDataAdapter.class);
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         businessObjectService = null;
@@ -85,7 +82,6 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         protocolAssignToAgendaService = null;
         protocolAssignToAgendaServiceImpl = null;
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     @Test
     public void testSetDocumentService() {
@@ -225,7 +221,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         com.setCommitteeName(passedInCommitteeName);
         submission.setCommittee(com);
         
-        CommitteeDocument cd = (CommitteeDocument) getDocumentService().getNewDocument(CommitteeDocument.class);
+        CommitteeDocument cd = (CommitteeDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument(CommitteeDocument.class);
         cd.setCommittee(com);
         cd.setDocumentNumber("1");
         cd.getDocumentHeader().setDocumentDescription("super cool description");
@@ -278,7 +274,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         committeeSchedules.add(cs);
         com.setCommitteeSchedules(committeeSchedules);
 
-        CommitteeDocument cd = (CommitteeDocument) getDocumentService().getNewDocument(CommitteeDocument.class);
+        CommitteeDocument cd = (CommitteeDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument(CommitteeDocument.class);
         cd.setCommittee(com);
         cd.setDocumentNumber("1");
         cd.getDocumentHeader().setDocumentDescription("super cool description");

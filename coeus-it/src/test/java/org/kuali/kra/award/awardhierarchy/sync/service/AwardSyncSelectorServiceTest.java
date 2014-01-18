@@ -24,12 +24,12 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncDescendantValues;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardStatus;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class AwardSyncSelectorServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class AwardSyncSelectorServiceTest extends KcIntegrationTestBase {
 
     protected static final String otherSponsorCode = "000500";
     protected static final String costShareSponsorCode = "009906";

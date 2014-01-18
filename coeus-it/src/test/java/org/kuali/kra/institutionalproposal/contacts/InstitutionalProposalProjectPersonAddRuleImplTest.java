@@ -24,14 +24,14 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class tests AddAwardProjectPersonRuleImpl
  */
-public class InstitutionalProposalProjectPersonAddRuleImplTest  extends KcUnitTestBase {
+public class InstitutionalProposalProjectPersonAddRuleImplTest  extends KcIntegrationTestBase {
 
     private static final int ROLODEX_ID = 1002;
     private InstitutionalProposal institutionalProposal;

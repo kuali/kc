@@ -32,15 +32,15 @@ import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
-
+import static org.junit.Assert.*;
 /**
  * Test the Committee Action Authorizer.
  */
-public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
+public class CommitteeActionAuthorizerTest extends KcIntegrationTestBase {
 
     private static final String USERNAME = "quickstart";
     private static final String COMMITTEE_ID = "Actn Auth Test";
@@ -50,7 +50,6 @@ public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         committeeDocument = CommitteeFactory.createCommitteeDocument("Actn Auth Test");
     }
@@ -58,7 +57,6 @@ public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     
     @Test

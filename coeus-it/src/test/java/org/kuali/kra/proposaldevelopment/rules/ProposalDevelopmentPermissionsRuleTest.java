@@ -32,7 +32,7 @@ import org.springframework.util.AutoPopulatingList;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.junit.Assert.*;
 /**
  * Test the business rules for Proposal Permissions.
  * 

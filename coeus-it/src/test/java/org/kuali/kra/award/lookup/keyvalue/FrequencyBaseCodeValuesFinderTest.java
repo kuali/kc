@@ -20,14 +20,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
     
-public class FrequencyBaseCodeValuesFinderTest extends KcUnitTestBase {
+public class FrequencyBaseCodeValuesFinderTest extends KcIntegrationTestBase {
     
     FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder;
     List<KeyValue> frequencyBaseCodes;
@@ -35,8 +35,7 @@ public class FrequencyBaseCodeValuesFinderTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        frequencyBaseCodeValuesFinder = new FrequencyBaseCodeValuesFinder("13");        
+        frequencyBaseCodeValuesFinder = new FrequencyBaseCodeValuesFinder("13");
         frequencyBaseCodes = new ArrayList<KeyValue>();
         validFrequencyBases = new ArrayList<ValidFrequencyBase>();
         
@@ -44,7 +43,6 @@ public class FrequencyBaseCodeValuesFinderTest extends KcUnitTestBase {
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         frequencyBaseCodeValuesFinder = null;
         frequencyBaseCodes = null;
         validFrequencyBases = null;

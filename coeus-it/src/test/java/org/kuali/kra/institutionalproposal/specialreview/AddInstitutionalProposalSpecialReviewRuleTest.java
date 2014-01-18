@@ -20,6 +20,7 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AddInstitutionalProposalSpecialReviewRuleTest extends AddSpecialReviewRuleTestBase<InstitutionalProposalSpecialReview> {
@@ -27,7 +28,7 @@ public class AddInstitutionalProposalSpecialReviewRuleTest extends AddSpecialRev
     @Override
     public Document getDocument() throws WorkflowException {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        Document document = getDocumentService().getNewDocument(InstitutionalProposalDocument.class);
+        Document document = KRADServiceLocatorWeb.getDocumentService().getNewDocument(InstitutionalProposalDocument.class);
         return document;
     }
 

@@ -29,7 +29,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -40,8 +40,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-public class CommitteeScheduleLookupableHelperServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class CommitteeScheduleLookupableHelperServiceTest extends KcIntegrationTestBase {
     private static final String COMMITTEE_ID = "committeeId";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     
@@ -65,8 +65,7 @@ public class CommitteeScheduleLookupableHelperServiceTest extends KcUnitTestBase
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new CommitteeScheduleLookupableHelperServiceImpl();
         service.setBusinessObjectClass(CommitteeSchedule.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
@@ -74,8 +73,7 @@ public class CommitteeScheduleLookupableHelperServiceTest extends KcUnitTestBase
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
-        
+
         service = null;
         GlobalVariables.setUserSession(null);
     }

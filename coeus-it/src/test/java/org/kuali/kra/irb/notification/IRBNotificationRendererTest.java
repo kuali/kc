@@ -32,7 +32,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolType;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.text.ParseException;
@@ -41,11 +41,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * This class contains tests for IRBNotificationRenderer
  */
-public class IRBNotificationRendererTest extends KcUnitTestBase {
+public class IRBNotificationRendererTest extends KcIntegrationTestBase {
     
     private static final String DOCUMENT_NUMBER_VAL = "{DOCUMENT_NUMBER}_VAL";
     private static final String PROTOCOL_NUMBER_VAL = "{PROTOCOL_NUMBER}_VAL";

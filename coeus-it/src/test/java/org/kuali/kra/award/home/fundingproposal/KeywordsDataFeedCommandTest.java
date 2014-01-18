@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
-
+import static org.junit.Assert.*;
 public class KeywordsDataFeedCommandTest extends BaseDataFeedCommandTest {
 
     private InstitutionalProposalScienceKeyword ipKey1;

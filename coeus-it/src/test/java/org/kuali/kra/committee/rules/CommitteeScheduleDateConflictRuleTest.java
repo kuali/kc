@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.rules;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
@@ -23,14 +24,14 @@ import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.SoftError;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.*;
-
-public class CommitteeScheduleDateConflictRuleTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class CommitteeScheduleDateConflictRuleTest extends KcIntegrationTestBase {
     
     private ScheduleData scheduleData;
     
@@ -43,9 +44,8 @@ public class CommitteeScheduleDateConflictRuleTest extends KcUnitTestBase {
 
     
     @SuppressWarnings("unchecked")
-    @Override
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setMessageMap(new MessageMap());
         KNSGlobalVariables.setAuditErrorMap(new HashMap());  
     }

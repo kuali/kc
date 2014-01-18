@@ -26,14 +26,14 @@ import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class MeetingSaveRuleTest extends KcUnitTestBase {
+public class MeetingSaveRuleTest extends KcIntegrationTestBase {
     
     private Time12HrFmt viewStartTime;
     private Time12HrFmt viewEndTime;

@@ -25,18 +25,17 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Collection;
 import java.util.List;
-
-public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcIntegrationTestBase {
     
     ProtocolActionTypeToCorrespondenceTemplateService service;
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         service = KraServiceLocator.getService(ProtocolActionTypeToCorrespondenceTemplateService.class);
         Collection<ProtocolCorrespondenceType> protocolCorrespondenceTypes = KraServiceLocator.getService(BusinessObjectService.class).findAll(ProtocolCorrespondenceType.class);
         for (ProtocolCorrespondenceType type : protocolCorrespondenceTypes) {
@@ -62,7 +61,6 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcUni
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         service = null;
     }
     

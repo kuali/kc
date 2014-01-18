@@ -36,7 +36,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -50,7 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MeetingServiceTest extends KcUnitTestBase {
+public class MeetingServiceTest extends KcIntegrationTestBase {
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     private static final String PERSON_ID = "jtester";

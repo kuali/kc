@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -30,7 +30,7 @@ import org.kuali.rice.krad.util.MessageMap;
 /**
  * This class tests <code>AwardCostShareRule</code>
  */
-public class AwardCostShareRuleTest extends KcUnitTestBase {
+public class AwardCostShareRuleTest extends KcIntegrationTestBase {
     
     private static final String TEST_SOURCE = "54321";
     private static final String TEST_DESTINATION = "12345";

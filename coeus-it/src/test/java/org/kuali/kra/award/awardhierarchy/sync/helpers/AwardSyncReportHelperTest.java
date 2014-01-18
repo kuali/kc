@@ -31,7 +31,7 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.bo.Rolodex;
-
+import static org.junit.Assert.*;
 public class AwardSyncReportHelperTest extends AwardSyncHelperTestBase {
     
     protected AwardReportTerm report;

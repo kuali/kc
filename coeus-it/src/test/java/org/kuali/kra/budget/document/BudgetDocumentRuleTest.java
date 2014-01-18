@@ -27,13 +27,13 @@ import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.DocumentService;
-
-public class BudgetDocumentRuleTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
 
     BudgetDocument<DevelopmentProposal> budgetDoc;
     BudgetDocumentRule budgetDocRule;
@@ -41,7 +41,6 @@ public class BudgetDocumentRuleTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         docService = KraServiceLocator.getService(DocumentService.class);
         budgetDoc = (BudgetDocument)docService.getNewDocument(BudgetDocument.class);
         budgetDocRule = new BudgetDocumentRule();
@@ -49,7 +48,6 @@ public class BudgetDocumentRuleTest extends KcUnitTestBase {
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
     
     @Test

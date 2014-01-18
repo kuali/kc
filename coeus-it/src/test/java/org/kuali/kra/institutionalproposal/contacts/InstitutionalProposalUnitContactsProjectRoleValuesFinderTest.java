@@ -23,18 +23,17 @@ import org.junit.Test;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.List;
 
-public class InstitutionalProposalUnitContactsProjectRoleValuesFinderTest extends KcUnitTestBase  {
+public class InstitutionalProposalUnitContactsProjectRoleValuesFinderTest extends KcIntegrationTestBase {
     InstitutionalProposalUnitContactsProjectRoleValuesFinder ipucProjectRoleValuesFinder;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         ipucProjectRoleValuesFinder = this.getIpucProjectRoleValuesFinder();
 
     }
@@ -45,7 +44,6 @@ public class InstitutionalProposalUnitContactsProjectRoleValuesFinderTest extend
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         ipucProjectRoleValuesFinder = null;
     }
 

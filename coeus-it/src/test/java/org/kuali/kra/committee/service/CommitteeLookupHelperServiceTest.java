@@ -21,15 +21,15 @@ import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.CommitteeLookupableHelperServiceImpl;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class CommitteeLookupHelperServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class CommitteeLookupHelperServiceTest extends KcIntegrationTestBase {
     
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 9;
     private static final String EDIT_URL = "../committeeCommittee.do?committeeId=100&docTypeName=CommitteeDocument&methodToCall=docHandler&command=initiate";
@@ -38,16 +38,14 @@ public class CommitteeLookupHelperServiceTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         committeeLookupableHelperServiceImpl = new CommitteeLookupableHelperServiceImpl();
         committeeLookupableHelperServiceImpl.setBusinessObjectClass(Committee.class);
     }
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
-        
+
         committeeLookupableHelperServiceImpl = null;
     }
 

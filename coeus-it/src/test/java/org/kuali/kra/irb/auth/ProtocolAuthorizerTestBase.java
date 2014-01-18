@@ -32,12 +32,12 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public abstract class ProtocolAuthorizerTestBase extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
     
     protected static final String PROTOCOL_NUMBER = "0906000001";
     private static final String USERNAME = "quickstart";
@@ -46,13 +46,11 @@ public abstract class ProtocolAuthorizerTestBase extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     }
     
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         context = null;
     }
     

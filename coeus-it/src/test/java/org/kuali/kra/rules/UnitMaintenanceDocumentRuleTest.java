@@ -28,14 +28,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
-
+import static org.junit.Assert.*;
 public class UnitMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private UnitMaintenanceDocumentRule rule = null;
 
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         rule = new UnitMaintenanceDocumentRule();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
@@ -43,7 +42,6 @@ public class UnitMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     @After
     public void tearDown() throws Exception {
         rule = null;
-        super.tearDown();
     }
 
     @Test

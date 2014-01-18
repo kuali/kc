@@ -36,7 +36,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
@@ -50,7 +50,7 @@ import static org.junit.Assert.assertEquals;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class CommitteeMembershipServiceTest extends KcUnitTestBase {
+public class CommitteeMembershipServiceTest extends KcIntegrationTestBase {
 
     private static final String PERSON_ID = "jtester";
     private static final Integer ROLODEX_ID = 1746;

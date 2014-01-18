@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -35,8 +35,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-public class UnitLookupableHelperServiceImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class UnitLookupableHelperServiceImplTest extends KcIntegrationTestBase {
     
     private static final int LOOKUP_CRITERIA_FIELD_COUNT = 6;
     private static final int SEARCH_RESULTS_NO_CAMPUS_CODE_COUNT = 13;
@@ -52,15 +52,13 @@ public class UnitLookupableHelperServiceImplTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new UnitLookupableHelperServiceImpl();
     }
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
-        
+
         service = null;
     }
     

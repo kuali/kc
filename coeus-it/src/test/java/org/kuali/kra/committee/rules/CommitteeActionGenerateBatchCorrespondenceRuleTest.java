@@ -19,11 +19,11 @@ import org.junit.Test;
 import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;
 
-public class CommitteeActionGenerateBatchCorrespondenceRuleTest extends KcUnitTestBase {
+public class CommitteeActionGenerateBatchCorrespondenceRuleTest extends KcIntegrationTestBase {
     
     @Test
     public void testTrue() {

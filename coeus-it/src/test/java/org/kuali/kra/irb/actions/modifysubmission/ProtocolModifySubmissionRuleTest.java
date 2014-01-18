@@ -26,12 +26,12 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.submit.*;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Collections;
-
-public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolModifySubmissionRuleTest extends KcIntegrationTestBase {
     
     private ProtocolModifySubmissionRule rule;
     ProtocolDocument document;
@@ -41,11 +41,9 @@ public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
         setThreadingPolicy(new Synchroniser());
     }};
     
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         rule = new ProtocolModifySubmissionRule();
     }
 
@@ -54,7 +52,6 @@ public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
         rule = null;
         document = null;
         
-        super.tearDown();
     }
 
     @Test
