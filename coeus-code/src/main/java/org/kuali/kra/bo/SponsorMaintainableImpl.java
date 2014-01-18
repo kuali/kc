@@ -26,6 +26,7 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 
 import java.util.List;
 import java.util.Map;
@@ -33,16 +34,15 @@ import java.util.Map;
 public class SponsorMaintainableImpl extends KraMaintainableImpl {
 
     private static final long serialVersionUID = 3366318004175290243L;
-    
-    public static final String SPONSOR_CODE_SEQUENCE_NAME = "SEQ_SPONSOR_CODE";
+
     public static final String AUTO_GEN_SPONSOR_CODE_PARM = "AUTO_GENERATE_SPONSOR_CODE";
     public static final String SECTION_ID = "Edit Sponsor";
     public static final String SPONSOR_CODE_NAME = "sponsorCode";
     
     
     private transient ParameterService parameterService;
-    private transient SequenceAccessorService sequenceAccessorService;
-   
+    private transient DataFieldMaxValueIncrementer sponsorCodeIncrementer;
+
     /**
      * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setGenerateDefaultValues(java.lang.String)
@@ -52,7 +52,7 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
         super.setGenerateDefaultValues(docTypeName);
         Sponsor sponsor = (Sponsor) getBusinessObject();
         if (isAutoGenerateCode()) {
-            sponsor.setSponsorCode(getSequenceAccessorService().getNextAvailableSequenceNumber(SPONSOR_CODE_SEQUENCE_NAME, Sponsor.class).toString());
+            sponsor.setSponsorCode(getSponsorCodeIncrementer().nextStringValue());
         }
     }
     
@@ -105,19 +105,14 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
         this.parameterService = parameterService;
     }
 
-    protected SequenceAccessorService getSequenceAccessorService() {
-        if(sequenceAccessorService == null) {
-            sequenceAccessorService = KraServiceLocator.getService(SequenceAccessorService.class);
+    public DataFieldMaxValueIncrementer getSponsorCodeIncrementer() {
+        if (sponsorCodeIncrementer == null) {
+            sponsorCodeIncrementer = KraServiceLocator.getService("sponsorCodeIncrementer");
         }
-        return sequenceAccessorService;
+        return sponsorCodeIncrementer;
     }
 
-    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
-        this.sequenceAccessorService = sequenceAccessorService;
+    public void setSponsorCodeIncrementer(DataFieldMaxValueIncrementer sponsorCodeIncrementer) {
+        this.sponsorCodeIncrementer = sponsorCodeIncrementer;
     }
-
-
-    
-    
-    
 }
