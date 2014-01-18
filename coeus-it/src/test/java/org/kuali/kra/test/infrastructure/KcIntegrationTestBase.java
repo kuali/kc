@@ -27,12 +27,12 @@ import org.kuali.kra.test.infrastructure.lifecycle.KcIntegrationTestMainLifecycl
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 
 /**
@@ -53,18 +53,17 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
     private long totalMem;
     private long freeMem;
     
-    private Method method;
+    private String method;
     
     /**
-     * This method executes before each unit test and ensures the necessary lifecycles have been started
-     * @throws Exception 
+     * This method executes before each unit test and ensures the necessary lifecycles have been started.
      */
     @Before
     public final void baseBeforeTest() {
         logBeforeRun();
         LIFECYCLE.startPerTest(true);
         GlobalVariables.setMessageMap(new MessageMap());
-        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
         GlobalVariables.setUserSession(new UserSession(DEFAULT_USER));
     }
 
@@ -74,7 +73,7 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
     @After
     public final void baseAfterTest() {
         GlobalVariables.setMessageMap(new MessageMap());
-        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
         GlobalVariables.setUserSession(null);
         LIFECYCLE.stopPerTest();
         logAfterRun();
@@ -107,9 +106,9 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
      * 
      * @param method the <code>Method</code> being called by the current test
      * 
-     * @see KcIntegrationTestMethodAware#setTestMethod(java.lang.reflect.Method)
+     * @see KcIntegrationTestMethodAware#setTestMethod(java.lang.String)
      */
-    public final void setTestMethod(Method method) {
+    public final void setTestMethod(String method) {
         this.method = method;
     }
     
@@ -151,8 +150,8 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
         };
     }
     
-    protected String getFullTestName() {
-        return getClass().getSimpleName() + "." + (method != null ? method.getName() : "UNKNOWN");
+    private String getFullTestName() {
+        return getClass().getSimpleName() + "." + (method != null ? method : "UNKNOWN");
     }
 
     protected void updateParameterForTesting(Class componentClass, String parameterName, String newValue) {

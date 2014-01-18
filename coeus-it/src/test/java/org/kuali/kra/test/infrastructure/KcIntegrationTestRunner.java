@@ -44,7 +44,7 @@ public class KcIntegrationTestRunner extends BlockJUnit4ClassRunner {
     @Override
     protected Statement methodInvoker(FrameworkMethod method, Object test) {
         if (test instanceof KcIntegrationTestMethodAware) {
-            ((KcIntegrationTestMethodAware) test).setTestMethod(method.getMethod());
+            ((KcIntegrationTestMethodAware) test).setTestMethod(method.getMethod().getName());
         }
         return super.methodInvoker(method, test);
     }
