@@ -31,7 +31,7 @@ import org.springframework.core.io.Resource;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 public class PHS398ResearchPlanV1_2GeneratorTest extends
 		S2STestBase<PHS398ResearchPlanV1_1Generator> {
 

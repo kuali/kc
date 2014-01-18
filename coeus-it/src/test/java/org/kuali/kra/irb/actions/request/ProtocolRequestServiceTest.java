@@ -42,7 +42,7 @@ import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -50,7 +50,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
-
+import static org.junit.Assert.*;
 // import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 
 /**
@@ -62,7 +62,7 @@ import java.util.*;
  * the submitRequest(), a check is done against the database to
  * verify that the changes occurred as expected.
 */
-public class ProtocolRequestServiceTest extends KcUnitTestBase {
+public class ProtocolRequestServiceTest extends KcIntegrationTestBase {
 
     private static final String COMMITTEE_ID = "925";
     private static final String REASON = "my test reason";
@@ -77,8 +77,7 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
    
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
 
         service = new ProtocolRequestServiceImpl();
@@ -92,7 +91,6 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
         service = null;
         businessObjectService = null;
         
-        super.tearDown();
     }
     
     @Test

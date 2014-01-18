@@ -27,7 +27,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
-
+import static org.junit.Assert.*;
 public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
     
     private static final String RISK_LEVEL_PROPERTY_NAME = Constants.PROTOCOL_FULL_APPROVAL_ACTION_PROPERTY_KEY + ".protocolRiskLevelBean";

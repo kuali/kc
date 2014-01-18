@@ -24,14 +24,14 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
-
+import static org.junit.Assert.*;
 /**
  * Unit Tests for the Proposal State Service Implementation.
  */
-public class ProposalStateServiceTest extends KcUnitTestBase {
+public class ProposalStateServiceTest extends KcIntegrationTestBase {
     
     /*
      * Workflow states.

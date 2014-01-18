@@ -25,7 +25,7 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 import static org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentProposalAttachmentsAuditRule.AUDIT_CLUSTER_KEY;
-
+import static org.junit.Assert.*;
 public class ProposalDevelopmentProposalAttachmentsAuditRuleTest extends ProposalDevelopmentRuleTestBase {
     
     ProposalDevelopmentProposalAttachmentsAuditRule rule;

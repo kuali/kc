@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
-
+import static org.junit.Assert.*;
 public class AwardSyncAwardHelperTest extends AwardSyncHelperTestBase {
     
     private String sponsorCode = "0005000";

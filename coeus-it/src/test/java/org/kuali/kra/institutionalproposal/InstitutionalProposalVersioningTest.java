@@ -29,10 +29,10 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
-public class InstitutionalProposalVersioningTest extends KcUnitTestBase {
+public class InstitutionalProposalVersioningTest extends KcIntegrationTestBase {
     
     private VersioningService versioningService;
     

@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment;
 
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.QueryByCriteria;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +38,7 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -47,8 +46,8 @@ import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
 import java.util.List;
-
-public class ProposalPersonQuestionnaireTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
     
     private DataObjectService dataObjectService;
     private BusinessObjectService businessObjectService;

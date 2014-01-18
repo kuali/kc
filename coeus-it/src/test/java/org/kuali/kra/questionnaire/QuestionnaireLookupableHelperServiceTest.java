@@ -27,10 +27,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
@@ -39,8 +40,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestBase {
 
     private QuestionnaireLookupableHelperServiceImpl questionnaireLookupableHelperServiceImpl;
     private DocumentService documentService;
@@ -48,7 +49,6 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         questionnaireLookupableHelperServiceImpl = new QuestionnaireLookupableHelperServiceImpl();
         questionnaireLookupableHelperServiceImpl.setBusinessObjectClass(Questionnaire.class);
         documentService = KraServiceLocator.getService(DocumentService.class);
@@ -57,7 +57,6 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         questionnaireLookupableHelperServiceImpl = null;
         documentService = null;
         GlobalVariables.setUserSession(null);
@@ -131,7 +130,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
-        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
+        KNSServiceLocator.getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
         List pkNames = new ArrayList();
         pkNames.add("questionnaireRefId");
   
@@ -164,7 +163,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
-        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
+        KNSServiceLocator.getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
         List pkNames = new ArrayList();
         pkNames.add("questionnaireRefId");
   
@@ -199,7 +198,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
-        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
+        KNSServiceLocator.getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
         List pkNames = new ArrayList();
         pkNames.add("questionnaireRefId");
   

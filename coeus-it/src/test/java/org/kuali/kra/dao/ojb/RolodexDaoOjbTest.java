@@ -22,26 +22,17 @@ import org.junit.Test;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.junit.Assert.*;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 /**
  * Test the Data Access Object implementation for <code>{@link Rolodex}</code> business objects
  * 
  */
-public class RolodexDaoOjbTest extends KcUnitTestBase {
-    
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-    
-    @After 
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
+public class RolodexDaoOjbTest extends KcIntegrationTestBase {
     
     @Test
     public void getNonOrganizationalRolodexCriteriaWithNoName() {

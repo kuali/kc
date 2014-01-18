@@ -19,12 +19,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingSearchViews;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.List;
-
-public class ReportTrackingViewValuesFinderTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ReportTrackingViewValuesFinderTest extends KcIntegrationTestBase {
     
     ReportTrackingViewValuesFinder finder;
 

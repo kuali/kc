@@ -28,15 +28,15 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
-
+import static org.junit.Assert.*;
 /**
  * This class...
  */
-public class ProtocolReviewNotRequiredServiceTest extends KcUnitTestBase {
+public class ProtocolReviewNotRequiredServiceTest extends KcIntegrationTestBase {
     
     private static final String COMMENTS = "really cool comments";
     private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
@@ -49,22 +49,18 @@ public class ProtocolReviewNotRequiredServiceTest extends KcUnitTestBase {
         setThreadingPolicy(new Synchroniser());
     }};
 
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new ProtocolReviewNotRequiredServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setBusinessObjectService(getMockBusinessObjectService());
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         service = null;
         
-        super.tearDown();
     }
     
     /**

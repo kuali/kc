@@ -25,6 +25,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import static org.kuali.kra.logging.FormattedLogger.info;
+import static org.junit.Assert.*;
 
 /**
  * Contains tests for <code>{@link PersonEditableFieldRule}</code>
@@ -33,23 +34,14 @@ public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
     private static final PersonEditableFieldFixture ADDRESS_LINE1_FIELD = PersonEditableFieldFixture.ADDRESS_LINE1_FIELD;
     private static final PersonEditableFieldFixture ADDRESS_LINE2_FIELD = PersonEditableFieldFixture.ADDRESS_LINE2_FIELD;
         
-    /**
-     * @throws Exception 
-     * @see org.kuali.kra.KraTestBase#setUp()
-     */
+
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
-    /**
-     * @throws Exception 
-     * @see org.kuali.kra.KraTestBase#tearDown()
-     */
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     /**

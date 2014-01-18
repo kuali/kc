@@ -3,10 +3,10 @@ package org.kuali.kra.test.infrastructure.test;
 import org.junit.Test;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
-
-public class DbTransactionTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class DbTransactionTest extends KcIntegrationTestBase {
     private static final String KEYWORD_1 = "TK1";
     private static final String KEYWORD_2 = "TK2";
  

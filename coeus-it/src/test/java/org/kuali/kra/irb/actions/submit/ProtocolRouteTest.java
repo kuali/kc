@@ -31,26 +31,24 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.RoutingReportCriteria;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class ProtocolRouteTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolRouteTest extends KcIntegrationTestBase {
 
     private static final String SUMMARY = "my test summary";
     
@@ -64,10 +62,8 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         setThreadingPolicy(new Synchroniser());
     }};
     
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
 
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         documentService = KraServiceLocator.getService(DocumentService.class);
@@ -75,7 +71,6 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         protocolFinder = KraServiceLocator.getService(ProtocolFinderDao.class);
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         protocolSubmitActionService = null;
@@ -83,7 +78,6 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         protocolAmendRenewService = null;
         protocolFinder = null;
         
-        super.tearDown();
     }
     
     /**
@@ -151,7 +145,7 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         
         String docNbr = protocolAmendRenewService.createAmendment(protocolDocument, getMockProtocolAmendmentBean());
         
-        ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
+        ProtocolDocument amendmentDocument = (ProtocolDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docNbr);
         protocolSubmitActionService.submitToIrbForReview(amendmentDocument.getProtocol(), submitAction);
         
         documentService.routeDocument(amendmentDocument, null, null);

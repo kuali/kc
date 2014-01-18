@@ -37,7 +37,7 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.RolodexService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -54,7 +54,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * Test the ProtocolSubmitActionService implementation.
  * 
@@ -64,7 +64,7 @@ import java.util.Map;
  * the submitToIrbForReview(), a check is done against the database to
  * verify that the changes occurred as expected.
  */
-public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
+public class ProtocolSubmitActionServiceTest extends KcIntegrationTestBase {
 
     private static final String VALID_SUBMISSION_TYPE = "100";
     private static final String VALID_REVIEW_TYPE = "1";
@@ -80,7 +80,6 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         GlobalVariables.setMessageMap(new MessageMap());
         KNSGlobalVariables.setAuditErrorMap(new HashMap());
@@ -98,7 +97,6 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         GlobalVariables.setUserSession(null);
         GlobalVariables.setMessageMap(null);
         KNSGlobalVariables.setAuditErrorMap(null);
-        super.tearDown();
     }
     
     /*

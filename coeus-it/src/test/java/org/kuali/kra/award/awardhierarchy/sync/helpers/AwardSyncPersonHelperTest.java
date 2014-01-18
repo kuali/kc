@@ -25,7 +25,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-
+import static org.junit.Assert.*;
 public class AwardSyncPersonHelperTest extends AwardSyncHelperTestBase {
     
     protected AwardPerson person;

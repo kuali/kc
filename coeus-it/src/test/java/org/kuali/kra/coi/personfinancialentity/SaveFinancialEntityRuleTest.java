@@ -18,10 +18,10 @@ package org.kuali.kra.coi.personfinancialentity;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
-public class SaveFinancialEntityRuleTest extends KcUnitTestBase {
-// "extends KcUnitTestBase" to force it to load the configuration
+public class SaveFinancialEntityRuleTest extends KcIntegrationTestBase {
+// "extends KcIntegrationTestBase" to force it to load the configuration
 // can't override getBusinessObjectService, which is final, of rule class
     @Test
     public void testSaveFinancialSponsorCodeOK() {

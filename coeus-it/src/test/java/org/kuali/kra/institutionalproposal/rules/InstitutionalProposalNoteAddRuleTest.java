@@ -21,11 +21,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteEventBase.ErrorType;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class InstitutionalProposalNoteAddRuleTest extends KcUnitTestBase {
+public class InstitutionalProposalNoteAddRuleTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() {

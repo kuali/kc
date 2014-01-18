@@ -33,7 +33,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 public class PHS398ResTrainProgPlanV1_0GeneratorTest extends S2STestBase<PHS398ResTrainProgPlanV1_0Generator>{
 
     @Override

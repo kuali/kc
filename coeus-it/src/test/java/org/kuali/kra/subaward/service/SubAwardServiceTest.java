@@ -20,11 +20,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;
-
-public class SubAwardServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class SubAwardServiceTest extends KcIntegrationTestBase {
     SubAwardService subAwardService;
     @Before
     public void setUp() throws Exception {

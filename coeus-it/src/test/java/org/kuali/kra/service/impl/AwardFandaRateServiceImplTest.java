@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.kuali.kra.award.commitments.AwardFandaRateService;
 import org.kuali.kra.award.commitments.AwardFandaRateServiceImpl;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.List;
  * 
  * This class tests <code>AwardFandaRateService</code>
  */
-public class AwardFandaRateServiceImplTest extends KcUnitTestBase {
+public class AwardFandaRateServiceImplTest extends KcIntegrationTestBase {
     
     private static final String FISCAL_LEAP_YEAR_STRING = "2008";
     private static final String FISCAL_NON_LEAP_YEAR_STRING = "2010";

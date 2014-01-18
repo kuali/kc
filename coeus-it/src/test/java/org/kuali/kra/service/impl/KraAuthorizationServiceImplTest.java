@@ -25,14 +25,15 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.List;
-
+import static org.junit.Assert.*;
 /**
  * Test the Kra Authorization Service Impl.  Mocks are used
  * to isolate the service from KIM.  Well-defined data  is placed 
@@ -40,7 +41,7 @@ import java.util.List;
  * are then invoked and the responses are checked against the expected
  * results.
  */
-public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
+public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
 
     private KraAuthorizationService kraAuthService;
     private IdentityService identityManagementService;
@@ -48,7 +49,6 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         identityManagementService = KraServiceLocator.getService(IdentityService.class);
@@ -221,7 +221,7 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
      * @return
      */
     private ProposalDevelopmentDocument createProposal(String documentDescription, String leadUnitNumber) throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocumentService().getNewDocument("ProposalDevelopmentDocument");
+        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument("ProposalDevelopmentDocument");
 
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
@@ -239,11 +239,11 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
         proposalDevelopmentService.initializeUnitOrganizationLocation(document);
         proposalDevelopmentService.initializeProposalSiteNumbers(document);
 
-        document = (ProposalDevelopmentDocument) getDocumentService().saveDocument(document);
+        document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
         initializeProposalUsers(document);
 
-        document = (ProposalDevelopmentDocument) getDocumentService().saveDocument(document);
-        ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
+        document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
+        ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertNotNull(savedDocument);
 
         return savedDocument;

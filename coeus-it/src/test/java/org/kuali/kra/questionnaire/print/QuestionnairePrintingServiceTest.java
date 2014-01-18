@@ -33,6 +33,7 @@ import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -40,7 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
     private QuestionnairePrintingService questionnairePrintingService;
     private Mockery context = new JUnit4Mockery();
@@ -80,7 +81,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
-        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
+        KNSServiceLocator.getBusinessObjectService().save((Questionnaire) maintDocument.getNewMaintainableObject().getDataObject());
 
         String docNumber = maintDocument.getDocumentNumber();
         return docNumber;

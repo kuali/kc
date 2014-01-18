@@ -38,14 +38,14 @@ import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-public class ProtocolSummaryTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolSummaryTest extends KcIntegrationTestBase {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -111,8 +111,7 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         initialSubmissionDate = new Date(System.currentTimeMillis() - (2 * TEN_DAYS));
         approvalDate = new Date(System.currentTimeMillis() - TEN_DAYS);
         lastApprovalDate = new Date(System.currentTimeMillis());

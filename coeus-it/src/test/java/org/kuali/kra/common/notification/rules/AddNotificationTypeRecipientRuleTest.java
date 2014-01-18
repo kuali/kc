@@ -21,12 +21,12 @@ import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.AddNotificationRecipientRule;
 import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddNotificationTypeRecipientRuleTest extends KcUnitTestBase {
+public class AddNotificationTypeRecipientRuleTest extends KcIntegrationTestBase {
     
     private static final String ROLE_NAME = "KC-UNT:IRB Administrator";
     private static final String PERSON_ID = "10000000004";

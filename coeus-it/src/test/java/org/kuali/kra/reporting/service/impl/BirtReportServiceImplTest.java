@@ -22,12 +22,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.reporting.bo.BirtParameterBean;
 import org.kuali.kra.reporting.bo.CustReportDetails;
 import org.kuali.kra.reporting.service.BirtReportService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class BirtReportServiceImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class BirtReportServiceImplTest extends KcIntegrationTestBase {
     
     private BirtReportService birtReportService;
     private String reportId;
@@ -36,24 +37,22 @@ public class BirtReportServiceImplTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        birtReportService = KraServiceLocator.getService(BirtReportService.class);               
+        birtReportService = KraServiceLocator.getService(BirtReportService.class);
     }
     
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
     
     @Test
     public void testGetReports() {
-        custReportDetails =  (List<CustReportDetails>) getBusinessObjectService().findAll(CustReportDetails.class);
+        custReportDetails =  (List<CustReportDetails>) KNSServiceLocator.getBusinessObjectService().findAll(CustReportDetails.class);
         assertTrue(custReportDetails.size() > 0);
     }
     
     @Test
     public void testGetInputParametersFromTemplateFile() throws Exception{ 
-        List<CustReportDetails> custReportDetailsList = (List<CustReportDetails>) getBusinessObjectService().findAll(CustReportDetails.class);
+        List<CustReportDetails> custReportDetailsList = (List<CustReportDetails>) KNSServiceLocator.getBusinessObjectService().findAll(CustReportDetails.class);
         reportId = custReportDetailsList.get(0).getReportId().toString();
         parameterList = birtReportService.getInputParametersFromTemplateFile(reportId);
         assertTrue(parameterList.size() > 0);

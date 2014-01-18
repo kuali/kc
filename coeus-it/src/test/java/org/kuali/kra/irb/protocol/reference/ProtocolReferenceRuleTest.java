@@ -29,7 +29,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
-
+import static org.junit.Assert.*;
 public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
 
     private static final String NEW_PROTOCOLREFERENCE= "newProtocolReferenceBean";

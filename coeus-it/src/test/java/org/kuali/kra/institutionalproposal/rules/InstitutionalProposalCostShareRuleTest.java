@@ -23,7 +23,7 @@ import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -31,7 +31,7 @@ import org.kuali.rice.krad.util.MessageMap;
 /**
  * This class...
  */
-public class InstitutionalProposalCostShareRuleTest extends KcUnitTestBase {
+public class InstitutionalProposalCostShareRuleTest extends KcIntegrationTestBase {
 
     private static final String TEST_SOURCE = "54321";
     private static final String TEST_FISCAL_YEAR = "2008";

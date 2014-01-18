@@ -23,7 +23,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-
+import static org.junit.Assert.*;
 public class SpecialReviewDataFeedCommandTest extends BaseDataFeedCommandTest {
 
     private IndirectcostRateType idcRateType;

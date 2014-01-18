@@ -23,11 +23,11 @@ import org.kuali.kra.common.committee.meeting.MemberAbsentBean;
 import org.kuali.kra.common.committee.meeting.MemberPresentBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 
-public class MeetingPresentOtherOrVotingRuleTest extends KcUnitTestBase {
+public class MeetingPresentOtherOrVotingRuleTest extends KcIntegrationTestBase {
     @Test
     public void testOK() {    
         new  TemplateRuleTest<MeetingPresentOtherOrVotingEvent, MeetingPresentOtherOrVotingRule> (){            

@@ -35,21 +35,22 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.junit.Assert.*;
 /**
  * 
  * This class is for correspondence service test
- * 'extends KcUnitTestBase' is needed for instantiating ProtocolDOcument
+ * 'extends KcIntegrationTestBase' is needed for instantiating ProtocolDOcument
  */
-public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
+public class CommitteeBatchCorrespondenceServiceTest extends KcIntegrationTestBase {
 
     private static final String PROTOCOL_NUMBER = "1";
     private static final int SEQUENCE_NUMBER = 0;
@@ -72,7 +73,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
     public void testGenerateBatchCorrespondenceForRenewalReminders() throws Exception {
         String batchCorrespondenceTypeCode = Constants.PROTOCOL_RENEWAL_REMINDERS;
         Committee committee = 
-            ((List <Committee>)getBusinessObjectService().findAll(Committee.class)).get(0);
+            ((List <Committee>)KNSServiceLocator.getBusinessObjectService().findAll(Committee.class)).get(0);
         final String committeeId = committee.getCommitteeId();
             final Date startDate = Date.valueOf("2010-06-01");
         final Date endDate = Date.valueOf("2010-06-15");
@@ -115,7 +116,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
     public void testGenerateBatchCorrespondenceForIrbNotifications() throws Exception {
         String batchCorrespondenceTypeCode = Constants.REMINDER_TO_IRB_NOTIFICATIONS;
         Committee committee = 
-            ((List <Committee>)getBusinessObjectService().findAll(Committee.class)).get(0);
+            ((List <Committee>) KNSServiceLocator.getBusinessObjectService().findAll(Committee.class)).get(0);
         final String committeeId = committee.getCommitteeId();
         final Date startDate = Date.valueOf("2010-06-01");
         final Date endDate = Date.valueOf("2010-06-15");

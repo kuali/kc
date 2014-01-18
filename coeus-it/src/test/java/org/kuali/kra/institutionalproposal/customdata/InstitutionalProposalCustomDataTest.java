@@ -20,12 +20,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 /**
  * This class...
  */
-public class InstitutionalProposalCustomDataTest extends KcUnitTestBase {
+public class InstitutionalProposalCustomDataTest extends KcIntegrationTestBase {
  //Changing the field count to include all declared fields since we can't override toStringMapper anymore
  private static final int INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT = 5;
     

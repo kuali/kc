@@ -24,7 +24,7 @@ import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -40,11 +40,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * This class tests the ResearchDocumentBaseAuditRule class
  */
-public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
+public class ResearchDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
 
     private static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "123456";
     private static final String DEFAULT_PROPOSAL_TITLE = "Project title";
@@ -61,7 +61,6 @@ public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         KNSGlobalVariables.setAuditErrorMap(new HashMap());
         documentService = KRADServiceLocatorWeb.getDocumentService();
@@ -79,7 +78,6 @@ public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
         auditRule = null;
         defaultProposalRequestedStartDate = null;
         defaultProposalRequestedEndDate = null;
-        super.tearDown();
     }
 
     @Test public void testRequiredCustomAttributeFieldsMissing() throws Exception {

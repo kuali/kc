@@ -31,17 +31,17 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
-
+import static org.junit.Assert.*;
 /**
  * 
  * This class is to test abandonservice
  */
-public class ProtocolAbandonServiceTest  extends KcUnitTestBase {
+public class ProtocolAbandonServiceTest  extends KcIntegrationTestBase {
 
     private static final String BASIC_COMMENT = "some dummy comments here";
     private static final Date BASIC_ACTION_DATE = new Date(System.currentTimeMillis());
@@ -55,8 +55,7 @@ public class ProtocolAbandonServiceTest  extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new ProtocolAbandonServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setDocumentService(getMockDocumentService());        
@@ -66,7 +65,6 @@ public class ProtocolAbandonServiceTest  extends KcUnitTestBase {
     public void tearDown() throws Exception {
         service = null;
         
-        super.tearDown();
     }
     
     @Test

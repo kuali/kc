@@ -19,13 +19,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 /**
  * 
  * This class tests methods in InstitutionalProposalCostShare.java class
  */
-public class InstitutionalProposalCostShareTest extends KcUnitTestBase {
+public class InstitutionalProposalCostShareTest extends KcIntegrationTestBase {
 
 private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 8;
     

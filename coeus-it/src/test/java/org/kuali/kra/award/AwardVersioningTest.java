@@ -33,7 +33,7 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
@@ -44,11 +44,11 @@ import org.kuali.rice.krad.util.MessageMap;
 
 import java.sql.Date;
 import java.util.*;
-
+import static org.junit.Assert.*;
 /**
  * This class 
  */
-public class AwardVersioningTest extends KcUnitTestBase {
+public class AwardVersioningTest extends KcIntegrationTestBase {
     private static final Log LOG = LogFactory.getLog(AwardVersioningTest.class); 
     private static final double COST_SHARE_COMMIT_AMT = 1000.00;
     private static final String COST_SHARE_DEST1 = "576434";
@@ -72,13 +72,8 @@ public class AwardVersioningTest extends KcUnitTestBase {
     private List<Award> awards;
     
 
-    /**
-     * @see org.kuali.kra.KraTestBase#setUp()
-     */
-    @Override
     @Before
     public void setUp() throws Exception {
-       super.setUp();
        GlobalVariables.setUserSession(new UserSession("quickstart"));
        savedDocuments = new ArrayList<AwardDocument>();
        awards = new ArrayList<Award>();
@@ -88,12 +83,7 @@ public class AwardVersioningTest extends KcUnitTestBase {
        saveDocument(originalDocument);
     }
 
-    /**
-     * @see org.kuali.kra.KraTestBase#tearDown()
-     */
-    @Override
     public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     @Test

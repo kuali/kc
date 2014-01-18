@@ -19,15 +19,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-public class QuestionnaireAuthorizationServiceTest extends KcUnitTestBase {
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }  
+import static org.junit.Assert.*;
+public class QuestionnaireAuthorizationServiceTest extends KcIntegrationTestBase {
 
     @Test
     public void permissionModifyQuestionnaireTest() {

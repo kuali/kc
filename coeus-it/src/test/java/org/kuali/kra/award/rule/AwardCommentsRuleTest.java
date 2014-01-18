@@ -23,15 +23,14 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
-
-public class AwardCommentsRuleTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class AwardCommentsRuleTest extends KcIntegrationTestBase {
     private static final String ERROR_PATH_PREFIX = "document.awards[0]";
     private static final String VALID_COMMENT = "This comment should pass validation";
     private static final int MAX_COMMENT_LENGTH = 5000;
@@ -40,14 +39,12 @@ public class AwardCommentsRuleTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setMessageMap(new MessageMap());
         awardCommentsRule = new AwardCommentsRuleImpl();
     }
     
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
     
     @Test

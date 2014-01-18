@@ -26,16 +26,17 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.HashMap;
 import java.util.Map;
-
-public class TestNegotiationAuthorizersTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class TestNegotiationAuthorizersTest extends KcIntegrationTestBase {
     
     TaskAuthorizationService taskAuthorizationService;
     BusinessObjectService businessObjectService;  
@@ -185,7 +186,7 @@ public class TestNegotiationAuthorizersTest extends KcUnitTestBase {
     }
     
     private NegotiationDocument getNewNegotiationWithUnassociatedDetail() throws WorkflowException {
-        NegotiationDocument document = (NegotiationDocument) getDocumentService().getNewDocument(NegotiationDocument.class);
+        NegotiationDocument document = (NegotiationDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument(NegotiationDocument.class);
         Negotiation negotiation = document.getNegotiation();
         
         NegotiationStatus status = (NegotiationStatus)businessObjectService.findAll(NegotiationStatus.class).iterator().next();

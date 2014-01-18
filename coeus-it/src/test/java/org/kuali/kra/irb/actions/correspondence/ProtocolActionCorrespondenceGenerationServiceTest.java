@@ -25,14 +25,15 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.withdraw.WithdrawCorrespondence;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
 import java.util.Map;
-
-public class ProtocolActionCorrespondenceGenerationServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolActionCorrespondenceGenerationServiceTest extends KcIntegrationTestBase {
     
     ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     BusinessObjectService businessObjectService;
@@ -40,7 +41,6 @@ public class ProtocolActionCorrespondenceGenerationServiceTest extends KcUnitTes
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         protocolActionCorrespondenceGenerationService = KraServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
         businessObjectService  = KraServiceLocator.getService(BusinessObjectService.class);
         protocol = ProtocolFactory.createProtocolDocument().getProtocol();
@@ -55,14 +55,13 @@ public class ProtocolActionCorrespondenceGenerationServiceTest extends KcUnitTes
         protocolAction.setActionId(protocol.getNextValue("actionId"));
         protocolAction.setComments("Protocol created");
         protocol.getProtocolActions().add(protocolAction);
-        getBusinessObjectService().save(protocol);
+        KNSServiceLocator.getBusinessObjectService().save(protocol);
     }
     
     @After
     public void tearDown() throws Exception {
         protocolActionCorrespondenceGenerationService = null;
         protocol = null;
-        super.tearDown();
     }
     
     @Test

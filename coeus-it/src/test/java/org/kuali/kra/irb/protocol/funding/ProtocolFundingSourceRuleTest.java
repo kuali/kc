@@ -24,11 +24,11 @@ import org.junit.Test;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 
-public class ProtocolFundingSourceRuleTest extends KcUnitTestBase {
+public class ProtocolFundingSourceRuleTest extends KcIntegrationTestBase {
     
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 

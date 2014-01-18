@@ -30,15 +30,19 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import static org.junit.Assert.*;
 
-public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
+public class AwardHierarchyServiceImplTest extends KcIntegrationTestBase {
     
     private static final int NUMBER_OF_CHILDREN_A = 20;
     private static final int NUMBER_OF_GRANDCHILDREN_A = 10;
@@ -63,11 +67,11 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
 
     @Before  
     public void setUp() throws Exception {
-        super.setUp();
+
         service = new AwardHierarchyServiceImpl();
         service.setAwardNumberService(getMockAwardNumberService());
-        service.setLegacyDataAdapter(getLegacyDataAdapter());
-        service.setDocumentService(getDocumentService());
+        service.setLegacyDataAdapter(KraServiceLocator.getService(LegacyDataAdapter.class));
+        service.setDocumentService(KRADServiceLocatorWeb.getDocumentService());
         service.setVersioningService(KraServiceLocator.getService(VersioningService.class));
         service.setVersionHistoryService(KraServiceLocator.getService(VersionHistoryService.class));
         service.setAwardService(new AwardServiceMock());
@@ -83,8 +87,7 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
     
     @After
     public void tearDown() throws Exception {
-        service = null;  
-        super.tearDown();
+        service = null;
     }
 
     @Test
@@ -264,7 +267,7 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
             Award award = createAward(node.getAwardNumber());
             awardList.add(award);
             node.setAward(award);
-            getBusinessObjectService().save(node);
+            KNSServiceLocator.getBusinessObjectService().save(node);
         }
     }
     
@@ -280,13 +283,13 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
         List<AwardHierarchy> childNodes = new ArrayList<AwardHierarchy>();
         for(int i = 0, sequenceNo = i + 2; i < numberOfChildNodes; i++) {
             AwardHierarchy childBranchNode = new AwardHierarchy(rootNodeA, rootNodeA, generateAwardNumber(baseAwardNumber, sequenceNo++), DUMMY_AWARD_NUMBER);
-            childBranchNode.setBusinessObjectService(getBusinessObjectService());
+            childBranchNode.setBusinessObjectService(KNSServiceLocator.getBusinessObjectService());
             childBranchNode.setVersionHistoryService(getVersionHistoryService());
             childNodes.add(childBranchNode);
             List<AwardHierarchy> grandchildNodes = new ArrayList<AwardHierarchy>();
             for(int j = 0; j < numberOfGrandChildren; j++) {
                 AwardHierarchy grandChildNode = new AwardHierarchy(rootNodeA, childBranchNode, generateAwardNumber(baseAwardNumber, sequenceNo++), DUMMY_AWARD_NUMBER);
-                childBranchNode.setBusinessObjectService(getBusinessObjectService());
+                childBranchNode.setBusinessObjectService(KNSServiceLocator.getBusinessObjectService());
                 grandChildNode.setVersionHistoryService(getVersionHistoryService());
                 grandchildNodes.add(grandChildNode);
             }
@@ -301,7 +304,7 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
         rootAward.setAwardNumber(generateAwardNumber(baseAwardNumber, BASE_HIERARCHY_SEQUENCE));
         AwardHierarchy rootNode = AwardHierarchy.createRootNode(rootAward);
         rootNode.setVersionHistoryService(getVersionHistoryService());
-        rootNode.setBusinessObjectService(getBusinessObjectService());
+        rootNode.setBusinessObjectService(KNSServiceLocator.getBusinessObjectService());
         return rootNode;
     }
     

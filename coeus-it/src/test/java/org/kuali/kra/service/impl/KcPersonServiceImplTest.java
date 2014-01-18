@@ -20,9 +20,10 @@ import org.junit.Test;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
-public class KcPersonServiceImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class KcPersonServiceImplTest extends KcIntegrationTestBase {
     
     private KcPersonService service;
 

@@ -25,7 +25,7 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.AwardServiceImpl;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -33,7 +33,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+import static org.junit.Assert.*;
  /*
  >>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotificationsPreviouslySent 	2 ms	1
 >>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotificationsPreviouslySent 	6 ms	1
@@ -43,7 +43,7 @@ import java.util.List;
 >>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testDateBarriers
 
   */
-public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
+public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase {
 
     private ReportTrackingNotificationServiceImpl service;
     private BusinessObjectService boService;
@@ -54,7 +54,6 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
 
      @Before
     public void setUp() throws Exception {
-        super.setUp();
         service = (ReportTrackingNotificationServiceImpl) KraServiceLocator.getService(ReportTrackingNotificationService.class);
         boService = KraServiceLocator.getService(BusinessObjectService.class);
         documentService = KraServiceLocator.getService(DocumentService.class);
@@ -76,7 +75,6 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
 
      @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
     
     @Test

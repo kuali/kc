@@ -18,11 +18,11 @@ package org.kuali.kra.questionnaire.question;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-public class QuestionAuthorizationServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class QuestionAuthorizationServiceTest extends KcIntegrationTestBase {
 
     @Test
     public void permissionModifyQuestionTest() {

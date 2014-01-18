@@ -21,28 +21,18 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.dao.BusinessObjectDao;
 
 import java.util.Collection;
-
+import static org.junit.Assert.*;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 /**
  * This class tests NsfCodeValuesFinder.
  */
-public class NarrativeTypeTest extends KcUnitTestBase {
-
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
+public class NarrativeTypeTest extends KcIntegrationTestBase {
 
     @Test public void testGetKeyValues() throws Exception {
         BusinessObjectDao businessObjectDao = (BusinessObjectDao)KraServiceLocator.getService(Constants.BUSINESS_OBJECT_DAO_NAME);

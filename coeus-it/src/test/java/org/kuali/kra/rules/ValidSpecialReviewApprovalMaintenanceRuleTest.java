@@ -22,14 +22,13 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
-
+import static org.junit.Assert.*;
 public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRuleTestBase {
     private ValidSpecialReviewApprovalMaintenanceRule rule;
     private MaintenanceDocument maintDoc;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         rule = new ValidSpecialReviewApprovalMaintenanceRule();
         ValidSpecialReviewApproval specialReviewApproval = new ValidSpecialReviewApproval();
         maintDoc = newMaintDoc(specialReviewApproval);

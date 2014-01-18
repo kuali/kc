@@ -20,15 +20,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
+import static org.junit.Assert.*;
 /**
  * This class tests KraPersistableBusinessObjectBase.
  */
-public class SponsorServiceImplTest extends KcUnitTestBase {
+public class SponsorServiceImplTest extends KcIntegrationTestBase {
 
     private static final String TEST_SPONSOR_CODE = "005891";
     private static final String TEST_SPONSOR_NAME = "Baystate Medical Center";
@@ -38,12 +38,10 @@ public class SponsorServiceImplTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         sponsorService = this.getRegularSponsorService();
     }
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         sponsorService = null;
     }
     

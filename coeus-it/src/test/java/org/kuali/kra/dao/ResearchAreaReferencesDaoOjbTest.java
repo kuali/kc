@@ -31,7 +31,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ResearchArea;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -40,8 +40,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
-public class ResearchAreaReferencesDaoOjbTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ResearchAreaReferencesDaoOjbTest extends KcIntegrationTestBase {
     
     private BusinessObjectService businessObjectService;
     private CommitteeMembershipService committeeMembershipService;
@@ -51,7 +51,6 @@ public class ResearchAreaReferencesDaoOjbTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         this.committeeService = KraServiceLocator.getService(CommitteeService.class);
@@ -63,7 +62,6 @@ public class ResearchAreaReferencesDaoOjbTest extends KcUnitTestBase {
     @After 
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     
     private void createandSaveCommittee(String researchAreaCode) throws WorkflowException {        

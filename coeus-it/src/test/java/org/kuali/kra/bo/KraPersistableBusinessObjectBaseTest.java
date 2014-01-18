@@ -19,27 +19,25 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Timestamp;
 import java.util.Date;
-
+import static org.junit.Assert.*;
 /**
  * This class tests KraPersistableBusinessObjectBase.
  */
-public class KraPersistableBusinessObjectBaseTest extends KcUnitTestBase {
+public class KraPersistableBusinessObjectBaseTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         GlobalVariables.setUserSession(null);
     }
 

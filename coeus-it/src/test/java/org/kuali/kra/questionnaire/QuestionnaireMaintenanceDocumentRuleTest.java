@@ -24,13 +24,12 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-
+import static org.junit.Assert.*;
 public class QuestionnaireMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private QuestionnaireMaintenanceDocumentRule rule = null;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         rule = new QuestionnaireMaintenanceDocumentRule();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
@@ -38,7 +37,6 @@ public class QuestionnaireMaintenanceDocumentRuleTest extends MaintenanceRuleTes
     @After
     public void tearDown() throws Exception {
         rule = null;
-        super.tearDown();
     }
     
     @Test

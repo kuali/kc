@@ -26,7 +26,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.CustomAttributeService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
@@ -37,11 +37,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * This class tests CustomAttributeServiceImpl.
  */
-public class CustomAttributeServiceImplTest extends KcUnitTestBase {
+public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
 
 
     private Map<String, CustomAttributeDocument> testCustomAttributeDocuments;
@@ -54,7 +54,6 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         testCustomAttributeDocuments = CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments();
         documentService = KRADServiceLocatorWeb.getDocumentService();
@@ -68,7 +67,6 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
         testCustomAttributeDocuments = null;
         documentService = null;
         customAttributeService = null;
-        super.tearDown();
     }
 
 

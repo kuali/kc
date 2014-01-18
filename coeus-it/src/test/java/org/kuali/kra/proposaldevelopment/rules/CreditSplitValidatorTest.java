@@ -20,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -29,21 +29,20 @@ import java.util.HashMap;
 
 import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.*;
-
+import static org.junit.Assert.*;
 /**
  * Class to test use cases of <code>{@link CreditSplitValidator}</code>
  *
  * @author $Author: gmcgrego $
  * @version $Revision: 1.10 $
  */
-public class CreditSplitValidatorTest extends KcUnitTestBase {
+public class CreditSplitValidatorTest extends KcIntegrationTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidatorTest.class);
     private CreditSplitValidator validator;
     private ProposalDevelopmentDocument document;
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         KNSGlobalVariables.setAuditErrorMap(new HashMap());
         validator = new CreditSplitValidator();
@@ -52,7 +51,6 @@ public class CreditSplitValidatorTest extends KcUnitTestBase {
     
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     /**
