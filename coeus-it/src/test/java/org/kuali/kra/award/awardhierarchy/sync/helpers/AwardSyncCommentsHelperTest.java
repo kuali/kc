@@ -24,7 +24,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.bo.CommentType;
-
+import static org.junit.Assert.*;
 public class AwardSyncCommentsHelperTest extends AwardSyncHelperTestBase {
     
     protected AwardComment comment;

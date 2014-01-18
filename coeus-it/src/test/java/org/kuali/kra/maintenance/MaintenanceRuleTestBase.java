@@ -18,7 +18,7 @@ package org.kuali.kra.maintenance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -29,12 +29,13 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
-
+import static org.junit.Assert.*;
 /**
  *  Base class for testing <code>{@link MaintenanceDocument}</code> instances
  */
-public abstract class MaintenanceRuleTestBase extends KcUnitTestBase {
+public abstract class MaintenanceRuleTestBase extends KcIntegrationTestBase {
     private static final Log LOG = LogFactory.getLog(MaintenanceRuleTestBase.class); 
     private static final String DOCUMENT_ERRORS = "document.document*,document.explanation*,document.reversal*,document.selected*,document.header*";
         
@@ -69,7 +70,7 @@ public abstract class MaintenanceRuleTestBase extends KcUnitTestBase {
         // get a new MaintenanceDocument from Spring
         MaintenanceDocument document = null;
         try {
-            document = (MaintenanceDocument) getDocumentService().getNewDocument(getMaintenanceDocumentDictionaryService().getDocumentTypeName(newBo.getClass()));
+            document = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument(getMaintenanceDocumentDictionaryService().getDocumentTypeName(newBo.getClass()));
         }
         catch (WorkflowException e) {
             throw new RuntimeException(e);

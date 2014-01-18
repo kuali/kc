@@ -34,16 +34,6 @@ public class DeadlineTypeValuesFinderTest extends PersistableBusinessObjectValue
         setLabelAttributeName("description");
         setIncludeKeyInDescription(false);
     }
-    
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     @Test public void testGetKeyValues() throws Exception {
         super.testGetKeyValues();

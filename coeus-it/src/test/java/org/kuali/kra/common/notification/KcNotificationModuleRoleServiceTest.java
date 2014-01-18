@@ -22,11 +22,11 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.List;
-
-public class KcNotificationModuleRoleServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class KcNotificationModuleRoleServiceTest extends KcIntegrationTestBase {
 
     protected KcNotificationModuleRoleService kcNotificationModuleRoleService;
     

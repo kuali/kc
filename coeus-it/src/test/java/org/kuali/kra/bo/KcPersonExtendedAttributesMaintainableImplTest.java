@@ -28,7 +28,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
-
+import static org.junit.Assert.*;
 public class KcPersonExtendedAttributesMaintainableImplTest extends MaintenanceRuleTestBase {
     private static final int NUMBER_SECTIONS = 4;
     private KcPersonExtendedAttributesMaintainableImpl kcPersonEAMaintainableImpl = null;
@@ -43,7 +43,6 @@ public class KcPersonExtendedAttributesMaintainableImplTest extends MaintenanceR
     @After
     public void tearDown() throws Exception {
         kcPersonEAMaintainableImpl = null;
-        super.tearDown();
     }
 
     @Test

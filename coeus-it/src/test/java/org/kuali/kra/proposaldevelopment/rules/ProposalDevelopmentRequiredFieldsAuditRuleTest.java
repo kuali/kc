@@ -26,7 +26,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -42,11 +42,11 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-
+import static org.junit.Assert.*;
 /**
  * This class tests the ProposalDevelopmentSponsorProgramInformationAuditRule class
  */
-public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBase {
+public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegrationTestBase {
 
     private DocumentService documentService = null;
     private ParameterService parameterService = null;
@@ -63,7 +63,6 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBa
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         KNSGlobalVariables.setAuditErrorMap(new HashMap());
         documentService = KRADServiceLocatorWeb.getDocumentService();
@@ -90,7 +89,6 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBa
         KNSGlobalVariables.setAuditErrorMap(null);
         documentService = null;
         auditRule = null;
-        super.tearDown();
     }
     
     @Test public void testRequireSponsorIdWhenNew() throws Exception {

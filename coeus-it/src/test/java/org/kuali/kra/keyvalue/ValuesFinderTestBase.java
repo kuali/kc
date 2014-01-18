@@ -16,13 +16,13 @@
 package org.kuali.kra.keyvalue;
 
 import org.junit.Test;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 import java.util.List;
-
+import static org.junit.Assert.*;
 /**
  * This is a base class for ValuesFinder tests.
  *
@@ -31,7 +31,7 @@ import java.util.List;
  * 2) override getKeyValues() to build the test set of key/value pairs
  * 3) override getTestClass() to set the value finder class to test
  */
-public abstract class ValuesFinderTestBase extends KcUnitTestBase {
+public abstract class ValuesFinderTestBase extends KcIntegrationTestBase {
     
     protected static KeyValue createKeyValue(String typeCode, String typeValue) {
         return new ConcreteKeyValue(typeCode, typeValue);

@@ -41,7 +41,7 @@ import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -52,11 +52,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * Test the Protocol NotifyIrb Service Implementation.
  */
-public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
+public class ProtocolNotifyIrbServiceTest extends KcIntegrationTestBase {
 
     private static final String COMMITTEE_ID = "913";
     private static final String COMMENT = "my test reason";
@@ -71,8 +71,7 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new ProtocolNotifyIrbServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setDocumentService(getMockDocumentService());
@@ -86,7 +85,6 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         service = null;
         businessObjectService = null;
         
-        super.tearDown();
     }
     
     @Test

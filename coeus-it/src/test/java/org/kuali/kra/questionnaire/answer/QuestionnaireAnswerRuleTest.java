@@ -21,14 +21,14 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionnaireAnswerRuleTest extends KcUnitTestBase {
+public class QuestionnaireAnswerRuleTest extends KcIntegrationTestBase {
 
     /**
      * 

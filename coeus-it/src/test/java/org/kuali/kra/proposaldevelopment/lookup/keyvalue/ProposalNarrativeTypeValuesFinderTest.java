@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ProposalNarrativeTypeValuesFinderTest extends KcUnitTestBase {
+public class ProposalNarrativeTypeValuesFinderTest extends KcIntegrationTestBase {
 
     private static final String NO = "N";
     private static final String YES = "Y";

@@ -31,7 +31,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.kra.util.DateUtils;
 
 import java.sql.Date;
@@ -45,7 +45,7 @@ import java.util.*;
  * However, so many other classes depend on that service, we should tread carefully, adding to the BudgetRatesService instead of 
  * changing the API. JF 
  */
-public class BudgetRatesServiceTest extends KcUnitTestBase {
+public class BudgetRatesServiceTest extends KcIntegrationTestBase {
     public static final String BUDGET_ID_KEY = "budgetId";
     private static final String TRACK_AFFECTED_PERIOD_1 = "|1|";
     private static final String TRACK_AFFECTED_PERIOD_2 = "|2|";
@@ -147,10 +147,8 @@ public class BudgetRatesServiceTest extends KcUnitTestBase {
         initializeActivityTypes();
     }    
     
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         budgetRatesService = new BudgetRatesServiceImpl();
         ((BudgetRatesServiceImpl)budgetRatesService).setBusinessObjectService(new MockBusinessObjectService());
         initializeBudgetDocument();
@@ -192,10 +190,8 @@ public class BudgetRatesServiceTest extends KcUnitTestBase {
         return proposal;
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         budgetRatesService = null;
         budgetDocument = null;
         instituteRates = null;

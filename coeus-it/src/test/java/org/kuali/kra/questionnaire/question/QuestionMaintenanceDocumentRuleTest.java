@@ -28,21 +28,19 @@ import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
-
+import static org.junit.Assert.*;
 public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
 
     private QuestionMaintenanceDocumentRule rule = null;
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         rule = new QuestionMaintenanceDocumentRule();
     }
 
     @After
     public void tearDown() throws Exception {
         rule = null;
-        super.tearDown();
     }
 
     @Test

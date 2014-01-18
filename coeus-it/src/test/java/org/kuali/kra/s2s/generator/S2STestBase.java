@@ -25,38 +25,35 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.service.S2SValidatorService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import static org.junit.Assert.*;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 /**
  * This is the base class for all generator Junit test classes.
  */
-public abstract class S2STestBase<T> extends KcUnitTestBase {
+public abstract class S2STestBase<T> extends KcIntegrationTestBase {
     private S2SBaseFormGenerator generatorObject;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
 
     protected abstract void prepareData(ProposalDevelopmentDocument document) throws Exception;
@@ -88,12 +85,12 @@ public abstract class S2STestBase<T> extends KcUnitTestBase {
         String docNumber = docHeader.getDocumentNumber();
         assertNotNull(docNumber);
         assertNotNull(pd.getDevelopmentProposal());
-        assertEquals(1, pd.getDevelopmentProposalList().size());    
-        getDocumentService().saveDocument(pd);
+        assertEquals(1, pd.getDevelopmentProposalList().size());
+        KRADServiceLocatorWeb.getDocumentService().saveDocument(pd);
     }
 
     private ProposalDevelopmentDocument initializeDocument() throws Exception {
-        ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) getDocumentService().getNewDocument("ProposalDevelopmentDocument");
+        ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument("ProposalDevelopmentDocument");
         Assert.assertNotNull(pd.getDocumentHeader().getWorkflowDocument());
         ProposalDevelopmentService pdService = getService(ProposalDevelopmentService.class);
         pdService.initializeUnitOrganizationLocation(pd);
@@ -142,7 +139,7 @@ public abstract class S2STestBase<T> extends KcUnitTestBase {
             initializeDevelopmentProposal(document);
             Assert.assertNotNull(document.getDocumentHeader().getWorkflowDocument());
             saveProposalDocument(document);
-            document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
+            document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
             assertNotNull(document.getDevelopmentProposal());
             return document;
         } catch (Throwable e) {

@@ -29,15 +29,16 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.List;
-
+import static org.junit.Assert.*;
 /**
  * Test the ProtocolDeleteService implementation.
  */
-public class ProtocolDeleteServiceTest extends KcUnitTestBase {
+public class ProtocolDeleteServiceTest extends KcIntegrationTestBase {
 
     private static final String REASON = "my test reason";
     private static final String SUMMARY = "summary";
@@ -50,10 +51,8 @@ public class ProtocolDeleteServiceTest extends KcUnitTestBase {
         setThreadingPolicy(new Synchroniser());
     }};
     
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
 
         service = KraServiceLocator.getService(ProtocolDeleteService.class);
         protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);
@@ -64,7 +63,6 @@ public class ProtocolDeleteServiceTest extends KcUnitTestBase {
         service = null;
         protocolAmendRenewService = null;
         
-        super.tearDown();
     }
     
     @Test
@@ -84,7 +82,7 @@ public class ProtocolDeleteServiceTest extends KcUnitTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         String docNbr = protocolAmendRenewService.createAmendment(protocolDocument, protocolAmendmentBean);
-        ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
+        ProtocolDocument amendmentDocument = (ProtocolDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docNbr);
         
         List<String> modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
         assertEquals(10, modules.size());

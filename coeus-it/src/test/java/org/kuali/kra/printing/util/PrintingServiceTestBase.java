@@ -18,17 +18,16 @@ package org.kuali.kra.printing.util;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public abstract class PrintingServiceTestBase extends KcUnitTestBase {
+public abstract class PrintingServiceTestBase extends KcIntegrationTestBase {
     protected DocumentService documentService;
 
 	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KraServiceLocator.getService(DocumentService.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
@@ -38,6 +37,5 @@ public abstract class PrintingServiceTestBase extends KcUnitTestBase {
 	@After
 	public void tearDown() throws Exception {
 		GlobalVariables.setUserSession(null);
-		super.tearDown();
 	}
 }

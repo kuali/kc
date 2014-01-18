@@ -31,7 +31,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -43,18 +43,8 @@ import java.util.List;
 /**
  * This class is used to test the PDF Printing of Forms
  */
-public class PrintFormTest extends KcUnitTestBase {
+public class PrintFormTest extends KcIntegrationTestBase {
     private static final Log LOG = LogFactory.getLog(PrintFormTest.class);
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     @Test
     public void testPrint() throws IOException {

@@ -24,7 +24,7 @@ import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -33,8 +33,8 @@ import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.Collection;
 import java.util.Map;
-
-public class SponsorTemplateTermsExistenceRuleTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class SponsorTemplateTermsExistenceRuleTest extends KcIntegrationTestBase {
     MaintenanceDocument sponsorTemplateDoc;
     SponsorTemplateTermsExistenceRule rule;
     DocumentService docService;
@@ -42,7 +42,6 @@ public class SponsorTemplateTermsExistenceRuleTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         docService = KraServiceLocator.getService(DocumentService.class);
         sponsorTemplateDoc = (MaintenanceDocumentBase)docService.getNewDocument(MaintenanceDocumentBase.class);
         rule = new SponsorTemplateTermsExistenceRule();
@@ -54,7 +53,6 @@ public class SponsorTemplateTermsExistenceRuleTest extends KcUnitTestBase {
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         docService = null;
         sponsorTemplateDoc = null;
         rule = null;

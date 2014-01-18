@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationFixtureFactory;
 import org.kuali.kra.negotiations.service.NegotiationServiceImpl;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
-public class NegotiationDocumentRuleTest extends KcUnitTestBase {
+public class NegotiationDocumentRuleTest extends KcIntegrationTestBase {
 
     protected Negotiation negotiation;
     protected NegotiationDocumentRule rule;

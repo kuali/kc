@@ -31,15 +31,15 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class IacucProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class IacucProtocolSubmissionLookupHelperServiceTest extends KcIntegrationTestBase {
     
     private static final String EDIT_URL ="../iacucProtocolProtocol.do?viewDocument=false&docId=101&submissionId=102&docTypeName=IacucProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../iacucProtocolProtocol.do?viewDocument=true&docId=101&submissionId=102&docTypeName=IacucProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
@@ -53,8 +53,7 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBa
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         protocolSubmissionLookupableHelperServiceImpl = new IacucProtocolSubmissionLookupableHelperServiceImpl();
         protocolSubmissionLookupableHelperServiceImpl.setBusinessObjectClass(IacucProtocolSubmission.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
@@ -62,8 +61,7 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBa
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
-        
+
         protocolSubmissionLookupableHelperServiceImpl = null;
         GlobalVariables.setUserSession(null);
     }

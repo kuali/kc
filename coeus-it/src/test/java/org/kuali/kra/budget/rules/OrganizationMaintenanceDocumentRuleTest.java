@@ -33,13 +33,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.List;
-
+import static org.junit.Assert.*;
 public class OrganizationMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private OrganizationMaintenanceDocumentRule rule = null;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         rule = new OrganizationMaintenanceDocumentRule();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
@@ -47,7 +46,6 @@ public class OrganizationMaintenanceDocumentRuleTest extends MaintenanceRuleTest
     @After
     public void tearDown() throws Exception {
         rule = null;
-        super.tearDown();
     }
 
     @Test

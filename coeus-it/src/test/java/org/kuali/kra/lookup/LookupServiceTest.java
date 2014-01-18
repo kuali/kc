@@ -17,14 +17,14 @@ package org.kuali.kra.lookup;
 
 import org.junit.Test;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * This class tests KULRICE-984: Lookups - Relative Limit Gap
  * making sure that lookup resultSetLimits set in the DD for
@@ -33,7 +33,7 @@ import java.util.Map;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-public class LookupServiceTest extends KcUnitTestBase {
+public class LookupServiceTest extends KcIntegrationTestBase {
 
     public LookupServiceTest() {}
 

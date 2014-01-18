@@ -20,11 +20,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import static org.junit.Assert.assertEquals;
 
-public class QuestionVersioningTest extends KcUnitTestBase {
+public class QuestionVersioningTest extends KcIntegrationTestBase {
     
     private transient VersioningService versioningService;
     private Question originalQuestion;

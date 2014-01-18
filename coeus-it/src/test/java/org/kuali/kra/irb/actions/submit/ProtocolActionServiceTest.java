@@ -35,7 +35,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Timestamp;
 import java.util.*;
-
+import static org.junit.Assert.*;
 public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
 
 

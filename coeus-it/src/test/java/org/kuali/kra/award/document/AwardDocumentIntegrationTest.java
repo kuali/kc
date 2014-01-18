@@ -18,27 +18,18 @@ package org.kuali.kra.award.document;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-public class AwardDocumentIntegrationTest extends KcUnitTestBase {
-    
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-    
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
+import static org.junit.Assert.*;
+public class AwardDocumentIntegrationTest extends KcIntegrationTestBase {
     
     @Test
     public void testSavingDocument() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
 
-        AwardDocument doc = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
+        AwardDocument doc = (AwardDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument(AwardDocument.class);
         assertNotNull(doc);
     }
 }

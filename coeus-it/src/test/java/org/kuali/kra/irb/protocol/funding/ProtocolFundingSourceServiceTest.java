@@ -37,20 +37,20 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.Collections;
 import java.util.Map.Entry;
-
+import static org.junit.Assert.*;
 /**
 * The JUnit test class for <code>{@link ProtocolFundingSourceServiceImpl}</code>
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
+public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
 
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 

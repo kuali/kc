@@ -24,35 +24,17 @@ import org.kuali.kra.budget.rates.BudgetLaRate;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+import static org.junit.Assert.*;
 /**
  * This class is to test different scenarios of BreakupInterval calculation
  */
-public class BreakupIntervalServiceTest  extends KcUnitTestBase{
-
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
+public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
 
     /**
      * Test method for {@link org.kuali.kra.budget.calculator.BreakupIntervalService#calculate(org.kuali.kra.budget.calculator.BreakUpInterval)}.

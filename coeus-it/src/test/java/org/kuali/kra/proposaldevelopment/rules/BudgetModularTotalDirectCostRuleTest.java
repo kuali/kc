@@ -25,7 +25,7 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.impl.services.ConfigurationServiceImpl;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
@@ -43,7 +43,7 @@ import java.util.*;
 /**
  * Tests for the {@link BudgetModularTotalDirectCostRule BudgetModularTotalDirectCostRule} class.
  */
-public class BudgetModularTotalDirectCostRuleTest extends KcUnitTestBase {
+public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase {
 
     private static final List<BudgetDocumentVersion> ONE_COMPLETE = new ArrayList<BudgetDocumentVersion>();
     private static final List<BudgetDocumentVersion> TWO_COMPLETE = new ArrayList<BudgetDocumentVersion>();

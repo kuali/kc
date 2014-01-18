@@ -23,12 +23,12 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
-
-public class ProtocolReviewNotRequiredRuleTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolReviewNotRequiredRuleTest extends KcIntegrationTestBase {
     
     private static final String COMMENTS = "really cool comments";
     private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
@@ -36,20 +36,16 @@ public class ProtocolReviewNotRequiredRuleTest extends KcUnitTestBase {
     
     private ProtocolReviewNotRequiredRule rule;
     
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         rule = new ProtocolReviewNotRequiredRule();
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;
         
-        super.tearDown();
     }
     
     private Mockery context = new JUnit4Mockery() {{

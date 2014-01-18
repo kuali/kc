@@ -41,17 +41,6 @@
   <param name="datasource.pool.maxSize">5</param>
   <param name="datasource.pool.maxWait">30000</param>
 
-  <param name="unittest.jetty.server1.port" override="false" random="true">10000-10999</param>
-  <param name="unittest.jetty.server2.port" override="false" random="true">11000-11999</param>
-  <param name="unittest.jetty.server3.port" override="false" random="true">12000-12999</param>
-  <param name="unittest.jetty.server4.port" override="false" random="true">13000-13999</param>
-  <param name="unittest.jetty.server5.port" override="false" random="true">14000-14999</param>
-  <param name="unittest.jetty.server6.port" override="false" random="true">15000-15999</param>
-  <param name="unittest.jetty.server7.port" override="false" random="true">16000-16999</param>
-  <param name="unittest.jetty.server8.port" override="false" random="true">17000-17999</param>
-  <param name="unittest.jetty.server9.port" override="false" random="true">18000-18999</param>
-  <param name="unittest.jetty.server10.port" override="false" random="true">19000-19999</param>
-
   <param name="rice.struts.message.resources">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,KR-Test-ApplicationResources</param>
 
   <param name="rice.kr.set.soap.services.as.default">false</param>

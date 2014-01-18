@@ -26,7 +26,7 @@ import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * This class tests AddAwardProjectPersonRuleImpl
  */
-public class InstitutionalProposalProjectPersonsSaveRuleImplTest extends KcUnitTestBase {
+public class InstitutionalProposalProjectPersonsSaveRuleImplTest extends KcIntegrationTestBase {
 
     private static final String MISSING_UNIT_DETAILS_NOT_IDENTIFIED = "Missing unit Details not identified";
     private static final int ROLODEX_ID = 1002;

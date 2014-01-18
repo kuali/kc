@@ -21,12 +21,12 @@ import org.junit.Test;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationFixtureFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Calendar;
-
-public class NegotiationActivityRuleTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class NegotiationActivityRuleTest extends KcIntegrationTestBase {
 
     private NegotiationActivityRuleImpl rule;
     private Negotiation negotiation;

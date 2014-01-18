@@ -19,29 +19,28 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-public class SubAwardDocumentTest extends KcUnitTestBase{
+import static org.junit.Assert.*;
+public class SubAwardDocumentTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp(); 
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
     
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     @Test 
     public void testSave() throws Exception {
-        SubAwardDocument document = (SubAwardDocument) getDocumentService().getNewDocument("SubAwardDocument");
+        SubAwardDocument document = (SubAwardDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument("SubAwardDocument");
         setBaseDocumentFields(document, "SubcontractDocumentTest test doc");
-        getDocumentService().saveDocument(document);
-        SubAwardDocument savedDocument =  (SubAwardDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
+        KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
+        SubAwardDocument savedDocument =  (SubAwardDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertNotNull(savedDocument);
         checkDocumentFields(savedDocument,document,  "SubcontractDocumentTest test doc");
     }

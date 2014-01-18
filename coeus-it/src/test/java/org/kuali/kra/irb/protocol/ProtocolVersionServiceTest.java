@@ -25,13 +25,13 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
-
-public class ProtocolVersionServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolVersionServiceTest extends KcIntegrationTestBase {
     
     private static final String PROTOCOL_NUMBER = "1021000009";
     
@@ -39,7 +39,6 @@ public class ProtocolVersionServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);
     }
@@ -47,7 +46,6 @@ public class ProtocolVersionServiceTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     
     @Test

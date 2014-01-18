@@ -21,25 +21,21 @@ import org.junit.Test;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolFactory;
-
+import static org.junit.Assert.*;
 public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
     
     private CommitteeDecisionRule rule;
 
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         rule = new CommitteeDecisionRule();
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;
         
-        super.tearDown();
     }
     
     /**

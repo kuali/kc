@@ -23,7 +23,7 @@ import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
-
+import static org.junit.Assert.*;
 /**
  * Contains tests for <code>{@link InvestigatorCreditTypeRule}</code>
  * 
@@ -33,23 +33,14 @@ public class InvestigatorCreditTypeRuleTest extends MaintenanceRuleTestBase {
     private static final InvestigatorCreditTypeFixture SPACE = InvestigatorCreditTypeFixture.SPACE;
     private static final InvestigatorCreditTypeFixture NEGLIGENCE = InvestigatorCreditTypeFixture.NEGLIGENCE;
     
-    /**
-     * @throws Exception 
-     * @see org.kuali.kra.KraTestBase#setUp()
-     */
+
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
-    /**
-     * @throws Exception 
-     * @see org.kuali.kra.KraTestBase#tearDown()
-     */
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     /**

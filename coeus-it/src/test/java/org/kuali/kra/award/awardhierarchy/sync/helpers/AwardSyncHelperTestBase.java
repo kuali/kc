@@ -21,9 +21,9 @@ import org.junit.Before;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncHelpersService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
-public abstract class AwardSyncHelperTestBase extends KcUnitTestBase {
+public abstract class AwardSyncHelperTestBase extends KcIntegrationTestBase {
 
     protected AwardSyncHelpersService awardSyncHelpersService;
     protected String className;

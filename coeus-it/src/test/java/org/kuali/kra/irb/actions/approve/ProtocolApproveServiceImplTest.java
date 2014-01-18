@@ -34,7 +34,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -42,8 +42,8 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
-public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolApproveServiceImplTest extends KcIntegrationTestBase {
     
     private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
     private static final String COMMENTS = "some comments go here";
@@ -59,10 +59,8 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
         setThreadingPolicy(new Synchroniser());
     }};
            
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
 
         service = new ProtocolApproveServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
@@ -71,12 +69,10 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
         service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         service = null;
         
-        super.tearDown();
     }
 
     @Test

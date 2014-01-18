@@ -29,7 +29,7 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -42,8 +42,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolLookupHelperServiceTest extends KcIntegrationTestBase {
     
     private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../protocolProtocol.do?viewDocument=true&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
@@ -63,7 +63,6 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         protocolLookupableHelperServiceImpl = new ProtocolLookupableHelperServiceImpl();
         protocolLookupableHelperServiceImpl.setBusinessObjectClass(Protocol.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
@@ -71,7 +70,6 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         protocolLookupableHelperServiceImpl = null;
         GlobalVariables.setUserSession(null);
     }

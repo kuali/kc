@@ -26,7 +26,7 @@ import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
@@ -36,18 +36,18 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.UUID;
-
+import static org.junit.Assert.*;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 /**
  * Unit tests for the BudgetService interface
  */
-public class BudgetServiceTest extends KcUnitTestBase {
+public class BudgetServiceTest extends KcIntegrationTestBase {
     
     private BudgetCommonService budgetCommonService;
     private ProposalDevelopmentService proposalDevelopmentService;
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         budgetCommonService = getService(ProposalBudgetService.class);
         proposalDevelopmentService = getService(ProposalDevelopmentService.class);
@@ -56,7 +56,6 @@ public class BudgetServiceTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     
     /**
@@ -130,7 +129,7 @@ public class BudgetServiceTest extends KcUnitTestBase {
      */
     protected ProposalDevelopmentDocument getPersistedProposalDevelopmentDocument() throws Exception {
         ProposalDevelopmentDocument pdDocument = 
-            (ProposalDevelopmentDocument) getDocumentService().getNewDocument(ProposalDevelopmentDocument.class);
+            (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument(ProposalDevelopmentDocument.class);
         
         pdDocument.getDocumentHeader().setDocumentDescription("Testing budget versions");
         pdDocument.getDevelopmentProposal().setActivityTypeCode("2");
@@ -144,8 +143,8 @@ public class BudgetServiceTest extends KcUnitTestBase {
         
         proposalDevelopmentService.initializeUnitOrganizationLocation(pdDocument);
         proposalDevelopmentService.initializeProposalSiteNumbers(pdDocument);
-        
-        getDocumentService().saveDocument(pdDocument);
+
+        KRADServiceLocatorWeb.getDocumentService().saveDocument(pdDocument);
         
         pdDocument.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
         

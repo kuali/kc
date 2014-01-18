@@ -20,14 +20,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
-
-public class ProtocolFinderDaoOjbTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolFinderDaoOjbTest extends KcIntegrationTestBase {
     
     private static final String PROTOCOL_NUMBER = "0906000003";
     private static final String PROTOCOL_NUMBER2 = "0906000002";
@@ -36,7 +36,6 @@ public class ProtocolFinderDaoOjbTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         protocolFinder = KraServiceLocator.getService(ProtocolFinderDao.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
@@ -44,7 +43,6 @@ public class ProtocolFinderDaoOjbTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        super.tearDown();
     }
     
     @SuppressWarnings("unchecked")

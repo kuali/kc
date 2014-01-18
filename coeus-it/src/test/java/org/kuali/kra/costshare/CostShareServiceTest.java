@@ -20,13 +20,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
-
+import static org.junit.Assert.*;
 @NAMESPACE(namespace=Constants.KC_GENERIC_PARAMETER_NAMESPACE)
 @COMPONENT(component=Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE)
-public class CostShareServiceTest extends KcUnitTestBase {
+public class CostShareServiceTest extends KcIntegrationTestBase {
     
     private CostShareService costShareService;
     private CostShareServiceImpl costShareServiceImpl;
@@ -45,7 +47,7 @@ public class CostShareServiceTest extends KcUnitTestBase {
 
     @Test
     public void testGetCostShareLabel() {
-        String parameterForBackup = getParameterService().getParameterValueAsString(this.getClass(), "CostShareProjectPeriodNameLabel");
+        String parameterForBackup = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(this.getClass(), "CostShareProjectPeriodNameLabel");
         updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", "Project Period");
         String result = costShareService.getCostShareLabel();
         assertEquals("Project Period", result);
@@ -56,7 +58,7 @@ public class CostShareServiceTest extends KcUnitTestBase {
     
     @Test
     public void testValidateProjectPeriodAsFiscalYear() {
-        String parameterForBackup = getParameterService().getParameterValueAsString(this.getClass(), "CostShareProjectPeriodNameLabel");
+        String parameterForBackup = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(this.getClass(), "CostShareProjectPeriodNameLabel");
         updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", "Project Period");
         
         boolean result = costShareService.validateProjectPeriodAsFiscalYear();
@@ -68,7 +70,7 @@ public class CostShareServiceTest extends KcUnitTestBase {
     
     @Test
     public void tesValidateProjectPeriodAsProjectPeriod() {
-        String parameterForBackup = getParameterService().getParameterValueAsString(this.getClass(), "CostShareProjectPeriodNameLabel");
+        String parameterForBackup = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(this.getClass(), "CostShareProjectPeriodNameLabel");
         updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", "Project Period");
         
         boolean result = costShareService.validateProjectPeriodAsProjectPeriod();

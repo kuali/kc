@@ -34,15 +34,16 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
-public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolGenericActionsServiceTest extends KcIntegrationTestBase {
 
     private static final String BASIC_COMMENT = "some dummy comments here";
     private static final Date BASIC_ACTION_DATE = new Date(System.currentTimeMillis());
@@ -54,11 +55,9 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         setThreadingPolicy(new Synchroniser());
     }};
 
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new ProtocolGenericActionServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
@@ -66,12 +65,10 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
         service = null;
         
-        super.tearDown();
     }
 
     @Test
@@ -161,7 +158,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         submission.setSubmissionStatusCode(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         submission.setProtocol(protocolDocument.getProtocol());
-        getBusinessObjectService().save(submission);
+        KNSServiceLocator.getBusinessObjectService().save(submission);
         ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();
         service.irbAcknowledgement(protocolDocument.getProtocol(), actionBean);
         

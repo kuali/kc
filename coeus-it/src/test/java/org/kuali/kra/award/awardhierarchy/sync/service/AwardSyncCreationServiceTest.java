@@ -28,9 +28,10 @@ import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
-public class AwardSyncCreationServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class AwardSyncCreationServiceTest extends KcIntegrationTestBase {
 
     private Award award;
     private AwardSyncCreationService awardSyncCreationService;

@@ -25,12 +25,12 @@ import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
+public abstract class CommitteeDecisionRuleBase extends KcIntegrationTestBase {
     
     protected static final Integer YES_COUNT = 2;
     protected static final Integer NO_COUNT = 0;

@@ -21,13 +21,13 @@ import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.kra.util.DateUtils;
 
 import java.sql.Date;
 import java.util.List;
-
-public class ProtocolRiskLevelServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProtocolRiskLevelServiceTest extends KcIntegrationTestBase {
     
     private static final String LOW_RISK_CODE = "1";
     private static final String HIGH_RISK_CODE = "5";
@@ -40,20 +40,16 @@ public class ProtocolRiskLevelServiceTest extends KcUnitTestBase {
     
     private ProtocolRiskLevelServiceImpl service;
     
-    @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         service = new ProtocolRiskLevelServiceImpl();
     }
     
-    @Override
     @After
     public void tearDown() throws Exception {
         service = null;
         
-        super.tearDown();
     }
     
     @Test

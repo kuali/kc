@@ -28,7 +28,7 @@ import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.sql.Date;
@@ -41,7 +41,7 @@ import java.util.GregorianCalendar;
  * guys never read anything about unit testing?
  * 
  */ 
-public class ApprovedForeignTravelBeanTest extends KcUnitTestBase {
+public class ApprovedForeignTravelBeanTest extends KcIntegrationTestBase {
     private static final String DESTINATION_NAME = "Tokyo, Japan";
     private static final Date START_DATE = new Date(new GregorianCalendar(2009, Calendar.JUNE, 1).getTimeInMillis());
     private static final Date END_DATE = new Date(new GregorianCalendar(2009, Calendar.JUNE, 10).getTimeInMillis());
@@ -61,7 +61,6 @@ public class ApprovedForeignTravelBeanTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         award = new Award();
         AwardForm form = new AwardForm();
         AwardDocument awardDocument = new AwardDocument();
@@ -84,7 +83,6 @@ public class ApprovedForeignTravelBeanTest extends KcUnitTestBase {
     public void tearDown() throws Exception {
         bean = null;
         award = null;
-        super.tearDown();
     }
 
     @Test

@@ -35,7 +35,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcEmailService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.ken.api.notification.Notification;
@@ -45,8 +45,8 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
-
-public class KcNotificationServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class KcNotificationServiceTest extends KcIntegrationTestBase {
     
     private static final String MODULE_CODE_FIELD = "moduleCode";
     private static final String ACTION_CODE_FIELD = "actionCode";

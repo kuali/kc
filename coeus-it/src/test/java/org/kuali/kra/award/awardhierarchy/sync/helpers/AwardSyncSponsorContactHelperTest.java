@@ -23,7 +23,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
-
+import static org.junit.Assert.*;
 public class AwardSyncSponsorContactHelperTest extends AwardSyncHelperTestBase {
     
     protected AwardSponsorContact contact;

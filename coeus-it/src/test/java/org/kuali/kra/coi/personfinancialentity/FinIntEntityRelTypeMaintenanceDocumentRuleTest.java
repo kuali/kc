@@ -29,7 +29,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 public class FinIntEntityRelTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     
     private static final String REL_TYPE_SORT_ID_FIELD_NAME = "sortId";
@@ -46,8 +46,7 @@ public class FinIntEntityRelTypeMaintenanceDocumentRuleTest extends MaintenanceR
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        
+
         rule = new FinIntEntityRelTypeMaintenanceDocumentRule();
         rule.setBusinessObjectService(getMockBusinessObjectService());
     }
@@ -56,7 +55,6 @@ public class FinIntEntityRelTypeMaintenanceDocumentRuleTest extends MaintenanceR
     public void tearDown() throws Exception {
         rule = null;
         
-        super.tearDown();
     }
     
     @Test

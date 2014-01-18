@@ -27,7 +27,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.util.*;
@@ -35,7 +35,7 @@ import java.util.*;
 /**
  * This class tests AwardCreditSplitBean
  */
-public class InstitutionalProposalCreditSplitBeanTest  extends KcUnitTestBase {
+public class InstitutionalProposalCreditSplitBeanTest  extends KcIntegrationTestBase {
     private static final double DELTA = 0.1;
     
     private InstitutionalProposal institutionalProposal;

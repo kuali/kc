@@ -20,16 +20,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.FiscalYearMonthService;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 
 import java.util.Calendar;
 import java.util.Map;
-
+import static org.junit.Assert.*;
 /**
  * This test is very fragile.  It depends on test methods running in an exact order.  This has been partially fixed.
  */
-public class FiscalYearMonthServiceImplTest extends KcUnitTestBase {
+public class FiscalYearMonthServiceImplTest extends KcIntegrationTestBase {
     FiscalYearMonthServiceImpl fiscalYearMonthService;
     @Before
     public void setUp() throws Exception {
@@ -114,11 +115,11 @@ public class FiscalYearMonthServiceImplTest extends KcUnitTestBase {
     
     @Test
     public void testGetCurrentFiscalData2() {
-        Parameter parm = getParameterService().getParameter(FiscalYearMonthServiceImpl.KC_GENERAL_NAMESPACE, 
+        Parameter parm = CoreFrameworkServiceLocator.getParameterService().getParameter(FiscalYearMonthServiceImpl.KC_GENERAL_NAMESPACE,
                 FiscalYearMonthServiceImpl.DOCUMENT_COMPONENT_NAME, FiscalYearMonthServiceImpl.FISCAL_YEAR_MONTH_PARAMETER_NAME);
         Parameter.Builder parameterForUpdate = Parameter.Builder.create(parm);
         parameterForUpdate.setValue("0");
-        getParameterService().updateParameter(parameterForUpdate.build());
+        CoreFrameworkServiceLocator.getParameterService().updateParameter(parameterForUpdate.build());
         
         Calendar january = Calendar.getInstance();
         january.set(Calendar.MONTH, Calendar.JANUARY);
@@ -156,10 +157,10 @@ public class FiscalYearMonthServiceImplTest extends KcUnitTestBase {
         assertEquals(2010, result.get(Calendar.YEAR));
         assertEquals(31, result.get(Calendar.DATE));
 
-        parm = getParameterService().getParameter(FiscalYearMonthServiceImpl.KC_GENERAL_NAMESPACE,
+        parm = CoreFrameworkServiceLocator.getParameterService().getParameter(FiscalYearMonthServiceImpl.KC_GENERAL_NAMESPACE,
                 FiscalYearMonthServiceImpl.DOCUMENT_COMPONENT_NAME, FiscalYearMonthServiceImpl.FISCAL_YEAR_MONTH_PARAMETER_NAME);
         parameterForUpdate = Parameter.Builder.create(parm);
         parameterForUpdate.setValue("6");
-        getParameterService().updateParameter(parameterForUpdate.build());
+        CoreFrameworkServiceLocator.getParameterService().updateParameter(parameterForUpdate.build());
     }
 }

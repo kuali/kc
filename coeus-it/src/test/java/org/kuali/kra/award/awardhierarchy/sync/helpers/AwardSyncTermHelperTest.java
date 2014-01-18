@@ -25,7 +25,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.bo.SponsorTermType;
-
+import static org.junit.Assert.*;
 public class AwardSyncTermHelperTest extends AwardSyncHelperTestBase {
 
     protected AwardSponsorTerm term;

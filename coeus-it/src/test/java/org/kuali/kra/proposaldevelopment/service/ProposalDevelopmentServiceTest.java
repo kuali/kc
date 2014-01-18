@@ -24,10 +24,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
-public class ProposalDevelopmentServiceTest extends KcUnitTestBase {
+import static org.junit.Assert.*;
+public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
     
     private ProposalDevelopmentService proposalDevelopmentService;
     private BudgetService budgetService;
@@ -35,7 +37,6 @@ public class ProposalDevelopmentServiceTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         budgetService = KraServiceLocator.getService(BudgetService.class);
         document = ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT.getDocument();
@@ -44,14 +45,13 @@ public class ProposalDevelopmentServiceTest extends KcUnitTestBase {
     
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
     }
     
     @Test
     public void testDeleteProposal() throws WorkflowException {
-        getDocumentService().saveDocument(document);
+        KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
         proposalDevelopmentService.deleteProposal(document);
-        document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
+        document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertTrue(document.isProposalDeleted());
         assertTrue(document.getDevelopmentProposal().getTitle() == null);
     }
@@ -60,13 +60,13 @@ public class ProposalDevelopmentServiceTest extends KcUnitTestBase {
     public void testDeleteProposalWithBudget() throws WorkflowException {
         BudgetDocument<DevelopmentProposal> budget1 = budgetService.addBudgetVersion(document, "Ver1");
         BudgetDocument<DevelopmentProposal> budget2 = budgetService.addBudgetVersion(document, "Ver2 With Long Name");
-        getDocumentService().saveDocument(document);
+        KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
         proposalDevelopmentService.deleteProposal(document);
-        document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
+        document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertTrue(document.isProposalDeleted());
         assertTrue(document.getDevelopmentProposal().getTitle() == null);
-        budget1 = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budget1.getDocumentNumber());
-        budget2 = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budget2.getDocumentNumber());
+        budget1 = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(budget1.getDocumentNumber());
+        budget2 = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(budget2.getDocumentNumber());
         assertTrue(budget1.isBudgetDeleted());
         assertTrue(budget2.isBudgetDeleted());
         assertTrue(budget1.getBudget().getName() == null);

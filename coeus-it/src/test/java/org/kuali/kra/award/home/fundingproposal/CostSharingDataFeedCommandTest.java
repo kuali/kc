@@ -23,7 +23,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-
+import static org.junit.Assert.*;
 public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
 
     private CostShareType costShareType;
