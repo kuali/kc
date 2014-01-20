@@ -1,6 +1,0 @@
-"CNTXT_ID","NMSPC_CD","NM","TYP_ID","ACTV","VER_NBR","DESC_TXT"
-"KC-AWARD-CONTEXT","KC-AWARD","KC Award Context","KC1003","Y",1,"Kuali Coeus Award Context"
-"KC-COIDISCLOSURE-CONTEXT","KC-COIDISCLOSURE","KC Annual COI Disclosure Context","KC1003","Y",1,"Kuali Coeus Annual COI Disclosure Context"
-"KC-IACUC-CONTEXT","KC-IACUC","KC IACUC Context","KC1003","Y",1,"Kuali Coeus IACUC Context"
-"KC-PD-CONTEXT","KC-PD","KC Proposal Development Context","KC1003","Y",1,"Kuali Coeus Proposal Development Context"
-"KC-PROTOCOL-CONTEXT","KC-PROTOCOL","KC Protocol Context","KC1003","Y",1,"Kuali Coeus Protocol Context"

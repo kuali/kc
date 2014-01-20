@@ -1,1 +1,0 @@
-update KRNS_PARM_T set TXT = '1' where parm_nm = 'scope.sync.PAYMENTS_AND_INVOICES_TAB.AwardComment.commentTypeCode' and nmspc_cd = 'KC-AWARD' and parm_dtl_typ_cd = 'Document';

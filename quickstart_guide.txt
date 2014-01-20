@@ -1,2 +1,0 @@
-The quickstart guide has been replaced with the PDF-formatted Installation Guide.
-Please see that document for installation instructions.

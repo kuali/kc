@@ -1,5 +1,0 @@
-DELETE FROM KRNS_PARM_T T 
-  WHERE T.NMSPC_CD = 'KC-AWARD' 
-    AND T.PARM_DTL_TYP_CD = 'D' 
-    AND T.PARM_NM = 'awardPermissionsHelp';
-COMMIT;

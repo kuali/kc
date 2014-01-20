@@ -1,3 +1,0 @@
-alter table AWARD_REPORT_TERMS modify OSP_DISTRIBUTION_CODE null;
-alter table AWARD_REPORT_TERMS modify FREQUENCY_CODE null;
-alter table AWARD_REPORT_TERMS modify FREQUENCY_BASE_CODE null;

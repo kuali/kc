@@ -1,4 +1,0 @@
--- Update namespaces
-update KRNS_PARM_T set APPL_NMSPC_CD='KUALI' where PARM_NM like 'ACTIVITY_TYPE_CODE_%';
-update KRNS_PARM_T set APPL_NMSPC_CD='KUALI' where PARM_NM like 'S2S_SUBMISSION_TYPE_CODE_%';
-update KRNS_PARM_T set APPL_NMSPC_CD='KUALI' where PARM_NM like 'PROPOSAL_TYPE_CODE_%';

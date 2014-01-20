@@ -1,2 +1,0 @@
-alter table PROPOSAL_NOTEPAD add NOTE_ID NUMBER(22,0)
-/

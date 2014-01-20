@@ -1,2 +1,0 @@
-update KRMS_CNTXT_T set TYP_ID='KC1003' where CNTXT_ID='KC-PD-CONTEXT'
-/

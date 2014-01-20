@@ -1,1 +1,0 @@
-alter table IP_REVIEW modify IP_REVIEWER varchar2(40);

@@ -1,1 +1,0 @@
-alter table budget_document add parent_document_type_code varchar2(10); 

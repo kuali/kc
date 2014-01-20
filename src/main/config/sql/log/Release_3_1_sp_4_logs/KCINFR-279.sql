@@ -1,2 +1,0 @@
-delete from krns_parm_t where PARM_NM = 'AWARD_CREATE_ACCOUNT';
-insert into krns_parm_t values('KC', 'KC-AWARD', 'Document', 'FIN_SYSTEM_INTEGRATION_ON', 1, 'CONFG', 'OFF', 'Parameter to set the financial system integration feature ON or OFF.', 'A', SYS_GUID());
