@@ -1,2 +1,0 @@
-form.document.person.ssn
-ssn*
