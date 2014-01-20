@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--************************************************************************************************-->
+<!-- TITLE:    Education Department, Abstract Form                                                      -->
+<!-- DATE:     October 22, 2003                                                                                    -->
+<!-- VERSION:  1.0                                                                                                        -->
+<!--                                                                                                                                -->
+<!-- COMMENTS: To attach a file of abstract                                                                -->
+<!--                                                                                                                                -->
+<!-- REVISION HISTORY:                                                                                              -->
+<!--                                                                                                                                -->
+<!--************************************************************************************************-->
+<xs:schema targetNamespace="http://apply.grants.gov/forms/ED_Abstract-V1.0" xmlns:ED_Abstract="http://apply.grants.gov/forms/ED_Abstract-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+    <xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Attachments-V1.0.xsd"/>
+    <xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/GlobalLibrary-V1.0.xsd"/>
+    <xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Global-V1.0.xsd"/>
+    <!-- MAIN ELEMENT GROUP -->
+    <xs:element name="AbstractAttachments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Attachments" type="att:AttachedFileDataType"/>
+            </xs:sequence>
+            <xs:attribute ref="globLib:FormVersion" use="required" fixed="1.0"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

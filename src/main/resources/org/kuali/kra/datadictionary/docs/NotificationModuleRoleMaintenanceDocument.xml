@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="NotificationModuleRoleMaintenanceDocument" parent="NotificationModuleRoleMaintenanceDocument-parentBean"/>
+
+  <bean id="NotificationModuleRoleMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRole"/>
+    <property name="maintainableClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRoleMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="NotificationModuleRoleMaintenanceDocument-EditNotificationModuleRole"/>
+        <ref bean="NotificationModuleRoleQualifierMaintenanceDocument-EditNotificationModuleRoleQualifierList"/>        
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>notificationModuleRoleId</value>
+      </list>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
+    
+    <property name="documentTypeName" value="NotificationModuleRoleMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="allowsNoteAttachments" value="false"/> 
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="NotificationModuleRoleMaintenanceDocument-EditNotificationModuleRole" parent="NotificationModuleRoleMaintenanceDocument-EditNotificationModuleRole-parentBean"/>
+
+  <bean id="NotificationModuleRoleMaintenanceDocument-EditNotificationModuleRole-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Notification Module Role"/>
+    <property name="title" value="Edit Notification Module Role"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="notificationModuleRoleId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="moduleCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

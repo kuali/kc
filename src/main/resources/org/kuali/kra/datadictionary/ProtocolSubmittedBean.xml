@@ -1,0 +1,230 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ProtocolSubmittedBean" parent="ProtocolSubmittedBean-parentBean" />
+	<bean id="ProtocolSubmittedBean-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.meeting.ProtocolSubmittedBean" />
+		<property name="objectLabel" value="Meeting Details" />
+		<property name="titleAttribute" value="ProtocolSubmittedBean-reason" />
+		<property name="attributes" >
+			<list>
+                <ref bean="ProtocolSubmitted-protocolTitle" />
+                <ref bean="ProtocolSubmitted-protocolNumber" />
+                <ref bean="ProtocolSubmitted-personName" />
+                <ref bean="ProtocolSubmitted-protocolPersonId" />
+                <ref bean="ProtocolSubmitted-personId" />
+                <ref bean="ProtocolSubmitted-submissionTypeCode" />
+                <ref bean="ProtocolSubmitted-submissionTypeQualifierCode" />
+                <ref bean="ProtocolSubmitted-protocolReviewTypeCode" />
+                <ref bean="ProtocolSubmitted-submissionStatusCode" />
+                <ref bean="ProtocolSubmitted-submissionDate" />
+                <ref bean="ProtocolSubmitted-rolodexId" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	<bean id="ProtocolSubmitted-protocolNumber" parent="ProtocolSubmitted-protocolNumber-parentBean" />
+    <bean id="ProtocolSubmitted-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocolNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Protocol No" />
+        <property name="shortLabel" value="Protocol No" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Protocol Number" />
+        <property name="description" value="Protocol Number" />
+    </bean>
+    <bean id="ProtocolSubmitted-submissionTypeCode" parent="ProtocolSubmitted-submissionTypeCode-parentBean" />
+    <bean id="ProtocolSubmitted-submissionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="submissionTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submission Type" />
+        <property name="shortLabel" value="Submission Type" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Submission Type Code" />
+        <property name="description" value="Submission Type Code" />
+    </bean>
+
+    <bean id="ProtocolSubmitted-submissionTypeQualifierCode" parent="ProtocolSubmitted-submissionTypeQualifierCode-parentBean" />
+    <bean id="ProtocolSubmitted-submissionTypeQualifierCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="submissionTypeQualifierCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sub. Type Qualifier" />
+        <property name="shortLabel" value="Sub. Type Qualifier" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Submission Type Qual Code" />
+        <property name="description" value="Submission Type Qual Code" />
+    </bean>
+
+    <bean id="ProtocolSubmitted-protocolReviewTypeCode" parent="ProtocolSubmitted-protocolReviewTypeCode-parentBean" />
+    <bean id="ProtocolSubmitted-protocolReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocolReviewTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sub. Review Type" />
+        <property name="shortLabel" value="Sub. Review Type" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Protocol Review Type Code" />
+        <property name="description" value="Protocol Review Type Code" />
+    </bean>
+
+    <bean id="ProtocolSubmitted-submissionStatusCode" parent="ProtocolSubmitted-submissionStatusCode-parentBean" />
+    <bean id="ProtocolSubmitted-submissionStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="submissionStatusCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submission Status" />
+        <property name="shortLabel" value="Submission Status" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Submission Status Code" />
+        <property name="description" value="Submission Status Code" />
+    </bean>
+
+
+    <bean id="ProtocolSubmitted-submissionDate" parent="ProtocolSubmitted-submissionDate-parentBean" />
+    <bean id="ProtocolSubmitted-submissionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="submissionDate" />
+        <property name="label" value="Submission Date" />
+        <property name="shortLabel" value="Submission Date" />
+        <property name="summary" value="Submission Date" />
+        <property name="description" value="Submission Date" />
+    </bean>	
+	<bean id="ProtocolSubmitted-protocolPersonId" parent="ProtocolSubmitted-protocolPersonId-parentBean" />
+	<bean id="ProtocolSubmitted-protocolPersonId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolPersonId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Person Id" />
+		<property name="shortLabel" value="Protocol Person Id" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Person Id" />
+		<property name="description" value="Protocol Person Id" />
+	</bean>
+	<bean id="ProtocolSubmitted-personId" parent="ProtocolSubmitted-personId-parentBean" />
+	<bean id="ProtocolSubmitted-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person Id" />
+		<property name="shortLabel" value="Person Id" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="9" />
+		</property>
+		<property name="summary" value="Person Id" />
+		<property name="description" value="Person Id" />
+	</bean>
+
+	<bean id="ProtocolSubmitted-personName" parent="ProtocolSubmitted-personName-parentBean" />
+	<bean id="ProtocolSubmitted-personName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person Name" />
+		<property name="shortLabel" value="Person Name" />
+		<property name="maxLength" value="90" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Person Name" />
+		<property name="description" value="Person Name" />
+	</bean>
+	<bean id="ProtocolSubmitted-rolodexId" parent="ProtocolSubmitted-rolodexId-parentBean" />
+	<bean id="ProtocolSubmitted-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="rolodexId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Rolodex Id" />
+		<property name="shortLabel" value="Rolodex Id" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Rolodex Id" />
+		<property name="description" value="Rolodex Id" />
+	</bean>
+	<bean id="ProtocolSubmitted-protocolTitle" parent="ProtocolSubmitted-protocolTitle-parentBean" />
+	<bean id="ProtocolSubmitted-protocolTitle-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolTitle" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Title" />
+		<property name="shortLabel" value="Protocol Title" />
+		<property name="maxLength" value="2000" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+    	<property name="required" value="true" />
+		<property name="control" >
+      		<bean parent="TextareaControlDefinition"
+            	p:rows="4"
+            	p:cols="40" />
+		</property>
+		<property name="summary" value="Title" />
+		<property name="description" value="Title" />
+	</bean>
+
+</beans>

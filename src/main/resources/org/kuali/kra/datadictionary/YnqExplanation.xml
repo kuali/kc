@@ -1,0 +1,156 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="YnqExplanation" parent="YnqExplanation-parentBean" />
+
+  <bean id="YnqExplanation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.YnqExplanation" />
+		<property name="objectLabel" value="Ynq Explanation" />
+    <property name="inquiryDefinition" >
+      <ref bean="YnqExplanation-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="YnqExplanation-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="questionId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="YnqExplanation-explanation" />
+        <ref bean="YnqExplanation-explanationType" />
+        <ref bean="YnqExplanation-questionId" />
+        <ref bean="YnqExplanation-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="YnqExplanation-explanation" parent="YnqExplanation-explanation-parentBean" />
+
+  <bean id="YnqExplanation-explanation-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="explanation" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="400" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="40" />
+    </property>
+    <property name="summary" value="Explanation" />
+    <property name="description" value="Explanation" />
+  </bean>
+  <bean id="YnqExplanation-explanationType" parent="YnqExplanation-explanationType-parentBean" />
+
+  <bean id="YnqExplanation-explanationType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="explanationType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Explanation Type" />
+    <property name="shortLabel" value="Explanation Type" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Explanation Type" />
+    <property name="description" value="Explanation Type" />
+  </bean>
+  <bean id="YnqExplanation-questionId" parent="YnqExplanation-questionId-parentBean" />
+
+  <bean id="YnqExplanation-questionId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="questionId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Question Id" />
+    <property name="shortLabel" value="Question Id" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Question Id" />
+    <property name="description" value="Question Id" />
+  </bean>
+  <bean id="YnqExplanation-versionNumber" parent="YnqExplanation-versionNumber-parentBean" />
+
+  <bean id="YnqExplanation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="YnqExplanation-inquiryDefinition" parent="YnqExplanation-inquiryDefinition-parentBean" />
+
+  <bean id="YnqExplanation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Ynq Explanation" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Ynq Explanation" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="explanationType"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="questionId"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="explanation" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="YnqExplanation-lookupDefinition" parent="YnqExplanation-lookupDefinition-parentBean" />
+
+  <bean id="YnqExplanation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Ynq Explanation Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="explanationType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="questionId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="explanation" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="explanationType"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="questionId"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="explanation" />
+      </list>
+    </property>
+  </bean>
+</beans>

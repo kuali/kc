@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="NotificationTypeMaintenanceDocument" parent="NotificationTypeMaintenanceDocument-parentBean"/>
+
+  <bean id="NotificationTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationType"/>
+    <property name="maintainableClass" value="org.kuali.kra.common.notification.bo.NotificationTypeMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="NotificationTypeMaintenanceDocument-EditNotificationType"/>
+        <ref bean="NotificationTypeRecipientMaintenanceDocument-EditNotificationTypeRecipientList"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>notificationTypeId</value>
+      </list>
+    </property>	<property name="allowsRecordDeletion" value="true" />    <property name="allowsNewOrCopy" value="false"/>
+    <property name="documentTypeName" value="NotificationTypeMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.common.notification.rules.NotificationTypeMaintenanceDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.common.notification.NotificationMaintenanceDocumentAuthorizer"/>
+
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/KcNotificationModuleRoleService.js</value>
+        <value>../scripts/notificationMaint.js</value>
+      </list>
+    </property>    
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="NotificationTypeMaintenanceDocument-EditNotificationType" parent="NotificationTypeMaintenanceDocument-EditNotificationType-parentBean"/>
+  <bean id="NotificationTypeMaintenanceDocument-EditNotificationType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Notification Types"/>
+    <property name="title" value="Edit Notifications"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="notificationTypeId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="moduleCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="actionCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subject"/>
+        <bean parent="MaintainableFieldDefinition" p:name="message"/>
+        <bean parent="MaintainableFieldDefinition" p:name="promptUser"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>

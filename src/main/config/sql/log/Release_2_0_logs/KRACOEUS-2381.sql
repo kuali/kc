@@ -1,0 +1,1 @@
+delete from SPONSOR where SPONSOR_CODE like '% ';

@@ -1,0 +1,1 @@
+alter table AWARD add LEAD_UNIT_NUMBER varchar2(8);

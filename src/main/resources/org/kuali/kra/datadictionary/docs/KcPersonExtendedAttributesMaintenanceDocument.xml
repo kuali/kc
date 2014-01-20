@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="KcPersonExtendedAttributesMaintenanceDocument" parent="KcPersonExtendedAttributesMaintenanceDocument-parentBean"/>
+
+  <bean id="KcPersonExtendedAttributesMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.KcPersonExtendedAttributes"/>
+    <property name="maintainableClass" value="org.kuali.kra.bo.KcPersonExtendedAttributesMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="KcPersonExtendedAttributesMaintenanceDocument-EditPerson"/>
+        <ref bean="PersonBiosketchMaintenanceDocument-EditPersonBiosketchList"/>
+        <ref bean="PersonDegreeMaintenanceDocument-EditPersonDegreeList"/>
+        <ref bean="PersonAppointmentMaintenanceDocument-EditPersonAppointmentList"/>
+        <ref bean="PersonCustomDataMaintenanceDocument-EditPersonCustomDataList"/>
+      </list>
+    </property>
+	<property name="businessRulesClass" value="org.kuali.kra.rules.KcPersonExtendedAttributesMaintenanceDocumentRule"/>
+    <property name="lockingKeys">
+      <list>
+        <value>personId</value>
+      </list>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
+    
+    <property name="documentTypeName" value="KcPersonExtendedAttributesMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="additionalSectionsFile" value="/WEB-INF/jsp/person/PersonCustomData.jsp"></property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="KcPersonExtendedAttributesMaintenanceDocument-EditPerson" parent="KcPersonExtendedAttributesMaintenanceDocument-EditPerson-parentBean"/>
+
+  <bean id="KcPersonExtendedAttributesMaintenanceDocument-EditPerson-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Person"/>
+    <property name="title" value="Edit Person"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="county"/>
+        <bean parent="MaintainableFieldDefinition" p:name="ageByFiscalYear"/>
+        <bean parent="MaintainableFieldDefinition" p:name="race"/>
+        <bean parent="MaintainableFieldDefinition" p:name="educationLevel"/>
+        <bean parent="MaintainableFieldDefinition" p:name="degree"/>
+        <bean parent="MaintainableFieldDefinition" p:name="major"/>
+        <bean parent="MaintainableFieldDefinition" p:name="handicappedFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="handicapType"/>
+        <bean parent="MaintainableFieldDefinition" p:name="veteranFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="veteranType"/>
+        <bean parent="MaintainableFieldDefinition" p:name="hasVisa"/>
+        <bean parent="MaintainableFieldDefinition" p:name="visaType"/>
+        <bean parent="MaintainableFieldDefinition" p:name="visaCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="visaRenewalDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="officeLocation"/>
+        <bean parent="MaintainableFieldDefinition" p:name="secondaryOfficeLocation"/>
+        <bean parent="MaintainableFieldDefinition" p:name="school"/>
+        <bean parent="MaintainableFieldDefinition" p:name="yearGraduated"/>
+        <bean parent="MaintainableFieldDefinition" p:name="directoryDepartment"/>
+        <bean parent="MaintainableFieldDefinition" p:name="primaryTitle"/>
+        <bean parent="MaintainableFieldDefinition" p:name="directoryTitle"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vacationAccrualFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="onSabbaticalFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="idProvided"/>
+        <bean parent="MaintainableFieldDefinition" p:name="idVerified"/>
+        <bean parent="MaintainableFieldDefinition" p:name="citizenshipTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="multiCampusPrincipalId"/>
+        <bean parent="MaintainableFieldDefinition" p:name="multiCampusPrincipalName"/> 
+        <bean parent="MaintainableFieldDefinition" p:name="salaryAnniversaryDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="eraCommonUserName"/>
+      </list>
+    </property>
+  </bean>
+</beans>

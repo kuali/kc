@@ -1,0 +1,1 @@
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(30,'approver','approver', 'P', 'N');

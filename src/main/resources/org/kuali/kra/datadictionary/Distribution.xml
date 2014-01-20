@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="Distribution" parent="Distribution-parentBean"/>
+	<bean abstract="true" id="Distribution-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.Distribution"/>
+		<property name="objectLabel" value="Distribution"/>
+		<property name="inquiryDefinition">
+			<ref bean="Distribution-inquiryDefinition"/>
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="Distribution-lookupDefinition"/>
+		</property>
+		<property name="titleAttribute" value="ospDistributionCode"/>
+		<property name="attributes">
+			<list>
+				<ref bean="Distribution-ospDistributionCode"/>
+				<ref bean="Distribution-description"/>
+				<ref bean="Distribution-active"/>
+				<ref bean="Distribution-versionNumber"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="Distribution-ospDistributionCode" parent="Distribution-ospDistributionCode-parentBean"/>
+	<bean abstract="true" id="Distribution-ospDistributionCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="ospDistributionCode"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="OSP File Copy Code"/>
+		<property name="shortLabel" value="OSP File Copy Code"/>
+		<property name="maxLength" value="3"/>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
+		</property>
+		<property name="summary" value="OSP File Copy Code"/>
+		<property name="description" value="OSP File Copy Code"/>
+	</bean>
+
+	<bean id="Distribution-description" parent="Distribution-description-parentBean"/>
+	<bean abstract="true" id="Distribution-description-parentBean" parent="AttributeDefinition">
+		<property name="name" value="description"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Description"/>
+		<property name="shortLabel" value="Description"/>
+		<property name="maxLength" value="200"/>
+		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+		<property name="control">
+			<bean p:size="10" parent="TextControlDefinition"/>
+		</property>
+		<property name="summary" value="Description"/>
+		<property name="description" value="Description"/>
+	</bean>
+	
+	<bean id="Distribution-active" parent="Distribution-active-parentBean" />
+	<bean id="Distribution-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="active" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Active" />
+	    <property name="shortLabel" value="Active" />
+	    <property name="maxLength" value="1" />
+	    <property name="summary" value="Active" />
+	    <property name="description" value="Active" />
+	</bean>		
+
+	<bean id="Distribution-versionNumber" parent="Distribution-versionNumber-parentBean"/>
+	<bean abstract="true" id="Distribution-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="Distribution-inquiryDefinition" parent="Distribution-inquiryDefinition-parentBean"/>
+	<bean abstract="true" id="Distribution-inquiryDefinition-parentBean" parent="InquiryDefinition">
+		<property name="title" value="OSP File Copy Code"/>
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="OSP File Copy Code"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
+						<list>
+							<bean p:attributeName="ospDistributionCode" p:forceInquiry="true" parent="FieldDefinition"/>
+							<bean p:attributeName="description" parent="FieldDefinition"/>
+							<bean p:attributeName="active" parent="FieldDefinition"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="Distribution-lookupDefinition" parent="Distribution-lookupDefinition-parentBean"/>
+	<bean abstract="true" id="Distribution-lookupDefinition-parentBean" parent="LookupDefinition">
+		<property name="title" value="OSP File Copy Lookup"/>
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+		</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean p:attributeName="ospDistributionCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="active" parent="FieldDefinition"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean p:attributeName="ospDistributionCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="active" parent="FieldDefinition"/>
+			</list>
+		</property>
+	</bean>
+</beans>

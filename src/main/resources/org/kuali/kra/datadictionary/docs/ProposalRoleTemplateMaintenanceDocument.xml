@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProposalRoleTemplateMaintenanceDocument" parent="ProposalRoleTemplateMaintenanceDocument-parentBean"/>
+
+  <bean id="ProposalRoleTemplateMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
+    
+    
+    
+    
+    <property name="documentTypeName" value="ProposalRoleTemplateMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate" parent="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate-parentBean"/>
+
+  <bean id="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Proposal Role Template"/>
+    <property name="title" value="Edit Proposal Role Template"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="id"/>
+        <bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="roleName" p:defaultValue="unassigned" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+</beans>

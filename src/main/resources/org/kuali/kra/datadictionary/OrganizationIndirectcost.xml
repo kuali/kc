@@ -1,0 +1,251 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="OrganizationIndirectcost" parent="OrganizationIndirectcost-parentBean" />
+
+  <bean id="OrganizationIndirectcost-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationIndirectcost" />
+		<property name="objectLabel" value="Organization Indirectcost" />
+    <property name="inquiryDefinition" >
+      <ref bean="OrganizationIndirectcost-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OrganizationIndirectcost-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="organizationId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationIndirectcost-idcNumber" />
+        <ref bean="OrganizationIndirectcost-organizationId" />
+        <ref bean="OrganizationIndirectcost-applicableIndirectcostRate" />
+        <ref bean="OrganizationIndirectcost-endDate" />
+        <ref bean="OrganizationIndirectcost-idcComment" />
+        <ref bean="OrganizationIndirectcost-idcRateTypeCode" />
+        <ref bean="OrganizationIndirectcost-requestedDate" />
+        <ref bean="OrganizationIndirectcost-startDate" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="OrganizationIndirectcost-idcNumber" parent="OrganizationIndirectcost-idcNumber-parentBean" />
+
+  <bean id="OrganizationIndirectcost-idcNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="idcNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Idc Number" />
+    <property name="shortLabel" value="Idc Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Idc Number" />
+    <property name="description" value="Idc Number" />
+  </bean>
+  <bean id="OrganizationIndirectcost-organizationId" parent="OrganizationIndirectcost-organizationId-parentBean" />
+
+  <bean id="OrganizationIndirectcost-organizationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Id" />
+    <property name="shortLabel" value="Organization Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Organization Id" />
+    <property name="description" value="Organization Id" />
+  </bean>
+  <bean id="OrganizationIndirectcost-applicableIndirectcostRate" parent="OrganizationIndirectcost-applicableIndirectcostRate-parentBean" />
+
+  <bean id="OrganizationIndirectcost-applicableIndirectcostRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="applicableIndirectcostRate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Applicable Indirectcost Rate" />
+    <property name="shortLabel" value="Applicable Indirectcost Rate" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern" p:precision="7" p:scale="2"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Applicable Indirectcost Rate" />
+    <property name="description" value="Applicable Indirectcost Rate" />
+  </bean>
+  <bean id="OrganizationIndirectcost-endDate" parent="OrganizationIndirectcost-endDate-parentBean" />
+
+  <bean id="OrganizationIndirectcost-endDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="endDate" />
+    <property name="label" value="End Date" />
+    <property name="shortLabel" value="End Date" />
+    <property name="summary" value="End Date" />
+    <property name="description" value="End Date" />
+  </bean>
+  <bean id="OrganizationIndirectcost-idcComment" parent="OrganizationIndirectcost-idcComment-parentBean" />
+
+  <bean id="OrganizationIndirectcost-idcComment-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="idcComment" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Idc Comment" />
+    <property name="shortLabel" value="Idc Comment" />
+    <property name="maxLength" value="300" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="40" />
+    </property>
+    <property name="summary" value="Idc Comment" />
+    <property name="description" value="Idc Comment" />
+  </bean>
+  <bean id="OrganizationIndirectcost-idcRateTypeCode" parent="OrganizationIndirectcost-idcRateTypeCode-parentBean" />
+
+  <bean id="OrganizationIndirectcost-idcRateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="idcRateTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Idc Rate Type Code" />
+    <property name="shortLabel" value="Idc Rate Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Idc Rate Type Code" />
+    <property name="description" value="Idc Rate Type Code" />
+  </bean>
+  <bean id="OrganizationIndirectcost-requestedDate" parent="OrganizationIndirectcost-requestedDate-parentBean" />
+
+  <bean id="OrganizationIndirectcost-requestedDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="requestedDate" />
+    <property name="label" value="Requested Date" />
+    <property name="shortLabel" value="Requested Date" />
+    <property name="summary" value="Requested Date" />
+    <property name="description" value="Requested Date" />
+  </bean>
+  <bean id="OrganizationIndirectcost-startDate" parent="OrganizationIndirectcost-startDate-parentBean" />
+
+  <bean id="OrganizationIndirectcost-startDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="startDate" />
+    <property name="label" value="Start Date" />
+    <property name="shortLabel" value="Start Date" />
+    <property name="summary" value="Start Date" />
+    <property name="description" value="Start Date" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OrganizationIndirectcost-inquiryDefinition" parent="OrganizationIndirectcost-inquiryDefinition-parentBean" />
+
+  <bean id="OrganizationIndirectcost-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Indirectcost" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Indirectcost" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="idcNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationId"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="applicableIndirectcostRate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="endDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="idcComment" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="idcRateTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="requestedDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="startDate" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OrganizationIndirectcost-lookupDefinition" parent="OrganizationIndirectcost-lookupDefinition-parentBean" />
+
+  <bean id="OrganizationIndirectcost-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Indirectcost Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="idcNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="applicableIndirectcostRate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="endDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="idcComment" />
+        <bean parent="FieldDefinition"
+              p:attributeName="idcRateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="requestedDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="startDate" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="idcNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationId"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="applicableIndirectcostRate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="endDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="idcComment" />
+        <bean parent="FieldDefinition"
+              p:attributeName="idcRateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="requestedDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="startDate" />
+      </list>
+    </property>
+  </bean>
+</beans>

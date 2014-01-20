@@ -1,0 +1,29 @@
+.medusaStatusBox {
+  background-color: white;
+  border: 1px solid black;
+}
+
+.medusaStatusBox span.heading {
+  width: 80%;
+  float: left;
+  text-align: center;
+}
+
+.medusaStatusBox span.value {
+  width: 20%;
+  text-align: center;
+}
+
+.treeview li a:hover {
+  text-decoration: underline;
+  color: red; 
+  cursor: pointer;
+}
+
+.treeview li {
+  list-style-type: none;
+}
+
+ul.treeview ul {
+  background-color: transparent;
+}

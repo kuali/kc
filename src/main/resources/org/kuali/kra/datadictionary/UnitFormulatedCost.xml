@@ -1,0 +1,170 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="UnitFormulatedCost" parent="UnitFormulatedCost-parentBean" />
+    <bean id="UnitFormulatedCost-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.budget.rates.UnitFormulatedCost" />
+        <property name="objectLabel" value="UnitFormulatedCost"/>
+        <property name="inquiryDefinition" >
+            <ref bean="UnitFormulatedCost-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="UnitFormulatedCost-lookupDefinition" />
+        </property>
+        <property name="attributes" >
+            <list>
+                <ref bean="UnitFormulatedCost-formulatedTypeCode" />
+                <ref bean="UnitFormulatedCost-unitNumber" />
+                <ref bean="UnitFormulatedCost-unitCost" />
+                <ref bean="UnitFormulatedCost-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="UnitFormulatedCost-unitFormulatedCostId" parent="UnitFormulatedCost-unitFormulatedCostId-parentBean" />
+    <bean id="UnitFormulatedCost-unitFormulatedCostId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="unitFormulatedCostId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Unit Formulated CostId" />
+        <property name="shortLabel" value="Unit Formulated CostId" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Unit Formulated CostId" />
+        <property name="description" value="Unit Formulated CostId" />
+    </bean>
+    <bean id="UnitFormulatedCost-formulatedTypeCode" parent="UnitFormulatedCost-formulatedTypeCode-parentBean" />
+    <bean id="UnitFormulatedCost-formulatedTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="formulatedTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Formulated Type" />
+        <property name="shortLabel" value="Formulated Type" />
+        <property name="maxLength" value="50" />
+        <property name="required" value="true" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.budget.rates.FormulatedType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+           	 	p:includeKeyInLabel="false"
+           	 	p:includeBlankRow="true"
+            	p:keyAttribute="formulatedTypeCode"
+            	p:labelAttribute="description" />
+        </property>
+        <property name="summary" value="Formulated Type" />
+        <property name="description" value="Formulated Type" />
+    </bean>
+
+    <bean id="UnitFormulatedCost-unitNumber" parent="UnitFormulatedCost-unitNumber-parentBean" />
+    <bean id="UnitFormulatedCost-unitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="unitNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Unit Number" />
+        <property name="shortLabel" value="Unit Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Unit Number" />
+        <property name="description" value="Unit Number" />
+    </bean>
+
+    <bean id="UnitFormulatedCost-unitCost" parent="UnitFormulatedCost-unitCost-parentBean" />
+    <bean id="UnitFormulatedCost-unitCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount" >
+        <property name="name" value="unitCost" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Unit Cost" />
+        <property name="shortLabel" value="Unit Cost" />
+        <property name="maxLength" value="22" />
+        <property name="summary" value="Unit Cost" />
+        <property name="description" value="Unit Cost" />
+    </bean>
+
+    <bean id="UnitFormulatedCost-versionNumber" parent="UnitFormulatedCost-versionNumber-parentBean" />
+    <bean id="UnitFormulatedCost-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="UnitFormulatedCost-inquiryDefinition" parent="UnitFormulatedCost-inquiryDefinition-parentBean" />
+    <bean id="UnitFormulatedCost-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="formulatedTypeCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="unitNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="unitCost" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="UnitFormulatedCost-lookupDefinition" parent="UnitFormulatedCost-lookupDefinition-parentBean" />
+    <bean id="UnitFormulatedCost-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Unit Formulated Cost Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="formulatedTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="unitNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="unitCost" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="formulatedTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="unitNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="unitCost" />
+            </list>
+        </property>
+    </bean>
+</beans>

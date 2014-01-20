@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Questionnaire">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="QuestionnaireId" type="xs:int"/>
+				<xs:element name="QuestionnaireName" type="xs:string"/>
+				<xs:element name="QuestionnaireDesc" type="xs:string" minOccurs="0"/>
+				<xs:element name="IsFinal" type="xs:string" minOccurs="0"/>
+				<xs:element name="ModuleUsage" type="ModuleUsageType" minOccurs="0"/>
+				<xs:element name="ProtocolInfo" type="ProtocolInfoType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="ProposalInfo" type="ProposalInfoType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Questions" type="QuestionsType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="AnswerHeader" type="AnswerHeaderType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="UserOption" type="UserOptions"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="UserOptions">
+		<xs:sequence>
+			<xs:element name="UserOptionsInfo" type="UserOptionsInfoType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UserOptionsInfoType">
+		<xs:sequence>
+			<xs:element name="PrintAnswers" type="xs:string" minOccurs="0"/>
+			<xs:element name="PrintAnsweredQuestionsOnly" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ModuleUsageType">
+		<xs:sequence>
+			<xs:element name="ModuleInfo" type="ModuleInfoType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ModuleInfoType">
+		<xs:sequence>
+			<xs:element name="ModuleCode" type="xs:int"/>
+			<xs:element name="ModuleDesc" type="xs:string"/>
+			<xs:element name="SubModuleCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="SubModuleDesc" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QuestionsType">
+		<xs:sequence>
+			<xs:element name="QuestionInfo" type="QuestionInfoType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QuestionInfoType">
+		<xs:sequence>
+			<xs:element name="QuestionId" type="xs:int"/>
+			<xs:element name="QuestionNumber" type="xs:int"/>
+			<xs:element name="Question" type="xs:string"/>
+			<xs:element name="AnswerDataType" type="xs:string"/>
+			<xs:element name="AnswerMaxLength" type="xs:string" minOccurs="0"/>
+			<xs:element name="ParentQuestionNumber" type="xs:int"/>
+			<xs:element name="QuestionSeqNumber" type="xs:int"/>
+			<xs:element name="ConditionFlag" type="xs:string"/>
+			<xs:element name="Condition" type="xs:string" minOccurs="0"/>
+			<xs:element name="ConditionValue" type="xs:string" minOccurs="0"/>
+			<xs:element name="AnswerInfo" type="AnswerInfoType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="QuestionInfo" type="QuestionInfoType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AnswerHeaderType">
+		<xs:sequence>
+			<xs:element name="CompletedFlag" type="xs:string"/>
+			<xs:element name="ModuleCode" type="xs:int"/>
+			<xs:element name="ModuleDesc" type="xs:string"/>
+			<xs:element name="SubModuleCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="SubModuleDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="ModuleKey" type="xs:string"/>
+			<xs:element name="SubModuleKey" type="xs:string" minOccurs="0"/>
+			<xs:element name="AnswerInfo" type="AnswerInfoType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AnswerInfoType">
+		<xs:sequence>
+			<xs:element name="QuestionId" type="xs:int" minOccurs="0"/>
+			<xs:element name="QuestionNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="AnswerNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="Answer" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProtocolInfoType">
+		<xs:sequence>
+			<xs:element name="Title" type="xs:string"/>
+			<xs:element name="Investigator" type="Person"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProposalInfoType">
+		<xs:sequence>
+			<xs:element name="Title" type="xs:string"/>
+			<xs:element name="Investigator" type="Person"/>
+			<xs:element name="ProposalPersonUsed" type="xs:int"/>
+			<xs:element name="ProposalPersonName" type="xs:string"/>
+			<xs:element name="ProposalPersonRole" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Person">
+			<xs:sequence>
+				<xs:element name="PersonID" type="xs:string"/>
+				<xs:element name="LastName" nillable="true" type="xs:string"/>
+				<xs:element name="Middlename" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="Salutation" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="Firstname" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="Fullname" nillable="true" type="xs:string"/>
+				<xs:element name="Email" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="Degree" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="OfficeLocation" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="OfficePhone" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="School" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="YearGraduated" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="Department_Organization" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="Citizenship" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="PrimaryTitle" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="DirectoryTitle" nillable="true" minOccurs="0" type="xs:string"/>
+				<xs:element name="FacultyFlag" type="xs:boolean" nillable="true"/>
+				<xs:element name="EmployeeFlag" type="xs:boolean"/>
+			</xs:sequence>
+	</xs:complexType>
+</xs:schema>

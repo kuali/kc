@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProposalRoleTemplate" parent="ProposalRoleTemplate-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate"/>
+		<property name="objectLabel" value="Proposal Role Template"/>
+    <property name="inquiryDefinition">
+      <ref bean="ProposalRoleTemplate-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="ProposalRoleTemplate-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="id"/>
+    <property name="attributes">
+      <list>
+        <ref bean="ProposalRoleTemplate-id"/>
+        <ref bean="ProposalRoleTemplate-personId"/>
+        <ref bean="ProposalRoleTemplate-personName"/>
+        <ref bean="ProposalRoleTemplate-roleName"/>
+        <ref bean="ProposalRoleTemplate-unitNumber"/>
+        <ref bean="ProposalRoleTemplate-unitName"/>
+        <ref bean="ProposalRoleTemplate-active"/>
+        <ref bean="ProposalRoleTemplate-versionNumber"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ProposalRoleTemplate-id" parent="ProposalRoleTemplate-id-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-id-parentBean" parent="AttributeDefinition">
+    <property name="name" value="id"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Id"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+    <property name="summary" value="Id"/>
+    <property name="description" value="Id"/>
+  </bean>
+  <bean id="ProposalRoleTemplate-personId" parent="ProposalRoleTemplate-personId-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-personId-parentBean" parent="KcPerson-personId">
+  </bean>
+  <bean id="ProposalRoleTemplate-personName" parent="ProposalRoleTemplate-personName-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-personName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="personName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Person Full Name"/>
+    <property name="shortLabel" value="Person Full Name"/>
+    <property name="maxLength" value="500"/>
+    <property name="control">
+      <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Person Full Name"/>
+    <property name="description" value="Person Full Name"/>
+  </bean>
+  <bean id="ProposalRoleTemplate-roleName" parent="ProposalRoleTemplate-roleName-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-roleName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="roleName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Role"/>
+    <property name="shortLabel" value="Role"/>
+    <property name="maxLength" value="500"/>
+    <property name="control">
+      <bean p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder" parent="SelectControlDefinition"/>
+    </property>
+    <property name="summary" value="Role Name"/>
+    <property name="description" value="Role Name"/>
+  </bean>
+  <bean id="ProposalRoleTemplate-unitNumber" parent="ProposalRoleTemplate-unitNumber-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-unitNumber-parentBean" parent="AttributeDefinition">
+    <property name="name" value="unitNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Unit Number"/>
+    <property name="shortLabel" value="Unit Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="control">
+      <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Unit Number"/>
+    <property name="description" value="Unit Number"/>
+  </bean>
+  <bean id="ProposalRoleTemplate-unitName" parent="ProposalRoleTemplate-unitName-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-unitName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="unitName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Unit Name"/>
+    <property name="shortLabel" value="Unit Name"/>
+    <property name="maxLength" value="500"/>
+    <property name="control">
+      <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Unit Name"/>
+    <property name="description" value="Unit Name"/>
+  </bean>
+  <bean id="ProposalRoleTemplate-active" parent="ProposalRoleTemplate-active-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="summary" value="Active"/>
+    <property name="description" value="Active"/>
+  </bean>
+  <bean id="ProposalRoleTemplate-versionNumber" parent="ProposalRoleTemplate-versionNumber-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ProposalRoleTemplate-inquiryDefinition" parent="ProposalRoleTemplate-inquiryDefinition-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="Proposal Role Template"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="KcPerson-Role"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean p:attributeName="personId" parent="FieldDefinition"/>
+              <bean p:attributeName="roleName" parent="FieldDefinition"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ProposalRoleTemplate-lookupDefinition" parent="ProposalRoleTemplate-lookupDefinition-parentBean"/>
+
+  <bean abstract="true" id="ProposalRoleTemplate-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="Proposal Role Template Lookup"/>
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean p:attributeName="personId" parent="FieldDefinition"/>
+        <bean p:attributeName="roleName" parent="FieldDefinition"/>
+        <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
+        <bean p:attributeName="active" parent="FieldDefinition"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:attributeName="personId" parent="FieldDefinition"/>
+        <bean p:attributeName="personName" parent="FieldDefinition"/>
+        <bean p:attributeName="roleName" parent="FieldDefinition"/>
+        <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
+        <bean p:attributeName="unitName" parent="FieldDefinition"/>
+        <bean p:attributeName="active" parent="FieldDefinition"/>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--************************************************************************************************-->
+<!-- TITLE:    SF424                                                                                                       -->
+<!-- DATE:     October 15, 2003                                                                                    -->
+<!-- VERSION:  1.0                                                                                                        -->
+<!--                                                                                                                                -->
+<!-- COMMENTS: This schema conforms to OMB Standard Form 424.                        -->
+<!--                                                                                                                                -->
+<!-- REVISION HISTORY:                                                                                              -->
+<!--                                                                                                                                -->
+<!--************************************************************************************************-->
+<xsd:schema targetNamespace="http://apply.grants.gov/forms/SF424-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:SF424="http://apply.grants.gov/forms/SF424-V1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+    <!-- IMPORT GLOBAL SCHEMA -->
+    <xsd:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Global-V1.0.xsd"/>
+    <!-- IMPORT UNIVERSAL CODES SCHEMA -->
+    <xsd:import namespace="http://apply.grants.gov/system/UniversalCodes-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/UniversalCodes-V1.0.xsd"/>
+    <!-- ELEMENTS -->
+    <!-- MAIN ELEMENT GROUP -->
+    <xsd:element name="GrantApplication" type="SF424:GrantApplicationType"/>
+    <!-- OTHER ELEMENTS -->
+    <xsd:element name="ActivityTitle" type="glob:StringMin1Max120Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Title (under CFDA)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Heading), Position 0600</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="Address">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Street1" type="glob:StringMin1Max55Type"/>
+                <xsd:element name="Street2" type="glob:StringMin1Max55Type" minOccurs="0"/>
+                <xsd:element ref="SF424:City"/>
+                <xsd:element ref="SF424:County" minOccurs="0"/>
+                <xsd:element ref="SF424:StateCode" minOccurs="0"/>
+                <xsd:element ref="SF424:ZipCode" minOccurs="0"/>
+                <xsd:element ref="SF424:Country" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="AgencyName" type="glob:StringMin1Max60Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Name of Federal Agency</xsd:documentation>
+        <xsd:documentation>TS194 v4020: NM1 Segment (Heading), Position 0900</xsd:documentation>
+        <xsd:documentation>NM101(Entity Identifier Code)/NM102(Entity Type Qualifier)/NM103(Name Last or Organization 
+		 Name)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="AgencyReceivedDate" type="xsd:date"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Date Received By Federal Agency</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Detail), Position 1000</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N904(Date)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ApplicantEstimatedAmount" type="glob:DecimalMin1Max14Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Estimated Funding - Applicant</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ApplicantID" type="glob:StringMin1Max30Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Applicant Identifier</xsd:documentation>
+        <xsd:documentation>TS194 v4020: BGN Segment (Heading), Position 0200</xsd:documentation>
+        <xsd:documentation>BGN02(Reference Identification)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ApplicantTypeCode" type="SF424:ApplicantTypeCodeType"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Type of Applicant</xsd:documentation>
+        <xsd:documentation>TS194 v4020: NX1 Segment (Detail), Position 0800</xsd:documentation>
+        <xsd:documentation>NX101(Entity Identifier Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ApplicantTypeCodeOtherExplanation" type="glob:StringMin1Max50Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Type of Applicant - Other (specify)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ApplicationTypeCode" type="SF424:ApplicationTypeCodeType"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Type of Application</xsd:documentation>
+        <xsd:documentation>TS194 v4020: BGN Segment (Heading), Position 0200</xsd:documentation>
+        <xsd:documentation>BGN01(Transaction Set Purpose Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="Assurance" type="glob:YesNoType"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: I have reviewed the requirements that apply...</xsd:documentation>
+        <xsd:documentation>TS194 v4020: YNQ Segment (Detail), Position 0900</xsd:documentation>
+        <xsd:documentation>YNQ01(Condition Indicator)/YNQ02(Yes/No Condition or Response Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="AuthorizedRepresentative">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:group ref="SF424:IndividualGroup"/>
+                <xsd:element ref="SF424:RepresentativeTitle" minOccurs="0"/>
+                <xsd:element ref="SF424:FaxNumber" minOccurs="0"/>
+                <xsd:element ref="SF424:ElectronicMailAddress" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Budget">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="SF424:FederalEstimatedAmount"/>
+                <xsd:element ref="SF424:ApplicantEstimatedAmount" minOccurs="0"/>
+                <xsd:element ref="SF424:StateEstimatedAmount" minOccurs="0"/>
+                <xsd:element ref="SF424:LocalEstimatedAmount" minOccurs="0"/>
+                <xsd:element ref="SF424:OtherEstimatedAmount" minOccurs="0"/>
+                <xsd:element ref="SF424:ProgramIncomeEstimatedAmount" minOccurs="0"/>
+                <xsd:element ref="SF424:TotalEstimatedAmount"/>
+            </xsd:sequence>
+            <xsd:attribute ref="SF424:currencyCode" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="CFDANumber" type="glob:StringMin1Max15Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Catalog of Federal Domestic Assistance Number</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Heading), Position 0600</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="City" type="glob:StringMin1Max35Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: City</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N4 Segment (Heading), Position 1200</xsd:documentation>
+        <xsd:documentation>N401(City Name)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="CongressionalDistrict" type="glob:StringMin1Max30Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Congressional District of Applicant</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Heading), Position 1300</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xsd:documentation>
+        <xsd:documentation>SF424: Congressional District of Project</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Detail), Position 4000</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="Contact">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:group ref="SF424:IndividualGroup"/>
+                <xsd:element ref="SF424:FaxNumber" minOccurs="0"/>
+                <xsd:element ref="SF424:ElectronicMailAddress" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Country" type="codes:CountryCodeType"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Country</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N4 Segment (Heading), Position 1200</xsd:documentation>
+        <xsd:documentation>N404(Country Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="County" type="glob:StringMin1Max30Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: County</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N4 Segment (Heading), Position 1200</xsd:documentation>
+        <xsd:documentation>N405(Location Qualifier)/N406(Location Identifier)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="DelinquentFederalDebtExplanation" type="glob:StringMin1Max4096Type"/>
+    <xsd:annotation>
+        <xsd:documentation>Explanation of delinquent federal debt</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="DelinquentFederalDebtIndicator" type="glob:YesNoType"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Is the Applicant Delinquent On Any Federal Debt?</xsd:documentation>
+        <xsd:documentation>TS194 v4020: YNQ Segment (Detail), Position 0900</xsd:documentation>
+        <xsd:documentation>YNQ01(Condition Indicator)/YNQ02(Yes/No Condition or Response Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="DepartmentName" type="glob:StringMin1Max30Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Department</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Heading), Position 1300</xsd:documentation>
+        <xsd:documentation>C04001(Reference Identification Qualifier)/C04002(Reference 		 								 Identification)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="DivisionName" type="glob:StringMin1Max30Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Division</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Heading), Position 1300</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="DUNSID" type="glob:StringMin1Max13Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Organizational DUNS</xsd:documentation>
+        <xsd:documentation>TS194 v4020: NM1 Segment (Heading), Position 0900</xsd:documentation>
+        <xsd:documentation>NM108(Identification Code Qualifier)/NM109(Identification Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ElectronicMailAddress" type="glob:StringMin1Max80Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: EMail</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Heading), Position 1400</xsd:documentation>
+        <xsd:documentation>PER07(Communication Number Qualifier)/PER08(Communication Number)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="EmployerID" type="glob:StringMin1Max30Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Employer Identification Number (EIN)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Heading), Position 1300</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="FaxNumber" type="glob:StringMin1Max25Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Fax Number</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Heading), Position 1400</xsd:documentation>
+        <xsd:documentation>PER05(Communication Number Qualifier)/PER06(Communication Number)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="FamilyName" type="glob:StringMin1Max60Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Last Name (Section 5)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Heading), Position 1400</xsd:documentation>
+        <xsd:documentation>PER02 (single "Name" element)</xsd:documentation>
+        <xsd:documentation>SF424: Last Name (Section 18a)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Detail), Position 3750</xsd:documentation>
+        <xsd:documentation>PER02 (single "Name" element)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="FederalEstimatedAmount" type="glob:DecimalMin1Max14Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Estimated Funding - Federal</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="FederalID" type="glob:StringMin1Max30Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Federal Identifier</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Heading), Position 0600</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N902(Reference Identification)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="GivenName1" type="glob:StringMin1Max35Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: First Name (Section 5)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Heading), Position 1400</xsd:documentation>
+        <xsd:documentation>PER02 (single "Name" element)</xsd:documentation>
+        <xsd:documentation>SF424: First Name (Section 18a)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Detail), Position 3750</xsd:documentation>
+        <xsd:documentation>PER02 (single "Name" element)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="GivenName2" type="glob:StringMin1Max25Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Middle Name (Section 5)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Heading), Position 1400</xsd:documentation>
+        <xsd:documentation>PER02 (single "Name" element)</xsd:documentation>
+        <xsd:documentation>SF424: Middle Name (Section 18a)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Detail), Position 3750</xsd:documentation>
+        <xsd:documentation>PER02 (single "Name" element)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="Individual">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="SF424:Contact" minOccurs="0"/>
+                <xsd:element ref="SF424:AuthorizedRepresentative"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="LocalEstimatedAmount" type="glob:DecimalMin1Max14Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Estimated Funding - Local</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="Location" type="glob:StringMin1Max45Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Areas Affected By Project</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="NamePrefix" type="glob:StringMin1Max10Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Prefix (Section 5)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Heading), Position 1400</xsd:documentation>
+        <xsd:documentation>PER02 (single "Name" element)</xsd:documentation>
+        <xsd:documentation>SF424: Prefix (Section 18a)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Detail), Position 3750</xsd:documentation>
+        <xsd:documentation>PER02 (single "Name" element)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="NameSuffix" type="glob:StringMin1Max10Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Suffix (Section 5)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Heading), Position 1400</xsd:documentation>
+        <xsd:documentation>PER02 (single "Name" element)</xsd:documentation>
+        <xsd:documentation>SF424: Suffix (Section 18a)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Detail), Position 3750</xsd:documentation>
+        <xsd:documentation>PER02 (single "Name" element)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="Organization">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="SF424:OrganizationName" minOccurs="0"/>
+                <xsd:element ref="SF424:DUNSID" minOccurs="0"/>
+                <xsd:element ref="SF424:DepartmentName" minOccurs="0"/>
+                <xsd:element ref="SF424:DivisionName" minOccurs="0"/>
+                <xsd:element ref="SF424:EmployerID" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="OrganizationIdentifyingInformation">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="SF424:ApplicantID" minOccurs="0"/>
+                <xsd:element ref="SF424:ApplicantTypeCode" minOccurs="0"/>
+                <xsd:element ref="SF424:ApplicantTypeCodeOtherExplanation" minOccurs="0"/>
+                <xsd:element ref="SF424:Organization" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="OrganizationName" type="glob:StringMin1Max120Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Legal Name</xsd:documentation>
+        <xsd:documentation>TS194 v4020: NM1 Segment (Heading), Position 0900</xsd:documentation>
+        <xsd:documentation>NM101(Entity Identifier Code)/NM102(Entity Type Qualifier)/NM103(Name Last or Organization 												         Name)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="OtherEstimatedAmount" type="glob:DecimalMin1Max14Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Estimated Funding - Other</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ProgramIncomeEstimatedAmount" type="glob:DecimalMin1Max14Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Estimated Funding - Program Income</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="Project">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="SF424:ProjectTitle"/>
+                <xsd:element ref="SF424:Location" minOccurs="0"/>
+                <xsd:element ref="SF424:ProposedStartDate"/>
+                <xsd:element ref="SF424:ProposedEndDate"/>
+                <xsd:element ref="SF424:CongressionalDistrict" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ProjectTitle" type="glob:StringMin1Max200Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Descriptive Title of Applicant's Project</xsd:documentation>
+        <xsd:documentation>TS194 v4020: MTX Segment (Heading), Position 0800</xsd:documentation>
+        <xsd:documentation>MTX02(Message Text)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ProposedEndDate" type="xsd:date"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Proposed Project Ending Date</xsd:documentation>
+        <xsd:documentation>TS194 v4020: DTM Segment (Detail), Position 0500</xsd:documentation>
+        <xsd:documentation>DTM01(Date/Time Qualifier)/DTM02(Date)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ProposedStartDate" type="xsd:date"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Proposed Project Start Date</xsd:documentation>
+        <xsd:documentation>TS194 v4020: DTM Segment (Detail), Position 0500</xsd:documentation>
+        <xsd:documentation>DTM01(Date/Time Qualifier)/DTM02(Date)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="RepresentativeTitle" type="glob:StringMin1Max45Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Title (Section 18a)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="Revision">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="SF424:RevisionCode1" minOccurs="0"/>
+                <xsd:element ref="SF424:RevisionCode2" minOccurs="0"/>
+                <xsd:element ref="SF424:RevisionOtherExplanation" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="RevisionCode1" type="SF424:RevisionCodeType"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Type of Application - If Revision, enter appropriate letter(s) in box(es) - Box 												1</xsd:documentation>
+        <xsd:documentation>TS194 v4020: BGN Segment (Header), Position 0200</xsd:documentation>
+        <xsd:documentation>BGN08(Action Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="RevisionCode2" type="SF424:RevisionCodeType"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Type of Application - If Revision, enter appropriate letter(s) in box(es) - Box 												2</xsd:documentation>
+        <xsd:documentation>TS194 v4020: BGN Segment (Header), Position 0200</xsd:documentation>
+        <xsd:documentation>BGN08(Action Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="RevisionOtherExplanation" type="glob:StringMin1Max45Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Type of Application - Other (specify)</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="StateCode" type="glob:StringMin1Max2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: State</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N4 Segment (Heading), Position 1200</xsd:documentation>
+        <xsd:documentation>N402(State or Province Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="StateEstimatedAmount" type="glob:DecimalMin1Max14Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Estimated Funding - State</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="StateID" type="glob:StringMin1Max30Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: State Application Identifier</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Detail), Position 1000</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N903(Free-form Description)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="StateReceivedDate" type="xsd:date"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Date Received By State</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Detail), Position 1000</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N904(Date)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="StateReviewCode" type="SF424:StateReviewCodeType"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Is Application Subject to Review By State Executive Order 12372 												Process?</xsd:documentation>
+        <xsd:documentation>TS194 v4020: YNQ Segment (Detail), Position 0900</xsd:documentation>
+        <xsd:documentation>YNQ01(Condition Indicator)/YNQ02(Yes/No Condition or Response Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="StateReviewDate" type="xsd:date"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: The preapplication was made available to the State Executive Order 12372 Process for 												review on</xsd:documentation>
+        <xsd:documentation>TS194 v4020: YNQ Segment (Detail), Position 0900</xsd:documentation>
+        <xsd:documentation>YNQ04(Date Time Period)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="Street" type="glob:StringMin1Max110Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Street</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N3 Segment (Heading), Position 1100</xsd:documentation>
+        <xsd:documentation>N301(Address Information)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="SubmissionTypeCode" type="SF424:SubmissionTypeCodeType"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Type of Submission</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N9 Segment (Detail), Position 1000</xsd:documentation>
+        <xsd:documentation>N901(Reference Identification Qualifier)/N903(Free-form Description)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="SubmittedDate" type="xsd:date"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Date Submitted</xsd:documentation>
+        <xsd:documentation>TS194 v4020: BGN Segment (Heading), Position 0200</xsd:documentation>
+        <xsd:documentation>BGN03(Date)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="SubmittingOrganization">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="SF424:OrganizationIdentifyingInformation" minOccurs="0"/>
+                <xsd:element ref="SF424:Address" minOccurs="0"/>
+                <xsd:element ref="SF424:DelinquentFederalDebtIndicator" minOccurs="0"/>
+                <xsd:element ref="SF424:DelinquentFederalDebtExplanation" minOccurs="0"/>
+                <xsd:element ref="SF424:CongressionalDistrict" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="TelephoneNumber" type="glob:StringMin1Max25Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Contact Phone Number</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Heading), Position 1400</xsd:documentation>
+        <xsd:documentation>PER03(Communication Number Qualifier)/PER04(Communication Number)</xsd:documentation>
+        <xsd:documentation>SF424: Authorized Representative Telephone Number</xsd:documentation>
+        <xsd:documentation>TS194 v4020: PER Segment (Detail), Position 3750</xsd:documentation>
+        <xsd:documentation>PER03(Communication Number Qualifier)/PER04(Communication Number)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="TotalEstimatedAmount" type="glob:DecimalMin1Max15Places2Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Estimated Funding - Total</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="ZipCode" type="glob:StringMin1Max15Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Zip Code</xsd:documentation>
+        <xsd:documentation>TS194 v4020: N4 Segment (Heading), Position 1200</xsd:documentation>
+        <xsd:documentation>N403(Postal Code)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="AuthorizedRepresentativeSignature" type="glob:StringMin1Max144Type"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Signature of Authorized Representative</xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="SignedDate" type="xsd:date"/>
+    <xsd:annotation>
+        <xsd:documentation>SF424: Date Signed</xsd:documentation>
+        <xsd:documentation>TS194 v4020: No matching data element</xsd:documentation>
+    </xsd:annotation>
+    <!-- ATTRIBUTES -->
+    <xsd:attribute name="currencyCode" type="codes:CurrencyCodeType"/>
+    <xsd:annotation>
+        <xsd:documentation>Currency code used for amounts in Section 15, "Estimated Funding"</xsd:documentation>
+    </xsd:annotation>
+    <!-- DATATYPES -->
+    <!-- COMPLEX DATATYPES -->
+    <xsd:complexType name="GrantApplicationType">
+        <xsd:sequence>
+            <xsd:element ref="glob:FormVersionIdentifier"/>
+            <xsd:element ref="SF424:SubmissionTypeCode" minOccurs="0"/>
+            <xsd:element ref="SF424:SubmittedDate" minOccurs="0"/>
+            <xsd:element ref="SF424:ApplicationTypeCode"/>
+            <xsd:element ref="SF424:Revision" minOccurs="0"/>
+            <xsd:element ref="SF424:AgencyName"/>
+            <xsd:element ref="SF424:AgencyReceivedDate" minOccurs="0"/>
+            <xsd:element ref="SF424:StateReceivedDate" minOccurs="0"/>
+            <xsd:element ref="SF424:StateID" minOccurs="0"/>
+            <xsd:element ref="SF424:FederalID" minOccurs="0"/>
+            <xsd:element ref="SF424:CFDANumber" minOccurs="0"/>
+            <xsd:element ref="SF424:ActivityTitle" minOccurs="0"/>
+            <xsd:element ref="SF424:SubmittingOrganization" minOccurs="0"/>
+            <xsd:element ref="SF424:Project"/>
+            <xsd:element ref="SF424:Budget" minOccurs="0"/>
+            <xsd:element ref="SF424:Individual"/>
+            <xsd:element ref="SF424:StateReviewCode" minOccurs="0"/>
+            <xsd:element ref="SF424:StateReviewDate" minOccurs="0"/>
+            <xsd:element ref="SF424:AuthorizedRepresentativeSignature" minOccurs="0"/>
+            <xsd:element ref="SF424:SignedDate" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute ref="glob:coreSchemaVersion" use="required" fixed="1.0"/>
+    </xsd:complexType>
+    <!-- ENUMERATED DATATYPES -->
+    <xsd:simpleType name="ApplicantTypeCodeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="State Government"/>
+            <xsd:enumeration value="County Government"/>
+            <xsd:enumeration value="City or Township Government"/>
+            <xsd:enumeration value="Local Government"/>
+            <xsd:enumeration value="Special District"/>
+            <xsd:enumeration value="Independent School District"/>
+            <xsd:enumeration value="Public/State-Controlled Institution of Higher Education"/>
+            <xsd:enumeration value="Private Institution of Higher Education"/>
+            <xsd:enumeration value="Native American Tribal Government (Federally Recognized)"/>
+            <xsd:enumeration value="Native American Tribal Organization (other than Federally recognized)"/>
+            <xsd:enumeration value="Individual"/>
+            <xsd:enumeration value="Public/Indian Housing Authority"/>
+            <xsd:enumeration value="For-profit Organization (other than small business)"/>
+            <xsd:enumeration value="Small Business"/>
+            <xsd:enumeration value="Nonprofit Organization (Other than Institution of Higher Education)Other (Specify) "/>
+            <xsd:enumeration value="Other"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="ApplicationTypeCodeType">
+        <xsd:annotation>
+            <xsd:documentation>N - New</xsd:documentation>
+            <xsd:documentation>C - Continuation</xsd:documentation>
+            <xsd:documentation>R - Revision</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="N"/>
+            <xsd:enumeration value="C"/>
+            <xsd:enumeration value="R"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="RevisionCodeType">
+        <xsd:annotation>
+            <xsd:documentation>A - Increase Award</xsd:documentation>
+            <xsd:documentation>B - Decrease Award</xsd:documentation>
+            <xsd:documentation>C - Increase Duration</xsd:documentation>
+            <xsd:documentation>D - Decrease Duration</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="A"/>
+            <xsd:enumeration value="B"/>
+            <xsd:enumeration value="C"/>
+            <xsd:enumeration value="D"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="StateReviewCodeType">
+        <xsd:annotation>
+            <xsd:documentation>Yes</xsd:documentation>
+            <xsd:documentation>Not Covered</xsd:documentation>
+            <xsd:documentation>Not Reviewed</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Yes"/>
+            <xsd:enumeration value="Not Covered"/>
+            <xsd:enumeration value="Not Reviewed"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="SubmissionTypeCodeType">
+        <xsd:annotation>
+            <xsd:documentation>AC - Application, Construction</xsd:documentation>
+            <xsd:documentation>AN - Application, Non-Construction</xsd:documentation>
+            <xsd:documentation>PC - Pre-Application, Construction</xsd:documentation>
+            <xsd:documentation>PN - Pre-Application, Non-Construction</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="AC"/>
+            <xsd:enumeration value="AN"/>
+            <xsd:enumeration value="PC"/>
+            <xsd:enumeration value="PN"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- MODEL GROUPS -->
+    <!-- HERE WE DEFINE MODEL GROUPS FOR ELEMENTS THAT APPEAR IN MULTIPLE PLACES IN THE SCHEMA. THIS   
+         ALLOWS US TO DEFINE THESE ELEMENTS IN ONE PLACE, AND REFER TO THEM MULTIPLE TIMES BY GROUP NAME. -->
+    <xsd:group name="IndividualGroup">
+        <xsd:sequence>
+            <xsd:element ref="SF424:NamePrefix" minOccurs="0"/>
+            <xsd:element ref="SF424:GivenName1" minOccurs="0"/>
+            <xsd:element ref="SF424:GivenName2" minOccurs="0"/>
+            <xsd:element ref="SF424:FamilyName" minOccurs="0"/>
+            <xsd:element ref="SF424:NameSuffix" minOccurs="0"/>
+            <xsd:element ref="SF424:TelephoneNumber" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:group>
+</xsd:schema>

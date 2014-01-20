@@ -1,0 +1,176 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="CoiNoteType" parent="CoiNoteType-parentBean" />
+    <bean id="CoiNoteType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.coi.CoiNoteType" />
+        <property name="objectLabel" value="COI Note Type" />
+        <property name="inquiryDefinition" >
+            <ref bean="CoiNoteType-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="CoiNoteType-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="noteTypeCode" />
+        <property name="attributes" >
+            <list>
+                <ref bean="CoiNoteType-noteTypeCode" />
+                <ref bean="CoiNoteType-description" />
+                <ref bean="CoiNoteType-sortId" />
+                <ref bean="CoiNoteType-active"/>
+                <ref bean="CoiNoteType-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="CoiNoteType-noteTypeCode" parent="CoiNoteType-noteTypeCode-parentBean" />
+    <bean id="CoiNoteType-noteTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="noteTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Note Type Code" />
+        <property name="shortLabel" value="Note Type Code" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Note Type Code" />
+        <property name="description" value="Note Type Code" />
+    </bean>
+
+    <bean id="CoiNoteType-description" parent="CoiNoteType-description-parentBean" />
+    <bean id="CoiNoteType-description-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Note Type Description" />
+        <property name="shortLabel" value="Note Type Descr" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Note Type Descr" />
+        <property name="description" value="Note Type Descr" />
+    </bean>
+    
+    <bean id="CoiNoteType-active" parent="CoiNoteType-active-parentBean"/>
+    <bean id="CoiNoteType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+      <property name="name" value="active"/>
+      <property name="label" value="Is Active"/>
+      <property name="shortLabel" value="Is Active"/>
+      <property name="summary" value="Is Active"/>
+      <property name="description" value="Is Active"/>
+    </bean>
+    
+    <bean id="CoiNoteType-sortId" parent="CoiNoteType-sortId-parentBean" />
+    <bean id="CoiNoteType-sortId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sortId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sort Id" />
+        <property name="shortLabel" value="Sort Id" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Sort Id" />
+        <property name="description" value="Sort Id" />
+    </bean>
+
+    <bean id="CoiNoteType-versionNumber" parent="CoiNoteType-versionNumber-parentBean" />
+    <bean id="CoiNoteType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="CoiNoteType-inquiryDefinition" parent="CoiNoteType-inquiryDefinition-parentBean" />
+    <bean id="CoiNoteType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Note Type Code" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Note Type Code" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="noteTypeCode" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="description" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="active" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sortId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="CoiNoteType-lookupDefinition" parent="CoiNoteType-lookupDefinition-parentBean" />
+    <bean id="CoiNoteType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="COI Note Type Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="noteTypeCode" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sortId" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="noteTypeCode" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sortId" />
+            </list>
+        </property>
+    </bean>
+</beans>

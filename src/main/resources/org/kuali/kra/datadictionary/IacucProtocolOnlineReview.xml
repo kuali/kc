@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+ Copyright 2005-2014 The Kuali Foundation
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="IacucProtocolOnlineReview" parent="IacucProtocolOnlineReview-parentBean"/>
+    <bean abstract="true" id="IacucProtocolOnlineReview-parentBean" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview"/>
+        <property name="objectLabel" value="Protocol Review"/>
+        <property name="inquiryDefinition">
+            <ref bean="IacucProtocolOnlineReview-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="IacucProtocolOnlineReview-lookupDefinition"/>
+        </property>
+        <property name="titleAttribute" value="statusCode"/>
+        <property name="attributes">
+            <list>
+                <ref bean="IacucProtocolOnlineReview-protocolOnlineReviewId"/>
+                <ref bean="IacucProtocolOnlineReview-protocolId"/>
+                <ref bean="IacucProtocolOnlineReview-submissionIdFk"/>
+                <ref bean="IacucProtocolOnlineReview-protocolReviewerId"/>
+                <ref bean="IacucProtocolOnlineReview-protocolOnlineReviewStatusCode"/>
+                <ref bean="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description"/>
+                <ref bean="IacucProtocolOnlineReview-dateDue"/>
+                <ref bean="IacucProtocolOnlineReview-dateRequested"/>
+                <ref bean="IacucProtocolOnlineReview-determinationRecommendationCode"/>
+                <!--  ref bean="IacucProtocolOnlineReview-determinationRecommendation.description"/-->
+                <!--  Lookup fields -->
+                <ref bean="IacucProtocolOnlineReview-lookupProtocol.protocolNumber"/>
+                <!--  ref bean="IacucProtocolOnlineReview-lookupReviewerRolodexId"/-->
+                <!-- ref bean="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName"/-->
+                <!--  <ref bean="IacucProtocolOnlineReview-lookupReviewerRolodex"/> -->
+                <ref bean="IacucProtocolOnlineReview-lookupReviewerPersonId"/>
+                <ref bean="IacucProtocolOnlineReview-lookupReviwerPerson.lastName"/> 
+                <ref bean="IacucProtocolOnlineReview-lookupReviewerFullName"/>
+                <ref bean="IacucProtocolOnlineReview-protocolSubmission.submissionNumber"/>
+                <ref bean="IacucProtocolOnlineReview-protocolSubmission.submissionTypeCode"/>
+                <ref bean="IacucProtocolOnlineReview-protocol.principalInvestigator.personName"/>
+                <ref bean="IacucProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description"/>
+                <ref bean="IacucProtocolOnlineReview-protocolSubmission.submissionStatus.description"/>
+                <ref bean="IacucProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode"/>
+                <ref bean="IacucProtocolOnlineReview-reviewerTypeCode"/>
+                <ref bean="IacucProtocolOnlineReview-protocol.protocolNumber"/>
+                <ref bean="IacucProtocolOnlineReview-protocol.protocolStatus.description"/>
+                <!--  Result fields -->
+                <ref bean="IacucProtocolOnlineReview-resultDueDate"/>
+                <ref bean="IacucProtocolOnlineReview-determinationReviewTypeCode"/>
+                <ref bean="IacucProtocolOnlineReview-determinationReviewDateDue"/>
+                
+            </list>
+        </property>
+         
+        <property name="relationships">
+            <list><!--  
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="lookupReviewerRolodex"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean p:sourceName="lookupReviewerRolodexId" p:targetName="rolodexId" parent="PrimitiveAttributeDefinition"/>
+                        </list>
+                    </property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean p:sourceName="lookupReviewerRolodex.lastName" p:targetName="lastName" parent="SupportAttributeDefinition"/>
+                        </list>
+                    </property>  
+                </bean>
+                
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="lookupReviewerPerson"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean p:sourceName="lookupReviewerPersonId" p:targetName="personId" parent="PrimitiveAttributeDefinition"/>
+                        </list>
+                    </property>
+                      <property name="supportAttributes">
+                        <list>
+                            <bean p:sourceName="lookupReviewerPerson.lastName" p:targetName="lastName" parent="SupportAttributeDefinition"/>
+                        </list>
+                    </property> 
+                </bean>
+                
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="lookupProtocol"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean p:sourceName="lookupProtocol.protocolNumber" p:targetName="protocolNumber" parent="PrimitiveAttributeDefinition"/>
+                        </list>
+                    </property>
+                </bean>
+                -->
+            </list>
+        </property> 
+        
+    </bean>
+    <!-- Attribute Definitions -->
+    
+    <bean id="IacucProtocolOnlineReview-protocolOnlineReviewId" parent="IacucProtocolOnlineReview-protocolOnlineReviewId-parentBean"/>
+    <bean abstract="true" id="IacucProtocolOnlineReview-protocolOnlineReviewId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="protocolOnlineReviewId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Id"/>
+        <property name="shortLabel" value="Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean p:size="10" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Id"/>
+        <property name="description" value="Id"/>
+    </bean>
+
+    <bean id="IacucProtocolOnlineReview-protocolId" parent="IacucProtocolOnlineReview-protocolId-parentBean"/>
+    <bean abstract="true" id="IacucProtocolOnlineReview-protocolId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="protocolId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Protocol Id"/>
+        <property name="shortLabel" value="Protocol Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean p:size="10" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Protocol Id"/>
+        <property name="description" value="Protocol Id"/>
+    </bean>
+
+    <bean id="IacucProtocolOnlineReview-submissionIdFk" parent="IacucProtocolOnlineReview-submissionIdFk-parentBean"/>
+    <bean abstract="true" id="IacucProtocolOnlineReview-submissionIdFk-parentBean" parent="AttributeDefinition">
+        <property name="name" value="submissionIdFk"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Submission Id"/>
+        <property name="shortLabel" value="Submission Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean p:size="10" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Submission Id"/>
+        <property name="description" value="Submission Id"/>
+    </bean>
+
+    <bean id="IacucProtocolOnlineReview-protocolReviewerId" parent="IacucProtocolOnlineReview-protocolReviewerId-parentBean"/>
+    <bean abstract="true" id="IacucProtocolOnlineReview-protocolReviewerId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="protocolReviewerId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Protocol Reviewer Id"/>
+        <property name="shortLabel" value="Protocol Reviewer Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean p:size="10" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Protocol Reviewer Id"/>
+        <property name="description" value="Protocol Reviewer Id"/>
+    </bean>
+    
+    <bean id="IacucProtocolOnlineReview-dateDue" parent="IacucProtocolOnlineReview-dateDue-parentBean" />
+    <bean id="IacucProtocolOnlineReview-dateDue-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="dateDue" />
+        <property name="label" value="Due Date" />
+        <property name="shortLabel" value="Due Date" />
+        <property name="required" value="false" />
+        <property name="summary" value="The date the online review is to be completed by." />
+        <property name="description" value="The date the online review is to be completed by." />
+    </bean>
+    
+    <bean id="IacucProtocolOnlineReview-dateRequested" parent="IacucProtocolOnlineReview-dateRequested-parentBean" />
+    <bean id="IacucProtocolOnlineReview-dateRequested-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="dateRequested" />
+        <property name="label" value="Requested Date" />
+        <property name="shortLabel" value="Requested Date" />
+        <property name="required" value="false" />
+        <property name="summary" value="The date the online review was requested." />
+        <property name="description" value="The date the online review was requested." />
+    </bean>
+
+    <bean id="IacucProtocolOnlineReview-protocolOnlineReviewStatusCode" parent="IacucProtocolOnlineReview-protocolOnlineReviewStatusCode-parentBean" />
+    <bean id="IacucProtocolOnlineReview-protocolOnlineReviewStatusCode-parentBean"
+        abstract="true" parent="AttributeDefinition">
+        <property name="name" value="protocolOnlineReviewStatusCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Status" />
+        <property name="shortLabel" value="Status" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatusValuesFinder"
+                p:includeKeyInLabel="false" />
+        </property>
+        <property name="summary" value="Protocol Review Status Code" />
+        <property name="description" value="The status of the protocol review." />
+    </bean>
+    
+    <bean id="IacucProtocolOnlineReview-determinationReviewTypeCode" parent="IacucProtocolOnlineReview-determinationReviewTypeCode-parentBean" />
+    <bean id="IacucProtocolOnlineReview-determinationReviewTypeCode-parentBean"
+        abstract="true" parent="AttributeDefinition">
+        <property name="name" value="determinationReviewTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Review Type Determination" />
+        <property name="shortLabel" value="Review Type Determination" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control">
+             <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationTypeRecommendationValuesFinder"
+                p:businessObjectClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationTypeRecommendation"
+                p:includeKeyInLabel="false" 
+                p:keyAttribute="iacucProtocolReviewTypeCode" 
+                p:labelAttribute="iacucProtocolReviewTypeCode" />
+        </property>
+        <property name="summary" value="Review Type Determination" />
+        <property name="description" value="Review Type Determination" />
+    </bean>
+
+     <bean id="IacucProtocolOnlineReview-determinationReviewDateDue" parent="IacucProtocolOnlineReview-determinationReviewDateDue-parentBean" />
+    <bean id="IacucProtocolOnlineReview-determinationReviewDateDue-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="determinationReviewDateDue" />
+        <property name="label" value="Determination Due Date" />
+        <property name="shortLabel" value="Determination Due Date" />
+        <property name="required" value="false" />
+        <property name="summary" value="Determination Due Date" />
+        <property name="description" value="Determination Due Date" />
+    </bean>
+    
+    <bean id="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description" parent="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description-parentBean" />
+    <bean id="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description-parentBean"
+        abstract="true" parent="AttributeDefinition">
+        <property name="name" value="protocolOnlineReviewStatus.description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Online Review Status" />
+        <property name="shortLabel" value="Online Review Status" />
+        <property name="maxLength" value="300" />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control">
+                <bean p:size="30" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Protocol Review Status Code" />
+        <property name="description" value="The status of the protocol review." />
+    </bean>
+        
+    <bean id="IacucProtocolOnlineReview-determinationRecommendationCode" parent="IacucProtocolOnlineReview-determinationRecommendationCode-parentBean" />
+    <bean id="IacucProtocolOnlineReview-determinationRecommendationCode-parentBean"
+        abstract="true" parent="AttributeDefinition">
+        <property name="name" value="protocolOnlineReviewDeterminationRecommendationCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Determination Recommendation" />
+        <property name="shortLabel" value="Determination Recommendation" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control">
+            
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationRecommendationValuesFinder"
+                p:includeKeyInLabel="false" />
+        </property>
+        <property name="summary" value="Determination Recommendation" />
+        <property name="description" value="Determination Recommendation" />
+    </bean>
+        
+    <bean id="IacucProtocolOnlineReview-determinationRecommendation.description" parent="IacucProtocolOnlineReview-determinationRecommendation.description-parentBean" />
+    <bean id="IacucProtocolOnlineReview-determinationRecommendation.description-parentBean"
+        abstract="true" parent="AttributeDefinition">
+        <property name="name" value="protocolOnlineReviewDeterminationRecommendation.description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Determination Recommendation" />
+        <property name="shortLabel" value="Determination Recommendation" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean p:size="30" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Determination Recommendation" />
+        <property name="description" value="Determination Recommendation" />
+    </bean>
+
+
+    <bean id="IacucProtocolOnlineReview-versionNumber" parent="IacucProtocolOnlineReview-versionNumber-parentBean"/>
+    <bean abstract="true" id="IacucProtocolOnlineReview-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+
+    <!-- Lookup fields -->
+    <bean id="IacucProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode" parent="IacucProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode-parentBean" />
+    <bean id="IacucProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode-parentBean"
+        abstract="true" parent="AttributeDefinition">
+        <property name="name" value="lookupProtocolOnlineReviewStatusCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Online Review Status" />
+        <property name="shortLabel" value="Status" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control">
+             <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:businessObjectClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus"
+                p:includeKeyInLabel="false" p:keyAttribute="statusCode"
+                p:labelAttribute="description" />
+        </property>
+        <property name="summary" value="Protocol Review Status Code" />
+        <property name="description" value="The status of the protocol review." />
+    </bean>
+    
+    
+<!--    
+    <bean id="IacucProtocolOnlineReview-lookupReviewerRolodexId" parent="IacucProtocolOnlineReview-lookupReviewerRolodexId-parentBean" />
+    <bean id="IacucProtocolOnlineReview-lookupReviewerRolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="lookupReviewerRolodexId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Reviewer Rolodex Id" />
+        <property name="shortLabel" value="Reviewer Rolodex Id" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Reviewer Rolodex Id" />
+        <property name="description" value="Reviewer Rolodex Id" />
+    </bean>
+    <bean id="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName" parent="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName-parentBean"/>
+    <bean abstract="true" id="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName-parentBean" parent="Rolodex-lastName">
+        <property name="name" value="lookupReviewerRolodex.lastName"/>
+        <property name="label" value="Rolodex Last Name"/>
+        <property name="shortLabel" value="Rolodex Last Name"/>
+    </bean>
+-->    
+    
+    <bean id="IacucProtocolOnlineReview-lookupReviewerPersonId" parent="IacucProtocolOnlineReview-lookupReviewerPersonId-parentBean" />
+    <bean id="IacucProtocolOnlineReview-lookupReviewerPersonId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="lookupReviewerPersonId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Reviewer Person Id" />
+        <property name="shortLabel" value="Reviewer Person Id" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Reviewer Person Id" />
+        <property name="description" value="Reviewer Person Id" />
+    </bean>
+    
+    <bean id="IacucProtocolOnlineReview-lookupReviwerPerson.lastName" parent="IacucProtocolOnlineReview-lookupReviwerPerson.lastName-parentBean"/>
+    <bean abstract="true" id="IacucProtocolOnlineReview-lookupReviwerPerson.lastName-parentBean" parent="KcPerson-lastName">
+        <property name="name" value="lookupReviewerPerson.lastName"/>
+        <property name="label" value="Kc Person Last Name"/>
+        <property name="shortLabel" value="Kc Person Last Name"/>
+    </bean>
+        
+    <bean id="IacucProtocolOnlineReview-lookupProtocol.protocolNumber" parent="IacucProtocolOnlineReview-lookupProtocol.protocolNumber-parentBean" />
+    <bean id="IacucProtocolOnlineReview-lookupProtocol.protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="lookupProtocol.protocolNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Protocol Number" />
+        <property name="shortLabel" value="Protocol Number" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Protocol Number" />
+        <property name="description" value="Protocol Number" />
+    </bean>
+
+    <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionNumber" parent="IacucProtocolOnlineReview-protocolSubmission.submissionNumber-parentBean" />
+    <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocolSubmission.submissionNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submission Number" />
+        <property name="shortLabel" value="Submission Number" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Protocol Submission Number" />
+        <property name="description" value="Protocol Submission Number" />
+    </bean>
+  
+    <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionStatus.description" parent="IacucProtocolOnlineReview-protocolSubmission.submissionStatus.description-parentBean" />
+    <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionStatus.description-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocolSubmission.submissionStatus.description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submission Status" />
+        <property name="shortLabel" value="Submission Status" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Protocol Submission Status" />
+        <property name="description" value="Protocol Submission Status" />
+    </bean>
+    
+    <bean id="IacucProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description" parent="IacucProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description-parentBean" />
+    <bean id="IacucProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocolSubmission.protocolSubmissionType.description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submission Type" />
+        <property name="shortLabel" value="Submission Type" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Protocol Submission Type" />
+        <property name="description" value="Protocol Submission Type" />
+    </bean>
+
+    <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionTypeCode" parent="IacucProtocolOnlineReview-protocolSubmission.submissionTypeCode-parentBean" />
+    <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocolSubmission.submissionTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submission Type Code" />
+        <property name="shortLabel" value="Type Code" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Protocol Submission Type Code" />
+        <property name="description" value="Protocol Submission Type Code" />
+    </bean>
+ 
+    <bean id="IacucProtocolOnlineReview-lookupReviewerFullName" parent="IacucProtocolOnlineReview-lookupReviewerFullName-parentBean" />
+    <bean id="IacucProtocolOnlineReview-lookupReviewerFullName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="lookupReviewerFullName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Reviewer Name" />
+        <property name="shortLabel" value="Reviewer Name" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="40" />
+        </property>
+        <property name="summary" value="Reviewer Name" />
+        <property name="description" value="Reviewer Name" />
+    </bean>
+
+    <bean id="IacucProtocolOnlineReview-protocol.principalInvestigator.personName" parent="IacucProtocolOnlineReview-protocol.principalInvestigator.personName-parentBean" />
+    <bean id="IacucProtocolOnlineReview-protocol.principalInvestigator.personName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocol.principalInvestigator.personName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Principal Investigator" />
+        <property name="shortLabel" value="PI" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Principal Investigator" />
+        <property name="description" value="Principal Investigator" />
+    </bean>
+    
+    <bean id="IacucProtocolOnlineReview-protocol.protocolNumber" parent="IacucProtocolOnlineReview-protocol.protocolNumber-parentBean" />
+    <bean id="IacucProtocolOnlineReview-protocol.protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber" >
+        <property name="name" value="protocol.protocolNumber" />
+    </bean>
+ 
+    <bean id="IacucProtocolOnlineReview-reviewerTypeCode" parent="IacucProtocolOnlineReview-reviewerTypeCode-parentBean" />
+    <bean id="IacucProtocolOnlineReview-reviewerTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="reviewerTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Reviewer Type" />
+        <property name="shortLabel" value="Reviewer Type" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+          <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="required" value="false" />
+        <!-- 
+        <property name="control" >
+          <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="reviewerTypeCode"
+                p:labelAttribute="description" />
+        </property>
+         -->
+         <property name="control" >
+          <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="reviewerTypeCode"
+                p:labelAttribute="description" />
+        </property>
+        <property name="summary" value="Reviewer Type" />
+        <property name="description" value="Reviewer Type" />
+    </bean>
+ 
+    <bean id="IacucProtocolOnlineReview-protocol.protocolStatus.description" parent="IacucProtocolOnlineReview-protocol.protocolStatus.description-parentBean" />
+    <bean id="IacucProtocolOnlineReview-protocol.protocolStatus.description-parentBean" abstract="true" parent="ProtocolStatus-description" >
+        <property name="name" value="protocol.protocolStatus.description" />
+        <property name="label" value="Protocol Status" />
+        <property name="shortLabel" value="Protocol Status" />
+    </bean>
+  
+    <bean id="IacucProtocolOnlineReview-resultDueDate" parent="IacucProtocolOnlineReview-resultDueDate-parentBean" />
+    <bean id="IacucProtocolOnlineReview-resultDueDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="resultDueDate" />
+        <property name="label" value="Due Date" />
+        <property name="shortLabel" value="Due Date" />
+        <property name="summary" value="Due Date" />
+        <property name="description" value="Due Date" />
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="IacucProtocolOnlineReview-inquiryDefinition" parent="IacucProtocolOnlineReview-inquiryDefinition-parentBean"/>
+    <bean abstract="true" id="IacucProtocolOnlineReview-inquiryDefinition-parentBean" parent="InquiryDefinition">
+        <property name="title" value="Status Code"/>
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Status Code"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean p:attributeName="protocolOnlineReviewId" parent = "FieldDefinition"/>
+                            <bean p:attributeName="protocolId" p:forceInquiry="true" parent="FieldDefinition"/>
+                            <bean p:attributeName="submissionIdFk" p:forceInquiry="true" parent="FieldDefinition"/>
+                            <bean p:attributeName="protocolReviewerId" p:forceInquiry="true" parent = "FieldDefinition"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="IacucProtocolOnlineReview-lookupDefinition" parent="IacucProtocolOnlineReview-lookupDefinition-parentBean"/>
+    <bean abstract="true" id="IacucProtocolOnlineReview-lookupDefinition-parentBean" parent="LookupDefinition">
+        <property name="title" value="Protocol Review Lookup"/>
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+        <property name="lookupableID" value="iacucProtocolOnlineReviewLookupable" />
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+        </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean p:attributeName="protocolOnlineReviewId" parent = "FieldDefinition"/>
+                <bean p:attributeName="lookupProtocol.protocolNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="lookupProtocolOnlineReviewStatusCode" parent="FieldDefinition" p:defaultValue="S"/>
+                <!--bean p:attributeName="lookupReviewerRolodexId" parent="FieldDefinition" p:hidden = "true" /-->
+                <bean p:attributeName="lookupReviewerPersonId" parent="FieldDefinition" p:hidden = "true" />
+                <bean p:attributeName="dateRequested" parent="FieldDefinition"/>
+                <bean p:attributeName="dateDue" parent="FieldDefinition"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean p:attributeName="protocol.principalInvestigator.personName" parent = "FieldDefinition"/>
+                <bean p:attributeName="protocol.protocolNumber" parent = "FieldDefinition"/>
+                <bean p:attributeName="protocol.protocolStatus.description" parent = "FieldDefinition"/> 
+                <bean p:attributeName="protocolSubmission.submissionNumber" parent = "FieldDefinition"/>
+                <bean p:attributeName="protocolSubmission.protocolSubmissionType.description" parent = "FieldDefinition"/>
+                <bean p:attributeName="protocolSubmission.submissionStatus.description" parent = "FieldDefinition"/>
+                <bean p:attributeName="lookupReviewerFullName" parent = "FieldDefinition"/>
+                <bean p:attributeName="resultDueDate" parent="FieldDefinition"/>
+                <bean p:attributeName="protocolOnlineReviewStatus.description" parent="FieldDefinition"/>
+            </list>
+        </property>
+    </bean>
+</beans>

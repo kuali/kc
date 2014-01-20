@@ -1,0 +1,341 @@
+#created on: Apr 4, 2009
+package updateProtocol
+
+#list any import classes here.
+
+import org.kuali.kra.irb.actions.submit.ProtocolUndoActionMapping;
+
+function void resetProtocolSubmissionStatusCode(ProtocolUndoActionMapping protocolAction) { 
+    protocolAction.getProtocol().getProtocolSubmission().setSubmissionStatusCode(protocolAction.getProtocolAction().getPrevSubmissionStatusCode());  
+} 
+
+function void deleteNewProtocolSubmission(ProtocolUndoActionMapping protocolAction) {
+	protocolAction.setProtocolSubmissionToBeDeleted(true);
+}
+
+function void resetProtocolStatusCode(ProtocolUndoActionMapping protocolAction) {
+    protocolAction.getProtocol().setProtocolStatusCode(protocolAction.getProtocolAction().getPrevProtocolStatusCode());  
+    protocolAction.getProtocol().refreshReferenceObject("protocolStatus");
+} 
+
+rule "fn_assign_to_agenda"
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "200")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+end
+
+rule "fn_defer"
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "201")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_table" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "202")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_approve" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "204")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_SMRReqd" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "203")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_close: submissionTypeCode 109" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "300", submissionTypeCode == "109")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_close: submissionTypeCode other than 109" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "300", submissionTypeCode != "109")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_terminate" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "301", submissionTypeCode == "108")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_terminate: submissionTypeCode other than 108" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "301", submissionTypeCode != "108")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_suspend" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "302", submissionTypeCode == "110")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_suspend: submissionTypeCode other than 110" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "302", submissionTypeCode != "110")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_suspend_by_dsmb" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "306", submissionTypeCode == "110")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_suspend_by_dsmb: submissionTypeCode other than 110" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "306", submissionTypeCode != "110")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_expire" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "305")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_withdraw" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "303")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+end
+
+rule "fn_withdraw: submissionTypeCode 101" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "303", protocolStatusCode == "101")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_disapprove" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "304")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_expeditedApprove" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "205")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_grantExempt" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "206")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_IRB_Review_Not_Required" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "210")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_closed_For_Enrollment: submissionTypeCode 111" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "207", submissionTypeCode == "111")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_closed_For_Enrollment" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "207")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_request_for_termination" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "104")
+then	
+	deleteNewProtocolSubmission(protocolAction);
+end
+
+rule "fn_request_for_suspension" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "106")
+then	
+	deleteNewProtocolSubmission(protocolAction);
+end
+
+rule "fn_request_to_close" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "105")
+then	
+	deleteNewProtocolSubmission(protocolAction);
+end
+
+rule "fn_request_to_close_enrollment" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "108")
+then	
+	deleteNewProtocolSubmission(protocolAction);
+end
+
+rule "fn_assign_to_schedule" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "109")
+then	
+	//TODO update all protocol submission's and committee schedule, following statement should be removed
+	// currently, this is only a followup action will be recorded as action.  not delete submission is needed.
+	//deleteNewProtocolSubmission(protocolAction);
+end
+
+rule "fn_Response_Approve" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "208")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction); 
+end
+
+rule "fn_IRB_Acknowledge" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "209")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+end
+
+rule "fn_request_for_data_analysis" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "114")
+then	
+	deleteNewProtocolSubmission(protocolAction);
+end
+
+rule "fn_request_to_reopen_enroll" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "115")
+then	
+	deleteNewProtocolSubmission(protocolAction);
+end
+
+rule "fn_notify_irb" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "116")
+then	
+	deleteNewProtocolSubmission(protocolAction);
+end
+
+rule "fn_data_analysis_only" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "211", submissionTypeCode == "111")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_data_analysis_only: submissionTypeCode other than 111" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "211", submissionTypeCode != "111")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_re_open_Enrollment" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "212", submissionTypeCode == "115")
+then	
+	resetProtocolSubmissionStatusCode(protocolAction);
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_re_open_Enrollment: submissionTypeCode other than 115" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "212", submissionTypeCode != "115")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+
+rule "fn_table: actionTypeCode 103" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "103")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+rule "fn_table: actionTypeCode 102" 
+salience 100
+when
+	protocolAction : ProtocolUndoActionMapping( actionTypeCode == "102")
+then	
+	resetProtocolStatusCode(protocolAction);
+end
+

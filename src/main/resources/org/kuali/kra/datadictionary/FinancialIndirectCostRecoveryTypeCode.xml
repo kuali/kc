@@ -1,0 +1,150 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="FinancialIndirectCostRecoveryTypeCode" parent="FinancialIndirectCostRecoveryTypeCode-parentBean" />
+
+  <bean id="FinancialIndirectCostRecoveryTypeCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode" />
+		<property name="objectLabel" value="FinancialIndirectCostRecoveryTypeCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="FinancialIndirectCostRecoveryTypeCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="FinancialIndirectCostRecoveryTypeCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="icrTypeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="FinancialIndirectCostRecoveryTypeCode-rateClassCode" />
+        <ref bean="FinancialIndirectCostRecoveryTypeCode-rateTypeCode" />
+        <ref bean="FinancialIndirectCostRecoveryTypeCode-icrTypeCode" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+<bean id="FinancialIndirectCostRecoveryTypeCode-icrTypeCode" parent="FinancialIndirectCostRecoveryTypeCode-icrTypeCode-parentBean" />
+
+  <bean id="FinancialIndirectCostRecoveryTypeCode-icrTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="icrTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Icr Type Code" />
+    <property name="shortLabel" value="Icr Type Code" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Icr Type Code" />
+    <property name="description" value="Icr Type Code" />
+  </bean>
+ 
+  <bean id="FinancialIndirectCostRecoveryTypeCode-rateClassCode" parent="FinancialIndirectCostRecoveryTypeCode-rateClassCode-parentBean" />
+
+  <bean id="FinancialIndirectCostRecoveryTypeCode-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateClassCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Class Code" />
+    <property name="shortLabel" value="Rate Class Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Class Code" />
+    <property name="description" value="Rate Class Code" />
+  </bean>
+  <bean id="FinancialIndirectCostRecoveryTypeCode-rateTypeCode" parent="FinancialIndirectCostRecoveryTypeCode-rateTypeCode-parentBean" />
+
+  <bean id="FinancialIndirectCostRecoveryTypeCode-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Type Code" />
+    <property name="shortLabel" value="Rate Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Type Code" />
+    <property name="description" value="Rate Type Code" />
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="FinancialIndirectCostRecoveryTypeCode-inquiryDefinition" parent="FinancialIndirectCostRecoveryTypeCode-inquiryDefinition-parentBean" />
+
+  <bean id="FinancialIndirectCostRecoveryTypeCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="FinancialIndirectCostRecoveryTypeCode" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="FinancialIndirectCostRecoveryTypeCode" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateClassCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateTypeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="icrTypeCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="FinancialIndirectCostRecoveryTypeCode-lookupDefinition" parent="FinancialIndirectCostRecoveryTypeCode-lookupDefinition-parentBean" />
+
+  <bean id="FinancialIndirectCostRecoveryTypeCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="FinancialIndirectCostRecoveryTypeCode Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="icrTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="icrTypeCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

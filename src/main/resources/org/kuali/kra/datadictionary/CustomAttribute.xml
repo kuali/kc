@@ -1,0 +1,321 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CustomAttribute" parent="CustomAttribute-parentBean" />
+
+  <bean id="CustomAttribute-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.CustomAttribute" />
+		<property name="objectLabel" value="Custom Attribute" />
+    <property name="inquiryDefinition" >
+      <ref bean="CustomAttribute-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CustomAttribute-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="id" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-PD"
+            p:parameterName="proposalDevelopmentCustomAttributeHelpUrl"
+            p:parameterDetailType="Document" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CustomAttribute-id" />
+        <ref bean="CustomAttribute-dataLength" />
+        <ref bean="CustomAttribute-dataTypeCode" />
+        <ref bean="CustomAttribute-defaultValue" />
+        <ref bean="CustomAttribute-groupName" />
+        <ref bean="CustomAttribute-label" />
+        <ref bean="CustomAttribute-lookupClass" />
+        <ref bean="CustomAttribute-lookupReturn" />
+        <ref bean="CustomAttribute-name" />
+        <ref bean="CustomAttribute-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="CustomAttribute-id" parent="CustomAttribute-id-parentBean" />
+
+  <bean id="CustomAttribute-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Id" />
+    <property name="shortLabel" value="Id" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Id" />
+    <property name="description" value="Id" />
+  </bean>
+  <bean id="CustomAttribute-dataLength" parent="CustomAttribute-dataLength-parentBean" />
+
+  <bean id="CustomAttribute-dataLength-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dataLength" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Data Length" />
+    <property name="shortLabel" value="Data Length" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Data Length" />
+    <property name="description" value="Data Length" />
+  </bean>
+  <bean id="CustomAttribute-dataTypeCode" parent="CustomAttribute-dataTypeCode-parentBean" />
+
+  <bean id="CustomAttribute-dataTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dataTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Data Type Code" />
+    <property name="shortLabel" value="Data Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CustomAttributeDataTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Data Type Code" />
+    <property name="description" value="Data Type Code" />
+  </bean>
+  <bean id="CustomAttribute-defaultValue" parent="CustomAttribute-defaultValue-parentBean" />
+
+  <bean id="CustomAttribute-defaultValue-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultValue" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Default Value" />
+    <property name="shortLabel" value="Default Value" />
+    <property name="maxLength" value="2000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="Default Value" />
+    <property name="description" value="Default Value" />
+  </bean>
+  <bean id="CustomAttribute-groupName" parent="CustomAttribute-groupName-parentBean" />
+
+  <bean id="CustomAttribute-groupName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="groupName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Group Name" />
+    <property name="shortLabel" value="Group Name" />
+    <property name="maxLength" value="250" />
+    <property name="required" value="true" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Group Name" />
+    <property name="description" value="Group Name" />
+  </bean>
+  <bean id="CustomAttribute-label" parent="CustomAttribute-label-parentBean" />
+
+  <bean id="CustomAttribute-label-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="label" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Label" />
+    <property name="shortLabel" value="Label" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Label" />
+    <property name="description" value="Label" />
+  </bean>
+  <bean id="CustomAttribute-lookupClass" parent="CustomAttribute-lookupClass-parentBean" />
+
+  <bean id="CustomAttribute-lookupClass-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lookupClass" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Lookup Class" />
+    <property name="shortLabel" value="Lookup Class" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder"
+            p:includeKeyInLabel="false"
+            p:script="updateLookupReturn(this, updateLookupReturn_Callback)" />
+    </property>
+    <property name="summary" value="Lookup Class" />
+    <property name="description" value="Lookup Class" />
+  </bean>
+  <bean id="CustomAttribute-lookupReturn" parent="CustomAttribute-lookupReturn-parentBean" />
+
+  <bean id="CustomAttribute-lookupReturn-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lookupReturn" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Lookup Return" />
+    <property name="shortLabel" value="Lookup Return" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Lookup Return" />
+    <property name="description" value="Lookup Return" />
+  </bean>
+  <bean id="CustomAttribute-name" parent="CustomAttribute-name-parentBean" />
+
+  <bean id="CustomAttribute-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Name" />
+    <property name="description" value="Name" />
+  </bean>
+  <bean id="CustomAttribute-versionNumber" parent="CustomAttribute-versionNumber-parentBean" />
+
+  <bean id="CustomAttribute-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="CustomAttribute-inquiryDefinition" parent="CustomAttribute-inquiryDefinition-parentBean" />
+
+  <bean id="CustomAttribute-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Custom Attribute" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Custom Attribute" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="id"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dataLength" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dataTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultValue" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="groupName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="label" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lookupClass" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lookupReturn" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CustomAttribute-lookupDefinition" parent="CustomAttribute-lookupDefinition-parentBean" />
+
+  <bean id="CustomAttribute-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Custom Attribute Lookup" />
+    <property name="lookupableID" value="customLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="id" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataLength" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="defaultValue" />
+        <bean parent="FieldDefinition"
+              p:attributeName="groupName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="label" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupClass" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupReturn" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="id"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataLength" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="defaultValue" />
+        <bean parent="FieldDefinition"
+              p:attributeName="groupName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="label" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupClass" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupReturn" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+      </list>
+    </property>
+  </bean>
+</beans>

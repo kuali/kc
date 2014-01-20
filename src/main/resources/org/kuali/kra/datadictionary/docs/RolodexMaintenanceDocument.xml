@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="RolodexMaintenanceDocument" parent="RolodexMaintenanceDocument-parentBean"/>
+
+  <bean id="RolodexMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.Rolodex"/>
+    <property name="maintainableClass" value="org.kuali.kra.bo.RolodexMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="RolodexMaintenanceDocument-EditRolodex"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>rolodexId</value>
+      </list>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
+    <property name="documentTypeName" value="RolodexMaintenanceDocument"/>
+	 <property name="documentAuthorizerClass" value="org.kuali.kra.proposaldevelopment.document.authorizer.RolodexDocumentAuthorizer"/>
+    <property name="webScriptFiles">
+        <list>
+            <value>../dwr/interface/StateService.js</value>
+        </list>
+    </property>
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="RolodexMaintenanceDocument-EditRolodex" parent="RolodexMaintenanceDocument-EditRolodex-parentBean"/>
+
+  <bean id="RolodexMaintenanceDocument-EditRolodex-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Address Book"/>
+    <property name="title" value="Edit Address Book"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="addressLine1"/>
+        <bean parent="MaintainableFieldDefinition" p:name="addressLine2"/>
+        <bean parent="MaintainableFieldDefinition" p:name="addressLine3"/>
+        <bean parent="MaintainableFieldDefinition" p:name="city"/>
+        <bean parent="MaintainableFieldDefinition" p:name="comments"/>
+        <bean parent="MaintainableFieldDefinition" p:name="countryCode" p:webUILeaveFieldFunction="updateStateFromCountry"/>
+        <bean parent="MaintainableFieldDefinition" p:name="county"/>
+        <bean parent="MaintainableFieldDefinition" p:name="deleteFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="emailAddress"/>
+        <bean parent="MaintainableFieldDefinition" p:name="faxNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="firstName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="middleName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="lastName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="isSponsorAddress" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organization" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="ownedByUnit" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="phoneNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="postalCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="prefix"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="state"/>
+        <bean parent="MaintainableFieldDefinition" p:name="suffix"/>
+        <bean parent="MaintainableFieldDefinition" p:name="title"/>
+         <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+</beans>

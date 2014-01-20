@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by jenlu (Massachusetts Institute of Technology) -->
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by jenlu (Massachusetts Institute of Technology) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="AwardNotice">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SchoolInfo" type="SchoolInfoType2" minOccurs="0"/>
+				<xs:element name="AwardDisclosure" type="AwardDisclosureType" minOccurs="0"/>
+				<xs:element name="Award" type="AwardType" minOccurs="0"/>
+				<xs:element name="AODetails" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AONumber" type="xs:string" minOccurs="0"/>
+							<xs:element name="AOName" type="xs:string" minOccurs="0"/>
+							<xs:element name="AOAddress" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PrintRequirement" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SignatureRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="AddressListRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="CloseoutRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="CommentsRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="CostSharingRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="EquipmentRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="FlowThruRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="ForeignTravelRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="FundingSummaryRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="HierarchyInfoRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="CurrentDate" type="xs:date" minOccurs="0"/>
+							<xs:element name="IndirectCostRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="PaymentRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="ProposalDueRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="ReportingRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="ScienceCodeRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="SpecialReviewRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="SubcontractRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="TechnicalReportingRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="TermsRequired" type="xs:string" minOccurs="0"/>
+							<xs:element name="OtherDataRequired" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MoneyHistoryReport" type="MoneyHistoryReportType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="AwardHeaderType">
+		<xs:sequence>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="AccountNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="StatusCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="StatusDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="SponsorCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="SponsorDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="SponsorAwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="ModificationNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="NSFCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="NSFDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="PIName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Title" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InvestigatorUnitsType">
+		<xs:sequence>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="PersonId" type="xs:string" minOccurs="0"/>
+			<xs:element name="UnitNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="UnitName" type="xs:string" minOccurs="0"/>
+			<xs:element name="LeadUnit" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="OSPAdminName" type="xs:string" minOccurs="0"/>
+			<xs:element name="AdministrativeOfficer" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="AdministrativeOfficerName" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="UnitHead" type="xs:string" nillable="true" minOccurs="0"/> 
+			<xs:element name="UnitHeadName" type="xs:string" nillable="true" minOccurs="0"/>
+			<xs:element name="DeanVp" type="xs:string" nillable="true" minOccurs="0"/> 
+			<xs:element name="DeanVpName" type="xs:string" nillable="true" minOccurs="0"/> 
+			<xs:element name="OtherIndividualToNotify" type="xs:string" nillable="true" minOccurs="0"/> 
+			<xs:element name="OtherIndividualToNotifyName" type="xs:string" nillable="true" minOccurs="0"/> 
+
+                        <xs:element name="UnitAdministrator" minOccurs = "0" maxOccurs="unbounded">
+		          <xs:complexType>
+				<xs:sequence>
+					<xs:element name="UnitAdministratorTypeCode" type="xs:int" nillable="true" minOccurs="0"/>
+					<xs:element name="Administrator" type="xs:string" nillable="true" minOccurs="0"/> 
+					<xs:element name="AdministratorName" type="xs:string" nillable="true" minOccurs="0"/>					
+				</xs:sequence>
+			  </xs:complexType>
+			</xs:element> 
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InvestigatorType">
+		<xs:sequence>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="PersonId" type="xs:string" minOccurs="0"/>
+			<xs:element name="PersonName" type="xs:string" minOccurs="0"/>
+			<xs:element name="PrincipalInvestigator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="PersonAddress" type="xs:string" minOccurs="0"/>
+			<xs:element name="NonEmployee" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="Faculty" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="COI_Flag" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="PercentEffort" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="FEDR_DEBR_Flag" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="FEDR_DELQ_Flag" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="InvestigatorUnit" type="InvestigatorUnitsType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="KeyPersonType">
+		<xs:sequence>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="PersonId" type="xs:string" minOccurs="0"/>
+			<xs:element name="PersonName" type="xs:string" minOccurs="0"/>
+			<xs:element name="RoleName" type="xs:string" minOccurs="0"/>
+			<xs:element name="PersonAddress" type="xs:string" minOccurs="0"/>
+			<xs:element name="NonEmployee" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="Faculty" type="xs:boolean" minOccurs="0"/>			
+			<xs:element name="PercentEffort" type="xs:decimal" minOccurs="0"/>			
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DisclosureItemType">
+		<xs:sequence>
+			<xs:element name="DisclosureNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="PersonId" type="xs:string" minOccurs="0"/>
+			<xs:element name="PersonName" type="xs:string" minOccurs="0"/>
+			<xs:element name="DisclosureTypeCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="DisclosureTypeDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="DisclosureStatusCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="DisclosureStatusDesc" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="AwardHeader" type="AwardHeaderType"/>
+	<xs:complexType name="CommentDetailsType">
+		<xs:sequence>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="CommentCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+			<xs:element name="PrintChecklist" type="xs:boolean" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CommentType2">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+			<xs:element name="CommentDetails" type="CommentDetailsType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChildAwardType">
+		<xs:sequence>
+			<xs:element name="AwardHierarchy" type="AwardHierarchyType" minOccurs="0"/>
+			<xs:element name="PIName" type="xs:string" minOccurs="0"/>
+			<xs:element name="AccountNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="AnticipatedTotalAmt" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="FinalExpirationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="FinalExpDateModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="CurrentFundEffectiveDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="CurrentFundEffDateModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="AmtObligatedToDate" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ObligationExpDateModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="ObligationExpirationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="TotalObligatedAmount" type="xs:decimal" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AmountInfoType">
+		<xs:sequence>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="AmountSequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="AnticipatedTotalAmtModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="AnticipatedTotalAmt" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="AnticipatedDistributableAmtModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="AnticipatedDistributableAmt" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="FinalExpirationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="FinalExpDateModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="CurrentFundEffectiveDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="CurrentFundEffectiveDateModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="AmtObligatedToDate" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="AmtObligatedToDateModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="ObligatedDistributableAmtModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="ObligatedDistributableAmt" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ObligationExpirationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="ObligationExpDateModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="TransactionId" type="xs:string" minOccurs="0"/>
+			<xs:element name="TransactionDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="AnticipatedChange" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ObligatedChange" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="EntryType" type="xs:string" minOccurs="0"/>
+			<xs:element name="EOMProcess" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="AccountNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="TreeLevel" type="xs:int" minOccurs="0"/>
+			<xs:element name="TotalStartDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="TotalEndDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="TotalObligatedAmount" type="xs:double" minOccurs="0"/>
+			<xs:element name="TotalDistributableAmount" type="xs:double" minOccurs="0"/>
+			<xs:element name="ChildGrantTotal" type="xs:double" minOccurs="0"/>
+			<xs:element name="RemainingAnticipatedAmt" type="xs:double" minOccurs="0"/>
+			<xs:element name="ObligatedChangeDirect" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ObligatedChangeIndirect" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ObligatedTotalDirect" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ObligatedTotalIndirect" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="AnticipatedChangeDirect" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="AnticipatedChangeIndirect" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="AnticipatedTotalDirect" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="AnticipatedTotalIndirect" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="EnableAwdAntOblDirectIndirectCost" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ScienceCodeDetailType">
+		<xs:sequence>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="Code" type="xs:string" minOccurs="0"/>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TermDetailsType2">
+		<xs:sequence>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="TermCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="TermDescription" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TermType2">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+			<xs:element name="TermDetails" type="TermDetailsType2" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReportTermDetailsType2">
+		<xs:sequence>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="ReportClassCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="ReportClassDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="ReportCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="ReportCodeDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="FrequencyCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="FrequencyCodeDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="FrequencyBaseCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="FrequencyBaseDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="OSPDistributionCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="OSPDistributionDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="MailCopies" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ContactTypeDesc" type="xs:string" minOccurs="0"/>
+						<xs:element name="ContactTypeCode" type="xs:int" minOccurs="0"/>
+						<xs:element name="NumberOfCopies" type="xs:string" minOccurs="0"/>
+						<xs:element name="RolodexId" type="xs:string" minOccurs="0"/>
+						<xs:element name="RolodexName" type="xs:string" minOccurs="0"/>
+						<xs:element name="RolodexOrganization" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DueDateModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="DueDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReportTermType2">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+			<xs:element name="ReportTermDetails" type="ReportTermDetailsType2" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SpecialReviewType">
+		<xs:sequence>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="ReviewType" type="xs:int" minOccurs="0"/>
+			<xs:element name="ReviewTypeDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="ApprovalType" type="xs:int" minOccurs="0"/>
+			<xs:element name="ApprovalTypeDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="ProtocolNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="ApplicationDateModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="ApplicationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="ApprovalDateModified" type="xs:string" minOccurs="0"/>
+			<xs:element name="ApprovalDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RolodexDetailsType2">
+		<xs:sequence>
+			<xs:element name="RolodexId" type="xs:string" minOccurs="0"/>
+			<xs:element name="LastName" type="xs:string" minOccurs="0"/>
+			<xs:element name="FirstName" type="xs:string" minOccurs="0"/>
+			<xs:element name="MiddleName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Suffix" type="xs:string" minOccurs="0"/>
+			<xs:element name="Prefix" type="xs:string" minOccurs="0"/>
+			<xs:element name="Title" type="xs:string" minOccurs="0"/>
+			<xs:element name="Organization" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address1" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address2" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address3" type="xs:string" minOccurs="0"/>
+			<xs:element name="Fax" type="xs:string" minOccurs="0"/>
+			<xs:element name="Email" type="xs:string" minOccurs="0"/>
+			<xs:element name="City" type="xs:string" minOccurs="0"/>
+			<xs:element name="County" type="xs:string" minOccurs="0"/>
+			<xs:element name="StateCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="StateDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="Pincode" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+			<xs:element name="PhoneNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="CountryDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="SponsorCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="SponsorName" type="xs:string" minOccurs="0"/>
+			<xs:element name="OwnedByUnit" type="xs:string" minOccurs="0"/>
+			<xs:element name="OwnedByUnitName" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AwardHierarchyType">
+		<xs:sequence>
+			<xs:element name="RootAwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="ParentAwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherGroupDetailsType">
+		<xs:sequence>
+			<xs:element name="ColumnName" type="xs:string" minOccurs="0"/>
+			<xs:element name="ColumnValue" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherGroupType">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0" />
+			<xs:element name="OtherGroupDetails" type="OtherGroupDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AwardTransactionType">
+		<xs:sequence>
+		        <xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="AmountSequenceNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="TransactionTypeCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="TransactionTypeDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="NoticeDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+			<xs:element name="TreeLevel" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AwardType">
+		<xs:sequence>
+			<xs:element name="AwardDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="AwardHeader" minOccurs="0"/>
+						<xs:element name="OtherHeaderDetails" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ProposalNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="AwardTypeCode" type="xs:int" minOccurs="0"/>
+									<xs:element name="AwardTypeDesc" type="xs:string" minOccurs="0"/>
+									<xs:element name="SpecialEBRateOffCampus" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="SpecialEBRateOnCampus" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="SpecialRateComments" type="xs:string" minOccurs="0"/>
+									<xs:element name="PreAwardAuthorizedAmtModifeid" type="xs:string" minOccurs="0"/>
+									<xs:element name="PreAwardAuthorizedAmt" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="PreAwardEffectiveDateModifeid" type="xs:string" minOccurs="0"/>
+									<xs:element name="PreAwardEffectiveDate" type="xs:date" minOccurs="0"/>
+									<xs:element name="CFDANumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="DFAFSNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SubPlan" type="xs:string" minOccurs="0"/>
+									<xs:element name="ProcurementPriorityCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="PrimeSponsorCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="PrimeSponsorDescription" type="xs:string" minOccurs="0"/>
+									<xs:element name="NonCompetingContCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="NonCompetingContDesc" type="xs:string" minOccurs="0"/>
+									<xs:element name="CompetingRenewalCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="CompetingRenewalDesc" type="xs:string" minOccurs="0"/>
+									<xs:element name="BasisPaymentCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="BasisPaymentDesc" type="xs:string" minOccurs="0"/>
+									<xs:element name="PaymentMethodCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="PaymentMethodDesc" type="xs:string" minOccurs="0"/>
+									<xs:element name="ActivityTypeCode" type="xs:int" minOccurs="0"/>
+									<xs:element name="ActivityTypeDesc" type="xs:string" minOccurs="0"/>
+									<xs:element name="InvoiceInstructions" type="xs:string" minOccurs="0"/>
+									<xs:element name="FellowshipAdminName" type="xs:string" minOccurs="0"/>
+									<xs:element name="PaymentFreqCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="PaymentFreqDesc" type="xs:string" minOccurs="0"/>
+									<xs:element name="InvoiceCopies" type="xs:int" minOccurs="0"/>
+									<xs:element name="FinalInvoiceDue" type="xs:int" minOccurs="0"/>
+									<xs:element name="AccountTypeCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="AccountTypeDesc" type="xs:string" minOccurs="0"/>
+									<xs:element name="RootAccountNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="LastUpdate" type="xs:dateTime" minOccurs="0"/>
+									<xs:element name="UpdateUser" type="xs:string" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ExecutionDateModified" type="xs:string" minOccurs="0"/>
+						<xs:element name="BeginDateModified" type="xs:string" minOccurs="0"/>
+						<xs:element name="BeginDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="ExecutionDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="EffectiveDateModified" type="xs:string" minOccurs="0"/>
+						<xs:element name="EffectiveDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="ApprvdEquipmentIndicator" type="xs:string" minOccurs="0"/>
+						<xs:element name="ApprvdForeginTripIndicator" type="xs:string" minOccurs="0"/>
+						<xs:element name="ApprvdSubcontractIndicator" type="xs:string" minOccurs="0"/>
+						<xs:element name="PaymentScheduleIndicator" type="xs:string" minOccurs="0"/>
+						<xs:element name="IDCIndicator" type="xs:string" minOccurs="0"/>
+						<xs:element name="TransferSponsorIndicator" type="xs:string" minOccurs="0"/>
+						<xs:element name="CostSharingIndicator" type="xs:string" minOccurs="0"/>
+						<xs:element name="CostSharingProjectPeriodFieldDescription" type="xs:string" minOccurs="0"/>
+						<xs:element name="SpecialReviewIndicator" type="xs:string" minOccurs="0"/>
+						<xs:element name="ScienceCodeIndicator" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardInvestigators" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Investigator" type="InvestigatorType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardKeyPersons" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="KeyPerson" type="KeyPersonType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardComments" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Comment" type="CommentType2" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardAmountInfo" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AmountInfo" type="AmountInfoType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardTransactionInfo" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TransactionInfo" type="AwardTransactionType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>			
+			<xs:element name="ChildAwardDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ChildAward" type="ChildAwardType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardScienceCodes" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ScienceCodeDetail" type="ScienceCodeDetailType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardTermsDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Term" type="TermType2" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardReportingDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReportDetails" type="ReportTermType2" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardSpecialItems" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Equipment" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="Item" type="xs:string" minOccurs="0"/>
+									<xs:element name="Vendor" type="xs:string" minOccurs="0"/>
+									<xs:element name="Model" type="xs:string" minOccurs="0"/>
+									<xs:element name="Amount" type="xs:decimal" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ForeignTravel" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="PersonId" type="xs:string" minOccurs="0"/>
+									<xs:element name="PersonName" type="xs:string" minOccurs="0"/>
+									<xs:element name="Destination" type="xs:string" minOccurs="0"/>
+									<xs:element name="DateFromModified" type="xs:string" minOccurs="0"/>
+									<xs:element name="DateFrom" type="xs:date" minOccurs="0"/>
+									<xs:element name="DateToModified" type="xs:string" minOccurs="0"/>
+									<xs:element name="DateTo" type="xs:date" minOccurs="0"/>
+									<xs:element name="Amount" type="xs:decimal" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Subcontract" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="SubcontractorName" type="xs:string" minOccurs="0"/>
+									<xs:element name="Amount" type="xs:decimal" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="SubcontractFundingSource" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="SubcontractorName" type="xs:string" minOccurs="0"/>
+									<xs:element name="SubcontractCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="Amount" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="Status" type="xs:string" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardCostSharing" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+						<xs:element name="CostSharingItem" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="FiscalYear" type="xs:string" minOccurs="0"/>
+									<xs:element name="Percentage" type="xs:double" minOccurs="0"/>
+									<xs:element name="CostSharingType" type="xs:int" minOccurs="0"/>
+									<xs:element name="CostSharingDescription" type="xs:string" minOccurs="0"/>
+									<xs:element name="SourceAccount" type="xs:string" minOccurs="0"/>
+									<xs:element name="DestinationAccount" type="xs:string" minOccurs="0"/>
+									<xs:element name="Amount" type="xs:decimal" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardIndirectCosts" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+						<xs:element name="IndirectCostSharingItem" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="FiscalYear" type="xs:string" minOccurs="0"/>
+									<xs:element name="ApplicableRate" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="Campus" type="xs:boolean" minOccurs="0"/>
+									<xs:element name="IDCRateType" type="xs:int" minOccurs="0"/>
+									<xs:element name="IDCRateDescription" type="xs:string" minOccurs="0"/>
+									<xs:element name="SourceAccount" type="xs:string" minOccurs="0"/>
+									<xs:element name="DestinationAccount" type="xs:string" minOccurs="0"/>
+									<xs:element name="UnderRecoveryAmount" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="StartDateModified" type="xs:string" minOccurs="0"/>
+									<xs:element name="StartDate" type="xs:date" minOccurs="0"/>
+									<xs:element name="EndDateModified" type="xs:string" minOccurs="0"/>
+									<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardTransferringSponsors" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TransferringSponsor" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="SponsorCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="SponsorDescription" type="xs:string" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardPaymentSchedules" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PaymentSchedule" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="DueDateModified" type="xs:string" minOccurs="0"/>
+									<xs:element name="DueDate" type="xs:date" minOccurs="0"/>
+									<xs:element name="Amount" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="SubmitDateModified" type="xs:string" minOccurs="0"/>
+									<xs:element name="SubmitDate" type="xs:date" minOccurs="0"/>
+									<xs:element name="SubmittedBy" type="xs:string" minOccurs="0"/>
+									<xs:element name="InvoiceNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="StatusDescription" type="xs:string" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			   <xs:element name="AwardCloseOutDeadlines" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+					<xs:element name="ArchiveLocation" type="xs:string"
+										minOccurs="0" />
+					<xs:element name="ArchiveDate" type="xs:date"
+										minOccurs="0" />
+					<xs:element name="AwardNumber" type="xs:string"
+										minOccurs="0" />
+					<xs:element name="SequenceNumber" type="xs:int"
+										minOccurs="0" />
+						<xs:element name="CloseOutDeadlines" minOccurs="0"
+							maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FinalReportType" type="xs:string"
+										minOccurs="0" />
+									<xs:element name="FinalDueDate" type="xs:date"
+										minOccurs="0" />
+									<xs:element name="FinalSubDate" type="xs:date"
+										minOccurs="0" />
+									<xs:element name="FinalSubDateModified" type="xs:string"
+										minOccurs="0" />
+									<xs:element name="FinalDueDateModified" type="xs:string"
+										minOccurs="0" />	
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardSpecialReviews" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SpecialReview" type="SpecialReviewType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardContacts" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ContactDetails" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="ContactType" type="xs:int" minOccurs="0"/>
+									<xs:element name="ContactTypeDesc" type="xs:string" minOccurs="0"/>
+									<xs:element name="RolodexDetails" type="RolodexDetailsType2" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardBudgetDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BudgetDetails" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="LineItemNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="CostElementCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="CostElementDescription" type="xs:string" minOccurs="0"/>
+									<xs:element name="LineItemDescription" type="xs:string" minOccurs="0"/>
+									<xs:element name="AnticipatedAmount" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="ObligatedAmount" type="xs:decimal" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardFundingProposals" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FundingProposal" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="ProposalNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="ProposalSequenceNumber" type="xs:int" minOccurs="0"/>
+									<xs:element name="ProopsalTypeCode" type="xs:int" minOccurs="0"/>
+									<xs:element name="ProposalTypeDescription" type="xs:string" minOccurs="0"/>
+									<xs:element name="ProposalStatusCode" type="xs:int" minOccurs="0"/>
+									<xs:element name="ProposalStatusDescription" type="xs:string" minOccurs="0"/>
+									<xs:element name="RequestedStartDateTotalModified" type="xs:string" minOccurs="0"/>
+									<xs:element name="RequestedStartDateTotal" type="xs:date" minOccurs="0"/>
+									<xs:element name="RequestedEndDateTotalModified" type="xs:string" minOccurs="0"/>
+									<xs:element name="RequestedEndDateTotal" type="xs:date" minOccurs="0"/>
+									<xs:element name="DirectCostTotal" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="IndirectCostTotal" type="xs:decimal" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardOtherDatas" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OtherData" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ColumnName" type="xs:string" minOccurs="0"/>
+									<xs:element name="ColumnValue" type="xs:string" minOccurs="0"/>
+									<xs:element name="OtherDetails" type="OtherGroupType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AwardFundingSummary" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FundingSummary" type="AmountInfoType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SchoolInfoType2">
+		<xs:sequence>
+			<xs:element name="SchoolName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Acronym" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AwardDisclosureType">
+		<xs:sequence>
+			<xs:element ref="AwardHeader" minOccurs="0"/>
+			<xs:element name="DisclosureItem" type="DisclosureItemType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MoneyHistoryReportType">
+		<xs:sequence>
+			<xs:element name="MoneyHistorySeq" type="xs:int" minOccurs="0"/>
+			<xs:element name="MoneyHistoryInfo" type="AmountInfoType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="MoneyHistoryTransactionInfo" type="AwardTransactionType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

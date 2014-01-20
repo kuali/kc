@@ -1,0 +1,504 @@
+/* Database changes for Authorization Maintanence documents */
+/* This script is ONLY for development databases, not test databases. */
+/* For test databases, use 1401b. */
+insert into FP_DOC_TYPE_T (FDOC_TYP_CD, VER_NBR, FDOC_GRP_CD, FDOC_NM, FIN_ELIM_ELGBL_CD, FDOC_TYP_ACTIVE_CD, FDOC_RTNG_RULE_CD, FDOC_AUTOAPRV_DAYS, FDOC_BALANCED_CD, TRN_SCRBBR_OFST_GEN_IND) values ('KIRP', 1, 'KR', 'KIM ROLE-PERMISSION', 'N', 'Y', 'N', 0, 'N', 'N');
+
+insert into FP_DOC_TYPE_T (FDOC_TYP_CD, VER_NBR, FDOC_GRP_CD, FDOC_NM, FIN_ELIM_ELGBL_CD, FDOC_TYP_ACTIVE_CD, FDOC_RTNG_RULE_CD, FDOC_AUTOAPRV_DAYS, FDOC_BALANCED_CD, TRN_SCRBBR_OFST_GEN_IND) values ('UAED', 1, 'KR', 'UNIT ACL ENTRY', 'N', 'Y', 'N', 0, 'N', 'N');
+
+insert into FP_DOC_TYPE_T (FDOC_TYP_CD, VER_NBR, FDOC_GRP_CD, FDOC_NM, FIN_ELIM_ELGBL_CD, FDOC_TYP_ACTIVE_CD, FDOC_RTNG_RULE_CD, FDOC_AUTOAPRV_DAYS, FDOC_BALANCED_CD, TRN_SCRBBR_OFST_GEN_IND) values ('PRTD', 1, 'KR', 'PROPOSAL ROLE TEMPLATE', 'N', 'Y', 'N', 0, 'N', 'N');
+
+create table UNIT_ACL 
+(
+    ID NUMBER(8) NOT NULL,
+    PERSON_ID VARCHAR2(10) NOT NULL ENABLE, 
+    ROLE_ID NUMBER(8) NOT NULL,
+    UNIT_NUMBER VARCHAR2(8) NOT NULL, 
+    SUBUNITS CHAR(1) NOT NULL,
+    ACTIVE_FLAG CHAR(1) NOT NULL,
+    VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,
+    OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,
+    CONSTRAINT "PK_UNIT_ACL_KRA" PRIMARY KEY ("ID") ENABLE
+);
+
+CREATE SEQUENCE SEQ_UNIT_ACL_ID INCREMENT BY 1 START WITH 1000;
+
+alter table KIM_ROLES_PERMISSIONS_T add (ACTIVE_FLAG CHAR(1) DEFAULT 'Y' NOT NULL);
+
+create table PROP_ROLE_TEMPLATE
+(
+    ID NUMBER(8) NOT NULL,
+    PERSON_ID VARCHAR2(10) NOT NULL ENABLE, 
+    ROLE_NAME VARCHAR2(500) NOT NULL,
+    UNIT_NUMBER VARCHAR2(8) NOT NULL, 
+    ACTIVE_FLAG CHAR(1) NOT NULL,
+    VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,
+    OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,
+    CONSTRAINT "PK_PROP_ROLE_TEMPLATE_KRA" PRIMARY KEY ("ID") ENABLE
+);
+
+CREATE SEQUENCE SEQ_PROP_ROLE_TEMPLATE_ID INCREMENT BY 1 START WITH 1000;
+
+/* Add a new set of users */
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (10, 'majors', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (11, 'chew', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (12, 'woods', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (13, 'oblood', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (14, 'cate', 'fK69ATFsAydwQuteang+xMva+Tc=');
+
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) 
+values ('000000010','Majors','Nicholas','Nicholas Majors','majors','Kuali Foundation','000001', 10, 'Y', SYSDATE,'KRADEV','1');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) 
+values ('000000011','Chew','Inez','Inez Chew','chew','Kuali Foundation','BL-BL', 11, 'Y', SYSDATE,'KRADEV','1');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) 
+values ('000000012','Woods','Della','Della Woods','woods','Kuali Foundation','IU-UNIV', 12, 'Y', SYSDATE,'KRADEV','1');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) 
+values ('000000013','Blood','Opal','Opal Blood','oblood','Kuali Foundation','BL-RCEN', 13, 'Y', SYSDATE,'KRADEV','1');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) 
+values ('000000014','Cate','Allyson','Allyson Cate','cate','Kuali Foundation','IN-MDEP', 14, 'Y', SYSDATE,'KRADEV','1');
+
+/* quickstart roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (1, '000000003', 1, '000001', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (2, '000000003', 1, 'BL-IIDC', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (3, '000000003', 1, 'IN-CARD', 'Y', 'Y', 1);
+
+/* ljconno roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (4, '000000004', 1, '000001', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (5, '000000004', 1, 'BL-IIDC', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (6, '000000004', 1, 'IN-CARD', 'Y', 'Y', 1);
+
+/* bhutchinson roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (7, '000000005', 1, '000001', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (8, '000000005', 1, 'BL-IIDC', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (9, '000000005', 1, 'IN-CARD', 'Y', 'Y', 1);
+
+/* aslusar roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (10, '000000006', 1, '000001', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (11, '000000006', 1, 'BL-IIDC', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (12, '000000006', 1, 'IN-CARD', 'Y', 'Y', 1);
+
+/* tdurkin roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (13, '000000001', 1, '000001', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (14, '000000001', 1, 'BL-IIDC', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (15, '000000001', 1, 'IN-CARD', 'Y', 'Y', 1);
+
+/* pcberg roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (16, '000000002', 1, '000001', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (17, '000000002', 1, 'BL-IIDC', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (18, '000000002', 1, 'IN-CARD', 'Y', 'Y', 1);
+
+/* jtester roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (19, '000000008', 1, '000001', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (20, '000000008', 1, 'BL-IIDC', 'N', 'Y', 1);
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (21, '000000008', 1, 'IN-CARD', 'Y', 'Y', 1);
+
+/* majors roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (22, '000000010', 1, '000001', 'Y', 'Y', 1);
+
+/* oblood roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (23, '000000013', 1, '000001', 'Y', 'Y', 1);
+
+/* woods roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (24, '000000012', 1, 'BL-IIDC', 'Y', 'Y', 1);
+
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (25, '000000012', 1, 'IN-MDEP', 'Y', 'Y', 1);
+
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (26, '000000012', 1, 'IN-PED', 'N', 'Y', 1);
+
+/* chew roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (27, '000000011', 1, 'BL-BL', 'Y', 'Y', 1);
+
+/* cate roles */
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR)
+values (28, '000000014', 1, 'IN-MED', 'N', 'Y', 1);
+
+
+/* extra users */
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (51,'houlihan', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000050', 'HOULIHAN','JAY', 'HOULIHAN,JAY H','houlihan','Kuali Foundation','000001', 51, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (52,'rbpaulin', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000051', 'PAULIN','RAYMOND', 'PAULIN,RAYMOND B','rbpaulin','Kuali Foundation','000001', 52, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (53,'donugent', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000052', 'NUGENT','DOMINIC', 'NUGENT,DOMINIC O','donugent','Kuali Foundation','000001', 53, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (54,'mbshorte', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000053', 'SHORTER','MARLON', 'SHORTER,MARLON B','mbshorte','Kuali Foundation','000001', 54, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (55,'underwoo', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000054', 'UNDERWOOD','MARGUERITE', 'UNDERWOOD,MARGUERITE H','underwoo','Kuali Foundation','000001', 55, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (56,'hweubank', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000055', 'EUBANK','HIRAM', 'EUBANK,HIRAM W','hweubank','Kuali Foundation','000001', 56, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (57,'lvbarger', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000056', 'BARGER','LLOYD', 'BARGER,LLOYD V','lvbarger','Kuali Foundation','000001', 57, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (58,'jckahler', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000057', 'KAHLER','JUANA', 'KAHLER,JUANA C','jckahler','Kuali Foundation','000001', 58, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (59,'byler', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000058', 'BYLER','ELBA', 'BYLER,ELBA B','byler','Kuali Foundation','000001', 59, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (60,'aemcafee', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000059', 'MCAFEE','ALAN', 'MCAFEE,ALAN E','aemcafee','Kuali Foundation','000001', 60, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (61,'westfall', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000060', 'WESTFALL','HENRY', 'WESTFALL,HENRY F','westfall','Kuali Foundation','000001', 61, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (62,'bbshankl', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000061', 'SHANKLE','BURT', 'SHANKLE,BURT B','bbshankl','Kuali Foundation','000001', 62, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (63,'ferland', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000062', 'FERLAND','ROBERTA', 'FERLAND,ROBERTA L','ferland','Kuali Foundation','000001', 63, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (64,'khcrabtr', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000063', 'CRABTREE','KENDRICK', 'CRABTREE,KENDRICK H','khcrabtr','Kuali Foundation','000001', 64, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (65,'felker', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000064', 'FELKER','OLIVE', 'FELKER,OLIVE P','felker','Kuali Foundation','000001', 65, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (66,'martin', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000065', 'MARTIN','AUDREY', 'MARTIN,AUDREY F','martin','Kuali Foundation','000001', 66, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (67,'sterner', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000066', 'STERNER','EVERETTE', 'STERNER,EVERETTE W','sterner','Kuali Foundation','000001', 67, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (68,'chbayles', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000067', 'BAYLESS','CORINA', 'BAYLESS,CORINA H','chbayles','Kuali Foundation','000001', 68, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (69,'tmkato', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000068', 'KATO','THEODORE', 'KATO,THEODORE M','tmkato','Kuali Foundation','000001', 69, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (70,'cphovis', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000069', 'HOVIS','CLAUDIA', 'HOVIS,CLAUDIA P','cphovis','Kuali Foundation','000001', 70, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (71,'rnmcinty', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000070', 'MCINTYRE','RAFAEL', 'MCINTYRE,RAFAEL N','rnmcinty','Kuali Foundation','000001', 71, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (72,'eagle', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000071', 'EAGLE','EMORY', 'EAGLE,EMORY W','eagle','Kuali Foundation','000001', 72, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (73,'mjpond', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000072', 'POND','MITZI', 'POND,MITZI J','mjpond','Kuali Foundation','000001', 73, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (74,'flaherty', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000073', 'FLAHERTY','ANGELICA', 'FLAHERTY,ANGELICA C','flaherty','Kuali Foundation','000001', 74, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (75,'mukoss', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000074', 'KOSS','MASON', 'KOSS,MASON U','mukoss','Kuali Foundation','000001', 75, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (76,'mceacher', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000075', 'MCEACHERN','ORA', 'MCEACHERN,ORA U','mceacher','Kuali Foundation','000001', 76, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (77,'wacuna', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000076', 'ACUNA','WM', 'ACUNA,WM T','wacuna','Kuali Foundation','000001', 77, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (78,'schulte', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000077', 'SCHULTE','MARITZA', 'SCHULTE,MARITZA D','schulte','Kuali Foundation','000001', 78, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (79,'odevries', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000078', 'DEVRIES','OLIVER', 'DEVRIES,OLIVER M','odevries','Kuali Foundation','000001', 79, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (80,'dxdevane', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000079', 'DEVANEY','DARREN', 'DEVANEY,DARREN X','dxdevane','Kuali Foundation','000001', 80, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (81,'psmock', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000080', 'SMOCK','PAULETTE', 'SMOCK,PAULETTE V','psmock','Kuali Foundation','000001', 81, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (82,'lvclinks', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000081', 'CLINKSCALES','LOGAN', 'CLINKSCALES,LOGAN V','lvclinks','Kuali Foundation','000001', 82, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (83,'brunelle', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000082', 'BRUNELLE','ANTWAN', 'BRUNELLE,ANTWAN I','brunelle','Kuali Foundation','000001', 83, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (84,'cbernal', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000083', 'BERNAL','CONCETTA', 'BERNAL,CONCETTA N','cbernal','Kuali Foundation','000001', 84, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (85,'borst', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000084', 'BORST','BARBRA', 'BORST,BARBRA L','borst','Kuali Foundation','000001', 85, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (86,'wsoileau', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000085', 'SOILEAU','WALLACE', 'SOILEAU,WALLACE W','wsoileau','Kuali Foundation','000001', 86, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (87,'burd', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000086', 'BURD','ALTHEA', 'BURD,ALTHEA Q','burd','Kuali Foundation','000001', 87, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (88,'engel', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000087', 'ENGEL','LOUELLA', 'ENGEL,LOUELLA S','engel','Kuali Foundation','000001', 88, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (89,'headley', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000088', 'HEADLEY','FAYE', 'HEADLEY,FAYE L','headley','Kuali Foundation','000001', 89, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (90,'rpgailey', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000089', 'GAILEY','RONDA', 'GAILEY,RONDA P','rpgailey','Kuali Foundation','000001', 90, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (91,'shields', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000090', 'SHIELDS','IVAN', 'SHIELDS,IVAN X','shields','Kuali Foundation','000001', 91, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (92,'elgin', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000091', 'ELGIN','OLIVER', 'ELGIN,OLIVER M','elgin','Kuali Foundation','000001', 92, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (93,'boman', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000092', 'BOMAN','BEATRIZ', 'BOMAN,BEATRIZ R','boman','Kuali Foundation','000001', 93, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (94,'duggins', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000093', 'DUGGINS','TREVOR', 'DUGGINS,TREVOR N','duggins','Kuali Foundation','000001', 94, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (95,'khowens', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000094', 'OWENS','KELLY', 'OWENS,KELLY H','khowens','Kuali Foundation','000001', 95, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (96,'ndarr', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000095', 'DARR','NOELLE', 'DARR,NOELLE R','ndarr','Kuali Foundation','000001', 96, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (97,'cary', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000096', 'CARY','CECILE', 'CARY,CECILE Z','cary','Kuali Foundation','000001', 97, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (98,'clmcbee', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000097', 'MCBEE','CHARITY', 'MCBEE,CHARITY L','clmcbee','Kuali Foundation','000001', 98, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (99,'ralston', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000098', 'RALSTON','DAMON', 'RALSTON,DAMON Q','ralston','Kuali Foundation','000001', 99, 'Y', SYSDATE,'KRADEV','1');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (100,'mwmartin', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000099', 'MARTIN','MERRILL', 'MARTIN,MERRILL W','mwmartin','Kuali Foundation','000001', 100, 'Y', SYSDATE,'KRADEV','1');
+
+/* workflow groups */
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('majors', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('majors', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('chew', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('chew', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('woods', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('woods', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('oblood', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('oblood', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('cate', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('cate', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('houlihan', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('houlihan', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('rbpaulin', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('rbpaulin', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('donugent', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('donugent', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('mbshorte', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('mbshorte', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('underwoo', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('underwoo', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('hweubank', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('hweubank', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('lvbarger', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('lvbarger', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('jckahler', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('jckahler', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('byler', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('byler', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('aemcafee', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('aemcafee', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('westfall', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('westfall', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('bbshankl', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('bbshankl', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('ferland', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('ferland', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('khcrabtr', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('khcrabtr', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('felker', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('felker', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('martin', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('martin', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('sterner', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('sterner', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('chbayles', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('chbayles', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('tmkato', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('tmkato', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('cphovis', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('cphovis', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('rnmcinty', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('rnmcinty', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('eagle', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('eagle', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('mjpond', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('mjpond', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('flaherty', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('flaherty', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('mukoss', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('mukoss', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('mceacher', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('mceacher', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('wacuna', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('wacuna', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('schulte', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('schulte', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('odevries', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('odevries', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('dxdevane', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('dxdevane', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('psmock', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('psmock', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('lvclinks', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('lvclinks', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('brunelle', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('brunelle', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('cbernal', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('cbernal', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('borst', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('borst', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('wsoileau', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('wsoileau', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('burd', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('burd', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('engel', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('engel', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('headley', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('headley', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('rpgailey', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('rpgailey', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('shields', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('shields', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('elgin', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('elgin', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('boman', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('boman', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('duggins', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('duggins', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('khowens', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('khowens', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('ndarr', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('ndarr', 1, 'U', 2);
+
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('cary', 1, 'U', 1);
+insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
+values ('cary', 1, 'U', 2);
+

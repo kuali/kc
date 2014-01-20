@@ -1,0 +1,204 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="ValidIacucProtoActionCoresp" parent="ValidIacucProtoActionCoresp-parentBean" />
+    <bean id="ValidIacucProtoActionCoresp-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.correspondence.ValidIacucProtoActionCoresp" />
+   		<property name="objectLabel" value="Correspondence Generated for Iacuc Protocol Action" />
+        <property name="inquiryDefinition" >
+            <ref bean="ValidIacucProtoActionCoresp-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="ValidIacucProtoActionCoresp-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="validProtoActionCorespId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="ValidIacucProtoActionCoresp-validProtoActionCorespId" />
+                <ref bean="ValidIacucProtoActionCoresp-protocolActionTypeCode" />
+                <ref bean="ValidIacucProtoActionCoresp-protoCorrespTypeCode" />
+                <ref bean="ValidIacucProtoActionCoresp-finalFlag" />
+                <ref bean="ValidIacucProtoActionCoresp-protocolActionType.description" />
+                <ref bean="ValidIacucProtoActionCoresp-protocolCorrespondenceType.description" />
+                <ref bean="ValidIacucProtoActionCoresp-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="ValidIacucProtoActionCoresp-validProtoActionCorespId" parent="ValidIacucProtoActionCoresp-validProtoActionCorespId-parentBean" />
+    <bean id="ValidIacucProtoActionCoresp-validProtoActionCorespId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="validProtoActionCorespId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Valid Proto Action Coresp Id" />
+        <property name="shortLabel" value="Valid Proto Action Coresp Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Valid Proto Action Coresp Id" />
+        <property name="description" value="Valid Proto Action Coresp Id" />
+    </bean>
+
+    <bean id="ValidIacucProtoActionCoresp-protocolActionTypeCode" parent="ValidIacucProtoActionCoresp-protocolActionTypeCode-parentBean" />
+    <bean id="ValidIacucProtoActionCoresp-protocolActionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocolActionTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Iacuc Protocol Action Type" />
+        <property name="shortLabel" value="Iacuc Protocol Action Type" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="required" value="true" />
+        <property name="control" >
+          <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.iacuc.actions.IacucProtocolActionType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="protocolActionTypeCode"
+                p:labelAttribute="description" />
+        </property>
+        <property name="summary" value="Iacuc Protocol Action Type" />
+        <property name="description" value="Iacuc Protocol Action Type" />
+    </bean>
+
+    <bean id="ValidIacucProtoActionCoresp-protoCorrespTypeCode" parent="ValidIacucProtoActionCoresp-protoCorrespTypeCode-parentBean" />
+    <bean id="ValidIacucProtoActionCoresp-protoCorrespTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protoCorrespTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Iacuc Protocol Correspodence Type" />
+        <property name="shortLabel" value="Iacuc Protocol Correspodence Type Code" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+          <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="protoCorrespTypeCode"
+                p:labelAttribute="description" />
+        </property>
+        <property name="summary" value="Iacuc Protocol Correspodence Type" />
+        <property name="description" value="Iacuc Protocol Correspodence Type" />
+    </bean>
+
+    <bean id="ValidIacucProtoActionCoresp-finalFlag" parent="ValidIacucProtoActionCoresp-finalFlag-parentBean" />
+    <bean id="ValidIacucProtoActionCoresp-finalFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="finalFlag" />
+        <property name="label" value="Final Flag" />
+        <property name="shortLabel" value="Final Flag" />
+        <property name="summary" value="Final Flag" />
+        <property name="description" value="Final Flag" />
+    </bean>
+
+  <bean id="ValidIacucProtoActionCoresp-protocolActionType.description" parent="ValidIacucProtoActionCoresp-protocolActionType.description-parentBean" />
+  <bean id="ValidIacucProtoActionCoresp-protocolActionType.description-parentBean" abstract="true" parent="IacucProtocolActionType-description">
+    <property name="name" value="protocolActionType.description" />
+    <property name="label" value="Protocol Action Type" />
+    <property name="shortLabel" value="Protocol Action Type" />
+  </bean>
+
+  <bean id="ValidIacucProtoActionCoresp-protocolCorrespondenceType.description" parent="ValidIacucProtoActionCoresp-protocolCorrespondenceType.description-parentBean" />
+  <bean id="ValidIacucProtoActionCoresp-protocolCorrespondenceType.description-parentBean" abstract="true" parent="IacucProtocolCorrespondenceType-description">
+    <property name="name" value="protocolCorrespondenceType.description" />
+    <property name="label" value="Protocol Correspondence Type" />
+    <property name="shortLabel" value="Protocol Correspondence Type" />
+  </bean>
+
+
+    <bean id="ValidIacucProtoActionCoresp-versionNumber" parent="ValidIacucProtoActionCoresp-versionNumber-parentBean" />
+    <bean id="ValidIacucProtoActionCoresp-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="ValidIacucProtoActionCoresp-inquiryDefinition" parent="ValidIacucProtoActionCoresp-inquiryDefinition-parentBean" />
+    <bean id="ValidIacucProtoActionCoresp-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Valid Proto Action Coresp Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Valid Proto Action Coresp Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="validProtoActionCorespId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="protocolActionTypeCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="protoCorrespTypeCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="finalFlag" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="ValidIacucProtoActionCoresp-lookupDefinition" parent="ValidIacucProtoActionCoresp-lookupDefinition-parentBean" />
+    <bean id="ValidIacucProtoActionCoresp-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Correspondence Generated for Iacuc Protocol Action Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="validProtoActionCorespId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolActionTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protoCorrespTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="finalFlag" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="validProtoActionCorespId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolActionType.description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolCorrespondenceType.description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="finalFlag" />
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://kfs.kuali.org/kc-kfs/v2_0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="budgetAdjustmentServiceSOAP" targetNamespace="http://kfs.kuali.org/kc-kfs/v2_0">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://kfs.kuali.org/kc-kfs/v2_0" elementFormDefault="unqualified" targetNamespace="http://kfs.kuali.org/kc-kfs/v2_0" version="1.0">
+<xs:element name="createBudgetAdjustment" type="tns:createBudgetAdjustment"/>
+<xs:element name="createBudgetAdjustmentResponse" type="tns:createBudgetAdjustmentResponse"/>
+<xs:complexType name="createBudgetAdjustment">
+<xs:sequence>
+<xs:element minOccurs="0" name="budgetAdjustmentParametersDTO" type="tns:budgetAdjustmentParametersDTO"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="budgetAdjustmentParametersDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="details" nillable="true" type="tns:details"/>
+<xs:element minOccurs="0" name="explanation" type="xs:string"/>
+<xs:element minOccurs="0" name="orgDocNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="sponsorType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="details">
+<xs:sequence>
+<xs:element minOccurs="0" name="account" type="xs:string"/>
+<xs:element minOccurs="0" name="chart" type="xs:string"/>
+<xs:element minOccurs="0" name="currentAmount" type="xs:string"/>
+<xs:element minOccurs="0" name="objectCode" type="xs:string"/>
+<xs:element minOccurs="0" name="projectCode" type="xs:string"/>
+<xs:element minOccurs="0" name="subAccount" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createBudgetAdjustmentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:budgetAdjustmentCreationStatusDTO"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="budgetAdjustmentCreationStatusDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentNumber" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="errorMessages" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createBudgetAdjustmentResponse">
+    <wsdl:part element="tns:createBudgetAdjustmentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createBudgetAdjustment">
+    <wsdl:part element="tns:createBudgetAdjustment" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="budgetAdjustmentService">
+    <wsdl:operation name="createBudgetAdjustment">
+      <wsdl:input message="tns:createBudgetAdjustment" name="createBudgetAdjustment">
+    </wsdl:input>
+      <wsdl:output message="tns:createBudgetAdjustmentResponse" name="createBudgetAdjustmentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="budgetAdjustmentServiceSOAPSoapBinding" type="tns:budgetAdjustmentService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createBudgetAdjustment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createBudgetAdjustment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createBudgetAdjustmentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="budgetAdjustmentServiceSOAP">
+    <wsdl:port binding="tns:budgetAdjustmentServiceSOAPSoapBinding" name="budgetAdjustmentServicePort">
+      <soap:address location="http://stg.kfs.kuali.org/kfs-stg/remoting/budgetAdjustmentServiceSOAP"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

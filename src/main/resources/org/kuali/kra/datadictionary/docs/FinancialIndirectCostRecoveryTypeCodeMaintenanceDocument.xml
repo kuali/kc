@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument" parent="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument-parentBean"/>
+
+  <bean id="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument-EditFinancialIndirectCostRecoveryTypeCode"/>
+      </list>
+    </property>
+    <property name="allowsNewOrCopy" value="true"/>
+    <property name="lockingKeys">
+      <list>
+        <value>rateClassCode</value>
+        <value>rateTypeCode</value>
+      </list>
+    </property>
+    <property name="allowsRecordDeletion" value="true" />
+    
+    <property name="documentTypeName" value="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+ 	<property name="businessRulesClass" value="org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCodeDocumentRule"/>
+    
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument-EditFinancialIndirectCostRecoveryTypeCode" parent="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument-EditFinancialIndirectCostRecoveryTypeCode-parentBean"/>
+
+  <bean id="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument-EditFinancialIndirectCostRecoveryTypeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit FinancialIndirectCostRecoveryTypeCode"/>
+    <property name="title" value="Edit FinancialIndirectCostRecoveryTypeCode"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="rateClassCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rateTypeCode" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="icrTypeCode" p:required="true"/>
+      </list>
+    </property>
+  </bean>
+</beans>
+

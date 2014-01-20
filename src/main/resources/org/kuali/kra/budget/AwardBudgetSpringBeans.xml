@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2005-2014 The Kuali Foundation.
+
+    Licensed under the Educational Community License, Version 1.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl1.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+                           
+    <bean id="budgetService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetService" />
+    </bean>
+    
+    <bean id="budgetCalculationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetCalculationService" />
+    </bean>
+    
+    <bean id="budgetDistributionAndIncomeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetDistributionAndIncomeService" />
+    </bean>
+    
+    <bean id="kraDocumentRejectionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kraDocumentRejectionService" />
+    </bean>
+                           
+    <bean id="awardBudgetService"  class="org.kuali.kra.award.budget.AwardBudgetServiceImpl">
+        <property name="budgetService" ref="budgetService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
+        <property name="budgetSummaryService" ref="budgetSummaryService" />
+        <property name="budgetCalculationService" ref="budgetCalculationService" />
+        <property name="awardBudgetCalculationService" ref="awardBudgetCalculationService" />
+        <property name="versionHistoryService" ref="versionHistoryService" />
+        <property name="awardService" ref="awardService" />
+    </bean>
+    
+    <bean id="awardBudgetCalculationService" class="org.kuali.kra.award.budget.calculator.AwardBudgetCalculationServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="budgetDistributionAndIncomeService" ref="budgetDistributionAndIncomeService" />
+    </bean>
+          
+    <!-- Award Budget Task Authorizers -->
+    
+    <bean id="parentBudgetAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+    </bean>
+    
+    <bean id="awardBudgetTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="awardBudget" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.ModifyAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="modifyBudget" />
+                </bean>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.ViewAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="viewBudget" />
+                </bean>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.SubmitAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="submitToWorkflow" />
+                </bean>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.ApproveAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="approveAwardBudget" />
+                </bean>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.ApproveAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="disapproveAwardBudget" />
+                </bean>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.PostAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="postAwardBudget" />
+                </bean>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.ToggleAwardBudgetStatusAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="toggleAwardBudgetStatus" />
+                </bean>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.RejectAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="rejectBudget" />
+                    <property name="requiresWritableDoc" value="true"/>
+                    <property name="kraDocumentRejectionService" ref="kraDocumentRejectionService"/>
+                </bean>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.CancelAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="cancelBudget" />
+                    <property name="requiresWritableDoc" value="true"/>
+                    <property name="kraDocumentRejectionService" ref="kraDocumentRejectionService"/>
+                </bean>  
+                <bean class="org.kuali.kra.award.budget.document.authorizer.ViewAwardBudgetSalariesAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="viewSalaries" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+</beans>
