@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.printing;
 
-import noNamespace.*;
+import org.kuali.kra.printing.schema.*;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;

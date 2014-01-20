@@ -17,17 +17,11 @@ package org.kuali.kra.proposaldevelopment.document;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
@@ -53,6 +47,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -67,6 +62,7 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;
@@ -97,9 +93,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     private static final long serialVersionUID = 2958631745964610527L;
 
-    @OneToMany(mappedBy = "proposalDocument")
+    @OneToOne(mappedBy = "proposalDocument")
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
-    private List<DevelopmentProposal> developmentProposalList;
+    private DevelopmentProposal developmentProposal;
 
     @OneToMany(targetEntity = BudgetDocumentVersion.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "PARENT_DOCUMENT_KEY", insertable = false, updatable = false)
@@ -128,33 +124,19 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     public ProposalDevelopmentDocument() {
         super();
-        developmentProposalList = new ArrayList<DevelopmentProposal>();
         DevelopmentProposal newProposal = new DevelopmentProposal();
         newProposal.setProposalDocument(this);
-        developmentProposalList.add(newProposal);
+        developmentProposal = newProposal;
         budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
         customDataList = new ArrayList<CustomAttributeDocValue>();
     }
 
-    public List<DevelopmentProposal> getDevelopmentProposalList() {
-        return developmentProposalList;
-    }
-
-    public void setDevelopmentProposalList(List<DevelopmentProposal> proposalList) {
-        this.developmentProposalList = proposalList;
-    }
-
     public DevelopmentProposal getDevelopmentProposal() {
-        if (!developmentProposalList.isEmpty()) {
-            return developmentProposalList.get(0);
-        } else {
-            //return new and empty development proposal to avoid NPEs when proposal has been deleted 
-            return new DevelopmentProposal();
-        }
+        return developmentProposal;
     }
 
     public void setDevelopmentProposal(DevelopmentProposal proposal) {
-        developmentProposalList.set(0, proposal);
+        developmentProposal = proposal;
     }
 
     public String getInstitutionalProposalNumber() {
@@ -297,8 +279,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     /**
      * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
-     * 
-     * @see org.kuali.core.document.Document#wrapDocumentWithMetadataForXmlSerialization()
      */
     @Override
     public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
@@ -371,15 +351,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return Permissionable.PROPOSAL_KEY;
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.addAll(getDevelopmentProposal().buildListOfDeletionAwareLists());
-        managedLists.add(developmentProposalList);
         return managedLists;
     }
 
@@ -543,11 +519,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     public void refreshBudgetDocumentVersions() {
-        if (this.budgetDocumentVersions != null) {
-            for (BudgetDocumentVersion v : budgetDocumentVersions) {
-                v.refresh();
-            }
-        }
+        final List<BudgetDocumentVersion> v = KraServiceLocator.getService(DataObjectService.class).findMatching(BudgetDocumentVersion.class,
+                QueryByCriteria.Builder.andAttributes(Collections.singletonMap("parentDocumentKey",documentNumber)).build()).getResults();
+        budgetDocumentVersions = v;
     }
 
     public void populateContextQualifiers(Map<String, String> qualifiers) {

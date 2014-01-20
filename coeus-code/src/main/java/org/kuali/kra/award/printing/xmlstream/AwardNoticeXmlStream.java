@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import noNamespace.*;
-import noNamespace.AwardNoticeDocument.AwardNotice.PrintRequirement;
-import noNamespace.AwardType.*;
-import noNamespace.AwardType.AwardBudgetDetails.BudgetDetails;
-import noNamespace.AwardType.AwardOtherDatas.OtherData;
-import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
-import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
+import org.kuali.kra.printing.schema.AwardType.*;
+import org.kuali.kra.printing.schema.AwardType.AwardBudgetDetails.BudgetDetails;
+import org.kuali.kra.printing.schema.AwardType.AwardOtherDatas.OtherData;
+import org.kuali.kra.printing.schema.AwardType.AwardPaymentSchedules.PaymentSchedule;
+import org.kuali.kra.printing.schema.AwardType.AwardTransferringSponsors.TransferringSponsor;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;

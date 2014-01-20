@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import noNamespace.BudgetSalaryDocument;
-import noNamespace.BudgetSalaryDocument.BudgetSalary;
+import org.kuali.kra.printing.schema.BudgetSalaryDocument;
+import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;

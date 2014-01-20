@@ -16,10 +16,10 @@
 
 package org.kuali.kra.award.paymentreports.awardreports.reporting;
 
-import noNamespace.AwardReportingRequirementDocument;
-import noNamespace.AwardReportingRequirementDocument.AwardReportingRequirement;
-import noNamespace.ReportingRequirement;
-import noNamespace.ReportingRequirementDetail;
+import org.kuali.kra.printing.schema.AwardReportingRequirementDocument;
+import org.kuali.kra.printing.schema.AwardReportingRequirementDocument.AwardReportingRequirement;
+import org.kuali.kra.printing.schema.ReportingRequirement;
+import org.kuali.kra.printing.schema.ReportingRequirementDetail;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;

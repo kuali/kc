@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.subawardReporting.printing.xmlstream;
 
-import noNamespace.NameAndAddressTypeDocument.NameAndAddressType;
-import noNamespace.SubcontractReportPageType;
-import noNamespace.SubcontractReportPageType.VendorType;
-import noNamespace.SubcontractReportsDocument;
-import noNamespace.SubcontractReportsDocument.SubcontractReports;
-import noNamespace.SubcontractReportsDocument.SubcontractReports.AdministeringOfficial;
-import noNamespace.SubcontractReportsDocument.SubcontractReports.CompanyInfo;
-import noNamespace.SubcontractReportsDocument.SubcontractReports.ContractorType;
-import noNamespace.SubcontractReportsDocument.SubcontractReports.ReportingPeriod;
+import org.kuali.kra.printing.schema.NameAndAddressTypeDocument.NameAndAddressType;
+import org.kuali.kra.printing.schema.SubcontractReportPageType;
+import org.kuali.kra.printing.schema.SubcontractReportPageType.VendorType;
+import org.kuali.kra.printing.schema.SubcontractReportsDocument;
+import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports;
+import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.AdministeringOfficial;
+import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.CompanyInfo;
+import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ContractorType;
+import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ReportingPeriod;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;

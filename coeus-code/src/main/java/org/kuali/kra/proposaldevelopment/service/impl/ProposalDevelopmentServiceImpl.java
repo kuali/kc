@@ -84,6 +84,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.data.PersistenceOption;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -471,7 +472,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * 
      * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#deleteProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
-    public void deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
+    public ProposalDevelopmentDocument deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
         ListIterator<BudgetDocumentVersion> iter = proposalDocument.getBudgetDocumentVersions().listIterator();
         while (iter.hasNext()) {
             BudgetDocumentVersion budgetVersion = iter.next();
@@ -483,25 +484,25 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         Map<String, Object> keyValues = new HashMap<String, Object>();
         keyValues.put("proposalNumber", proposalDocument.getDevelopmentProposal().getProposalNumber());
         dataObjectService.deleteMatching(ProposalBudgetStatus.class, QueryByCriteria.Builder.andAttributes(keyValues).build());
-        proposalDocument.getDevelopmentProposalList().clear();
-        proposalDocument.getBudgetDocumentVersions().clear();
+        proposalDocument.setDevelopmentProposal(null);
+        proposalDocument.setBudgetDocumentVersions(null);
         proposalDocument.setProposalDeleted(true);
 
         // because the devproplist was cleared above the dev prop and associated BOs will be
         // deleted upon save
-        dataObjectService.save(proposalDocument);
-        getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
+        proposalDocument = dataObjectService.save(proposalDocument);
+        return (ProposalDevelopmentDocument) getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
     }
 
     protected void deleteProposalBudget(String budgetDocumentNumber, ProposalDevelopmentDocument parentDocument) {
         try {
-            BudgetDocument document = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocumentNumber);
+            BudgetDocument<DevelopmentProposal> document = (BudgetDocument<DevelopmentProposal>) getDocumentService().getByDocumentHeaderId(budgetDocumentNumber);
             document.getBudgets().clear();
             // make sure the budget points to this instance of the pdd as other deleted budgets
             // must be removed so they don't fail document validation.
             document.setParentDocument(parentDocument);
             document.setBudgetDeleted(true);
-            getDocumentService().saveDocument(document);
+            document = (BudgetDocument<DevelopmentProposal>) getDocumentService().saveDocument(document);
         }
         catch (WorkflowException e) {
             throw new RuntimeException(e);

@@ -23,6 +23,7 @@
         <budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>
         <s2s.schema.dir.base>src/main/resources/org/kuali/kra/s2s/gg/schema</s2s.schema.dir.base>
         <printing.schema.dir.base>src/main/resources/org/kuali/kra/printing/schema</printing.schema.dir.base>
+        <printing.config.dir.base>src/main/config/org/kuali/kra/printing/schema</printing.config.dir.base>
         <xmlbeans.gen.src.base>${project.build.directory}/generated-sources/xmlbeans</xmlbeans.gen.src.base>
         <xmlbeans.gen.cls.base>${project.build.directory}/generated-classes/xmlbeans</xmlbeans.gen.cls.base>
         <xmlbeans.gen.mrk.base>${project.build.directory}/xmlbeans-markers/xmlbeans</xmlbeans.gen.mrk.base>
@@ -174,10 +175,16 @@
                             <goal>xmlbeans</goal>
                         </goals>
                         <configuration>
+                            <defaultXmlConfigDir>${printing.config.dir.base}</defaultXmlConfigDir>
                             <schemaDirectory>${printing.schema.dir.base}</schemaDirectory>
                             <sourceGenerationDirectory>${xmlbeans.gen.src.base}-printing</sourceGenerationDirectory>
                             <classGenerationDirectory>${xmlbeans.gen.cls.base}-printing</classGenerationDirectory>
                             <staleFile>${xmlbeans.gen.mrk.base}-printing</staleFile>
+                            <!--<xmlConfigs>
+                                <xmlConfig>
+                                    ${printing.schema.dir.base}/.xsdconfig
+                                </xmlConfig>
+                            </xmlConfigs> -->
                         </configuration>
                     </execution>
                 </executions>

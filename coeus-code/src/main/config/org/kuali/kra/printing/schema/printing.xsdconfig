@@ -1,0 +1,86 @@
+<xb:config xmlns:xb="http://xml.apache.org/xmlbeans/2004/02/xbean/config">
+
+    <!--
+    Some of our xsd files don't have namespaces.  This ##any declaration
+    tells xmlbeans to use the following package for all objects generated.
+
+    The specific entries below the ##any declaration then assign back the
+    default package xmlbeans would have used without the ##any declaration.
+    -->
+    <xb:namespace uri="##any">
+        <xb:package>org.kuali.kra.printing.schema</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://irb.mit.edu/irbnamespace">
+        <xb:package>edu.mit.irb.irbnamespace</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://xml.coeus.mit.edu/iacuc">
+        <xb:package>edu.mit.coeus.xml.iacuc</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://era.nih.gov/Projectmgmt/SBIR/CGAP/common.namespace">
+        <xb:package>gov.nih.era.projectmgmt.sbir.cgap.commonNamespace</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://era.nih.gov/Projectmgmt/SBIR/CGAP/researchandrelated.namespace">
+        <xb:package>gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://era.nih.gov/Projectmgmt/SBIR/CGAP/nihspecific.namespace">
+        <xb:package>gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://era.nih.gov/Projectmgmt/SBIR/CGAP/phs398.namespace">
+        <xb:package>gov.nih.era.projectmgmt.sbir.cgap.phs398Namespace</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://v2.xml.utils.coeus.mit.edu/propdev">
+        <xb:package>edu.mit.coeus.utils.xml.v2.propdev</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://v2.xml.utils.coeus.mit.edu/budget">
+        <xb:package>edu.mit.coeus.utils.xml.v2.budget</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://v2.xml.utils.coeus.mit.edu/modularbudget">
+        <xb:package>edu.mit.coeus.utils.xml.v2.modularbudget</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://v2.xml.utils.coeus.mit.edu/organization">
+        <xb:package>edu.mit.coeus.utils.xml.v2.organization</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://v2.xml.utils.coeus.mit.edu/lookuptypes">
+        <xb:package>edu.mit.coeus.utils.xml.v2.lookuptypes</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://v2.xml.utils.coeus.mit.edu/sponsor">
+        <xb:package>edu.mit.coeus.utils.xml.v2.sponsor</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://v2.xml.utils.coeus.mit.edu/rolodex">
+        <xb:package>edu.mit.coeus.utils.xml.v2.rolodex</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://v2.xml.utils.coeus.mit.edu/user_unit">
+        <xb:package>edu.mit.coeus.utils.xml.v2.userUnit</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://v2.xml.utils.coeus.mit.edu/rateandbase">
+        <xb:package>edu.mit.coeus.utils.xml.v2.rateandbase</xb:package>
+    </xb:namespace>
+
+    <!-- why are we using w3.org for a namespace? This is wrong. -->
+    <xb:namespace uri="http://www.w3.org/2001/QuesionnaireSchema">
+        <xb:package>org.w3.x2001.quesionnaireschema</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://www.w3.org/2001/ProtocolSummarySchema">
+        <xb:package>org.w3.x2001.protocolSummarySchema</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://www.w3.org/2001/XMLSchema">
+        <xb:package>org.w3.x2001.xmlschema</xb:package>
+    </xb:namespace>
+</xb:config>
