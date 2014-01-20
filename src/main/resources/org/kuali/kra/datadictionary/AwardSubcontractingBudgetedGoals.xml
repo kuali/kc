@@ -1,0 +1,256 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="AwardSubcontractingBudgetedGoals" parent="AwardSubcontractingBudgetedGoals-parentBean" />
+    
+    <bean id="AwardSubcontractingBudgetedGoals-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingBudgetedGoals" />
+        <property name="objectLabel" value="Award Subcontracting Goals And Expenditures" />
+        
+<!--         <property name="inquiryDefinition" > -->
+<!--             <ref bean="AwardSubcontractingBudgetedGoals-inquiryDefinition" /> -->
+<!--         </property> -->
+<!--         <property name="lookupDefinition" > -->
+<!--             <ref bean="AwardSubcontractingBudgetedGoals-lookupDefinition" /> -->
+<!--         </property> -->
+        
+        <property name="titleAttribute" value="awardNumber" />
+        <property name="attributes" >
+            <list>
+                <ref bean="AwardSubcontractingBudgetedGoals-awardNumber" />
+                                
+                <ref bean="AwardSubcontractingBudgetedGoals-largeBusinessGoalAmount" />
+                <ref bean="AwardSubcontractingBudgetedGoals-smallBusinessGoalAmount" />    			
+    			<ref bean="AwardSubcontractingBudgetedGoals-womanOwnedGoalAmount" />			    
+			    <ref bean="AwardSubcontractingBudgetedGoals-eightADisadvantageGoalAmount" />
+			    <ref bean="AwardSubcontractingBudgetedGoals-hubZoneGoalAmount" />
+			    <ref bean="AwardSubcontractingBudgetedGoals-veteranOwnedGoalAmount" />
+			    <ref bean="AwardSubcontractingBudgetedGoals-serviceDisabledVeteranOwnedGoalAmount" /> 
+			    <ref bean="AwardSubcontractingBudgetedGoals-historicalBlackCollegeGoalAmount" />
+			    
+    			<ref bean="AwardSubcontractingBudgetedGoals-comments" />
+    			
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+  
+  	<bean id="AwardSubcontractingBudgetedGoals-awardNumber"	parent="AwardSubcontractingBudgetedGoals-awardNumber-parentBean" />
+	<bean id="AwardSubcontractingBudgetedGoals-awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
+		<property name="name" value="awardNumber" />
+		<property name="required" value="true" />
+	</bean>
+
+	<bean id="AwardSubcontractingBudgetedGoals-largeBusinessGoalAmount" parent="AwardSubcontractingBudgetedGoals-largeBusinessGoalAmount-parentBean" />
+	<bean id="AwardSubcontractingBudgetedGoals-largeBusinessGoalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="largeBusinessGoalAmount" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Large Business Goal Amount" />
+		<property name="shortLabel" value="Large Business Goal Amount" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="12"
+				p:scale="2" p:allowNegative="false" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="22"
+				p:size="16" />
+		</property>
+		<property name="summary" value="Large Business Goal Amount" />
+		<property name="description" value="Large Business Goal Amount" />
+	</bean>
+
+	
+	
+	<bean id="AwardSubcontractingBudgetedGoals-smallBusinessGoalAmount" parent="AwardSubcontractingBudgetedGoals-smallBusinessGoalAmount-parentBean" />
+	<bean id="AwardSubcontractingBudgetedGoals-smallBusinessGoalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="smallBusinessGoalAmount" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Small Business Goal Amount" />
+		<property name="shortLabel" value="Small Business Goal Amount" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="12"
+				p:scale="2" p:allowNegative="false" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="22"
+				p:size="16" />
+		</property>
+		<property name="summary" value="Small Business Goal Amount" />
+		<property name="description" value="Small Business Goal Amount" />
+	</bean>
+	
+		
+	
+	<bean id="AwardSubcontractingBudgetedGoals-womanOwnedGoalAmount" parent="AwardSubcontractingBudgetedGoals-womanOwnedGoalAmount-parentBean" />
+	<bean id="AwardSubcontractingBudgetedGoals-womanOwnedGoalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="womanOwnedGoalAmount" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Woman Owned Goal Amount" />
+		<property name="shortLabel" value="Woman Owned Goal Amount" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="12"
+				p:scale="2" p:allowNegative="false" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="22"
+				p:size="16" />
+		</property>
+		<property name="summary" value="Woman Owned Goal Amount" />
+		<property name="description" value="Woman Owned Goal Amount" />
+	</bean>
+	
+	
+	<bean id="AwardSubcontractingBudgetedGoals-eightADisadvantageGoalAmount" parent="AwardSubcontractingBudgetedGoals-eightADisadvantageGoalAmount-parentBean" />
+	<bean id="AwardSubcontractingBudgetedGoals-eightADisadvantageGoalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="eightADisadvantageGoalAmount" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="8A Disadvantage Goal Amount" />
+		<property name="shortLabel" value="8A Disadvantage Goal Amount" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="12"
+				p:scale="2" p:allowNegative="false" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="22"
+				p:size="16" />
+		</property>
+		<property name="summary" value="8A Disadvantage Goal Amount" />
+		<property name="description" value="8A Disadvantage Goal Amount" />
+	</bean>
+	
+	
+	
+	<bean id="AwardSubcontractingBudgetedGoals-hubZoneGoalAmount" parent="AwardSubcontractingBudgetedGoals-hubZoneGoalAmount-parentBean" />
+	<bean id="AwardSubcontractingBudgetedGoals-hubZoneGoalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="hubZoneGoalAmount" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Hub Zone Goal Amount" />
+		<property name="shortLabel" value="Hub Zone Goal Amount" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="12"
+				p:scale="2" p:allowNegative="false" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="22"
+				p:size="16" />
+		</property>
+		<property name="summary" value="Hub Zone Goal Amount" />
+		<property name="description" value="Hub Zone Goal Amount" />
+	</bean>
+	
+	
+	<bean id="AwardSubcontractingBudgetedGoals-veteranOwnedGoalAmount" parent="AwardSubcontractingBudgetedGoals-veteranOwnedGoalAmount-parentBean" />
+	<bean id="AwardSubcontractingBudgetedGoals-veteranOwnedGoalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="veteranOwnedGoalAmount" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Veteran Owned Goal Amount" />
+		<property name="shortLabel" value="Veteran Owned Goal Amount" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="12"
+				p:scale="2" p:allowNegative="false" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="22"
+				p:size="16" />
+		</property>
+		<property name="summary" value="Veteran Owned Goal Amount" />
+		<property name="description" value="Veteran Owned Goal Amount" />
+	</bean>
+	
+	
+	
+	
+	<bean id="AwardSubcontractingBudgetedGoals-serviceDisabledVeteranOwnedGoalAmount" parent="AwardSubcontractingBudgetedGoals-serviceDisabledVeteranOwnedGoalAmount-parentBean" />
+	<bean id="AwardSubcontractingBudgetedGoals-serviceDisabledVeteranOwnedGoalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="serviceDisabledVeteranOwnedGoalAmount" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Service Disabled Veteran Owned Goal Amount" />
+		<property name="shortLabel" value="Service Disabled Veteran Owned Goal Amount" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="12"
+				p:scale="2" p:allowNegative="false" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="22"
+				p:size="16" />
+		</property>
+		<property name="summary" value="Service Disabled Veteran Owned Goal Amount" />
+		<property name="description" value="Service Disabled Veteran Owned Goal Amount" />
+	</bean>
+	
+	
+	<bean id="AwardSubcontractingBudgetedGoals-historicalBlackCollegeGoalAmount" parent="AwardSubcontractingBudgetedGoals-historicalBlackCollegeGoalAmount-parentBean" />
+	<bean id="AwardSubcontractingBudgetedGoals-historicalBlackCollegeGoalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="historicalBlackCollegeGoalAmount" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Historical Black College Goal Amount" />
+		<property name="shortLabel" value="Historical Black College Goal Amount" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="12"
+				p:scale="2" p:allowNegative="false" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="22"
+				p:size="16" />
+		</property>
+		<property name="summary" value="Historical Black College Goal Amount" />
+		<property name="description" value="Historical Black College Goal Amount" />
+	</bean>
+	
+	
+  	<bean id="AwardSubcontractingBudgetedGoals-comments" parent="AwardSubcontractingBudgetedGoals-comments-parentBean" />
+	<bean id="AwardSubcontractingBudgetedGoals-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="comments" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Comments" />
+		<property name="shortLabel" value="Comments" />
+		<property name="maxLength" value="800" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+		      <bean parent="TextareaControlDefinition"
+		            p:rows="3"
+		            p:cols="80" />
+		</property>
+		<property name="summary" value="Comments" />
+		<property name="description" value="Comments" />
+	</bean>
+  
+</beans>

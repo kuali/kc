@@ -1,0 +1,310 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="InvCoiDiscDetail" parent="InvCoiDiscDetail-parentBean" />
+    <bean id="InvCoiDiscDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.coi.personfinancialentity.InvCoiDiscDetail" />
+ 		<property name="objectLabel" value="Inv coi disclosure details" />
+        <property name="inquiryDefinition" >
+            <ref bean="InvCoiDiscDetail-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="InvCoiDiscDetail-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="invCoiDiscDetailsId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="InvCoiDiscDetail-invCoiDiscDetailsId" />
+                <ref bean="InvCoiDiscDetail-personFinIntDisclosureId" />
+                <ref bean="InvCoiDiscDetail-coiDisclosureNumber" />
+                <ref bean="InvCoiDiscDetail-entityNumber" />
+                <ref bean="InvCoiDiscDetail-entitySequenceNumber" />
+                <ref bean="InvCoiDiscDetail-sequenceNumber" />
+                <ref bean="InvCoiDiscDetail-coiStatusCode" />
+                <ref bean="InvCoiDiscDetail-coiReviewerCode" />
+                <ref bean="InvCoiDiscDetail-description" />
+                <ref bean="InvCoiDiscDetail-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="InvCoiDiscDetail-invCoiDiscDetailsId" parent="InvCoiDiscDetail-invCoiDiscDetailsId-parentBean" />
+    <bean id="InvCoiDiscDetail-invCoiDiscDetailsId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="invCoiDiscDetailsId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Inv Coi Disc Details Id" />
+        <property name="shortLabel" value="Inv Coi Disc Details Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Inv Coi Disc Details Id" />
+        <property name="description" value="Inv Coi Disc Details Id" />
+    </bean>
+
+    <bean id="InvCoiDiscDetail-personFinIntDisclosureId" parent="InvCoiDiscDetail-personFinIntDisclosureId-parentBean" />
+    <bean id="InvCoiDiscDetail-personFinIntDisclosureId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="personFinIntDisclosureId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Person Fin Int Disclosure Id" />
+        <property name="shortLabel" value="Person Fin Int Disclosure Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Person Fin Int Disclosure Id" />
+        <property name="description" value="Person Fin Int Disclosure Id" />
+    </bean>
+
+    <bean id="InvCoiDiscDetail-coiDisclosureNumber" parent="InvCoiDiscDetail-coiDisclosureNumber-parentBean" />
+    <bean id="InvCoiDiscDetail-coiDisclosureNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiDisclosureNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Coi Disclosure Number" />
+        <property name="shortLabel" value="Coi Disclosure Number" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Coi Disclosure Number" />
+        <property name="description" value="Coi Disclosure Number" />
+    </bean>
+
+    <bean id="InvCoiDiscDetail-entityNumber" parent="InvCoiDiscDetail-entityNumber-parentBean" />
+    <bean id="InvCoiDiscDetail-entityNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="entityNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Entity Number" />
+        <property name="shortLabel" value="Entity Number" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Entity Number" />
+        <property name="description" value="Entity Number" />
+    </bean>
+
+    <bean id="InvCoiDiscDetail-entitySequenceNumber" parent="InvCoiDiscDetail-entitySequenceNumber-parentBean" />
+    <bean id="InvCoiDiscDetail-entitySequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="entitySequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Entity Sequence Number" />
+        <property name="shortLabel" value="Entity Sequence Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Entity Sequence Number" />
+        <property name="description" value="Entity Sequence Number" />
+    </bean>
+
+    <bean id="InvCoiDiscDetail-sequenceNumber" parent="InvCoiDiscDetail-sequenceNumber-parentBean" />
+    <bean id="InvCoiDiscDetail-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+
+    <bean id="InvCoiDiscDetail-coiStatusCode" parent="InvCoiDiscDetail-coiStatusCode-parentBean" />
+    <bean id="InvCoiDiscDetail-coiStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiStatusCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Coi Status Code" />
+        <property name="shortLabel" value="Coi Status Code" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Coi Status Code" />
+        <property name="description" value="Coi Status Code" />
+    </bean>
+
+    <bean id="InvCoiDiscDetail-coiReviewerCode" parent="InvCoiDiscDetail-coiReviewerCode-parentBean" />
+    <bean id="InvCoiDiscDetail-coiReviewerCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiReviewerCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Coi Reviewer Code" />
+        <property name="shortLabel" value="Coi Reviewer Code" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Coi Reviewer Code" />
+        <property name="description" value="Coi Reviewer Code" />
+    </bean>
+
+    <bean id="InvCoiDiscDetail-description" parent="InvCoiDiscDetail-description-parentBean" />
+    <bean id="InvCoiDiscDetail-description-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Description" />
+        <property name="description" value="Description" />
+    </bean>
+
+    <bean id="InvCoiDiscDetail-versionNumber" parent="InvCoiDiscDetail-versionNumber-parentBean" />
+    <bean id="InvCoiDiscDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="InvCoiDiscDetail-inquiryDefinition" parent="InvCoiDiscDetail-inquiryDefinition-parentBean" />
+    <bean id="InvCoiDiscDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Inv Coi Disc Details Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Inv Coi Disc Details Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="invCoiDiscDetailsId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="personFinIntDisclosureId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiDisclosureNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="entityNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="entitySequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiStatusCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiReviewerCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="description" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="InvCoiDiscDetail-lookupDefinition" parent="InvCoiDiscDetail-lookupDefinition-parentBean" />
+    <bean id="InvCoiDiscDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Inv Coi Disc Details Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="invCoiDiscDetailsId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personFinIntDisclosureId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiDisclosureNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="entityNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="entitySequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiStatusCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiReviewerCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="invCoiDiscDetailsId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personFinIntDisclosureId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiDisclosureNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="entityNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="entitySequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiStatusCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiReviewerCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+        </property>
+    </bean>
+</beans>

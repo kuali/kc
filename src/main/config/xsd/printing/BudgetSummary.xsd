@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Geo Thomas (Massachusetts Institute of Technology) -->
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Purdue University (Purdue University) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="BudgetSummaryReport">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReportHeader" type="ReportHeaderType"/>
+				<xsd:element name="ReportPage" type="ReportPageType" maxOccurs="unbounded"/>
+				<xsd:element name="CumilativePage" type="ReportPageType" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="ReportType">
+		<xsd:sequence>
+			<xsd:element name="StartDate" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="EndDate" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="BudgetCategoryCode" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="BudgetCategoryDescription" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="InvestigatorFlag" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="PersonName" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="SalaryRequested" type="xsd:double" minOccurs="0"/>
+			<xsd:element name="PercentCharged" type="xsd:double" minOccurs="0"/>
+			<xsd:element name="PercentEffort" type="xsd:double" minOccurs="0"/>
+			<xsd:element name="EmployeeBenefitRate" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="VacationRate" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Fringe" type="xsd:double" minOccurs="0"/>
+			<xsd:element name="OnOffCampus" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="CalculatedCost" type="xsd:double" minOccurs="0"/>
+			<xsd:element name="SortId" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="CostElementDescription" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="AppliedRate" type="xsd:double" minOccurs="0"/>
+			<xsd:element name="RateTypeDesc" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="RateClassDesc" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CostSharingAmount" type="xsd:double" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ReportHeaderType">
+		<xsd:sequence>
+			<xsd:element name="parentTypeName" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ProposalNumber" type="xsd:string"/>
+			<xsd:element name="ProposalTitle" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="PIName" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="BudgetVersion" type="xsd:int"/>
+			<xsd:element name="PeriodStartDate" type="xsd:string"/>
+			<xsd:element name="PeriodEndDate" type="xsd:string"/>
+			<xsd:element name="Period" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="CreateDate" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Comments" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GroupsType">
+		<xsd:sequence>
+			<xsd:element name="Description" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Details" type="ReportType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SubReportType">
+		<xsd:sequence>
+			<xsd:element name="Group" type="GroupsType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ReportPageType">
+		<xsd:sequence>
+			<xsd:element name="BudgetSummary">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="SalarySummaryFromEDI" type="SubReportType" minOccurs="0"/>
+						<xsd:element name="BudgetSummaryNonPersonnel" type="SubReportType" minOccurs="0"/>
+						<xsd:element name="BudgetIndirectCostsForReport" type="SubReportType" minOccurs="0"/>
+						<xsd:element name="TotalDirectCost" type="xsd:double" minOccurs="0"/>
+						<xsd:element name="TotalCostToSponsor" type="xsd:double" minOccurs="0"/>
+						<xsd:element name="TotalUnderrecoveryAmount" type="xsd:double" minOccurs="0"/>
+						<xsd:element name="TotalCostSharingAmount" type="xsd:double" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CalculationMethodology">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="BudgetOHExclusions" type="SubReportType" minOccurs="0"/>
+						<xsd:element name="BudgetLAExclusions" type="SubReportType" minOccurs="0"/>
+						<xsd:element name="BudgetOHRateBaseForPeriod" type="SubReportType" minOccurs="0"/>
+						<xsd:element name="BudgetEBRateBaseForPeriod" type="SubReportType" minOccurs="0"/>
+						<xsd:element name="BudgetLARateBaseForPeriod" type="SubReportType" minOccurs="0"/>
+						<xsd:element name="BudgetVacRateBaseForPeriod" type="SubReportType" minOccurs="0"/>
+						<xsd:element name="BudgetOtherRateBaseForPeriod" type="SubReportType" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Period" type="xsd:int"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,264 @@
+<!--
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="SpecialReview" parent="SpecialReview-parentBean" />
+	<bean id="SpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.common.specialreview.bo.SpecialReview" />
+		<property name="objectLabel" value="Special Review" />
+		<property name="inquiryDefinition" >
+			<ref bean="SpecialReview-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="SpecialReview-lookupDefinition" />
+		</property>
+		<property name="attributes" >
+			<list>
+				<ref bean="SpecialReview-specialReviewNumber" />
+				<ref bean="SpecialReview-specialReviewTypeCode" />
+				<ref bean="SpecialReview-approvalTypeCode" />
+				<ref bean="SpecialReview-protocolNumber" />
+				<ref bean="SpecialReview-applicationDate" />
+				<ref bean="SpecialReview-approvalDate" />
+				<ref bean="SpecialReview-expirationDate" />
+				<ref bean="SpecialReview-comments" />
+				<ref bean="SpecialReview-versionNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="SpecialReview-specialReviewNumber" parent="SpecialReview-specialReviewNumber-parentBean" />
+	<bean id="SpecialReview-specialReviewNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="specialReviewNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Special Review Number" />
+		<property name="shortLabel" value="Special Review Number" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition" 
+			      p:size="10" />
+		</property>
+		<property name="summary" value="Special Review Number" />
+		<property name="description" value="Special Review Number" />
+	</bean>
+
+	<bean id="SpecialReview-specialReviewTypeCode" parent="SpecialReview-specialReviewTypeCode-parentBean" />
+	<bean id="SpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReviewType-specialReviewTypeCode" >
+	    <property name="name" value="specialReviewTypeCode" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Type" />
+	    <property name="shortLabel" value="Type" />
+	    <property name="maxLength" value="3" />
+	    <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+	    </property>
+	    <property name="required" value="true" />
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.bo.SpecialReviewType"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
+	            p:keyAttribute="specialReviewTypeCode"
+	            p:labelAttribute="description" />
+	    </property>
+	    <property name="summary" value="Special Review Type Code" />
+	    <property name="description" value="Special Review Type Code" />
+	</bean>
+
+	<bean id="SpecialReview-approvalTypeCode" parent="SpecialReview-approvalTypeCode-parentBean" />
+	<bean id="SpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReviewApprovalType-approvalTypeCode" >
+	    <property name="name" value="approvalTypeCode" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Approval Status" />
+	    <property name="shortLabel" value="Approval Status" />
+	    <property name="maxLength" value="3" />
+	    <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+	    </property>
+	    <property name="required" value="true" />
+	    <property name="control" >
+            <bean parent="SelectControlDefinition"
+	              p:valuesFinderClass="org.kuali.kra.common.specialreview.lookup.keyvalue.SpecialReviewApprovalTypeValuesFinder"
+	              p:includeKeyInLabel="false" />
+	    </property>
+	    <property name="summary" value="Approval Status Type Code" />
+	    <property name="description" value="Approval Status Type Code" />
+	</bean>
+
+	<bean id="SpecialReview-protocolNumber" parent="SpecialReview-protocolNumber-parentBean" />
+	<bean id="SpecialReview-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Number" />
+		<property name="shortLabel" value="Protocol Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				  p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Number" />
+		<property name="description" value="Protocol Number" />
+	</bean>
+
+	<bean id="SpecialReview-applicationDate" parent="SpecialReview-applicationDate-parentBean" />
+	<bean id="SpecialReview-applicationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="applicationDate" />
+		<property name="label" value="Application Date" />
+		<property name="shortLabel" value="Application Date" />
+		<property name="summary" value="Application Date" />
+		<property name="description" value="Application Date" />
+	</bean>
+
+	<bean id="SpecialReview-approvalDate" parent="SpecialReview-approvalDate-parentBean" />
+	<bean id="SpecialReview-approvalDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="approvalDate" />
+		<property name="label" value="Approval Date" />
+		<property name="shortLabel" value="Approval Date" />
+		<property name="summary" value="Approval Date" />
+		<property name="description" value="Approval Date" />
+	</bean>
+
+	<bean id="SpecialReview-expirationDate" parent="SpecialReview-expirationDate-parentBean" />
+	<bean id="SpecialReview-expirationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="expirationDate" />
+		<property name="label" value="Expiration Date" />
+		<property name="shortLabel" value="Expiration Date" />
+		<property name="summary" value="Expiration Date" />
+		<property name="description" value="Expiration Date" />
+	</bean>
+
+	<bean id="SpecialReview-comments" parent="SpecialReview-comments-parentBean" />
+	<bean id="SpecialReview-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="comments" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Comments" />
+		<property name="shortLabel" value="Comments" />
+		<property name="maxLength" value="2000" />
+		<property name="control" >
+			<bean parent="TextareaControlDefinition"
+                  p:rows="2"
+                  p:cols="120" />
+		</property>
+		<property name="summary" value="Comments" />
+		<property name="description" value="Comments" />
+	</bean>
+
+	<bean id="SpecialReview-versionNumber" parent="SpecialReview-versionNumber-parentBean" />
+	<bean id="SpecialReview-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+
+	<!-- Business Object Inquiry Definition -->
+	
+	<bean id="SpecialReview-inquiryDefinition" parent="SpecialReview-inquiryDefinition-parentBean" />
+	<bean id="SpecialReview-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value=" Special Review" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value=" Special Review" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								  p:attributeName="specialReviewNumber" />
+							<bean parent="FieldDefinition"
+								  p:attributeName="specialReviewTypeCode" />
+							<bean parent="FieldDefinition"
+								  p:attributeName="approvalTypeCode" />
+							<bean parent="FieldDefinition"
+								  p:attributeName="protocolNumber" />
+							<bean parent="FieldDefinition"
+								  p:attributeName="applicationDate" />
+							<bean parent="FieldDefinition"
+								  p:attributeName="approvalDate" />
+							<bean parent="FieldDefinition"
+								  p:attributeName="expirationDate" />
+							<bean parent="FieldDefinition"
+								  p:attributeName="comments" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	
+	<bean id="SpecialReview-lookupDefinition" parent="SpecialReview-lookupDefinition-parentBean" />
+	<bean id="SpecialReview-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value=" Special Review Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					  p:attributeName="specialReviewNumber" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="specialReviewTypeCode" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="approvalTypeCode" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="protocolNumber" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="applicationDate" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="approvalDate" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="expirationDate" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="comments" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					  p:attributeName="specialReviewNumber" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="specialReviewTypeCode" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="approvalTypeCode" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="protocolNumber" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="applicationDate" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="approvalDate" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="expirationDate" />
+				<bean parent="FieldDefinition"
+					  p:attributeName="comments" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

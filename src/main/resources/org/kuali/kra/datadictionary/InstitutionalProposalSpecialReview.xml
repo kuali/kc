@@ -1,0 +1,196 @@
+<!--
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="InstitutionalProposalSpecialReview" parent="InstitutionalProposalSpecialReview-parentBean" />
+    <bean id="InstitutionalProposalSpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview" />
+		<property name="objectLabel" value="Institutional Proposal Special Review" />
+        <property name="inquiryDefinition" >
+            <ref bean="InstitutionalProposalSpecialReview-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="InstitutionalProposalSpecialReview-lookupDefinition" />
+        </property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalSpecialReviewHelpUrl" p:parameterDetailType="Document" />
+        </property>
+        <property name="titleAttribute" value="proposalSpecialReviewId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="InstitutionalProposalSpecialReview-proposalSpecialReviewId" />
+                <ref bean="InstitutionalProposalSpecialReview-specialReviewNumber" />
+                <ref bean="InstitutionalProposalSpecialReview-specialReviewTypeCode" />
+                <ref bean="InstitutionalProposalSpecialReview-approvalTypeCode" />
+                <ref bean="InstitutionalProposalSpecialReview-protocolNumber" />
+                <ref bean="InstitutionalProposalSpecialReview-applicationDate" />
+                <ref bean="InstitutionalProposalSpecialReview-approvalDate" />
+                <ref bean="InstitutionalProposalSpecialReview-expirationDate" />
+                <ref bean="InstitutionalProposalSpecialReview-comments" />
+                <ref bean="InstitutionalProposalSpecialReview-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="InstitutionalProposalSpecialReview-proposalSpecialReviewId" parent="InstitutionalProposalSpecialReview-proposalSpecialReviewId-parentBean" />
+    <bean id="InstitutionalProposalSpecialReview-proposalSpecialReviewId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalSpecialReviewId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Institutional Proposal Special Review Id" />
+        <property name="shortLabel" value="Institutional Proposal Special Review Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Special Review Id" />
+        <property name="description" value="Proposal Special Review Id" />
+    </bean>
+
+    <bean id="InstitutionalProposalSpecialReview-specialReviewNumber" parent="InstitutionalProposalSpecialReview-specialReviewNumber-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReview-specialReviewNumber-parentBean" />
+	
+	<bean id="InstitutionalProposalSpecialReview-specialReviewTypeCode" parent="InstitutionalProposalSpecialReview-specialReviewTypeCode-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode">
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewTypeValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+    </bean>
+
+	<bean id="InstitutionalProposalSpecialReview-approvalTypeCode" parent="InstitutionalProposalSpecialReview-approvalTypeCode-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReview-approvalTypeCode" />
+
+	<bean id="InstitutionalProposalSpecialReview-protocolNumber" parent="InstitutionalProposalSpecialReview-protocolNumber-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-protocolNumber-parentBean" abstract="true" parent="SpecialReview-protocolNumber" />
+
+	<bean id="InstitutionalProposalSpecialReview-applicationDate" parent="InstitutionalProposalSpecialReview-applicationDate-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-applicationDate-parentBean" abstract="true" parent="SpecialReview-applicationDate" />
+
+	<bean id="InstitutionalProposalSpecialReview-approvalDate" parent="InstitutionalProposalSpecialReview-approvalDate-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-approvalDate-parentBean" abstract="true" parent="SpecialReview-approvalDate" />
+
+	<bean id="InstitutionalProposalSpecialReview-expirationDate" parent="InstitutionalProposalSpecialReview-expirationDate-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-expirationDate-parentBean" abstract="true" parent="SpecialReview-expirationDate" />
+
+	<bean id="InstitutionalProposalSpecialReview-comments" parent="InstitutionalProposalSpecialReview-comments-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-comments-parentBean" abstract="true" parent="SpecialReview-comments" />
+
+    <bean id="InstitutionalProposalSpecialReview-versionNumber" parent="InstitutionalProposalSpecialReview-versionNumber-parentBean" />
+    <bean id="InstitutionalProposalSpecialReview-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="InstitutionalProposalSpecialReview-inquiryDefinition" parent="InstitutionalProposalSpecialReview-inquiryDefinition-parentBean" />
+    <bean id="InstitutionalProposalSpecialReview-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Institutional Proposal Special Review Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Institutional Proposal Special Review Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                  p:attributeName="proposalSpecialReviewId" 
+                                  p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                  p:attributeName="specialReviewNumber" />
+                            <bean parent="FieldDefinition"
+                                  p:attributeName="specialReviewTypeCode" />
+                            <bean parent="FieldDefinition"
+                                  p:attributeName="approvalTypeCode" />
+                            <bean parent="FieldDefinition"
+                                  p:attributeName="protocolNumber" />
+                            <bean parent="FieldDefinition"
+                                  p:attributeName="applicationDate" />
+                            <bean parent="FieldDefinition"
+                                  p:attributeName="approvalDate" />
+                            <bean parent="FieldDefinition"
+                                  p:attributeName="comments" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    
+    <bean id="InstitutionalProposalSpecialReview-lookupDefinition" parent="InstitutionalProposalSpecialReview-lookupDefinition-parentBean" />
+    <bean id="InstitutionalProposalSpecialReview-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Institutional Proposal Special Review Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                      p:attributeName="proposalSpecialReviewId" 
+                      p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="specialReviewNumber" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="specialReviewTypeCode" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="approvalTypeCode" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="protocolNumber" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="applicationDate" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="approvalDate" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="comments" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                      p:attributeName="proposalSpecialReviewId" 
+                      p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="specialReviewNumber" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="specialReviewTypeCode" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="approvalTypeCode" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="protocolNumber" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="applicationDate" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="approvalDate" />
+                <bean parent="FieldDefinition"
+                      p:attributeName="comments" />
+            </list>
+        </property>
+    </bean>
+    
+</beans>

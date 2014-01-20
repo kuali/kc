@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SubAwardInvoiceMaintenanceDocument" parent="SubAwardInvoiceMaintenanceDocument-parentBean"/>
+
+  <bean id="SubAwardInvoiceMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardAmountReleased"/>
+    <property name="maintainableClass" value="org.kuali.kra.subaward.document.SubAwardInvoiceMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+      	<ref bean="SubAwardInvoiceMaintenanceDocument-SubAwardInvoice"/>
+        <ref bean="SubAwardInvoiceMaintenanceDocument-SubAwardSummary"/>
+        <ref bean="SubAwardInvoiceMaintenanceDocument-SubAwardAmounts"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>subAwardAmtReleasedId</value>
+      </list>
+    </property>	<property name="allowsRecordDeletion" value="false" />
+    
+    <property name="documentTypeName" value="SubAwardInvoiceMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.subaward.subawardrule.SubAwardInvoiceMaintenanceDocumentRule" />
+    <property name="promptBeforeValidationClass" value="org.kuali.kra.subaward.subawardrule.SubAwardInvoicePromptBeforeValidation" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kra.subaward.document.authorization.SubAwardInvoiceDocumentPresentationController" />
+    <property name="documentAuthorizerClass" value="org.kuali.kra.subaward.document.authorizer.SubAwardInvoiceMaintenanceDocumentAuthorizer"/>
+    
+    
+    <property name="workflowProperties">
+    	<ref bean="SubAwardInvoiceMaintenanceDocument-workflowProperties"/>
+    </property>
+    
+  </bean>
+
+  <bean id="SubAwardInvoiceMaintenanceDocument-workflowProperties" parent="SubAwardInvoiceMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="SubAwardInvoiceMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+	<property name="workflowPropertyGroups">
+		<list>
+			<bean parent="WorkflowPropertyGroup">
+				<property name="workflowProperties">
+					<list>
+						<bean parent="WorkflowProperty" p:path="documentHeader" />
+						<bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject.subAwardId" />
+					</list>
+				</property>
+			</bean>
+		</list>
+	</property>
+  </bean>
+
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardSummary" parent="SubAwardInvoiceMaintenanceDocument-SubAwardSummary-parentBean"/>
+
+  <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardSummary-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Subaward Summary"/>
+    <property name="title" value="Subaward Summary"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="subAwardCode" p:required="false" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAward.statusDescription" p:required="false" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAward.organization.organizationName" p:required="false" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAward.rolodex.fullName" p:required="false" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAward.subAwardType.description" p:required="false" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAward.title" p:required="false" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAward.requisitioner.fullName" p:required="false" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAward.requisitioner.unit.unitName" p:required="false" p:unconditionallyReadOnly="true"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardAmounts" parent="SubAwardInvoiceMaintenanceDocument-SubAwardAmounts-parentBean"/>
+
+  <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardAmounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Subaward Amounts"/>
+    <property name="title" value="Subaward Amounts"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="subAward.totalObligatedAmount" p:required="false" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAward.totalAmountReleased" p:required="false" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAward.totalAvailableAmount" p:required="false" p:unconditionallyReadOnly="true"/>
+      </list>
+    </property>
+  </bean>  
+
+  <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardInvoice" parent="SubAwardInvoiceMaintenanceDocument-SubAwardInvoice-parentBean"/>
+
+  <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardInvoice-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Subaward Invoice"/>
+    <property name="title" value="Subaward Invoice"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="invoiceNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="startDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="endDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="amountReleased" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="comments" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="newFile" p:required="false"/>
+      </list>
+    </property>
+  </bean>
+</beans>

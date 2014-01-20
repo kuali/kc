@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CustomAttributeDocument" parent="CustomAttributeDocument-parentBean"/>
+
+  <bean abstract="true" id="CustomAttributeDocument-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.CustomAttributeDocument"/>
+		<property name="objectLabel" value="Custom Attribute Document"/>
+    <property name="inquiryDefinition">
+      <ref bean="CustomAttributeDocument-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="CustomAttributeDocument-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="customAttributeId"/>
+    <property name="attributes">
+      <list>
+        <ref bean="CustomAttributeDocument-customAttributeId"/>
+        <ref bean="CustomAttributeDocument-documentTypeName"/>
+        <ref bean="CustomAttributeDocument-required"/>
+        <ref bean="CustomAttributeDocument-typeName"/>
+        <ref bean="CustomAttributeDocument-active"/>
+        <ref bean="CustomAttributeDocument-versionNumber"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="customAttribute"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean p:sourceName="customAttributeId" p:targetName="id" parent="PrimitiveAttributeDefinition"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="CustomAttributeDocument-customAttributeId" parent="CustomAttributeDocument-customAttributeId-parentBean"/>
+
+  <bean abstract="true" id="CustomAttributeDocument-customAttributeId-parentBean" parent="CustomAttribute-id">
+    <property name="name" value="customAttributeId"/>
+    <property name="label" value="Custom Attribute ID"/>
+    <property name="shortLabel" value="Custom Attribute ID"/>
+    <property name="summary" value="Custom Attribute ID"/>
+    <property name="description" value="Custom Attribute ID"/>
+  </bean>
+  <bean id="CustomAttributeDocument-documentTypeName" parent="CustomAttributeDocument-documentTypeName-parentBean"/>
+
+  <bean abstract="true" id="CustomAttributeDocument-documentTypeName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="documentTypeName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Document Type Code"/>
+    <property name="shortLabel" value="Document Type Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.bo.CustomAttributeValuesFinder" />
+    </property>
+    <property name="summary" value="Document Type Code"/>
+    <property name="description" value="Document Type Code"/>
+  </bean>
+  <bean id="CustomAttributeDocument-required" parent="CustomAttributeDocument-required-parentBean"/>
+
+  <bean abstract="true" id="CustomAttributeDocument-required-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="required"/>
+    <property name="label" value="Required"/>
+    <property name="shortLabel" value="Required"/>
+    <property name="summary" value="Required"/>
+    <property name="description" value="Required"/>
+  </bean>
+  <bean id="CustomAttributeDocument-typeName" parent="CustomAttributeDocument-typeName-parentBean"/>
+
+  <bean abstract="true" id="CustomAttributeDocument-typeName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="typeName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Type Name"/>
+    <property name="shortLabel" value="Type Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="100" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Type Name"/>
+    <property name="description" value="Type Name"/>
+  </bean>
+  <bean id="CustomAttributeDocument-active" parent="CustomAttributeDocument-active-parentBean"/>
+
+  <bean abstract="true" id="CustomAttributeDocument-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="summary" value="Active"/>
+    <property name="description" value="Active"/>
+  </bean>
+  <bean id="CustomAttributeDocument-versionNumber" parent="CustomAttributeDocument-versionNumber-parentBean"/>
+
+  <bean abstract="true" id="CustomAttributeDocument-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="CustomAttributeDocument-inquiryDefinition" parent="CustomAttributeDocument-inquiryDefinition-parentBean"/>
+
+  <bean abstract="true" id="CustomAttributeDocument-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="Custom Attribute Document"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Custom Attribute Document"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean p:attributeName="customAttributeId" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="documentTypeName" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="required" parent="FieldDefinition"/>
+              <bean p:attributeName="typeName" parent="FieldDefinition"/>
+              <bean p:attributeName="active" parent="FieldDefinition"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CustomAttributeDocument-lookupDefinition" parent="CustomAttributeDocument-lookupDefinition-parentBean"/>
+
+  <bean abstract="true" id="CustomAttributeDocument-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="Custom Attribute Document Lookup"/>
+    <property name="lookupableID" value="customAttributeDocumentLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean p:attributeName="customAttributeId" parent="FieldDefinition"/>
+        <bean p:attributeName="documentTypeName" parent="FieldDefinition"/>
+        <bean p:attributeName="required" parent="FieldDefinition"/>
+        <bean p:attributeName="typeName" parent="FieldDefinition"/>
+        <bean p:attributeName="active" parent="FieldDefinition"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:attributeName="customAttributeId" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="documentTypeName" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="required" parent="FieldDefinition"/>
+        <bean p:attributeName="typeName" parent="FieldDefinition"/>
+        <bean p:attributeName="active" p:forceInquiry="true" parent="FieldDefinition"/>
+      </list>
+    </property>
+  </bean>
+</beans>

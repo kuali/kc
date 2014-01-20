@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2014 The Kuali Foundation. Licensed under the Educational 
+	Community License, Version 1.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl1.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean id="committeeModuleConfiguration" parent="committeeModuleConfiguration-parentBean" />
+
+	<bean id="committeeModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration"
+		abstract="true">
+		<property name="namespaceCode" value="KC-COMMITTEE" />
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/kra/committee/repository-committee.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="committeePrintingService"
+		class="org.kuali.kra.committee.service.impl.CommitteePrintingServiceImpl" scope="prototype" parent="printingService">
+		<property name="committeeTemplatePrint" ref="committeeTemplatePrint" />
+		<property name="scheduleTemplatePrint" ref="scheduleTemplatePrint" />
+		<property name="protocolCorrespondenceTemplatePrint" ref="protocolCorrespondenceTemplatePrint" />
+		<property name="committeeRosterPrint" ref="committeeRosterPrint" />
+		<property name="committeeFutureScheduledMeetingsPrint" ref="committeeFutureScheduledMeetingsPrint" />
+		<property name="protocolBatchCorrespondencePrint" ref="protocolBatchCorrespondencePrint" />
+	</bean>
+	<bean id="irbPrintXmlUtilService"
+		class="org.kuali.kra.committee.print.IrbPrintXmlUtilServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="reviewCommentsService" ref="reviewCommentsService" />
+		
+	</bean>
+
+	<bean id="templatePrint" class="org.kuali.kra.committee.print.TemplatePrint"
+		scope="prototype" abstract="true">
+		<property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
+	</bean>
+	<bean id="committeeTemplatePrint" class="org.kuali.kra.committee.print.CommitteeTemplatePrint"
+		scope="prototype" parent="templatePrint">
+		<property name="xmlStream" ref="committeeXmlStream" />
+	</bean>
+
+	<bean id="scheduleTemplatePrint" class="org.kuali.kra.committee.print.ScheduleTemplatePrint"
+		scope="prototype" parent="templatePrint">
+		<property name="xmlStream" ref="scheduleXmlStream" />
+	</bean>
+
+	<bean id="protocolCorrespondenceTemplatePrint"
+		class="org.kuali.kra.committee.print.ProtocolCorrespondenceTemplatePrint"
+		scope="prototype" parent="templatePrint">
+		<property name="xmlStream" ref="committeeXmlStream" />
+	</bean>
+	<bean id="protocolBatchCorrespondencePrint"
+		class="org.kuali.kra.committee.print.ProtocolBatchCorrespondencePrint"
+		scope="prototype" parent="templatePrint">
+		<property name="xmlStream" ref="renewalReminderStream" />
+	</bean>
+
+	<bean id="committeeRosterPrint" class="org.kuali.kra.committee.print.CommitteeRosterPrint"
+		scope="prototype" parent="templatePrint">
+		<property name="xmlStream" ref="committeeXmlStream" />
+	</bean>
+
+	<bean id="committeeFutureScheduledMeetingsPrint"
+		class="org.kuali.kra.committee.print.CommitteeFutureScheduledMeetingsPrint"
+		scope="prototype">
+		<property name="xmlStream" ref="committeeXmlStream" />
+	</bean>
+
+	<bean id="committeeXmlStream" class="org.kuali.kra.committee.print.CommitteeXmlStream"
+		parent="printBaseXmlStream">
+		<property name="scheduleXmlStream">
+			<ref bean="scheduleXmlStream" />
+		</property>
+		<property name="irbPrintXmlUtilService">
+			<ref bean="irbPrintXmlUtilService" />
+		</property>
+	</bean>
+	<bean id="scheduleXmlStream" class="org.kuali.kra.committee.print.ScheduleXmlStream"
+		parent="printBaseXmlStream">
+		<property name="irbPrintXmlUtilService">
+			<ref bean="irbPrintXmlUtilService" />
+		</property>
+		<property name="committeeMembershipService">
+			<ref bean="committeeMembershipService" />
+		</property>
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
+		</property>
+	</bean>
+	
+	<bean id="committeeCorrespondencePrint" class="org.kuali.kra.committee.service.impl.CommitteeCorrespondencePrintImpl">
+		<property name="correspondencePrint" ref="protocolCorrespondenceTemplatePrint"/>
+		<property name="printingService" ref="committeePrintingService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
+	
+	<bean id="scheduleCorrespondencePrint" class="org.kuali.kra.committee.service.impl.ScheduleCorrespondencePrintImpl">
+		<property name="correspondencePrint" ref="scheduleTemplatePrint"/>
+		<property name="printingService" ref="committeePrintingService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
+
+	<!-- Committee Task Authorizers -->
+
+	<bean id="parentCommitteeAuthorizer" abstract="true">
+		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
+		<property name="kraWorkflowService" ref="kraWorkflowService" />
+		<property name="kraAuthorizationService" ref="kraAuthorizationService" />
+	</bean>
+
+	<bean id="committeeTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+		<property name="groupName" value="committee" />
+		<property name="taskAuthorizers">
+			<list>
+				<bean
+					class="org.kuali.kra.committee.document.authorizer.ModifyCommitteeAuthorizer"
+					parent="parentCommitteeAuthorizer">
+					<property name="taskName" value="modifyCommittee" />
+				</bean>
+
+				<bean
+					class="org.kuali.kra.committee.document.authorizer.ViewCommitteeAuthorizer"
+					parent="parentCommitteeAuthorizer">
+					<property name="taskName" value="viewCommittee" />
+				</bean>
+				<bean class="org.kuali.kra.meeting.ModifyScheduleAuthorizer"
+					parent="parentCommitteeAuthorizer">
+					<property name="taskName" value="modifySchedule" />
+				</bean>
+				<bean class="org.kuali.kra.meeting.ViewScheduleAuthorizer"
+					parent="parentCommitteeAuthorizer">
+					<property name="taskName" value="viewSchedule" />
+				</bean>
+
+				<bean
+					class="org.kuali.kra.committee.document.authorizer.CommitteeActionAuthorizer"
+					parent="parentCommitteeAuthorizer">
+					<property name="taskName" value="performCommitteeActions" />
+					<property name="committeeService" ref="committeeService" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	
+	
+	<bean id="committeeService"
+		class="org.kuali.kra.committee.service.impl.CommitteeServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="versioningService" ref="versioningService" />
+	</bean>
+
+    <bean id="committeeNotificationRoleQualifierService" class="org.kuali.kra.committee.notification.CommitteeNotificationRoleQualifierServiceImpl"
+          scope="prototype">
+    </bean>
+
+	<bean id="activeCommitteeMemberDerivedRoleTypeService"
+			  class="org.kuali.kra.workflow.ActiveCommitteeMemberDerivedRoleTypeServiceImpl">
+		<property name="committeeService">
+			<ref bean="committeeService" />
+		</property>
+		<property name = "qualifyingCommitteeMembershipTypeCodes">
+			<set>
+				<value>1</value>
+				<value>3</value>
+			</set>	
+		</property>
+	</bean>
+	
+    <bean id="activeCommitteeMemberDerivedRoleTypeServiceCallback" parent="kcCallbackService"
+		p:callbackService-ref="activeCommitteeMemberDerivedRoleTypeService" 
+		p:localServiceName="activeCommitteeMemberDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+    
+    <bean id="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService"
+			  class="org.kuali.kra.workflow.ActiveCommitteeMemberOnScheduledDateDerivedRoleTypeServiceImpl">
+		<property name="committeeService">
+			<ref bean="committeeService" />
+		</property>
+		<property name = "qualifyingCommitteeMembershipTypeCodes">
+			<set>
+				<value>1</value>
+				<value>3</value>
+			</set>	
+		</property>
+	</bean>
+	
+    <bean id="activeCommitteeMemberOnScheduledDateDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+		p:callbackService-ref="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService" 
+		p:localServiceName="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+    	
+	<bean id="committeeMembershipService"
+		class="org.kuali.kra.committee.service.impl.CommitteeMembershipServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="committeeService" ref="committeeService" />
+	</bean>
+
+	<bean id="committeeScheduleService"
+		class="org.kuali.kra.committee.service.impl.CommitteeScheduleServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="scheduleService" ref="scheduleService" />
+		<property name="reviewCommentsService" ref="reviewCommentsService" />
+	</bean>
+
+	<bean id="committeeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="committeeLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="committeeLookupableHelperService"
+		class="org.kuali.kra.committee.lookup.CommitteeLookupableHelperServiceImpl"
+		scope="prototype" parent="parentLookupableHelperService">
+	</bean>
+
+	<bean id="meetingService" class="org.kuali.kra.meeting.MeetingServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="committeeScheduleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="committeeScheduleLookupableHelperService" />
+		</property>
+	</bean>
+	<bean id="committeeScheduleLookupableHelperService"
+		class="org.kuali.kra.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl"
+		scope="prototype" parent="parentLookupableHelperService">
+		<property name="taskAuthorizationService" ref="taskAuthorizationService" />
+	</bean>
+
+	<bean id="committeeBatchCorrespondenceDao" parent="platformAwareDao"
+		class="org.kuali.kra.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjb" />
+	
+	<bean id="committeeCollaboratorBusinessLogicFactoryGroup" 
+		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeCollaboratorBusinessLogicFactoryGroupImpl"
+		scope="prototype">
+		<property name="committeeBusinessLogicFactory">
+			<ref bean="committeeBusinessLogicFactory" />
+		</property>
+		<property name="committeeResearchAreaBusinessLogicFactory">
+			<ref bean="committeeResearchAreaBusinessLogicFactory" />
+		</property>
+	</bean>
+	
+	<bean id="committeeBusinessLogicFactory" 
+		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeBusinessLogicFactoryImpl"
+		scope="prototype" />
+		
+	<bean id="committeeResearchAreaBusinessLogicFactory" 
+		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicFactoryImpl"
+		scope="prototype" />
+
+	<bean id="irbCommitteeIdByUnitValuesFinderService" class="org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinderServiceImpl" 
+    	parent="committeeIdByUnitValuesFinderServiceParent" />
+   
+    
+</beans>
+
+

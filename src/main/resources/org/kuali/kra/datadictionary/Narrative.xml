@@ -1,0 +1,448 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Narrative" parent="Narrative-parentBean" />
+
+  <bean id="Narrative-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.Narrative" />
+		<property name="objectLabel" value="Narrative" />
+    <property name="inquiryDefinition" >
+      <ref bean="Narrative-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Narrative-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="moduleNumber" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-PD"
+            p:parameterName="proposalDevelopmentNarrativeHelpUrl"
+            p:parameterDetailType="Document" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="Narrative-moduleNumber" />
+        <ref bean="Narrative-proposalNumber" />
+        <ref bean="Narrative-comments" />
+        <ref bean="Narrative-contactName" />
+        <ref bean="Narrative-moduleSequenceNumber" />
+        <ref bean="Narrative-moduleStatusCode" />
+        <ref bean="Narrative-narrativeStatus.description" />
+        <ref bean="Narrative-moduleTitle" />
+        <ref bean="Narrative-fileName" />
+        <ref bean="Narrative-narrativeTypeCode" />
+        <ref bean="Narrative-institutionalAttachmentTypeCode" />
+        <ref bean="Narrative-narrativeType.description" />
+        <ref bean="Narrative-phoneNumber" />
+        <ref bean="Narrative-updateUser" />
+        <ref bean="Narrative-updateTimestamp" />
+        <ref bean="Narrative-emailAddress" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Narrative-moduleNumber" parent="Narrative-moduleNumber-parentBean" />
+
+  <bean id="Narrative-moduleNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="moduleNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Module Number" />
+    <property name="shortLabel" value="Module Number" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Module Number" />
+    <property name="description" value="Module Number" />
+  </bean>
+  <bean id="Narrative-proposalNumber" parent="Narrative-proposalNumber-parentBean" />
+
+  <bean id="Narrative-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="Narrative-comments" parent="Narrative-comments-parentBean" />
+
+  <bean id="Narrative-comments-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="comments" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Comments" />
+    <property name="shortLabel" value="Comments" />
+    <property name="maxLength" value="300" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="40" />
+    </property>
+    <property name="summary" value="Attachment comments" />
+    <property name="description" value="Proposal attachment comments" />
+  </bean>
+  <bean id="Narrative-contactName" parent="Narrative-contactName-parentBean" />
+
+  <bean id="Narrative-contactName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contactName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Contact Name" />
+    <property name="shortLabel" value="Contact Name" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Contact Name" />
+    <property name="description" value="Contact Name" />
+  </bean>
+  <bean id="Narrative-moduleSequenceNumber" parent="Narrative-moduleSequenceNumber-parentBean" />
+
+  <bean id="Narrative-moduleSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="moduleSequenceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Module Sequence Number" />
+    <property name="shortLabel" value="Module Sequence Number" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Module Sequence Number" />
+    <property name="description" value="Module Sequence Number" />
+  </bean>
+  <bean id="Narrative-moduleStatusCode" parent="Narrative-moduleStatusCode-parentBean" />
+
+  <bean id="Narrative-moduleStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="moduleStatusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Status" />
+    <property name="shortLabel" value="Status" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeStatusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="The Types that the Proposal Attachment Status be" />
+    <property name="description" value="The Types that the Proposal Attachment Status be" />
+  </bean>
+  <bean id="Narrative-narrativeStatus.description" parent="Narrative-narrativeStatus.description-parentBean" />
+
+  <bean id="Narrative-narrativeStatus.description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="narrativeStatus.description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Narrative Status" />
+    <property name="shortLabel" value="Narrative Status" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+    <property name="summary" value="The Types that the Proposal Attachment Status be" />
+    <property name="description" value="Isn&apos;t it obvious?" />
+  </bean>
+  <bean id="Narrative-moduleTitle" parent="Narrative-moduleTitle-parentBean" />
+
+  <bean id="Narrative-moduleTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="moduleTitle" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="150" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="40" />
+    </property>
+    <property name="summary" value="Module Title" />
+    <property name="description" value="This field is a free-form text field in which the user is able to name the attachment they are uploading beyond merely the type.  Ex. &apos;Mass Spectrometer Quotation&apos; instead of merely having &quot;equipment&quot; as an attachment type." />
+  </bean>
+  <bean id="Narrative-fileName" parent="Narrative-fileName-parentBean" />
+
+  <bean id="Narrative-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fileName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="File Name" />
+    <property name="shortLabel" value="File Name" />
+    <property name="maxLength" value="150" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+    <property name="summary" value="File Name" />
+    <property name="description" value="This is the name of the file path and name that the user is uploading; can be typed in or the user can use the &quot;browse&quot; feature to find the file on their computer or attached mass storage device" />
+  </bean>
+  <bean id="Narrative-narrativeTypeCode" parent="Narrative-narrativeTypeCode-parentBean" />
+
+  <bean id="Narrative-narrativeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="narrativeTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Attachment Type" />
+    <property name="shortLabel" value="Attachment Type" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeType"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalNarrativeTypeValuesFinder"
+            p:includeKeyInLabel="false"
+            p:keyAttribute="narrativeTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="The Types that the Proposal Attachment be" />
+    <property name="description" value="Types of the Proposal Attachments" />
+  </bean>
+  <bean id="Narrative-institutionalAttachmentTypeCode" parent="Narrative-institutionalAttachmentTypeCode-parentBean" />
+
+  <bean id="Narrative-institutionalAttachmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="institutionalAttachmentTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Attachment Type" />
+    <property name="shortLabel" value="Attachment Type" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.InstituteAttachmentTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Institutional Attachment Type Code" />
+    <property name="description" value="This field contains a list of institutional attachment types" />
+  </bean>
+  <bean id="Narrative-narrativeType.description" parent="Narrative-narrativeType.description-parentBean" />
+
+  <bean id="Narrative-narrativeType.description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="narrativeType.description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Narrative Type" />
+    <property name="shortLabel" value="Narrative Type" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+    <property name="summary" value="The Types that the Proposal Attachment Could be" />
+    <property name="description" value="Isn&apos;t it obvious?" />
+  </bean>
+  <bean id="Narrative-phoneNumber" parent="Narrative-phoneNumber-parentBean" />
+
+  <bean id="Narrative-phoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="phoneNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Phone Number" />
+    <property name="shortLabel" value="Phone Number" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="PhoneNumberValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Phone Number" />
+    <property name="description" value="Phone Number" />
+  </bean>
+  <bean id="Narrative-updateUser" parent="Narrative-updateUser-parentBean" />
+
+  <bean id="Narrative-updateUser-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="updateUser" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Uploaded By" />
+    <property name="shortLabel" value="Uploaded By" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="User who uploads the document" />
+    <property name="description" value="User who uploads the document" />
+  </bean>
+  <bean id="Narrative-updateTimestamp" parent="Narrative-updateTimestamp-parentBean" />
+
+  <bean id="Narrative-updateTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="updateTimestamp" />
+    <property name="label" value="Posted Timestamp" />
+    <property name="shortLabel" value="Posted Timestamp" />
+    <property name="summary" value="Date and Time when attachments gets uploaded" />
+    <property name="description" value="Date and Time when attachments gets uploaded" />
+  </bean>
+  <bean id="Narrative-emailAddress" parent="Narrative-emailAddress-parentBean" />
+
+  <bean id="Narrative-emailAddress-parentBean" abstract="true" parent="KraAttributeReferenceDummy-emailAddress">
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Narrative-inquiryDefinition" parent="Narrative-inquiryDefinition-parentBean" />
+
+  <bean id="Narrative-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Narrative" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Narrative" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="moduleNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="comments" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contactName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="emailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="moduleSequenceNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="moduleStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="moduleTitle" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="narrativeTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="phoneNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Narrative-lookupDefinition" parent="Narrative-lookupDefinition-parentBean" />
+
+  <bean id="Narrative-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Narrative Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="comments" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contactName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleSequenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="narrativeTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="phoneNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="comments" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contactName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleSequenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="narrativeTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="phoneNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

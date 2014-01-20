@@ -1,0 +1,59 @@
+@CHARSET "UTF-8";
+
+body {
+    background-color: #f0f0f0;
+}
+
+#wrapper {
+    margin: 100px auto;
+    width: 310px;
+}
+
+#email {
+    width: 248px;
+}
+
+#text {
+    width: 248px;
+    height: 70px;
+}
+
+#waiting {
+    color: #767676;
+    text-align: center;
+}
+
+fieldset {
+    margin-top: 10px;
+    background: #fff;
+    border: 1px solid #c8c8c8;
+    background-color: #fff;
+}
+
+legend {
+    background-color: #fff;
+    border-top: 1px solid #c8c8c8;
+    border-right: 1px solid #c8c8c8;
+    border-left: 1px solid #c8c8c8;
+    font-size: 1.2em;
+    padding: 0px 7px;
+}
+
+label {
+    display: inline-block;
+    width: 50px;
+}
+
+.success {
+    width: 298px;
+    background: #a5e283;
+    border: #337f09 1px solid;
+    padding: 5px;
+}
+
+.error {
+    width: 298px;
+    background: #ea7e7e;
+    border: #a71010 1px solid;
+    padding: 5px;
+}

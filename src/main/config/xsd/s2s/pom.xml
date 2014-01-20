@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.kuali.kra.s2s</groupId>
+    <artifactId>gg-forms3</artifactId>
+    <packaging>jar</packaging>
+    <name>KCRA Project. Grants.gov form set 4 schema compiler</name>
+    <version>1.0.1</version>
+    <url>http://kuali.org</url>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xmlbeans-maven-plugin</artifactId>
+                <version>2.2.0</version>
+                <executions>
+                    <execution>
+                        <id>Build-XMLBeans</id>
+                        <goals>
+                            <goal>xmlbeans</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <schemaDirectory>ggforms3</schemaDirectory>
+                    <download>false</download>
+                    <sourceGenerationDirectory>target/generated/xmlbeans</sourceGenerationDirectory>
+                    <verbose>true</verbose>
+                    <argLine>-Xmx1536m -XX:MaxPermSize=512m</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>                    
+        	<groupId>org.kuali.kra.s2s</groupId>                    
+        	<artifactId>gg-system</artifactId>                    
+        	<version>1.0</version>                
+        </dependency>
+        <dependency>                    
+        	<groupId>org.kuali.kra.s2s</groupId>                    
+        	<artifactId>gg-forms5</artifactId>                    
+        	<version>1.0</version>                
+        </dependency>
+        <dependency>
+            <groupId>xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+    </dependencies>
+</project>

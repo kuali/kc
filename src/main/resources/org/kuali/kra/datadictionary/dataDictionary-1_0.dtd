@@ -1,0 +1,2144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!--
+    DTD for the Kuali data dictionary configuration file, version 1.0
+
+    To support validation of your configuration file, include the following
+    DOCTYPE element at the beginning (after the "xml" declaration):
+
+    <!DOCTYPE dictionaryEntry PUBLIC
+        "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+        "http://kuali.org/dtds/dataDictionary-1_0.dtd">
+-->
+
+<!-- ............  documentation conventions note  ............
+
+    The comments associated with the xml elements serve two purposes and are
+    prefixed with "DD:" or "JSTL:".
+
+    DD: These comments refer to the way the xml data is stored in the
+        DataDictionary.java instance.  Reference is made to the specific
+        Java class used to store the data of each element.
+
+    JSTL: These comments refer to the way the data is accessed from within JSP.
+    In that case, JSP references a global constant called DataDictionary which
+    is actually an instance of DataDictionaryMap.java.
+
+    When an item is referenced using DataDictionaryMap, the data is always returned
+    in the form of an ExportMap.java instance.  In this case, the element comments
+    will refer to the java class that creates the ExportMap from the DataDictionary
+    object.
+-->
+
+<!-- ............  dictionaryEntry element  ............
+
+    DD: The highest level objects in the data dictionary are of
+        the following types:
+        * BusinessObjectEntry
+        * MaintenanceDocumentEntry
+        * TransactionalDocumentEntry
+
+    JSTL: The data dictionary is exposed as a Map which is accessed
+    by referring to the "DataDictionary" global constant.  This Map contains
+    the following kinds of entries keyed as indicated:
+        * Business Object Entries -
+            Key = businessObjectClass name
+            Value = Map created by BusinessObjectEntryMapper
+        * Maintenance Document entries -
+            Key = DocumentType name
+            Value = Map created by MaintenanceObjectEntryMapper
+        * Transactional Document entries -
+            Key = DocumentType name
+            Value = Map created by TransactionalDocumentEntryMapper
+
+    All elements are exposed to JSTL as Maps (where the element has a
+    unique key by which they can be retrieved), or Strings.  For collections
+    of elements having no unique key, the entry's position in the list
+    (0, 1, etc.) is used as its index.
+
+    All Maps (except the top-level DataDictionary one) are guaranteed to
+    present their entries with an iteration order identical to the order
+    in which the elements were defined in XML.
+-->
+<!ELEMENT dictionaryEntry (businessObject | transactionalDocument | maintenanceDocument)>
+
+<!-- ............  businessObject element  ............
+
+    DD: See BusinessObjectEntry.java
+
+    JSTL: each businessObject is exposed as a Map which is accessed
+    using a key of the business object class name.
+    This map contains enties with the following keys
+
+        * businessObjectClass (String)
+        * inquiry (Map, optional)
+        * lookup (Map, optional)
+        * attributes (Map)
+        * collections (Map, optional)
+        * relationships (Map, optional)
+        * objectLabel (String, optional)
+        * objectDescription (String, optional)
+
+    See BusinessObjectEntryMapper.java
+
+    Note: the use of extraButton in the <businessObject> tag is deprecated, and may be removed in future versions of the data dictionary.
+-->
+    <!ELEMENT businessObject ( boNotesEnabled?, inquiry?, lookup?, extraButton?, titleAttribute?, attributes, collections?, relationships?, objectLabel?, objectDescription?, objectHelp?  )>
+    <!ATTLIST businessObject
+        businessObjectClass CDATA #REQUIRED
+    >
+        <!-- ............  boNotesEnabled element  ............
+
+           boNotesEnabled = true or false
+           * true indicates that notes and attachments will be permanently
+             associated with the business object
+           * false indicates that notes and attachments are associated
+             with the document used to create or edit the business object.
+        -->
+		<!ELEMENT boNotesEnabled (#PCDATA)>
+
+        <!-- ............  inquiry element  ............
+
+            The inquiry element is used to specify the fields that will be displayed on the
+            inquiry screen for this business object and the order in which they will appear.
+
+            DD: See InquiryDefinition.java
+
+            JSTL: The inquiry element is a Map which is accessed using
+            a key of "inquiry".  This map contains the following keys:
+                * title (String)
+                * inquiryFields (Map)
+
+            See InquiryMapBuilder.java
+        -->
+        <!ELEMENT inquiry (title, inquirableClass?, inquirySections )>
+
+            <!-- ............  title element  ............
+
+                The title element is used specify the title that will appear in the header
+                of an Inquiry or Lookup screen.
+            -->
+            <!ELEMENT title (#PCDATA)>
+
+            <!-- ............  inquirySections element  ............
+
+                inquirySections allows inquiry to be presented in sections.
+                Each section can have a different format.
+            -->
+            <!ELEMENT inquirySections (inquirySection+) >
+
+            <!-- ............  inquirySection element  ............
+
+                 inquirySection defines the format and content of
+                 one section of the inquiry.
+                 DD:  See InquirySectionDefinition.java
+            -->
+            <!ELEMENT inquirySection (inquiryFields+)>
+
+            <!-- ......... inquirySection attribute definitions .......
+                numberOfColumns = the number of fields to be displayed in each row of the inquiry section.
+                For example, numberOfColumns = 2 indicates that the label and values for two fields will be
+                displayed in each row as follows:
+                    field1label field1value  |   field2label field2value
+                    field3label field3value  |   field4label field4value
+                etc.
+            -->
+            <!ATTLIST inquirySection
+                title CDATA #REQUIRED
+                numberOfColumns CDATA '1'
+                id CDATA #IMPLIED
+            >
+
+            <!-- ............  inquiryFields element  ............
+
+                JSTL: inquiryFields is a Map which is accessed using a
+                key of "inquiryFields".  This map contains the following types
+                of elements:
+                    * inquirySubSectionHeader
+                    * field
+                    * inquiryCollection
+                Each of these entries are keyed by "attributeName".
+                The associated value is the attributeName of the
+                mapped element.
+            -->
+            <!ELEMENT inquiryFields ((inquirySubSectionHeader?,(inquiryCollection|field)+)+)>
+
+              <!-- ............  inquirySubSectionHeader element  ............
+
+                  The inquirySubSectionHeader allows a separator containing text to
+                  separate groups of fields.  The name attribute is the displayed text.
+
+                  DD:   See InquirySubSectionHeaderDefinition.
+                  JSTL: inquirySubSectionHeader appears in the inquiryFields map as:
+                      * key = "attributeName"
+                      * value = name of inquirySubSectionHeader
+              -->
+              <!ELEMENT inquirySubSectionHeader EMPTY>
+              <!ATTLIST inquirySubSectionHeader name CDATA #REQUIRED>
+
+
+               <!-- ............  inquiryCollection element  ............
+
+                   The inquiryCollection defines a collection within the Business Object which contains
+                   data that should be displayed with the BO when the inquiry is performed.
+
+                   Each inquiryCollection defines a set of data fields, nested inquiryCollections
+                   and summaryFields.  The summaryFields will be reported in the header of
+                   this inquiryCollection, .
+
+                   DD: See InquiryCollectionDefinition.java
+                   JSTL: The inquiryCollection element is a Map with the following keys:
+               	       * name (String)
+                       * businessObjectClass (String)
+                       * numberOfColumns (String)
+                       * inquiryFields (Map)
+                       * inquiryCollections (Map, optional)
+                       * summaryTitle (String)
+                       * summaryFields (Map, optional)
+               -->
+               <!ELEMENT inquiryCollection ((inquirySubSectionHeader?,(field+, inquiryCollection?, inquirySummaryFields?)+)+)>
+               <!ATTLIST inquiryCollection
+                   name CDATA #REQUIRED
+                   businessObjectClass CDATA #REQUIRED
+                   numberOfColumns CDATA '1'
+                   summaryTitle CDATA #IMPLIED
+                   id CDATA #IMPLIED
+               >
+
+                <!-- ............  field element  ............
+
+                    The field element defines the attributes of a single data field.
+
+                    DD:  See FieldDefinition.java
+                    JSTL: The field element is a Map which is accseed using
+                    a key of the attributeName.  This map contains the following keys:
+                        * attributeName (String)
+                        * forceInquiry (boolean String)
+                        * noInquiry (boolean String)
+                        * maxLength (String)
+                -->
+                <!ELEMENT field (fieldAuthorization?)>
+
+                <!--
+                    forceInquiry = true means that the displayed field value will
+                    always be made inquirable (this attribute is not used within the code).
+
+                    noInquiry = true means that the displayed field will never be made inquirable.
+
+                    maxLength = the maximum allowable length of the field in the lookup result fields.  In other contexts,
+                    like inquiries, this field has no effect.
+                -->
+                <!ATTLIST field
+                    attributeName CDATA #REQUIRED
+                    forceInquiry (true|false) 'false'
+                    noInquiry (true|false) 'false'
+                    maxLength CDATA #IMPLIED
+                >
+
+                <!-- ............  inquirySummaryFields element  ............ -->
+                <!ELEMENT inquirySummaryFields (inquirySummaryField+)>
+
+                <!-- ............  inquirySummaryField element  ............
+
+                    The inquirySummaryField indicates which fields are to appear in
+                    the header line of each record in a collection.  For example,
+                    the header of an address record may contain something like:
+                        "Address ( Purchase_Order - San Francisco )"
+                    where the two summary fields are:
+                        Vendor Type = "Purchase_Order"
+                        Vendor City = "San Francisco"
+
+                    DD:  See FieldDefinition.java
+                -->
+
+                <!ELEMENT inquirySummaryField EMPTY>
+                <!ATTLIST inquirySummaryField attributeName CDATA #REQUIRED>
+        <!-- ............  inquirableClass element  ............
+
+            inquirableClass is required if a custom inquirable is required which will show
+            additional data other than the business object attributes.
+
+            Example from Org.xml:
+                <inquirableClass>org.kuali.module.chart.maintenance.OrgInquirable</inquirableClass>
+            The custom inquirable is required in this case because the organization hierarchy
+            is shown on the inquiry screen.
+        -->
+        <!ELEMENT inquirableClass (#PCDATA)>
+
+        <!-- ............  lookup element  ............
+
+            The lookup element is used to specify the rules for "looking up"
+            a business object.  These specifications define the following:
+            * How to specify the search criteria used to locate a set of business objects
+            * How to display the search results
+
+            DD: See LookupDefinition.java
+
+            JSTL: The lookup element is a Map which is accessed using
+            a key of "lookup".  This map contains the following keys:
+            * lookupableID (String, optional)
+            * title (String)
+            * menubar (String, optional)
+            * instructions (String, optional)
+            * defaultSort (Map, optional)
+            * lookupFields (Map)
+            * resultFields (Map)
+            * resultSetLimit (String, optional)
+
+            See LookupMapBuilder.java
+        -->
+        <!ELEMENT lookup (lookupableID?, title, menubar?, instructions?, defaultSort?,
+          lookupFields, resultFields, resultSetLimit?, extraButton?)>
+            <!-- ............  lookupableID element  ............
+
+                The lookupableID element identifies the name of the Spring bean which
+                will be used to obtain the lookupable helper service for the business object.
+                For example, the Balance.xml file has a lookupableId = "glBalanceLookupable".
+                The KualiSpringBeansGL.xml file determines that the helper service will be an
+                instance of BalanceLookupableHelperServiceImpl.
+
+                If this field is omitted, the default bean id used will be kualiLookupable which uses
+                the KualiLookupableHelperServiceImpl helper service.
+            -->
+            <!ELEMENT lookupableID (#PCDATA)>
+
+            <!-- ............  menubar element  ............
+
+                The menubar element is used to add additional html code
+                to the header line on the lookup screen.
+
+                For example, Account.xml uses this element to
+                add the "create new global" button to the Account Lookup header.
+            -->
+            <!ELEMENT menubar (#PCDATA)>
+
+            <!-- ............  instructions element  ............
+
+                The instructions element is used to display instructions to the
+                user on how to use the lookup screen.  It appears that this field
+                is not currently being used on the Kuali Financials lookup screens.
+            -->
+            <!ELEMENT instructions (#PCDATA)>
+
+            <!-- ............  defaultSort element  ............
+
+                The defaultSort element specifies the sequence in which the
+                lookup search results should be displayed.  It contains an
+                ascending/descending indicator and a list of attribut names.
+
+                DD: See SortDefinition.java
+
+                JSTL: defaultSort is a Map with the following keys:
+                * sortAscending (boolean String)
+                * sortAttributes (Map)
+
+                By the time JSTL export occurs, the optional attributeName from the defaultSort
+                tag will have been converted into the first contained sortAttribute
+
+                See LookupMapBuilder.java
+            -->
+            <!ELEMENT defaultSort (sortAttributes?)>
+            <!ATTLIST defaultSort
+                attributeName CDATA #IMPLIED
+                sortAscending (true|false) 'true'
+            >
+
+                  <!-- ............  sortAttributes element  ............
+
+                      The sortAttributes element allows a multiple-part sort key
+                      to be defined
+
+                      JSTL: sortAttributes is a Map which is accessed using a
+                      key of "sortAttributes". This map contains an entry for
+                      sort attribute.  The key is:
+                      * attributeName of a sort field.
+                      The associated value is a sortAttribute ExportMap.
+                -->
+                <!ELEMENT sortAttributes (sortAttribute+)>
+                    <!-- ............  sortAttribute element  ............
+
+                        The sortAttribute element defines one part of the sort key.
+                        The full sort key is comprised of the sortAttribute's in the
+                        order in which they have been defined.
+
+                        DD: See SortAttributesDefinition.java.
+
+                        JSTL: sortAttribute is a Map which is accessed using a
+                        key of the attributeName of the sortAttribute.
+                        It contains a single entry with the following key:
+                            * "attributeName"
+
+                        The associated value is the attributeName of the sortAttribute.
+                        See LookupMapBuilder.java
+                    -->
+                    <!ELEMENT sortAttribute EMPTY>
+                    <!ATTLIST sortAttribute
+                        attributeName CDATA #REQUIRED
+                    >
+
+            <!-- ............  lookupFields element  ............
+
+                The lookupFields element defines the set of fields in which the user
+                can enter values representing search selection criteria.  A search result
+                record will be returned only if the criteria entered in all the
+                lookup fields are met.
+
+                DD:  See LookupDefinition.java
+
+                JSTL: lookupFields is a Map which is accessed using a key of "lookupFields".
+                This map contains the following keys:
+                    * attributeName of first lookup field
+                    * attributeName of second lookup field
+                    etc.
+                The corresponding values are lookupField Export Maps.
+                See LookupMapBuilder.java.
+            -->
+            <!ELEMENT lookupFields (lookupField+)>
+
+                <!-- ............  lookupField element  ............
+
+                    The lookupField element defines one lookup search
+                    criterion field.
+                    DD: See LookupDefinition.java.
+
+                    JSTL: lookupField is a Map which is accessed by a key
+                    which is the attributeName of a lookup field.  This map contains
+                    entries with the following keys:
+                    * "attributeName" (String)
+                    * "required" (boolean String)
+
+                    See LookupMapBuilder.jsp.
+                -->
+                <!ELEMENT lookupField (defaultValue?,defaultValueFinderClass?)>
+
+                <!-- lookupField attribute definitions:
+
+                    * required = true means that the user must enter something
+                        into the search criterion lookup field
+                    * forceLookup = this attribute is not used
+                    * noLookup = true means that field should not include magnifying glass (i.e. quickfinder)
+                -->
+                <!ATTLIST lookupField
+                    attributeName CDATA #REQUIRED
+                    required (true|false) 'false'
+                    forceLookup (true|false) 'false'
+                    noLookup (true|false) 'false'
+                >
+                   <!-- ............  defaultValue element  ............
+
+                       The defaultValue element will pre-load the specified value
+                       into the lookup field.
+                   -->
+                  <!ELEMENT defaultValue (#PCDATA)>
+                  <!-- ............  defaultValueFinderClass element  ............
+
+                      The defaultValueFinderClass specifies the java class that will be
+                      used to determine the default value of a lookup field.  The classname
+                      specified in this field must implement org.kuali.core.lookup.valueFinder.ValueFinder
+                   -->
+                  <!ELEMENT defaultValueFinderClass (#PCDATA)>
+
+            <!-- ............  resultFields element  ............
+
+                The resultFields element specifies the list of fields that are shown as a result
+                of the lookup search.
+
+                JSTL: resultFields is a Map which is accesseed by a key of "resultFields".
+                This map contains entries with the following keys:
+                    * attributeName of first result field
+                    * attributeName of second result field
+                    etc.
+                The corresponding values are ExportMap's
+
+                The ExportMaps are accessed using a key of attributeName.
+                Each ExportMap contains a single entry as follows:
+                    * "attributeName"
+                The corresponding value is the attributeName of the field.
+
+                See LookupMapBuilder.java.
+            -->
+            <!ELEMENT resultFields (field+)>
+
+            <!-- ............  resultSetLimit element  ............
+
+                The resultSetLimit element specifies the maximum number of records that will be listed
+                as a result of the lookup search.
+            -->
+			<!ELEMENT resultSetLimit (#PCDATA)>
+
+            <!-- ............  extraButton element  ............
+
+                The extraButton element is used to define additional buttons which will
+                appear on the lookup screen next to the Search and Clear buttons.
+                You can define the image source and additional html parameters for
+                each button.
+            -->
+            <!ELEMENT extraButton (extraButtonSource, extraButtonParams)>
+        				<!-- ............  extraButtonSource element  ............
+
+        				    The extraButtonSource element defines the location of an image file
+        				    to use for the extra button.
+        				-->
+        				<!ELEMENT extraButtonSource (#PCDATA)>
+        				<!-- ............  extraButtonParams element  ............
+
+        				    The extraButtonParams contains extra HTML parameters that be associated
+        				    with the button.
+        				-->
+        				<!ELEMENT extraButtonParams (#PCDATA)>
+
+        <!-- ............  titleAttribute element  ............
+
+            The titleAttribute element is the name of the attribute that
+            will be used as an inquiry field when the lookup search results
+            fields are displayed.
+
+            For some business objects, there is no obvious field to serve
+            as the inquiry field. in that case a special field may be required
+            for inquiry purposes.
+            See OrganizationReversion.xml for an example of this case.
+        -->
+        <!ELEMENT titleAttribute (#PCDATA)>
+
+        <!-- ............  attributes element  ............
+
+            The attributes element contains attribute and attributeReference
+            elements.  These define the specifications for business object fields.
+
+            JSTL: attributes is a Map which is accessed by a key of "attributes".
+            This map contains entries with the following keys:
+                * attributeName of first attribute
+                * attributeName of second attribute
+                etc.
+
+            The corresponding value for each entry is an attribute ExportMap.
+            By the time the JSTL export happens, all attributeReferences will be
+            indistinguishable from attributes.
+
+            See AttributesMapBuilder.java
+        -->
+        <!ELEMENT attributes ((attribute|attributeReference)+)>
+
+            <!-- ............  attribute element  ............
+
+                The attribute element specifies the way in which a business object
+                field appears on a screen for data entry or display purposes.  These
+                specifications include the following:
+                * The title and formatting of the field
+                * Descriptive information about the field
+                * The edits used at time of data-entry
+
+                DD: See AttributeDefinition.java
+
+                JSTL: attribute is a Map which is accessed using a key which is the attributeName
+                of an attribute.  Each entry contains the following keys:
+                    * name (String)
+                    * forceUppercase (boolean String)
+                    * label (String)
+                    * shortLabel (String, copied from label if not present)
+                    * maxLength (String)
+                    * exclusiveMin (bigdecimal String)
+                    * exclusiveMax (bigdecimal String)
+                    * validationPattern (Map, optional)
+                    * required (boolean String)
+                    * control (Map)
+                    * summary (String)
+                    * description (String)
+                    * formatterClass (String, optional)
+                    * fullClassName (String)
+                    * displayWorkgroup(String, optional)
+                    * displayMaskClass(String, optional)
+
+                See AttributesMapBuilder.java
+                Note: exclusiveMax is mapped from the inclusiveMax element!
+                The validation logic seems to be assuming inclusiveMax.
+            -->
+            <!ELEMENT attribute (label, shortLabel?, displayLabelAttribute?, maxLength, exclusiveMin?, inclusiveMax?,
+              validationPattern?, required?, control, attributeAuthorization?, summary?, description?, formatterClass?)>
+
+            <!-- ............  attribute element attribute definitions ............
+
+                * name = name of attribute
+                * forceUppercase = convert user entry to uppercase and always display
+                    database value as uppercase.
+                * override = specifies that this <attribute> definition is an override for another <attribute> definition for the same name in the
+                  same business object.  If override is true, then the DD must have parsed an attribute of the same name, or else the DD will have an
+                  error.  If false, then there may be only one attribute defined for a given name in a BO, and having more will result in a DD error.
+            -->
+            <!ATTLIST attribute
+                name CDATA #REQUIRED
+                forceUppercase (true|false) 'false'
+                override (true|false) 'false'
+            >
+                <!-- ............  label element  ............
+
+                    The label element is the field or collection name that will be shown on inquiry and
+                    maintenance screens.
+                    This will be overridden by presence of displayLabelAttribute element.
+                -->
+                <!ELEMENT label (#PCDATA)>
+
+                <!-- ............  shortLabel element  ............
+
+                    The shortLabel element is the field or collection name that will be used
+                    in applications when a shorter name (than the label element) is required.
+                    This will be overridden by presence of displayLabelAttribute element.
+                -->
+                <!ELEMENT shortLabel (#PCDATA)>
+
+                <!-- ............  displayLabelAttribute element  ............
+
+                    The displayLabelAttribute element is used to indicate that the
+                    label and short label should be obtained from another attribute.
+
+                    The label element and short label element defined for this attribute
+                    will be overridden.  Instead, the label and short label values
+                    will be obtained by referencing the corresponding values from the
+                    attribute indicated by this element.
+                -->
+                <!ELEMENT displayLabelAttribute (#PCDATA)>
+
+                <!-- ............  maxLength element  ............
+
+                    The maxLength element determines the maximum size of the field
+                    for data entry edit purposes and for display purposes.
+                -->
+                <!ELEMENT maxLength (#PCDATA)>
+
+                <!-- ............  exclusiveMin element  ............
+
+                    The exclusiveMin element determines the minimum allowable value
+                    for data entry editing purposes.  Value can be an integer or decimal
+                    value such as -.001 or 99.
+                -->
+                <!ELEMENT exclusiveMin (#PCDATA)>
+
+                <!-- ............  inclusiveMax element  ............
+
+                    The inclusiveMax element determines the maximum allowable value
+                    for data entry editing purposes. Value can be an integer or decimal
+                    value such as -.001 or 99.
+
+                    JSTL: This field is mapped into the field named "exclusiveMax".
+                -->
+                <!ELEMENT inclusiveMax (#PCDATA)>
+
+                <!-- ............  validationPattern element  ............
+
+                    The validationPattern element defines the allowable character-level
+                    or field-level values for an attribute.
+
+                    JSTL: validationPattern is a Map which is accessed using a key
+                    of "validationPattern". Each entry may contain some of the keys
+                    listed below.  The keys that may be present for a given attribute
+                    are dependent upon the type of validationPattern.
+
+                        * maxLength (String)
+                        * exactLength
+                        * type
+                        * allowWhitespace
+                        * allowUnderscore
+                        * validChars
+                        * precision
+                        * scale
+                        * allowNegative
+
+                    The allowable keys (in addition to type) for each type are:
+                        ****Type****    ***Keys***
+                        alphanumeric    exactLength
+                                        maxLength
+                                        allowWhitespace
+                                        allowUnderscore
+
+                        alpha           exactLength
+                                        maxLength
+                                        allowWhitespace
+
+                        anyCharacter    exactLength
+                                        maxLength
+                                        allowWhitespace
+
+                        charset         validChars
+
+                        numeric         exactLength
+                                        maxLength
+
+                        fixedPoint      allowNegative
+                                        precision
+                                        scale
+
+                        floatingPoint   allowNegative
+
+                        date            n/a
+                        emailAddress    n/a
+                        javaClass       n/a
+                        month           n/a
+                        phoneNumber     n/a
+                        timestamp       n/a
+                        year            n/a
+                        zipcode         n/a
+
+                    Note: maxLength and exactLength are mutually exclusive.
+                    If one is entered, the other may not be entered.
+
+                    Note:  See ApplicationResources.properties for
+                    exact regex patterns.
+                    e.g. validationPatternRegex.date for regex used in date validation.
+                -->
+                <!ELEMENT validationPattern (alpha|numeric|alphaNumeric|anyCharacter|charset|javaClass|floatingPoint|fixedPoint|zipcode|date|year|month|emailAddress|phoneNumber|timestamp)>
+                    <!-- character-level patterns -->
+                    <!-- ............  alpha element  ............
+
+                        The alpha element indicates that values should contain
+                        only the characters "A" thru "Z" or "a" thru "z" or
+                        optional whitespace.
+
+                        DD: See AlphaValidationPattern.java
+                    -->
+                    <!ELEMENT alpha EMPTY>
+                    <!ATTLIST alpha
+                        exactLength CDATA #IMPLIED
+                        maxLength CDATA #IMPLIED
+                        allowWhitespace (true|false) 'false'
+                    >
+                    <!-- ............  numeric element  ............
+
+                        The numeric element indicates that values should contain
+                        only the characters "0" thru "9".
+
+                        DD: See NumericValidationPattern.java
+                    -->
+                    <!ELEMENT numeric EMPTY>
+                    <!ATTLIST numeric
+                        exactLength CDATA #IMPLIED
+                        maxLength CDATA #IMPLIED
+                    >
+                    <!-- ............  alphaNumeric element  ............
+
+                        The alphaNumeric element indicates that values should contain
+                        only the characters:
+                            "A" thru "Z"
+                            "a" thru "z"
+                            "0" thru "9"
+                            optional "_"
+                            optional whitespace
+
+                        DD: See AlphaNumericValidationPattern.java
+                    -->
+                    <!ELEMENT alphaNumeric EMPTY>
+                    <!ATTLIST alphaNumeric
+                        exactLength CDATA #IMPLIED
+                        maxLength CDATA #IMPLIED
+                        allowWhitespace (true|false) 'false'
+                        allowUnderscore (true|false) 'false'
+                    >
+                    <!-- ............  anyCharacter element  ............
+
+                        The anyCharacter element indicates that values that contain any
+                        printable character.  Optionally, whitespace is allowed.
+
+                        DD: See AnyCharacterValidationPattern.java
+                    -->
+                    <!ELEMENT anyCharacter EMPTY>
+                    <!ATTLIST anyCharacter
+                        exactLength CDATA #IMPLIED
+                        maxLength CDATA #IMPLIED
+                        allowWhitespace (true|false) 'false'
+                    >
+                    <!-- ............  charset element  ............
+
+                        The charset element defines a set of allowable characters.
+                        e.g. "ABC123".
+
+                        DD: See CharsetValidationPattern.java
+                    -->
+                    <!ELEMENT charset EMPTY>
+                    <!ATTLIST charset
+                        validChars CDATA #REQUIRED
+                    >
+                    <!-- field -level patterns -->
+
+                    <!-- ............  javaClass element  ............
+
+                        The javaClass element specifies that the value must
+                        be the correct format for a java class name.
+
+                        DD: See JavaClassValidationPattern.java
+                    -->
+                    <!ELEMENT javaClass EMPTY>
+
+                    <!-- ............  floatingPoint element  ............
+
+                        The floatingPoint element specifies that the value must
+                        be a valid floating point number. Optionally, the value
+                        may be negative.  The decimal point is optional.
+
+                        DD: See FloatingPointValidationPattern.java
+                     -->
+                    <!ELEMENT floatingPoint EMPTY>
+                    <!ATTLIST floatingPoint
+                        allowNegative (true|false) 'false'
+                    >
+                    <!-- ............  fixedPoint element  ............
+
+                        The fixedPoint element specifies that the value must
+                        be a valid fixed point number. Optionally, the value
+                        may be negative.  The decimal point is optional.
+
+                        DD: See FixedPointValidationPattern.java
+                    -->
+                    <!ELEMENT fixedPoint EMPTY>
+                    <!ATTLIST fixedPoint
+                        allowNegative (true|false) 'false'
+                        precision CDATA #IMPLIED
+                        scale CDATA #IMPLIED
+                    >
+                    <!-- ............  zipcode element  ............
+
+                        The zipcode element specifies that the value must
+                        be a valid five-digit or nine-digit zipcode.
+                        Format is: "nnnnn" or "nnnnn-nnnn"
+
+                        DD: See FixedPointValidationPattern.java
+                    -->
+                    <!ELEMENT zipcode EMPTY>
+
+                    <!-- ............  date element  ............
+                        The date element specifies that the value must
+                        be a valid date in format mm/dd/yyyy.
+
+                        DD: See DateValidationPattern.java
+                    -->
+                    <!ELEMENT date EMPTY>
+
+                    <!-- ............  timestamp element  ............
+
+                        The timestamp element specifies that the value must
+                        be a valid date and time in format yyyy-mm-dd hh:mm:ss.m.
+
+                        DD: See TimestampValidationPattern.java
+                    -->
+                    <!ELEMENT timestamp EMPTY>
+
+                    <!-- ............  year element  ............
+
+                        The year element specifies that the value must
+                        be a valid year in format yyyy.  The allowable range
+                        is from 1600 to 2099
+
+                        DD: See YearValidationPattern.java
+                    -->
+                    <!ELEMENT year EMPTY>
+
+                    <!-- ............  month element  ............
+
+                        The month element specifies that the value must
+                        be a valid month in format m or mm.
+                        Examples: 1, 01, 2, 02 ... 10, 11, 12
+
+                        DD: See MonthValidationPattern.java
+                    -->
+                    <!ELEMENT month EMPTY>
+
+                    <!-- ............  emailAddress element  ............
+
+                        The emailAddress element specifies that the value must
+                        be a valid email address.
+
+                        DD: See EmailAddressValidationPattern.java
+                    -->
+                    <!ELEMENT emailAddress EMPTY>
+
+                    <!-- ............  phoneNumber element  ............
+
+                        The phoneNumber element specifies that the value must
+                        be a valid phone number in format: 999-999-9999
+
+                        DD: See PhoneNumberValidationPattern.java
+                    -->
+                    <!ELEMENT phoneNumber EMPTY>
+
+                <!-- ............  required element  ............
+
+                    The required element allows values of "true" or "false".
+                    A value of "true" indicates that a value must be entered for this
+                    business object when creating or editing a new business object.
+                -->
+                <!ELEMENT required (#PCDATA)>
+
+                <!-- ............  control element  ............
+
+                    The control element defines the manner in which an attribute is
+                    displayed and the manner in which the attribute value is entered.
+
+                    JSTL: control is a Map representing an HTML control.  It is accessed
+                    using a key of "control".  The table below shows the types of entries
+                    associated with each type of control.
+
+                    **Control Type**    **Key**             **Value**
+                    checkbox            checkbox            boolean String
+
+                    hidden              hidden              boolean String
+
+                    radio               radio               boolean String
+                                        valuesFinder        valuesFinder class name
+					                    businessObjectClass String
+                    					keyAttribute 		String
+                   						labelAttribute		String
+					                    includeKeyInLabel 	boolean String
+
+                    select              select              boolean String
+                                        valuesFinder        valuesFinder class name
+                                        businessObjectClass String
+                    					keyAttribute 		String
+                    					labelAttribute 		String
+					                    includeKeyInLabel 	boolean String
+
+                    apcSelect           apcSelect           boolean String
+                                        paramNamespace      String
+                                        parameterDetailType String
+                                        parameterName       String
+
+                    text                text                boolean String
+                                        size                String
+
+                    textarea            textarea            boolean String
+                                        rows
+                                        cols
+
+                    currency            currency            boolean String
+                                        size                String
+                                        formattedMaxLength  String
+
+                    kualiUser           kualiUser           boolean String
+                                        universalIdAttributeName    String
+                                        userIdAttributeName         String
+                                        personNameAttributeName     String
+
+                    lookupHidden        lookupHidden        boolean String
+
+                    lookupReadonly      lookupReadonly      boolean String
+                    
+                    file				file				org.apache.struts.upload.FormFile
+
+                -->
+                <!ELEMENT control (checkbox|hidden|radio|select|apcSelect|text|textarea|currency|kualiUser|lookupHidden|lookupReadonly|workflowWorkgroup|file)>
+                    <!-- ............  checkbox element  ............
+
+                        The checkbox element is used to render an HTML checkbox
+                        control.  It is used for boolean fields.
+                        DD: See CheckboxControlDefinition.java.
+                    -->
+                    <!ELEMENT checkbox EMPTY>
+
+                    <!-- ............  hidden element  ............
+
+                        The hidden element will cause the attribute to not
+                        be displayed.
+                        DD: See HiddenControlDefinition.java.
+                    -->
+                    <!ELEMENT hidden EMPTY>
+
+                    <!-- ............  radio element  ............
+
+                        The radio element will render an HTML radio control.
+                        The valuesFinderClass will have a getKeyValues() method
+                        that returns a list of KeyLabelPair objects.
+                        DD: See RadioControlDefinition.java.
+                    -->
+                    <!ELEMENT radio EMPTY>
+                    <!ATTLIST radio
+                            valuesFinderClass CDATA #REQUIRED
+                            businessObjectClass CDATA #IMPLIED
+	                        keyAttribute CDATA #IMPLIED
+    	                    labelAttribute CDATA #IMPLIED
+        	                includeKeyInLabel (true|false) 'false'
+                    >
+                    <!-- ............  select element  ............
+
+                        The select element will render an HTML select control.
+                        The valuesFinderClass will have a getKeyValues() method
+                        that returns a list of KeyLabelPair objects.
+
+                        An optional script attribute allows java script code to be
+                        entered.  This code will be run when the user selects a new
+                        value.
+                        DD: See SelectControlDefinition.java.
+                    -->
+                    <!ELEMENT select EMPTY>
+                    <!ATTLIST select
+                        valuesFinderClass CDATA #REQUIRED
+                        script CDATA #IMPLIED
+                        businessObjectClass CDATA #IMPLIED
+                        keyAttribute CDATA #IMPLIED
+                        labelAttribute CDATA #IMPLIED
+                        includeKeyInLabel (true|false) 'false'
+                    >
+
+
+                    <!-- ............  apcSelect element  ............
+
+                        The apcSelect element will render an HTML select control.
+                        The values for the select control are obtained from
+                        pramater table in the database.
+
+                        paramNamespace, parameterDetailType, and parameterName uniquely identify the parameter from which the select's
+                        values will be derived
+
+                    DD: See SelectControlDefinition.java and ApcSelectControlDefinition.java
+                    -->
+                    <!ELEMENT apcSelect EMPTY>
+                    <!ATTLIST apcSelect
+                        parameterNamespace CDATA #REQUIRED
+                        parameterDetailType CDATA  "N/A"
+                        parameterName CDATA #REQUIRED
+                    >
+                    <!-- ............  text element  ............
+
+                        The text element defines an HTML text control element.
+                        The size attribute defines the size of the field.
+                        If the datePicker option is entered, then  the user will be able
+                        to select a date from a popup calendar.
+
+                        DD: See TextControlDefinition.java
+                    -->
+                    <!ELEMENT text EMPTY>
+                    <!ATTLIST text
+                        size CDATA #REQUIRED
+                        datePicker CDATA #IMPLIED
+                    >
+                    <!-- ............  textarea element  ............
+
+                        The textarea element defines an HTML textarea control element.
+                        The rows and cols attributes define the size of the field.
+                        DD: See TextareaControlDefinition.java
+
+                    -->
+                    <!ELEMENT textarea EMPTY>
+                    <!ATTLIST textarea
+                        rows CDATA #REQUIRED
+                        cols CDATA #REQUIRED
+                    >
+                    <!-- ............  currency element  ............
+
+                        The currency element defines an HTML text control for
+                        entering dollar and cents amounts.  Only two decimals to
+                        the right of the decimal point are allowed.  Formatted
+                        value is displayed with commas.
+
+                        See CurrencyControlDefinition.java
+                    -->
+                    <!ELEMENT currency EMPTY>
+                    <!ATTLIST currency
+                        size CDATA #REQUIRED
+                        formattedMaxLength CDATA #REQUIRED
+                    >
+                    <!-- ............  kualiUser element  ............
+
+                        The kualiUser element defines a control that identifies
+                        a Kuali user. As an example, consider a person with the
+                        following:
+                            * User ID = JPJONES
+                            * Universal User ID = 3583663872
+                            * Employee ID = 0000123456
+                            * Name = JONES,JOHN p
+                        This control defines a field in which the user can enter the User Id or choose a
+                        user using the magnifying glass lookup.  After a user is selected, user name
+                        will be displayed under the User ID.
+
+                        When using this control, the names of other attributes must be specified
+                        to allow the control to function:
+                            * universalIdAttributeName  -
+                                attribute that provides the Universal User Id - e.g. 3583663872
+                            * userIdAttributeName -
+                                attribute that provides the User Id - e.g. JPJONES
+                            * personNameAttributeName -
+                                attribute that provides the User Name - e.g. JONES,JOHN P
+
+                        DD: See KualiUserControlDefinition
+                    -->
+                    <!ELEMENT kualiUser EMPTY>
+                    <!ATTLIST kualiUser
+                        universalIdAttributeName CDATA #REQUIRED
+                        userIdAttributeName CDATA #REQUIRED
+                        personNameAttributeName CDATA #REQUIRED
+                    >
+
+                    <!-- ............  lookupHidden element  ............
+
+                        The lookupHidden control element creates a field with a magnifying
+                        glass, but no value showing.  This can be used to do a lookup to
+                        return a value which will appear in another field.
+
+                        DD:  See LookupHiddenControlDefinition
+                    -->
+                    <!ELEMENT lookupHidden EMPTY>
+
+                    <!-- ............  lookupReadonly element  ............
+
+                        The lookupReadonly control element creates a field with a magnifying
+                        glass and a read-only value.  This forces the user to change the value
+                        of the field only by use of the magnifying glass.
+
+                        DD:  See LookupReadonlyControlDefinition
+                    -->
+                    <!ELEMENT lookupReadonly EMPTY>
+
+                    <!-- ............  workflowWorkgroup element  ............
+
+                        The workflowWorkgroup element control is used to identify
+                        the field as being a Workgroup Name field.  The magnifying
+                        glass will do a WorkGroup Lookup into the workflow system.
+                        The Workgroup Name will be returned from the lookup.
+
+                        This control also displays some special icons next to the
+                        magnifying glass.
+
+                        DD: See WorkflowWorkgroupControlDefinition.java.
+                    -->
+                    <!ELEMENT workflowWorkgroup EMPTY>
+                    <!ATTLIST workflowWorkgroup
+                        size CDATA #REQUIRED
+                    >
+                    
+                    <!-- ............  file element  ............
+                        
+                        The file element defines an HTML file control element.
+
+                        DD: See FileControlDefinition.java
+                    -->
+                    <!ELEMENT file EMPTY>
+ 					<!ATTLIST file
+                        size CDATA #REQUIRED
+                    >
+                <!-- ............  attributeAuthorization element  ............
+
+                    The attributeAuthorization element is used to provide field-level
+                    security by only allowing users in the specified workgroup to view
+                    the field value.  For users not in the specified workgroup, the
+                    field value will be masked.
+                -->
+                <!ELEMENT attributeAuthorization (displayWorkgroup,displayMask)>
+                <!-- ............  displayWorkgroup element  ............
+
+                    The displayWorkgroup element specifies the name of a
+                    workgroup.  Only users in this workgroup will be able
+                    to view the un-masked value.
+                -->
+                <!ELEMENT displayWorkgroup (#PCDATA)>
+
+                <!-- ............  displayMask element  ............
+
+                    The displayMask element specifies the type of masking to
+                    be used to hide the value from un-authorized users.
+                    There are three types of masking.
+                -->
+                <!ELEMENT displayMask (maskLiteral|maskTo|maskFormatterClass)>
+
+                  <!-- ............  maskLiteral element  ............
+
+                      The maskLiteral element is used to completely hide the field
+                      value for unauthorized users.  The specified literal will be
+                      shown instead of the field value.
+                  -->
+                  <!ELEMENT maskLiteral EMPTY>
+                  <!ATTLIST maskLiteral
+                        literal CDATA #REQUIRED
+                  >
+                  <!-- ............  maskTo element  ............
+
+                      The maskTo element is to used hide the beginning part of the
+                      value for unauthorized users.  The number of leading characters
+                      to hide and the replacement character can be specified.
+                  -->
+                  <!ELEMENT maskTo EMPTY>
+                  <!ATTLIST maskTo
+                          maskCharacter CDATA #REQUIRED
+                          maskLength CDATA #REQUIRED
+                  >
+                  <!-- ............  maskFormatterClass element  ............
+
+                      The maskFormatterClass element is used when a custom masking
+                      algortithm is desired.  This element specifies the name of a
+                      class that will perform the masking for unauthorized users.
+                  -->
+                  <!ELEMENT maskFormatterClass (#PCDATA)>
+
+                  <!-- ............  summary element  ............
+
+                      The summary element is used to provide a short description of the
+                      attribute or collection.  This is designed to be used for help purposes.
+                  -->
+                  <!ELEMENT summary (#PCDATA)>
+
+                  <!-- ............  description element  ............
+
+                      The description element is used to provide a long description of the
+                      attribute or collection.  This is designed to be used for help purposes.
+                  -->
+                  <!ELEMENT description (#PCDATA)>
+
+                  <!-- ............  formatterClass element  ............
+
+                      The formatterClass element is used when custom formatting is
+                      required for display of the field value.  This field specifies
+                      the name of the java class to be used for the formatting.  About
+                      15 different classes are available including BooleanFormatter,
+                      CurrencyFormatter, DateFormatter, etc.
+                  -->
+                  <!ELEMENT formatterClass (#PCDATA)>
+
+            <!-- ............  attributeReference element  ............
+
+                The attributeReference element specifies the way in which a business
+                object appears on a screen for data entry or display purposes.  These
+                specifications include the following:
+                    * The title and formatting of the field
+                    * Descriptive information about the field
+                    * The edits used at time of data-entry
+
+                This element is identical to the attribute element with the difference
+                being that this element points to an previously defined attribute
+                and just overrides the parts of the definition that are different.
+
+                However, the validationPattern and attributeAuthorizations elements
+                may not be overridden.
+
+                DD: See AttributeReferenceDefinition.java
+
+                JSTL: attribute is a Map which is accessed using a key which is the attributeName
+                of an attribute.  Each entry contains the following keys:
+                    * name (String)
+                    * sourceClassName (String)
+                    * sourceAttributeName (String)
+                    * forceUppercase (boolean String)
+                    * label (String)
+                    * shortLabel (String, copied from label if not present)
+                    * maxLength (String)
+                    * exclusiveMin (bigdecimal String)
+                    * exclusiveMax (bigdecimal String)
+                    * validationPattern (Map, optional)
+                    * required (boolean String)
+                    * control (Map)
+                    * summary (String)
+                    * description (String)
+                    * formatterClass (String, optional)
+                    * fullClassName (String)
+                    * displayWorkgroup(String, optional)
+                    * displayMaskClass(String, optional)
+            -->
+            <!ELEMENT attributeReference (label?, shortLabel?, displayLabelAttribute?, maxLength?, exclusiveMin?, inclusiveMax?,
+              required?, control?, summary?, description?, formatterClass?)>
+            <!ATTLIST attributeReference
+                name CDATA #REQUIRED
+                sourceClassName CDATA #REQUIRED
+                sourceAttributeName CDATA #REQUIRED
+                override (true|false) 'false'
+            >
+
+        <!-- ............  collections element  ............
+
+            The collections element contains collection elements.  These define
+            the lists of other business objects which are related to and
+            defined in the business objects.
+
+            JSTL: collections is a Map which is accessed by a key of "collections".
+            This map contains entries with the following keys:
+                * name of first collection
+                * name of second collection
+                etc.
+            The corresponding value for each entry is a collection ExportMap.
+
+            See CollectionsMapBuilder.java.
+        -->
+        <!ELEMENT collections (collection+)>
+            <!-- ............  collection element  ............
+
+                The collection element defines the name and description a
+                list of objects related to the business object.
+
+                DD: See CollectionDefinition.java.
+
+                JSTL: collection is a Map which is accessed using a key which is the
+                name of the collection.  Each entry contains the following keys:
+                    * name (String)
+                    * label (String)
+                    * shortLabel (String, copied from label if missing)
+                    * elementLabel (String, copied from contained class if missing)
+                    * summary (String)
+                    * description (String)
+
+                See CollectionsMapBuilder.java.
+            -->
+            <!ELEMENT collection (label, shortLabel?, elementLabel?, summary?, description?)>
+            <!ATTLIST collection
+                name CDATA #REQUIRED
+                id CDATA #IMPLIED
+            >
+            <!-- ............  elementLabel element  ............
+
+                The elementLabel defines the name to be used for a single object
+                within the collection.  For example: "Address" may be the name
+                of one object within the "Addresses" collection.
+            -->
+            <!ELEMENT elementLabel (#PCDATA)>
+
+        <!-- ............  relationships element  ............
+
+            The relationships element contains relationship elements.
+            These are used to map attribute names to fields in a reference object.
+
+            JSTL: relationships is a Map which is accessed by a key of "relationships".
+            This map contains entries with the following keys:
+                * objectAttributeName of first relationship
+                * objectAttributeName of second relationship
+                etc.
+            The corresponding value for each entry is a relationship ExportMap.
+
+            See RelationshipsMapBuilder.java.
+        -->
+        <!ELEMENT relationships (relationship+)>
+            <!-- ............  relationship element  ............
+
+                The relationship element defines how primitive attributes of this
+                class can be used to retrieve an instance of some related Object instance
+                DD: See RelationshipDefinition.java.
+
+                JSTL: relationship is a Map which is accessed using a key which is the
+                objectAttributeName of a relationship.  The map contains a single entry
+                with a key of "primitiveAttributes" and value which is an attributesMap ExportMap.
+
+                The attributesMap ExportMap contains the following keys:
+                    * 0   (for first primitiveAttribute)
+                    * 1   (for second primitiveAttribute)
+                    etc.
+                The corresponding value for each entry is an primitiveAttribute ExportMap
+                which contains the following keys:
+                    * "sourceName"
+                    * "targetName"
+
+                See RelationshipsMapBuilder.java.
+            -->
+            <!ELEMENT relationship (primitiveAttribute+, supportAttribute*)>
+            <!ATTLIST relationship
+                objectAttributeName CDATA #REQUIRED
+            >
+                <!-- ............  primitiveAttribute element  ............
+
+                    The primitiveAttribute element identifies one pair of
+                    corresponding fields in the primary business object and
+                    the related business object.
+
+                    JSTL: primitiveAttribute is a Map which is accessed by the
+                    sequential key of "0", "1", etc.  Each entry contains the following
+                    keys:
+                        * sourceName (String)
+                        * targetName (String)
+                    The value corresponding to the sourceName key is the attribute name defined
+                    for the primary business object.
+                    The value corresponding to the targetName key is the attribute name for
+                    the object being referenced by objectAttributeName.
+                -->
+                <!ELEMENT primitiveAttribute EMPTY>
+                    <!ATTLIST primitiveAttribute
+                        sourceName CDATA #REQUIRED
+                        targetName CDATA #REQUIRED
+                    >
+                <!-- ............  supportAttribute element  ............
+
+                    Support attributes define additional attributes that can be used to generate
+                    lookup field conversions and lookup parameters.
+
+                    Field conversions and lookup parameters are normally generated using foreign key relationships
+                    defined within OJB and the DD.  Because UniversalUser objects are linked in a special way (i.e. they may
+                    come from an external data source and not from the DB, such as LDAP), it is often necessary to define
+                    extra fields that are related to each other, sort of like a supplemental foreign key.
+
+                    sourceName is the name of the POJO property of the business object
+                    targetName is the name of attribute that corresponds to the sourceName in the looked up BO
+                    identifier when true, only the field marked as an identifier will be passed in as a lookup parameter
+                               at most one supportAttribute for each relationship should be defined as identifier="true"
+
+                -->
+                <!ELEMENT supportAttribute EMPTY>
+                    <!ATTLIST supportAttribute
+                        sourceName CDATA #REQUIRED
+                        targetName CDATA #REQUIRED
+                        identifier (true|false) 'false'
+                    >
+
+       <!-- ............  objectLabel element  ............
+
+           The objectLabel provides a short name of the business
+           object for use on help screens.
+       -->
+       <!ELEMENT objectLabel (#PCDATA)>
+
+       <!-- ............  objectDescription element  ............
+
+           The objectDescription provides a briedf description
+           of the business object for use on help screens.
+       -->
+       <!ELEMENT objectDescription (#PCDATA)>
+
+       <!-- ............  objectHelp element  ............
+
+           The objectHelp element provides the keys to
+           obtain a help description from the system parameters table.
+
+           parameterNamespace the namespace of the parameter containing help information
+           parameterName the name of the parameter containing help information
+           parameterDetailType the detail type of the parameter containing help information
+       -->
+       <!ELEMENT objectHelp (#PCDATA) >
+        	<!ATTLIST objectHelp
+        		parameterNamespace CDATA #REQUIRED
+        		parameterDetailType CDATA "N/A"
+        		parameterName CDATA #REQUIRED
+        	>
+
+    <!-- ............  additional attributes for transactionalDocument element  ............ -->
+    <!--
+        If no documentAuthorizerClass is explictly listed, the value of the config property "documentAuthorizer.defaultClass"
+        is used.
+    -->
+    <!ENTITY % COPYABLE_DOCUMENT_ATTRIBUTES "businessRulesClass?, preRulesCheckClass?, usePessimisticLocking?, useWorkflowPessimisticLocking?, documentAuthorizerClass, authorizations, documentTypeName, documentTypeCode, webScriptFile*, label, shortLabel?, attributes?, summary?, description?, help?, allowsCopy?, headerNavigation?" >
+
+    <!-- ............  additional attributes for maintenanceDocument element  ............ -->
+    <!ENTITY % DOCUMENT_ATTRIBUTES "businessRulesClass?, preRulesCheckClass?, documentAuthorizerClass, authorizations, documentTypeName, documentTypeCode, webScriptFile*, label, shortLabel?, attributes?, summary?, description?, help?, headerNavigation?" >
+
+        <!-- ............  businessRulesClass element  ............
+
+            The businessRulesClass element is the full class name of the java
+            class which contains the business rules for a document.
+        -->
+        <!ELEMENT businessRulesClass (#PCDATA) >
+
+        <!-- ............  preRulesCheckClass element  ............
+
+            The preRulesCheckClass element is the full class name of the java
+            class which contains the pre-rules for a document.  The pre-rules
+            are run before the window is drawn and may change field values.
+        -->
+        <!ELEMENT preRulesCheckClass (#PCDATA) >
+
+        <!-- ............  documentAuthorizerClass element  ............
+
+            The documentAuthorizerClass element is the full class name of the
+            java class which will determine what features are available to the
+            user based on the user role and document state.
+        -->
+        <!ELEMENT documentAuthorizerClass (#PCDATA) >
+
+        <!-- ............  authorizations element  ............
+
+            The authorizations element contains authorization elements.
+            These define the workgroups that are allowed to take various
+            actions on a document.
+
+            JSTL: authorizations is a Map which is accessed by a key of "authorizations".
+            This map contains entries with the following keys:
+                * action for first authorization
+                * action for second authorization
+                etc.
+            The corresponding value for each entry is an authorization ExportMap.
+
+            See DocumentEntryMapper.java.
+        -->
+        <!ELEMENT authorizations (authorization+) >
+            <!ELEMENT authorization (workgroups) >
+            <!-- ............  authorization element  ............
+
+                The authorization element defines the workgroups which are
+                authorized to perform a specified action on a document.
+
+                DD: See AuthorizationDefinition.java.
+
+                JSTL: authorization is a Map which is accessed using a key which is the
+                name of the action.  Each entry contains the following keys:
+                    * workgroup name of first workgroup
+                    * workgroup name of second workgroup
+                    etc.
+                The corresponding value for each entry is a workgroup ExportMap
+            -->
+            <!ATTLIST authorization
+                action CDATA #REQUIRED
+            >
+                <!-- ............  workgroups element  ............ -
+
+                  The workgroups element contains workgroup elements.
+                    These define the workgroups that are allowed to take various
+                    actions on a document.
+
+                    JSTL: workgroups is a Map which is accessed by a key of "workgroups".
+                    This map contains entries with the following keys:
+                        * "0"
+                        * "1"
+                        etc.
+                    The corresponding value for each entry is a workgroup name.
+
+                    See DocumentEntryMapper.java.
+                -->
+                <!ELEMENT workgroups (workgroup+) >
+                    <!-- ............  workgroup element  ............
+
+                        The workgroup element defines the name of a workgroup.
+                        Members of that workgroup are allowed to perform
+                        the authorization-specified action on the document.
+                    -->
+                    <!ELEMENT workgroup (#PCDATA) >
+
+
+        <!-- ............  documentTypeName element  ............
+
+            The documentTypeName element is the name of the document
+            as defined in the workflow system.
+            Example: "AddressTypeMaintenanceDocument"
+        -->
+        <!ELEMENT documentTypeName (#PCDATA) >
+
+        <!-- ............  documentTypeCode element  ............
+
+            The documentTypeCode element is the unique identifier of the
+            document as defined in the KFS system. The DocumentType table
+            contains additional data about the document including whether or
+            not the document type is currently active.
+        -->
+        <!ELEMENT documentTypeCode (#PCDATA) >
+
+        <!-- ............  allowsCopy element  ............
+
+            The allowsCopy element contains a true or false value.
+            If true, then a user is allowed to make a copy of the
+            record using the maintenance screen.
+        -->
+        <!ELEMENT allowsCopy (#PCDATA) >
+
+        <!-- ............  allowsNoteDelete element  ............
+
+            The allowsNoteDelete element contains a true or false value.
+            If true, then a maintenance screen user is allowed to delete
+            a document note.
+        -->
+        <!ELEMENT allowsNoteDelete (#PCDATA) >
+
+        <!-- ............  allowsNoteAttachments element  ............
+
+            The allowsNoteAttachements element contains a true or false value.
+            If true, then a document screen includes notes with attachments. Otherwise,
+            only notes is displayed.
+        -->
+        <!ELEMENT allowsNoteAttachments (#PCDATA) >
+
+        <!-- ............  displayTopicFieldInNotes element  ............
+
+            This field contains a value of true or false.
+            If true, then the "Notes and Attachments" tab will render a column for a note topic.
+        -->
+        <!ELEMENT displayTopicFieldInNotes (#PCDATA) >
+
+        <!-- ............  usePessimisticLocking element  ............
+
+            The usePessimisticLocking element contains a true or false value.
+            If true, then a document will use the Pessimistic locking 
+            implementation.
+        -->
+        <!ELEMENT usePessimisticLocking (#PCDATA) >
+
+        <!-- ............  useWorkflowPessimisticLocking element  ............
+
+            The useWorkflowPessimisticLocking element contains a true or false value.
+            If true, then a document will use the Pessimistic locking 
+            implementation for a document being processed by Workflow.
+        -->
+        <!ELEMENT useWorkflowPessimisticLocking (#PCDATA) >
+
+        <!-- ............  allowsErrorCorrection element  ............
+
+            This field contains a value of true or false.
+            If true, then error correction is allowed for the document.
+        -->
+        <!ELEMENT allowsErrorCorrection (#PCDATA) >
+
+        <!-- ............  attachmentTypesValuesFinderClass element  ............
+
+            The attachmentTypesValuesFinderClass specifies the name of a values finder
+            class. This is used to determine the set of file types that are allowed
+            to be attached to the document.
+        -->
+        <!ELEMENT attachmentTypesValuesFinderClass (#PCDATA) >
+
+        <!-- ............  webScriptFile element  ............
+
+            The webScriptFile element defines the name of javascript files
+            that are necessary for processing the document.  The specified
+            javascript files will be included in the generated html.
+        -->
+        <!ELEMENT webScriptFile (#PCDATA) >
+
+        <!-- ............  help element  ............
+
+            The help element provides the keys to obtain a
+            help description from the database.
+
+            On document JSP pages, a help icon may be rendered.  If this tag is specified, then
+            the filename of this page will be located in the value of the parameter specified by the namespace, detail type, and name.
+
+            The value of the parameter is relative to the value of the "externalizable.help.url" property in KualiConfigurationService (see KualiHelpAction).
+            parameterNamespace: namespace of the parameter that has the path to the help page
+            parameterName: name of the parameter that has the path to the help page
+            parameterDetailType: detail type of the parameter that has the path to the help page
+        -->
+        <!ELEMENT help (#PCDATA) >
+        	<!ATTLIST help
+        		parameterNamespace CDATA #REQUIRED
+        		parameterDetailType CDATA "N/A"
+        		parameterName CDATA #REQUIRED
+        	>
+
+        <!-- ............  headerNavigation element  ............
+
+            The headerNavigation element defines a set of additional
+            tabs which will appear on the document.
+        -->
+        <!ELEMENT headerNavigation (headerNavigationTab+) >
+            <!-- ............  headerNavigationTab element  ............
+
+                The headerNavigationTab defines an additional tab which
+                will appear on the document.
+                DD: See HeaderNavigation.java.
+            -->
+        	<!ELEMENT headerNavigationTab (navigateTo, displayName, pageHelp?) >
+                <!-- ............  navigateTo element  ............
+
+                    The navigateTo element is the forward name in the struts-config file.
+                -->
+                <!ELEMENT navigateTo (#PCDATA) >
+
+                <!-- ............  displayName element  ............
+
+                    The displayName element is the name of the additional tab.
+                -->
+                <!ELEMENT displayName (#PCDATA) >
+
+                <!-- ............  pageHelp element  ............
+
+                    The pageHelp element provides the keys to
+                    obtain a help description from the database.
+
+                    On document JSP pages, a help icon may be rendered.  If this tag is specified, then
+                    the filename of this page will be located in the value of the parameter specified by the namespace, detail type, and name.
+
+                    The value of the parameter is relative to the value of the "externalizable.help.url" property in KualiConfigurationService (see KualiHelpAction).
+                    parameterNamespace: namespace of the parameter that has the path to the help page
+                    parameterName: name of the parameter that has the path to the help page
+                    parameterDetailType: detail type of the parameter that has the path to the help page
+                -->
+        		<!ELEMENT pageHelp (#PCDATA) >
+        			<!ATTLIST pageHelp
+        				parameterNamespace CDATA #REQUIRED
+		        		parameterDetailType CDATA  "N/A"
+        				parameterName CDATA #REQUIRED
+        			>
+
+    <!-- ............  transactionalDocument element  ............
+
+        DD: See TransactionalDocumentEntry.java
+
+        JSTL: Each transactionalDocument is exposed as a Map which is
+        accessed using a key of the documentTypeName.
+        This map contains entries with the following keys:
+
+            * transactionalDocument (boolean String)
+            * documentClass (String)
+            * businessRulesClass (String)
+            * documentAuthorizerClass (String)
+            * authorizations (Map)
+            * documentTypeName (String)
+            * documentTypeCode (String)
+            * label (String)
+            * shortLabel (String, copied from label if missing)
+            * summary (String)
+            * description (String)
+            * allowsCopy (boolean String)
+            * allowsErrorCorrection (boolean String)
+            * allowsNoteDelete (boolean String)
+            * allowsNoteAttachments (boolean String)
+            * displayTopicFieldInNotes (boolean String)
+            * usePessimisticLocking (boolean String)
+            * useWorkflowPessimisticLocking (boolean String)
+            * attachmentTyesValuesFinderClass
+            * attributes (Map)
+
+        See TransactionalDocumentEntryMapper.java
+    -->
+    <!ELEMENT transactionalDocument (documentClass, %COPYABLE_DOCUMENT_ATTRIBUTES;, allowsErrorCorrection, allowsNoteDelete?, allowsNoteAttachments?, displayTopicFieldInNotes?, attachmentTypesValuesFinderClass?) >
+        <!-- ............  documentClass element  ............
+
+            The documentClass element is the name of the java class
+            associated with the document.
+        -->
+        <!ELEMENT documentClass (#PCDATA) >
+
+
+    <!-- ............  maintenanceDocument element  ............
+
+        DD: See MaintenanceDocumentEntry.java
+
+        JSTL: Each maintenanceDocument is exposed as a Map which is
+        accessed using a key of the documentTypeName.
+        This map contains entries with the following keys:
+
+            * maintenanceDocument (boolean String)
+            * businessObjectClass (String)
+            * maintainableClass (String)
+            * businessRulesClass (String)
+            * documentAuthorizerClass (String)
+            * authorizations (Map)
+            * documentTypeName (String)
+            * documentTypeCode (String)
+            * label (String)
+            * shortLabel (String, copied from label if missing)
+            * summary (String)
+            * description (String)
+            * maintainableSections (Map)
+            * allowsNoteDelete (boolean String)
+            * allowsNoteAttachments (boolean String)
+            * displayTopicFieldInNotes (boolean String)
+            * attachmentTypeValuesFinderClass (String)
+            * attributes (Map)
+    -->
+    <!ELEMENT maintenanceDocument (businessObjectClass, maintainableClass, %DOCUMENT_ATTRIBUTES;, additionalSectionsFile*, lockingKeys, allowsNewOrCopy?, defaultExistenceChecks?, applyApcRules?, maintainableSections, allowsNoteDelete?, allowsNoteAttachments?, displayTopicFieldInNotes?, attachmentTypesValuesFinderClass?) >
+        <!-- ............  businessObjectClass element  ............
+            This attribute is used in many contexts, for example, in maintenance docs, it's used to specify the classname
+            of the BO being maintained.
+        -->
+        <!ELEMENT businessObjectClass (#PCDATA)>
+
+        <!-- ............  maintainableClass element  ............
+
+            The maintainableClass element specifies the name of the
+            java class which is responsible for implementing the
+            maintenance logic.
+            The normal one is KualiMaintainableImpl.java.
+        -->
+        <!ELEMENT maintainableClass (#PCDATA) >
+
+        <!-- ............  additionalSectionsFile element  ............
+
+            The additionalSectionsFile element specifies the name of the location
+            of an additional JSP file to include in the maintenance document
+            after the generation sections but before the notes.
+            The location semantics are those of jsp:include.
+        -->
+        <!ELEMENT additionalSectionsFile (#PCDATA) >
+
+        <!-- ............  lockingKeys element  ............
+
+            The lockingKeys element specifies a list of fields
+            that comprise a unique key.  This is used for record locking
+            during the file maintenance process.
+        -->
+        <!ELEMENT lockingKeys (field+)>
+
+        <!-- ............  allowsNewOrCopy element  ............
+
+            The allowsNewOrCopy element contains a value of true or false.
+            If true, this indicates the maintainable should allow the
+            new and/or copy maintenance actions.
+        -->
+        <!ELEMENT allowsNewOrCopy (#PCDATA)>
+
+        <!-- ............  defaultExistenceChecks element  ............
+
+            The defaultExistenceChecks element contains a list of
+            reference object names which are required to exist when maintaining a BO.
+            Optionally, the reference objects can be required to be active.
+
+            JSTL: defaultExistenceChecks is a Map of Reference elements,
+            whose entries are keyed by attributeName
+        -->
+        <!ELEMENT defaultExistenceChecks (reference+)>
+                <!-- ............  reference element  ............
+
+                    The reference element specifies the name of a reference
+                    object that is required to exist in order for the primary
+                    business object to be created or modified on a BO.
+
+                    DD: See ReferenceDefinition.java
+
+                    JSTL: references are Maps with the following keys:
+                    * attributeName (String)
+                    * activeIndicatorAttributeName (String)
+                    * activeIndicatorReversed (boolean String)
+                    * attributeToHighlightOnFail (String)
+                    * displayFieldName (String)
+                -->
+                <!ELEMENT reference EMPTY>
+                <!-- ............  reference attribute definitions  ............
+
+                    * collection is the name of a collection that must exist
+
+                    * attributeName is the name of a reference object that
+                        must exist and not be null.  In the case of a collection,
+                        then this is the name of a reference object within the
+                        collection element.
+
+                    * activeIndicatorAttributeName is the name of field
+                        in the reference object ( or collection attribute)
+                        that is used to determine if the reference object
+                        is active
+
+                    * activeIndicatorReversed = true means that the field
+                        specified by the activeIndicatorAttributeName will
+                        contain a false value to indicate active.
+
+                      activeIndicatorReversed = false means that the field
+                        specified by the activeIndicatorAttributeName will
+                        contain a true value to indicate active.
+
+                    * attributeToHighlightOnFail is the name of the busines
+                        object attribute which will be highlighted when
+                        the default existence check fails.
+
+                    * displayFieldName is the name of the field as it will
+                        appear in an error message.  e.g. "Chart of Accounts Code".
+                -->
+                <!ATTLIST reference
+					collection CDATA #IMPLIED
+                    attributeName CDATA #REQUIRED
+                    activeIndicatorAttributeName CDATA #IMPLIED
+                    activeIndicatorReversed (true|false) 'false'
+                    attributeToHighlightOnFail CDATA #REQUIRED
+                    displayFieldName CDATA #IMPLIED
+                >
+
+        <!-- ............  applyApcRules element  ............
+
+            The applyApcRules element defines a set apcRule elements.
+            There are used to determine legal values for an attribute by
+            checking against rules/system parameters.
+
+            JSTL: applyApcRules is a Map of apcRule elements,
+            whose entries are keyed by attributeName
+        -->
+        <!ELEMENT applyApcRules (apcRule+)>
+                <!-- ............  apcRule element  ............
+
+                    The apcRule element is used to specifiy legal values
+                    for an attribute.  This is done by specifiying the key
+                    to the System Parameters table that indicates
+                    the allowable values.
+
+                    JSTL: apcRules are Maps with the following keys:
+                    * attributeName (String)
+                    * parameterNamespace (String)
+                    * parameterDetailType (String)
+                    * parameterName (String)
+                    * errorMessage (String) a property key usually defined in ApplicationResources.properties
+
+                    See DictionaryValidationService.validateApcRule
+                -->
+                <!ELEMENT apcRule EMPTY>
+
+                <!-- ............  apcRule attribute definitions  ............
+
+                    * attributeName is the name of an attribute for
+                        which the rule applies
+
+                    * parameterNamespace, parameterDetailType, and parameterName identify the parameter
+
+                    * errorMessage is the text that is to be displayed when
+                        the error is detected.
+                -->
+                <!ATTLIST apcRule
+                    attributeName CDATA #REQUIRED
+                    parameterNamespace CDATA #REQUIRED
+	        		parameterDetailType CDATA  "N/A"
+                    parameterName CDATA #REQUIRED
+                    errorMessage CDATA #REQUIRED
+                >
+
+        <!-- ............  maintainableSections element  ............
+
+            The maintainableSections elements allows the maintenance document to
+            be presented in sections.  Each section can have a different title.
+
+            JSTL: maintainbleSections is a Map whichis accessed by a key
+            of "maintainableSections".  This map contains entries with the
+            following keys:
+                * "0"   (for first section)
+                * "1"   (for second section)
+                etc.
+            The corresponding value for each entry is a maintainableSection ExportMap.
+            See MaintenanceDocumentEntryMapper.java.
+        -->
+        <!ELEMENT maintainableSections (maintainableSection+) >
+
+            <!-- ............  maintainableSection element  ............
+
+                The maintainableSection element defines one section of the
+                maintenance document.
+
+                DD: See MaintainableSectionDefinition.java.
+
+                JSTL: maintainableSection is a Map which is accessed by an
+                integer representing the sequential occurrence of the section.
+                e.g. "0", "1", etc.  This map contains entries with the following
+                keys:
+                    * index (String) - e.g. "0" for first section, etc.
+                    * title (String)
+                    * maintainableItems (Map)
+                See MaintenanceDocumentEntryMapper.java.
+            -->
+            <!ELEMENT maintainableSection (maintainableItems+)>
+            <!ATTLIST maintainableSection
+                title CDATA #REQUIRED
+                hidden (true|false) "false"
+                id CDATA #IMPLIED
+            >
+
+                <!-- ............  maintainableItems element  ............
+
+                    The maintainableItems element defines the components of a
+                    section.  These may include fields, sub-section headers,
+                    and fields.
+
+                    JSTL: maintainableItems is a Map which is accessed by a
+                    key of "maintainableItems".  This map contains entries with
+                    the following keys:
+                        * name of first item in the section
+                        * name of second item in the section
+                        * etc.
+                    The corresponding value is an ExportMap which is dependent
+                    upon the type of the item as follows:
+
+                    subSectionHeader ExportMap
+                        In this case, the ExportMap contains the following
+                        keys and values:
+                            **Key**     **Value**
+                            name        name of subSectionHeader
+
+                    maintainableField ExportMap
+                        In this case, the ExportMap contains the following
+                        keys and values:
+                            **Key**     **Value**
+                            field       true
+                            name        name of maintainableField
+                            required    true or false
+
+                    maintainableCollection ExportMap
+                        In this case, the ExportMap contains the following
+                        keys and values:
+                            **Key**                **Value**
+                            collection             true
+                            name                   name of collection
+                            businessObjectClass    name of collection class
+                -->
+                <!ELEMENT maintainableItems ((subSectionHeader?,(maintainableField|maintainableCollection)+)+)>
+                    <!-- ............  subSectionHeader element  ............
+
+                        The subSectionHeader allows the section to be separated
+                        into sub-sections, each with its own name.
+
+                        DD: See MaintainableSubSectionHeaderDefinition.java.
+                    -->
+                    <!ELEMENT subSectionHeader (defaultValue?)>
+                    <!ATTLIST subSectionHeader
+                        name CDATA #REQUIRED
+		                id CDATA #IMPLIED
+                    >
+                    <!-- ............  maintainableField element  ............
+
+                        The maintainableField element defines the specifications
+                        for one data field.
+                        DD:  See MaintainableCollectionDefinition.java.
+
+                        JSTL: maintainableField is a Map accessed by the field name.
+                        It contains entries with the following keys:
+                            * field (boolean String)
+                            * name (String)
+                            * required (boolean String)
+                    -->
+                    <!ELEMENT maintainableField (defaultValue?,defaultValueFinderClass?,fieldAuthorization?, overrideLookupClass?, overrideFieldConversions?)>
+                    <!-- ............  maintainableField attribute definitions  ............
+
+                        * name is the name of the field
+                        * required is true if the field must contain a non-null value
+                        * readOnly is true if it cannot be updated
+                        * template documentation from MaintenanceUtils.java:
+                            Field templates are used in relation to multiple value lookups.
+                            When doing a MV lookup on a collection, the returned BOs
+                            are not necessarily of the same type as the elements of the
+                            collection. Therefore, a means of mapping between the fields
+                            for the 2 BOs are necessary. The template attribute of
+                            <maintainableField> contained within <maintainableCollection>
+                            tells us this mapping.
+                            Example:
+                            <maintainableField name="collectionAttrib" template="lookupBOAttrib">
+                            means that when a list of BOs are returned, the lookupBOAttrib value
+                            of the looked up BO will be placed into the collectionAttrib
+                            value of the BO added to the collection
+                        * webUILeaveFieldFunction is the name of a javascript function to called when
+                            when the user tabs out of the field.
+                        * webUILeaveFieldCallbackFunction
+                            This is the call javascript function related to the webUILeaveFieldFunction.
+                        * readOnlyAfterAdd
+                            This is used to indicate that the field is read-only after the record has been
+                            initially created.
+                    -->
+                    <!ATTLIST maintainableField
+                        name CDATA #REQUIRED
+                        required (true|false) 'false'
+                        readOnly (true|false) 'false'
+                        template CDATA #IMPLIED
+                        webUILeaveFieldFunction CDATA #IMPLIED
+                        webUILeaveFieldCallbackFunction CDATA #IMPLIED
+                        readOnlyAfterAdd (true|false) 'false'
+                    >
+
+                    <!-- ............  fieldAuthorization element  ............
+
+                        The fieldAuthorization element is used to restrict
+                        update or viewing access to the field.
+                    -->
+                    <!ELEMENT fieldAuthorization (displayEditMode,displayMask)>
+
+                    <!-- ............  displayEditMode element  ............
+                        The document authorizer classes have a method getEditMode, which is a map of edit mode to
+                        value mappings.  Depending on the context, the value of the mapping may be relevant, and the logic determining
+                        whether the value is relevant is often implemented in the JSP/tag layer.
+
+                        Fields on a document (particularily maintenance documents) may be associated with
+                        an edit mode.  If the edit mode is mapped to a relevant value, then the all fields associated with the edit mode
+                        will be rendered unhidden.
+
+                        The displayEditMode element is used to specify the edit mode that will be associated with the field.
+                        If the document authorizer returns a map with this edit mode mapped to a proper value, then the field will be unhidden to the user.
+                    -->
+                    <!ELEMENT displayEditMode (#PCDATA)>
+                    <!-- ............  overrideLookupClass element  ............
+
+                        The overrideLookupClass element is used to indicate the
+                        class that should be used for the magnifying glass lookup.
+                        The specified class must be a subclass of the business object
+                        class.
+                    -->
+                    <!ELEMENT overrideLookupClass (#PCDATA)>
+                    <!-- ............  overrideFieldConversions element  ............
+
+                        Single value lookups expect field conversions to be passed in as a HTTP parameter when the lookups is invoked from a quickfinder icon (i.e. magnifying glass on page).
+                        Field conversions are normally used to determine which fields will be returned when the "return value" link is clicked.
+
+                        For example, if we're performing a quickfinder lookup and the field conversion string "a:document.someObject.a1,b:document.someObject.b1" is passed into the lookup,
+                        this means that when we click on a lookup result row to be returned:
+
+                    	* the value of property "a" from the selected result bo will be passed as the value of the HTTP parameter named "document.someObject.a1",
+                    	  which, in turn, populates the POJO property of the same name on the form
+                    	* the value of property "b" from the selected result bo will be passed as the value of the HTTP parameter named "document.someObject.b1",
+                    	  which, in turn, populates the POJO property of the same name on the form
+
+                        Normally, the field conversion string is automatically computed by the framework to return all of the primary key values of the looked up BO into the corresponding
+                        foreign key values of the destination BO (i.e. document.someObject in the example above).  However, putting in this element will allow for the overriding of the
+                        field conversions string.
+
+                        Example from ContractManagerMaintenanceDocument.xml
+                        <overrideFieldConversions>
+                        personUserIdentifier:contractManagerUserIdentifier,
+                        personName:contractManagerName,
+                        personLocalPhoneNumber:contractManagerPhoneNumber
+                        </overrideFieldConversions>
+
+                    -->
+                    <!ELEMENT overrideFieldConversions (#PCDATA)>
+
+
+                    <!-- ............  maintainableCollection element  ............
+
+                        The maintainableCollection element defines a set of data fields, nested
+                        collections, summaryFields and duplicateIdentificationsFields.
+
+                        DD:  See MaintainableCollectionDefinition.java.
+
+                        JSTL: maintainableCollection is a Map which is accessed using a
+                        key of the name of the maintainableCollection.  Each entry
+                        contains the following keys and values:
+                            **Key**                **Value**
+                            collection             true
+                            name                   name of collection
+                            businessObjectClass    name of collection class
+
+                        See MaintenanceDocumentEntryMapper.java
+                    -->
+                    <!ELEMENT maintainableCollection (subSectionHeader?,maintainableField+,maintainableCollection?,summaryFields?,duplicateIdentificationFields?) >
+                    <!-- ............  maintainableCollection attribute definitions  ............
+
+                        * name is the name of the collection
+                        * businessObjectClass is the class name of the objects in the collection
+                        * sourceClassName is the class name of the BO used in a lookup
+                        * sourceAttributeName is the name of the attribute which returns the collection
+                        * includeAddLine is true if the user is given the ability to add multiple lines.
+                        * includeMultipleLookupLine whether to render a quickfinder icon for multiple value lookups on the collection.  Defaults to true
+                        * summaryTitle is the label of the summary
+                        * attributeToHighlightOnDuplicateKey is the name of an attribute to highlight
+                            if two records in the collection are the same based on the
+                            duplicateIdentificationFields element.
+                    -->
+                    <!ATTLIST maintainableCollection
+                        name CDATA #REQUIRED
+                        businessObjectClass CDATA #REQUIRED
+                        sourceClassName CDATA #IMPLIED
+                        sourceAttributeName CDATA #IMPLIED
+                        includeAddLine (true|false) 'true'
+                        includeMultipleLookupLine (true|false) 'true'
+                        summaryTitle CDATA #IMPLIED
+						attributeToHighlightOnDuplicateKey CDATA #IMPLIED
+		                id CDATA #IMPLIED
+                    >
+                    <!-- ............  summaryFields element  ............
+
+                        The summaryFields element defines a set of summaryField
+                        elements.
+                    -->
+                    <!ELEMENT summaryFields (summaryField+)>
+                    <!-- ............  summaryField element  ............
+
+                        The summaryField element indicates which fields are to appear in
+                        the header line of a collection.
+                    -->
+                    <!ELEMENT summaryField EMPTY>
+                	<!ATTLIST summaryField
+                    	name CDATA #IMPLIED
+                    >
+
+                    <!-- ............  duplicateIdentificationFields element  ............
+
+                        The duplicateIdentificationFields element is used to define a set of
+                        fields that will be used to determine if two records in the collection
+                        are duplicates.
+                    -->
+                    <!ELEMENT duplicateIdentificationFields (duplicateIdentificationField+)>
+
+                    <!-- ............  duplicateIdentificationField element  ............
+
+                        The duplicateIdentificationField element defines one field
+                        to check when looking for duplicate records in the collection.
+                    -->
+                    <!ELEMENT duplicateIdentificationField EMPTY>
+                	<!ATTLIST duplicateIdentificationField
+                    	name CDATA #IMPLIED
+                    >

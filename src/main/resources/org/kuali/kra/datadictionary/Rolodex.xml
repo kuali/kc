@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Rolodex" parent="Rolodex-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.Rolodex"/>
+		<property name="objectLabel" value="Rolodex"/>
+    <property name="inquiryDefinition">
+      <ref bean="Rolodex-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Rolodex-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="rolodexId"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Rolodex-rolodexId"/>
+        <ref bean="Rolodex-addressLine1"/>
+        <ref bean="Rolodex-addressLine2"/>
+        <ref bean="Rolodex-addressLine3"/>
+        <ref bean="Rolodex-comments"/>
+        <ref bean="Rolodex-deleteFlag"/>
+        <ref bean="Rolodex-emailAddress"/>
+        <ref bean="Rolodex-faxNumber"/>
+        <ref bean="Rolodex-firstName"/>
+        <ref bean="Rolodex-lastName"/>
+        <ref bean="Rolodex-middleName"/>
+        <ref bean="Rolodex-fullName"/>
+        <ref bean="Rolodex-organization"/>
+        <ref bean="Rolodex-ownedByUnit"/>
+        <ref bean="Rolodex-unit.unitName"/>
+        <ref bean="Rolodex-phoneNumber"/>
+        <ref bean="Rolodex-postalCode"/>
+        <ref bean="Rolodex-prefix"/>
+        <ref bean="Rolodex-isSponsorAddress"/>
+        <ref bean="Rolodex-sponsorAddressFlag"/>
+        <ref bean="Rolodex-sponsorCode"/>
+        <ref bean="Rolodex-sponsor.sponsorName"/>
+        <ref bean="Rolodex-city"/>
+        <ref bean="Rolodex-county"/>
+        <ref bean="Rolodex-state"/>
+        <ref bean="Rolodex-countryCode"/>
+        <ref bean="Rolodex-suffix"/>
+        <ref bean="Rolodex-title"/>
+        <ref bean="Rolodex-active"/>
+        <ref bean="Rolodex-versionNumber"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="unit"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean p:sourceName="ownedByUnit" p:targetName="unitNumber" parent="PrimitiveAttributeDefinition"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean p:identifier="true" p:sourceName="unit.unitName" p:targetName="unitName" parent="SupportAttributeDefinition"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="sponsor"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean p:sourceName="sponsorCode" p:targetName="sponsorCode" parent="PrimitiveAttributeDefinition"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean p:identifier="true" p:sourceName="sponsor.sponsorName" p:targetName="sponsorName" parent="SupportAttributeDefinition"/>
+            </list>
+          </property> 
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Rolodex-rolodexId" parent="Rolodex-rolodexId-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-rolodexId-parentBean" parent="AttributeDefinition">
+    <property name="name" value="rolodexId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Address Book Id"/>
+    <property name="shortLabel" value="Address Book Id"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Rolodex Id"/>
+    <property name="description" value="Rolodex Id"/>
+  </bean>
+  <bean id="Rolodex-addressLine1" parent="Rolodex-addressLine1-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-addressLine1-parentBean" parent="AttributeDefinition">
+    <property name="name" value="addressLine1"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Address Line 1"/>
+    <property name="shortLabel" value="Address Line 1"/>
+    <property name="maxLength" value="80"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="80" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Address Line 1"/>
+    <property name="description" value="Address Line 1"/>
+  </bean>
+  <bean id="Rolodex-addressLine2" parent="Rolodex-addressLine2-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-addressLine2-parentBean" parent="AttributeDefinition">
+    <property name="name" value="addressLine2"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Address Line 2"/>
+    <property name="shortLabel" value="Address Line 2"/>
+    <property name="maxLength" value="80"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="80" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Address Line 2"/>
+    <property name="description" value="Address Line 2"/>
+  </bean>
+  <bean id="Rolodex-addressLine3" parent="Rolodex-addressLine3-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-addressLine3-parentBean" parent="AttributeDefinition">
+    <property name="name" value="addressLine3"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Address Line 3"/>
+    <property name="shortLabel" value="Address Line 3"/>
+    <property name="maxLength" value="80"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="80" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Address Line 3"/>
+    <property name="description" value="Address Line 3"/>
+  </bean>
+  <bean id="Rolodex-comments" parent="Rolodex-comments-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-comments-parentBean" parent="AttributeDefinition">
+    <property name="name" value="comments"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Comments"/>
+    <property name="shortLabel" value="Comments"/>
+    <property name="maxLength" value="300"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Comments"/>
+    <property name="description" value="Comments"/>
+  </bean>
+  <bean id="Rolodex-deleteFlag" parent="Rolodex-deleteFlag-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-deleteFlag-parentBean" parent="AttributeDefinition">
+    <property name="name" value="deleteFlag"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Delete Flag"/>
+    <property name="shortLabel" value="Delete Flag"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="1" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Delete Flag"/>
+    <property name="description" value="Delete Flag"/>
+  </bean>
+  <bean id="Rolodex-emailAddress" parent="Rolodex-emailAddress-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-emailAddress-parentBean" parent="KraAttributeReferenceDummy-emailAddress">
+  </bean>
+  <bean id="Rolodex-faxNumber" parent="Rolodex-faxNumber-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-faxNumber-parentBean" parent="AttributeDefinition">
+    <property name="name" value="faxNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Fax Number"/>
+    <property name="shortLabel" value="Fax Number"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Fax Number"/>
+    <property name="description" value="Fax Number"/>
+  </bean>
+  <bean id="Rolodex-firstName" parent="Rolodex-firstName-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-firstName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="firstName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="First Name"/>
+    <property name="shortLabel" value="First Name"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="First Name"/>
+    <property name="description" value="First Name"/>
+  </bean>
+  <bean id="Rolodex-lastName" parent="Rolodex-lastName-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-lastName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="lastName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Last Name"/>
+    <property name="shortLabel" value="Last Name"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Last Name"/>
+    <property name="description" value="Last Name"/>
+  </bean>
+  <bean id="Rolodex-middleName" parent="Rolodex-middleName-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-middleName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="middleName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Middle Name"/>
+    <property name="shortLabel" value="Middle Name"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Middle Name"/>
+    <property name="description" value="Middle Name"/>
+  </bean>
+  <bean id="Rolodex-fullName" parent="Rolodex-fullName-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-fullName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="fullName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Full Name"/>
+    <property name="shortLabel" value="Full Name"/>
+    <property name="maxLength" value="63"/>
+    <property name="control">
+      <bean p:size="63" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Full Name"/>
+    <property name="description" value="Full Name"/>
+  </bean>
+  <bean id="Rolodex-organization" parent="Rolodex-organization-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-organization-parentBean" parent="AttributeDefinition">
+    <property name="name" value="organization"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Organization"/>
+    <property name="shortLabel" value="Organization"/>
+    <property name="maxLength" value="200"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/> 
+    </property>
+    <property name="summary" value="Organization"/>
+    <property name="description" value="Organization"/>
+  </bean>
+  <bean id="Rolodex-ownedByUnit" parent="Rolodex-ownedByUnit-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-ownedByUnit-parentBean" parent="AttributeDefinition">
+    <property name="name" value="ownedByUnit"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Owned By Unit"/>
+    <property name="shortLabel" value="Owned By Unit"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="8" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Owned By Unit"/>
+    <property name="description" value="Owned By Unit"/>
+  </bean>
+  <bean id="Rolodex-unit.unitName" parent="Rolodex-unit.unitName-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-unit.unitName-parentBean" parent="Unit-unitName">
+    <property name="name" value="unit.unitName"/>
+    <property name="label" value="Owned By Unit"/>
+    <property name="shortLabel" value="Owned By Unit"/>
+  </bean>
+  <bean id="Rolodex-phoneNumber" parent="Rolodex-phoneNumber-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-phoneNumber-parentBean" parent="AttributeDefinition">
+    <property name="name" value="phoneNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Phone Number"/>
+    <property name="shortLabel" value="Phone Number"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Phone Number"/>
+    <property name="description" value="Phone Number"/>
+  </bean>
+  <bean id="Rolodex-postalCode" parent="Rolodex-postalCode-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-postalCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="postalCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Postal Code"/>
+    <property name="shortLabel" value="Postal Code"/>
+    <property name="maxLength" value="15"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="15" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Postal Code"/>
+    <property name="description" value="Postal Code"/>
+  </bean>
+  <bean id="Rolodex-prefix" parent="Rolodex-prefix-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-prefix-parentBean" parent="AttributeDefinition">
+    <property name="name" value="prefix"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Prefix"/>
+    <property name="shortLabel" value="Prefix"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Prefix"/>
+    <property name="description" value="Prefix"/>
+  </bean>
+  <bean id="Rolodex-isSponsorAddress" parent="Rolodex-isSponsorAddress-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-isSponsorAddress-parentBean" parent="AttributeDefinition">
+    <property name="name" value="isSponsorAddress"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sponsor Address Flag"/>
+    <property name="shortLabel" value="Sponsor Address Flag"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" 
+      p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.RolodexAddressFlagValuesFinder"
+      p:script="updateOrganizationLookupReturn(this)"/>
+    </property>
+    <property name="summary" value="Sponsor Address Flag"/>
+    <property name="description" value="Sponsor Address Flag"/>
+  </bean>
+  <bean id="Rolodex-sponsorAddressFlag" parent="Rolodex-sponsorAddressFlag-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-sponsorAddressFlag-parentBean" parent="AttributeDefinition">
+    <property name="name" value="sponsorAddressFlag"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sponsor Address Flag"/>
+    <property name="shortLabel" value="Sponsor Address Flag"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="1" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Sponsor Address Flag"/>
+    <property name="description" value="Sponsor Address Flag"/>
+  </bean>
+  <bean id="Rolodex-sponsorCode" parent="Rolodex-sponsorCode-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-sponsorCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="sponsorCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sponsor Code"/>
+    <property name="shortLabel" value="Sponsor Code"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Sponsor Code"/>
+    <property name="description" value="Sponsor Code"/>
+  </bean>
+  <bean id="Rolodex-sponsor.sponsorName" parent="Rolodex-sponsor.sponsorName-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-sponsor.sponsorName-parentBean" parent="Sponsor-sponsorName">
+    <property name="name" value="sponsor.sponsorName"/>
+    <property name="label" value="Sponsor"/>
+    <property name="shortLabel" value="Sponsor"/>
+  </bean>
+  <bean id="Rolodex-city" parent="Rolodex-city-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-city-parentBean" parent="KraAttributeReferenceDummy-city">
+  </bean>
+  <bean id="Rolodex-county" parent="Rolodex-county-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-county-parentBean" parent="KraAttributeReferenceDummy-county">
+  </bean>
+  <bean id="Rolodex-state" parent="Rolodex-state-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-state-parentBean" parent="KraAttributeReferenceDummy-state">
+  </bean>
+  <bean id="Rolodex-countryCode" parent="Rolodex-countryCode-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-countryCode-parentBean" parent="KraAttributeReferenceDummy-countryCode">
+  </bean>
+  <bean id="Rolodex-suffix" parent="Rolodex-suffix-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-suffix-parentBean" parent="AttributeDefinition">
+    <property name="name" value="suffix"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Suffix"/>
+    <property name="shortLabel" value="Suffix"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Suffix"/>
+    <property name="description" value="Suffix"/>
+  </bean>
+  <bean id="Rolodex-title" parent="Rolodex-title-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-title-parentBean" parent="AttributeDefinition">
+    <property name="name" value="title"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Title"/>
+    <property name="shortLabel" value="Title"/>
+    <property name="maxLength" value="35"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="35" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Title"/>
+    <property name="description" value="Title"/>
+  </bean>
+  
+  <bean id="Rolodex-active" parent="Rolodex-active-parentBean"/>
+
+  <bean id="Rolodex-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+   </bean>
+  
+  <bean id="Rolodex-versionNumber" parent="Rolodex-versionNumber-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Rolodex-inquiryDefinition" parent="Rolodex-inquiryDefinition-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="Address Book"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Address Book"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean p:attributeName="rolodexId" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="addressLine1" parent="FieldDefinition"/>
+              <bean p:attributeName="addressLine2" parent="FieldDefinition"/>
+              <bean p:attributeName="addressLine3" parent="FieldDefinition"/>
+              <bean p:attributeName="city" parent="FieldDefinition"/>
+              <bean p:attributeName="comments" parent="FieldDefinition"/>
+              <bean p:attributeName="countryCode" parent="FieldDefinition"/>
+              <bean p:attributeName="county" parent="FieldDefinition"/>
+              <bean p:attributeName="state" parent="FieldDefinition"/>
+              <bean p:attributeName="deleteFlag" parent="FieldDefinition"/>
+              <bean p:attributeName="emailAddress" parent="FieldDefinition"/>
+              <bean p:attributeName="faxNumber" parent="FieldDefinition"/>
+              <bean p:attributeName="firstName" parent="FieldDefinition"/>
+              <bean p:attributeName="lastName" parent="FieldDefinition"/>
+              <bean p:attributeName="middleName" parent="FieldDefinition"/>
+              <bean p:attributeName="fullName" parent="FieldDefinition"/>
+              <bean p:attributeName="sponsorAddressFlag" parent="FieldDefinition"/>
+              <bean p:attributeName="organization" parent="FieldDefinition" />
+              <bean p:attributeName="unit.unitName" parent="FieldDefinition"/>
+              <bean p:attributeName="phoneNumber" parent="FieldDefinition"/>
+              <bean p:attributeName="postalCode" parent="FieldDefinition"/>
+              <bean p:attributeName="prefix" parent="FieldDefinition"/>
+              <bean p:attributeName="sponsor.sponsorName" parent="FieldDefinition"/>
+              <bean p:attributeName="suffix" parent="FieldDefinition"/>
+              <bean p:attributeName="title" parent="FieldDefinition"/>
+              <bean p:attributeName="active" parent="FieldDefinition"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Rolodex-lookupDefinition" parent="Rolodex-lookupDefinition-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="Address Book Lookup"/>
+    <property name="lookupableID" value="rolodexLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean p:attributeName="rolodexId" parent="FieldDefinition"/>
+        <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
+        <bean p:attributeName="sponsor.sponsorName" parent="FieldDefinition"/>
+        <bean p:attributeName="isSponsorAddress" parent="FieldDefinition"/>
+        <bean p:attributeName="organization" parent="FieldDefinition"/>
+        <bean p:attributeName="lastName" parent="FieldDefinition"/>
+        <bean p:attributeName="firstName" parent="FieldDefinition"/>
+        <bean p:attributeName="middleName" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine1" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine2" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine3" parent="FieldDefinition"/>
+        <bean p:attributeName="city" parent="FieldDefinition"/>
+        <bean p:attributeName="county" parent="FieldDefinition"/>
+        <bean p:attributeName="state" parent="FieldDefinition"/>
+        <bean p:attributeName="countryCode" parent="FieldDefinition"/>
+        <bean p:attributeName="postalCode" parent="FieldDefinition"/>
+        <bean p:attributeName="emailAddress" parent="FieldDefinition"/>
+         <bean p:attributeName="active" parent="FieldDefinition"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:attributeName="rolodexId" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="organization" parent="FieldDefinition"/>
+        <bean p:attributeName="lastName" parent="FieldDefinition"/>
+        <bean p:attributeName="firstName" parent="FieldDefinition"/>
+        <bean p:attributeName="middleName" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine1" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine2" parent="FieldDefinition"/>
+        <bean p:attributeName="addressLine3" parent="FieldDefinition"/>
+        <bean p:attributeName="city" parent="FieldDefinition"/>
+        <bean p:attributeName="county" parent="FieldDefinition"/>
+        <bean p:attributeName="state" parent="FieldDefinition"/>
+        <bean p:attributeName="countryCode" parent="FieldDefinition"/>
+        <bean p:attributeName="postalCode" parent="FieldDefinition"/>
+        <bean p:attributeName="emailAddress" parent="FieldDefinition"/>
+        <bean p:attributeName="sponsorAddressFlag" parent="FieldDefinition"/>
+        <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
+         <bean p:attributeName="active" parent="FieldDefinition"/>
+      </list>
+    </property>
+  </bean>
+</beans>

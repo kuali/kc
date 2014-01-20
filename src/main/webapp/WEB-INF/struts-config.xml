@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd" [
+    <!ENTITY protocol_forwards SYSTEM "struts_protocol_forwards.xml">
+    <!ENTITY iacuc_forwards SYSTEM "struts_iacuc_forwards.xml">
+	<!ENTITY coi_forwards SYSTEM "struts_coi_forwards.xml">
+	]>
+
+<struts-config>
+
+    <form-beans >
+<!-- Rice content Start -->
+    	<!-- Begin required KNS forms -->
+        <form-bean name="BackdoorForm" type="org.kuali.rice.kns.web.struts.form.BackdoorForm" />
+        <form-bean name="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+        <form-bean name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.form.KualiLogoutForm" />
+    	<!-- End required KNS forms -->
+<!-- Rice content End -->
+
+		<form-bean name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm" />
+		<form-bean name="ReportGenerationForm" type="org.kuali.kra.reporting.web.struts.form.ReportGenerationForm" />
+		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
+		<form-bean name="AwardBudgetForm" type="org.kuali.kra.award.budget.AwardBudgetForm" />
+		<form-bean name="AwardForm" type="org.kuali.kra.award.AwardForm" />
+		<form-bean name="AwardSubcontractingGoalsExpendituresForm" type="org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresForm" />
+		<form-bean name="SubcontractingExpendituresDataGenerationForm" type="org.kuali.kra.award.subcontracting.reporting.SubcontractingExpendituresDataGenerationForm" />
+		<form-bean name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.TimeAndMoneyForm" />
+		<form-bean name="AwardHierarchyForm" type="org.kuali.kra.award.AwardHierarchyForm" />
+		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
+		<form-bean name="UnitHierarchyForm" type="org.kuali.kra.web.struts.form.UnitHierarchyForm" />
+		<form-bean name="SponsorHierarchyForm" type="org.kuali.kra.web.struts.form.SponsorHierarchyForm" />
+		<form-bean name="ProtocolForm" type="org.kuali.kra.irb.ProtocolForm" />
+		<form-bean name="ResearchAreasForm" type="org.kuali.kra.irb.ResearchAreasForm" />
+		<form-bean name="CommitteeForm" type="org.kuali.kra.committee.web.struts.form.CommitteeForm" />
+		<form-bean name="IacucCommitteeForm" type="org.kuali.kra.iacuc.committee.web.struts.form.IacucCommitteeForm" />
+		<form-bean name="InstitutionalProposalForm" type="org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm" />
+	    <form-bean name="QuestionMaintenanceForm" type="org.kuali.kra.questionnaire.question.QuestionMaintenanceForm" />
+        <form-bean name="KualiMaintenanceForm" type="org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm" />
+        <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
+        <form-bean name="KrmsRuleLookupForm" type="org.kuali.kra.questionnaire.KrmsRuleLookupForm" />
+        <form-bean name="MeetingForm" type="org.kuali.kra.meeting.MeetingForm" />
+        <form-bean name="IacucMeetingForm" type="org.kuali.kra.iacuc.committee.meeting.IacucMeetingForm" />
+        <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
+        <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
+        <form-bean name="ProposalLogPrintForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintForm" />
+        <form-bean name="ProtocolCorrespondenceTemplateForm" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateForm" />
+        <form-bean name="BatchCorrespondenceDetailForm" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailForm" />
+        <form-bean name="IacucBatchCorrespondenceDetailForm" type="org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondenceDetailForm" />
+        <form-bean name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaForm"/>
+        <form-bean name="ProtocolOnlineReviewForm" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewForm"/> 
+        <form-bean name="ProtocolNotificationTemplateForm" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateForm" />
+        <form-bean name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxForm"/>
+        <form-bean name="SubAwardForm" type="org.kuali.kra.subaward.SubAwardForm" />       
+        <form-bean name="CurrentOrPendingReportForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.CurrentOrPendingReportForm" />
+		<form-bean name="CoiDisclosureForm" type="org.kuali.kra.coi.CoiDisclosureForm" />
+		<form-bean name="CoiCustomSearchForm" type="org.kuali.kra.coi.lookup.CoiCustomSearchForm" />
+		<form-bean name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntityForm" />
+		<form-bean name="NegotiationForm" type="org.kuali.kra.negotiations.web.struts.form.NegotiationForm" />
+		<form-bean name="PersonMassChangeForm" type="org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm" />
+		<form-bean name="ReportTrackingLookupForm" type="org.kuali.kra.award.web.struts.action.ReportTrackingLookupForm" />
+        <form-bean name="IacucProtocolForm" type="org.kuali.kra.iacuc.IacucProtocolForm" />
+        <form-bean name="IacucProtocolOnlineReviewForm" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewForm"/> 
+        <form-bean name="IacucProtocolCorrespondenceTemplateForm" type="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateForm" />
+		<form-bean name="IacucResearchAreasForm" type="org.kuali.kra.iacuc.IacucResearchAreasForm" />
+		<form-bean name="IsrSsrReportGenerationForm" type="org.kuali.kra.subawardReporting.web.struts.form.IsrSsrReportGenerationForm" />
+    </form-beans>
+
+<!-- Rice content Start -->
+	<global-exceptions>
+		<exception type="java.lang.Throwable"
+			handler="org.kuali.rice.kns.web.struts.form.pojo.StrutsExceptionIncidentHandler"
+			key="meaningless" />
+		<exception type="org.kuali.rice.krad.exception.AuthorizationException"
+            handler="org.kuali.rice.kns.web.struts.form.pojo.AuthorizationExceptionHandler"
+            key="meaningless" /> 
+	</global-exceptions>
+<!-- Rice content End -->
+
+    <global-forwards >
+<!-- Rice content Start -->        
+       	<!-- Begin required KNS forwards -->
+        <forward name="save" path="/portal.jsp" redirect="true" />
+        <forward name="cancel" path="/portal.jsp" redirect="true" />
+        <forward name="close" path="/portal.jsp" redirect="true" />
+        <forward name="portal" path="/portal.jsp" redirect="true" />
+        <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
+        <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" />
+        <forward name="authorizationExceptionHandler" path="/kr/authorizationExceptionReport.do"/>
+        
+       	<!-- End required KNS forwards -->
+<!-- Rice content End -->
+       	
+       	<forward name="kraHoldingPage" path="/kraHoldingPage.do" redirect="true" />
+       	<forward name="irbHoldingPage" path="/irbHoldingPage.do" redirect="true" />       	
+       	
+       	<forward name="closePage" path="/EmptyClosePage.html" />
+       	<forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
+       	<forward name="proposalDevelopmentSummary" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentSummary.jsp" redirect="true" />
+    </global-forwards>
+
+    <action-mappings>
+<!-- Rice content Start -->    
+       	<!-- Begin required KNS mappings -->
+        <action path="/portal" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiPortalAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+
+        <action path="/backdoorlogin" name="BackdoorForm" scope="request" parameter="methodToCall"
+        input="/WEB-INF/jsp/backdoor/index.jsp" type="org.kuali.rice.kns.web.struts.action.BackdoorAction">
+            <forward name="basic" path="/portal.jsp" />
+            <forward name="viewPortal" path="/portal.jsp" />
+            <forward name="logout" path="/logout.do" />
+        </action>
+        
+        <action path="/logout" name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.action.KualiLogoutAction" />
+
+        <action path="/index" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+        <!-- KULRICE-2903: An action mapping to "/updateTextArea" is needed here when Javascript is enabled. -->
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
+            <forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+        </action>
+       	<!-- End required KNS mappings -->
+<!-- Rice content End -->
+
+        <action path="/kraHoldingPage" name="KualiForm" type="org.kuali.kra.web.struts.action.KraHoldingPageAction">
+            <forward name="basic" path="/kraHoldingPage.jsp" />
+        </action>
+               
+<!-- BIRT REPORTING -->
+           
+        <action path="/reporting" name="ReportGenerationForm" type="org.kuali.kra.reporting.web.struts.action.ReportGenerationAction" scope="request">
+            <forward name="basic" path="/WEB-INF/jsp/reporting/reportGeneration.jsp" />
+        </action>
+        
+        
+        <action path="/isrSsrReporting" name="IsrSsrReportGenerationForm" type="org.kuali.kra.subawardReporting.web.struts.action.IsrSsrReportGenerationAction" scope="request">
+            <forward name="basic" path="/WEB-INF/jsp/subawardReporting/isrSsrReporting.jsp" />
+        </action>
+        
+      <!--  KRA Proposal Development Mapping -->
+      <action path="/proposalDevelopment*" name="ProposalDevelopmentForm" input="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopment{1}.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopment{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopment{1}.jsp" />
+          <forward name="budgetVersions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentBudgetVersions.jsp" />
+          <forward name="keyPersonnel" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentKeyPersonnel.jsp" />
+          <forward name="questions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentQuestions.jsp" />
+          <forward name="hierarchy" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentHierarchy.jsp" />
+          <forward name="proposal" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentProposal.jsp" />
+          <forward name="specialReview" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentSpecialReview.jsp" />
+          <forward name="abstractsAttachments" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentAbstractsAttachments.jsp" />
+          <forward name="attachmentRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentAttachmentRights.jsp" />
+          <forward name="instituteAttachmentRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentInstituteAttachmentRights.jsp" />
+          <forward name="customData" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentCustomData.jsp" />
+          <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
+       	  <forward name="resubmit" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmission.jsp" />
+          <forward name="grantsGov" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentGrantsGov.jsp" />
+          <forward name="permissions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissions.jsp" />
+          <forward name="permissionsRoleRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsRoleRights.jsp" />
+      	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsEditRoles.jsp" />
+      	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsCloseEditRoles.jsp" />
+          <forward name="resubmissionPrompt" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
+          <forward name="proposalMedusa" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentMedusa.jsp" />
+          <forward name="ajaxProposalSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyProposalSummary.jsp" />
+          <forward name="ajaxBudgetSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyBudgetSummary.jsp" />
+          <forward name="deleted" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentDeleted.jsp"/>
+          <forward name="approverView" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentApproverView.jsp" />
+          <forward name="notificationEditor" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentNotificationEditor.jsp" />
+          <forward name="proposalPersonCertificate" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPersonCertification.jsp" />
+          <forward name="personComment" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentSpecialReviewComment.jsp" />
+      </action>
+
+ 		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction" scope="request">
+            <forward name="basic" path="/unitHierarchy.jsp" />
+        </action>
+ 		<action path="/researchAreas" name="ResearchAreasForm" type="org.kuali.kra.irb.ResearchAreasAction">
+            <forward name="basic" path="/WEB-INF/jsp/irb/researchAreaHierarchy.jsp" />
+            <!-- <forward name="lookup" path="/researchAreaSearch.jsp" /> -->
+        </action>
+ 		<action path="/researchAreaAjax" name="ResearchAreasForm" type="org.kuali.kra.irb.ResearchAreasAction">
+            <forward name="basic" path="/WEB-INF/jsp/irb/researchAreaAjax.jsp" />
+        </action>
+        <!-- <action path="/researchAreaSearch" name="ResearchAreasForm" type="org.kuali.kra.irb.ResearchAreasAction">
+            <forward name="basic" path="/researchAreaSearch.jsp" />
+        </action> -->
+        
+ 		<action path="/sponsorHierarchy" name="SponsorHierarchyForm" input="/SponsorHierarchyInit.jsp" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction" scope="request">
+            <forward name="copy" path="/SponsorHierarchyCopy.jsp" />
+            <forward name="new" path="/SponsorHierarchyNew.jsp" />
+            <forward name="basic" path="/sponsorHierarchyInit.jsp" />
+            <forward name="maint" path="/sponsorHierarchyMaint.jsp" />
+            <forward name="lookup" path="/sponsorLookup.jsp" />
+        </action>
+        <action path="/sponsorLookup" name="SponsorHierarchyForm" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction">
+            <forward name="basic" path="/sponsorLookup.jsp" />
+            <forward name="lookup" path="/sponsorLookup.jsp" />
+        </action>
+
+        <!-- TODO : test QN lookup thru popup -->
+        <action path="/questionLookup" name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupAction">
+            <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
+            <forward name="singleLookup" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
+            <forward name="multiLookup" path="/WEB-INF/jsp/questionnaire/questionMultiLookup.jsp" />
+            <forward name="replaceLookup" path="/WEB-INF/jsp/questionnaire/questionReplace.jsp" />            
+        </action>
+        
+        <action path="/krmsRuleLookup" name="KrmsRuleLookupForm" type="org.kuali.kra.questionnaire.KrmsRuleLookupAction">
+            <forward name="basic" path="/WEB-INF/jsp/questionnaire/krmsRuleLookup.jsp" />
+        </action>
+        
+        <action path="/resubmissionPrompt" name="ProposalDevelopmentForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentResubmissionPromptAction">
+            <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
+            <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
+            <forward name="grantsGov" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentGrantsGov.jsp" />
+        </action>
+
+      <!--  Budget -->
+      <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/budget/Budget{1}.jsp" />
+          <forward name="versions" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
+          <forward name="parameters" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />
+          <forward name="personnel" path="/WEB-INF/jsp/budget/BudgetPersonnel.jsp" />
+          <forward name="expenses" path="/WEB-INF/jsp/budget/BudgetExpenses.jsp" />
+          <forward name="rates_save" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />
+          <forward name="rates" path="/WEB-INF/jsp/budget/BudgetRates.jsp" />
+          <forward name="distributionAndIncome" path="/WEB-INF/jsp/budget/BudgetDistributionAndIncome.jsp" />
+          <forward name="modularBudget" path="/WEB-INF/jsp/budget/BudgetModularBudget.jsp" />
+          <forward name="summaryTotals" path="/WEB-INF/jsp/budget/BudgetSummaryTotals.jsp" />
+          <forward name="proposalHierarchy" path="/WEB-INF/jsp/budget/BudgetProposalHierarchy.jsp" />
+          <forward name="budgetActions" path="/WEB-INF/jsp/budget/BudgetActions.jsp" redirect="false" />
+          <forward name="personnelRates" path="/WEB-INF/jsp/budget/BudgetPersonnelRates.jsp" />
+          <forward name="personnelDetails" path="/WEB-INF/jsp/budget/BudgetPersonnelDetails.jsp" />
+          <forward name="hierarchy" path="/WEB-INF/jsp/budget/BudgetProposalHierarchy.jsp" />
+          <forward name="deleted" path="/WEB-INF/jsp/budget/BudgetDeleted.jsp" />
+      </action>
+
+      <action path="/DocCopyHandler" name="DocHandlerForm" scope="request" parameter="methodToCall"
+        type="org.kuali.kra.web.struts.action.CustomDocHandlerRedirectAction" >
+        <forward name="documentLocked" path="/WEB-INF/jsp/DocumentLocked.jsp" />
+        <forward name="requiredStateError" path="/WEB-INF/jsp/DocumentLocked.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/DocumentLocked.jsp"/>
+      </action>
+      
+      <!--  Award -->      
+      <action path="/award*" name="AwardForm" input="/WEB-INF/jsp/award/Award{1}.jsp" type="org.kuali.kra.award.web.struts.action.Award{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/award/Award{1}.jsp" />
+          <forward name="home" path="/WEB-INF/jsp/award/AwardHome.jsp" />
+          <forward name="budgets" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />
+          <forward name="contacts" path="/WEB-INF/jsp/award/AwardContacts.jsp" />
+          <forward name="commitments" path="/WEB-INF/jsp/award/AwardCommitments.jsp" />
+          <forward name="timeAndMoney" path="/WEB-INF/jsp/timeAndMoney/TimeAndMoney.jsp" />
+          <forward name="paymentReportsAndTerms" path="/WEB-INF/jsp/award/AwardPaymentReportsAndTerms.jsp" />
+          <forward name="specialReview" path="/WEB-INF/jsp/award/AwardSpecialReview.jsp" />
+          <forward name="customData" path="/WEB-INF/jsp/award/AwardCustomData.jsp" />
+          <forward name="questions" path="/WEB-INF/jsp/award/AwardQuestions.jsp" />
+          <forward name="permissions" path="/WEB-INF/jsp/award/AwardPermissions.jsp" />
+          <forward name="permissionsRoleRights" path="/WEB-INF/jsp/award/AwardPermissionsRoleRights.jsp" />
+          <forward name="permissionsEditRoles" path="/WEB-INF/jsp/award/AwardPermissionsEditRoles.jsp" />
+          <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/award/AwardPermissionsCloseEditRoles.jsp" />
+          <forward name="notesAndAttachments" path="/WEB-INF/jsp/award/AwardNotesAndAttachments.jsp" />
+          <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />
+          <forward name="medusa" path="/WEB-INF/jsp/award/AwardMedusa.jsp" />   
+          <forward name="icrRateCodePrompt" path="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" />
+          <!--<forward name="commentViewHistory" path="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" />-->                                  
+          <forward name="notificationEditor" path="/WEB-INF/jsp/award/AwardNotificationEditor.jsp" />
+      </action>
+      <action path="/awardCommentViewHistory" name="AwardForm" input="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" type="org.kuali.kra.award.web.struts.action.AwardNotesAndAttachmentsAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" />
+     </action>
+     
+     <action path="/awardHierarchyFullView" name="AwardForm" input="/WEB-INF/jsp/award/AwardHierarchyFullView.jsp" type="org.kuali.kra.award.web.struts.action.AwardActionsAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/award/AwardHierarchyFullView.jsp" />
+     </action>
+      
+      <action path="/timeAndMoney*" name="TimeAndMoneyForm" input="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" type="org.kuali.kra.timeandmoney.web.struts.action.TimeAndMoney{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" />          
+      </action>
+      
+      <action path="/awardHistory" name="AwardForm" input="/WEB-INF/jsp/award/AwardHistory.jsp" type="org.kuali.kra.award.web.struts.action.AwardHomeAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/award/AwardHistory.jsp" />          
+      </action>
+      
+      <action path="/awardHierarchyTimeAndMoneyAjax" name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.web.struts.action.TimeAndMoneyAction" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/timeandmoney/awardHierarchyTimeAndMoneyAjax.jsp" />
+      </action>
+      
+      <action path="/awardHierarchyAwardActionsAjax" name="AwardForm" type="org.kuali.kra.award.web.struts.action.AwardActionsAction" attribute="KualiForm" >
+          <forward name="basic" path="/WEB-INF/jsp/award/awardHierarchyAwardActionsAjax.jsp" />
+      </action>
+                        
+      <action path="/reportTrackingLookup" name="ReportTrackingLookupForm" type="org.kuali.kra.award.web.struts.action.ReportTrackingLookupAction" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/award/ReportTrackingSearch.jsp"/>
+          <forward name="ajaxDetails" path="/WEB-INF/jsp/award/ReportTrackingAjaxDetails.jsp"/>
+      </action>
+      
+      <action path="/icrRateCodePrompt" name="AwardForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" type="org.kuali.kra.external.award.web.IcrRateCodePromptAction">
+          <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />
+          <forward name="basic" path="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" />
+      </action>
+                        
+      <!-- Time And Money -->
+      <!-- Award Budget -->
+      <action path="/awardBudget*" name="AwardBudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/budget/Budget{1}.jsp" />
+          <forward name="versions" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
+          <forward name="parameters" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />
+          <forward name="personnel" path="/WEB-INF/jsp/budget/BudgetPersonnel.jsp" />
+          <forward name="expenses" path="/WEB-INF/jsp/budget/BudgetExpenses.jsp" />
+          <forward name="rates_save" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />
+          <forward name="rates" path="/WEB-INF/jsp/budget/BudgetRates.jsp" />
+          <forward name="distributionAndIncome" path="/WEB-INF/jsp/budget/BudgetDistributionAndIncome.jsp" />
+          <forward name="modularBudget" path="/WEB-INF/jsp/budget/BudgetModularBudget.jsp" />
+          <forward name="summaryTotals" path="/WEB-INF/jsp/budget/BudgetSummaryTotals.jsp" />
+          <forward name="proposalHierarchy" path="/WEB-INF/jsp/budget/BudgetProposalHierarchy.jsp" />
+          <forward name="budgetActions" path="/WEB-INF/jsp/budget/BudgetActions.jsp" redirect="false" />
+          <forward name="personnelRates" path="/WEB-INF/jsp/budget/BudgetPersonnelRates.jsp" />
+          <forward name="personnelDetails" path="/WEB-INF/jsp/budget/BudgetPersonnelDetails.jsp" />
+          <forward name="lookUpPage" path="/kew/DocumentSearch.do?" redirect="true"/>
+          
+      </action>
+      <action path="/awardBudgets" name="AwardForm" input="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" type="org.kuali.kra.award.web.struts.action.AwardBudgetsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+      	  <forward name="basic" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />
+          <forward name="home" path="/WEB-INF/jsp/award/AwardHome.jsp" />
+          <forward name="budgets" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />
+          <forward name="contacts" path="/WEB-INF/jsp/award/AwardContacts.jsp" />
+          <forward name="commitments" path="/WEB-INF/jsp/award/AwardCommitments.jsp" />
+          <forward name="timeAndMoney" path="/WEB-INF/jsp/timeAndMoney/TimeAndMoney.jsp" />
+          <forward name="paymentReportsAndTerms" path="/WEB-INF/jsp/award/AwardPaymentReportsAndTerms.jsp" />
+          <forward name="specialReview" path="/WEB-INF/jsp/award/AwardSpecialReview.jsp" />
+          <forward name="customData" path="/WEB-INF/jsp/award/AwardCustomData.jsp" />
+          <forward name="questions" path="/WEB-INF/jsp/award/AwardQuestions.jsp" />
+          <forward name="permissions" path="/WEB-INF/jsp/award/AwardPermissions.jsp" />
+          <forward name="permissionsRoleRights" path="/WEB-INF/jsp/award/AwardPermissionsRoleRights.jsp" />
+          <forward name="permissionsEditRoles" path="/WEB-INF/jsp/award/AwardPermissionsEditRoles.jsp" />
+          <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/award/AwardPermissionsCloseEditRoles.jsp" />
+          <forward name="notesAndAttachments" path="/WEB-INF/jsp/award/AwardNotesAndAttachments.jsp" />
+          <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />
+          <forward name="medusa" path="/WEB-INF/jsp/award/AwardMedusa.jsp" />   
+      </action>
+      
+      <!-- Award Budget-->
+       <!--  Institutional Proposal -->      
+      <action path="/institutionalProposal*" name="InstitutionalProposalForm" input="/WEB-INF/jsp/institutionalproposal/InstitutionalProposal{1}.jsp" type="org.kuali.kra.institutionalproposal.web.struts.action.InstitutionalProposal{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposal{1}.jsp" />
+          <forward name="home" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalHome.jsp" />
+          <forward name="contacts" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalContacts.jsp" />
+          <forward name="specialReview" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalSpecialReview.jsp" />
+          <forward name="customData" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalCustomData.jsp" />
+          <forward name="intellectualPropertyReview" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalIntellectualPropertyReview.jsp" />
+          <forward name="distribution" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalDistribution.jsp" />
+          <forward name="institutionalProposalActions" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalActions.jsp" />
+          <forward name="medusa" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalMedusa.jsp" />                    
+          <forward name="notificationEditor" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalNotificationEditor.jsp" />
+      </action>
+      
+      <action path="/mergeProposalLog" name="ProposalLogMergeForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeAction">
+        <forward name="basic" path="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" />
+        <forward name="temporaryList" path="/WEB-INF/jsp/institutionalproposal/ProposalLogTemporaryList.jsp" />
+      </action>
+      <action path="/printProposalLog" name="ProposalLogPrintForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintAction">
+        <forward name="basic" path="/portal.jsp" redirect="true" />
+      </action>
+      
+      
+      <!-- Award Subcontracting -->      
+      <action path="/awardSubcontractingGoalsExpenditures" name="AwardSubcontractingGoalsExpendituresForm" input="/WEB-INF/jsp/award/AwardSubcontractingGoalsExpenditures.jsp" type="org.kuali.kra.award.web.struts.action.AwardSubcontractingGoalsExpendituresAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/award/AwardSubcontractingGoalsExpenditures.jsp" />
+      </action>
+      
+      <action path="/subcontractingExpendituresDataGeneration" name="SubcontractingExpendituresDataGenerationForm" input="/WEB-INF/jsp/award/SubcontractingExpendituresDataGeneration.jsp" type="org.kuali.kra.award.web.struts.action.SubcontractingExpendituresDataGenerationAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/award/SubcontractingExpendituresDataGeneration.jsp" />
+      </action>
+      
+      
+      <!--  KRA IRB Mapping START -->    
+      <action path="/personnel" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" type="org.kuali.kra.irb.personnel.ProtocolPersonnelAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
+		  &protocol_forwards;
+      </action>
+      
+      <action path="/protocolNoteAndAttachment" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" type="org.kuali.kra.irb.noteattachment.ProtocolNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
+		&protocol_forwards;
+      </action>
+      
+      <action path="/protocolPermissions" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" type="org.kuali.kra.irb.permission.ProtocolPermissionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
+		&protocol_forwards;
+      </action>
+      
+      <action path="/protocolCustomData" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" type="org.kuali.kra.irb.customdata.ProtocolCustomDataAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
+		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
+		&protocol_forwards;
+      </action>
+
+      <action path="/protocolSpecialReview" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" type="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
+		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
+		&protocol_forwards;
+      </action>
+      
+      <action path="/protocolProtocolActions" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" type="org.kuali.kra.irb.actions.ProtocolProtocolActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
+	    &protocol_forwards;
+        <forward name="correspondence" path="/WEB-INF/jsp/irb/ProtocolCorrespondenceAction.jsp" />
+      </action>
+      
+      <action path="/protocolOnlineReview" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+		<forward name="basic" path = "/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp"/>
+        <forward name="displayInactive" path = "/WEB-INF/jsp/irb/ProtocolOnlineReviewInactiveDisplay.jsp"/>   
+        &protocol_forwards;
+      </action>
+      
+      <action path="/protocolOnlineReviewInactive" name = "ProtocolOnlineReviewForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReviewInactiveDisplay.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewRedirectAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+		<forward name="basic" path = "/WEB-INF/jsp/irb/ProtocolOnlineReviewInactiveDisplay.jsp"/>   			   
+      </action>
+      
+      <action path="/protocolOnlineReviewRedirect" name="ProtocolOnlineReviewForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewRedirectAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" />
+        <forward name="displayInactive" path = "/WEB-INF/jsp/irb/ProtocolOnlineReviewInactiveDisplay.jsp"/>
+        <forward name="displayNoOnlineReview" path = "/WEB-INF/jsp/irb/ProtocolNoOnlineReview.jsp"/>   
+	    &protocol_forwards;
+      </action>
+      
+      <action path="/protocolProtocol" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" type="org.kuali.kra.irb.protocol.ProtocolProtocolAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" />
+	    &protocol_forwards;
+      </action>
+      
+      <action path="/questionnaire" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolQuestionnaire.jsp" type="org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolQuestionnaire.jsp" />
+	    &protocol_forwards;
+      </action>
+      
+      <action path="/protocolCorrespondenceTemplate" name="ProtocolCorrespondenceTemplateForm" input="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" />
+      </action>
+      <action path="/protocolNotificationTemplate" name="ProtocolNotificationTemplateForm" input="/WEB-INF/jsp/irb/ProtocolNotificationTemplate.jsp" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNotificationTemplate.jsp" />
+      </action>
+
+      <action path="/batchCorrespondenceDetail" name="BatchCorrespondenceDetailForm" input="/WEB-INF/jsp/irb/BatchCorrespondenceDetail.jsp" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/BatchCorrespondenceDetail.jsp" />
+      </action>
+      
+      <action path="/protocolNotificationEditor" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolNotificationEditor.jsp" type="org.kuali.kra.irb.actions.ProtocolNotificationEditorAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNotificationEditor.jsp"/>
+        &protocol_forwards;
+      </action>
+      
+      <action path="/protocolMedusa" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolMedusa.jsp" type="org.kuali.kra.irb.ProtocolMedusaAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolMedusa.jsp" />
+		&protocol_forwards;
+      </action>      
+
+
+      <!--  KRA IRB Mapping END -->
+      
+      
+      <!-- IACUC Mapping -->
+      
+      
+ 		<action path="/iacucResearchAreas" name="IacucResearchAreasForm" type="org.kuali.kra.iacuc.IacucResearchAreasAction">
+            <forward name="basic" path="/WEB-INF/jsp/iacuc/IacucResearchAreaHierarchy.jsp" />
+        </action>
+      
+ 		<action path="/iacucResearchAreaAjax" name="IacucResearchAreasForm" type="org.kuali.kra.iacuc.IacucResearchAreasAction">
+            <forward name="basic" path="/WEB-INF/jsp/iacuc/IacucResearchAreaAjax.jsp" />
+        </action>
+      
+      <action path="/iacucProtocolProtocol" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolProtocol.jsp" type="org.kuali.kra.iacuc.protocol.IacucProtocolProtocolAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolProtocol.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucQuestionnaire" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolQuestionnaire.jsp" type="org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolQuestionnaire.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucPersonnel" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolPersonnel.jsp" type="org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolPersonnel.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucProtocolThreeRs" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolThreeRs.jsp" type="org.kuali.kra.iacuc.threers.IacucProtocolThreeRsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolThreeRs.jsp" />
+        &iacuc_forwards;
+      </action>      
+      
+      <action path="/iacucProtocolSpeciesAndGroups" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolSpeciesAndGroups.jsp" type="org.kuali.kra.iacuc.species.IacucProtocolSpeciesAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolSpeciesAndGroups.jsp" />
+        &iacuc_forwards;
+      </action>
+
+      <action path="/iacucProtocolProcedures" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolProcedures.jsp" type="org.kuali.kra.iacuc.procedures.IacucProtocolProceduresAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolProcedures.jsp" />
+        <forward name="personnel" path="/WEB-INF/jsp/iacuc/ProtocolProcedurePersonnel.jsp" />
+        <forward name="location" path="/WEB-INF/jsp/iacuc/ProtocolProcedureLocation.jsp" />
+        <forward name="summary" path="/WEB-INF/jsp/iacuc/ProtocolProcedureSummary.jsp" />
+        &iacuc_forwards;
+      </action>
+
+      <action path="/iacucProtocolException" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolException.jsp" type="org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolException.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucProtocolCustomData" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" type="org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" />
+        &iacuc_forwards;
+      </action>
+
+      <action path="/iacucProtocolSpecialReview" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolSpecialReview.jsp" type="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolSpecialReview.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucProtocolActions" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolProtocolActions.jsp" type="org.kuali.kra.iacuc.actions.IacucProtocolActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolProtocolActions.jsp" />
+        &iacuc_forwards;
+        <forward name="correspondence" path="/WEB-INF/jsp/iacuc/ProtocolCorrespondenceAction.jsp" />
+      </action>
+      
+      <action path="/iacucProtocolOnlineReview" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path = "/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp"/>
+        &iacuc_forwards;
+      </action>
+      <action path="/iacucProtocolNoteAndAttachment" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolNoteAndAttachment.jsp" type="org.kuali.kra.iacuc.noteattachment.IacucProtocolNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolNoteAndAttachment.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucProtocolPermissions" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolPermissions.jsp" type="org.kuali.kra.iacuc.permission.IacucProtocolPermissionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolPermissions.jsp" />
+        &iacuc_forwards;
+      </action>
+      <action path="/iacucProtocolOnlineReviewRedirect" name="IacucProtocolOnlineReviewForm" input="/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewRedirectAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp" />
+        <forward name="displayInactive" path = "/WEB-INF/jsp/iacuc/ProtocolOnlineReviewInactiveDisplay.jsp"/>
+        <forward name="displayNoOnlineReview" path = "/WEB-INF/jsp/iacuc/ProtocolNoOnlineReview.jsp"/>   
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucProtocolCorrespondenceTemplate" name="IacucProtocolCorrespondenceTemplateForm" input="/WEB-INF/jsp/iacuc/ProtocolCorrespondenceTemplate.jsp" type="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolCorrespondenceTemplate.jsp" />
+      </action>
+
+      <action path="/iacucProtocolNotificationEditor" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolNotificationEditor.jsp" type="org.kuali.kra.iacuc.actions.IacucProtocolNotificationEditorAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolNotificationEditor.jsp"/>
+        &iacuc_forwards;
+      </action>
+      <action path="/iacucProtocolMedusa" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolMedusa.jsp" type="org.kuali.kra.iacuc.IacucProtocolMedusaAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolMedusa.jsp" />
+        &iacuc_forwards;
+      </action>      
+      
+      <action path="/iacucBatchCorrespondenceDetail" name="IacucBatchCorrespondenceDetailForm" input="/WEB-INF/jsp/iacuc/BatchCorrespondenceDetail.jsp" type="org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondenceDetailAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/BatchCorrespondenceDetail.jsp" />
+      </action>      
+      
+      <!--  KRA Committee Mapping -->
+      <action path="/committee*" name="CommitteeForm" input="/WEB-INF/jsp/committee/Committee{1}.jsp" type="org.kuali.kra.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/committee/Committee{1}.jsp" />
+          <forward name="committee" path="/WEB-INF/jsp/committee/CommitteeCommittee.jsp" />
+          <forward name="committeeMembership" path="/WEB-INF/jsp/committee/CommitteeMembership.jsp" />
+          <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
+          <forward name="committeeActions" path="/WEB-INF/jsp/committee/CommitteeActions.jsp" />
+          <forward name="maintainSchedule" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
+      </action>
+      
+      
+      <!--  Iacuc Committee Mapping -->
+      <action path="/iacucCommittee*" name="IacucCommitteeForm" input="/WEB-INF/jsp/committee/IacucCommittee{1}.jsp" type="org.kuali.kra.iacuc.committee.web.struts.action.IacucCommittee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/committee/IacucCommittee{1}.jsp" />
+          <forward name="committee" path="/WEB-INF/jsp/committee/IacucCommitteeCommittee.jsp" />
+          <forward name="committeeMembership" path="/WEB-INF/jsp/committee/IacucCommitteeMembership.jsp" />
+          <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/IacucCommitteeSchedule.jsp" />
+          <forward name="committeeActions" path="/WEB-INF/jsp/committee/IacucCommitteeActions.jsp" />
+          <forward name="maintainSchedule" path="/WEB-INF/jsp/meeting/IacucMeetingManagement.jsp" />
+      </action>
+      
+      
+     <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction">
+          <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
+     </action>    
+     <action path="/maintenanceQ" name="QuestionMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.kra.questionnaire.question.QuestionMaintenanceDocumentAction">
+          <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
+     </action>    
+     <action path="/maintenanceQn" name="QuestionnaireMaintenanceForm" attribute="KualiForm" scope="request" 
+         parameter="methodToCall" validate="false" input="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceDocumentAction">
+          <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" />
+          <forward name="ajaxQuestionnaire" path="/WEB-INF/jsp/questionnaire/QuestionnaireAjax.jsp" />
+          <forward name="ajaxQuestionMaintainTable" path="/WEB-INF/jsp/questionnaire/QuestionMaintTableAjax.jsp" />
+          <forward name="ajaxQuestionCurrentVersion" path="/WEB-INF/jsp/questionnaire/QuestionCurrentVersionAjax.jsp" />
+     </action>    
+     <action path="/maintenanceSponsorTemplate" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.kra.award.maintenance.AwardSponsorTemplateMaintenanceDocumentAction">
+          <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
+     </action>
+     
+     <action path="/maintenanceCoiDisclosureEvent" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.kra.coi.maintenance.CoiDisclosureEventTypeMaintenanceDocumentAction">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureEventTypeMaintenanceDocument.jsp" />
+          <forward name="synchMessagePage" path="/WEB-INF/jsp/coi/CoiDisclosureEventTypeMaintenanceSynchMessage.jsp" />
+     </action>    
+     
+     
+     <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" input="/WEB-INF/jsp/meeting/meeting{1}.jsp" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/meeting/meeting{1}.jsp" />
+            <forward name="management" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
+            <forward name="actions" path="/WEB-INF/jsp/meeting/meetingActions.jsp" />
+            <forward name="correspondence" path="/WEB-INF/jsp/meeting/meetingCorrespondenceAction.jsp" />
+     </action>
+
+	
+     <action path="/iacucMeeting*" name="IacucMeetingForm" type="org.kuali.kra.iacuc.committee.meeting.IacucMeeting{1}Action" input="/WEB-INF/jsp/meeting/IacucMeeting{1}.jsp" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/meeting/IacucMeeting{1}.jsp" />
+            <forward name="management" path="/WEB-INF/jsp/meeting/IacucMeetingManagement.jsp" />
+            <forward name="actions" path="/WEB-INF/jsp/meeting/IacucMeetingActions.jsp" />
+            <forward name="correspondence" path="/WEB-INF/jsp/meeting/IacucMeetingCorrespondenceAction.jsp" />
+     </action>
+
+     
+     <action path="/medusaAjax" name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaAjaxAction" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/medusa/medusaAjax.jsp"/>
+     </action>
+ 		<action path="/jqueryAjax" name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxAction" scope="request" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/jqueryajax/JqueryAjax.jsp" />
+        </action>
+<!-- SubAward -->
+
+      <action path="/subAward*" name="SubAwardForm" input="/WEB-INF/jsp/subaward/SubAward{1}.jsp" type="org.kuali.kra.subaward.web.struts.action.SubAward{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/subaward/SubAward{1}.jsp" />
+          <forward name="subAward" path="/WEB-INF/jsp/subaward/SubAwardHome.jsp" />
+          <forward name="financial" path="/WEB-INF/jsp/subaward/SubAwardFinancial.jsp" />
+          <forward name="customData" path="/WEB-INF/jsp/subaward/SubAwardCustomData.jsp" /> 
+          <forward name="subAwardActions" path="/WEB-INF/jsp/subaward/SubAwardActions.jsp" />
+          <forward name="notificationEditor" path="/WEB-INF/jsp/subaward/SubAwardNotificationEditor.jsp" />
+          <forward name="medusa" path="/WEB-INF/jsp/subaward/SubAwardMedusa.jsp" />
+      </action>
+<!-- end -->
+	<action path="/currentOrPendingReport" name="CurrentOrPendingReportForm" input="/WEB-INF/jsp/currentOrPendingReport.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.CurrentOrPendingReportAction"
+          scope="session" parameter="methodToCall"  validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/currentOrPendingReport.jsp" />
+     </action>
+     
+      <action path="/coi*" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/{1}.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/{1}.jsp" />
+          <forward name="masterDisclosure" path="/WEB-INF/jsp/coi/MasterDisclosure.jsp" />
+          <forward name="masterDisclosureNotAvailable" path="/WEB-INF/jsp/coi/MasterDisclosureNotAvailable.jsp" />
+          <forward name="updateDisclosure" path="/WEB-INF/jsp/coi/UpdateDisclosure.jsp" />
+          &coi_forwards;
+       </action>
+       <action path="/coiDisclosureActions" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/Disclosure.jsp" type="org.kuali.kra.coi.actions.CoiDisclosureActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureActions.jsp" />
+          <forward name="masterDisclosure" path="/WEB-INF/jsp/coi/MasterDisclosure.jsp" />
+          &coi_forwards;
+       </action>
+       <action path="/coiNoteAndAttachment" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/Disclosure.jsp" type="org.kuali.kra.coi.notesandattachments.CoiNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiNoteAndAttachment.jsp" />
+          &coi_forwards;
+      </action>
+       <action path="/coiDisclosureNotificationEditor" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosureNotificationEditor.jsp" type="org.kuali.kra.coi.CoiNotificationEditorAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureNotificationEditor.jsp"/>
+          &coi_forwards;
+      </action>
+      <action path="/coiSearchOpen" name="CoiCustomSearchForm" input="/WEB-INF/jsp/coi/CoiSearchOpen.jsp" type="org.kuali.kra.coi.lookup.CoiCustomSearchAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/coi/CoiSearchOpen.jsp" />
+        <forward name="openReviews" path="/WEB-INF/jsp/coi/CoiSearchOpen.jsp" />
+      </action>
+      <action path="/coiPersonSearch" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/MasterDisclosure.jsp" type="org.kuali.kra.coi.lookup.CoiDisclosurePersonSearchAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/MasterDisclosure.jsp" />
+          <forward name="masterDisclosure" path="/WEB-INF/jsp/coi/MasterDisclosure.jsp" />
+          <forward name="masterDisclosureNotAvailable" path="/WEB-INF/jsp/coi/MasterDisclosureNotAvailable.jsp" />
+          &coi_forwards;
+       </action>             
+      <action path="/projectEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/ProjectEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/coi/ProjectEvent.jsp" />
+      </action>
+      
+       
+       <action path="/financialEntity*" name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntity{1}Action" input="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" />
+          <forward name="management" path="/WEB-INF/jsp/coi/FinancialEntityManagement.jsp" />
+          <forward name="editNew" path="/WEB-INF/jsp/coi/FinancialEntityEditNew.jsp" />
+          <forward name="editList" path="/WEB-INF/jsp/coi/FinancialEntityEditList.jsp" />
+          <forward name="history" path="/WEB-INF/jsp/coi/FinancialEntityHistory.jsp" />
+          <forward name="viewEntity" path="/WEB-INF/jsp/coi/FinancialEntityView.jsp" />
+       </action>
+       
+       
+     
+     <!--  KRA Negotiation Mapping -->
+      <action path="/negotiationNegotiation" name="NegotiationForm" input="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" type="org.kuali.kra.negotiations.web.struts.action.NegotiationNegotiationAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="Negotiation" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
+          <forward name="basic" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
+     	  <forward name="customData" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
+     	  <forward name="notificationEditor" path="/WEB-INF/jsp/negotiation/NegotiationNotificationEditor.jsp" />
+     	  <forward name="portal" path="/portal.jsp" redirect="true" />
+          <forward name="lostPlaceMessagePage" path="/WEB-INF/jsp/negotiation/NegotiationLostPlaceMessage.jsp" />
+       </action>
+
+       <action path="/negotiationNotificationEditor" name="NegotiationForm" input="/WEB-INF/jsp/negotiation/NegotiationNotificationEditor.jsp" type="org.kuali.kra.negotiations.web.struts.action.NegotiationNotificationAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+       	  <forward name="basic" path="/WEB-INF/jsp/negotiation/NegotiationNotificationEditor.jsp" />
+       	  <forward name="negotiation" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
+       </action>
+     
+        <action path="/personMassChange*" name="PersonMassChangeForm" input="/WEB-INF/jsp/personmasschange/PersonMassChange{1}.jsp" type="org.kuali.kra.personmasschange.web.struts.action.PersonMassChange{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/personmasschange/PersonMassChange{1}.jsp" />
+            <forward name="home" path="/WEB-INF/jsp/personmasschange/PersonMassChangeHome.jsp" />
+            <forward name="view" path="/WEB-INF/jsp/personmasschange/PersonMassChangeView.jsp" />
+        </action>
+     
+    </action-mappings>
+
+
+
+    <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" /> 
+    <plug-in className="org.kuali.kra.web.struts.action.GlobalFormatterRegistry" />
+</struts-config>

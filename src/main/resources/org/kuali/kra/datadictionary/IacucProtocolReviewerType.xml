@@ -1,0 +1,108 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="IacucIacucProtocolReviewerType" parent="IacucIacucProtocolReviewerType-parentBean" />
+  <bean id="IacucIacucProtocolReviewerType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType" />
+		<property name="objectLabel" value="Protocol Reviewer Type" />
+    <property name="inquiryDefinition" >
+      <ref bean="IacucProtocolReviewerType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="IacucProtocolReviewerType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="reviewerTypeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="IacucProtocolReviewerType-reviewerTypeCode" />
+        <ref bean="IacucProtocolReviewerType-description" />
+        <ref bean="IacucProtocolReviewerType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="IacucProtocolReviewerType-reviewerTypeCode" parent="IacucProtocolReviewerType-reviewerTypeCode-parentBean" />
+  <bean id="IacucProtocolReviewerType-reviewerTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="reviewerTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Reviewer Type" />
+    <property name="shortLabel" value="Reviewer Type" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="3" />
+    </property>
+    <property name="summary" value="Reviewer Type" />
+    <property name="description" value="Reviewer Type" />
+  </bean>
+  
+  <bean id="IacucProtocolReviewerType-description" parent="IacucProtocolReviewerType-description-parentBean" />
+  <bean id="IacucProtocolReviewerType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+      <property name="maxLength" value="200" />
+  </bean>
+  
+  <bean id="IacucProtocolReviewerType-versionNumber" parent="IacucProtocolReviewerType-versionNumber-parentBean" />
+  <bean id="IacucProtocolReviewerType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="IacucProtocolReviewerType-inquiryDefinition" parent="IacucProtocolReviewerType-inquiryDefinition-parentBean" />
+  <bean id="IacucProtocolReviewerType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="IACUC Reviewer Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Reviewer Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="reviewerTypeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="IacucProtocolReviewerType-lookupDefinition" parent="IacucProtocolReviewerType-lookupDefinition-parentBean" />
+  <bean id="IacucProtocolReviewerType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="IACUC Reviewer Type" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="lookupableID" value="iacucProtocolReviewerTypeLookupable" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="reviewerTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="reviewerTypeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SubAwardDocument" parent="SubAwardDocument-parentBean"/>
+
+  <bean id="SubAwardDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    
+    <property name="usePessimisticLocking" value="true"/>
+    <property name="useWorkflowPessimisticLocking" value="false"/>
+    
+    <property name="documentTypeName" value="SubAwardDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule"/>
+    <property name="documentClass" value="org.kuali.kra.subaward.document.SubAwardDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.subaward.document.authorization.SubAwardDocumentAuthorizer"/>
+     
+    <property name="allowsCopy" value="false"/>
+    <property name="headerNavigationList">
+      <list>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-SUBAWARD" p:parameterName="subAwardHomeHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Subaward"/>
+          <property name="headerTabNavigateTo" value="subAward"/>
+        </bean>
+    
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-SUBAWARD" p:parameterName="subAwardFinancalHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Financial"/>
+          <property name="headerTabNavigateTo" value="financial"/>
+        </bean>
+       
+       <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="Custom Data"/>
+          <property name="headerTabNavigateTo" value="customData"/>
+        </bean>
+        
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-SUBAWARD" p:parameterName="subAwardActionsHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Subaward Actions"/>
+          <property name="headerTabNavigateTo" value="subAwardActions"/>
+        </bean>
+        
+          <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-SUBAWARD" p:parameterName="subAwardMedusaHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Medusa"/>
+          <property name="headerTabNavigateTo" value="medusa"/>
+        </bean>
+      </list>  
+    </property>
+  
+	<property name="workflowProperties"> 
+		<ref bean="SubAwardDocument-workflowProperties"/> 
+	</property>    
+    
+  </bean>
+
+  <bean id="SubAwardDocument-workflowProperties" parent="SubAwardDocument-workflowProperties-parentBean"/>
+  <bean id="SubAwardDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+ 			  <bean parent="WorkflowProperty" p:path="subAward.subAwardId"/>
+ 			  <bean parent="WorkflowProperty" p:path="subAward.subAwardCode"/>
+              <bean parent="WorkflowProperty" p:path="subAward.organizationId"/>
+              <bean parent="WorkflowProperty" p:path="subAward.title"/>
+              <bean parent="WorkflowProperty" p:path="subAward.requisitionerName"/>
+              <bean parent="WorkflowProperty" p:path="subAward.requisitionerId"/>
+              <bean parent="WorkflowProperty" p:path="subAward.requisitionerUnit"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>   
+</beans>

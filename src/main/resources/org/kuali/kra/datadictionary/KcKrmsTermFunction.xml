@@ -1,0 +1,210 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="KcKrmsTermFunction" parent="KcKrmsTermFunction-parentBean" />
+    <bean id="KcKrmsTermFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunction" />
+        <property name="objectLabel" value="KC Stored Function Term" />
+        <property name="inquiryDefinition" >
+            <ref bean="KcKrmsTermFunction-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="KcKrmsTermFunction-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="kcKrmsTermFunctionId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="KcKrmsTermFunction-kcKrmsTermFunctionId" />
+                <ref bean="KcKrmsTermFunction-krmsTermName" />
+                <ref bean="KcKrmsTermFunction-description" />
+                <ref bean="KcKrmsTermFunction-returnType" />
+                <ref bean="KcKrmsTermFunction-functionType" />
+                <ref bean="KcKrmsTermFunction-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="KcKrmsTermFunction-kcKrmsTermFunctionId" parent="KcKrmsTermFunction-kcKrmsTermFunctionId-parentBean" />
+    <bean id="KcKrmsTermFunction-kcKrmsTermFunctionId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="kcKrmsTermFunctionId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Kc Krms Term Function Id" />
+        <property name="shortLabel" value="Kc Krms Term Function Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Kc Krms Term Function Id" />
+        <property name="description" value="Kc Krms Term Function Id" />
+    </bean>
+
+    <bean id="KcKrmsTermFunction-krmsTermName" parent="KcKrmsTermFunction-krmsTermName-parentBean" />
+    <bean id="KcKrmsTermFunction-krmsTermName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="krmsTermName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Krms Term Id" />
+        <property name="shortLabel" value="Krms Term Id" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Krms Term Id" />
+        <property name="description" value="Krms Term Id" />
+    </bean>
+
+    <bean id="KcKrmsTermFunction-description" parent="KcKrmsTermFunction-description-parentBean" />
+    <bean id="KcKrmsTermFunction-description-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Description" />
+        <property name="description" value="Description" />
+    </bean>
+
+    <bean id="KcKrmsTermFunction-returnType" parent="KcKrmsTermFunction-returnType-parentBean" />
+    <bean id="KcKrmsTermFunction-returnType-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="returnType" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Return Type" />
+        <property name="shortLabel" value="Return Type" />
+        <property name="maxLength" value="100" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Return Type" />
+        <property name="description" value="Return Type" />
+    </bean>
+
+    <bean id="KcKrmsTermFunction-functionType" parent="KcKrmsTermFunction-functionType-parentBean" />
+    <bean id="KcKrmsTermFunction-functionType-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="functionType" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Function Type" />
+        <property name="shortLabel" value="Function Type" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="5" />
+        </property>
+        <property name="summary" value="Function Type" />
+        <property name="description" value="Function Type" />
+    </bean>
+
+    <bean id="KcKrmsTermFunction-versionNumber" parent="KcKrmsTermFunction-versionNumber-parentBean" />
+    <bean id="KcKrmsTermFunction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="KcKrmsTermFunction-inquiryDefinition" parent="KcKrmsTermFunction-inquiryDefinition-parentBean" />
+    <bean id="KcKrmsTermFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Kc Krms Term Function Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Kc Krms Term Function Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="kcKrmsTermFunctionId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="krmsTermName" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="description" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="returnType" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="functionType" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="KcKrmsTermFunction-lookupDefinition" parent="KcKrmsTermFunction-lookupDefinition-parentBean" />
+    <bean id="KcKrmsTermFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Kc Krms Term Function Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="kcKrmsTermFunctionId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="krmsTermName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="returnType" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="functionType" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="kcKrmsTermFunctionId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="krmsTermName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="returnType" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="functionType" />
+            </list>
+        </property>
+    </bean>
+</beans>

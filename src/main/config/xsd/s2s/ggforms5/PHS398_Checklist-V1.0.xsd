@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by david xia (Northrop Grumman Information Technology) -->
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by mina (Northrop Grumman IT) -->
+<!-- $Revision:   1.5  $ -->
+<xs:schema targetNamespace="http://apply.grants.gov/forms/PHS398_Checklist-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V1.0" xmlns:PHS398_Checklist="http://apply.grants.gov/forms/PHS398_Checklist-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/GlobalLibrary-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/UniversalCodes-V1.0.xsd"/>
+	<xs:element name="PHS398_Checklist">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ApplicationType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="New"/>
+							<xs:enumeration value="Resubmission"/>
+							<xs:enumeration value="Renewal"/>
+							<xs:enumeration value="Continuation"/>
+							<xs:enumeration value="Revision"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FederalID" type="glob:StringMin1Max30Type" minOccurs="0"/>
+				<xs:element name="IsChangeOfPDPI" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="FormerPD_Name" type="globLib:HumanNameDataType" minOccurs="0"/>
+				<xs:element name="IsChangeOfInstitution" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="FormerInstitutionName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+				<xs:element name="IsInventionsAndPatents" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="IsPreviouslyReported" type="globLib:YesNoDataType" minOccurs="0"/>
+				<xs:element name="ProgramIncome" type="globLib:YesNoDataType"/>
+				<xs:element name="IncomeBudgetPeriod" minOccurs="0" maxOccurs="5">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BudgetPeriod">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="1"/>
+										<xs:maxInclusive value="5"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="AnticipatedAmount" type="globLib:BudgetAmountDataType"/>
+							<xs:element name="Source">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="150"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CertificationExplanation" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Certifications" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

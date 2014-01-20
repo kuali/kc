@@ -1,0 +1,185 @@
+ <!--
+	Copyright 2005-2014 The Kuali Foundation
+
+	Licensed under the Educational Community License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.osedu.org/licenses/ECL-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd">
+
+<dwr>
+
+	<init>
+		<creator id="spring" class="org.kuali.kra.web.servlet.dwr.KcResourceDelegatingSpringCreator"/>
+	</init>
+	
+	<allow>
+		<filter class="org.kuali.kra.web.servlet.dwr.KcDWRFilter"/>
+		
+		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
+			<param name="include" value="sponsorCode,sponsorName,rolodexId" />
+		</convert>
+		<convert converter="bean" match="org.kuali.kra.budget.personnel.JobCode">
+			<param name="include" value="jobCode" />
+		</convert>		
+		<convert converter="bean" match="org.kuali.kra.bo.KcPerson">
+			<param name="include" value="fullName,unit,phoneNumber,emailAddress,personId" />			
+		</convert>	
+		<convert converter="bean" match="org.kuali.kra.bo.Unit">
+			<param name="include" value="unitNumber,unitName" />			
+		</convert>	
+		<convert converter="bean" match="org.kuali.kra.bo.Rolodex">
+			<param name="include" value="fullName,rolodexId,unit,emailAddress,phoneNumber,organization,addressLine1,addressLine2,addressLine3,city,state,countryCode,postalCode" />
+		</convert>
+        <convert converter="bean" match="org.kuali.kra.bo.Organization">
+            <param name="include" value="organizationId,organizationName" />
+        </convert>
+        <convert converter="bean" match="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource">
+            <param name="include" value="fundingSourceTitle,fundingSourceName,fundingSourceLookupable" />
+        </convert>
+        <convert converter="bean" match="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource">
+            <param name="include" value="fundingSourceTitle,fundingSourceName,fundingSourceLookupable" />
+        </convert>
+        <convert converter="bean" match="org.kuali.rice.location.framework.state.StateEbo">
+            <param name="include" value="code,name,countryCode" />
+        </convert>
+        <convert converter="bean" match="org.kuali.rice.location.api.state.State">
+            <param name="include" value="code,name,countryCode" />
+        </convert>
+						
+		<create creator="spring" javascript="SponsorService">
+			<param name="beanName" value="sponsorService" />
+			<include method="getSponsorName" />
+			<include method="getSponsor" />
+			<include method="getSubSponsorHierarchiesForTreeView" />
+			<include method="updateSponsorCodes" />
+			<include method="getSponsorCodes" />
+			<include method="insertSponsor" />
+			<include method="deleteSponsor" />
+			<include method="updateGroupName" />
+			<include method="changeSponsorSortOrder" />
+		</create>
+		<create creator="spring" javascript="UnitService">
+			<param name="beanName" value="unitService" />
+			<include method="getUnitName" />
+			<include method="getSubUnitsForTreeView" />
+		</create>
+		<create creator="spring" javascript="KraPersonService">
+			<param name="beanName" value="kcPersonService" />
+			<include method="getKcPersonByUserName" />
+		</create>
+		<create creator="spring" javascript="CustomAttributeService">
+			<param name="beanName" value="customAttributeService" />
+			<include method="getLookupReturnsForAjaxCall" />
+		</create>
+		<create creator="spring" javascript="ObjectCodeToBudgetCategoryCodeService">
+			<param name="beanName" value="objectCodeToBudgetCategoryCodeService" />
+			<include method="getBudgetCategoryCodeForCostElment" />
+		</create>
+		<create creator="spring" javascript="ProposalDevelopmentService">
+			<param name="beanName" value="proposalDevelopmentService" />
+			<include method="populateProposalEditableFieldMetaDataForAjaxCall" />
+			<include method="isGrantsGovEnabledOnSponsorChange" />
+			<include method="populateBudgetEditableFieldMetaDataForAjaxCall" />
+		</create>
+		<create creator="spring" javascript="JobCodeService">
+			<param name="beanName" value="jobCodeService" />
+			<include method="findJobCodeTitle" />
+		</create>
+		<create creator="spring" javascript="AwardFandaRateService">
+			<param name="beanName" value="awardFandaRateService" />			
+			<include method="getStartAndEndDatesBasedOnFiscalYear" />
+		</create>
+		<create creator="spring" javascript="OrganizationService">
+			<param name="beanName" value="organizationService" />
+			<include method="getOrganizationName" />
+		</create>
+        <create creator="spring" javascript="ProtocolFundingSourceService">
+            <param name="beanName" value="protocolFundingSourceService" />
+            <include method="updateProtocolFundingSource" />
+            <include method="isEditable" />
+            <include method="isLookupable" />
+        </create>
+        <create creator="spring" javascript="IacucProtocolFundingSourceService">
+            <param name="beanName" value="iacucProtocolFundingSourceService" />
+            <include method="updateProtocolFundingSource" />
+            <include method="isEditable" />
+            <include method="isLookupable" />
+        </create>
+		<create creator="spring" javascript="AwardReportsService">
+			<param name="beanName" value="awardReportsService" />			
+			<include method="getFrequencyCodes" />
+			<include method="getFrequencyBaseCodes" />
+		</create>
+		<create creator="spring" javascript="ProposalPersonService">
+            <param name="beanName" value="proposalPersonService" />
+            <include method="getNewStateList" />
+        </create>
+		<create creator="spring" javascript="AwardPaymentAndInvoicesService">
+			<param name="beanName" value="awardPaymentAndInvoicesService" />			
+			<include method="getEncodedValidAwardBasisPaymentsByAwardTypeCode" />
+			<include method="getEncodedValidBasisMethodPaymentsByBasisCode" />
+		</create>
+		<create creator="spring" javascript="ProtocolActionAjaxService">
+		    <param name="beanName" value="protocolActionAjaxService" />
+			<include method="getValidCommitteeDates" />
+			<include method="getReviewers" />
+			<include method="getReviewerTypes" />
+		</create>
+		<create creator="spring" javascript="IacucProtocolActionAjaxService">
+		    <param name="beanName" value="iacucProtocolActionAjaxService" />
+			<include method="getDefaultCommitteeReviewTypeCode" />
+		</create>
+		<create creator="spring" javascript="BudgetService">
+			<param name="beanName" value="budgetService" />
+			<include method="getApplicableCostElementsForAjaxCall" />
+			<include method="populateBudgetPersonSalaryDetailsInPeriods" />
+		</create>
+		<create creator="spring" javascript="MeetingService">
+			<param name="beanName" value="meetingService" />
+			<include method="getStandardReviewComment" />
+		</create>
+		<create creator="spring" javascript="AwardTransactionLookupService">
+			<param name="beanName" value="awardTransactionLookupService"/>
+			<include method="getApplicableTransactionIds"/>
+		</create>
+		<create creator="spring" javascript="AwardTemplateReportTermService">
+			<param name="beanName" value="awardTemplateReportTermService" />
+			<include method="getReportTypeForAjaxCall" />
+			<include method="getFrequencyForAjaxCall" />
+			<include method="getFrequencyBaseForAjaxCall" />
+		</create>
+		<create creator="spring" javascript="S2SService">
+			<param name="beanName" value="s2SService" />
+			<include method="getStatusDetails" />
+		</create>
+		<create creator="spring" javascript="RolodexService">
+			<param name="beanName" value="rolodexService" />
+			<include method="getRolodex" />
+		</create>
+        <create creator="spring" javascript="KcNotificationModuleRoleService">
+            <param name="beanName" value="kcNotificationModuleRoleService" />
+            <include method="getNotificationModuleRolesString" />
+        </create> 
+        <create creator="spring" javascript="SubAwardService">
+            <param name="beanName" value="subAwardService" />
+            <include method="getCalculatedFollowupDateForAjaxCall" />
+        </create>  	
+		<create creator="spring" javascript="StateService">
+            <param name="beanName" value="stateService" />
+            <include method="findAllStatesInCountryByAltCode" />
+        </create>
+		<create creator="spring" javascript="BudgetRatesService">
+			<param name="beanName" value="budgetRatesService" />
+			<include method="getUnitFormulatedCost" />		
+		</create>
+	</allow>
+</dwr>

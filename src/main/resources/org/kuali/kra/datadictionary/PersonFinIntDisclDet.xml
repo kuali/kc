@@ -1,0 +1,261 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="PersonFinIntDisclDet" parent="PersonFinIntDisclDet-parentBean" />
+    <bean id="PersonFinIntDisclDet-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet" />
+		<property name="objectLabel" value="Person Financial Interest disclosure details" />
+        <property name="inquiryDefinition" >
+            <ref bean="PersonFinIntDisclDet-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="PersonFinIntDisclDet-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="perFinIntDisclDetId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="PersonFinIntDisclDet-perFinIntDisclDetId" />
+                <ref bean="PersonFinIntDisclDet-entityNumber" />
+                <ref bean="PersonFinIntDisclDet-sequenceNumber" />
+                <ref bean="PersonFinIntDisclDet-columnName" />
+                <ref bean="PersonFinIntDisclDet-columnValue" />
+                <ref bean="PersonFinIntDisclDet-relationshipTypeCode" />
+                <ref bean="PersonFinIntDisclDet-comments" />
+                <ref bean="PersonFinIntDisclDet-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="PersonFinIntDisclDet-perFinIntDisclDetId" parent="PersonFinIntDisclDet-perFinIntDisclDetId-parentBean" />
+    <bean id="PersonFinIntDisclDet-perFinIntDisclDetId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="perFinIntDisclDetId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Per Fin Int Discl Det Id" />
+        <property name="shortLabel" value="Per Fin Int Discl Det Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Per Fin Int Discl Det Id" />
+        <property name="description" value="Per Fin Int Discl Det Id" />
+    </bean>
+
+    <bean id="PersonFinIntDisclDet-entityNumber" parent="PersonFinIntDisclDet-entityNumber-parentBean" />
+    <bean id="PersonFinIntDisclDet-entityNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="entityNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Entity Number" />
+        <property name="shortLabel" value="Entity Number" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Entity Number" />
+        <property name="description" value="Entity Number" />
+    </bean>
+
+    <bean id="PersonFinIntDisclDet-sequenceNumber" parent="PersonFinIntDisclDet-sequenceNumber-parentBean" />
+    <bean id="PersonFinIntDisclDet-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="4" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+
+    <bean id="PersonFinIntDisclDet-columnName" parent="PersonFinIntDisclDet-columnName-parentBean" />
+    <bean id="PersonFinIntDisclDet-columnName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="columnName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Column Name" />
+        <property name="shortLabel" value="Column Name" />
+        <property name="maxLength" value="30" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Column Name" />
+        <property name="description" value="Column Name" />
+    </bean>
+
+    <bean id="PersonFinIntDisclDet-columnValue" parent="PersonFinIntDisclDet-columnValue-parentBean" />
+    <bean id="PersonFinIntDisclDet-columnValue-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="columnValue" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Column Value" />
+        <property name="shortLabel" value="Column Value" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Column Value" />
+        <property name="description" value="Column Value" />
+    </bean>
+
+    <bean id="PersonFinIntDisclDet-relationshipTypeCode" parent="PersonFinIntDisclDet-relationshipTypeCode-parentBean" />
+    <bean id="PersonFinIntDisclDet-relationshipTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="relationshipTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Relationship Type Code" />
+        <property name="shortLabel" value="Relationship Type Code" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Relationship Type Code" />
+        <property name="description" value="Relationship Type Code" />
+    </bean>
+
+    <bean id="PersonFinIntDisclDet-comments" parent="PersonFinIntDisclDet-comments-parentBean" />
+    <bean id="PersonFinIntDisclDet-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="comments" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Comments" />
+        <property name="shortLabel" value="Comments" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="60" />
+        </property>
+        <property name="summary" value="Comments" />
+        <property name="description" value="Comments" />
+    </bean>
+
+    <bean id="PersonFinIntDisclDet-versionNumber" parent="PersonFinIntDisclDet-versionNumber-parentBean" />
+    <bean id="PersonFinIntDisclDet-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="PersonFinIntDisclDet-inquiryDefinition" parent="PersonFinIntDisclDet-inquiryDefinition-parentBean" />
+    <bean id="PersonFinIntDisclDet-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Per Fin Int Discl Det Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Per Fin Int Discl Det Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="perFinIntDisclDetId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="entityNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="columnName" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="columnValue" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="relationshipTypeCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="comments" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="PersonFinIntDisclDet-lookupDefinition" parent="PersonFinIntDisclDet-lookupDefinition-parentBean" />
+    <bean id="PersonFinIntDisclDet-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Per Fin Int Discl Det Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="perFinIntDisclDetId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="entityNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="columnName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="columnValue" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="relationshipTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="comments" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="perFinIntDisclDetId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="entityNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="columnName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="columnValue" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="relationshipTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="comments" />
+            </list>
+        </property>
+    </bean>
+</beans>

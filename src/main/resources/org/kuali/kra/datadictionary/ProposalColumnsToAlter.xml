@@ -1,0 +1,258 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProposalColumnsToAlter" parent="ProposalColumnsToAlter-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter" />
+		<property name="objectLabel" value="Proposal Columns To Alter" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalColumnsToAlter-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalColumnsToAlter-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="columnName" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalColumnsToAlter-columnName" />
+        <ref bean="ProposalColumnsToAlter-columnLabel" />
+        <ref bean="ProposalColumnsToAlter-dataLength" />
+        <ref bean="ProposalColumnsToAlter-dataType" />
+        <ref bean="ProposalColumnsToAlter-hasLookup" />
+        <ref bean="ProposalColumnsToAlter-lookupClass" />
+        <ref bean="ProposalColumnsToAlter-lookupReturn" />
+        <ref bean="ProposalColumnsToAlter-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+  
+
+  <bean id="ProposalColumnsToAlter-columnName" parent="ProposalColumnsToAlter-columnName-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-columnName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="columnName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Column Name" />
+    <property name="shortLabel" value="Column Name" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalColumnsValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Column Name" />
+    <property name="description" value="Column Name" />
+  </bean>
+  <bean id="ProposalColumnsToAlter-columnLabel" parent="ProposalColumnsToAlter-columnLabel-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-columnLabel-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="columnLabel" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Column Label" />
+    <property name="shortLabel" value="Column Label" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Column Label" />
+    <property name="description" value="Column Label" />
+  </bean>
+  <bean id="ProposalColumnsToAlter-dataLength" parent="ProposalColumnsToAlter-dataLength-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-dataLength-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dataLength" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Data Length" />
+    <property name="shortLabel" value="Data Length" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Data Length" />
+    <property name="description" value="Data Length" />
+  </bean>
+  <bean id="ProposalColumnsToAlter-dataType" parent="ProposalColumnsToAlter-dataType-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-dataType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dataType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Data Type" />
+    <property name="shortLabel" value="Data Type" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalEditableFieldDataTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Data Type" />
+    <property name="description" value="Data Type" />
+  </bean>
+  <bean id="ProposalColumnsToAlter-hasLookup" parent="ProposalColumnsToAlter-hasLookup-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-hasLookup-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="hasLookup" />
+    <property name="label" value="Has Lookup" />
+    <property name="shortLabel" value="Has Lookup" />
+    <property name="summary" value="Has Lookup" />
+    <property name="description" value="Has Lookup" />
+  </bean>
+  <bean id="ProposalColumnsToAlter-lookupClass" parent="ProposalColumnsToAlter-lookupClass-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-lookupClass-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lookupClass" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Lookup Argument" />
+    <property name="shortLabel" value="Lookup Argument" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder"
+            p:includeKeyInLabel="false"
+            p:script="updateLookupReturn(this, updateLookupReturn_Callback)" />
+    </property>
+    <property name="summary" value="Lookup Argument" />
+    <property name="description" value="Lookup Argument" />
+  </bean>
+  <bean id="ProposalColumnsToAlter-lookupReturn" parent="ProposalColumnsToAlter-lookupReturn-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-lookupReturn-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lookupReturn" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Lookup Return" />
+    <property name="shortLabel" value="Lookup Return" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Lookup Return" />
+    <property name="description" value="Lookup Return" />
+  </bean>
+  <bean id="ProposalColumnsToAlter-versionNumber" parent="ProposalColumnsToAlter-versionNumber-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ProposalColumnsToAlter-inquiryDefinition" parent="ProposalColumnsToAlter-inquiryDefinition-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Prop Columns To Alter" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Prop Columns To Alter" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="columnName"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="columnLabel" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dataLength" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dataType" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="hasLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lookupClass" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lookupReturn" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ProposalColumnsToAlter-lookupDefinition" parent="ProposalColumnsToAlter-lookupDefinition-parentBean" />
+
+  <bean id="ProposalColumnsToAlter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Proposal Columns To Alter Lookup" />
+    <property name="lookupableID" value="customLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+	<property name="helpDefinition" >
+        <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-M"
+            p:parameterName="proposalDevEditableFieldMaintenanceHelp"
+            p:parameterDetailType="Document" />
+    </property>         
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="columnName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="columnLabel" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataLength" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hasLookup" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupClass" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupReturn" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="columnName"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="columnLabel" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataLength" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hasLookup" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupClass" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupReturn" />
+      </list>
+    </property>
+  </bean>
+</beans>

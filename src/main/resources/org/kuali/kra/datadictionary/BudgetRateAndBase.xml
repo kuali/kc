@@ -1,0 +1,221 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetRateAndBase" parent="BudgetRateAndBase-parentBean" />
+
+  <bean id="BudgetRateAndBase-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase" />
+		<property name="objectLabel" value="Budget Rate And Base" />
+    <property name="lookupDefinition" >
+      <ref bean="BudgetRateAndBase-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="budgetPeriod" />
+    <property name="attributes" >
+      <list>
+<!--        <ref bean="BudgetRateAndBase-proposalNumber" />-->
+<!--        <ref bean="BudgetRateAndBase-budgetVersionNumber" />-->
+        <ref bean="BudgetRateAndBase-budgetPeriod" />
+        <ref bean="BudgetRateAndBase-lineItemNumber" />
+        <ref bean="BudgetRateAndBase-versionNumber" />
+        <ref bean="BudgetRateAndBase-rateClassCode" />
+        <ref bean="BudgetRateAndBase-rateTypeCode" />
+        <ref bean="BudgetRateAndBase-rateNumber" />
+        <ref bean="BudgetRateAndBase-appliedRate" />
+        <ref bean="BudgetRateAndBase-baseCost" />
+        <ref bean="BudgetRateAndBase-baseCostSharing" />
+        <ref bean="BudgetRateAndBase-calculatedCost" />
+        <ref bean="BudgetRateAndBase-calculatedCostSharing" />
+        <ref bean="BudgetRateAndBase-endDate" />
+        <ref bean="BudgetRateAndBase-startDate" />
+        <ref bean="BudgetRateAndBase-onOffCampusFlag" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+<!--  <bean id="BudgetRateAndBase-proposalNumber" parent="BudgetRateAndBase-proposalNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetRateAndBase-proposalNumber-parentBean" abstract="true" parent="BudgetLineItem-proposalNumber">-->
+<!--  </bean>-->
+<!--  <bean id="BudgetRateAndBase-budgetVersionNumber" parent="BudgetRateAndBase-budgetVersionNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetRateAndBase-budgetVersionNumber-parentBean" abstract="true" parent="BudgetModular-budgetVersionNumber">-->
+<!--  </bean>-->
+  <bean id="BudgetRateAndBase-budgetPeriod" parent="BudgetRateAndBase-budgetPeriod-parentBean" />
+
+  <bean id="BudgetRateAndBase-budgetPeriod-parentBean" abstract="true" parent="BudgetLineItemCalculatedAmount-budgetPeriod">
+  </bean>
+  <bean id="BudgetRateAndBase-lineItemNumber" parent="BudgetRateAndBase-lineItemNumber-parentBean" />
+
+  <bean id="BudgetRateAndBase-lineItemNumber-parentBean" abstract="true" parent="BudgetLineItem-lineItemNumber">
+  </bean>
+  <bean id="BudgetRateAndBase-versionNumber" parent="BudgetRateAndBase-versionNumber-parentBean" />
+
+  <bean id="BudgetRateAndBase-versionNumber-parentBean" abstract="true" parent="BudgetLineItem-versionNumber">
+  </bean>
+  <bean id="BudgetRateAndBase-rateClassCode" parent="BudgetRateAndBase-rateClassCode-parentBean" />
+
+  <bean id="BudgetRateAndBase-rateClassCode-parentBean" abstract="true" parent="BudgetLineItemCalculatedAmount-rateClassCode">
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="BudgetRateAndBase-rateTypeCode" parent="BudgetRateAndBase-rateTypeCode-parentBean" />
+
+  <bean id="BudgetRateAndBase-rateTypeCode-parentBean" abstract="true" parent="BudgetLineItemCalculatedAmount-rateTypeCode">
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="BudgetRateAndBase-rateNumber" parent="BudgetRateAndBase-rateNumber-parentBean" />
+
+  <bean id="BudgetRateAndBase-rateNumber-parentBean" abstract="true" parent="BudgetModularIdc-rateNumber">
+  </bean>
+  <bean id="BudgetRateAndBase-appliedRate" parent="BudgetRateAndBase-appliedRate-parentBean" />
+
+  <bean id="BudgetRateAndBase-appliedRate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericRate">
+    <property name="name" value="appliedRate" />
+    <property name="label" value="Applied Rate" />
+    <property name="shortLabel" value="Applied Rate" />
+    <property name="summary" value="Applied Rate" />
+    <property name="description" value="Applied Rate" />
+  </bean>
+  <bean id="BudgetRateAndBase-baseCost" parent="BudgetRateAndBase-baseCost-parentBean" />
+
+  <bean id="BudgetRateAndBase-baseCost-parentBean" abstract="true" parent="BudgetLineItem-lineItemCost">
+    <property name="name" value="baseCost" />
+    <property name="label" value="Base Cost" />
+    <property name="shortLabel" value="Base Cost" />
+    <property name="summary" value="Base Cost" />
+    <property name="description" value="Base Cost" />
+  </bean>
+  <bean id="BudgetRateAndBase-baseCostSharing" parent="BudgetRateAndBase-baseCostSharing-parentBean" />
+
+  <bean id="BudgetRateAndBase-baseCostSharing-parentBean" abstract="true" parent="BudgetLineItem-costSharingAmount">
+    <property name="name" value="baseCostSharing" />
+    <property name="label" value="Base Cost Sharing" />
+    <property name="shortLabel" value="Base Cost Sharing" />
+    <property name="summary" value="Base Cost Sharing" />
+    <property name="description" value="Base Cost Sharing" />
+  </bean>
+  <bean id="BudgetRateAndBase-calculatedCost" parent="BudgetRateAndBase-calculatedCost-parentBean" />
+
+  <bean id="BudgetRateAndBase-calculatedCost-parentBean" abstract="true" parent="BudgetLineItem-lineItemCost">
+    <property name="name" value="calculatedCost" />
+    <property name="label" value="Calculated Cost" />
+    <property name="shortLabel" value="Calculated Cost" />
+    <property name="summary" value="Calculated Cost" />
+    <property name="description" value="Calculated Cost" />
+  </bean>
+  <bean id="BudgetRateAndBase-calculatedCostSharing" parent="BudgetRateAndBase-calculatedCostSharing-parentBean" />
+
+  <bean id="BudgetRateAndBase-calculatedCostSharing-parentBean" abstract="true" parent="BudgetLineItem-costSharingAmount">
+    <property name="name" value="calculatedCostSharing" />
+    <property name="label" value="Calculated Cost Sharing" />
+    <property name="shortLabel" value="Calculated Cost Sharing" />
+    <property name="summary" value="Calculated Cost Sharing" />
+    <property name="description" value="Calculated Cost Sharing" />
+  </bean>
+  <bean id="BudgetRateAndBase-endDate" parent="BudgetRateAndBase-endDate-parentBean" />
+
+  <bean id="BudgetRateAndBase-endDate-parentBean" abstract="true" parent="BudgetLineItem-endDate">
+  </bean>
+  <bean id="BudgetRateAndBase-startDate" parent="BudgetRateAndBase-startDate-parentBean" />
+
+  <bean id="BudgetRateAndBase-startDate-parentBean" abstract="true" parent="BudgetLineItem-startDate">
+  </bean>
+  <bean id="BudgetRateAndBase-onOffCampusFlag" parent="BudgetRateAndBase-onOffCampusFlag-parentBean" />
+
+  <bean id="BudgetRateAndBase-onOffCampusFlag-parentBean" abstract="true" parent="BudgetLineItem-onOffCampusFlag">
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="BudgetRateAndBase-lookupDefinition" parent="BudgetRateAndBase-lookupDefinition-parentBean" />
+
+  <bean id="BudgetRateAndBase-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Rate and Base" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber" />-->
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="budgetVersionNumber" />-->
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetPeriod" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appliedRate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="baseCost" />
+        <bean parent="FieldDefinition"
+              p:attributeName="baseCostSharing" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculatedCost" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculatedCostSharing" />
+        <bean parent="FieldDefinition"
+              p:attributeName="endDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="startDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="onOffCampusFlag" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber" />-->
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="budgetVersionNumber" />-->
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetPeriod" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appliedRate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="baseCost" />
+        <bean parent="FieldDefinition"
+              p:attributeName="baseCostSharing" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculatedCost" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculatedCostSharing" />
+        <bean parent="FieldDefinition"
+              p:attributeName="endDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="startDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="onOffCampusFlag" />
+      </list>
+    </property>
+  </bean>
+</beans>

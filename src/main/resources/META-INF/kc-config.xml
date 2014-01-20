@@ -1,0 +1,64 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!--
+This config file should only contain config locations not actual config properties.
+-->
+<config>
+	<!--
+		KC's project build properties
+		
+		Contains properties that are set by our build process
+	-->
+	<param name="config.location">classpath:META-INF/kc-config-build.xml</param>
+
+	<!-- 
+		Rice's project defaults
+		
+		Contains properties that may not be set by KC's defaults.  This properties
+		should never override.
+	-->
+	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+
+	<!--
+		KC's project defaults
+		
+		Contains either properties that differ from the rice defaults or
+		KC specific properties
+	-->
+	<param name="config.location">classpath:META-INF/kc-config-defaults.xml</param>
+	
+	<!-- 
+		Rice's standard config file locations
+		
+		Contains locations to find other config files.
+	 -->
+	<param name="config.location">classpath:META-INF/common-config-locations.xml</param>
+
+	<!-- 
+		KC's external config
+		
+		Config location for the IU environment
+	-->
+	<param name="config.location">/opt/sa_forms/java/${environment}/kra/kc-config.xml</param>
+	
+	<!--
+		KC's external config
+		 
+		Hook for external config
+	 -->
+	<param name="config.location">${alt.config.location}</param>
+</config>

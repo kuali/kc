@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+
+.Qdiv
+{
+	
+	border:#666666 solid 1px;
+	border-collapse:collapse;
+	margin-bottom:5px;
+}
+
+.Qquestiondiv
+{
+	background:#939393;
+	color:#ffffff;
+	font-size:12px;
+	line-height:16px;
+	font-weight:bold;
+	padding:2px;
+}
+	
+.Qquestion
+{
+
+}
+
+.Qmoreinfocontrol
+{
+    float:right;
+    font-size:9px;
+    font-weight:100;
+    cursor:pointer;
+}
+
+.Qmoreinfodiv
+{
+	background:#FFFFFF;
+	padding:2px;
+}
+
+.Qmoreinfo
+{
+
+}

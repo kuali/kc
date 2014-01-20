@@ -1,0 +1,49 @@
+<config>
+
+    <param name="http.port">8090</param>
+    <param name="application.host">127.0.0.1</param>
+	
+	<!-- Please fill in a value for this parameter! -->
+	<!--<param name="app.context.name">kr-${environment}</param>
+	<param name="application.url">http://127.0.0.1:8080/${app.context.name}</param>-->
+
+	<param name="workflow.url">${application.url}/kew</param>
+
+	<param name="plugin.dir">${user.home}/kuali/main/${environment}/rice_embedded/plugins</param>
+
+	<param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
+	<param name="datasource.username">KRDEV</param>
+	<param name="datasource.password">devpass</param>
+	<param name="datasource.ojb.platform">Oracle9i</param>
+	
+	<param name="attachment.dir.location">${user.home}/kuali/main/${environment}/rice_embedded/kew_attachments</param>
+
+    <param name="mail.smtp.host">localhost</param>
+
+	<!-- log4j settings -->
+	<param name="log4j.settings.path">${user.home}/kuali/main/${environment}/rice_embedded/log4j.properties</param>
+	<param name="log4j.settings.reloadInterval">5</param>
+
+	<!-- Keystore Configuration -->
+	<param name="keystore.file">${user.home}/kuali/main/${environment}/rice_embedded/rice.keystore</param>
+	<param name="keystore.alias">rice</param>
+	<param name="keystore.password">r1c3pw</param>
+
+	<!-- Dummy Login Filter - use if you don't want to go through CAS -->
+    <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
+	<param name="filtermapping.login.1">/*</param>
+
+    <!-- Sample Application Flag -->
+    <param name="sample.enabled">false</param>
+	
+	<!-- other added-->
+	<!--<param name="workflow.url">http://127.0.0.1:8080/kr-dev/kew</param>-->
+	<!--<param name="serviceServletUrl">http://127.0.0.1:8080/kr-dev/remoting/</param>-->
+
+	<param name="dev.mode">false</param>
+	
+	<param name="encryption.key" override="false">7IC64w6kAAAA</param>
+	
+	<!-- hacky always go back to kc portal -->
+	<param name="rice.portal.logout.redirectUrl">${appserver.url}/kc-dev/logout.do</param>
+</config>

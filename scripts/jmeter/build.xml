@@ -1,0 +1,25 @@
+<project name="JMeter" default="test" basedir="../..">
+    <property environment="env"/>
+    <property name="jmeter.home" location="${env.JMETER_HOME}"/>
+
+    <path id="ant.jmeter.classpath">
+        <pathelement location="${jmeter.home}/extras/ant-jmeter-1.0.9.jar" />
+    </path>
+
+    <taskdef name="jmeter"
+             classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask"
+             classpathref="ant.jmeter.classpath" />
+
+    <target name="clean">
+        <delete dir="${basedir}/target/jmeter-reports"/>
+        <mkdir dir="${basedir}/target/jmeter-reports"/>
+    </target>
+
+    <target name="test" depends="clean">
+        <jmeter jmeterhome="${jmeter.home}"
+                resultlogdir="${basedir}/target/jmeter-reports">
+        <testplans dir="${basedir}/src/test/resources/jmeter" includes="*.jmx"/>
+    </jmeter>
+  </target>
+
+</project>

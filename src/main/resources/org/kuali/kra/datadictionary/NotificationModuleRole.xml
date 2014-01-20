@@ -1,0 +1,169 @@
+<!--
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="NotificationModuleRole" parent="NotificationModuleRole-parentBean" />
+    <bean id="NotificationModuleRole-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRole" />
+        <property name="objectLabel" value="Notification Module Role" />
+        <property name="inquiryDefinition" >
+            <ref bean="NotificationModuleRole-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="NotificationModuleRole-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="notificationNumber" />
+        <property name="attributes" >
+            <list>
+                <ref bean="NotificationModuleRole-notificationModuleRoleId" />
+                <ref bean="NotificationModuleRole-moduleCode" />
+                <ref bean="NotificationModuleRole-roleName" />
+            </list>
+        </property>  
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="NotificationModuleRole-notificationModuleRoleId" parent="NotificationModuleRole-notificationModuleRoleId-parentBean" />
+    <bean id="NotificationModuleRole-notificationModuleRoleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="notificationModuleRoleId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Notification Module Role Id" />
+        <property name="shortLabel" value="Notification Module Role Id" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" 
+                  p:size="6"/>
+        </property>
+        <property name="summary" value="Notification Module Role Id" />
+        <property name="description" value="Notification Module Role Id" />
+    </bean>
+    
+    <bean id="NotificationModuleRole-moduleCode" parent="NotificationModuleRole-moduleCode-parentBean" />
+    <bean id="NotificationModuleRole-moduleCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="moduleCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Module Code" />
+        <property name="shortLabel" value="Module Code" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.bo.CoeusModule"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="moduleCode"
+                p:labelAttribute="description" />
+        </property>
+        <property name="summary" value="Module Code" />
+        <property name="description" value="Module Code" />
+    </bean>
+    
+    <bean id="NotificationModuleRole-roleName" parent="NotificationModuleRole-roleName-parentBean" />
+    <bean id="NotificationModuleRole-roleName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="roleName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Role Name" />
+        <property name="shortLabel" value="Role Name" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="125" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" 
+                  p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.common.notification.lookup.keyvalue.NotificationModuleRoleRoleNameValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+        <property name="summary" value="Role Name" />
+        <property name="description" value="Role Name" />
+    </bean>
+    
+ 
+    <!-- Business Object Inquiry Definition -->
+    
+    <bean id="NotificationModuleRole-inquiryDefinition" parent="NotificationModuleRole-inquiryDefinition-parentBean" />
+    <bean id="NotificationModuleRole-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Notification Module Role" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Notification Module Role" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition" 
+                                  p:attributeName="notificationModuleRoleId" 
+                                  p:forceInquiry="true" />
+                            <bean parent="FieldDefinition" 
+                                  p:attributeName="moduleCode" />
+                            <bean parent="FieldDefinition" 
+                                  p:attributeName="roleName" />                                 
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="NotificationModuleRole-lookupDefinition" parent="NotificationModuleRole-lookupDefinition-parentBean" />
+    <bean id="NotificationModuleRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Notification Module Role Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" />
+        </property>
+        <property name="lookupFields" >
+            <list>
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="notificationModuleRoleId" 
+	                  p:forceLookup="true" />
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="moduleCode" />
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="roleName" />                 
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="notificationModuleRoleId" 
+	                  p:forceInquiry="true" />                                
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="moduleCode" />
+	            <bean parent="FieldDefinition" 
+	                  p:attributeName="roleName" />	   	                           
+            </list>
+        </property>
+    </bean>
+    
+</beans>

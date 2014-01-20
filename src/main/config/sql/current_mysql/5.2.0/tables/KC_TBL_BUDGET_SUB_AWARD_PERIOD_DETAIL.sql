@@ -1,0 +1,6 @@
+DELIMITER /
+
+alter table BUDGET_SUB_AWARD_PERIOD_DETAIL modify SUBAWARD_NUMBER decimal(3,0) not null
+/
+
+DELIMITER ;

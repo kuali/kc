@@ -1,0 +1,230 @@
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.diag;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * This class holds data related to open Connections.  The data is kept on a per thread basis.
+ */
+public final class ConnectionTracker {
+    
+    private static final Log LOG = LogFactory.getLog(ConnectionTracker.class);
+    
+    /**
+     * data structure format:
+     * 
+     * each thread contains a map
+     *   map key = a string identifier for a connection (DB user name + connection url)
+     *   map value = a Collection connection info object's which describe the connection
+     *     CollectionInfo objects = the physical connection object along with the stacktrace that requested that connection
+     */
+    private static final ThreadLocal<Map<String, Collection<ConnectionInfo>>> OPEN_CONNECTIONS = new ThreadLocal<Map<String, Collection<ConnectionInfo>>>() {
+        @Override
+        protected synchronized Map<String, Collection<ConnectionInfo>> initialValue() {
+            return new HashMap<String, Collection<ConnectionInfo>>();
+        }
+    };
+    
+    private ConnectionTracker() {
+        throw new UnsupportedOperationException("do not call");
+    }
+    
+    /**
+     * Adds a connection to the connection count. Null connections are ignored.
+     * Call this method when a connection is first established.
+     * @param con the connection to add
+     */
+    public static synchronized void addConnection(Connection con) {
+        if (con == null) {
+            return;
+        }
+        
+        final String key = getConnectionKey(con);
+        
+        if (key != null) {
+            LOG.debug("Opened a connection to " + key + " by thread " + Thread.currentThread().getName());
+            logMultipleConnections(key);
+            add(key, con);
+        } else {
+            LOG.warn("DB Connection key is null.  will not track connection usage.");
+        }
+    }
+    
+    /**
+     * This method adds a new ConnectionInfo for a given Connection & key.  If a Connection
+     * already exists then that connection is removed from tracking and the new ConnectionInfo is created.
+     * This handles Connection reuse.
+     * 
+     * @param key the connection key
+     * @param con the connection to add
+     */
+    private static synchronized void add(String key, Connection con) {
+        final Collection<ConnectionInfo> conInfos = getConnectionInfos(key);
+        for (Iterator<ConnectionInfo> i = conInfos.iterator(); i.hasNext();) {
+            final ConnectionInfo conInfo = i.next();
+            if (conInfo.getConnection() == con) {
+                i.remove();
+            }
+        }
+        
+        conInfos.add(new ConnectionInfo(con, getStackTrace()));
+        OPEN_CONNECTIONS.get().put(key, conInfos);   
+    }
+    
+    /**
+     * Removes a connection from the connection count. Null connections are ignored.
+     * Call this method when a connection is closed.
+     * @param con the connection to remove
+     */
+    public static synchronized void removeConnection(Connection con) {
+        if (con == null) {
+            return;
+        }
+        
+        final String key = getConnectionKey(con);
+        if (key != null) {
+            LOG.debug("Closed a connection to " + key + " by thread " + Thread.currentThread().getName());
+            remove(key, con);
+        }
+    }
+    
+    /**
+     * Removes all ConnectionInfos from tracking where for the key & passed in Connection
+     * @param key the connection key
+     * @param con the connection to remove
+     */
+    private static synchronized void remove(String key, Connection con) {
+        final Collection<ConnectionInfo> conInfos = getConnectionInfos(key);
+        for (Iterator<ConnectionInfo> i = conInfos.iterator(); i.hasNext();) {
+            final ConnectionInfo conInfo = i.next();
+            if (conInfo.getConnection() == con) {
+                i.remove();
+            }
+        }
+        
+        OPEN_CONNECTIONS.get().put(key, conInfos);
+    }
+    
+    /**
+     * returns the a Collection of ConnectionInfos.  Will never return null.
+     * If the Collection retrieved is null then a new Collection is returned.
+     * 
+     * @param key the key to lookup the ConnectionInfos from.
+     */
+    private static synchronized Collection<ConnectionInfo> getConnectionInfos(String key) {
+        final Collection<ConnectionInfo> conInfos = OPEN_CONNECTIONS.get().get(key);
+        return conInfos != null ? conInfos : new ArrayList<ConnectionInfo>();
+    }
+    
+    /** 
+     * gets the connection key.  return null if it cannot be determined.
+     * @return the key or null
+     */
+    private static String getConnectionKey(Connection con) {       
+        String uName = null;
+        String url = null;
+        try {
+            uName = con.getMetaData().getUserName();
+            url = con.getMetaData().getURL();
+        } catch (SQLException e) {
+            LOG.error("unable to get DB url", e);
+        }
+        
+        return uName != null && url != null ? uName + " @ " + url : null;
+    }
+         
+    /**
+     * logs a message related to multiple connections being open.
+     * @param key the connection key
+     */
+    private static synchronized void logMultipleConnections(String key) {
+        final Collection<ConnectionInfo> conInfos = OPEN_CONNECTIONS.get().get(key);
+        if (conInfos != null && !conInfos.isEmpty()) {
+            final StringBuilder stacks = new StringBuilder(); 
+            
+            for (ConnectionInfo conInfo : conInfos) {
+                stacks.append(conInfo.getEstablishedStack());
+                stacks.append("\n\n");
+            }
+            
+            final StringBuilder msg = new StringBuilder();
+            msg.append("There are ");
+            msg.append(conInfos.size());
+            msg.append(" connection(s) on this thread ");
+            msg.append(Thread.currentThread().getName());
+            msg.append(" to ");
+            msg.append(key);
+            msg.append(" that have not been closed.");
+            msg.append(" The following stacktraces show where these connections were established: \n");
+            msg.append(stacks);
+            
+            LOG.debug(msg);
+        }
+    }
+    
+    /**
+     * Gets the current stacktrace as a String.
+     * @return the stacktrace
+     */
+    private static String getStackTrace() {
+        final StringBuilder stack = new StringBuilder();
+        for (final StackTraceElement elem : Thread.currentThread().getStackTrace()) {
+            stack.append("\tat ");
+            stack.append(elem);
+            stack.append(SystemUtils.LINE_SEPARATOR);
+        }
+        return stack.toString();
+    }
+    
+    /** single class that holds a connection and the stack when the connection was established. */
+    public static final class ConnectionInfo {
+        private final Connection connection;
+        private final String establishedStack;
+        
+        /** creates an object with the connection & establisher. */
+        private ConnectionInfo(Connection connection, String establishedStack) {
+            this.connection = connection;
+            this.establishedStack = establishedStack;
+        }
+        
+        /**
+         * Gets the connection.
+         * @return the connection.
+         */
+        public Connection getConnection() {
+            return this.connection;
+        }
+        
+        /** 
+         * Gets the established stack.
+         * @return the established stack.
+         */
+        public String getEstablishedStack() {
+            return this.establishedStack;
+        }
+    }
+}
