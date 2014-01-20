@@ -1,0 +1,491 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="CommSchedule" parent="CommSchedule-parentBean" />
+	<bean id="CommSchedule-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeSchedule" />
+		<property name="objectLabel" value="Committee Schedule" />
+		<property name="inquiryDefinition" >
+			<ref bean="CommSchedule-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="CommSchedule-lookupDefinition" />
+		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeScheduleHelpUrl" p:parameterDetailType="Document" />
+        </property>
+		<property name="titleAttribute" value="scheduleId" />
+		<property name="attributes" >
+			<list>
+				<ref bean="CommSchedule-id" />
+				<ref bean="CommSchedule-scheduleId" />
+				<ref bean="CommSchedule-committeeIdFk" />
+				<ref bean="CommSchedule-scheduledDate" />
+				<ref bean="CommSchedule-dayOfWeek" />
+				<ref bean="CommSchedule-place" />
+				<ref bean="CommSchedule-time" />
+				<ref bean="CommSchedule-protocolSubDeadline" />
+				<ref bean="CommSchedule-scheduleStatusCode" />
+				<ref bean="CommSchedule-meetingDate" />
+				<ref bean="CommSchedule-startTime" />
+				<ref bean="CommSchedule-endTime" />
+				<ref bean="CommSchedule-agendaProdRevDate" />
+				<ref bean="CommSchedule-maxProtocols" />
+				<ref bean="CommSchedule-comments" />
+				<ref bean="CommSchedule-versionNumber" />
+				<ref bean="CommSchedule-selected" />
+				<ref bean="CommSchedule-viewStartTime" />
+				<ref bean="CommSchedule-viewEndTime" />
+				<ref bean="CommSchedule-committee.committeeId" />
+				<ref bean="CommSchedule-committee.committeeName" />
+				<ref bean="CommSchedule-committee.committeeTypeCode" />
+				<ref bean="CommSchedule-committee.committeeMemberships.personId" />
+				<ref bean="CommSchedule-protocolSubmissions.protocolNumber" />
+				<ref bean="CommSchedule-scheduleStatus.description" />
+				<ref bean="CommSchedule-availableToReviewers" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="CommSchedule-id" parent="CommSchedule-id-parentBean" />
+	<bean id="CommSchedule-id-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="id" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Id" />
+		<property name="shortLabel" value="Id" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Id" />
+		<property name="description" value="Id" />
+	</bean>
+
+	<bean id="CommSchedule-scheduleId" parent="CommSchedule-scheduleId-parentBean" />
+	<bean id="CommSchedule-scheduleId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="scheduleId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Schedule Id" />
+		<property name="shortLabel" value="Schedule Id" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Schedule Id" />
+		<property name="description" value="Schedule Id" />
+	</bean>
+
+	<bean id="CommSchedule-committeeIdFk" parent="CommSchedule-committeeIdFk-parentBean" />
+	<bean id="CommSchedule-committeeIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="committeeIdFk" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Committee Id" />
+		<property name="shortLabel" value="Committee Id" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Committee Id" />
+		<property name="description" value="Committee Id" />
+	</bean>
+
+	<bean id="CommSchedule-scheduledDate" parent="CommSchedule-scheduledDate-parentBean" />
+	<bean id="CommSchedule-scheduledDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="scheduledDate" />
+		<property name="label" value="Schedule Date" />
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Schedule Date" />
+		<property name="summary" value="Scheduled Date" />
+		<property name="description" value="Scheduled Date" />		
+	</bean>
+
+	<bean id="CommSchedule-dayOfWeek" parent="CommSchedule-dayOfWeek-parentBean" />
+	<bean id="CommSchedule-dayOfWeek-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="dayOfWeek" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Day Of Week" />
+		<property name="shortLabel" value="Day Of Week" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="12" />
+		</property>
+		<property name="summary" value="Day Of Week" />
+		<property name="description" value="Day Of Week" />
+	</bean>
+
+	<bean id="CommSchedule-place" parent="CommSchedule-place-parentBean" />
+	<bean id="CommSchedule-place-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="place" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Place" />
+		<property name="shortLabel" value="Place" />
+		<property name="maxLength" value="200" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" >
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="50" />
+		</property>
+		<property name="summary" value="Place" />
+		<property name="description" value="Place" />
+	</bean>
+
+	<bean id="CommSchedule-time" parent="CommSchedule-time-parentBean" />
+	<bean id="CommSchedule-time-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="time" />
+		<property name="label" value="Time" />
+		<property name="shortLabel" value="Time" />
+		<property name="summary" value="Time" />
+		<property name="description" value="Time" />
+	</bean>
+
+	<bean id="CommSchedule-protocolSubDeadline" parent="CommSchedule-protocolSubDeadline-parentBean" />
+	<bean id="CommSchedule-protocolSubDeadline-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="protocolSubDeadline" />
+		<property name="label" value="Deadline" />
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Deadline" />
+		<property name="summary" value="Protocol Sub Deadline" />
+		<property name="description" value="Protocol Sub Deadline" />
+	</bean>
+
+	<bean id="CommSchedule-scheduleStatusCode" parent="CommSchedule-scheduleStatusCode-parentBean" />
+	<bean id="CommSchedule-scheduleStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="scheduleStatusCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Status" />
+		<property name="shortLabel" value="Status" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.common.committee.bo.ScheduleStatus"
+                p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" 
+                p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+                p:keyAttribute="scheduleStatusCode"
+                p:labelAttribute="description" />
+        </property>		
+		<property name="summary" value="Schedule Status Code" />
+		<property name="description" value="Schedule Status Code" />
+	</bean>
+
+  <bean id="CommSchedule-scheduleStatus.description" parent="CommSchedule-scheduleStatus.description-parentBean" />
+
+  <bean id="CommSchedule-scheduleStatus.description-parentBean" abstract="true" parent="ScheduleStatus-description">
+    <property name="name" value="scheduleStatus.description" />
+    <property name="label" value="Schedule Status" />
+    <property name="shortLabel" value="Schedule Status" />
+  </bean>
+
+
+	<bean id="CommSchedule-meetingDate" parent="CommSchedule-meetingDate-parentBean" />
+	<bean id="CommSchedule-meetingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate" >
+		<property name="name" value="meetingDate" />
+		<property name="label" value="Meeting Date" />
+		<property name="shortLabel" value="Meeting Date" />
+		<property name="summary" value="Meeting Date" />
+		<property name="description" value="Meeting Date" />
+	</bean>
+
+	<bean id="CommSchedule-startTime" parent="CommSchedule-startTime-parentBean" />
+	<bean id="CommSchedule-startTime-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="startTime" />
+		<property name="label" value="Start Time" />
+		<property name="shortLabel" value="Start Time" />
+		<property name="summary" value="Start Time" />
+		<property name="description" value="Start Time" />
+	</bean>
+
+	<bean id="CommSchedule-endTime" parent="CommSchedule-endTime-parentBean" />
+	<bean id="CommSchedule-endTime-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="endTime" />
+		<property name="label" value="End Time" />
+		<property name="shortLabel" value="End Time" />
+		<property name="summary" value="End Time" />
+		<property name="description" value="End Time" />
+	</bean>
+
+	<bean id="CommSchedule-agendaProdRevDate" parent="CommSchedule-agendaProdRevDate-parentBean" />
+	<bean id="CommSchedule-agendaProdRevDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate" >
+		<property name="name" value="agendaProdRevDate" />
+		<property name="label" value="Agenda Prod Rev Date" />
+		<property name="shortLabel" value="Agenda Prod Rev Date" />
+		<property name="summary" value="Agenda Prod Rev Date" />
+		<property name="description" value="Agenda Prod Rev Date" />
+	</bean>
+
+	<bean id="CommSchedule-maxProtocols" parent="CommSchedule-maxProtocols-parentBean" />
+	<bean id="CommSchedule-maxProtocols-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="maxProtocols" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Max Protocols" />
+		<property name="shortLabel" value="Max Protocols" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="4" />
+		</property>
+		<property name="summary" value="Max Protocols" />
+		<property name="description" value="Max Protocols" />
+	</bean>
+
+	<bean id="CommSchedule-comments" parent="CommSchedule-comments-parentBean" />
+	<bean id="CommSchedule-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="comments" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Comments" />
+		<property name="shortLabel" value="Comments" />
+		<property name="maxLength" value="2000" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" 
+			            p:allowWhitespace="true" />
+		</property>
+        <property name="control" >
+           <bean parent="TextareaControlDefinition"
+              p:rows="5"
+              p:cols="60" />
+        </property>
+		<property name="summary" value="Comments" />
+		<property name="description" value="Comments" />
+	</bean>
+
+	<bean id="CommSchedule-versionNumber" parent="CommSchedule-versionNumber-parentBean" />
+	<bean id="CommSchedule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+	
+	<bean id="CommSchedule-protocolSubmissions.protocolNumber" parent="CommSchedule-protocolSubmissions.protocolNumber-parentBean" />
+	<bean id="CommSchedule-protocolSubmissions.protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber">
+		<property name="name" value="protocolSubmissions.protocolNumber" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="CommSchedule-committee.committeeId" parent="CommSchedule-committee.committeeId-parentBean" />
+	<bean id="CommSchedule-committee.committeeId-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeId">
+		<property name="name" value="committee.committeeId" />
+		<property name="label" value="Committee Id" />
+		<property name="shortLabel" value="Committee Id" />
+		<property name="required" value="false" />
+		<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinder"
+                p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="CommSchedule-committee.committeeName" parent="CommSchedule-committee.committeeName-parentBean" />
+	<bean id="CommSchedule-committee.committeeName-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeName">
+		<property name="name" value="committee.committeeName" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="CommSchedule-committee.committeeTypeCode" parent="CommSchedule-committee.committeeTypeCode-parentBean" />
+	<bean id="CommSchedule-committee.committeeTypeCode-parentBean" abstract="true" parent="CommitteeAttribute-CommitteeTypeCode">
+		<property name="name" value="committee.committeeTypeCode" />
+		<property name="required" value="false" />
+		<property name="label" value="Committee Type" />
+		<property name="shortLabel" value="Committee Type" />
+	</bean>
+	
+	<bean id="CommSchedule-committee.committeeMemberships.personId" parent="CommSchedule-committee.committeeMemberships.personId-parentBean" />
+    <bean id="CommSchedule-committee.committeeMemberships.personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+        <property name="name" value="committee.committeeMemberships.personId" />
+        <property name="label" value="All My Schedules" />
+        <property name="shortLabel" value="All My Schedules" />
+        <property name="summary" value="All My Schedules" />
+        <property name="description" value="All My Schedules" />
+    </bean>
+	
+
+	<bean id="CommSchedule-selected" parent="CommSchedule-selected-parentBean" />
+
+	  <bean id="CommSchedule-selected-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="selected" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Select" />
+	    <property name="shortLabel" value="Select" />
+	    <property name="maxLength" value="3" />
+	    <property name="validationPattern" >
+	      <bean parent="AnyCharacterValidationPattern" />
+	    </property>
+	    <property name="control" >
+	      <bean parent="CheckboxControlDefinition" />
+	    </property>
+	    <property name="summary" value="Select" />
+	    <property name="description" value="Select" />
+	  </bean>
+	<bean id="CommSchedule-viewStartTime" parent="CommSchedule-viewStartTime-parentBean" />
+	<bean id="CommSchedule-viewStartTime-parentBean" abstract="true" parent="CommitteeScheduleAttributeReferenceDummy-time" >
+		<property name="name" value="viewStartTime" />
+		<property name="label" value="Start Time" />
+		<property name="shortLabel" value="Start Time" />
+		<property name="summary" value="Start Time" />
+		<property name="description" value="Start Time" />
+	</bean>
+	<bean id="CommSchedule-viewEndTime" parent="CommSchedule-viewEndTime-parentBean" />
+	<bean id="CommSchedule-viewEndTime-parentBean" abstract="true" parent="CommitteeScheduleAttributeReferenceDummy-time" >
+		<property name="name" value="viewEndTime" />
+		<property name="label" value="End Time" />
+		<property name="shortLabel" value="End Time" />
+		<property name="summary" value="End Time" />
+		<property name="description" value="End Time" />
+	</bean>
+	
+	<bean id="CommSchedule-availableToReviewers" parent="CommSchedule-availableToReviewers-parentBean" />
+    <bean id="CommSchedule-availableToReviewers-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="availableToReviewers" />
+        <property name="label" value="Available to reviewers" />
+        <property name="shortLabel" value="Available to reviewers" />
+        <property name="summary" value="Available to reviewers" />
+        <property name="description" value="Available to reviewers" />
+    </bean>
+
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="CommSchedule-inquiryDefinition" parent="CommSchedule-inquiryDefinition-parentBean" />
+	<bean id="CommSchedule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="id" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="scheduleId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="committeeIdFk" />
+							<bean parent="FieldDefinition"
+								p:attributeName="scheduledDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="place" />
+							<bean parent="FieldDefinition"
+								p:attributeName="time" />
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolSubDeadline" />
+							<bean parent="FieldDefinition"
+								p:attributeName="scheduleStatus.description" />
+							<bean parent="FieldDefinition"
+								p:attributeName="meetingDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="startTime" />
+							<bean parent="FieldDefinition"
+								p:attributeName="endTime" />
+							<bean parent="FieldDefinition"
+								p:attributeName="agendaProdRevDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="maxProtocols" />
+							<bean parent="FieldDefinition"
+								p:attributeName="availableToReviewers" />
+							<bean parent="FieldDefinition"
+								p:attributeName="comments" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="CommSchedule-lookupDefinition" parent="CommSchedule-lookupDefinition-parentBean" />
+	<bean id="CommSchedule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Committee Schedule Lookup" />
+        <property name="lookupableID" value="committeeScheduleLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="scheduleId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="scheduledDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="place" />
+				<bean parent="FieldDefinition"
+					p:attributeName="scheduleStatusCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolSubmissions.protocolNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolSubDeadline" />
+				<bean parent="FieldDefinition"
+					p:attributeName="committee.committeeId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="committee.committeeName" />
+<!-- 				<bean parent="FieldDefinition" -->
+<!-- 					p:attributeName="committee.committeeTypeCode" /> -->
+				<bean parent="FieldDefinition"
+                    p:attributeName="committee.committeeMemberships.personId" p:hidden="true" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="scheduleId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="scheduledDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="place" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolSubDeadline" />
+				<bean parent="FieldDefinition"
+					p:attributeName="scheduleStatus.description" />
+				<bean parent="FieldDefinition"
+					p:attributeName="committee.committeeId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="committee.committeeName" />
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,176 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="CoiSubmittedDisclosure" parent="CoiSubmittedDisclosure-parentBean" />
+    <bean id="CoiSubmittedDisclosure-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.coi.CoiSubmittedDisclosure" />
+		<property name="objectLabel" value="CoiSubmittedDisclosure" />
+        <property name="inquiryDefinition" >
+            <ref bean="CoiSubmittedDisclosure-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="CoiSubmittedDisclosure-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="CoiSubmittedDisclosureId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="CoiSubmittedDisclosure-coiDisclosureId" />
+                <ref bean="CoiSubmittedDisclosure-coiDisclosureNumber" />
+                <ref bean="CoiSubmittedDisclosure-sequenceNumber" />
+                <ref bean="CoiSubmittedDisclosure-personId" />
+                <ref bean="CoiSubmittedDisclosure-certificationText" />
+                <ref bean="CoiSubmittedDisclosure-certifiedBy" />
+                <ref bean="CoiSubmittedDisclosure-certificationTimestamp" />
+                <ref bean="CoiSubmittedDisclosure-updateTimestamp" />
+                <ref bean="CoiSubmittedDisclosure-disclosureDispositionCode" />
+				<ref bean="CoiSubmittedDisclosure-coiDispositionStatus.description" />
+                <ref bean="CoiSubmittedDisclosure-disclosureStatusCode" />
+				<ref bean="CoiSubmittedDisclosure-coiDisclosureStatus.description" />
+                <ref bean="CoiSubmittedDisclosure-expirationDate" />
+                <ref bean="CoiSubmittedDisclosure-moduleItemKey" />
+                <ref bean="CoiSubmittedDisclosure-eventTypeCode" />
+				<ref bean="CoiSubmittedDisclosure-coiDisclosureEventType.description" />
+<!--                 <ref bean="CoiSubmittedDisclosure-reviewStatusCode" /> -->
+                <ref bean="CoiSubmittedDisclosure-discActiveStatus" />
+                <ref bean="CoiSubmittedDisclosure-versionNumber" />
+                <ref bean="CoiSubmittedDisclosure-leadUnitNumber" />
+		        <ref bean="CoiSubmittedDisclosure-person.fullName" />
+		        <ref bean="CoiSubmittedDisclosure-person.userName" />
+                
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="CoiSubmittedDisclosure-coiDisclosureId" parent="CoiDisclosure-coiDisclosureId-parentBean" />
+   
+    <bean id="CoiSubmittedDisclosure-coiDisclosureNumber" parent="CoiDisclosure-coiDisclosureNumber-parentBean" /> 
+
+    <bean id="CoiSubmittedDisclosure-sequenceNumber" parent="CoiDisclosure-sequenceNumber-parentBean" />
+
+    <bean id="CoiSubmittedDisclosure-personId" parent="CoiDisclosure-personId-parentBean" />
+
+    <bean id="CoiSubmittedDisclosure-person.fullName" parent="CoiDisclosure-person.fullName-parentBean" />
+    <bean id="CoiSubmittedDisclosure-person.userName" parent="CoiDisclosure-person.userName-parentBean" />
+
+
+    <bean id="CoiSubmittedDisclosure-certificationText" parent="CoiDisclosure-certificationText-parentBean" />
+
+    <bean id="CoiSubmittedDisclosure-certifiedBy" parent="CoiDisclosure-certifiedBy-parentBean" />
+
+    <bean id="CoiSubmittedDisclosure-certificationTimestamp" parent="CoiDisclosure-certificationTimestamp-parentBean" />
+
+    <bean id="CoiSubmittedDisclosure-updateTimestamp" parent="CoiDisclosure-updateTimestamp-parentBean" />
+
+    <bean id="CoiSubmittedDisclosure-disclosureDispositionCode" parent="CoiDisclosure-disclosureDispositionCode-parentBean" />
+
+    <bean id="CoiSubmittedDisclosure-disclosureStatusCode" parent="CoiDisclosure-disclosureStatusCode-parentBean" />
+    
+    <bean id="CoiSubmittedDisclosure-expirationDate" parent="CoiDisclosure-expirationDate-parentBean" />
+   
+    <bean id="CoiSubmittedDisclosure-moduleItemKey" parent="CoiDisclosure-moduleItemKey-parentBean" />
+   
+<!--     <bean id="CoiSubmittedDisclosure-reviewStatusCode" parent="CoiDisclosure-reviewStatusCode-parentBean" /> -->
+
+    <bean id="CoiSubmittedDisclosure-eventTypeCode" parent="CoiDisclosure-eventTypeCode-parentBean" />
+
+	<bean id="CoiSubmittedDisclosure-leadUnitNumber" parent="CoiDisclosure-leadUnitNumber-parentBean" />
+ 
+    <bean id="CoiSubmittedDisclosure-discActiveStatus" parent="CoiDisclosure-discActiveStatus-parentBean" />
+    
+    <bean id="CoiSubmittedDisclosure-versionNumber" parent="CoiDisclosure-versionNumber-parentBean" />
+   
+	<bean id="CoiSubmittedDisclosure-coiDispositionStatus.description" parent="CoiDisclosure-coiDispositionStatus.description-parentBean" />
+	
+	<bean id="CoiSubmittedDisclosure-coiDisclosureStatus.description" parent="CoiDisclosure-coiDisclosureStatus.description-parentBean" />
+	
+	<bean id="CoiSubmittedDisclosure-coiDisclosureEventType.description" parent="CoiDisclosure-coiDisclosureEventType.description-parentBean" />
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="CoiSubmittedDisclosure-inquiryDefinition" parent="CoiSubmittedDisclosure-inquiryDefinition-parentBean" />
+    <bean id="CoiSubmittedDisclosure-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Coi Disclosure Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Coi Disclosure Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" />
+                            <bean parent="FieldDefinition" p:attributeName="personId" />
+                            <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
+                            <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
+                            <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />
+                            <bean parent="FieldDefinition" p:attributeName="expirationDate" />
+<!--                             <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
+                            <bean parent="FieldDefinition" p:attributeName="eventTypeCode" />
+                            <bean parent="FieldDefinition" p:attributeName="discActiveStatus" />
+                            <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="CoiSubmittedDisclosure-lookupDefinition" parent="CoiSubmittedDisclosure-lookupDefinition-parentBean" />
+    <bean id="CoiSubmittedDisclosure-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Coi Submitted Disclosure Lookup" />
+        <property name="lookupableID" value="coiSubmittedDisclosureLookupable" />        
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" 
+					p:forceLookup="true" />
+                <bean parent="FieldDefinition" p:attributeName="person.userName" />
+                <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
+                <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
+                <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />
+                <bean parent="FieldDefinition" p:attributeName="expirationDate" />
+<!--                 <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
+                <bean parent="FieldDefinition" p:attributeName="eventTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" 
+					p:forceInquiry="true" />
+                <bean parent="FieldDefinition" p:attributeName="personId" />
+                <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
+                <bean parent="FieldDefinition" p:attributeName="certificationTimestamp" />
+                <bean parent="FieldDefinition" p:attributeName="coiDisclosureStatus.description" />
+                <bean parent="FieldDefinition" p:attributeName="coiDispositionStatus.description" />
+                <bean parent="FieldDefinition" p:attributeName="expirationDate" />
+<!--                 <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
+                <bean parent="FieldDefinition" p:attributeName="coiDisclosureEventType.description" />
+                <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
+            </list>
+        </property>
+    </bean>
+</beans>

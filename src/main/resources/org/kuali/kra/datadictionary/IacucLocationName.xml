@@ -1,0 +1,166 @@
+<!--
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="IacucLocationName" parent="IacucLocationName-parentBean" />
+	<bean id="IacucLocationName-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.iacuc.IacucLocationName" />
+		<property name="objectLabel" value="Location Name" />
+		<property name="inquiryDefinition" >
+			<ref bean="IacucLocationName-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="IacucLocationName-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="locationId" />
+		<property name="attributes" >
+			<list>
+				<ref bean="IacucLocationName-locationId" />
+				<ref bean="IacucLocationName-locationName" />
+				<ref bean="IacucLocationName-locationTypeCode" />
+				<ref bean="IacucLocationName-versionNumber" />
+				<!--  
+				<ref bean="IacucLocationName-active" />
+				-->
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="IacucLocationName-locationId" parent="IacucLocationName-locationId-parentBean" />
+	<bean id="IacucLocationName-locationId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="locationId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Location Name Code" />
+		<property name="shortLabel" value="Location Name Code" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="3" />
+		</property>
+		<property name="summary" value="Location Name Code" />
+		<property name="description" value="Location Name Code" />
+	</bean>
+
+	<bean id="IacucLocationName-locationTypeCode" parent="IacucLocationType-locationTypeCode-parentBean">
+			<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kra.iacuc.IacucLocationTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>	
+	
+	<!--  
+	<bean id="IacucLocationName-active" parent="IacucLocationName-active-parentBean"/>
+	<bean abstract="true" id="IacucLocationName-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="active"/>
+	    <property name="label" value="Active"/>
+	    <property name="shortLabel" value="Active"/>
+	    <property name="summary" value="Active"/>
+	    <property name="description" value="Active"/>
+	</bean>
+	-->
+
+	<bean id="IacucLocationName-locationName" parent="IacucLocationName-locationName-parentBean"/>
+	<bean id="IacucLocationName-locationName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="locationName"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Location Name"/>
+		<property name="shortLabel" value="Location Name"/>
+		<property name="maxLength" value="200"/>
+		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+		<property name="control">
+			<bean p:size="100" parent="TextControlDefinition"/>
+		</property>
+		<property name="summary" value="Location Name"/>
+		<property name="description" value="Location Name"/>
+	</bean>
+
+
+
+	<bean id="IacucLocationName-versionNumber" parent="IacucLocationName-versionNumber-parentBean" />
+	<bean id="IacucLocationName-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="IacucLocationName-inquiryDefinition" parent="IacucLocationName-inquiryDefinition-parentBean" />
+	<bean id="IacucLocationName-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Location Name" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Location Name" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="locationId" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="locationName" />
+							<!--  	
+							<bean parent="FieldDefinition" p:attributeName="active" />
+							-->
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="IacucLocationName-lookupDefinition" parent="IacucLocationName-lookupDefinition-parentBean" />
+	<bean id="IacucLocationName-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Location Name Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="locationId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="locationName" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="locationId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="locationName" />
+					<!--  
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				-->
+			</list>
+		</property>
+	</bean>
+</beans>

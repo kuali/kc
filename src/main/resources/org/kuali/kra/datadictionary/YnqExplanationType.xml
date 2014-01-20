@@ -1,0 +1,92 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="YnqExplanationType" parent="YnqExplanationType-parentBean" />
+
+  <bean id="YnqExplanationType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.YnqExplanationType" />
+		<property name="objectLabel" value="Ynq Explanation Type" />
+    <property name="lookupDefinition" >
+      <ref bean="YnqExplanationType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="explanationType" />
+    <property name="attributes" >
+      <list>
+        <ref bean="YnqExplanationType-explanationType" />
+        <ref bean="YnqExplanationType-description" />
+        <ref bean="YnqExplanationType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="YnqExplanationType-explanationType" parent="YnqExplanationType-explanationType-parentBean" />
+
+  <bean id="YnqExplanationType-explanationType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="explanationType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Explanation Type" />
+    <property name="shortLabel" value="Explanation Type" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Explanation Type" />
+    <property name="description" value="Explanation Type" />
+  </bean>
+  <bean id="YnqExplanationType-description" parent="YnqExplanationType-description-parentBean" />
+
+  <bean id="YnqExplanationType-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="200" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+  <bean id="YnqExplanationType-versionNumber" parent="YnqExplanationType-versionNumber-parentBean" />
+
+  <bean id="YnqExplanationType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="YnqExplanationType-lookupDefinition" parent="YnqExplanationType-lookupDefinition-parentBean" />
+
+  <bean id="YnqExplanationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Ynq Explanation Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="explanationType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="explanationType"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

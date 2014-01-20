@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PersonAppointment" parent="PersonAppointment-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonAppointment"/>
+    <property name="objectLabel" value="Person Appointment"/>
+    <property name="inquiryDefinition">
+      <ref bean="PersonAppointment-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="PersonAppointment-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="jobCode"/>
+    <property name="attributes">
+      <list>
+      	<ref bean="PersonAppointment-appointmentId"/>
+        <ref bean="PersonAppointment-personId"/>
+        <ref bean="PersonAppointment-unitNumber"/>
+        <ref bean="PersonAppointment-startDate"/>
+        <ref bean="PersonAppointment-endDate"/>
+        <ref bean="PersonAppointment-typeCode"/>
+        <ref bean="PersonAppointment-jobTitle"/>
+        <ref bean="PersonAppointment-preferedJobTitle"/>
+        <ref bean="PersonAppointment-jobCode"/>
+        <ref bean="PersonAppointment-salary"/>
+        <ref bean="PersonAppointment-versionNumber"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="PersonAppointment-appointmentId" parent="PersonAppointment-appointmentId-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-appointmentId-parentBean" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="appointmentId"/>
+    <property name="label" value="Person Appointment Primary Key"/>
+    <property name="shortLabel" value="Person Appointment Primary Key"/>
+    <property name="maxLength" value="40"/>
+    <property name="summary" value="Person Appointment Primary Key"/>
+    <property name="description" value="Person Appointment Primary Key"/>  
+  </bean>
+
+  <bean id="PersonAppointment-personId" parent="PersonAppointment-personId-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-personId-parentBean" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="personId"/>
+    <property name="label" value="KcPersonExtendedAttributes Id"/>
+    <property name="shortLabel" value="KcPersonExtendedAttributes Id"/>
+    <property name="maxLength" value="40"/>
+    <property name="summary" value="KcPersonExtendedAttributes Id"/>
+    <property name="description" value="KcPersonExtendedAttributes Id"/>  
+  </bean>
+  <bean id="PersonAppointment-unitNumber" parent="PersonAppointment-unitNumber-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-unitNumber-parentBean" parent="AttributeDefinition">
+    <property name="name" value="unitNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="required" value="true"/>
+    <property name="label" value="Unit"/>
+    <property name="shortLabel" value="Unit"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="8" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Unit"/>
+    <property name="description" value="Unit"/>
+  </bean>
+  <bean id="PersonAppointment-startDate" parent="PersonAppointment-startDate-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-startDate-parentBean" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="startDate"/>
+    <property name="label" value="Start Date"/>
+    <property name="shortLabel" value="Start Date"/>
+    <property name="summary" value="Start Date"/>
+    <property name="description" value="Start Date"/>
+  </bean>
+  <bean id="PersonAppointment-endDate" parent="PersonAppointment-endDate-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-endDate-parentBean" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="endDate"/>
+    <property name="label" value="End Date"/>
+    <property name="shortLabel" value="End Date"/>
+    <property name="summary" value="End Date"/>
+    <property name="description" value="End Date"/>
+  </bean>
+  <bean id="PersonAppointment-typeCode" parent="PersonAppointment-typeCode-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-typeCode-parentBean" parent="BudgetPerson-appointmentType-parentBean">
+    <property name="name" value="typeCode"/>
+    <property name="maxLength" value="3"/>
+  </bean>
+  <bean id="PersonAppointment-jobTitle" parent="PersonAppointment-jobTitle-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-jobTitle-parentBean" parent="JobCode-jobTitle">
+    <property name="name" value="jobTitle"/>
+    <property name="maxLength" value="50"/>
+  </bean>
+  <bean id="PersonAppointment-preferedJobTitle" parent="PersonAppointment-preferedJobTitle-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-preferedJobTitle-parentBean" parent="JobCode-jobTitle">
+    <property name="name" value="preferedJobTitle"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Prefered Job Title"/>
+    <property name="shortLabel" value="Prefered Title"/>
+    <property name="maxLength" value="51"/>
+    <property name="summary" value="Prefered Job Title"/>
+    <property name="description" value="Prefered Job Title"/>
+  </bean>
+  <bean id="PersonAppointment-jobCode" parent="PersonAppointment-jobCode-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-jobCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="jobCode"/>
+    <property name="required" value="true"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Job Code"/>
+    <property name="shortLabel" value="Job Code"/>
+    <property name="maxLength" value="6"/>
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Job Code"/>
+    <property name="description" value="Job Code"/>
+  </bean>
+  <bean id="PersonAppointment-salary" parent="PersonAppointment-salary-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-salary-parentBean" parent="AttributeDefinition">
+    <property name="name" value="salary"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Salary"/>
+    <property name="shortLabel" value="Salary"/>
+    <property name="maxLength" value="15"/>
+    <property name="control">
+      <bean p:size="16" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Salary"/>
+    <property name="description" value="Salary"/>
+  </bean>
+  <bean id="PersonAppointment-versionNumber" parent="PersonAppointment-versionNumber-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PersonAppointment-inquiryDefinition" parent="PersonAppointment-inquiryDefinition-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="Person Appointment"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Person Appointment"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean p:attributeName="personId" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="unitNumber" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="startDate" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="endDate" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="typeCode" parent="FieldDefinition"/>
+              <bean p:attributeName="jobTitle" parent="FieldDefinition"/>
+              <bean p:attributeName="preferedJobTitle" parent="FieldDefinition"/>
+              <bean p:attributeName="jobCode" parent="FieldDefinition"/>
+              <bean p:attributeName="salary" parent="FieldDefinition"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PersonAppointment-lookupDefinition" parent="PersonAppointment-lookupDefinition-parentBean"/>
+
+  <bean abstract="true" id="PersonAppointment-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="Person Appointment"/>
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean p:attributeName="personId" parent="FieldDefinition"/>
+        <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
+        <bean p:attributeName="jobTitle" parent="FieldDefinition"/>
+        <bean p:attributeName="jobCode" parent="FieldDefinition"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+              <bean p:attributeName="personId" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="unitNumber" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="startDate" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="endDate" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="typeCode" parent="FieldDefinition"/>
+              <bean p:attributeName="jobTitle" parent="FieldDefinition"/>
+              <bean p:attributeName="preferedJobTitle" parent="FieldDefinition"/>
+              <bean p:attributeName="jobCode" parent="FieldDefinition"/>
+              <bean p:attributeName="salary" parent="FieldDefinition"/>
+      </list>
+    </property>
+  </bean>
+</beans>

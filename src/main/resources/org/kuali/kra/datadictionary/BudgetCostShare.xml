@@ -1,0 +1,149 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetCostShare" parent="BudgetCostShare-parentBean" />
+
+  <bean id="BudgetCostShare-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.distributionincome.BudgetCostShare" />
+		<property name="objectLabel" value="Budget Cost Share" />
+    <property name="titleAttribute" value="budgetCostShare" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-B"
+            p:parameterName="budgetCostShareHelpUrl"
+            p:parameterDetailType="Document" />
+    </property>
+    <property name="attributes" >
+      <list>
+<!--        <ref bean="BudgetCostShare-proposalNumber" />-->
+<!--        <ref bean="BudgetCostShare-budgetVersionNumber" />-->
+        <ref bean="BudgetCostShare-documentComponentId" />
+        <ref bean="BudgetCostShare-projectPeriod" />
+        <ref bean="BudgetCostShare-shareAmount" />
+        <ref bean="BudgetCostShare-sharePercentage" />
+        <ref bean="BudgetCostShare-sourceAccount" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+<!--  <bean id="BudgetCostShare-proposalNumber" parent="BudgetCostShare-proposalNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetCostShare-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="proposalNumber" />-->
+<!--    <property name="forceUppercase" value="false" />-->
+<!--    <property name="label" value="Proposal Number" />-->
+<!--    <property name="shortLabel" value="Proposal Number" />-->
+<!--    <property name="maxLength" value="12" />-->
+<!--    <property name="validationPattern" >-->
+<!--      <bean parent="AlphaNumericValidationPattern" />-->
+<!--    </property>-->
+<!--    <property name="control" >-->
+<!--      <bean parent="TextControlDefinition"-->
+<!--            p:size="8" />-->
+<!--    </property>-->
+<!--    <property name="summary" value="Proposal Number" />-->
+<!--    <property name="description" value="Proposal Number" />-->
+<!--  </bean>-->
+<!--  <bean id="BudgetCostShare-budgetVersionNumber" parent="BudgetCostShare-budgetVersionNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetCostShare-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="budgetVersionNumber" />-->
+<!--    <property name="forceUppercase" value="false" />-->
+<!--    <property name="label" value="Budget Version Number" />-->
+<!--    <property name="shortLabel" value="Budget Version Number" />-->
+<!--    <property name="maxLength" value="3" />-->
+<!--    <property name="validationPattern" >-->
+<!--      <bean parent="NumericValidationPattern" />-->
+<!--    </property>-->
+<!--    <property name="control" >-->
+<!--      <bean parent="TextControlDefinition"-->
+<!--            p:size="3" />-->
+<!--    </property>-->
+<!--    <property name="summary" value="Budget Version Number" />-->
+<!--    <property name="description" value="Budget Version Number" />-->
+<!--  </bean>-->
+  <bean id="BudgetCostShare-documentComponentId" parent="BudgetCostShare-documentComponentId-parentBean" />
+
+  <bean id="BudgetCostShare-documentComponentId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentComponentId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Document Component Id" />
+    <property name="shortLabel" value="Document Component Id" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Document Component Id" />
+    <property name="description" value="Document Component Id" />
+  </bean>
+  
+  <bean id="BudgetCostShare-projectPeriod" parent="BudgetCostShare-projectPeriod-parentBean" />
+  <bean id="BudgetCostShare-projectPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectPeriod" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Project Period" />
+    <property name="shortLabel" value="Project Period" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Project Period" />
+    <property name="description" value="Project Period" />
+  </bean>
+  
+  <bean id="BudgetCostShare-shareAmount" parent="BudgetCostShare-shareAmount-parentBean" />
+  <bean id="BudgetCostShare-shareAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="shareAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Share Amount" />
+    <property name="shortLabel" value="Share Amount" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+    <property name="summary" value="Share Amount" />
+    <property name="description" value="Share Amount" />
+  </bean>
+  <bean id="BudgetCostShare-sharePercentage" parent="BudgetCostShare-sharePercentage-parentBean" />
+
+  <bean id="BudgetCostShare-sharePercentage-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sharePercentage" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Share Percentage" />
+    <property name="shortLabel" value="Share Percentage" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Share Percentage" />
+    <property name="description" value="Share Percentage" />
+  </bean>
+  <bean id="BudgetCostShare-sourceAccount" parent="KraAttributeReferenceDummy-sourceAccount" >
+  </bean>
+  
+</beans>

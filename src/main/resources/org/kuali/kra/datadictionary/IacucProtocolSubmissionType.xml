@@ -1,0 +1,109 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="IacucProtocolSubmissionType" parent="IacucProtocolSubmissionType-parentBean" />
+
+  <bean id="IacucProtocolSubmissionType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType" />
+		<property name="objectLabel" value="Protocol Submission Type" />
+    <property name="inquiryDefinition" >
+      <ref bean="IacucProtocolSubmissionType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="IacucProtocolSubmissionType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="submissionTypeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="IacucProtocolSubmissionType-submissionTypeCode" />
+        <ref bean="IacucProtocolSubmissionType-description" />
+        <ref bean="IacucProtocolSubmissionType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="IacucProtocolSubmissionType-submissionTypeCode" parent="IacucProtocolSubmissionType-submissionTypeCode-parentBean" />
+  <bean id="IacucProtocolSubmissionType-submissionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="submissionTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="IACUC Submission Type code" />
+    <property name="shortLabel" value="IACUC Submission Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Submission Type Code" />
+    <property name="description" value="Submission Type Code" />
+  </bean>
+  
+  <bean id="IacucProtocolSubmissionType-description" parent="IacucProtocolSubmissionType-description-parentBean" />
+  <bean id="IacucProtocolSubmissionType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
+  
+  <bean id="IacucProtocolSubmissionType-versionNumber" parent="IacucProtocolSubmissionType-versionNumber-parentBean" />
+  <bean id="IacucProtocolSubmissionType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="IacucProtocolSubmissionType-inquiryDefinition" parent="IacucProtocolSubmissionType-inquiryDefinition-parentBean" />
+  <bean id="IacucProtocolSubmissionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Proposal Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Submission Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="submissionTypeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="IacucProtocolSubmissionType-lookupDefinition" parent="IacucProtocolSubmissionType-lookupDefinition-parentBean" />
+
+  <bean id="IacucProtocolSubmissionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Submission Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="submissionTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="submissionTypeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SponsorFormsMaintenanceDocument" parent="SponsorFormsMaintenanceDocument-parentBean"/>
+
+  <bean id="SponsorFormsMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorForms"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="SponsorFormsMaintenanceDocument-EditSponsorForms"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>sponsorFormId</value>
+      </list>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
+    
+    
+    
+    <property name="businessRulesClass" value="org.kuali.kra.rules.SponsorFormsMaintenanceDocumentRule"/>
+    <property name="documentTypeName" value="SponsorFormsMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="SponsorFormsMaintenanceDocument-EditSponsorForms" parent="SponsorFormsMaintenanceDocument-EditSponsorForms-parentBean"/>
+
+  <bean id="SponsorFormsMaintenanceDocument-EditSponsorForms-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit SponsorForms"/>
+    <property name="title" value="Edit SponsorForms"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="packageName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="packageNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorHierarchyName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,0 +1,131 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="JobCode" parent="JobCode-parentBean" />
+
+  <bean id="JobCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.JobCode" />
+		<property name="objectLabel" value="Job Code" />
+    <property name="inquiryDefinition" >
+      <ref bean="JobCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="JobCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="jobCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="JobCode-jobCode" />
+        <ref bean="JobCode-jobTitle" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="JobCode-jobCode" parent="JobCode-jobCode-parentBean" />
+
+  <bean id="JobCode-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="jobCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Job Code" />
+    <property name="shortLabel" value="Job Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Job Code" />
+    <property name="description" value="Job Code" />
+  </bean>
+  <bean id="JobCode-jobTitle" parent="JobCode-jobTitle-parentBean" />
+
+  <bean id="JobCode-jobTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="jobTitle" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Job Title" />
+    <property name="shortLabel" value="Job Title" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Job Title" />
+    <property name="description" value="Job Title" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="JobCode-inquiryDefinition" parent="JobCode-inquiryDefinition-parentBean" />
+
+  <bean id="JobCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Job Code" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Job Code" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="jobCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="jobTitle" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="JobCode-lookupDefinition" parent="JobCode-lookupDefinition-parentBean" />
+
+  <bean id="JobCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Job Code Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+	<property name="helpDefinition" >
+        <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-M"
+            p:parameterName="jobCodeMaintenanceHelp"
+            p:parameterDetailType="Document" />
+    </property>    
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="jobCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="jobTitle" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="jobCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="jobTitle" />
+      </list>
+    </property>
+  </bean>
+</beans>

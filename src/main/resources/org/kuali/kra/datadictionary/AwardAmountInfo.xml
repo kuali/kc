@@ -1,0 +1,663 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="AwardAmountInfo" parent="AwardAmountInfo-parentBean" />
+    <bean id="AwardAmountInfo-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardAmountInfo" />
+		<property name="objectLabel" value="Award Amount Info" />
+        <property name="inquiryDefinition" >
+            <ref bean="AwardAmountInfo-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="AwardAmountInfo-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="awardAmountInfoId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="AwardAmountInfo-awardAmountInfoId" />
+                <ref bean="AwardAmountInfo-amountSequenceNumber" />
+                <ref bean="AwardAmountInfo-anticipatedTotalAmount" />
+                <ref bean="AwardAmountInfo-antDistributableAmount" />
+                <ref bean="AwardAmountInfo-finalExpirationDate" />
+                <ref bean="AwardAmountInfo-currentFundEffectiveDate" />
+                <ref bean="AwardAmountInfo-amountObligatedToDate" />
+                <ref bean="AwardAmountInfo-obliDistributableAmount" />
+                <ref bean="AwardAmountInfo-obligationExpirationDate" />
+                <ref bean="AwardAmountInfo-transactionId" />
+                <ref bean="AwardAmountInfo-timeAndMoneyDocumentNumber" />
+                <ref bean="AwardAmountInfo-entryType" />
+                <ref bean="AwardAmountInfo-eomProcessFlag" />
+                <ref bean="AwardAmountInfo-anticipatedChange" />
+                <ref bean="AwardAmountInfo-obligatedChange" />
+                <ref bean="AwardAmountInfo-obligatedChangeDirect" />
+                <ref bean="AwardAmountInfo-obligatedChangeIndirect" />
+                <ref bean="AwardAmountInfo-anticipatedChangeDirect" />
+                <ref bean="AwardAmountInfo-anticipatedChangeIndirect" />
+                <ref bean="AwardAmountInfo-anticipatedTotalDirect" />
+                <ref bean="AwardAmountInfo-anticipatedTotalIndirect" />
+                <ref bean="AwardAmountInfo-obligatedTotalDirect" />
+                <ref bean="AwardAmountInfo-obligatedTotalIndirect" />
+                <ref bean="AwardAmountInfo-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="AwardAmountInfo-awardAmountInfoId" parent="AwardAmountInfo-awardAmountInfoId-parentBean" />
+    <bean id="AwardAmountInfo-awardAmountInfoId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="awardAmountInfoId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Award Amount Info Id" />
+        <property name="shortLabel" value="Award Amount Info Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Award Amount Info Id" />
+        <property name="description" value="Award Amount Info Id" />
+    </bean>
+
+    <bean id="AwardAmountInfo-amountSequenceNumber" parent="AwardAmountInfo-amountSequenceNumber-parentBean" />
+    <bean id="AwardAmountInfo-amountSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Amount Sequence Number" />
+        <property name="shortLabel" value="Amount Sequence Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Amount Sequence Number" />
+        <property name="description" value="Amount Sequence Number" />
+    </bean>
+
+    <bean id="AwardAmountInfo-anticipatedTotalAmount" parent="AwardAmountInfo-anticipatedTotalAmount-parentBean" />
+    <bean id="AwardAmountInfo-anticipatedTotalAmount-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="anticipatedTotalAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Cumulative" />
+        <property name="shortLabel" value="Anticipated Cumulative" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Anticipated Cumulative" />
+        <property name="description" value="Anticipated Cumulative" />
+    </bean>
+
+    <bean id="AwardAmountInfo-antDistributableAmount" parent="AwardAmountInfo-antDistributableAmount-parentBean" />
+    <bean id="AwardAmountInfo-antDistributableAmount-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="antDistributableAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Distributable" />
+        <property name="shortLabel" value="Anticipated Distributable" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Anticipated Distributable" />
+        <property name="description" value="Anticipated Distributable" />
+    </bean>
+
+    <bean id="AwardAmountInfo-finalExpirationDate" parent="AwardAmountInfo-finalExpirationDate-parentBean" />
+    <bean id="AwardAmountInfo-finalExpirationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="finalExpirationDate" />
+        <property name="label" value="Project End Date" />
+        <property name="shortLabel" value="Project End Date" />
+        <property name="required" value="true" />
+        <property name="summary" value="Final Expiration Date" />
+        <property name="description" value="Final Expiration Date" />
+    </bean>
+
+    <bean id="AwardAmountInfo-currentFundEffectiveDate" parent="AwardAmountInfo-currentFundEffectiveDate-parentBean" />
+    <bean id="AwardAmountInfo-currentFundEffectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="currentFundEffectiveDate" />
+        <property name="label" value="Obligation Start Date" />
+        <property name="shortLabel" value="Obligation Start Date" />
+        <property name="summary" value="Obligation Start Date" />
+        <property name="description" value="Obligation Start Date" />
+    </bean>
+
+    <bean id="AwardAmountInfo-amountObligatedToDate" parent="AwardAmountInfo-amountObligatedToDate-parentBean" />
+    <bean id="AwardAmountInfo-amountObligatedToDate-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="amountObligatedToDate" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Cumulative" />
+        <property name="shortLabel" value="Obligated Cumulative" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Obligated Cumulative" />
+        <property name="description" value="Obligated Cumulative" />
+    </bean>
+
+    <bean id="AwardAmountInfo-obliDistributableAmount" parent="AwardAmountInfo-obliDistributableAmount-parentBean" />
+    <bean id="AwardAmountInfo-obliDistributableAmount-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obliDistributableAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Distributable" />
+        <property name="shortLabel" value="Obligated Distributable" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Obligated Distributable" />
+        <property name="description" value="Obligated Distributable" />
+    </bean>
+
+    <bean id="AwardAmountInfo-obligationExpirationDate" parent="AwardAmountInfo-obligationExpirationDate-parentBean" />
+    <bean id="AwardAmountInfo-obligationExpirationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="obligationExpirationDate" />
+        <property name="label" value="Obligation End Date" />
+        <property name="shortLabel" value="Obligation End Date" />
+        <property name="summary" value="Obligation End Date" />
+        <property name="description" value="Obligation End Date" />
+    </bean>
+
+    <bean id="AwardAmountInfo-transactionId" parent="AwardAmountInfo-transactionId-parentBean" />
+    <bean id="AwardAmountInfo-transactionId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="transactionId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Transaction Id" />
+        <property name="shortLabel" value="Transaction Id" />
+        <property name="maxLength" value="10" />
+       	<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Transaction Id" />
+        <property name="description" value="Transaction Id" />
+    </bean>
+    
+    <bean id="AwardAmountInfo-timeAndMoneyDocumentNumber" parent="AwardAmountInfo-timeAndMoneyDocumentNumber-parentBean" />
+    <bean id="AwardAmountInfo-timeAndMoneyDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="timeAndMoneyDocumentNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Document Number" />
+        <property name="shortLabel" value="Document Number" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Document Number" />
+        <property name="description" value="Document Number" />
+    </bean>
+
+    <bean id="AwardAmountInfo-entryType" parent="AwardAmountInfo-entryType-parentBean" />
+    <bean id="AwardAmountInfo-entryType-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="entryType" />
+        <property name="label" value="Entry Type" />
+        <property name="shortLabel" value="Entry Type" />
+        <property name="summary" value="Entry Type" />
+        <property name="description" value="Entry Type" />
+    </bean>
+
+    <bean id="AwardAmountInfo-eomProcessFlag" parent="AwardAmountInfo-eomProcessFlag-parentBean" />
+    <bean id="AwardAmountInfo-eomProcessFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="eomProcessFlag" />
+        <property name="label" value="Eom ProcessDefinitionDefinition Flag" />
+        <property name="shortLabel" value="Eom ProcessDefinitionDefinition Flag" />
+        <property name="summary" value="Eom ProcessDefinitionDefinition Flag" />
+        <property name="description" value="Eom ProcessDefinitionDefinition Flag" />
+    </bean>
+
+    <bean id="AwardAmountInfo-anticipatedChange" parent="AwardAmountInfo-anticipatedChange-parentBean" />
+    <bean id="AwardAmountInfo-anticipatedChange-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="anticipatedChange" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Change" />
+        <property name="shortLabel" value="Anticipated Change" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Anticipated Change" />
+        <property name="description" value="Anticipated Change" />
+    </bean>
+
+    <bean id="AwardAmountInfo-obligatedChange" parent="AwardAmountInfo-obligatedChange-parentBean" />
+    <bean id="AwardAmountInfo-obligatedChange-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedChange" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Change" />
+        <property name="shortLabel" value="Obligated Change" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Obligated Change" />
+        <property name="description" value="Obligated Change" />
+    </bean>
+
+    <bean id="AwardAmountInfo-obligatedChangeDirect" parent="AwardAmountInfo-obligatedChangeDirect-parentBean" />
+    <bean id="AwardAmountInfo-obligatedChangeDirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedChangeDirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Change Direct" />
+        <property name="shortLabel" value="Obligated Change Direct" />
+        <property name="maxLength" value="22" />
+         <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Obligated Change Direct" />
+        <property name="description" value="Obligated Change Direct" />
+    </bean>
+
+    <bean id="AwardAmountInfo-obligatedChangeIndirect" parent="AwardAmountInfo-obligatedChangeIndirect-parentBean" />
+    <bean id="AwardAmountInfo-obligatedChangeIndirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedChangeIndirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Change Indirect" />
+        <property name="shortLabel" value="Obligated Change Indirect" />
+        <property name="maxLength" value="22" />
+         <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Obligated Change Indirect" />
+        <property name="description" value="Obligated Change Indirect" />
+    </bean>
+
+    <bean id="AwardAmountInfo-anticipatedChangeDirect" parent="AwardAmountInfo-anticipatedChangeDirect-parentBean" />
+    <bean id="AwardAmountInfo-anticipatedChangeDirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="anticipatedChangeDirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Change Direct" />
+        <property name="shortLabel" value="Anticipated Change Direct" />
+        <property name="maxLength" value="22" />
+         <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Anticipated Change Direct" />
+        <property name="description" value="Anticipated Change Direct" />
+    </bean>
+
+    <bean id="AwardAmountInfo-anticipatedChangeIndirect" parent="AwardAmountInfo-anticipatedChangeIndirect-parentBean" />
+    <bean id="AwardAmountInfo-anticipatedChangeIndirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="anticipatedChangeIndirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Change Indirect" />
+        <property name="shortLabel" value="Anticipated Change Indirect" />
+        <property name="maxLength" value="22" />
+         <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Anticipated Change Indirect" />
+        <property name="description" value="Anticipated Change Indirect" />
+    </bean>
+
+    <bean id="AwardAmountInfo-anticipatedTotalDirect" parent="AwardAmountInfo-anticipatedTotalDirect-parentBean" />
+    <bean id="AwardAmountInfo-anticipatedTotalDirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="anticipatedTotalDirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Total Direct" />
+        <property name="shortLabel" value="Anticipated Total Direct" />
+        <property name="maxLength" value="12" />
+    	<property name="validationPattern" >
+      		<bean parent="FixedPointValidationPattern"
+           	 	p:precision="12"
+           		 p:scale="2" />
+   		</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+     		 <bean parent="CurrencyControlDefinition"
+           		 p:formattedMaxLength="22"
+            	p:size="16" />
+    	</property>
+        <property name="summary" value="Anticipated Total Direct" />
+        <property name="description" value="Anticipated Total Direct" />
+    </bean>
+
+    <bean id="AwardAmountInfo-anticipatedTotalIndirect" parent="AwardAmountInfo-anticipatedTotalIndirect-parentBean" />
+    <bean id="AwardAmountInfo-anticipatedTotalIndirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="anticipatedTotalIndirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Total Indirect" />
+        <property name="shortLabel" value="Anticipated Total Indirect" />
+        <property name="maxLength" value="12" />
+    	<property name="validationPattern" >
+     		 <bean parent="FixedPointValidationPattern"
+          	  p:precision="12"
+          	  p:scale="2" />
+   	 	</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+      		<bean parent="CurrencyControlDefinition"
+           		 p:formattedMaxLength="22"
+           		 p:size="16" />
+    	</property>
+        <property name="summary" value="Anticipated Total Indirect" />
+        <property name="description" value="Anticipated Total Indirect" />
+    </bean>
+
+    <bean id="AwardAmountInfo-obligatedTotalDirect" parent="AwardAmountInfo-obligatedTotalDirect-parentBean" />
+    <bean id="AwardAmountInfo-obligatedTotalDirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedTotalDirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Total Direct" />
+        <property name="shortLabel" value="Obligated Total Direct" />
+        <property name="maxLength" value="12" />
+    	<property name="validationPattern" >
+      		<bean parent="FixedPointValidationPattern"
+           		 p:precision="12"
+           		 p:scale="2" />
+    	</property>
+   		<property name="required" value="false" />
+    	<property name="control" >
+      		<bean parent="CurrencyControlDefinition"
+         		  p:formattedMaxLength="22"
+           		 p:size="16" />
+  		</property>
+        <property name="summary" value="Obligated Total Direct" />
+        <property name="description" value="Obligated Total Direct" />
+    </bean>
+
+    <bean id="AwardAmountInfo-obligatedTotalIndirect" parent="AwardAmountInfo-obligatedTotalIndirect-parentBean" />
+    <bean id="AwardAmountInfo-obligatedTotalIndirect-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedTotalIndirect" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Total Indirect" />
+        <property name="shortLabel" value="Obligated Total Indirect" />
+       <property name="maxLength" value="12" />
+    	<property name="validationPattern" >
+      		<bean parent="FixedPointValidationPattern"
+           	 	p:precision="12"
+           		 p:scale="2" />
+   		</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+     		 <bean parent="CurrencyControlDefinition"
+           		 p:formattedMaxLength="22"
+            	p:size="16" />
+    	</property>
+        <property name="summary" value="Obligated Total Indirect" />
+        <property name="description" value="Obligated Total Indirect" />
+    </bean>
+
+    <bean id="AwardAmountInfo-versionNumber" parent="AwardAmountInfo-versionNumber-parentBean" />
+    <bean id="AwardAmountInfo-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="AwardAmountInfo-inquiryDefinition" parent="AwardAmountInfo-inquiryDefinition-parentBean" />
+    <bean id="AwardAmountInfo-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Award Amount Info Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Award Amount Info Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="awardAmountInfoId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedTotalAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="antDistributableAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="finalExpirationDate" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="currentFundEffectiveDate" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="amountObligatedToDate" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="obliDistributableAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="obligationExpirationDate" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="transactionId" />
+                            <bean parent="FieldDefinition"
+			                    p:attributeName="timeAndMoneyDocumentNumber" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="entryType" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="eomProcessFlag" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedChange" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="obligatedChange" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="obligatedChangeDirect" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="obligatedChangeIndirect" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedChangeDirect" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedChangeIndirect" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedTotalDirect" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedTotalIndirect" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="obligatedTotalDirect" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="obligatedTotalIndirect" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="AwardAmountInfo-lookupDefinition" parent="AwardAmountInfo-lookupDefinition-parentBean" />
+    <bean id="AwardAmountInfo-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Award Amount Info Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="awardAmountInfoId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedTotalAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="antDistributableAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="finalExpirationDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="currentFundEffectiveDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="amountObligatedToDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obliDistributableAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligationExpirationDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="transactionId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="timeAndMoneyDocumentNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="entryType" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="eomProcessFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedChange" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedChange" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedChangeDirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedChangeIndirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedChangeDirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedChangeIndirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedTotalDirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedTotalIndirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedTotalDirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedTotalIndirect" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="awardAmountInfoId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedTotalAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="antDistributableAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="finalExpirationDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="currentFundEffectiveDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="amountObligatedToDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obliDistributableAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligationExpirationDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="transactionId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="timeAndMoneyDocumentNumber" />    
+                <bean parent="FieldDefinition"
+                    p:attributeName="entryType" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="eomProcessFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedChange" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedChange" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedChangeDirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedChangeIndirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedChangeDirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedChangeIndirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedTotalDirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedTotalIndirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedTotalDirect" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedTotalIndirect" />
+            </list>
+        </property>
+    </bean>
+</beans>

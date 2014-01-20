@@ -1,0 +1,246 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="IacucProtocolLocation" parent="IacucProtocolLocation-parentBean" />
+	<bean id="IacucProtocolLocation-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation" />
+		<property name="objectLabel" value="Protocol Location" />
+		<property name="inquiryDefinition" >
+			<ref bean="IacucProtocolLocation-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="IacucProtocolLocation-lookupDefinition" />
+		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolOrganizationsHelpUrl" p:parameterDetailType="Document" />
+        </property>
+		<property name="titleAttribute" value="protocolLocationId" />
+		<property name="attributes" >
+			<list>
+				<ref bean="IacucProtocolLocation-protocolLocationId" />
+				<ref bean="IacucProtocolLocation-protocolNumber" />
+				<ref bean="IacucProtocolLocation-sequenceNumber" />
+				<ref bean="IacucProtocolLocation-protocolOrganizationTypeCode" />
+				<ref bean="IacucProtocolLocation-organizationId" />
+				<ref bean="IacucProtocolLocation-rolodexId" />
+				<ref bean="IacucProtocolLocation-versionNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="IacucProtocolLocation-protocolLocationId" parent="IacucProtocolLocation-protocolLocationId-parentBean" />
+	<bean id="IacucProtocolLocation-protocolLocationId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolLocationId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Location Id" />
+		<property name="shortLabel" value="Protocol Location Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Location Id" />
+		<property name="description" value="Protocol Location Id" />
+	</bean>
+
+	<bean id="IacucProtocolLocation-protocolNumber" parent="IacucProtocolLocation-protocolNumber-parentBean" />
+	<bean id="IacucProtocolLocation-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Number" />
+		<property name="shortLabel" value="Protocol Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Number" />
+		<property name="description" value="Protocol Number" />
+	</bean>
+
+	<bean id="IacucProtocolLocation-sequenceNumber" parent="IacucProtocolLocation-sequenceNumber-parentBean" />
+	<bean id="IacucProtocolLocation-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="sequenceNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Sequence Number" />
+		<property name="shortLabel" value="Sequence Number" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Sequence Number" />
+		<property name="description" value="Sequence Number" />
+	</bean>
+
+	<bean id="IacucProtocolLocation-protocolOrganizationTypeCode" parent="IacucProtocolLocation-protocolOrganizationTypeCode-parentBean" />
+	<bean id="IacucProtocolLocation-protocolOrganizationTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolOrganizationTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Organization Type" />
+		<property name="shortLabel" value="Organization Type" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="required" value="true" />
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.iacuc.protocol.location.IacucProtocolOrganizationType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="protocolOrganizationTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
+		<property name="summary" value="Protocol Organization Type Code" />
+		<property name="description" value="Protocol Organization Type Code" />
+	</bean>
+
+	<bean id="IacucProtocolLocation-organizationId" parent="IacucProtocolLocation-organizationId-parentBean" />
+	<bean id="IacucProtocolLocation-organizationId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="organizationId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Organization Id" />
+		<property name="shortLabel" value="Organization Id" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Organization Id" />
+		<property name="description" value="Organization Id" />
+	</bean>
+
+	<bean id="IacucProtocolLocation-rolodexId" parent="IacucProtocolLocation-rolodexId-parentBean" />
+	<bean id="IacucProtocolLocation-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="rolodexId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Contact" />
+		<property name="shortLabel" value="Contact" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Contact - Rolodex Id" />
+		<property name="description" value="Contact - Rolodex Id" />
+	</bean>
+
+	<bean id="IacucProtocolLocation-versionNumber" parent="IacucProtocolLocation-versionNumber-parentBean" />
+	<bean id="IacucProtocolLocation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="IacucProtocolLocation-inquiryDefinition" parent="IacucProtocolLocation-inquiryDefinition-parentBean" />
+	<bean id="IacucProtocolLocation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Protocol Location Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Protocol Location Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolLocationId" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="sequenceNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolOrganizationTypeCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="organizationId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="rolodexId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="IacucProtocolLocation-lookupDefinition" parent="IacucProtocolLocation-lookupDefinition-parentBean" />
+	<bean id="IacucProtocolLocation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Protocol Location Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolLocationId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolOrganizationTypeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="organizationId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="rolodexId" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolLocationId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolOrganizationTypeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="organizationId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="rolodexId" />
+			</list>
+		</property>
+	</bean>
+</beans>

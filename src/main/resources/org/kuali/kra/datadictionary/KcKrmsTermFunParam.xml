@@ -1,0 +1,210 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="KcKrmsTermFunParamSpec" parent="KcKrmsTermFunParamSpec-parentBean" />
+    <bean id="KcKrmsTermFunParamSpec-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunctionParam" />
+        <property name="objectLabel" value="KC Stored Function Term Parameters" />
+        <property name="inquiryDefinition" >
+            <ref bean="KcKrmsTermFunParamSpec-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="KcKrmsTermFunParamSpec-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="kcKrmsTermFunctionParamId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId" />
+                <ref bean="KcKrmsTermFunParamSpec-kcKrmsTermFunctionId" />
+                <ref bean="KcKrmsTermFunParamSpec-paramName" />
+                <ref bean="KcKrmsTermFunParamSpec-paramType" />
+                <ref bean="KcKrmsTermFunParamSpec-paramOrder" />
+                <ref bean="KcKrmsTermFunParamSpec-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId" parent="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId-parentBean" />
+    <bean id="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="kcKrmsTermFunctionParamId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Kc Krms Term Fun Param Spec Id" />
+        <property name="shortLabel" value="Kc Krms Term Fun Param Spec Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Kc Krms Term Fun Param Spec Id" />
+        <property name="description" value="Kc Krms Term Fun Param Spec Id" />
+    </bean>
+
+    <bean id="KcKrmsTermFunParamSpec-kcKrmsTermFunctionId" parent="KcKrmsTermFunParamSpec-kcKrmsTermFunctionId-parentBean" />
+    <bean id="KcKrmsTermFunParamSpec-kcKrmsTermFunctionId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="kcKrmsTermFunctionId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Kc Krms Term Function Id" />
+        <property name="shortLabel" value="Kc Krms Term Function Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Kc Krms Term Function Id" />
+        <property name="description" value="Kc Krms Term Function Id" />
+    </bean>
+
+    <bean id="KcKrmsTermFunParamSpec-paramName" parent="KcKrmsTermFunParamSpec-paramName-parentBean" />
+    <bean id="KcKrmsTermFunParamSpec-paramName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="paramName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Param Name" />
+        <property name="shortLabel" value="Param Name" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Param Name" />
+        <property name="description" value="Param Name" />
+    </bean>
+
+    <bean id="KcKrmsTermFunParamSpec-paramType" parent="KcKrmsTermFunParamSpec-paramType-parentBean" />
+    <bean id="KcKrmsTermFunParamSpec-paramType-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="paramType" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Param Type" />
+        <property name="shortLabel" value="Param Type" />
+        <property name="maxLength" value="100" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Param Type" />
+        <property name="description" value="Param Type" />
+    </bean>
+
+    <bean id="KcKrmsTermFunParamSpec-paramOrder" parent="KcKrmsTermFunParamSpec-paramOrder-parentBean" />
+    <bean id="KcKrmsTermFunParamSpec-paramOrder-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="paramOrder" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Param Order" />
+        <property name="shortLabel" value="Param Order" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Param Order" />
+        <property name="description" value="Param Order" />
+    </bean>
+
+    <bean id="KcKrmsTermFunParamSpec-versionNumber" parent="KcKrmsTermFunParamSpec-versionNumber-parentBean" />
+    <bean id="KcKrmsTermFunParamSpec-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="KcKrmsTermFunParamSpec-inquiryDefinition" parent="KcKrmsTermFunParamSpec-inquiryDefinition-parentBean" />
+    <bean id="KcKrmsTermFunParamSpec-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Kc Krms Term Fun Param Spec Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Kc Krms Term Fun Param Spec Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="kcKrmsTermFunctionParamId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="kcKrmsTermFunctionId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="paramName" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="paramType" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="paramOrder" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="KcKrmsTermFunParamSpec-lookupDefinition" parent="KcKrmsTermFunParamSpec-lookupDefinition-parentBean" />
+    <bean id="KcKrmsTermFunParamSpec-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Kc Krms Term Fun Param Spec Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="kcKrmsTermFunctionParamId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="kcKrmsTermFunctionId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="paramName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="paramType" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="paramOrder" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="kcKrmsTermFunctionParamId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="kcKrmsTermFunctionId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="paramName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="paramType" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="paramOrder" />
+            </list>
+        </property>
+    </bean>
+</beans>

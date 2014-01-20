@@ -1,0 +1,1 @@
+alter table award_template_report_terms modify (frequency_code null, frequency_base_code null, osp_distribution_code null);

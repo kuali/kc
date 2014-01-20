@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="QuestionnaireUsage" parent="QuestionnaireUsage-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-parentBean" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.QuestionnaireUsage"/>
+		<property name="objectLabel" value="Questionnaire Usage"/>
+        <property name="inquiryDefinition">
+            <ref bean="QuestionnaireUsage-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="QuestionnaireUsage-lookupDefinition"/>
+        </property>
+        <property name="titleAttribute" value="questionnaireUsageId"/>
+        <property name="attributes">
+            <list>
+                <ref bean="QuestionnaireUsage-questionnaireUsageId"/>
+                <ref bean="QuestionnaireUsage-moduleItemCode"/>
+                <ref bean="QuestionnaireUsage-moduleSubItemCode"/>
+                <ref bean="QuestionnaireUsage-questionnaireRefIdFk"/>
+                <ref bean="QuestionnaireUsage-questionnaireSequenceNumber"/>
+                <ref bean="QuestionnaireUsage-ruleId"/>
+                <ref bean="QuestionnaireUsage-questionnaireLabel"/>
+                <ref bean="QuestionnaireUsage-mandatory"/>
+                <ref bean="QuestionnaireUsage-delete"/>
+                <ref bean="QuestionnaireUsage-versionNumber"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="QuestionnaireUsage-questionnaireUsageId" parent="QuestionnaireUsage-questionnaireUsageId-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-questionnaireUsageId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="questionnaireUsageId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Questionnaire Usage Id"/>
+        <property name="shortLabel" value="Questionnaire Usage Id"/>
+        <property name="maxLength" value="12"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean p:size="12" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Questionnaire Usage Id"/>
+        <property name="description" value="Questionnaire Usage Id"/>
+    </bean>
+
+    <bean id="QuestionnaireUsage-moduleItemCode" parent="QuestionnaireUsage-moduleItemCode-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-moduleItemCode-parentBean" parent="AttributeDefinition">
+        <property name="name" value="moduleItemCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Module"/>
+        <property name="shortLabel" value="Module"/>
+        <property name="maxLength" value="3"/>
+    	<property name="required" value="true" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+          <bean p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.kra.questionnaire.CoeusModuleValuesFinder" parent="SelectControlDefinition"/>
+        </property>
+        <property name="summary" value="Module Item Code"/>
+        <property name="description" value="Module Item Code"/>
+    </bean>
+
+    <bean id="QuestionnaireUsage-moduleSubItemCode" parent="QuestionnaireUsage-moduleSubItemCode-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-moduleSubItemCode-parentBean" parent="AttributeDefinition">
+        <property name="name" value="moduleSubItemCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Module Sub Item Code"/>
+        <property name="shortLabel" value="Module Sub Item Code"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean p:size="3" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Module Sub Item Code"/>
+        <property name="description" value="Module Sub Item Code"/>
+    </bean>
+
+    <bean id="QuestionnaireUsage-mandatory" parent="QuestionnaireUsage-mandatory-parentBean" />
+    <bean id="QuestionnaireUsage-mandatory-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="mandatory" />
+        <property name="label" value="Mandatory" />
+        <property name="shortLabel" value="Mandatory" />
+        <property name="summary" value="Is Mandatory" />
+        <property name="description" value="Is Mandatory" />
+    </bean>
+
+
+    <bean id="QuestionnaireUsage-questionnaireRefIdFk" parent="QuestionnaireUsage-questionnaireRefIdFk-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-questionnaireRefIdFk-parentBean" parent="AttributeDefinition">
+        <property name="name" value="questionnaireRefIdFk"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Questionnaire Id"/>
+        <property name="shortLabel" value="Questionnaire Id"/>
+        <property name="maxLength" value="6"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean p:size="6" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Questionnaire Id"/>
+        <property name="description" value="Questionnaire Id"/>
+    </bean>
+    <bean id="QuestionnaireUsage-questionnaireSequenceNumber" parent="QuestionnaireUsage-questionnaireSequenceNumber-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-questionnaireSequenceNumber-parentBean" parent="KraAttributeReferenceDummy-sequenceNumber">
+        <property name="label" value="Version"/>
+        <property name="shortLabel" value="Version"/>
+    </bean>
+
+    <bean id="QuestionnaireUsage-ruleId" parent="QuestionnaireUsage-ruleId-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-ruleId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="ruleId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Rule ID"/>
+        <property name="shortLabel" value="Rule ID"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control">
+            <bean p:size="6" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Rule ID"/>
+        <property name="description" value="Rule ID"/>
+    </bean>
+
+    <bean id="QuestionnaireUsage-questionnaireLabel" parent="QuestionnaireUsage-questionnaireLabel-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-questionnaireLabel-parentBean" parent="AttributeDefinition">
+        <property name="name" value="questionnaireLabel"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Label"/>
+        <property name="shortLabel" value="Label"/>
+        <property name="maxLength" value="50"/>
+    	<property name="required" value="true" />
+        <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+        <property name="control">
+            <bean p:size="30" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Questionnaire Label"/>
+        <property name="description" value="Questionnaire Label"/>
+    </bean>
+    
+		<bean id="QuestionnaireUsage-delete" parent="QuestionnaireUsage-delete-parentBean"/>
+		<bean abstract="true" id="QuestionnaireUsage-delete-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+			<property name="name" value="delete"/>
+    	<property name="control" >
+	      <bean parent="HiddenControlDefinition" />
+    	</property>			
+		</bean>    
+
+    <bean id="QuestionnaireUsage-versionNumber" parent="QuestionnaireUsage-versionNumber-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+    		
+    <!-- Business Object Inquiry Definition -->
+    <bean id="QuestionnaireUsage-inquiryDefinition" parent="QuestionnaireUsage-inquiryDefinition-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-inquiryDefinition-parentBean" parent="InquiryDefinition">
+        <property name="title" value="Questionnaire Usage Id"/>
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Questionnaire Usage Id"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean p:attributeName="questionnaireUsageId" p:forceInquiry="true" parent="FieldDefinition"/>
+                            <bean p:attributeName="moduleItemCode" parent="FieldDefinition"/>
+                            <bean p:attributeName="moduleSubItemCode" parent="FieldDefinition"/>
+                            <bean p:attributeName="questionnaireRefIdFk" parent="FieldDefinition"/>
+                            <bean p:attributeName="ruleId" parent="FieldDefinition"/>
+                            <bean p:attributeName="questionnaireLabel" parent="FieldDefinition"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="QuestionnaireUsage-lookupDefinition" parent="QuestionnaireUsage-lookupDefinition-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-lookupDefinition-parentBean" parent="LookupDefinition">
+        <property name="title" value="Questionnaire Usage Lookup"/>
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+        </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean p:attributeName="questionnaireUsageId" p:forceInquiry="true" parent="FieldDefinition"/>
+                <bean p:attributeName="moduleItemCode" parent="FieldDefinition"/>
+                <bean p:attributeName="moduleSubItemCode" parent="FieldDefinition"/>
+                <bean p:attributeName="questionnaireRefIdFk" parent="FieldDefinition"/>
+                <bean p:attributeName="ruleId" parent="FieldDefinition"/>
+                <bean p:attributeName="questionnaireLabel" parent="FieldDefinition"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean p:attributeName="questionnaireUsageId" p:forceInquiry="true" parent="FieldDefinition"/>
+                <bean p:attributeName="moduleItemCode" parent="FieldDefinition"/>
+                <bean p:attributeName="moduleSubItemCode" parent="FieldDefinition"/>
+                <bean p:attributeName="questionnaireRefIdFk" parent="FieldDefinition"/>
+                <bean p:attributeName="ruleId" parent="FieldDefinition"/>
+                <bean p:attributeName="questionnaireLabel" parent="FieldDefinition"/>
+            </list>
+        </property>
+    </bean>
+</beans>

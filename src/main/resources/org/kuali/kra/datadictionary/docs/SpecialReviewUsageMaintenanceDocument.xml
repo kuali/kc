@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SpecialReviewUsageMaintenanceDocument" parent="SpecialReviewUsageMaintenanceDocument-parentBean"/>
+  
+  <bean id="SpecialReviewUsageMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.SpecialReviewUsage"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="SpecialReviewUsageMaintenanceDocument-EditSpecialReviewUsage"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>specialReviewUsageId</value>
+      </list>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="SpecialReviewUsageMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="SpecialReviewUsageMaintenanceDocument-EditSpecialReviewUsage" parent="SpecialReviewUsageMaintenanceDocument-EditSpecialReviewUsage-parentBean"/>
+
+  <bean id="SpecialReviewUsageMaintenanceDocument-EditSpecialReviewUsage-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Special Review Usage"/>
+    <property name="title" value="Edit Special Review Usage"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="specialReviewUsageId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="specialReviewTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="moduleCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="global"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.16  $ -->
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Andy Andrews (Northrop Grumman IT) -->
+<!--************************************************************************************************-->
+<!-- TITLE:    Research & Related, Other Project Information                                        -->
+<!--               OMB Number:                                                                                           -->
+<!--                                                                                                                                -->
+<!-- DATE:    May 6, 2004                                                                                             -->
+<!-- VERSION:  1.0                                                                                                        -->
+<!--                                                                                                                                -->
+<!--                                                                                                                                -->
+<!-- REVISION HISTORY:                                                                                              -->
+<!--                                                                                                                                -->
+<!--************************************************************************************************-->
+<xs:schema targetNamespace="http://apply.grants.gov/forms/RR_OtherProjectInfo-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:RR_OtherProjectInfo="http://apply.grants.gov/forms/RR_OtherProjectInfo-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/GlobalLibrary-V1.0.xsd"/>
+	<xs:element name="RR_OtherProjectInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="HumanSubjectsIndicator" type="globLib:YesNoDataType"/>
+				<xs:element name="HumanSubjectsSupplement" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="HumanSubjectIRBReviewIndicator" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="HumanSubjectIRBReviewDate" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:date">
+											<xs:attribute name="HumanSubjectIRBReviewIndicator" type="globLib:YesNoDataType" use="required" fixed="No"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ExemptionNumbers" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ExemptionNumber" maxOccurs="6">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="E1"/>
+													<xs:enumeration value="E2"/>
+													<xs:enumeration value="E3"/>
+													<xs:enumeration value="E4"/>
+													<xs:enumeration value="E5"/>
+													<xs:enumeration value="E6"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="HumanSubjectAssuranceNumber" type="glob:StringMin1Max10Type" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="VertebrateAnimalsIndicator" type="globLib:YesNoDataType"/>
+				<xs:element name="VertebrateAnimalsSupplement" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="VertebrateAnimalsIACUCReviewIndicator" type="globLib:YesNoDataType" minOccurs="0"/>
+							<xs:element name="VertebrateAnimalsIACUCApprovalDateReviewDate" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:date">
+											<xs:attribute name="VertebrateAnimalsIACUCReviewIndicator" type="globLib:YesNoDataType" use="required" fixed="No"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="AssuranceNumber" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="9"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProprietaryInformationIndicator" type="globLib:YesNoDataType"/>
+				<xs:element name="EnvironmentalImpact">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EnvironmentalImpactIndicator" type="globLib:YesNoDataType"/>
+							<xs:element name="EnvironmentalImpactExplanation" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="glob:StringMin1Max55Type">
+											<xs:attribute name="EnvironmentalImpactIndicator" type="globLib:YesNoDataType" use="required" fixed="Yes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="EnvironmentalExemption" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="EnvironmentalExemptionIndicator" type="globLib:YesNoDataType"/>
+										<xs:element name="EnvironmentalExemptionExplanation" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="glob:StringMin1Max55Type">
+														<xs:attribute name="EnvironmentalExemptionIndicator" type="globLib:YesNoDataType" use="required" fixed="Yes"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="InternationalActivities">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="InternationalActivitiesIndicator" type="globLib:YesNoDataType"/>
+							<xs:element name="ActivitiesPartnershipsCountries" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="glob:StringMin1Max55Type">
+											<xs:attribute name="InternationalActivitiesIndicator" type="globLib:YesNoDataType" use="required" fixed="Yes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="InternationalActivitiesExplanation" type="glob:StringMin1Max55Type" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AbstractAttachments" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AbstractAttachment" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FacilitiesAttachments" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FacilitiesAttachment" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EquipmentAttachments" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EquipmentAttachment" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BibliographyAttachments" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BibliographyAttachment" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProjectNarrativeAttachments" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ProjectNarrativeAttachment" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OtherAttachments" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OtherAttachment" type="att:AttachedFileDataType" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+		<xs:key name="EnvironmentalImpactIndicatorKey">
+			<xs:selector xpath="./RR_OtherProjectInfo:EnvironmentalImpact"/>
+			<xs:field xpath="RR_OtherProjectInfo:EnvironmentalImpactIndicator"/>
+		</xs:key>
+		<xs:keyref name="EnvironmentalImpactIndicatorKeyRef" refer="RR_OtherProjectInfo:EnvironmentalImpactIndicatorKey">
+			<xs:selector xpath="./RR_OtherProjectInfo:EnvironmentalImpact/RR_OtherProjectInfo:EnvironmentalImpactExplanation"/>
+			<xs:field xpath="@RR_OtherProjectInfo:EnvironmentalImpactIndicator"/>
+		</xs:keyref>
+		<xs:key name="InternationalActivitiesIndicatorKey">
+			<xs:selector xpath="./RR_OtherProjectInfo:InternationalActivities"/>
+			<xs:field xpath="RR_OtherProjectInfo:InternationalActivitiesIndicator"/>
+		</xs:key>
+		<xs:keyref name="InternationalActivitiesIndicatorKeyRef" refer="RR_OtherProjectInfo:InternationalActivitiesIndicatorKey">
+			<xs:selector xpath="./RR_OtherProjectInfo:InternationalActivities/RR_OtherProjectInfo:ActivitiesPartnershipsCountries"/>
+			<xs:field xpath="@RR_OtherProjectInfo:InternationalActivitiesIndicator"/>
+		</xs:keyref>
+		<xs:key name="EnvironmentalExemptionIndicatorKey">
+			<xs:selector xpath="./RR_OtherProjectInfo:EnvironmentalImpact/RR_OtherProjectInfo:EnvironmentalExemption"/>
+			<xs:field xpath="RR_OtherProjectInfo:EnvironmentalExemptionIndicator"/>
+		</xs:key>
+		<xs:keyref name="EnvironmentalExemptionIndicatorKeyRef" refer="RR_OtherProjectInfo:EnvironmentalExemptionIndicatorKey">
+			<xs:selector xpath="./RR_OtherProjectInfo:EnvironmentalImpact/RR_OtherProjectInfo:EnvironmentalExemption/RR_OtherProjectInfo:EnvironmentalExemptionExplanation"/>
+			<xs:field xpath="@RR_OtherProjectInfo:EnvironmentalExpemptionIndicator"/>
+		</xs:keyref>
+	</xs:element>
+</xs:schema>

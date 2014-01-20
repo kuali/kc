@@ -1,0 +1,1 @@
+alter table award_hierarchy add active char(1) default 'Y' not null;

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="OrganizationTypeMaintenanceDocument" parent="OrganizationTypeMaintenanceDocument-parentBean"/>
+
+  <bean id="OrganizationTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationType"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="OrganizationTypeMaintenanceDocument-EditOrganizationType"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>organizationId</value>
+        <value>organizationTypeCode</value>
+      </list>
+    </property>
+    <property name="allowsRecordDeletion" value="true" />
+    
+    
+    
+    <property name="documentTypeName" value="OrganizationTypeMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="OrganizationTypeMaintenanceDocument-EditOrganizationType" parent="OrganizationTypeMaintenanceDocument-EditOrganizationType-parentBean"/>
+
+  <bean id="OrganizationTypeMaintenanceDocument-EditOrganizationType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit OrganizationType"/>
+    <property name="title" value="Edit OrganizationType"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+</beans>

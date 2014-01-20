@@ -1,0 +1,250 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CoiDisclosureUndisclosedEvents" parent="CoiDisclosureUndisclosedEvents-parentBean" />
+
+  <bean id="CoiDisclosureUndisclosedEvents-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.coi.CoiDisclosureUndisclosedEvents" />
+    <property name="objectLabel" value="Undisclosed Events" />
+    <!--<property name="inquiryDefinition" >
+      <ref bean="CoiDisclosureUndisclosedEvents-inquiryDefinition" />
+    </property>-->
+    <property name="lookupDefinition" >
+      <ref bean="CoiDisclosureUndisclosedEvents-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="projectId" />
+    
+    <property name="attributes" >
+      <list>
+        <ref bean="CoiDisclosureUndisclosedEvents-personId" />
+        <ref bean="CoiDisclosureUndisclosedEvents-disclosureEventType" />
+        <ref bean="CoiDisclosureUndisclosedEvents-createDate" />
+        <ref bean="CoiDisclosureUndisclosedEvents-projectId" />
+        <ref bean="CoiDisclosureUndisclosedEvents-projectTitle" />
+		<ref bean="CoiDisclosureUndisclosedEvents-person.fullName" />
+		<ref bean="CoiDisclosureUndisclosedEvents-person.userName" />
+		<ref bean="CoiDisclosureUndisclosedEvents-sponsorCode" />
+		<ref bean="CoiDisclosureUndisclosedEvents-personName" />
+		<ref bean="CoiDisclosureUndisclosedEvents-formattedCreateDate" />
+		<ref bean="CoiDisclosureUndisclosedEvents-projectStatus" />
+	 </list>
+	</property>
+   
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="sponsor" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="sponsorCode"
+                    p:targetName="sponsorCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+   
+   </bean>
+   
+   
+   <bean id="CoiDisclosureUndisclosedEvents-personId" parent="CoiDisclosureUndisclosedEvents-personId-parentBean" />
+	<bean id="CoiDisclosureUndisclosedEvents-personId-parentBean" abstract="true" parent="PersonImpl-principalId" >
+		<property name="name" value="personId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person Id" />
+		<property name="shortLabel" value="Person Id" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+        <property name="control" >
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="person.fullName"
+                p:universalIdAttributeName="personId"
+                p:userIdAttributeName="person.userName" />
+        </property>
+		<property name="summary" value="COI Disclosure Reporter" />
+		<property name="description" value="COI Disclosure Reporter" />
+	</bean>
+	
+	<bean id="CoiDisclosureUndisclosedEvents-disclosureEventType" parent="CoiDisclosureUndisclosedEvents-disclosureEventType-parentBean" />
+	<bean id="CoiDisclosureUndisclosedEvents-disclosureEventType-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="disclosureEventType" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Disclosure Event Type" />
+		<property name="shortLabel" value="Disclosure Event Type" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kra.coi.disclosure.CoiUndisclosedEventTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+		<property name="summary" value="COI Disclosure Event Type" />
+		<property name="description" value="COI Disclosure Event Type" />
+	</bean>
+	
+    <bean id="CoiDisclosureUndisclosedEvents-createDate" parent="CoiDisclosureUndisclosedEvents-createDate-parentBean" />
+    <bean id="CoiDisclosureUndisclosedEvents-createDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="createDate" />
+        <property name="label" value="Create Date" />
+        <property name="shortLabel" value="Create Date" />
+        <property name="summary" value="Create Date" />
+        <property name="description" value="Create Date" />
+    </bean>
+	
+	<bean id="CoiDisclosureUndisclosedEvents-projectId" parent="CoiDisclosureUndisclosedEvents-projectId-parentBean" />
+	<bean id="CoiDisclosureUndisclosedEvents-projectId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="projectId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Project Id" />
+		<property name="shortLabel" value="Project Id" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="15" />
+		</property>
+		<property name="summary" value="COI Disclosure Project Id" />
+		<property name="description" value="COI Disclosure Project Id" />
+	</bean>
+	
+	<bean id="CoiDisclosureUndisclosedEvents-projectTitle" parent="CoiDisclosureUndisclosedEvents-projectTitle-parentBean" />
+	<bean id="CoiDisclosureUndisclosedEvents-projectTitle-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="projectTitle" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Project Title" />
+		<property name="shortLabel" value="Project Title" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="15" />
+		</property>
+		<property name="summary" value="COI Disclosure Project Title" />
+		<property name="description" value="COI Disclosure Project Title" />
+	</bean>
+	
+  	<bean id="CoiDisclosureUndisclosedEvents-person.userName" parent="CoiDisclosureUndisclosedEvents-person.userName-parentBean" />
+    <bean id="CoiDisclosureUndisclosedEvents-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
+        <property name="name" value="person.userName" />
+        <property name="label" value="Reporter" />
+        <property name="shortLabel" value="KC Person User Name" />
+        <property name="required" value="false" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="person.fullName"
+                p:universalIdAttributeName="personId"
+                p:userIdAttributeName="person.userName" />
+        </property>
+    </bean>
+
+  	<bean id="CoiDisclosureUndisclosedEvents-person.fullName" parent="CoiDisclosureUndisclosedEvents-person.fullName-parentBean" />
+    <bean id="CoiDisclosureUndisclosedEvents-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="person.fullName" />
+        <property name="label" value="KcPerson Full Name" />
+        <property name="shortLabel" value="KcPerson Full Name" />
+    </bean>
+	
+  <bean id="CoiDisclosureUndisclosedEvents-sponsorCode" parent="CoiDisclosureUndisclosedEvents-sponsorCode-parentBean" />
+  <bean id="CoiDisclosureUndisclosedEvents-sponsorCode-parentBean" abstract="true" parent="Sponsor-sponsorCode">
+    <property name="name" value="sponsorCode" />
+  </bean>
+
+	<bean id="CoiDisclosureUndisclosedEvents-personName" parent="CoiDisclosureUndisclosedEvents-personName-parentBean" />
+	<bean id="CoiDisclosureUndisclosedEvents-personName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Reporter" />
+		<property name="shortLabel" value="Reporter" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="15" />
+		</property>
+		<property name="summary" value="Project reporter" />
+		<property name="description" value="Project reporter" />
+	</bean>
+	
+	<bean id="CoiDisclosureUndisclosedEvents-formattedCreateDate" parent="CoiDisclosureUndisclosedEvents-formattedCreateDate-parentBean" />
+	<bean id="CoiDisclosureUndisclosedEvents-formattedCreateDate-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="formattedCreateDate" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Created Date" />
+		<property name="shortLabel" value="Created Date" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="15" />
+		</property>
+		<property name="summary" value="Project formatted create date" />
+		<property name="description" value="Project formatted create date" />
+	</bean>
+
+	<bean id="CoiDisclosureUndisclosedEvents-projectStatus" parent="CoiDisclosureUndisclosedEvents-projectStatus-parentBean" />
+	<bean id="CoiDisclosureUndisclosedEvents-projectStatus-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="projectStatus" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Project Status" />
+		<property name="shortLabel" value="Project Status" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="15" />
+		</property>
+		<property name="summary" value="Project Status" />
+		<property name="description" value="Project Status" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+    
+    <!-- Business Object Lookup Definition -->
+    <bean id="CoiDisclosureUndisclosedEvents-lookupDefinition" parent="CoiDisclosureUndisclosedEvents-lookupDefinition-parentBean" />
+    <bean id="CoiDisclosureUndisclosedEvents-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Coi Undisclosed Events Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="lookupableID" value="coiDisclosureUndisclosedEventsLookupable" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="person.userName" />
+                <bean parent="FieldDefinition" p:attributeName="disclosureEventType"/>
+                <bean parent="FieldDefinition" p:attributeName="createDate" />
+                <bean parent="FieldDefinition" p:attributeName="sponsorCode" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="projectId" 
+					p:forceLookup="true" />
+                <bean parent="FieldDefinition" p:attributeName="projectTitle" />
+                <bean parent="FieldDefinition" p:attributeName="disclosureEventType" />
+                <bean parent="FieldDefinition" p:attributeName="personId" />
+                <bean parent="FieldDefinition" p:attributeName="personName" />
+                <bean parent="FieldDefinition" p:attributeName="formattedCreateDate" />
+                <bean parent="FieldDefinition" p:attributeName="projectStatus" />
+            </list>
+        </property>
+    </bean>
+	</beans>

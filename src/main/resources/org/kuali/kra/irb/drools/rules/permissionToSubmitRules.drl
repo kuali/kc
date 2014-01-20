@@ -1,0 +1,32 @@
+#created on: Apr 5, 2009
+package org.kuali.kra.irb.drools.rules
+
+#list any import classes here.
+
+import org.kuali.kra.irb.actions.submit.ActionRightMapping;
+
+
+rule "Rule 1 -  104/105/106/108/114/115/116 And 303 And 101"
+salience 100
+when
+	actionRight : ActionRightMapping(actionTypeCode in ('104', '105','106','108','114','115','116','303','101'))
+then	
+    actionRight.setAllowed(true);
+    actionRight.setRightId("Submit Protocol");
+end
+rule "Rule 2 -  103"
+salience 100
+when
+	actionRight : ActionRightMapping(actionTypeCode in ('103'))
+then	
+    actionRight.setAllowed(true);
+    actionRight.setRightId("Create Ammendment");
+end
+rule "Rule 3 -  102"
+salience 100
+when
+	actionRight : ActionRightMapping(actionTypeCode in ('102'))
+then	
+    actionRight.setAllowed(true);
+    actionRight.setRightId("Create Renewal");
+end

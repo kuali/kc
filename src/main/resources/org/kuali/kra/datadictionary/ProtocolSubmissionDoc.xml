@@ -1,0 +1,294 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="ProtocolSubmissionDoc" parent="ProtocolSubmissionDoc-parentBean" />
+    <bean id="ProtocolSubmissionDoc-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.ProtocolSubmissionDoc" />
+   		<property name="objectLabel" value="Protocol Submission Doc" />
+        <property name="inquiryDefinition" >
+            <ref bean="ProtocolSubmissionDoc-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="ProtocolSubmissionDoc-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="submissionDocId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="ProtocolSubmissionDoc-submissionDocId" />
+                <ref bean="ProtocolSubmissionDoc-submissionIdFk" />
+                <ref bean="ProtocolSubmissionDoc-protocolNumber" />
+                <ref bean="ProtocolSubmissionDoc-sequenceNumber" />
+                <ref bean="ProtocolSubmissionDoc-submissionNumber" />
+                <ref bean="ProtocolSubmissionDoc-documentId" />
+                <ref bean="ProtocolSubmissionDoc-fileName" />
+                <ref bean="ProtocolSubmissionDoc-description" />
+                <ref bean="ProtocolSubmissionDoc-document" />
+                <ref bean="ProtocolSubmissionDoc-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="ProtocolSubmissionDoc-submissionDocId" parent="ProtocolSubmissionDoc-submissionDocId-parentBean" />
+    <bean id="ProtocolSubmissionDoc-submissionDocId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="submissionDocId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Protocol Submission Doc Id" />
+        <property name="shortLabel" value="Protocol Submission Doc Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Protocol Submission Doc Id" />
+        <property name="description" value="Protocol Submission Doc Id" />
+    </bean>
+
+    <bean id="ProtocolSubmissionDoc-description" parent="ProtocolSubmissionDoc-description-parentBean" />
+    <bean id="ProtocolSubmissionDoc-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" >
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="2"
+            p:cols="50" />
+    </property>
+    </bean>
+    <bean id="ProtocolSubmissionDoc-submissionIdFk" parent="ProtocolSubmissionDoc-submissionIdFk-parentBean" />
+    <bean id="ProtocolSubmissionDoc-submissionIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="submissionIdFk" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Protocol Submission Id" />
+        <property name="shortLabel" value="Protocol Submission Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Protocol Submission Id" />
+        <property name="description" value="Protocol Submission Id" />
+    </bean>
+
+    <bean id="ProtocolSubmissionDoc-protocolNumber" parent="ProtocolSubmissionDoc-protocolNumber-parentBean" />
+    <bean id="ProtocolSubmissionDoc-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocolNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Protocol Number" />
+        <property name="shortLabel" value="Protocol Number" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Protocol Number" />
+        <property name="description" value="Protocol Number" />
+    </bean>
+
+    <bean id="ProtocolSubmissionDoc-sequenceNumber" parent="ProtocolSubmissionDoc-sequenceNumber-parentBean" />
+    <bean id="ProtocolSubmissionDoc-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+
+    <bean id="ProtocolSubmissionDoc-submissionNumber" parent="ProtocolSubmissionDoc-submissionNumber-parentBean" />
+    <bean id="ProtocolSubmissionDoc-submissionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="submissionNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Submission Number" />
+        <property name="shortLabel" value="Submission Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Submission Number" />
+        <property name="description" value="Submission Number" />
+    </bean>
+
+    <bean id="ProtocolSubmissionDoc-documentId" parent="ProtocolSubmissionDoc-documentId-parentBean" />
+    <bean id="ProtocolSubmissionDoc-documentId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="documentId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Document Id" />
+        <property name="shortLabel" value="Document Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Document Id" />
+        <property name="description" value="Document Id" />
+    </bean>
+
+    <bean id="ProtocolSubmissionDoc-fileName" parent="ProtocolSubmissionDoc-fileName-parentBean" />
+    <bean id="ProtocolSubmissionDoc-fileName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="fileName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="File Name" />
+        <property name="shortLabel" value="File Name" />
+        <property name="maxLength" value="300" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="File Name" />
+        <property name="description" value="File Name" />
+    </bean>
+
+    <bean id="ProtocolSubmissionDoc-document" parent="ProtocolSubmissionDoc-document-parentBean" />
+    <bean id="ProtocolSubmissionDoc-document-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="document" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Document" />
+        <property name="shortLabel" value="Document" />
+        <property name="maxLength" value="4000" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Document" />
+        <property name="description" value="Document" />
+    </bean>
+
+    <bean id="ProtocolSubmissionDoc-versionNumber" parent="ProtocolSubmissionDoc-versionNumber-parentBean" />
+    <bean id="ProtocolSubmissionDoc-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="ProtocolSubmissionDoc-inquiryDefinition" parent="ProtocolSubmissionDoc-inquiryDefinition-parentBean" />
+    <bean id="ProtocolSubmissionDoc-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Protocol Submission Doc Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Protocol Submission Doc Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="submissionDocId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="submissionIdFk" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="protocolNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="submissionNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="documentId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="fileName" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="document" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="ProtocolSubmissionDoc-lookupDefinition" parent="ProtocolSubmissionDoc-lookupDefinition-parentBean" />
+    <bean id="ProtocolSubmissionDoc-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Protocol Submission Doc Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionDocId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionIdFk" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="documentId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="fileName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="document" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionDocId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionIdFk" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="documentId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="fileName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="document" />
+            </list>
+        </property>
+    </bean>
+</beans>

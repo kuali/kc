@@ -1,0 +1,323 @@
+<!--
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="AwardFandaRate" parent="AwardFandaRate-parentBean" />
+	<bean id="AwardFandaRate-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.commitments.AwardFandaRate" />
+		<property name="objectLabel" value="Award Fanda Rate" />
+		<property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardFandaRateHelpUrl" p:parameterDetailType="Document"/>
+        </property>
+		<property name="inquiryDefinition" >
+			<ref bean="AwardFandaRate-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="AwardFandaRate-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="awardFandaRateId" />
+		<property name="attributes" >
+			<list>
+				<ref bean="AwardFandaRate-awardFandaRateId" />				
+				<ref bean="AwardFandaRate-applicableFandaRate" />
+				<ref bean="AwardFandaRate-awardNumber" />
+				<ref bean="AwardFandaRate-sequenceNumber" />
+				<ref bean="AwardFandaRate-fandaRateTypeCode" />
+				<ref bean="AwardFandaRate-fiscalYear" />
+				<ref bean="AwardFandaRate-onCampusFlag" />
+				<ref bean="AwardFandaRate-underrecoveryOfIndirectCost" />
+				<ref bean="AwardFandaRate-sourceAccount" />
+				<ref bean="AwardFandaRate-destinationAccount" />
+				<ref bean="AwardFandaRate-startDate" />
+				<ref bean="AwardFandaRate-endDate" />
+				<ref bean="AwardFandaRate-versionNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="AwardFandaRate-awardFandaRateId" parent="AwardFandaRate-awardFandaRateId-parentBean" />
+	<bean id="AwardFandaRate-awardFandaRateId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="awardFandaRateId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Award Idc Rate Id" />
+		<property name="shortLabel" value="Award Idc Rate Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Award Idc Rate Id" />
+		<property name="description" value="Award Idc Rate Id" />
+	</bean>
+	
+	<bean id="AwardFandaRate-awardNumber" parent="AwardFandaRate-awardNumber-parentBean" />
+	<bean id="AwardFandaRate-awardNumber-parentBean" abstract="true" parent="Award-awardNumber" >
+	</bean>
+	
+	<bean id="AwardFandaRate-sequenceNumber" parent="AwardFandaRate-sequenceNumber-parentBean" />
+	<bean id="AwardFandaRate-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="sequenceNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Sequence Number" />
+		<property name="shortLabel" value="Sequence Number" />
+		<property name="maxLength" value="8" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="required" value="true" />
+		<property name="summary" value="Sequence Number" />
+		<property name="description" value="Sequence Number" />
+	</bean>
+
+	<bean id="AwardFandaRate-applicableFandaRate" parent="AwardFandaRate-applicableFandaRate-parentBean" />
+	<bean id="AwardFandaRate-applicableFandaRate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount" >
+		<property name="name" value="applicableFandaRate" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Rate" />
+		<property name="shortLabel" value="Rate" />
+		<property name="maxLength" value="22" />
+		<property name="required" value="true" />
+		<property name="summary" value="Applicable Idc Rate" />
+		<property name="description" value="Applicable Idc Rate" />
+	</bean>
+
+	<bean id="AwardFandaRate-fandaRateTypeCode" parent="AwardFandaRate-fandaRateTypeCode-parentBean" />
+	<bean id="AwardFandaRate-fandaRateTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="fandaRateTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Type" />
+		<property name="shortLabel" value="Type" />
+		<property name="maxLength" value="22" />		
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control" >
+	      	<bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.award.budget.AwardFnARatesValuesFinder"
+            p:includeKeyInLabel="false" />
+    	</property>
+		<property name="summary" value="F&amp;A Rate Type Code" />
+		<property name="description" value="F&amp;A Rate Type Code" />
+	</bean>
+
+	<bean id="AwardFandaRate-fiscalYear" parent="AwardFandaRate-fiscalYear-parentBean" />
+	<bean id="AwardFandaRate-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="fiscalYear" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Fiscal Year" />
+		<property name="shortLabel" value="Fiscal Year" />
+		<property name="maxLength" value="4" />		
+		<property name="validationPattern" >
+      		<bean parent="NumericValidationPattern"
+            	p:exactLength="4" />
+    	</property>
+    	<property name="required" value="true" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="4" />
+		</property>
+		<property name="summary" value="Fiscal Year" />
+		<property name="description" value="Fiscal Year" />
+	</bean>
+
+	<bean id="AwardFandaRate-onCampusFlag" parent="AwardFandaRate-onCampusFlag-parentBean" />
+	<bean id="AwardFandaRate-onCampusFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+		<property name="name" value="onCampusFlag" />
+		<property name="label" value="Campus" />
+		<property name="shortLabel" value="Campus" />
+		<property name="summary" value="On CampusContractContract Flag" />
+		<property name="description" value="On CampusContractContract Flag" />
+		<property name="required" value="true" />
+		<property name="control" >
+		    <bean parent="SelectControlDefinition"
+		          p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.AwardOnOffCampusValuesFinder"
+		          p:includeKeyInLabel="false" />
+    	</property>
+	</bean>
+
+	<bean id="AwardFandaRate-underrecoveryOfIndirectCost" parent="AwardFandaRate-underrecoveryOfIndirectCost-parentBean" />
+	<bean id="AwardFandaRate-underrecoveryOfIndirectCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount" >
+		<property name="name" value="underrecoveryOfIndirectCost" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Unrecovered F&amp;A" />
+		<property name="shortLabel" value="Unrecovered F&amp;A" />
+		<property name="maxLength" value="22" />
+		<property name="summary" value="Underrecovery Of Idc" />
+		<property name="description" value="Underrecovery Of Idc" />
+	</bean>
+
+	<bean id="AwardFandaRate-sourceAccount" parent="KraAttributeReferenceDummy-sourceAccount" >
+		<property name="label" value="Source" />
+		<property name="shortLabel" value="Source" />
+	</bean>
+
+	<bean id="AwardFandaRate-destinationAccount"  parent="KraAttributeReferenceDummy-sourceAccount" >
+		<property name="name" value="destinationAccount" />
+		<property name="label" value="Destination" />
+		<property name="shortLabel" value="Destination" />
+		<property name="summary" value="Destination Account" />
+		<property name="description" value="Destination Account" />
+	</bean>
+
+	<bean id="AwardFandaRate-startDate" parent="AwardFandaRate-startDate-parentBean" />
+	<bean id="AwardFandaRate-startDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="startDate" />
+		<property name="label" value="Start Date" />
+		<property name="shortLabel" value="Start Date" />
+		<property name="summary" value="Start Date" />
+		<property name="description" value="Start Date" />
+		<property name="required" value="true" />
+	</bean>
+
+	<bean id="AwardFandaRate-endDate" parent="AwardFandaRate-endDate-parentBean" />
+	<bean id="AwardFandaRate-endDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="endDate" />
+		<property name="label" value="End Date" />
+		<property name="shortLabel" value="End Date" />
+		<property name="summary" value="End Date" />
+		<property name="description" value="End Date" />
+	</bean>
+
+	<bean id="AwardFandaRate-versionNumber" parent="AwardFandaRate-versionNumber-parentBean" />
+	<bean id="AwardFandaRate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="AwardFandaRate-inquiryDefinition" parent="AwardFandaRate-inquiryDefinition-parentBean" />
+	<bean id="AwardFandaRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Award Idc Rate Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Award Idc Rate Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="awardFandaRateId" 
+								p:forceInquiry="true" />								
+							<bean parent="FieldDefinition"
+								p:attributeName="awardNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="sequenceNumber" />		
+							<bean parent="FieldDefinition"
+								p:attributeName="applicableFandaRate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="fandaRateTypeCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="fiscalYear" />
+							<bean parent="FieldDefinition"
+								p:attributeName="onCampusFlag" />
+							<bean parent="FieldDefinition"
+								p:attributeName="underrecoveryOfIndirectCost" />
+							<bean parent="FieldDefinition"
+								p:attributeName="sourceAccount" />
+							<bean parent="FieldDefinition"
+								p:attributeName="destinationAccount" />
+							<bean parent="FieldDefinition"
+								p:attributeName="startDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="endDate" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="AwardFandaRate-lookupDefinition" parent="AwardFandaRate-lookupDefinition-parentBean" />
+	<bean id="AwardFandaRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Award Idc Rate Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="awardFandaRateId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="applicableFandaRate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="awardNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />	
+				<bean parent="FieldDefinition"
+					p:attributeName="fandaRateTypeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="fiscalYear" />
+				<bean parent="FieldDefinition"
+					p:attributeName="onCampusFlag" />
+				<bean parent="FieldDefinition"
+					p:attributeName="underrecoveryOfIndirectCost" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sourceAccount" />
+				<bean parent="FieldDefinition"
+					p:attributeName="destinationAccount" />
+				<bean parent="FieldDefinition"
+					p:attributeName="startDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="endDate" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="awardFandaRateId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="applicableFandaRate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="awardNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />	
+				<bean parent="FieldDefinition"
+					p:attributeName="fandaRateTypeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="fiscalYear" />
+				<bean parent="FieldDefinition"
+					p:attributeName="onCampusFlag" />
+				<bean parent="FieldDefinition"
+					p:attributeName="underrecoveryOfIndirectCost" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sourceAccount" />
+				<bean parent="FieldDefinition"
+					p:attributeName="destinationAccount" />
+				<bean parent="FieldDefinition"
+					p:attributeName="startDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="endDate" />
+			</list>
+		</property>
+	</bean>
+</beans>

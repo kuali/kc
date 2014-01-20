@@ -1,0 +1,29 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- This file lists out the default locations to find additional configuration information.  This information isn't 
+in the testharness-test-config.xml because we don't want maven to filter the file in here so we can conveniently add
+${user.home} or whatever else System properties and get them runtime and not build time. Depends on 
+${module.name} set by
+1.)  Maven in the root config file of the module being tested
+2.)  test harness
+-->
+
+<config>
+	<param name="config.location">${user.home}/kuali/test/${environment}/common-test-config.xml</param>
+	<param name="config.location">${user.home}/kuali/test/${environment}/${module.name}-test-config.xml</param>
+</config>

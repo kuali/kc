@@ -1,0 +1,145 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="MembershipRole" parent="MembershipRole-parentBean" />
+	<bean id="MembershipRole-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.common.committee.bo.MembershipRole" />
+		<property name="objectLabel" value="Membership Role" />
+		<property name="inquiryDefinition" >
+			<ref bean="MembershipRole-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="MembershipRole-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="membershipRoleCode" />
+		<property name="attributes" >
+			<list>
+				<ref bean="MembershipRole-membershipRoleCode" />
+				<ref bean="MembershipRole-description" />
+				<ref bean="MembershipRole-versionNumber" />
+				<ref bean="MembershipRole-committeeTypeCode" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="MembershipRole-membershipRoleCode" parent="MembershipRole-membershipRoleCode-parentBean" />
+	<bean id="MembershipRole-membershipRoleCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="membershipRoleCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Membership Role Code" />
+		<property name="shortLabel" value="Membership Role Code" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="3" />
+		</property>
+		<property name="summary" value="Membership Role Code" />
+		<property name="description" value="Membership Role Code" />
+	</bean>
+
+	<bean id="MembershipRole-committeeTypeCode" parent="MembershipRole-committeeTypeCode-parentBean" />
+	<bean id="MembershipRole-committeeTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="committeeTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Committee Type Code" />
+		<property name="shortLabel" value="Committee Type Code" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="3" />
+		</property>
+		<property name="summary" value="Committee Type Code" />
+		<property name="description" value="Committee Type Code" />
+	</bean>
+	
+	<bean id="MembershipRole-description" parent="MembershipRole-description-parentBean" />
+	<bean id="MembershipRole-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
+
+	<bean id="MembershipRole-versionNumber" parent="MembershipRole-versionNumber-parentBean" />
+	<bean id="MembershipRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="MembershipRole-inquiryDefinition" parent="MembershipRole-inquiryDefinition-parentBean" />
+	<bean id="MembershipRole-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Membership Role Code" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Membership Role Code" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="membershipRoleCode" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="description" />
+							<bean parent="FieldDefinition"
+								p:attributeName="committeeTypeCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="MembershipRole-lookupDefinition" parent="MembershipRole-lookupDefinition-parentBean" />
+	<bean id="MembershipRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Membership Role Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="membershipRoleCode" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+				<bean parent="FieldDefinition"
+					p:attributeName="committeeTypeCode" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="membershipRoleCode" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+					<bean parent="FieldDefinition"
+					p:attributeName="committeeTypeCode" />
+			</list>
+		</property>
+	</bean>
+</beans>

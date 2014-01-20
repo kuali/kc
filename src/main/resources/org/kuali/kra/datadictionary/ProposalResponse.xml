@@ -1,0 +1,115 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProposalResponse" parent="ProposalResponse-parentBean" />
+
+  <bean id="ProposalResponse-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalResponse" />
+		<property name="objectLabel" value="Proposal Response" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalResponse-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalResponse-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="proposalResponseCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalResponse-proposalResponseCode" />
+        <ref bean="ProposalResponse-description" />
+        <ref bean="ProposalResponse-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ProposalResponse-proposalResponseCode" parent="ProposalResponse-proposalResponseCode-parentBean" />
+
+  <bean id="ProposalResponse-proposalResponseCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalResponseCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Response" />
+    <property name="shortLabel" value="Proposal Response" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Proposal Response" />
+    <property name="description" value="Proposal Response" />
+  </bean>
+  <bean id="ProposalResponse-description" parent="ProposalResponse-description-parentBean" />
+
+  <bean id="ProposalResponse-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="ProposalResponse-versionNumber" parent="ProposalResponse-versionNumber-parentBean" />
+
+  <bean id="ProposalResponse-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ProposalResponse-inquiryDefinition" parent="ProposalResponse-inquiryDefinition-parentBean" />
+
+  <bean id="ProposalResponse-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Proposal Response" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Proposal Response" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalResponseCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ProposalResponse-lookupDefinition" parent="ProposalResponse-lookupDefinition-parentBean" />
+
+  <bean id="ProposalResponse-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Proposal Response Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalResponseCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalResponseCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

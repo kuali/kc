@@ -1,0 +1,74 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="ValidProtocolActionActionMaintenanceDocument" parent="ValidProtocolActionActionMaintenanceDocument-parentBean" />
+    <bean id="ValidProtocolActionActionMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ValidProtocolActionAction" />
+        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+        <property name="maintainableSections" >
+            <list>
+                <ref bean="ValidProtocolActionActionMaintenanceDocument-EditValidProtoSubRevType" />
+            </list>
+        </property>
+        <property name="lockingKeys" >
+            <list>
+                <value>validProtocolActionActionId</value>
+            </list>
+        </property>
+        <property name="allowsRecordDeletion" value="true" />
+        <property name="documentTypeName" value="ValidProtocolActionActionMaintenanceDocument" />
+        <property name="businessRulesClass" value="org.kuali.kra.irb.actions.submit.ValidProtocolActionActionMaintenanceDocumentRule"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+    
+    <bean id="ValidProtocolActionActionMaintenanceDocument-EditValidProtoSubRevType" parent="ValidProtocolActionActionMaintenanceDocument-EditValidProtoSubRevType-parentBean" />
+    <bean id="ValidProtocolActionActionMaintenanceDocument-EditValidProtoSubRevType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Protocol Follow-up Actions" />
+        <property name="title" value="Edit Protocol Follow-up Actions" />
+        <property name="maintainableItems" >
+            <list>
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="validProtocolActionActionId"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="protocolActionTypeCode"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="motionTypeCode"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="actionNumber"
+                    p:required="true" />    
+ 	            <bean parent="MaintainableFieldDefinition"
+                    p:name="followupActionCode"
+                    p:required="true" />    
+   				<bean parent="MaintainableFieldDefinition"
+                    p:name="userPromptFlag"
+                    p:required="false" />  
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="userPrompt"
+                    p:required="false" />
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,886 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="CoiDisclosureEventType" parent="CoiDisclosureEventType-parentBean" />
+	<bean id="CoiDisclosureEventType-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.coi.CoiDisclosureEventType" />
+		<property name="objectLabel" value="COI Event Type" />
+		<property name="inquiryDefinition" >
+			<ref bean="CoiDisclosureEventType-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="CoiDisclosureEventType-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="eventTypeCode" />
+		<property name="attributes" >
+			<list>
+				<ref bean="CoiDisclosureEventType-eventTypeCode" />
+				<ref bean="CoiDisclosureEventType-description" />			
+                <ref bean="CoiDisclosureEventType-excludeFromMasterDisclosure" />
+                <ref bean="CoiDisclosureEventType-excludeFinancialEntities" /> 
+                <ref bean="CoiDisclosureEventType-systemEvent" />                                               
+                <ref bean="CoiDisclosureEventType-active" />  
+                        
+                <ref bean="CoiDisclosureEventType-useShortTextField1" />
+                <ref bean="CoiDisclosureEventType-useShortTextField2" />
+                <ref bean="CoiDisclosureEventType-useShortTextField3" />
+                <ref bean="CoiDisclosureEventType-useLongTextField1" />
+                <ref bean="CoiDisclosureEventType-useLongTextField2" />
+                <ref bean="CoiDisclosureEventType-useLongTextField3" />
+                <ref bean="CoiDisclosureEventType-useNumberField1" />
+                <ref bean="CoiDisclosureEventType-useNumberField2" />
+                <ref bean="CoiDisclosureEventType-useDateField1" />
+                <ref bean="CoiDisclosureEventType-useDateField2" />	
+                
+                <ref bean="CoiDisclosureEventType-requireShortTextField1" />
+                <ref bean="CoiDisclosureEventType-requireShortTextField2" />
+                <ref bean="CoiDisclosureEventType-requireShortTextField3" />                 
+                <ref bean="CoiDisclosureEventType-requireLongTextField1" />
+                <ref bean="CoiDisclosureEventType-requireLongTextField2" />
+                <ref bean="CoiDisclosureEventType-requireLongTextField3" />
+                <ref bean="CoiDisclosureEventType-requireNumberField1" />
+                <ref bean="CoiDisclosureEventType-requireNumberField2" />
+                <ref bean="CoiDisclosureEventType-requireDateField1" />
+                <ref bean="CoiDisclosureEventType-requireDateField2" />
+
+                <ref bean="CoiDisclosureEventType-projectIdLabel" />
+                <ref bean="CoiDisclosureEventType-projectTitleLabel" />                		
+                <ref bean="CoiDisclosureEventType-shortTextField1Label" />
+                <ref bean="CoiDisclosureEventType-shortTextField2Label" />
+                <ref bean="CoiDisclosureEventType-shortTextField3Label" />
+                <ref bean="CoiDisclosureEventType-longTextField1Label" />
+                <ref bean="CoiDisclosureEventType-longTextField2Label" />
+                <ref bean="CoiDisclosureEventType-longTextField3Label" />                
+                <ref bean="CoiDisclosureEventType-numberField1Label" />
+                <ref bean="CoiDisclosureEventType-numberField2Label" />
+                <ref bean="CoiDisclosureEventType-dateField1Label" />
+                <ref bean="CoiDisclosureEventType-dateField2Label" />								
+				<ref bean="CoiDisclosureEventType-versionNumber" />
+				
+                <ref bean="CoiDisclosureEventType-useSelectBox1" />                               
+                <ref bean="CoiDisclosureEventType-requireSelectBox1" />                               
+                <ref bean="CoiDisclosureEventType-selectBox1Label" />                               
+                <ref bean="CoiDisclosureEventType-selectBox1ValuesFinder" />                               
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="CoiDisclosureEventType-eventTypeCode" parent="CoiDisclosureEventType-eventTypeCode-parentBean" />
+	<bean id="CoiDisclosureEventType-eventTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="eventTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="COI Event Type Code" />
+		<property name="shortLabel" value="COI Event Type Code" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="3" />
+		</property>
+		<property name="summary" value="COI Event Type Code" />
+		<property name="description" value="COI Event Type Code" />
+	</bean>
+	
+    <bean id="CoiDisclosureEventType-description" parent="CoiDisclosureEventType-description-parentBean" />
+    <bean id="CoiDisclosureEventType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
+     
+     
+	<bean id="CoiDisclosureEventType-versionNumber" parent="CoiDisclosureEventType-versionNumber-parentBean" />
+	<bean id="CoiDisclosureEventType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+	
+    
+    <bean id="CoiDisclosureEventType-excludeFromMasterDisclosure" parent="CoiDisclosureEventType-excludeFromMasterDisclosure-parentBean" />
+    <bean id="CoiDisclosureEventType-excludeFromMasterDisclosure-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="excludeFromMasterDisclosure" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Exclude From Annual Disclosure" />
+        <property name="shortLabel" value="Exclude From Annual Disclosure" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Exclude From Annual Disclosure" />
+        <property name="description" value="Exclude From Annual Disclosure" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-excludeFinancialEntities" parent="CoiDisclosureEventType-excludeFinancialEntities-parentBean" />
+    <bean id="CoiDisclosureEventType-excludeFinancialEntities-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="excludeFinancialEntities" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Exclude Financial Entities" />
+        <property name="shortLabel" value="Exclude Financial Entities" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Exclude Financial Entities" />
+        <property name="description" value="Exclude Financial Entities" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-systemEvent" parent="CoiDisclosureEventType-systemEvent-parentBean" />
+    <bean id="CoiDisclosureEventType-systemEvent-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="systemEvent" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="System Event" />
+        <property name="shortLabel" value="System Event" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="System Event" />
+        <property name="description" value="System Event" />
+    </bean>
+    
+    <bean id="CoiDisclosureEventType-active" parent="CoiDisclosureEventType-active-parentBean" />
+    <bean id="CoiDisclosureEventType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Active" />
+        <property name="shortLabel" value="Active" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Active" />
+        <property name="description" value="Active" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-useShortTextField1" parent="CoiDisclosureEventType-useShortTextField1-parentBean" />
+    <bean id="CoiDisclosureEventType-useShortTextField1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useShortTextField1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Short Text Field 1" />
+        <property name="shortLabel" value="Use Short Text Field 1" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Short Text Field 1" />
+        <property name="description" value="Use Short Text Field 1" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-useShortTextField2" parent="CoiDisclosureEventType-useShortTextField2-parentBean" />
+    <bean id="CoiDisclosureEventType-useShortTextField2-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useShortTextField2" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Short Text Field 2" />
+        <property name="shortLabel" value="Use Short Text Field 2" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Short Text Field 2" />
+        <property name="description" value="Use Short Text Field 2" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-useShortTextField3" parent="CoiDisclosureEventType-useShortTextField3-parentBean" />
+    <bean id="CoiDisclosureEventType-useShortTextField3-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useShortTextField3" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Short Text Field 3" />
+        <property name="shortLabel" value="Use Short Text Field 3" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Short Text Field 3" />
+        <property name="description" value="Use Short Text Field 3" />
+    </bean>
+    
+    <bean id="CoiDisclosureEventType-useLongTextField1" parent="CoiDisclosureEventType-useLongTextField1-parentBean" />
+    <bean id="CoiDisclosureEventType-useLongTextField1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useLongTextField1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Long Text Field 1" />
+        <property name="shortLabel" value="Use Long Text Field 1" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Long Text Field 1" />
+        <property name="description" value="Use Long Text Field 1" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-useLongTextField2" parent="CoiDisclosureEventType-useLongTextField2-parentBean" />
+    <bean id="CoiDisclosureEventType-useLongTextField2-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useLongTextField2" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Long Text Field 2" />
+        <property name="shortLabel" value="Use Long Text Field 2" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Long Text Field 2" />
+        <property name="description" value="Use Long Text Field 2" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-useLongTextField3" parent="CoiDisclosureEventType-useLongTextField3-parentBean" />
+    <bean id="CoiDisclosureEventType-useLongTextField3-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useLongTextField3" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Long Text Field 3" />
+        <property name="shortLabel" value="Use Long Text Field 3" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Long Text Field 3" />
+        <property name="description" value="Use Long Text Field 3" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-useNumberField1" parent="CoiDisclosureEventType-useNumberField1-parentBean" />
+    <bean id="CoiDisclosureEventType-useNumberField1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useNumberField1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Number Field 1" />
+        <property name="shortLabel" value="Use Number Field 1" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Number Field 1" />
+        <property name="description" value="Use Number Field 1" />
+    </bean>
+    
+    <bean id="CoiDisclosureEventType-useNumberField2" parent="CoiDisclosureEventType-useNumberField2-parentBean" />
+    <bean id="CoiDisclosureEventType-useNumberField2-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useNumberField2" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Number Field 2" />
+        <property name="shortLabel" value="Use Number Field 2" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Number Field 2" />
+        <property name="description" value="Use Number Field 2" />
+    </bean>
+    
+    <bean id="CoiDisclosureEventType-useDateField1" parent="CoiDisclosureEventType-useDateField1-parentBean" />
+    <bean id="CoiDisclosureEventType-useDateField1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useDateField1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Date Field 1" />
+        <property name="shortLabel" value="Use Date Field 1" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Date Field 1" />
+        <property name="description" value="Use Date Field 1" />
+    </bean> 
+
+    <bean id="CoiDisclosureEventType-useDateField2" parent="CoiDisclosureEventType-useDateField2-parentBean" />
+    <bean id="CoiDisclosureEventType-useDateField2-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useDateField2" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Date Field 2" />
+        <property name="shortLabel" value="Use Date Field 2" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Date Field 2" />
+        <property name="description" value="Use Date Field 2" />
+    </bean>       
+
+    <bean id="CoiDisclosureEventType-requireShortTextField1" parent="CoiDisclosureEventType-requireShortTextField1-parentBean" />
+    <bean id="CoiDisclosureEventType-requireShortTextField1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireShortTextField1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Short Text Field 1" />
+        <property name="shortLabel" value="Require Short Text Field 1" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Short Text Field 1" />
+        <property name="description" value="Require Short Text Field 1" />
+    </bean> 
+
+    <bean id="CoiDisclosureEventType-requireShortTextField2" parent="CoiDisclosureEventType-requireShortTextField2-parentBean" />
+    <bean id="CoiDisclosureEventType-requireShortTextField2-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireShortTextField2" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Short Text Field 2" />
+        <property name="shortLabel" value="Require Short Text Field 2" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Short Text Field 2" />
+        <property name="description" value="Require Short Text Field 2" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-requireShortTextField3" parent="CoiDisclosureEventType-requireShortTextField3-parentBean" />
+    <bean id="CoiDisclosureEventType-requireShortTextField3-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireShortTextField3" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Short Text Field 3" />
+        <property name="shortLabel" value="Require Short Text Field 3" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Short Text Field 3" />
+        <property name="description" value="Require Short Text Field 3" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-requireLongTextField1" parent="CoiDisclosureEventType-requireLongTextField1-parentBean" />
+    <bean id="CoiDisclosureEventType-requireLongTextField1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireLongTextField1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Long Text Field 1" />
+        <property name="shortLabel" value="Require Long Text Field 1" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Long Text Field 1" />
+        <property name="description" value="Require Long Text Field 1" />
+    </bean>
+    
+    <bean id="CoiDisclosureEventType-requireLongTextField2" parent="CoiDisclosureEventType-requireLongTextField2-parentBean" />
+    <bean id="CoiDisclosureEventType-requireLongTextField2-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireLongTextField2" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Long Text Field 2" />
+        <property name="shortLabel" value="Require Long Text Field 2" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Long Text Field 2" />
+        <property name="description" value="Require Long Text Field 2" />
+    </bean>    
+
+    <bean id="CoiDisclosureEventType-requireLongTextField3" parent="CoiDisclosureEventType-requireLongTextField3-parentBean" />
+    <bean id="CoiDisclosureEventType-requireLongTextField3-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireLongTextField3" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Long Text Field 3" />
+        <property name="shortLabel" value="Require Long Text Field 3" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Long Text Field 3" />
+        <property name="description" value="Require Long Text Field 3" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-requireNumberField1" parent="CoiDisclosureEventType-requireNumberField1-parentBean" />
+    <bean id="CoiDisclosureEventType-requireNumberField1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireNumberField1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Number Field 1" />
+        <property name="shortLabel" value="Require Number Field 1" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Number Field 1" />
+        <property name="description" value="Require Number Field 1" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-requireNumberField2" parent="CoiDisclosureEventType-requireNumberField2-parentBean" />
+    <bean id="CoiDisclosureEventType-requireNumberField2-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireNumberField2" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Number Field 2" />
+        <property name="shortLabel" value="Require Number Field 2" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Number Field 2" />
+        <property name="description" value="Require Number Field 2" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-requireDateField1" parent="CoiDisclosureEventType-requireDateField1-parentBean" />
+    <bean id="CoiDisclosureEventType-requireDateField1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireDateField1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Date Field 1" />
+        <property name="shortLabel" value="Require Date Field 1" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Date Field 1" />
+        <property name="description" value="Require Date Field 1" />
+    </bean>
+    
+    <bean id="CoiDisclosureEventType-requireDateField2" parent="CoiDisclosureEventType-requireDateField2-parentBean" />
+    <bean id="CoiDisclosureEventType-requireDateField2-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireDateField2" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Date Field 2" />
+        <property name="shortLabel" value="Require Date Field 2" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Date Field 2" />
+        <property name="description" value="Require Date Field 2" />
+    </bean>    
+
+    <bean id="CoiDisclosureEventType-projectIdLabel" parent="CoiDisclosureEventType-projectIdLabel-parentBean" />
+    <bean id="CoiDisclosureEventType-projectIdLabel-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="projectIdLabel" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Project Id Label" />
+        <property name="shortLabel" value="Project Id Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Project Id Label" />
+        <property name="description" value="Project Id Label" />
+    </bean>
+    
+    <bean id="CoiDisclosureEventType-projectTitleLabel" parent="CoiDisclosureEventType-projectTitleLabel-parentBean" />
+    <bean id="CoiDisclosureEventType-projectTitleLabel-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="projectTitleLabel" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Project Title Label" />
+        <property name="shortLabel" value="Project Title Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Project Title Label" />
+        <property name="description" value="Project Title Label" />
+    </bean>    
+
+    <bean id="CoiDisclosureEventType-shortTextField1Label" parent="CoiDisclosureEventType-shortTextField1Label-parentBean" />
+    <bean id="CoiDisclosureEventType-shortTextField1Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="shortTextField1Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Short Text Field 1 Label" />
+        <property name="shortLabel" value="Short Text Field 1 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Short Text Field 1 Label" />
+        <property name="description" value="Short Text Field 1 Label" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-shortTextField2Label" parent="CoiDisclosureEventType-shortTextField2Label-parentBean" />
+    <bean id="CoiDisclosureEventType-shortTextField2Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="shortTextField2Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Short Text Field 2 Label" />
+        <property name="shortLabel" value="Short Text Field 2 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Short Text Field 2 Label" />
+        <property name="description" value="Short Text Field 2 Label" />
+    </bean>  
+    
+    <bean id="CoiDisclosureEventType-shortTextField3Label" parent="CoiDisclosureEventType-shortTextField3Label-parentBean" />
+    <bean id="CoiDisclosureEventType-shortTextField3Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="shortTextField3Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Short Text Field 3 Label" />
+        <property name="shortLabel" value="Short Text Field 3 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Short Text Field 3 Label" />
+        <property name="description" value="Short Text Field 3 Label" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-longTextField1Label" parent="CoiDisclosureEventType-longTextField1Label-parentBean" />
+    <bean id="CoiDisclosureEventType-longTextField1Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="longTextField1Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Long Text Field 1 Label" />
+        <property name="shortLabel" value="Long Text Field 1 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Long Text Field 1 Label" />
+        <property name="description" value="Long Text Field 1 Label" />
+    </bean>    
+
+    <bean id="CoiDisclosureEventType-longTextField2Label" parent="CoiDisclosureEventType-longTextField2Label-parentBean" />
+    <bean id="CoiDisclosureEventType-longTextField2Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="longTextField2Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Long Text Field 2 Label" />
+        <property name="shortLabel" value="Long Text Field 2 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Long Text Field 2 Label" />
+        <property name="description" value="Long Text Field 2 Label" />
+    </bean>    
+
+    <bean id="CoiDisclosureEventType-longTextField3Label" parent="CoiDisclosureEventType-longTextField3Label-parentBean" />
+    <bean id="CoiDisclosureEventType-longTextField3Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="longTextField3Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Long Text Field 3 Label" />
+        <property name="shortLabel" value="Long Text Field 3 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Long Text Field 3 Label" />
+        <property name="description" value="Long Text Field 3 Label" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-numberField1Label" parent="CoiDisclosureEventType-numberField1Label-parentBean" />
+    <bean id="CoiDisclosureEventType-numberField1Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="numberField1Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Number Field 1 Label" />
+        <property name="shortLabel" value="Number Field 1 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Number Field 1 Label" />
+        <property name="description" value="Number Field 1 Label" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-numberField2Label" parent="CoiDisclosureEventType-numberField2Label-parentBean" />
+    <bean id="CoiDisclosureEventType-numberField2Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="numberField2Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Number Field 2 Label" />
+        <property name="shortLabel" value="Number Field 2 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Number Field 2 Label" />
+        <property name="description" value="Number Field 2 Label" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-dateField1Label" parent="CoiDisclosureEventType-dateField1Label-parentBean" />
+    <bean id="CoiDisclosureEventType-dateField1Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="dateField1Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Date Field 1 Label" />
+        <property name="shortLabel" value="Date Field 1 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Date Field 1 Label" />
+        <property name="description" value="Date Field 1 Label" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-dateField2Label" parent="CoiDisclosureEventType-dateField2Label-parentBean" />
+    <bean id="CoiDisclosureEventType-dateField2Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="dateField2Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Date Field 2 Label" />
+        <property name="shortLabel" value="Date Field 2 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Date Field 2 Label" />
+        <property name="description" value="Date Field 2 Label" />
+    </bean>  
+    
+    <bean id="CoiDisclosureEventType-useSelectBox1" parent="CoiDisclosureEventType-useSelectBox1-parentBean" />
+    <bean id="CoiDisclosureEventType-useSelectBox1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="useSelectBox1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Use Select Box 1" />
+        <property name="shortLabel" value="Use Select Box 1" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Use Select Box 1" />
+        <property name="description" value="Use Select Box 1" />
+    </bean>
+    
+    <bean id="CoiDisclosureEventType-requireSelectBox1" parent="CoiDisclosureEventType-requireSelectBox1-parentBean" />
+    <bean id="CoiDisclosureEventType-requireSelectBox1-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requireSelectBox1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Require Select Box 1" />
+        <property name="shortLabel" value="Require Select Box 1" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Require Select Box 1" />
+        <property name="description" value="Require Select Box 1" />
+    </bean>    
+
+    <bean id="CoiDisclosureEventType-selectBox1Label" parent="CoiDisclosureEventType-selectBox1Label-parentBean" />
+    <bean id="CoiDisclosureEventType-selectBox1Label-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="selectBox1Label" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Select Box 1 Label" />
+        <property name="shortLabel" value="Select Box 1 Label" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="128" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Select Box 1 Label" />
+        <property name="description" value="Select Box 1 Label" />
+    </bean>
+
+    <bean id="CoiDisclosureEventType-selectBox1ValuesFinder" parent="CoiDisclosureEventType-selectBox1ValuesFinder-parentBean" />
+    <bean id="CoiDisclosureEventType-selectBox1ValuesFinder-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="selectBox1ValuesFinder" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Select Box 1 Values Finder" />
+        <property name="shortLabel" value="Select Box 1 Values Finder" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="256" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="120" />
+        </property>
+        <property name="summary" value="Select Box 1 Values Finder" />
+        <property name="description" value="Select Box 1 Values Finder" />
+    </bean>
+    
+	<!-- Business Object Inquiry Definition -->
+	<bean id="CoiDisclosureEventType-inquiryDefinition" parent="CoiDisclosureEventType-inquiryDefinition-parentBean" />
+	<bean id="CoiDisclosureEventType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="COI Event Type Code" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="COI Event Type Code" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="eventTypeCode" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="description" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="excludeFromMasterDisclosure" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="excludeFinancialEntities" />                                
+                            <bean parent="FieldDefinition"
+                                p:attributeName="active" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useShortTextField1" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireShortTextField1" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="shortTextField1Label" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useShortTextField2" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireShortTextField2" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="shortTextField2Label" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useShortTextField3" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireShortTextField3" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="shortTextField3Label" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useLongTextField1" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireLongTextField1" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="longTextField1Label" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useLongTextField2" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireLongTextField2" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="longTextField2Label" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useLongTextField3" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireLongTextField3" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="longTextField3Label" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useNumberField1" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireNumberField1" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="numberField1Label" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useNumberField2" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireNumberField2" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="numberField2Label" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useDateField1" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireDateField1" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="dateField1Label" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useDateField2" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireDateField2" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="dateField2Label" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="useSelectBox1" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="requireSelectBox1" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="selectBox1Label" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="selectBox1ValuesFinder" />                                                                  	
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="CoiDisclosureEventType-lookupDefinition" parent="CoiDisclosureEventType-lookupDefinition-parentBean" />
+	<bean id="CoiDisclosureEventType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="COI Event Type Lookup" />
+		<property name="lookupableID" value="coiDisclosureEventTypeLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="eventTypeCode" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="excludeFromMasterDisclosure" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="excludeFinancialEntities" />                    
+                <bean parent="FieldDefinition"
+                    p:attributeName="active" />					
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="eventTypeCode" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="excludeFromMasterDisclosure" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="excludeFinancialEntities" />                    
+                <bean parent="FieldDefinition"
+                    p:attributeName="active" />					
+			</list>
+		</property>
+	</bean>
+</beans>
+

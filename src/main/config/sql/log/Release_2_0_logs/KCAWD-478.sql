@@ -1,0 +1,4 @@
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-B','D','awardBudgetEbRateClassCode','CONFG','5','The EB rate class code to be used for award budget if the eb rates are overridden on commitements tab','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-B','D','awardBudgetEbRateTypeCode','CONFG','6','The EB rate type code to be used for award budget if the eb rates are overridden on commitements tab','A');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD) values ('KRA-B','D','defaultFnARateClassCode','CONFG','1','The OH rate class code to be used for award budget if the fna rates are overridden on commitements tab','A');
+commit;

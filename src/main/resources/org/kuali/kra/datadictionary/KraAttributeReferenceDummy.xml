@@ -1,0 +1,436 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="KraAttributeReferenceDummy" parent="KraAttributeReferenceDummy-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.KraAttributeReferenceDummy" />
+		<property name="objectLabel" value="Kra Attribute Reference Dummy" />
+    <property name="attributes" >
+      <list>
+        <ref bean="KraAttributeReferenceDummy-description" />
+        <ref bean="KraAttributeReferenceDummy-bigDescription" />
+        <ref bean="KraAttributeReferenceDummy-city" />
+        <ref bean="KraAttributeReferenceDummy-county" />
+        <ref bean="KraAttributeReferenceDummy-state" />
+        <ref bean="KraAttributeReferenceDummy-countryCode" />
+        <ref bean="KraAttributeReferenceDummy-emailAddress" />
+        <ref bean="KraAttributeReferenceDummy-updateUser" />
+        <ref bean="KraAttributeReferenceDummy-updateTimestamp" />
+        <ref bean="KraAttributeReferenceDummy-genericDate" />
+        <ref bean="KraAttributeReferenceDummy-principalInvestigator" />
+        <ref bean="KraAttributeReferenceDummy-genericRate" />
+        <ref bean="KraAttributeReferenceDummy-budgetName" />
+        <ref bean="KraAttributeReferenceDummy-genericAmount" />
+        <ref bean="KraAttributeReferenceDummy-sequenceNumber" />
+        <ref bean="KraAttributeReferenceDummy-sourceAccount" />
+        <ref bean="KraAttributeReferenceDummy-checkBox" />
+        <ref bean="KraAttributeReferenceDummy-sortId" />
+        <ref bean="KraAttributeReferenceDummy-reporter" />
+        <ref bean="KraAttributeReferenceDummy-createTimestamp" />
+        <ref bean="KraAttributeReferenceDummy-committeeId" />
+        <ref bean="KraAttributeReferenceDummy-committeeName" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+  <bean id="TextareaControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.TextareaControlDefinition"
+		abstract="true" p:expandedTextArea="true" />
+
+
+  <bean id="KraAttributeReferenceDummy-description" parent="KraAttributeReferenceDummy-description-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="UTF8AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="40" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-bigDescription" parent="KraAttributeReferenceDummy-bigDescription-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-bigDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="bigDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="20"
+            p:cols="60" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-city" parent="KraAttributeReferenceDummy-city-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-city-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="city" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="City" />
+    <property name="shortLabel" value="City" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="City" />
+    <property name="description" value="City" />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-county" parent="KraAttributeReferenceDummy-county-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-county-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="county" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="County" />
+    <property name="shortLabel" value="County" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="County" />
+    <property name="description" value="County" />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-state" parent="KraAttributeReferenceDummy-state-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-state-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="state" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="State" />
+    <property name="shortLabel" value="State" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="State" />
+    <property name="description" value="State" />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-countryCode" parent="KraAttributeReferenceDummy-countryCode-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-countryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="countryCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Country Code" />
+    <property name="shortLabel" value="Country Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="alternateCode"
+            p:labelAttribute="name" />
+    </property>
+    <property name="summary" value="Country Code" />
+    <property name="description" value="Country Code" />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-emailAddress" parent="KraAttributeReferenceDummy-emailAddress-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-emailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="emailAddress" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Email Address" />
+    <property name="shortLabel" value="Email Address" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="EmailAddressValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Email Address" />
+    <property name="description" value="Email Address" />
+  </bean>
+  
+  <bean id="KraAttributeReferenceDummy-phoneNumber" parent="KraAttributeReferenceDummy-phoneNumber-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-phoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="phoneNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Phone Number" />
+    <property name="shortLabel" value="Phone Number" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="PhoneNumberValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Phone Number" />
+    <property name="description" value="Phone Number" />
+  </bean>
+  
+  <bean id="KraAttributeReferenceDummy-updateUser" parent="KraAttributeReferenceDummy-updateUser-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-updateUser-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="updateUser" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Author" />
+    <property name="shortLabel" value="Author" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="User" />
+    <property name="description" value="The user who created or last modified the object." />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-updateTimestamp" parent="KraAttributeReferenceDummy-updateTimestamp-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-updateTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="updateTimestamp" />
+    <property name="label" value="Posted Timestamp" />
+    <property name="shortLabel" value="Posted Timestamp" />
+    <property name="summary" value="Posted Timestamp" />
+    <property name="description" value="The creation or last modification timestamp." />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-genericDate" parent="KraAttributeReferenceDummy-genericDate-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-genericDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="maxLength" value="10" />
+    <property name="description" value="Create a date in the format (mm/dd/yyyy)" />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-principalInvestigator" parent="KraAttributeReferenceDummy-principalInvestigator-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-principalInvestigator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalInvestigator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Principal Investigator" />
+    <property name="shortLabel" value="PI" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Principal Investigator" />
+    <property name="description" value="Principal Investigator." />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-genericRate" parent="KraAttributeReferenceDummy-genericRate-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-genericRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="genericRate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate" />
+    <property name="shortLabel" value="Rate" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="5"
+            p:scale="2" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="A generic rate" />
+    <property name="description" value="This attribute should always be overriden on the descriptive elements." />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-budgetName" parent="KraAttributeReferenceDummy-budgetName-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-budgetName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Name" />
+    <property name="shortLabel" value="Budget Name" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Budget Name" />
+    <property name="description" value="Budget Name for header display." />
+  </bean>
+  <bean id="KraAttributeReferenceDummy-genericAmount" parent="KraAttributeReferenceDummy-genericAmount-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-genericAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="genericAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Amount" />
+    <property name="shortLabel" value="Amt" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2"
+            p:allowNegative="true" />
+    </property>
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="15"
+            p:size="13" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This attribute should always be overriden on the descriptive elements." />
+  </bean>
+  
+      <bean id="KraAttributeReferenceDummy-sequenceNumber" parent="KraAttributeReferenceDummy-sequenceNumber-parentBean" />
+    <bean id="KraAttributeReferenceDummy-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="4" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+  
+  <bean id="KraAttributeReferenceDummy-sourceAccount" parent="KraAttributeReferenceDummy-sourceAccount-parentBean" />
+    <bean id="KraAttributeReferenceDummy-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sourceAccount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Source Account" />
+    <property name="shortLabel" value="Source Account" />
+    <property name="maxLength" value="32" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Source Account" />
+    <property name="description" value="Source Account" />
+  </bean>
+  
+  <bean id="KraAttributeReferenceDummy-checkBox" parent="KraAttributeReferenceDummy-checkBox-parentBean" />
+    <bean id="KraAttributeReferenceDummy-checkBox-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="checkBox" />
+    <property name="label" value="Check Box" />
+    <property name="shortLabel" value="Check Box" />
+    <property name="summary" value="Check Box" />
+    <property name="description" value="Check Box" />
+  </bean>
+  
+  <bean id="KraAttributeReferenceDummy-sortId" parent="KraAttributeReferenceDummy-sortId-parentBean" />
+  <bean id="KraAttributeReferenceDummy-sortId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sortId" />
+    <property name="label" value="Sort ID" />
+    <property name="shortLabel" value="Sort ID" />
+    <property name="summary" value="Sort ID" />
+    <property name="description" value="Sort ID" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern">
+        <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control">
+        <bean parent="TextControlDefinition" 
+              p:size="12" />
+    </property>
+  </bean>
+
+  <bean id="KraAttributeReferenceDummy-reporter" parent="KraAttributeReferenceDummy-reporter-parentBean" />
+  <bean id="KraAttributeReferenceDummy-reporter-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="reporter" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Reporter" />
+    <property name="shortLabel" value="Reporter" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="User" />
+    <property name="description" value="The user who created or last modified the object." />
+  </bean>
+  
+  <bean id="KraAttributeReferenceDummy-createTimestamp" parent="KraAttributeReferenceDummy-createTimestamp-parentBean" />
+  <bean id="KraAttributeReferenceDummy-createTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="createTimestamp" />
+    <property name="label" value="Created" />
+    <property name="shortLabel" value="Created" />
+    <property name="summary" value="Created Timestamp" />
+    <property name="description" value="The creation or last modification timestamp." />
+  </bean>
+  
+  <bean id="KraAttributeReferenceDummy-committeeId" parent="KraAttributeReferenceDummy-committeeId-parentBean" />
+  <bean id="KraAttributeReferenceDummy-committeeId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="committeeId" />
+		<property name="label" value="Committee ID" />
+		<property name="shortLabel" value="Committee ID" />
+		<property name="maxLength" value="12" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="12" />
+		</property>
+		<property name="summary" value="Committee ID" />
+		<property name="description" value="Committee ID" />
+	</bean>
+
+	<bean id="KraAttributeReferenceDummy-committeeName" parent="KraAttributeReferenceDummy-committeeName-parentBean" />
+	<bean id="KraAttributeReferenceDummy-committeeName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="committeeName" />
+		<property name="label" value="Committee Name" />
+		<property name="shortLabel" value="Committee Name" />
+		<property name="maxLength" value="20" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="28" />
+		</property>
+		<property name="summary" value="Committee Name" />
+		<property name="description" value="Committee Name" />
+	</bean>
+  
+</beans>

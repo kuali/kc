@@ -1,0 +1,364 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="CommitteeMembership" parent="CommitteeMembership-parentBean" />
+	<bean id="CommitteeMembership-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeMembership" />
+		<property name="objectLabel" value="Committee Membership" />
+		<property name="inquiryDefinition" >
+			<ref bean="CommitteeMembership-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="CommitteeMembership-lookupDefinition" />
+		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeMembershipHelpUrl" p:parameterDetailType="Document" />
+        </property>
+		<property name="titleAttribute" value="committeeMembershipId" />
+		<property name="attributes" >
+			<list>
+                <ref bean="CommitteeMembership-committeeMembershipId" />
+                <ref bean="CommitteeMembership-committeeIdFk" />
+                <ref bean="CommitteeMembership-personId" />
+                <ref bean="CommitteeMembership-rolodexId" />
+                <ref bean="CommitteeMembership-personName" />
+                <ref bean="CommitteeMembership-membershipId" />
+                <ref bean="CommitteeMembership-paidMember" />
+                <ref bean="CommitteeMembership-termStartDate" />
+                <ref bean="CommitteeMembership-termEndDate" />
+                <ref bean="CommitteeMembership-membershipTypeCode" />
+                <ref bean="CommitteeMembership-comments" />
+                <ref bean="CommitteeMembership-contactNotes" />
+                <ref bean="CommitteeMembership-trainingNotes" />
+                <ref bean="CommitteeMembership-versionNumber" />
+                <ref bean="CommitteeMembership-delete" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="CommitteeMembership-committeeMembershipId" parent="CommitteeMembership-committeeMembershipId-parentBean" />
+	<bean id="CommitteeMembership-committeeMembershipId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="committeeMembershipId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Committee Membership Id" />
+		<property name="shortLabel" value="Committee Membership Id" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="12" />
+		</property>
+		<property name="summary" value="Committee Membership Id" />
+		<property name="description" value="Committee Membership Id" />
+	</bean>
+
+    <bean id="CommitteeMembership-committeeIdFk" parent="CommitteeMembership-committeeIdFk-parentBean" />
+    <bean id="CommitteeMembership-committeeIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="committeeIdFk" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Committee Id Fk" />
+        <property name="shortLabel" value="Committee Id Fk" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Committee Id Fk" />
+        <property name="description" value="Committee Id Fk" />
+    </bean>
+
+	<bean id="CommitteeMembership-personId" parent="CommitteeMembership-personId-parentBean" />
+	<bean id="CommitteeMembership-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person Id" />
+		<property name="shortLabel" value="Person Id" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="9" />
+		</property>
+		<property name="summary" value="Person Id" />
+		<property name="description" value="Person Id" />
+	</bean>
+	
+	<bean id="CommitteeMembership-rolodexId" parent="CommitteeMembership-rolodexId-parentBean" />
+    <bean id="CommitteeMembership-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="rolodexId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Rolodex Id" />
+        <property name="shortLabel" value="Rolodex Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Rolodex Id" />
+        <property name="description" value="Rolodex Id" />
+    </bean>
+	
+    <bean id="CommitteeMembership-personName" parent="CommitteeMembership-personName-parentBean" />
+    <bean id="CommitteeMembership-personName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="personName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Person Name" />
+        <property name="shortLabel" value="Person Name" />
+        <property name="maxLength" value="90" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="30" />
+        </property>
+        <property name="summary" value="Person Name" />
+        <property name="description" value="Person Name" />
+    </bean>
+
+	<bean id="CommitteeMembership-membershipId" parent="CommitteeMembership-membershipId-parentBean" />
+	<bean id="CommitteeMembership-membershipId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="membershipId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Membership Id" />
+		<property name="shortLabel" value="Membership Id" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Membership Id" />
+		<property name="description" value="Membership Id" />
+	</bean>
+
+	<bean id="CommitteeMembership-paidMember" parent="CommitteeMembership-paidMember-parentBean" />
+	<bean id="CommitteeMembership-paidMember-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+		<property name="name" value="paidMember" />
+		<property name="label" value="Paid Member" />
+		<property name="shortLabel" value="Paid Member" />
+		<property name="summary" value="Paid Member" />
+		<property name="description" value="Paid Member" />
+	</bean>
+
+	<bean id="CommitteeMembership-termStartDate" parent="CommitteeMembership-termStartDate-parentBean" />
+	<bean id="CommitteeMembership-termStartDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="termStartDate" />
+		<property name="label" value="Term Start Date" />
+		<property name="shortLabel" value="Term Start Date" />
+        <property name="required" value="true" />
+		<property name="summary" value="Term Start Date" />
+		<property name="description" value="Term Start Date" />
+	</bean>
+
+	<bean id="CommitteeMembership-termEndDate" parent="CommitteeMembership-termEndDate-parentBean" />
+	<bean id="CommitteeMembership-termEndDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="termEndDate" />
+		<property name="label" value="Term End Date" />
+		<property name="shortLabel" value="Term End Date" />
+        <property name="required" value="true" />
+		<property name="summary" value="Term End Date" />
+		<property name="description" value="Term End Date" />
+	</bean>
+
+	<bean id="CommitteeMembership-membershipTypeCode" parent="CommitteeMembership-membershipTypeCode-parentBean" />
+	<bean id="CommitteeMembership-membershipTypeCode-parentBean" abstract="true" parent="CommitteeMembershipType-membershipTypeCode" >
+		<property name="name" value="membershipTypeCode" />
+		<property name="label" value="Membership Type" />
+		<property name="shortLabel" value="Membership Type" />
+		<property name="required" value="true" />
+		<property name="control" >
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.common.committee.bo.CommitteeMembershipType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+                p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+                p:keyAttribute="membershipTypeCode"
+                p:labelAttribute="description" />
+		</property>
+	</bean>
+	
+
+	<bean id="CommitteeMembership-comments" parent="CommitteeMembership-comments-parentBean" />
+	<bean id="CommitteeMembership-comments-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" >
+        <property name="name" value="comments" />
+        <property name="label" value="Comments" />
+        <property name="shortLabel" value="Comments" />
+        <property name="summary" value="Comments" />
+        <property name="description" value="Comments" />
+    </bean>
+
+    <bean id="CommitteeMembership-contactNotes" parent="CommitteeMembership-contactNotes-parentBean" />
+    <bean id="CommitteeMembership-contactNotes-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" >
+        <property name="name" value="contactNotes" />
+        <property name="label" value="Contact Notes" />
+        <property name="shortLabel" value="Contact Notes" />
+        <property name="summary" value="Contact Notes" />
+        <property name="description" value="Contact Notes" />
+    </bean>
+
+    <bean id="CommitteeMembership-trainingNotes" parent="CommitteeMembership-trainingNotes-parentBean" />
+    <bean id="CommitteeMembership-trainingNotes-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" >
+        <property name="name" value="trainingNotes" />
+        <property name="label" value="Training Notes" />
+        <property name="shortLabel" value="Training Notes" />
+        <property name="summary" value="Training Notes" />
+        <property name="description" value="Training Notes" />
+    </bean>
+
+	<bean id="CommitteeMembership-versionNumber" parent="CommitteeMembership-versionNumber-parentBean" />
+	<bean id="CommitteeMembership-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+
+    <bean id="CommitteeMembership-delete" parent="CommitteeMembership-delete-parentBean" />
+    <bean id="CommitteeMembership-delete-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="delete" />
+    </bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="CommitteeMembership-inquiryDefinition" parent="CommitteeMembership-inquiryDefinition-parentBean" />
+	<bean id="CommitteeMembership-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Committee Memberships Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Committee Membership Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="committeeMembershipId" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="committeeIdFk" />
+							<bean parent="FieldDefinition"
+								p:attributeName="personId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="rolodexId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="personName" />
+							<bean parent="FieldDefinition"
+								p:attributeName="membershipId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="paidMember" />
+							<bean parent="FieldDefinition"
+								p:attributeName="termStartDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="termEndDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="membershipTypeCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="comments" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="contactNotes" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="trainingNotes" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="CommitteeMembership-lookupDefinition" parent="CommitteeMembership-lookupDefinition-parentBean" />
+	<bean id="CommitteeMembership-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Committee Membership Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="committeeMembershipId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="committeeIdFk" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="rolodexId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personName" />
+				<bean parent="FieldDefinition"
+					p:attributeName="membershipId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="paidMember" />
+				<bean parent="FieldDefinition"
+					p:attributeName="termStartDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="termEndDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="membershipTypeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="comments" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="contactNotes" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="trainingNotes" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="committeeMembershipId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="committeeIdFk" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="rolodexId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personName" />
+				<bean parent="FieldDefinition"
+					p:attributeName="membershipId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="paidMember" />
+				<bean parent="FieldDefinition"
+					p:attributeName="termStartDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="termEndDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="membershipTypeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="comments" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="contactNotes" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="trainingNotes" />
+			</list>
+		</property>
+	</bean>
+</beans>

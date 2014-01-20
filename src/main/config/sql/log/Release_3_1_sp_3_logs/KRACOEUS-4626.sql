@@ -1,0 +1,6 @@
+ALTER TABLE PROPOSAL_LOG
+ADD
+(
+  MERGED_WITH varchar(8), 
+  INST_PROPOSAL_NUMBER varchar(8)
+);

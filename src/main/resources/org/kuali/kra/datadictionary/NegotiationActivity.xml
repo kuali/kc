@@ -1,0 +1,204 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="NegotiationActivity" parent="NegotiationActivity-parentBean" />
+  <bean id="NegotiationActivity-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.NegotiationActivity" />
+		<property name="objectLabel" value="NegotiationActivity" />
+    <property name="titleAttribute" value="negotiationId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="NegotiationActivity-activityId" />
+        <ref bean="NegotiationActivity-locationId"/>
+        <ref bean="NegotiationActivity-activityTypeId"/>
+        <ref bean="NegotiationActivity-startDate"/>
+        <ref bean="NegotiationActivity-endDate"/>
+        <ref bean="NegotiationActivity-createDate"/>
+        <ref bean="NegotiationActivity-followupDate"/>
+        <ref bean="NegotiationActivity-lastModifiedUsername"/>
+        <ref bean="NegotiationActivity-lastModifiedUser.fullName"/>
+        <ref bean="NegotiationActivity-lastModifiedDate"/> 
+        <ref bean="NegotiationActivity-description"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="NegotiationActivity-activityId" parent="NegotiationActivity-activityId-parentBean" />
+  <bean id="NegotiationActivity-activityId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="activityId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="negotiationActivityId" />
+    <property name="shortLabel" value="negotiationActivityId" />
+    <property name="required" value="false" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="negotiationActivityId" />
+    <property name="description" value="negotiationActivityId" />
+  </bean>
+  
+  <bean id="NegotiationActivity-locationId" parent="NegotiationActivity-locationId-parentBean" />
+  <bean id="NegotiationActivity-locationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="locationId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Location" />
+    <property name="shortLabel" value="Location" />
+    <property name="required" value="true" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationLocation"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="id"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Location" />
+    <property name="description" value="Location" />
+  </bean>
+  
+  <bean id="NegotiationActivity-activityTypeId" parent="NegotiationActivity-activityTypeId-parentBean" />
+  <bean id="NegotiationActivity-activityTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="activityTypeId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Activity Type" />
+    <property name="shortLabel" value="Activity Type" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="true" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>    
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationActivityType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="id"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Activity Type" />
+    <property name="description" value="Activity Type" />
+  </bean>
+  
+  <bean id="NegotiationActivity-startDate" parent="NegotiationActivity-startDate-parentBean" />
+  <bean id="NegotiationActivity-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="startDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Activity Start Date" />
+    <property name="shortLabel" value="Activity Start Date" />
+    <property name="required" value="true" />
+    <property name="validationPattern" >
+		<bean parent="DateValidationPattern" />
+	</property>
+    <property name="summary" value="Activity Start Date" />
+    <property name="description" value="Activity Start Date" />
+  </bean>
+  
+  <bean id="NegotiationActivity-endDate" parent="NegotiationActivity-endDate-parentBean" />
+  <bean id="NegotiationActivity-endDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="endDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Activity End Date" />
+    <property name="shortLabel" value="Activity End Date" />
+    <property name="required" value="false" />
+    <property name="validationPattern" >
+		<bean parent="DateValidationPattern" />
+	</property>
+    <property name="summary" value="Activity End Date" />
+    <property name="description" value="Activity End Date" />
+  </bean>
+  
+  <bean id="NegotiationActivity-followupDate" parent="NegotiationActivity-followupDate-parentBean" />
+  <bean id="NegotiationActivity-followupDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="followupDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Follow-up Date" />
+    <property name="shortLabel" value="Follow-up Date" />
+    <property name="required" value="false" />
+    <property name="validationPattern" >
+		<bean parent="DateValidationPattern" />
+	</property>
+    <property name="summary" value="Follow-up Date" />
+    <property name="description" value="Follow-up Date" />
+  </bean>
+  
+  <bean id="NegotiationActivity-createDate" parent="NegotiationActivity-createDate-parentBean" />
+  <bean id="NegotiationActivity-createDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="createDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Create Date" />
+    <property name="shortLabel" value="Create Date" />
+    <property name="required" value="false" />
+    <property name="validationPattern" >
+		<bean parent="DateValidationPattern" />
+	</property>
+    <property name="summary" value="Create Date" />
+    <property name="description" value="Create Date" />
+  </bean>
+  
+  <bean id="NegotiationActivity-lastModifiedDate" parent="NegotiationActivity-lastModifiedDate-parentBean" />
+  <bean id="NegotiationActivity-lastModifiedDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="lastModifiedDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Last Update" />
+    <property name="shortLabel" value="Last Update" />
+    <property name="required" value="false" />
+    <property name="validationPattern" >
+		<bean parent="DateValidationPattern" />
+	</property>
+    <property name="summary" value="Last Update" />
+    <property name="description" value="Last Update" />
+  </bean>  
+  
+  <bean id="NegotiationActivity-lastModifiedUsername" parent="NegotiationActivity-lastModifiedUsername-parentBean" />
+  <bean id="NegotiationActivity-lastModifiedUsername-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="lastModifiedUsername" />
+    <property name="label" value="Last Update By" />
+    <property name="shortLabel" value="Last Update By" />
+    <property name="required" value="false" />
+    <property name="summary" value="Last Update By" />
+    <property name="description" value="Last Update By" />
+  </bean>
+  
+  <bean id="NegotiationActivity-lastModifiedUser.fullName" parent="NegotiationActivity-lastModifiedUser.fullName-parentBean" />
+    <bean id="NegotiationActivity-lastModifiedUser.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="lastModifiedUser.fullName" />
+        <property name="label" value="Last Modified By Full Name" />
+        <property name="shortLabel" value="Last Modified By Full Name" />
+    </bean>  
+  
+  <bean id="NegotiationActivity-description" parent="NegotiationActivity-description-parentBean" />
+  <bean id="NegotiationActivity-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Activity Description" />
+    <property name="shortLabel" value="Activity Desc" />
+    <property name="required" value="true" />
+    <property name="maxLength" value="2000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
+		</property>
+    <property name="summary" value="Activity Description" />
+    <property name="description" value="Activity Description" />
+  </bean>
+  
+</beans>

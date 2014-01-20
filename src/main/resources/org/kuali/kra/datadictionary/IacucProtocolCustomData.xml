@@ -1,0 +1,112 @@
+<!--
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="IacucProtocolCustomData" parent="IacucProtocolCustomData-parentBean" />
+    <bean id="IacucProtocolCustomData-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.customdata.IacucProtocolCustomData" />
+        <property name="objectLabel" value="IACUC Protocol Custom Data" />
+        <property name="titleAttribute" value="iacucProtocolCustomData" />
+        <property name="attributes" >
+            <list>
+                <ref bean="IacucProtocolCustomData-iacucProtocolCustomDataId" />
+                <ref bean="IacucProtocolCustomData-protocolId" />
+                <ref bean="IacucProtocolCustomData-customAttributeId" />
+                <ref bean="IacucProtocolCustomData-value" />
+                <ref bean="IacucProtocolCustomData-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="IacucProtocolCustomData-iacucProtocolCustomDataId" parent="IacucProtocolCustomData-iacucProtocolCustomDataId-parentBean" />
+    <bean id="IacucProtocolCustomData-iacucProtocolCustomDataId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="iacucProtocolCustomDataId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="IACUC Protocol Custom Data Id" />
+        <property name="shortLabel" value="IACUC Protocol Custom Data Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="22" />
+        </property>
+        <property name="summary" value="IACUC Protocol Custom Data Id" />
+        <property name="description" value="IACUC Protocol Custom Data Id" />
+    </bean>
+
+    <bean id="IacucProtocolCustomData-protocolId" parent="IacucProtocolCustomData-protocolId-parentBean"/>
+    <bean id="IacucProtocolCustomData-protocolId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+        <property name="name" value="protocolId"/>
+        <property name="label" value="IACUC Protocol Id"/>
+        <property name="shortLabel" value="IACUC Protocol Id"/>
+        <property name="maxLength" value="22"/>
+        <property name="summary" value="IACUC Protocol Id"/>
+        <property name="description" value="IACUC Protocol Id"/>  
+    </bean>
+
+    <bean id="IacucProtocolCustomData-value" parent="IacucProtocolCustomData-value-parentBean" />
+    <bean id="IacucProtocolCustomData-value-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="value" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Value" />
+        <property name="shortLabel" value="Value" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                  p:allowWhitespace="true" />
+        </property>
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="60" />
+        </property>
+        <property name="summary" value="Value" />
+        <property name="description" value="Value" />
+    </bean>
+
+    <bean id="IacucProtocolCustomData-customAttributeId" parent="IacucProtocolCustomData-customAttributeId-parentBean" />
+    <bean id="IacucProtocolCustomData-customAttributeId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="customAttributeId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Custom Attribute Id" />
+        <property name="shortLabel" value="Custom Attribute Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="10" />
+        </property>
+        <property name="summary" value="Custom Attribute Id" />
+        <property name="description" value="Custom Attribute Id" />
+    </bean>
+    
+    <bean id="IacucProtocolCustomData-versionNumber" parent="IacucProtocolCustomData-versionNumber-parentBean" />
+    <bean id="IacucProtocolCustomData-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+    
+</beans>

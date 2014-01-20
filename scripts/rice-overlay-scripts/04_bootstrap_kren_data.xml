@@ -1,0 +1,32 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">	
+	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KREN_CHNL_T">
+		<loadData tableName="KREN_CHNL_T" file="bootstrap/KREN_CHNL_T.csv">
+		</loadData>
+		<rollback>
+			<delete tableName="KREN_CHNL_T">
+				<where>NM LIKE 'KC%'</where>
+			</delete>
+		</rollback>
+    </changeSet>
+	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KREN_PRODCR_T">
+		<loadData tableName="KREN_PRODCR_T" file="bootstrap/KREN_PRODCR_T.csv">
+		</loadData>
+		<rollback>
+			<delete tableName="KREN_PRODCR_T">
+				<where>NM LIKE 'KC%'</where>
+			</delete>
+		</rollback>
+    </changeSet>
+	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KREN_CHNL_PRODCR_T">
+		<loadData tableName="KREN_CHNL_PRODCR_T" file="bootstrap/KREN_CHNL_PRODCR_T.csv">
+		</loadData>
+		<rollback>
+			<delete tableName="KREN_CHNL_PRODCR_T">
+				<where>CHNL_ID IN (SELECT CHNL_ID FROM KREN_CHNL_T WHERE NM LIKE 'KC%')</where>
+			</delete>
+		</rollback>
+    </changeSet>
+</databaseChangeLog>   
+      

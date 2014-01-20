@@ -1,0 +1,159 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetModularIdc" parent="BudgetModularIdc-parentBean" />
+
+  <bean id="BudgetModularIdc-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc" />
+		<property name="objectLabel" value="Budget Modular Idc" />
+    <property name="titleAttribute" value="budgetModularIdc" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-B"
+            p:parameterName="budgetModularIdcHelpUrl"
+            p:parameterDetailType="Document" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetModularIdc-budgetPeriod" />
+        <ref bean="BudgetModularIdc-rateNumber" />
+        <ref bean="BudgetModularIdc-description" />
+        <ref bean="BudgetModularIdc-idcRate" />
+        <ref bean="BudgetModularIdc-idcBase" />
+        <ref bean="BudgetModularIdc-fundsRequested" />
+        <ref bean="BudgetModularIdc-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="BudgetModularIdc-budgetPeriod" parent="BudgetModularIdc-budgetPeriod-parentBean" />
+
+  <bean id="BudgetModularIdc-budgetPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetPeriod" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Period" />
+    <property name="shortLabel" value="Budget Period" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Budget Period" />
+    <property name="description" value="Budget Period" />
+  </bean>
+  <bean id="BudgetModularIdc-rateNumber" parent="BudgetModularIdc-rateNumber-parentBean" />
+
+  <bean id="BudgetModularIdc-rateNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Number" />
+    <property name="shortLabel" value="Rate Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Number" />
+    <property name="description" value="Rate Number" />
+  </bean>
+  <bean id="BudgetModularIdc-description" parent="BudgetModularIdc-description-parentBean" />
+
+  <bean id="BudgetModularIdc-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="64" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetModularIDCRateTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+  <bean id="BudgetModularIdc-idcRate" parent="BudgetModularIdc-idcRate-parentBean" />
+
+  <bean id="BudgetModularIdc-idcRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="idcRate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="IDC Rate" />
+    <property name="shortLabel" value="IDC Rate" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="5"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="IDC Rate" />
+    <property name="description" value="IDC Rate" />
+  </bean>
+  <bean id="BudgetModularIdc-idcBase" parent="BudgetModularIdc-idcBase-parentBean" />
+
+  <bean id="BudgetModularIdc-idcBase-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="idcBase" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="IDC Base" />
+    <property name="shortLabel" value="IDC Base" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+    <property name="summary" value="IDC Base" />
+    <property name="description" value="IDC Base" />
+  </bean>
+  <bean id="BudgetModularIdc-fundsRequested" parent="BudgetModularIdc-fundsRequested-parentBean" />
+
+  <bean id="BudgetModularIdc-fundsRequested-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fundsRequested" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Funds Requested" />
+    <property name="shortLabel" value="Funds Requested" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+    <property name="summary" value="Funds Requested" />
+    <property name="description" value="Funds Requested" />
+  </bean>
+  <bean id="BudgetModularIdc-versionNumber" parent="BudgetModularIdc-versionNumber-parentBean" />
+
+  <bean id="BudgetModularIdc-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

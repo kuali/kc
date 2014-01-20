@@ -1,0 +1,174 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ProtocolAttachmentPersonnel" parent="ProtocolAttachmentPersonnel-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-parentBean" abstract="true" parent="ProtocolAttachmentBase">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" />
+		<property name="objectLabel" value="Protocol Attachment Personnel" />
+		<property name="inquiryDefinition" >
+			<ref bean="ProtocolAttachmentPersonnel-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="ProtocolAttachmentPersonnel-lookupDefinition" />
+		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolAddPersonnelAttachmentHelpUrl" p:parameterDetailType="Document" />
+        </property>
+		<property name="titleAttribute" value="id" />
+		<property name="attributes" >
+			<list>
+				<ref bean="ProtocolAttachmentPersonnel-id" />
+				<ref bean="ProtocolAttachmentPersonnel-typeCode" />
+				<ref bean="ProtocolAttachmentPersonnel-sequenceNumber" />
+				<ref bean="ProtocolAttachmentPersonnel-documentId" />
+				<ref bean="ProtocolAttachmentPersonnel-fileId" />
+				<ref bean="ProtocolAttachmentPersonnel-description" />
+				<ref bean="ProtocolAttachmentPersonnel-personId" />
+				<ref bean="ProtocolAttachmentPersonnel-versionNumber" />
+				<ref bean="ProtocolAttachmentPersonnel-updateUser" />
+				<ref bean="ProtocolAttachmentPersonnel-updateTimestamp" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ProtocolAttachmentPersonnel-id" parent="ProtocolAttachmentPersonnel-id-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-id-parentBean" abstract="true" parent="ProtocolAttachmentBase-id" />
+
+	<bean id="ProtocolAttachmentPersonnel-sequenceNumber" parent="ProtocolAttachmentPersonnel-sequenceNumber-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-sequenceNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-sequenceNumber"/>
+
+	<bean id="ProtocolAttachmentPersonnel-typeCode" parent="ProtocolAttachmentPersonnel-typeCode-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentType-code">
+		<property name="name" value="typeCode" />
+		<property name="label" value="Attachment Type" />
+        <property name="shortLabel" value="Attachment Type" />
+        <property name="summary" value="Attachment Type" />
+        <property name="description" value="Attachment Type" />
+        <property name="maxLength" value="3" />
+        <property name="required" value="true" />
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+	            p:keyAttribute="code"
+	            p:labelAttribute="description" />
+	      <!--<bean parent="SelectControlDefinition"
+	            p:valuesFinderClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder" />-->
+	    </property>
+	</bean>
+	
+	<bean id="ProtocolAttachmentPersonnel-documentId" parent="ProtocolAttachmentPersonnel-documentId-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-documentId-parentBean" abstract="true" parent="ProtocolAttachmentBase-documentId" />
+	
+	<bean id="ProtocolAttachmentPersonnel-fileId" parent="ProtocolAttachmentPersonnel-fileId-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-fileId-parentBean" abstract="true" parent="ProtocolAttachmentBase-fileId"/>
+
+	<bean id="ProtocolAttachmentPersonnel-description" parent="ProtocolAttachmentPersonnel-description-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+	    <property name="required" value="true"/>
+		<property name="control" >
+			<bean parent="TextareaControlDefinition"
+	            p:rows="3"
+	            p:cols="40"/> 
+        </property>
+	</bean>
+	
+	<bean id="ProtocolAttachmentPersonnel-personId" parent="ProtocolAttachmentPersonnel-personId-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-personId-parentBean" abstract="true" parent="ProtocolPerson-protocolPersonId" >
+		<property name="name" value="personId" />
+		<property name="label" value="Person" />
+		<property name="shortLabel" value="Person" />
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.irb.personnel.ProtocolPerson"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+	            p:keyAttribute="protocolPersonId"
+	            p:labelAttribute="personName" />
+	    </property>
+		<property name="summary" value="Person" />
+		<property name="description" value="Person" />
+	</bean>
+	
+	<bean id="ProtocolAttachmentPersonnel-versionNumber" parent="ProtocolAttachmentPersonnel-versionNumber-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-versionNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-versionNumber" />
+	
+	<bean id="ProtocolAttachmentPersonnel-updateUser" parent="ProtocolAttachmentPersonnel-updateUser-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-updateUser-parentBean" abstract="true" parent="ProtocolAttachmentBase-updateUser"/>
+	
+	<bean id="ProtocolAttachmentPersonnel-updateTimestamp" parent="ProtocolAttachmentPersonnel-updateTimestamp-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-updateTimestamp-parentBean" abstract="true" parent="ProtocolAttachmentBase-updateTimestamp"/>
+  
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ProtocolAttachmentPersonnel-inquiryDefinition" parent="ProtocolAttachmentPersonnel-inquiryDefinition-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-inquiryDefinition-parentBean" abstract="true" parent="ProtocolAttachmentBase-inquiryDefinition">
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list merge="true">
+							<bean parent="FieldDefinition"
+								p:attributeName="typeCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="description" />
+							<bean parent="FieldDefinition"
+								p:attributeName="personId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+		<!-- Business Object Lookup Definition -->
+	<bean id="ProtocolAttachmentPersonnel-lookupDefinition" parent="ProtocolAttachmentPersonnel-lookupDefinition-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-lookupDefinition-parentBean" abstract="true" parent="ProtocolAttachmentBase-lookupDefinition">
+		<property name="title" value="Protocol Attachment Lookup" />
+        <property name="lookupableID" value="ProtocolAttachmentPersonnelLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="lookupFields" >
+			<list merge="true">
+				<bean parent="FieldDefinition"
+					p:attributeName="typeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list merge="true">
+				<bean parent="FieldDefinition"
+					p:attributeName="typeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+			</list>
+		</property>
+	</bean>
+</beans>
