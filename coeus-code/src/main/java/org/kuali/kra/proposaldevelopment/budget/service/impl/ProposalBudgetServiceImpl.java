@@ -23,14 +23,17 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.ArrayList;
@@ -76,9 +79,9 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
 
         //Rates-Refresh Scenario-1
         budget.setRateClassTypesReloaded(true);
-        
-        saveBudgetDocument(budgetDocument);
-        budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+
+        budgetDocument = saveBudgetDocument(budgetDocument);
+        KraServiceLocator.getService(DataObjectService.class).flush(BudgetDocumentVersion.class);
         parentDocument.refreshBudgetDocumentVersions();
         return budgetDocument;
     }
@@ -94,9 +97,9 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
      * @param budgetParent
      * @throws WorkflowException
      */
-    protected void saveBudgetDocument(BudgetDocument<DevelopmentProposal> budgetDocument) throws WorkflowException {
-        documentService.saveDocument(budgetDocument);
-        documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
+    protected BudgetDocument<DevelopmentProposal> saveBudgetDocument(BudgetDocument<DevelopmentProposal> budgetDocument) throws WorkflowException {
+        budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.saveDocument(budgetDocument);
+        return (BudgetDocument<DevelopmentProposal>) documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
     }
 
     /**

@@ -15,23 +15,23 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import noNamespace.*;
-import noNamespace.AwardNoticeDocument.AwardNotice;
-import noNamespace.AwardNoticeDocument.AwardNotice.AODetails;
-import noNamespace.AwardNoticeDocument.AwardNotice.PrintRequirement;
-import noNamespace.AwardType.*;
-import noNamespace.AwardType.AwardCloseOutDeadlines.CloseOutDeadlines;
-import noNamespace.AwardType.AwardContacts.ContactDetails;
-import noNamespace.AwardType.AwardCostSharing.CostSharingItem;
-import noNamespace.AwardType.AwardDetails.OtherHeaderDetails;
-import noNamespace.AwardType.AwardFundingProposals.FundingProposal;
-import noNamespace.AwardType.AwardIndirectCosts.IndirectCostSharingItem;
-import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
-import noNamespace.AwardType.AwardSpecialItems.Equipment;
-import noNamespace.AwardType.AwardSpecialItems.ForeignTravel;
-import noNamespace.AwardType.AwardSpecialItems.Subcontract;
-import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
-import noNamespace.SpecialReviewType;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.AODetails;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
+import org.kuali.kra.printing.schema.AwardType.*;
+import org.kuali.kra.printing.schema.AwardType.AwardCloseOutDeadlines.CloseOutDeadlines;
+import org.kuali.kra.printing.schema.AwardType.AwardContacts.ContactDetails;
+import org.kuali.kra.printing.schema.AwardType.AwardCostSharing.CostSharingItem;
+import org.kuali.kra.printing.schema.AwardType.AwardDetails.OtherHeaderDetails;
+import org.kuali.kra.printing.schema.AwardType.AwardFundingProposals.FundingProposal;
+import org.kuali.kra.printing.schema.AwardType.AwardIndirectCosts.IndirectCostSharingItem;
+import org.kuali.kra.printing.schema.AwardType.AwardPaymentSchedules.PaymentSchedule;
+import org.kuali.kra.printing.schema.AwardType.AwardSpecialItems.Equipment;
+import org.kuali.kra.printing.schema.AwardType.AwardSpecialItems.ForeignTravel;
+import org.kuali.kra.printing.schema.AwardType.AwardSpecialItems.Subcontract;
+import org.kuali.kra.printing.schema.AwardType.AwardTransferringSponsors.TransferringSponsor;
+import org.kuali.kra.printing.schema.SpecialReviewType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -142,8 +142,8 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected abstract PrintRequirement getPrintRequirement(
 			Map<String, Object> reportParameters);
 
-	protected noNamespace.AwardType getAward() {
-		noNamespace.AwardType awardType = noNamespace.AwardType.Factory
+	protected org.kuali.kra.printing.schema.AwardType getAward() {
+		org.kuali.kra.printing.schema.AwardType awardType = org.kuali.kra.printing.schema.AwardType.Factory
 				.newInstance();	
 		awardType.setAwardDetails(getAwardDetails());
 		awardType.setAwardInvestigators(getAwardInvestigators());
@@ -1166,9 +1166,9 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * 
 	 * @return returns Award Amount Info XmlObject
 	 */
-	protected noNamespace.AwardType.AwardAmountInfo getAwardAmountInfo() {
-		noNamespace.AwardType.AwardAmountInfo awardAmountInfoType = null;
-		awardAmountInfoType = noNamespace.AwardType.AwardAmountInfo.Factory
+	protected org.kuali.kra.printing.schema.AwardType.AwardAmountInfo getAwardAmountInfo() {
+		org.kuali.kra.printing.schema.AwardType.AwardAmountInfo awardAmountInfoType = null;
+		awardAmountInfoType = org.kuali.kra.printing.schema.AwardType.AwardAmountInfo.Factory
 				.newInstance();
 		if (awardAmountInfo != null) {
 			AmountInfoType amountInfoType = AmountInfoType.Factory
@@ -1488,18 +1488,18 @@ public abstract class AwardBaseStream implements XmlStream {
 		if (dueDate != null) {
 			reportTermDetailsType.setDueDate(dueDate);
 		}
-		List<noNamespace.ReportTermDetailsType2.MailCopies> mailCopiesList = getMailCopiesList(awardReportTerm);
+		List<org.kuali.kra.printing.schema.ReportTermDetailsType2.MailCopies> mailCopiesList = getMailCopiesList(awardReportTerm);
 		reportTermDetailsType.setMailCopiesArray(mailCopiesList
-				.toArray(new noNamespace.ReportTermDetailsType2.MailCopies[0]));
+				.toArray(new org.kuali.kra.printing.schema.ReportTermDetailsType2.MailCopies[0]));
 		return reportTermDetailsType;
 	}
 
-	private List<noNamespace.ReportTermDetailsType2.MailCopies> getMailCopiesList(
+	private List<org.kuali.kra.printing.schema.ReportTermDetailsType2.MailCopies> getMailCopiesList(
 			AwardReportTerm awardReportTerm) {
-		List<noNamespace.ReportTermDetailsType2.MailCopies> mailCopiesList = new ArrayList<noNamespace.ReportTermDetailsType2.MailCopies>();
+		List<org.kuali.kra.printing.schema.ReportTermDetailsType2.MailCopies> mailCopiesList = new ArrayList<org.kuali.kra.printing.schema.ReportTermDetailsType2.MailCopies>();
 		for (AwardReportTermRecipient awardReportTermRecipient : awardReportTerm
 				.getAwardReportTermRecipients()) {
-			noNamespace.ReportTermDetailsType2.MailCopies mailCopies = noNamespace.ReportTermDetailsType2.MailCopies.Factory
+			org.kuali.kra.printing.schema.ReportTermDetailsType2.MailCopies mailCopies = org.kuali.kra.printing.schema.ReportTermDetailsType2.MailCopies.Factory
 					.newInstance();
 			mailCopies.setContactTypeCode(Integer
 					.parseInt(awardReportTermRecipient.getContactTypeCode()));
@@ -1975,18 +1975,18 @@ public abstract class AwardBaseStream implements XmlStream {
 					.setUnitAdministratorArray(getUnitAdministratorList(
 							awardPersonUnit)
 							.toArray(
-									new noNamespace.InvestigatorUnitsType.UnitAdministrator[0]));
+									new org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator[0]));
 			investigatorUnitsTypes.add(investigatorUnitsType);
 		}
 		return investigatorUnitsTypes;
 	}
 
-	private List<noNamespace.InvestigatorUnitsType.UnitAdministrator> getUnitAdministratorList(
+	private List<org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator> getUnitAdministratorList(
 			AwardPersonUnit awardPersonUnit) {
-		List<noNamespace.InvestigatorUnitsType.UnitAdministrator> unitAdministratorList = new ArrayList<noNamespace.InvestigatorUnitsType.UnitAdministrator>();
+		List<org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator> unitAdministratorList = new ArrayList<org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator>();
 		for (UnitAdministrator unitAdministrator : awardPersonUnit.getUnit()
 				.getUnitAdministrators()) {
-			noNamespace.InvestigatorUnitsType.UnitAdministrator unitAdministratorElement = noNamespace.InvestigatorUnitsType.UnitAdministrator.Factory
+			org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator unitAdministratorElement = org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator.Factory
 					.newInstance();
 			if (unitAdministrator.getUnitAdministratorTypeCode() != null) {
 				unitAdministratorElement.setUnitAdministratorTypeCode(Integer

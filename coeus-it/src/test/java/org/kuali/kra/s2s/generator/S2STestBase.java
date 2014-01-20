@@ -85,7 +85,6 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
         String docNumber = docHeader.getDocumentNumber();
         assertNotNull(docNumber);
         assertNotNull(pd.getDevelopmentProposal());
-        assertEquals(1, pd.getDevelopmentProposalList().size());
         KRADServiceLocatorWeb.getDocumentService().saveDocument(pd);
     }
 

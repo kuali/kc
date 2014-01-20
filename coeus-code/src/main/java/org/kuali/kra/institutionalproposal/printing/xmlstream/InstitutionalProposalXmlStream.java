@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.printing.xmlstream;
 
-import noNamespace.*;
-import noNamespace.InstituteProposalDocument.InstituteProposal;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.InstituteProposalDocument.InstituteProposal;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;

@@ -84,7 +84,7 @@ public interface ProposalDevelopmentService {
      * @param proposalDocument
      * @throws WorkflowException
      */
-    public void deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException;
+    public ProposalDevelopmentDocument deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException;
     
     public Budget getFinalBudget (DevelopmentProposal proposal);
     

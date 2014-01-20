@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import noNamespace.*;
-import noNamespace.BudgetSummaryReportDocument.BudgetSummaryReport;
-import noNamespace.ReportPageType.BudgetSummary;
-import noNamespace.ReportPageType.CalculationMethodology;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.BudgetSummaryReportDocument.BudgetSummaryReport;
+import org.kuali.kra.printing.schema.ReportPageType.BudgetSummary;
+import org.kuali.kra.printing.schema.ReportPageType.CalculationMethodology;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;

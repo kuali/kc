@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.coi.print;
 
-import noNamespace.ApprovedDisclosureDocument;
-import noNamespace.ApprovedDisclosureDocument.ApprovedDisclosure;
-import noNamespace.CoiDisclosureDetailsDocument.CoiDisclosureDetails;
-import noNamespace.DisclosureDocumentsDocument.DisclosureDocuments;
-import noNamespace.DisclosureNotesDocument.DisclosureNotes;
-import noNamespace.DisclosureProjectsDocument.DisclosureProjects;
-import noNamespace.PersonDocument;
+import org.kuali.kra.printing.schema.ApprovedDisclosureDocument;
+import org.kuali.kra.printing.schema.ApprovedDisclosureDocument.ApprovedDisclosure;
+import org.kuali.kra.printing.schema.CoiDisclosureDetailsDocument.CoiDisclosureDetails;
+import org.kuali.kra.printing.schema.DisclosureDocumentsDocument.DisclosureDocuments;
+import org.kuali.kra.printing.schema.DisclosureNotesDocument.DisclosureNotes;
+import org.kuali.kra.printing.schema.DisclosureProjectsDocument.DisclosureProjects;
+import org.kuali.kra.printing.schema.PersonDocument;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -106,8 +106,8 @@ public class CoiCertificationXmlStream implements XmlStream {
     	    return approvedDisclosure;
     	  }
     	    private void setPersonDetails(ApprovedDisclosure approvedDisclosure, CoiDisclosure disclosure){
-    	     List<noNamespace.PersonDocument.Person> personDocList = new ArrayList<noNamespace.PersonDocument.Person>();
-    	     noNamespace.PersonDocument.Person person = noNamespace.PersonDocument.Person.Factory.newInstance();
+    	     List<org.kuali.kra.printing.schema.PersonDocument.Person> personDocList = new ArrayList<org.kuali.kra.printing.schema.PersonDocument.Person>();
+    	     org.kuali.kra.printing.schema.PersonDocument.Person person = org.kuali.kra.printing.schema.PersonDocument.Person.Factory.newInstance();
     	    KcPerson reporter= KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(disclosure.getPersonId());
     	        person.setFullName(reporter.getFullName());
     	        person.setAddress1(reporter.getAddressLine1()+""+reporter.getAddressLine2()+""+reporter.getAddressLine3());
