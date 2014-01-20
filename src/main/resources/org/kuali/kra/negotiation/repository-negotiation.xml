@@ -1,0 +1,250 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<descriptor-repository version="1.0">
+
+    <class-descriptor class="org.kuali.kra.negotiations.document.NegotiationDocument" table="NEGOTIATION_DOCUMENT">
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
+        <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <foreignkey field-ref="documentNumber" />
+        </reference-descriptor>
+        
+        <collection-descriptor name="negotiationList" proxy="true" element-class-ref="org.kuali.kra.negotiations.bo.Negotiation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="documentNumber" />
+        </collection-descriptor>   
+    </class-descriptor>
+            
+    <class-descriptor class="org.kuali.kra.negotiations.bo.Negotiation" table="NEGOTIATION">
+        <field-descriptor name="negotiationId" column="NEGOTIATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_S" autoincrement="true" />
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="negotiationStatusId" column="NEGOTATION_STATUS_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="negotiationAgreementTypeId" column="NEGOTIATION_AGREEMENT_TYPE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="negotiationAssociationTypeId" column="NEGOTIATION_ASSC_TYPE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="negotiatorPersonId" column="NEGOTIATOR_PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="negotiatorName" column="NEGOTIATOR_FULL_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="negotiationStartDate" column="NEGOTIATION_START_DATE" jdbc-type="DATE" />
+        <field-descriptor name="negotiationEndDate" column="NEGOTIATION_END_DATE" jdbc-type="DATE" />
+        <field-descriptor name="anticipatedAwardDate" column="ANTICIPATED_AWARD_DATE" jdbc-type="DATE" />
+        <field-descriptor name="documentFolder" column="DOCUMENT_FOLDER" jdbc-type="VARCHAR" />
+        <field-descriptor name="associatedDocumentId" column="ASSOCIATED_DOCUMENT_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+         
+        <reference-descriptor name="negotiationStatus" class-ref="org.kuali.kra.negotiations.bo.NegotiationStatus" auto-retrieve="true" auto-update="link" auto-delete="none"> 
+            <foreignkey field-ref="negotiationStatusId"/>
+        </reference-descriptor>
+        <reference-descriptor name="negotiationAgreementType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAgreementType" auto-retrieve="true" auto-update="link" auto-delete="none"> 
+            <foreignkey field-ref="negotiationAgreementTypeId"/>
+        </reference-descriptor>
+        <reference-descriptor name="negotiationAssociationType" class-ref="org.kuali.kra.negotiations.bo.NegotiationAssociationType" auto-retrieve="true" auto-update="link" auto-delete="none"> 
+            <foreignkey field-ref="negotiationAssociationTypeId"/>
+        </reference-descriptor>
+        <reference-descriptor name="negotiationDocument" class-ref="org.kuali.kra.negotiations.document.NegotiationDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="documentNumber" />
+        </reference-descriptor>
+          
+        <collection-descriptor name="activities" proxy="true" element-class-ref="org.kuali.kra.negotiations.bo.NegotiationActivity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="negotiationId"/>
+        </collection-descriptor>
+        <collection-descriptor name="negotiationCustomDataList" proxy="true" element-class-ref="org.kuali.kra.negotiations.customdata.NegotiationCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="negotiationId"/>
+        </collection-descriptor>
+        <collection-descriptor name="negotiationNotifications" element-class-ref="org.kuali.kra.negotiations.notifications.NegotiationNotification" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="owningDocumentIdFk" />
+        </collection-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationActivity" table="NEGOTIATION_ACTIVITY">
+        <field-descriptor name="activityId" column="NEGOTIATION_ACTIVITY_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_ACTIVITY_S" autoincrement="true" />
+        <field-descriptor name="negotiationId" column="NEGOTIATION_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="activityTypeId" column="ACTIVITY_TYPE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="locationId" column="LOCATION_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" />
+        <field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE" />
+        <field-descriptor name="createDate" column="CREATE_DATE" jdbc-type="DATE" />
+        <field-descriptor name="followupDate" column="FOLLOWUP_DATE" jdbc-type="DATE" />
+        <field-descriptor name="lastModifiedUsername" column="LAST_MODIFIED_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="lastModifiedDate" column="LAST_MODIFIED_DATE" jdbc-type="DATE" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="restricted" column="RESTRICTED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+
+        <reference-descriptor name="negotiation" class-ref="org.kuali.kra.negotiations.bo.Negotiation" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="negotiationId"/>
+        </reference-descriptor>         
+        <reference-descriptor name="location" class-ref="org.kuali.kra.negotiations.bo.NegotiationLocation" auto-retrieve="true" auto-update="link" auto-delete="none"> 
+            <foreignkey field-ref="locationId"/>
+        </reference-descriptor>
+        <reference-descriptor name="activityType" class-ref="org.kuali.kra.negotiations.bo.NegotiationActivityType" auto-retrieve="true" auto-update="link" auto-delete="none"> 
+            <foreignkey field-ref="activityTypeId"/>
+        </reference-descriptor>
+        
+        <collection-descriptor name="attachments" proxy="true" element-class-ref="org.kuali.kra.negotiations.bo.NegotiationActivityAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="activityId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationActivityType" table="NEGOTIATION_ACTIVITY_TYPE">
+        <field-descriptor name="id" column="NEGOTIATION_ACTIVITY_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_ACTIVITY_TYPE_S" autoincrement="true" />
+        <field-descriptor name="code" column="NEGOTIATION_ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>    
+
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationAgreementType" table="NEGOTIATION_AGREEMENT_TYPE">
+        <field-descriptor name="id" column="NEGOTIATION_AGRMNT_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_AGREEMENT_TYPE_S" autoincrement="true" />
+        <field-descriptor name="code" column="NEGOTIATION_AGRMNT_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+        
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationAssociationType" table="NEGOTIATION_ASSOCIATION_TYPE">
+        <field-descriptor name="id" column="NEGOTIATION_ASSC_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_ASSOCIATION_TYPE_S" autoincrement="true" />
+        <field-descriptor name="code" column="NEGOTIATION_ASSC_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationActivityAttachment" table="NEGOTIATION_ATTACHMENT">
+        <field-descriptor name="attachmentId" column="ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_ATTACHMENT_S" autoincrement="true" />
+        <field-descriptor name="activityId" column="ACTIVITY_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="restricted" column="RESTRICTED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+
+        <reference-descriptor name="activity" class-ref="org.kuali.kra.negotiations.bo.NegotiationActivity" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="activityId"/>
+        </reference-descriptor>         
+        <reference-descriptor name="file" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="fileId"/>
+        </reference-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.negotiations.customdata.NegotiationCustomData" table="NEGOTIATION_CUSTOM_DATA">
+        <field-descriptor name="negotiationCustomDataId" column="NEGOTIATION_CUSTOM_DATA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_NEGOTIATION_CUSTOM_DATA_ID" />
+        <field-descriptor name="negotiationId" column="NEGOTIATION_ID" jdbc-type="BIGINT" access="anonymous"/>
+        <field-descriptor name="negotiationNumber" column="NEGOTIATION_NUMBER" jdbc-type="VARCHAR"/>
+`       <field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="customAttributeId"/>
+        </reference-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationLocation" table="NEGOTIATION_LOCATION">
+        <field-descriptor name="id" column="NEGOTIATION_LOCATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_LOCATION_S" autoincrement="true" />
+        <field-descriptor name="code" column="NEGOTIATION_LOCATION_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>     
+
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationStatus" table="NEGOTIATION_STATUS">
+        <field-descriptor name="id" column="NEGOTIATION_STATUS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_STATUS_S" autoincrement="true" />
+        <field-descriptor name="code" column="NEGOTIATION_STATUS_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail" table="NEGOTIATION_UNASSOC_DETAIL">
+        <field-descriptor name="negotiationUnassociatedDetailId" column="NEGOTIATION_UNASSOC_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_UNASSOC_DETAIL_S" autoincrement="true" />
+        <field-descriptor name="negotiationId" column="NEGOTIATION_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="piPersonId" column="PI_PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="piRolodexId" column="PI_ROLODEX_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="leadUnitNumber" column="LEAD_UNIT" jdbc-type="VARCHAR" />
+        <field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="piName" column="PI_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="sponsorAwardNumber" column="SPONSOR_AWARD_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="contactAdminPersonId" column="CONTACT_ADMIN_PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="subAwardOrganizationId" column="SUBAWARD_ORG" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
+        <reference-descriptor name="negotiation" class-ref="org.kuali.kra.negotiations.bo.Negotiation" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="negotiationId"/>
+        </reference-descriptor>
+        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="leadUnitNumber"/>
+        </reference-descriptor>
+        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="sponsorCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="primeSponsorCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="subAwardOrganization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="subAwardOrganizationId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.negotiations.notifications.NegotiationNotification" table="NEGOTIATION_NOTIFICATION">
+        <field-descriptor name="notificationId" column="NOTIFICATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_NOTIFICATION_ID" autoincrement="true" />
+        <field-descriptor name="notificationTypeId" column="NOTIFICATION_TYPE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="owningDocumentIdFk" column="OWNING_DOCUMENT_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="recipients" column="RECIPIENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="subject" column="SUBJECT" jdbc-type="VARCHAR" />
+        <field-descriptor name="message" column="MESSAGE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="notificationType" class-ref="org.kuali.kra.common.notification.bo.NotificationType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="notificationTypeId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+</descriptor-repository>

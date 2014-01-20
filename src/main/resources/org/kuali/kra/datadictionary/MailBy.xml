@@ -1,0 +1,127 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="MailBy" parent="MailBy-parentBean" />
+
+  <bean id="MailBy-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailBy" />
+		<property name="objectLabel" value="Mail By" />
+    <property name="inquiryDefinition" >
+      <ref bean="MailBy-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="MailBy-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="mailByCode" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-PD"
+            p:parameterName="proposalDevelopmentMailByHelpUrl"
+            p:parameterDetailType="Document" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="MailBy-mailByCode" />
+        <ref bean="MailBy-description" />
+        <ref bean="MailBy-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="MailBy-mailByCode" parent="MailBy-mailByCode-parentBean" />
+
+  <bean id="MailBy-mailByCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="mailByCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Mail By" />
+    <property name="shortLabel" value="Mail By" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Mail By" />
+    <property name="description" value="Mail By" />
+  </bean>
+  <bean id="MailBy-description" parent="MailBy-description-parentBean" />
+
+  <bean id="MailBy-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="MailBy-versionNumber" parent="MailBy-versionNumber-parentBean" />
+
+  <bean id="MailBy-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="MailBy-inquiryDefinition" parent="MailBy-inquiryDefinition-parentBean" />
+
+  <bean id="MailBy-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Mail By" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Mail By" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="mailByCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="MailBy-lookupDefinition" parent="MailBy-lookupDefinition-parentBean" />
+
+  <bean id="MailBy-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Mail By Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+	<property name="helpDefinition" >
+        <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-M"
+            p:parameterName="mailByMaintenanceHelp"
+            p:parameterDetailType="Document" />
+    </property>    
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="mailByCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="mailByCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

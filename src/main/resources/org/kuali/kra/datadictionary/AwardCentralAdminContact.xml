@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="AwardCentralAdminContact" parent="AwardCentralAdminContact-parentBean" />
+  	<bean id="AwardCentralAdminContact-parentBean" parent="AwardContact">
+		<property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardCentralAdminContact" />
+		<property name="objectLabel" value="Award Central Admin Contact" />
+		<property name="titleAttribute" value="centralAdminContact" />
+		<property name="attributes" >
+	      <list>
+	        <ref bean="AwardCentralAdminContact-contactRoleCode" />
+	      </list>
+	    </property>
+	</bean>
+	
+	<bean id="AwardCentralAdminContact-contactRoleCode" parent="AwardCentralAdminContact-contactRoleCode-parentBean" />
+	<bean id="AwardCentralAdminContact-contactRoleCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	    <property name="name" value="contactRoleCode" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Project Role" />
+	    <property name="shortLabel" value="Project Role" />
+	    <property name="maxLength" value="3" />
+	    <property name="validationPattern" >
+	      <bean parent="AlphaNumericValidationPattern" />
+	    </property>
+	    <property name="required" value="true" />
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:valuesFinderClass="org.kuali.kra.award.contacts.AwardCentralAdminProjectRolesValuesFinder"
+	            p:includeKeyInLabel="false" />
+	    </property>
+	    <property name="summary" value="Project Role" />
+	    <property name="description" value="Project Role" />
+	</bean>
+	
+</beans>

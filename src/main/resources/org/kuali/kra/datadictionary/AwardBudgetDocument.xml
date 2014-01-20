@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardBudgetDocument" parent="AwardBudgetDocument-parentBean"/>
+
+  <bean id="AwardBudgetDocument-parentBean" abstract="true" parent="BudgetDocument-parentBean">
+    
+    <property name="useWorkflowPessimisticLocking" value="false"/>
+    
+    <property name="documentTypeName" value="AwardBudgetDocument"/>
+    <property name="documentClass" value="org.kuali.kra.award.budget.document.AwardBudgetDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.award.budget.document.AwardBudgetDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.award.budget.document.authorization.AwardBudgetDocumentAuthorizer"/>
+
+    <property name="headerNavigationList">
+      <list>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AB" p:parameterName="awardBudgetVersionsHelpUrl" p:parameterDetailType="Document"/>
+          </property>  
+          <property name="headerTabDisplayName" value="Budget Versions"/>
+          <property name="headerTabNavigateTo" value="versions"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetParametersHelp" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Parameters"/>
+          <property name="headerTabNavigateTo" value="parameters"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetRatesHelp" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Rates"/>
+          <property name="headerTabNavigateTo" value="rates"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AB" p:parameterName="awardBudgetSummaryHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Summary"/>
+          <property name="headerTabNavigateTo" value="summaryTotals"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AB" p:parameterName="awardBudgetPersonnelHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Personnel"/>
+          <property name="headerTabNavigateTo" value="personnel"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetNonPersonnelHelp" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Non-Personnel"/>
+          <property name="headerTabNavigateTo" value="expenses"/>
+        </bean>
+        
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetDistributionAndIncomeHelp" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Distribution &amp; Income"/>
+          <property name="headerTabNavigateTo" value="distributionAndIncome"/>
+        </bean>
+        
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetActionsHelp" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Budget Actions"/>
+          <property name="headerTabNavigateTo" value="budgetActions"/>
+        </bean>
+      </list>
+    </property>
+    <property name="workflowProperties">
+    	<ref bean="AwardBudgetDocument-workflowProperties"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="AwardBudgetDocument-versionNumber"/>
+      </list>
+    </property>
+    
+  </bean>
+
+  <bean id="AwardBudgetDocument-versionNumber" parent="BudgetDocument-versionNumber-parentBean"/>
+
+  <bean id="AwardBudgetDocument-workflowProperties" parent="AwardBudgetDocument-workflowProperties-parentBean"/>
+  <bean id="AwardBudgetDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+ 			  <bean parent="WorkflowProperty" p:path="currentAward.awardId"/>
+ 			  <bean parent="WorkflowProperty" p:path="currentAward.awardNumber"/>
+              <bean parent="WorkflowProperty" p:path="currentAward.accountNumber"/>
+              <bean parent="WorkflowProperty" p:path="currentAward.principalInvestigatorName"/>
+              <bean parent="WorkflowProperty" p:path="currentAward.title"/>
+              <bean parent="WorkflowProperty" p:path="currentAward.sponsor.sponsorCode"/>
+			  <bean parent="WorkflowProperty" p:path="currentAward.leadUnit.unitNumber"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

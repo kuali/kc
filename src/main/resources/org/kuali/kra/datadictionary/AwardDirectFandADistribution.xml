@@ -1,0 +1,187 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardDirectFandADistribution" parent="AwardDirectFandADistribution-parentBean" />
+
+  <bean id="AwardDirectFandADistribution-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution" />
+		<property name="objectLabel" value="Award Direct Fand A Distribution" />
+    <property name="titleAttribute" value="awardCostShare" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-AWARD"
+            p:parameterName="awardCostShareHelpUrl"
+            p:parameterDetailType="Document" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AwardDirectFandADistribution-awardDirectFandADistributionId" />
+        <ref bean="AwardDirectFandADistribution-awardNumber" />
+        <ref bean="AwardDirectFandADistribution-sequenceNumber" />
+        <ref bean="AwardDirectFandADistribution-amountSequenceNumber" />
+        <ref bean="AwardDirectFandADistribution-budgetPeriod" />
+        <ref bean="AwardDirectFandADistribution-startDate" />
+        <ref bean="AwardDirectFandADistribution-endDate" />
+        <ref bean="AwardDirectFandADistribution-directCost" />
+        <ref bean="AwardDirectFandADistribution-indirectCost" /> 
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AwardDirectFandADistribution-awardDirectFandADistributionId" parent="AwardDirectFandADistribution-awardDirectFandADistributionId-parentBean" />
+
+  <bean id="AwardDirectFandADistribution-awardDirectFandADistributionId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardDirectFandADistributionId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Award Direct F and A Distribution ID" />
+    <property name="shortLabel" value="Award Direct F and A Distribution ID" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Award Direct F and A Distribution ID" />
+    <property name="description" value="Award Direct F and A Distribution ID" />
+  </bean>
+  
+  <bean id="AwardDirectFandADistribution-awardNumber" parent="AwardDirectFandADistribution-awardNumber-parentBean" />
+
+  <bean id="AwardDirectFandADistribution-awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
+  </bean>
+  
+  <bean id="AwardDirectFandADistribution-sequenceNumber" parent="AwardDirectFandADistribution-sequenceNumber-parentBean" />
+
+  <bean id="AwardDirectFandADistribution-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sequenceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sequence Number" />
+    <property name="shortLabel" value="Sequence Number" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Sequence Number" />
+    <property name="description" value="Sequence Number" />
+  </bean>
+  <bean id="AwardDirectFandADistribution-amountSequenceNumber" parent="AwardDirectFandADistribution-amountSequenceNumber-parentBean" />
+
+  <bean id="AwardDirectFandADistribution-amountSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="amountSequenceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Amount Sequence Number" />
+    <property name="shortLabel" value="Amount Sequence Number" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Amount Sequence Number" />
+    <property name="description" value="Amount Sequence Number" />
+  </bean>
+  
+   <bean id="AwardDirectFandADistribution-budgetPeriod" parent="AwardDirectFandADistribution-budgetPeriod-parentBean" />
+
+  <bean id="AwardDirectFandADistribution-budgetPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetPeriod" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Period" />
+    <property name="shortLabel" value="Budget Period" />
+    <property name="maxLength" value="3" />
+    <property name="required" value="true" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Budget Period" />
+    <property name="description" value="Budget Period" />
+  </bean>
+  
+ 
+ <bean id="AwardDirectFandADistribution-startDate" parent="AwardDirectFandADistribution-startDate-parentBean" />
+
+  <bean id="AwardDirectFandADistribution-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="startDate" />
+    <property name="label" value="Start Date" />
+    <property name="shortLabel" value="Start Date" />
+    <property name="required" value="true" />
+    <property name="summary" value="Start Date" />
+    <property name="description" value="Start Date" />
+  </bean>
+  
+  <bean id="AwardDirectFandADistribution-endDate" parent="AwardDirectFandADistribution-endDate-parentBean" />
+
+  <bean id="AwardDirectFandADistribution-endDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="endDate" />
+    <property name="label" value="End Date" />
+    <property name="shortLabel" value="End Date" />
+    <property name="required" value="true" />
+    <property name="summary" value="End Date" />
+    <property name="description" value="End Date" />
+  </bean>
+  
+  <bean id="AwardDirectFandADistribution-directCost" parent="AwardDirectFandADistribution-directCost-parentBean" />
+
+  <bean id="AwardDirectFandADistribution-directCost-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="directCost" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Direct Cost" />
+    <property name="shortLabel" value="Direct Cost" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+    <property name="summary" value="Direct Cost" />
+    <property name="description" value="Direct Cost" />
+  </bean>
+  
+  <bean id="AwardDirectFandADistribution-indirectCost" parent="AwardDirectFandADistribution-indirectCost-parentBean" />
+
+  <bean id="AwardDirectFandADistribution-indirectCost-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="indirectCost" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="F&amp;A Cost" />
+    <property name="shortLabel" value="F&amp;A Cost" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+    <property name="summary" value="F&amp;A Cost" />
+    <property name="description" value="F&amp;A Cost" />
+  </bean>
+  
+</beans>

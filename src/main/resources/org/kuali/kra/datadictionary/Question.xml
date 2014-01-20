@@ -1,0 +1,558 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="Question" parent="Question-parentBean" />
+    <bean id="Question-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.Question" />
+		<property name="objectLabel" value="Question" />
+        <property name="inquiryDefinition" >
+            <ref bean="Question-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="Question-lookupDefinition" />
+        </property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-QUESTIONNAIRE" p:parameterName="questionnaireQuestionHelpUrl" p:parameterDetailType="Document" />
+        </property>
+        <property name="titleAttribute" value="questionRefId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="Question-questionRefId" />
+                <ref bean="Question-documentNumber" />
+                <ref bean="Question-questionId" />
+                <ref bean="Question-questionIdAsInteger" />
+                <ref bean="Question-sequenceNumber" />
+                <ref bean="Question-question" />
+                <ref bean="Question-status" />
+                <ref bean="Question-categoryTypeCode" />
+                <ref bean="Question-questionTypeId" />
+                <ref bean="Question-questionType.questionTypeName" />
+                <ref bean="Question-lookupClass" />
+                <ref bean="Question-lookupReturn" />
+                <ref bean="Question-displayedAnswers" />
+                <ref bean="Question-maxAnswers" />
+                <ref bean="Question-answerMaxLength" />
+                <ref bean="Question-versionNumber" />
+                <ref bean="Question-explanation" />
+                <ref bean="Question-policy" />
+                <ref bean="Question-regulation" /> 
+                <ref bean="Question-affirmativeStatementConversion" />
+                <ref bean="Question-negativeStatementConversion" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="Question-questionRefId" parent="Question-questionRefId-parentBean" />
+    <bean id="Question-questionRefId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionRefId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Ref Id" />
+        <property name="shortLabel" value="Question Ref Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Question Ref Id" />
+        <property name="description" value="Question Ref Id" />
+    </bean>
+
+    <bean id="Question-documentNumber" parent="Question-documentNumber-parentBean" />
+    <bean id="Question-documentNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="documentNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Document Number" />
+        <property name="shortLabel" value="Document Number" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Document Number" />
+        <property name="description" value="Document Number" />
+    </bean>
+
+    <bean id="Question-questionId" parent="Question-questionId-parentBean" />
+    <bean id="Question-questionId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Id" />
+        <property name="shortLabel" value="Question Id" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="6" />
+        </property>
+        <property name="summary" value="Question Id" />
+        <property name="description" value="Question Id" />
+    </bean>
+    
+    <bean id="Question-questionIdAsInteger" parent="Question-questionIdAsInteger-parentBean" />
+    <bean id="Question-questionIdAsInteger-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionIdAsInteger" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Id" />
+        <property name="shortLabel" value="Question Id" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="6" />
+        </property>
+        <property name="summary" value="Question Id" />
+        <property name="description" value="Question Id" />
+    </bean>    
+
+    <bean id="Question-sequenceNumber" parent="Question-sequenceNumber-parentBean" />
+    <bean id="Question-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="4" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+
+    <bean id="Question-question" parent="Question-question-parentBean" />
+    <bean id="Question-question-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="question" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question" />
+        <property name="shortLabel" value="Question" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="120" />
+        </property>
+        <property name="summary" value="Question" />
+        <property name="description" value="Question" />
+    </bean>
+
+    <bean id="Question-status" parent="Question-status-parentBean" />
+    <bean id="Question-status-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="status" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Status" />
+        <property name="shortLabel" value="Status" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="1" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder"
+                p:includeKeyInLabel="false" />
+        </property>
+        <property name="summary" value="Status" />
+        <property name="description" value="Status" />
+    </bean>
+            <!-- ExtendedPersistableBusinessObjectValuesFinder"-->
+
+    <bean id="Question-categoryTypeCode" parent="Question-categoryTypeCode-parentBean" />
+    <bean id="Question-categoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="categoryTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Category" />
+        <property name="shortLabel" value="Category" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+         <property name="control" >
+      		<bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionCategory"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="categoryTypeCode"
+            p:labelAttribute="categoryName" />
+    </property>
+        <property name="summary" value="Category Type Code" />
+        <property name="description" value="Category Type Code" />
+    </bean>
+
+    <bean id="Question-questionTypeId" parent="Question-questionTypeId-parentBean" />
+    <bean id="Question-questionTypeId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionTypeId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Type Id" />
+        <property name="shortLabel" value="Type" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="questionTypeId"
+                p:labelAttribute="questionTypeName" />
+        </property>
+        <property name="summary" value="Question Type Id" />
+        <property name="description" value="Question Type Id" />
+    </bean>
+
+    <bean id="Question-lookupClass" parent="Question-lookupClass-parentBean" />
+    <bean id="Question-lookupClass-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="lookupClass" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Lookup Class" />
+        <property name="shortLabel" value="Lookup Class" />
+        <property name="maxLength" value="100" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder"
+                  p:includeKeyInLabel="false"
+                  p:script="updateLookupReturn(this, updateLookupReturn_Callback)" />
+        </property>
+        <property name="summary" value="Lookup Class" />
+        <property name="description" value="Lookup Class" />
+    </bean>
+
+    <bean id="Question-lookupReturn" parent="Question-lookupReturn-parentBean" />
+    <bean id="Question-lookupReturn-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="lookupReturn" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Lookup Return" />
+        <property name="shortLabel" value="Lookup Return" />
+        <property name="maxLength" value="30" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+        <property name="summary" value="Lookup Return" />
+        <property name="description" value="Lookup Return" />
+    </bean>
+
+    <bean id="Question-displayedAnswers" parent="Question-displayedAnswers-parentBean" />
+    <bean id="Question-displayedAnswers-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="displayedAnswers" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Displayed Answers" />
+        <property name="shortLabel" value="Displayed Answers" />
+        <property name="maxLength" value="2" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="2" />
+        </property>
+        <property name="summary" value="Displayed Answers" />
+        <property name="description" value="Displayed Answers" />
+    </bean>
+
+    <bean id="Question-maxAnswers" parent="Question-maxAnswers-parentBean" />
+    <bean id="Question-maxAnswers-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="maxAnswers" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Max Answers" />
+        <property name="shortLabel" value="Max Answers" />
+        <property name="maxLength" value="2" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="2" />
+        </property>
+        <property name="summary" value="Max Answers" />
+        <property name="description" value="Max Answers" />
+    </bean>
+
+    <bean id="Question-answerMaxLength" parent="Question-answerMaxLength-parentBean" />
+    <bean id="Question-answerMaxLength-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="answerMaxLength" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Answer Max Length" />
+        <property name="shortLabel" value="Answer Max Length" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="4" />
+        </property>
+        <property name="summary" value="Answer Max Length" />
+        <property name="description" value="Answer Max Length" />
+    </bean>
+  <bean id="Question-questionType.questionTypeName" parent="Question-questionType.questionTypeName-parentBean" />
+  <bean id="Question-questionType.questionTypeName-parentBean" abstract="true" parent="QuestionType-questionTypeName">
+    <property name="name" value="questionType.questionTypeName" />
+    <property name="label" value="Question Type" />
+    <property name="shortLabel" value="Question Type" />
+  </bean>
+
+    <bean id="Question-versionNumber" parent="Question-versionNumber-parentBean" />
+    <bean id="Question-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <bean id="Question-explanation" parent="Question-explanation-parentBean" />
+    <bean id="Question-explanation-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="explanation" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Explanation" />
+        <property name="shortLabel" value="Explanation" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="120" />
+        </property>
+        <property name="summary" value="Explanation" />
+        <property name="description" value="Explanation" />
+    </bean>
+
+    <bean id="Question-policy" parent="Question-policy-parentBean" />
+    <bean id="Question-policy-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="policy" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Policy" />
+        <property name="shortLabel" value="Policy" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="120" />
+        </property>
+        <property name="summary" value="Policy" />
+        <property name="description" value="Policy" />
+    </bean>
+
+    <bean id="Question-regulation" parent="Question-regulation-parentBean" />
+    <bean id="Question-regulation-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="regulation" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Regulation" />
+        <property name="shortLabel" value="Regulation" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="120" />
+        </property>
+        <property name="summary" value="Regulation" />
+        <property name="description" value="Regulation" />
+    </bean> 
+    
+    <bean id="Question-affirmativeStatementConversion" parent="Question-affirmativeStatementConversion-parentBean" />
+    <bean id="Question-affirmativeStatementConversion-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="affirmativeStatementConversion" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Affirmative Statement" />
+        <property name="shortLabel" value="Affirmative Statement" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="120" />
+        </property>
+        <property name="summary" value="Affirmative Statement" />
+        <property name="description" value="Affirmative Statement" />
+    </bean>
+    
+    <bean id="Question-negativeStatementConversion" parent="Question-negativeStatementConversion-parentBean" />
+    <bean id="Question-negativeStatementConversion-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="negativeStatementConversion" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Negative Statement" />
+        <property name="shortLabel" value="Negative Statement" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="120" />
+        </property>
+        <property name="summary" value="Negative Statement" />
+        <property name="description" value="Negative Statement" />
+    </bean>
+    
+    <!-- Business Object Inquiry Definition -->
+    <bean id="Question-inquiryDefinition" parent="Question-inquiryDefinition-parentBean" />
+    <bean id="Question-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Question Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Question Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="questionId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="question" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="status" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="categoryTypeCode" />
+                            <!-- <bean parent="FieldDefinition"
+                                p:attributeName="questionTypeId" /> -->
+                            <bean parent="FieldDefinition"
+                                p:attributeName="questionType.questionTypeName" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="lookupClass" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="lookupReturn" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="displayedAnswers" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="maxAnswers" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="answerMaxLength" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="Question-lookupDefinition" parent="Question-lookupDefinition-parentBean" />
+    <bean id="Question-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Question Lookup" />
+        <property name="lookupableID" value="questionLookupable" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="question" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="status" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="categoryTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionTypeId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="lookupClass" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="lookupReturn" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="displayedAnswers" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="maxAnswers" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="answerMaxLength" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionIdAsInteger" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="question" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="status" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="categoryTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionTypeId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="lookupClass" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="lookupReturn" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="displayedAnswers" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="maxAnswers" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="answerMaxLength" />
+            </list>
+        </property>
+    </bean>
+</beans>

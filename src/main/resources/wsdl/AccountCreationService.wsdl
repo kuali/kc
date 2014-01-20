@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://kfs.kuali.org/kc-kfs/v2_0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="accountCreationServiceSOAP" targetNamespace="http://kfs.kuali.org/kc-kfs/v2_0">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://kfs.kuali.org/kc-kfs/v2_0" elementFormDefault="unqualified" targetNamespace="http://kfs.kuali.org/kc-kfs/v2_0" version="1.0">
+<xs:element name="accountsCanCrossCharts" type="tns:accountsCanCrossCharts"/>
+<xs:element name="accountsCanCrossChartsResponse" type="tns:accountsCanCrossChartsResponse"/>
+<xs:element name="createAccount" type="tns:createAccount"/>
+<xs:element name="createAccountResponse" type="tns:createAccountResponse"/>
+<xs:element name="isValidAccount" type="tns:isValidAccount"/>
+<xs:element name="isValidAccountResponse" type="tns:isValidAccountResponse"/>
+<xs:element name="isValidChartAccount" type="tns:isValidChartAccount"/>
+<xs:element name="isValidChartAccountResponse" type="tns:isValidChartAccountResponse"/>
+<xs:element name="isValidChartCode" type="tns:isValidChartCode"/>
+<xs:element name="isValidChartCodeResponse" type="tns:isValidChartCodeResponse"/>
+<xs:complexType name="isValidChartCode">
+<xs:sequence>
+<xs:element minOccurs="0" name="chartOfAccountsCode" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidChartCodeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createAccount">
+<xs:sequence>
+<xs:element minOccurs="0" name="accountParametersDTO" type="tns:accountParametersDTO"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="accountParametersDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="accountName" type="xs:string"/>
+<xs:element minOccurs="0" name="accountNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="adminContactAddressCityName" type="xs:string"/>
+<xs:element minOccurs="0" name="adminContactAddressStateCode" type="xs:string"/>
+<xs:element minOccurs="0" name="adminContactAddressStreetAddress" type="xs:string"/>
+<xs:element minOccurs="0" name="adminContactAddressZipCode" type="xs:string"/>
+<xs:element minOccurs="0" name="cfdaNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="defaultAddressCityName" type="xs:string"/>
+<xs:element minOccurs="0" name="defaultAddressStateCode" type="xs:string"/>
+<xs:element minOccurs="0" name="defaultAddressStreetAddress" type="xs:string"/>
+<xs:element minOccurs="0" name="defaultAddressZipCode" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expenseGuidelineText" type="xs:string"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="higherEdFunctionCode" type="xs:string"/>
+<xs:element minOccurs="0" name="incomeGuidelineText" type="xs:string"/>
+<xs:element minOccurs="0" name="indirectCostRate" type="xs:string"/>
+<xs:element minOccurs="0" name="indirectCostTypeCode" type="xs:string"/>
+<xs:element name="offCampusIndicator" type="xs:boolean"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="purposeText" type="xs:string"/>
+<xs:element minOccurs="0" name="unit" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createAccountResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:accountCreationStatusDTO"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="accountCreationStatusDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="accountNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="chartOfAccountsCode" type="xs:string"/>
+<xs:element minOccurs="0" name="documentNumber" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="errorMessages" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidAccount">
+<xs:sequence>
+<xs:element minOccurs="0" name="accountNumber" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidAccountResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="accountsCanCrossCharts">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="accountsCanCrossChartsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidChartAccount">
+<xs:sequence>
+<xs:element minOccurs="0" name="chartOfAccountCode" type="xs:string"/>
+<xs:element minOccurs="0" name="accountNumber" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidChartAccountResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="accountsCanCrossCharts">
+    <wsdl:part element="tns:accountsCanCrossCharts" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidAccount">
+    <wsdl:part element="tns:isValidAccount" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createAccountResponse">
+    <wsdl:part element="tns:createAccountResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidAccountResponse">
+    <wsdl:part element="tns:isValidAccountResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidChartCode">
+    <wsdl:part element="tns:isValidChartCode" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidChartAccount">
+    <wsdl:part element="tns:isValidChartAccount" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidChartAccountResponse">
+    <wsdl:part element="tns:isValidChartAccountResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="accountsCanCrossChartsResponse">
+    <wsdl:part element="tns:accountsCanCrossChartsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createAccount">
+    <wsdl:part element="tns:createAccount" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidChartCodeResponse">
+    <wsdl:part element="tns:isValidChartCodeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="accountCreationService">
+    <wsdl:operation name="isValidChartCode">
+      <wsdl:input message="tns:isValidChartCode" name="isValidChartCode">
+    </wsdl:input>
+      <wsdl:output message="tns:isValidChartCodeResponse" name="isValidChartCodeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createAccount">
+      <wsdl:input message="tns:createAccount" name="createAccount">
+    </wsdl:input>
+      <wsdl:output message="tns:createAccountResponse" name="createAccountResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidAccount">
+      <wsdl:input message="tns:isValidAccount" name="isValidAccount">
+    </wsdl:input>
+      <wsdl:output message="tns:isValidAccountResponse" name="isValidAccountResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="accountsCanCrossCharts">
+      <wsdl:input message="tns:accountsCanCrossCharts" name="accountsCanCrossCharts">
+    </wsdl:input>
+      <wsdl:output message="tns:accountsCanCrossChartsResponse" name="accountsCanCrossChartsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidChartAccount">
+      <wsdl:input message="tns:isValidChartAccount" name="isValidChartAccount">
+    </wsdl:input>
+      <wsdl:output message="tns:isValidChartAccountResponse" name="isValidChartAccountResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="accountCreationServiceSOAPSoapBinding" type="tns:accountCreationService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="isValidChartCode">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isValidChartCode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isValidChartCodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createAccount">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createAccount">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createAccountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidAccount">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isValidAccount">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isValidAccountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="accountsCanCrossCharts">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="accountsCanCrossCharts">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="accountsCanCrossChartsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidChartAccount">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isValidChartAccount">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isValidChartAccountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="accountCreationServiceSOAP">
+    <wsdl:port binding="tns:accountCreationServiceSOAPSoapBinding" name="accountCreationServicePort">
+      <soap:address location="http://stg.kfs.kuali.org/kfs-stg/remoting/accountCreationServiceSOAP"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

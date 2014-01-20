@@ -1,0 +1,277 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!--<!DOCTYPE descriptor-repository PUBLIC "-//Apache Software Foundation//DTD OJB Repository//EN" "../../../../repository.dtd">-->
+
+<descriptor-repository version="1.0">
+
+    <class-descriptor class="org.kuali.kra.questionnaire.question.Question" table="QUESTION">
+        <field-descriptor name="questionRefId" column="QUESTION_REF_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="sequenceStatus" column="SEQUENCE_STATUS" jdbc-type="VARCHAR" />
+        <field-descriptor name="question" column="QUESTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" />
+        <field-descriptor name="categoryTypeCode" column="GROUP_TYPE_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="questionTypeId" column="QUESTION_TYPE_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="lookupClass" column="LOOKUP_CLASS" jdbc-type="VARCHAR" />
+        <field-descriptor name="lookupReturn" column="LOOKUP_RETURN" jdbc-type="VARCHAR" />
+        <field-descriptor name="displayedAnswers" column="DISPLAYED_ANSWERS" jdbc-type="INTEGER" />
+        <field-descriptor name="maxAnswers" column="MAX_ANSWERS" jdbc-type="INTEGER" />
+        <field-descriptor name="answerMaxLength" column="ANSWER_MAX_LENGTH" jdbc-type="INTEGER" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="questionCategory" class-ref="org.kuali.kra.questionnaire.question.QuestionCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="categoryTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="questionType" class-ref="org.kuali.kra.questionnaire.question.QuestionType" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="questionTypeId"/>
+        </reference-descriptor>
+        <collection-descriptor name="questionExplanations" element-class-ref="org.kuali.kra.questionnaire.question.QuestionExplanation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="questionRefIdFk"/>
+        </collection-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.questionnaire.question.QuestionExplanation" table="QUESTION_EXPLANATION">
+        <field-descriptor name="questionExplanationId" column="QUESTION_EXPLANATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+        <field-descriptor name="questionRefIdFk" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="explanationType" column="EXPLANATION_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.questionnaire.question.QuestionCategory" table="GROUP_TYPES">
+        <field-descriptor name="categoryTypeCode" column="GROUP_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="categoryName" column="GROUP_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.questionnaire.question.QuestionType" table="QUESTION_TYPES">
+        <field-descriptor name="questionTypeId" column="QUESTION_TYPE_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="questionTypeName" column="QUESTION_TYPE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.bo.ArgValueLookup" table="ARG_VALUE_LOOKUP">
+        <field-descriptor name="argValueLookupId" column="ARG_VALUE_LOOKUP_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="argumentName" column="ARGUMENT_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+        
+    <class-descriptor class="org.kuali.kra.questionnaire.answer.AnswerHeader" table="QUESTIONNAIRE_ANSWER_HEADER">
+		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_ANSWER_HEADER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+		<field-descriptor name="moduleItemCode" column="MODULE_ITEM_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
+		<field-descriptor name="moduleSubItemCode" column="MODULE_SUB_ITEM_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="moduleSubItemKey" column="MODULE_SUB_ITEM_KEY" jdbc-type="VARCHAR" />
+        <field-descriptor name="questionnaireRefIdFk" column="QUESTIONNAIRE_REF_ID_FK" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="completed" column="QUESTIONNAIRE_COMPLETED_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionnaireRefIdFk"/>
+		</reference-descriptor>
+		<collection-descriptor name="answers" proxy="true" element-class-ref="org.kuali.kra.questionnaire.answer.Answer" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
+			<inverse-foreignkey field-ref="answerHeaderIdFk"/>
+		</collection-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.questionnaire.answer.Answer" table="QUESTIONNAIRE_ANSWER">
+		<field-descriptor name="id" column="QUESTIONNAIRE_ANSWER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+		<field-descriptor name="answerHeaderIdFk" column="QUESTIONNAIRE_AH_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="questionRefIdFk" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="questionnaireQuestionsIdFk" column="QUESTIONNAIRE_QUESTIONS_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="questionNumber" column="QUESTION_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="answerNumber" column="ANSWER_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="answer" column="ANSWER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="answerHeader" class-ref="org.kuali.kra.questionnaire.answer.AnswerHeader" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="answerHeaderIdFk"/>
+		</reference-descriptor>
+		<reference-descriptor name="question" class-ref="org.kuali.kra.questionnaire.question.Question" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionRefIdFk"/>
+		</reference-descriptor>
+		<reference-descriptor name="questionnaireQuestion" class-ref="org.kuali.kra.questionnaire.QuestionnaireQuestion" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionnaireQuestionsIdFk"/>
+		</reference-descriptor>
+	</class-descriptor>
+
+<!--  Questionnaire maint related -->
+
+    <class-descriptor class="org.kuali.kra.bo.CoeusSubModule" table="COEUS_SUB_MODULE">
+        <field-descriptor name="coeusSubModuleId" column="COEUS_SUB_MODULE_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="subModuleCode" column="SUB_MODULE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="requireUniqueQuestionnareUsage" column="REQUIRE_UNIQUE_QUESTIONNAIRE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="coeusModule" class-ref="org.kuali.kra.bo.CoeusModule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="moduleCode"/>
+        </reference-descriptor>
+    </class-descriptor>
+    <class-descriptor class="org.kuali.kra.bo.CoeusModule" table="COEUS_MODULE">
+        <field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <!--  TODO : Implemented later
+        <collection-descriptor name="questionnaireUsage" proxy="true" element-class-ref="org.kuali.kra.questionnaire.QuestionnaireUsage" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="moduleItemCode"/>
+        </collection-descriptor>
+        <collection-descriptor name="coeusSubModule" proxy="true" element-class-ref="org.kuali.kra.bo.CoeusSubModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="moduleCode"/>
+        </collection-descriptor>
+        <collection-descriptor name="protocolRelatedProjects" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolRelatedProjects" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="moduleCode"/>
+        </collection-descriptor>
+        <collection-descriptor name="customDataElementUsage" proxy="true" element-class-ref="org.kuali.kra.bo.CustomDataElementUsage" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="moduleCode"/>
+        </collection-descriptor>
+        <collection-descriptor name="protocolLinks" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolLinks" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="moduleCode"/>
+        </collection-descriptor>
+        <collection-descriptor name="notifActionType" proxy="true" element-class-ref="org.kuali.kra.bo.NotifActionType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="moduleCode"/>
+        </collection-descriptor>
+        <collection-descriptor name="personRoleModule" proxy="true" element-class-ref="org.kuali.kra.bo.PersonRoleModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="moduleCode"/>
+        </collection-descriptor>
+        <collection-descriptor name="notificationType" proxy="true" element-class-ref="org.kuali.kra.bo.NotificationType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="moduleCode"/>
+        </collection-descriptor>
+        <collection-descriptor name="notificationDetails" proxy="true" element-class-ref="org.kuali.kra.bo.NotificationDetails" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="moduleCode"/>
+        </collection-descriptor>
+        -->
+    </class-descriptor>
+    <class-descriptor class="org.kuali.kra.questionnaire.Questionnaire" table="QUESTIONNAIRE">
+        <field-descriptor name="questionnaireRefId" column="QUESTIONNAIRE_REF_ID" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+        <field-descriptor name="questionnaireId" column="QUESTIONNAIRE_ID" jdbc-type="VARCHAR" sequence-name="SEQ_QUESTIONNAIRE_ID" autoincrement="true" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="IS_FINAL" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="template" column="TEMPLATE" jdbc-type="CLOB" conversion="org.kuali.kra.infrastructure.OjbBlobClobFieldConersion"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <!-- <collection-descriptor name="questionnaireQuestions" proxy="true" element-class-ref="org.kuali.kra.questionnaire.QuestionnaireQuestion" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none"> -->
+        <!-- proxy="true' caused problem in route's save/delete sequence.  not sure why yet -->
+        <collection-descriptor name="questionnaireQuestions"  element-class-ref="org.kuali.kra.questionnaire.QuestionnaireQuestion" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="questionnaireRefIdFk"/>
+        </collection-descriptor>
+        <collection-descriptor name="questionnaireUsages" element-class-ref="org.kuali.kra.questionnaire.QuestionnaireUsage" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="questionnaireRefIdFk"/>
+        </collection-descriptor>
+    </class-descriptor> 
+    <class-descriptor class="org.kuali.kra.questionnaire.QuestionnaireQuestion" table="QUESTIONNAIRE_QUESTIONS">
+        <field-descriptor name="questionnaireQuestionsId" column="QUESTIONNAIRE_QUESTIONS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+        <field-descriptor name="questionnaireRefIdFk" column="QUESTIONNAIRE_REF_ID_FK" jdbc-type="VARCHAR" />
+        <field-descriptor name="questionRefIdFk" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="questionNumber" column="QUESTION_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="parentQuestionNumber" column="PARENT_QUESTION_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="conditionFlag" column="CONDITION_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="condition" column="CONDITION_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="conditionValue" column="CONDITION_VALUE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="questionSeqNumber" column="QUESTION_SEQ_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="ruleId" column="RULE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="question" class-ref="org.kuali.kra.questionnaire.question.Question" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="questionRefIdFk"/>
+        </reference-descriptor>
+        <reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="questionnaireRefIdFk"/>
+        </reference-descriptor>
+    </class-descriptor> 
+    <class-descriptor class="org.kuali.kra.questionnaire.QuestionnaireUsage" table="QUESTIONNAIRE_USAGE">
+        <field-descriptor name="questionnaireUsageId" column="QUESTIONNAIRE_USAGE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+        <field-descriptor name="moduleItemCode" column="MODULE_ITEM_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="moduleSubItemCode" column="MODULE_SUB_ITEM_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="questionnaireSequenceNumber" column="QUESTIONNAIRE_SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="questionnaireRefIdFk" column="QUESTIONNAIRE_REF_ID_FK" jdbc-type="VARCHAR" />
+        <field-descriptor name="ruleId" column="RULE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="questionnaireLabel" column="QUESTIONNAIRE_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="mandatory" column="IS_MANDATORY" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <reference-descriptor name="coeusModule" class-ref="org.kuali.kra.bo.CoeusModule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="moduleItemCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="questionnaireRefIdFk"/>
+        </reference-descriptor>
+    </class-descriptor>
+    <!--  following is needed if  KraMaintenanceDocument is used
+    <class-descriptor class="org.kuali.kra.maintenance.KraMaintenanceDocument" table="KRNS_MAINT_DOC_T">
+        <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="xmlDocumentContents" column="DOC_CNTNT" jdbc-type="CLOB"
+             conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion" />
+       <reference-descriptor name="attachment" class-ref="org.kuali.rice.krad.bo.DocumentAttachment" auto-retrieve="true" auto-update="object"
+           auto-delete="object" proxy="true">
+           <foreignkey field-ref="documentNumber" />
+       </reference-descriptor>
+    </class-descriptor>
+     -->   
+<!--  end Questionnaire -->
+
+	 <class-descriptor class="org.kuali.kra.bo.S2sOppFormQuestionnaire" table="S2S_FORM_TO_QUESTIONNAIRE">
+        <field-descriptor name="s2sOppFormQuestionnaireId" column="S2S_FORM_TO_QUESTIONNAIRE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+        <field-descriptor name="oppNameSpace" column="OPP_NAME_SPACE" jdbc-type="VARCHAR" />
+        <field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="questionnaireId" column="QUESTIONNAIRE_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+
+</descriptor-repository>

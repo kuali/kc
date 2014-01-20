@@ -1,0 +1,160 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetCategoryMapping" parent="BudgetCategoryMapping-parentBean" />
+
+  <bean id="BudgetCategoryMapping-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.core.BudgetCategoryMapping" />
+		<property name="objectLabel" value="Budget Category Mapping" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetCategoryMapping-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetCategoryMapping-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="targetCategoryCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetCategoryMapping-budgetCategoryCode" />
+        <ref bean="BudgetCategoryMapping-mappingName" />
+        <ref bean="BudgetCategoryMapping-targetCategoryCode" />
+        <ref bean="BudgetCategoryMapping-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="BudgetCategoryMapping-budgetCategoryCode" parent="BudgetCategoryMapping-budgetCategoryCode-parentBean" />
+
+  <bean id="BudgetCategoryMapping-budgetCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetCategoryCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Category Code" />
+    <property name="shortLabel" value="Budget Category Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Budget Category Code" />
+    <property name="description" value="Budget Category Code" />
+  </bean>
+  <bean id="BudgetCategoryMapping-mappingName" parent="BudgetCategoryMapping-mappingName-parentBean" />
+
+  <bean id="BudgetCategoryMapping-mappingName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="mappingName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Mapping Name" />
+    <property name="shortLabel" value="Mapping Name" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Mapping Name" />
+    <property name="description" value="Mapping Name" />
+  </bean>
+  <bean id="BudgetCategoryMapping-targetCategoryCode" parent="BudgetCategoryMapping-targetCategoryCode-parentBean" />
+
+  <bean id="BudgetCategoryMapping-targetCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="targetCategoryCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Target Category Code" />
+    <property name="shortLabel" value="Target Category Code" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="Target Category Code" />
+    <property name="description" value="Target Category Code" />
+  </bean>
+  <bean id="BudgetCategoryMapping-versionNumber" parent="BudgetCategoryMapping-versionNumber-parentBean" />
+
+  <bean id="BudgetCategoryMapping-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="BudgetCategoryMapping-inquiryDefinition" parent="BudgetCategoryMapping-inquiryDefinition-parentBean" />
+
+  <bean id="BudgetCategoryMapping-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Category Mapping" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Budget Category Mapping" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetCategoryCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="mappingName"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="targetCategoryCode"
+                    p:forceInquiry="true" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="BudgetCategoryMapping-lookupDefinition" parent="BudgetCategoryMapping-lookupDefinition-parentBean" />
+
+  <bean id="BudgetCategoryMapping-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Category Mapping Lookup" />
+       <property name="lookupableID" value="noEditLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="mappingName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="targetCategoryCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategoryCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="mappingName"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="targetCategoryCode"
+              p:forceInquiry="true" />
+      </list>
+    </property>
+  </bean>
+</beans>

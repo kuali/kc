@@ -1,0 +1,243 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="CustReportDetails" parent="CustReportDetails-parentBean" />
+
+	<bean id="CustReportDetails-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.reporting.bo.CustReportDetails" />
+		<property name="objectLabel" value="CustReportDetails" />
+		<property name="inquiryDefinition">
+			<ref bean="CustReportDetails-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="CustReportDetails-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="CustReportDetails-reportId" />
+				<ref bean="CustReportDetails-reportLabel" />
+				<ref bean="CustReportDetails-reportLabelDisplay" />
+				<ref bean="CustReportDetails-reportDescription" />
+				<ref bean="CustReportDetails-reportTypeCode" />
+				<ref bean="CustReportDetails-custReportType.reportTypeCode" />
+				<ref bean="CustReportDetails-permissionName" /> 
+				<ref bean="CustReportDetails-templateFile" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="CustReportDetails-reportId" parent="CustReportDetails-reportId-parentBean" />
+	<bean id="CustReportDetails-reportId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="reportId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Report Id" />
+		<property name="shortLabel" value="Report Id" />
+		<property name="maxLength" value="6" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="summary" value="Report Id" />
+		<property name="description" value="Report Id" />
+	</bean>
+
+	<bean id="CustReportDetails-reportLabel" parent="CustReportDetails-reportLabel-parentBean" />
+	<bean id="CustReportDetails-reportLabel-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="reportLabel" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Report Label" />
+		<property name="shortLabel" value="Report Label" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="summary" value="Report Label" />
+		<property name="description" value="Report Label" />
+	</bean>
+	
+	<bean id="CustReportDetails-reportLabelDisplay" parent="CustReportDetails-reportLabelDisplay-parentBean" />
+	<bean id="CustReportDetails-reportLabelDisplay-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="reportLabelDisplay" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Report Label" />
+		<property name="shortLabel" value="Report Label" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+				<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.reporting.bo.CustReportDetails"
+				p:valuesFinderClass="org.kuali.kra.reporting.lookup.keyvalue.CustomReportDetailsValueFinder"
+				p:includeKeyInLabel="false" p:keyAttribute="reportId"
+				p:labelAttribute="reportLabel"
+				p:script="generateInputParams(this,generateInputParams_Callback)"/>
+		</property>
+		<property name="summary" value="Report Label" />
+		<property name="description" value="Report Label" />
+	</bean>
+
+	<bean id="CustReportDetails-reportDescription" parent="CustReportDetails-reportDescription-parentBean" />
+	<bean id="CustReportDetails-reportDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="reportDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Report Description" />
+		<property name="shortLabel" value="Report Description" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="summary" value="Report Description" />
+		<property name="description" value="Report Description" />
+	</bean>
+
+	<bean id="CustReportDetails-reportTypeCode" parent="CustReportDetails-reportTypeCode-parentBean" />
+	<bean id="CustReportDetails-reportTypeCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="reportTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Report Type Code" />
+		<property name="shortLabel" value="Report Type Code" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="summary" value="Report Type Code" />
+		<property name="description" value="Report Type Code" />
+	</bean>
+	
+	<bean id="CustReportDetails-custReportType.reportTypeCode" parent="CustReportDetails-custReportType.reportTypeCode-parentBean" />
+	<bean id="CustReportDetails-custReportType.reportTypeCode-parentBean" abstract="true" 
+	parent="CustReportType-reportTypeCode">
+		<property name="name" value="custReportType.reportTypeCode" />
+		<property name="label" value="Report Type Code" />
+
+	</bean>
+
+	 <bean id="CustReportDetails-permissionName" parent="CustReportDetails-permissionName-parentBean" />
+	<bean id="CustReportDetails-permissionName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="permissionName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Permission Name" />
+		<property name="shortLabel" value="permissionName" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+		<property name="summary" value="Permission Name" />
+		<property name="description" value="Permission Name" />
+	</bean> 
+
+	<bean id="FileControlDefinition"
+		class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
+		abstract="true" />
+
+	<bean id="CustReportDetails-templateFile" parent="CustReportDetails-templateFile-parentBean" />
+	<bean id="CustReportDetails-templateFile-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="templateFile" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Report Design" />
+		<property name="shortLabel" value="Attachment" />
+		<property name="maxLength" value="4000" />
+
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="FileControlDefinition" p:size="10" />
+		</property>
+		<property name="summary" value="Attachment" />
+		<property name="description" value="Report Design" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="CustReportDetails-inquiryDefinition" parent="CustReportDetails-inquiryDefinition-parentBean" />
+
+	<bean id="CustReportDetails-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="CustReportDetails" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="CustReportDetails" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="custReportType.reportTypeCode"
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition" p:attributeName="reportTypeCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="CustReportDetails-lookupDefinition" parent="CustReportDetails-lookupDefinition-parentBean" />
+
+	<bean id="CustReportDetails-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Custom Report Details Lookup" />
+		<property name="menubar"
+			value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean p:attributeName="reportId" parent="FieldDefinition"
+					p:forceInquiry="false" />
+				<bean p:attributeName="reportLabel" parent="FieldDefinition"
+					p:forceInquiry="false" />
+				<bean p:attributeName="reportTypeCode" parent="FieldDefinition"
+					p:forceInquiry="true" />
+				<bean p:attributeName="permissionName" parent="FieldDefinition"
+					p:forceInquiry="false" /> 
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean p:attributeName="reportId" parent="FieldDefinition"
+					p:forceInquiry="false" />
+				<bean p:attributeName="reportLabel" parent="FieldDefinition"
+					p:forceInquiry="false" />
+				<bean p:attributeName="reportTypeCode" parent="FieldDefinition"
+					p:forceInquiry="true" />
+				 <bean p:attributeName="permissionName" parent="FieldDefinition"
+					/> 
+			</list>
+		</property>
+		<property name="resultSetLimit" value="50" />
+	</bean>
+</beans>

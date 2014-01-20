@@ -1,0 +1,110 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+    <bean id="SponsorSpecial" parent="SponsorSpecial-parentBean" />
+    <bean id="SponsorSpecial-parentBean" abstract="true" parent="Sponsor-parentBean">
+    	<property name="businessObjectClass" value="org.kuali.kra.bo.SponsorSpecial" />
+    	<property name="objectLabel" value="Sponsor Maintenance" />
+    	<property name="inquiryDefinition" >
+	      <ref bean="SponsorSpecial-inquiryDefinition" />
+	    </property>
+	    <property name="lookupDefinition" >
+	      <ref bean="SponsorSpecial-lookupDefinition" />
+	    </property>
+    </bean>
+    
+    
+    <bean id="SponsorSpecial-inquiryDefinition" parent="SponsorSpecial-inquiryDefinition-parentBean" />
+  	<bean id="SponsorSpecial-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    	<property name="title" value="Sponsor Maintenance" />
+    	<property name="inquirySections" >
+	      	<list>
+	        	<bean parent="InquirySectionDefinition">
+		          	<property name="title" value="Sponsor Maintenance" />
+		          	<property name="numberOfColumns" value="1" />
+		          	<property name="inquiryFields" >
+			            <list>
+			            	<bean parent="FieldDefinition" p:attributeName="sponsorCode" p:forceInquiry="true" />
+			              	<bean parent="FieldDefinition" p:attributeName="acronym" />
+			              	<bean parent="FieldDefinition" p:attributeName="auditReportSentForFy" />
+			              	<bean parent="FieldDefinition" p:attributeName="cageNumber" />
+			              	<bean parent="FieldDefinition" p:attributeName="countryCode" />
+			              	<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+			              	<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+			              	<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+			              	<bean parent="FieldDefinition" p:attributeName="unit.unitName" />
+			              	<bean parent="FieldDefinition" p:attributeName="postalCode" />
+			              	<bean parent="FieldDefinition" p:attributeName="rolodexId" />
+			              	<bean parent="FieldDefinition" p:attributeName="sponsorName" />
+			              	<bean parent="FieldDefinition" p:attributeName="sponsorType.description" />
+			              	<bean parent="FieldDefinition" p:attributeName="state" />
+			              	<bean parent="FieldDefinition" p:attributeName="active" />
+			            </list>
+		          	</property>
+	        	</bean>
+	      	</list>
+    	</property>
+  	</bean>
+
+<!-- Business Object Lookup Definition -->
+
+	<bean id="SponsorSpecial-lookupDefinition" parent="SponsorSpecial-lookupDefinition-parentBean" />
+  	<bean id="SponsorSpecial-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    	<property name="title" value="Sponsor Maintenance Lookup" />
+    	<property name="lookupableID" value="sponsorLookupable" />
+    	<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    	<property name="defaultSort">
+      		<bean parent="SortDefinition">
+        		<property name="attributeNames">
+          			<list>
+          				<value>sponsorCode</value>
+  		 				<!-- <value>updateTimestamp</value> -->
+          			</list>
+        		</property>
+        		<property name="sortAscending" value="false"/>
+      		</bean>
+    	</property>
+    
+    	<property name="lookupFields" >
+      		<list>
+		        <bean parent="FieldDefinition" p:attributeName="sponsorCode" />
+		        <bean parent="FieldDefinition" p:attributeName="sponsorName" />
+		        <bean parent="FieldDefinition" p:attributeName="acronym" />
+		        <bean parent="FieldDefinition" p:attributeName="sponsorTypeCode" p:forceLookup="true" />
+		        <bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+		        <bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+		        <bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+		        <bean parent="FieldDefinition" p:attributeName="cageNumber" />
+		        <bean parent="FieldDefinition" p:attributeName="postalCode" />
+		        <bean parent="FieldDefinition" p:attributeName="state" />
+		        <bean parent="FieldDefinition" p:attributeName="countryCode" p:forceLookup="true" />
+		        <bean parent="FieldDefinition" p:attributeName="auditReportSentForFy" />
+		        <bean parent="FieldDefinition" p:attributeName="ownedByUnit" />
+		        <bean parent="FieldDefinition" p:attributeName="rolodexId" />
+		        <bean parent="FieldDefinition" p:attributeName="active" />
+      		</list>
+    	</property>
+    	<property name="resultFields" >
+      		<list>
+		        <bean parent="FieldDefinition" p:attributeName="sponsorCode" p:forceInquiry="true" />
+		        <bean parent="FieldDefinition" p:attributeName="sponsorName" />
+		        <bean parent="FieldDefinition" p:attributeName="acronym" />
+		        <bean parent="FieldDefinition" p:attributeName="sponsorType.description" />
+		        <bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+		        <bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+		        <bean parent="FieldDefinition" p:attributeName="cageNumber" />
+		        <bean parent="FieldDefinition" p:attributeName="state" />
+		        <bean parent="FieldDefinition" p:attributeName="countryCode" />
+		        <bean parent="FieldDefinition" p:attributeName="active" />
+      		</list>
+    	</property>
+    
+    	<property name="resultSetLimit" value="8000" />
+    
+  	</bean>
+
+</beans>

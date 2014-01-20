@@ -1,0 +1,81 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProposalPersonCreditSplit" parent="ProposalPersonCreditSplit-parentBean" />
+
+  <bean id="ProposalPersonCreditSplit-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit" />
+		<property name="objectLabel" value="Proposal Person Credit Split" />
+    <property name="titleAttribute" value="invCreditTypeCode" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-PD"
+            p:parameterName="proposalDevelopmentCreditSplitHelpUrl"
+            p:parameterDetailType="N/A" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalPersonCreditSplit-proposalNumber" />
+        <ref bean="ProposalPersonCreditSplit-proposalPersonNumber" />
+        <ref bean="ProposalPersonCreditSplit-invCreditTypeCode" />
+        <ref bean="ProposalPersonCreditSplit-credit" />
+        <ref bean="ProposalPersonCreditSplit-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ProposalPersonCreditSplit-proposalNumber" parent="ProposalPersonCreditSplit-proposalNumber-parentBean" />
+
+  <bean id="ProposalPersonCreditSplit-proposalNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="proposalNumber" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Prop Nbr" />
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="ProposalPersonCreditSplit-proposalPersonNumber" parent="ProposalPersonCreditSplit-proposalPersonNumber-parentBean" />
+
+  <bean id="ProposalPersonCreditSplit-proposalPersonNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="proposalPersonNumber" />
+    <property name="label" value="Proposal Person Number" />
+    <property name="shortLabel" value="Prop Per Nbr" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Proposal Person Number" />
+    <property name="description" value="Proposal Person Number" />
+  </bean>
+  <bean id="ProposalPersonCreditSplit-invCreditTypeCode" parent="ProposalPersonCreditSplit-invCreditTypeCode-parentBean" />
+
+  <bean id="ProposalPersonCreditSplit-invCreditTypeCode-parentBean" abstract="true" parent="InvestigatorCreditType-invCreditTypeCode">
+  </bean>
+  <bean id="ProposalPersonCreditSplit-credit" parent="ProposalPersonCreditSplit-credit-parentBean" />
+
+  <bean id="ProposalPersonCreditSplit-credit-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="credit" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Credit" />
+    <property name="shortLabel" value="Credit" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="6"
+            p:scale="2" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="description" value="Credit" />
+  </bean>
+  <bean id="ProposalPersonCreditSplit-versionNumber" parent="ProposalPersonCreditSplit-versionNumber-parentBean" />
+
+  <bean id="ProposalPersonCreditSplit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

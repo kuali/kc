@@ -1,0 +1,182 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ValidCeRateType" parent="ValidCeRateType-parentBean" />
+
+  <bean id="ValidCeRateType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.rates.ValidCeRateType" />
+		<property name="objectLabel" value="Valid Ce Rate Type" />
+    <property name="inquiryDefinition" >
+      <ref bean="ValidCeRateType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ValidCeRateType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="costElement" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ValidCeRateType-costElement" />
+        <ref bean="ValidCeRateType-rateClassCode" />
+        <ref bean="ValidCeRateType-rateTypeCode" />
+        <ref bean="ValidCeRateType-active" />
+        <ref bean="ValidCeRateType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ValidCeRateType-costElement" parent="ValidCeRateType-costElement-parentBean" />
+
+  <bean id="ValidCeRateType-costElement-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="costElement" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Cost Element" />
+    <property name="shortLabel" value="Cost Element" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Cost Element" />
+    <property name="description" value="Cost Element" />
+  </bean>
+  <bean id="ValidCeRateType-rateClassCode" parent="ValidCeRateType-rateClassCode-parentBean" />
+
+  <bean id="ValidCeRateType-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateClassCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Class Code" />
+    <property name="shortLabel" value="Rate Class Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Class Code" />
+    <property name="description" value="Rate Class Code" />
+  </bean>
+  <bean id="ValidCeRateType-rateTypeCode" parent="ValidCeRateType-rateTypeCode-parentBean" />
+
+  <bean id="ValidCeRateType-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Type Code" />
+    <property name="shortLabel" value="Rate Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Type Code" />
+    <property name="description" value="Rate Type Code" />
+  </bean>
+  <bean id="ValidCeRateType-active" parent="ValidCeRateType-active-parentBean" />
+
+  <bean id="ValidCeRateType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="summary" value="Active" />
+    <property name="description" value="Active" />
+  </bean>
+  <bean id="ValidCeRateType-versionNumber" parent="ValidCeRateType-versionNumber-parentBean" />
+
+  <bean id="ValidCeRateType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ValidCeRateType-inquiryDefinition" parent="ValidCeRateType-inquiryDefinition-parentBean" />
+
+  <bean id="ValidCeRateType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Valid Ce Rate Types" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Valid Ce Rate Types" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="costElement"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateClassCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateTypeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ValidCeRateType-lookupDefinition" parent="ValidCeRateType-lookupDefinition-parentBean" />
+
+  <bean id="ValidCeRateType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Valid Ce Rate Types Lookup" />
+       <property name="lookupableID" value="noEditLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+	<property name="helpDefinition" >
+        <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-M"
+            p:parameterName="proposalValidCeRateTypeMaintenanceHelp"
+            p:parameterDetailType="Document" />
+    </property>       
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="costElement" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="costElement"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

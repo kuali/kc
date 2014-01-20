@@ -1,0 +1,404 @@
+#created on: Apr 5, 2009
+package iacucStatusActionMapping
+
+#list any import classes here.
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionMapping;
+import java.util.Arrays;
+
+function void setAction(IacucProtocolActionMapping protocolAction, boolean flag) {
+    protocolAction.setAllowed(flag);    
+} 
+
+rule "Submit for Review"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "104", "105", "107", "205", "206", "207", "302", "203"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Assign to Committee" 
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "109", submissionStatusCode in ("101","102"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Assign to Agenda"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", protocolStatusCode == "101", submissionStatusCode == "102", scheduleId != null, protocolReviewTypeCode in ("2", "3", "4", "5", "6"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Remove From Agenda"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "312", protocolStatusCode == "101", submissionStatusCode == "103")
+then    
+    setAction(protocolAction, true);
+end
+
+
+rule "Assign to Agenda - Tabled"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", protocolStatusCode == "103", submissionStatusCode == "206", scheduleId != null, protocolReviewTypeCode in ("2", "3", "4", "5", "6"))
+then    
+    setAction(protocolAction, true);
+end
+
+
+rule "Remove from Agenda"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "201", protocolStatusCode == "101", submissionStatusCode == "103", scheduleId != null)
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Deactivate Protocol"
+salience 100
+when
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == "303", protocolStatusCode in ("200", "201", "202"), submissionStatusCode in ("101","102"), submissionTypeCode == "102")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Hold"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "305", protocolStatusCode in ("200", "202"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Lift Hold"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "208", protocolStatusCode == "201")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Disapprove"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "301", protocolStatusCode == "101", submissionStatusCode in ("103", "102"))
+then    
+    setAction(protocolAction, true);
+end
+
+
+rule "Administratively approved"
+salience 100
+when
+  protocolAction : IacucProtocolActionMapping(actionTypeCode == "215", protocolStatusCode in ("101", "103"), submissionStatusForAdminAction == true, protocolReviewTypeCode == "1")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Administratively incomplete"
+salience 100
+when
+   protocolAction : IacucProtocolActionMapping(actionTypeCode == "216", protocolStatusCode in ("101", "103"), submissionStatusForAdminAction == true, protocolReviewTypeCode == "1")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Administratively withdrawn"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("101", "103", "203"), submissionStatusForAdminAction == true)
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Return to PI"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "210", protocolStatusCode == "101", submissionStatusCode in ("101", "102"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Tabled"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "203", protocolStatusCode == "101", submissionStatusCode == "103")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Request to Deactivate"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "107", protocolStatusCode in ("200", "201", "202"), submissionTypeCode != "102")
+then    
+    setAction(protocolAction, true);
+end
+
+
+rule "Request to Lift Hold"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "108", protocolStatusCode == "201", submissionTypeCode != "103")
+then    
+    setAction(protocolAction, true);
+end
+
+
+rule "Major Revision Required  1"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "211", protocolStatusCode == "101", submissionStatusCode == "103" , protocolReviewTypeCode in ("1","3","5"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Major Revision Required  2"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "211", protocolStatusCode == "101", submissionStatusCode in ("103","102") , protocolReviewTypeCode == "2")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Record Committee Decision"
+salience 100
+# TODO : need to create this action type : use code "318"
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "318", protocolStatusCode == "101", submissionStatusCode == "103", protocolReviewTypeCode in ("2", "3", "4", "5", "6"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Approve Protocol"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "204", protocolStatusCode == "101", submissionStatusCode == "103", protocolReviewTypeCode in ("1", "2", "3", "5", "6"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Response Approve Protocol"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "205", protocolStatusCode == "101", submissionStatusCode in ("102", "103"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Specific Minor Revision Required Protocol 1"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "209", protocolStatusCode == "101", submissionStatusCode == "103" , protocolReviewTypeCode in ("1","3","5"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "SMR Required Protocol2"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "209", protocolStatusCode == "101", submissionStatusCode in ("103","102") , protocolReviewTypeCode == "2")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Terminate Protocol 1"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "306", protocolStatusCode in ("200", "201", "304", "305", "306"))
+then    
+    setAction(protocolAction, true);
+end
+
+
+
+rule "Expire Protocol"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "302", protocolStatusCode in ("200", "201", "202", "303", "304", "305", "306", "307", "303", "300"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Manage Review Comments"
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "310", protocolStatusCode in ("101", "103", "203"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Suspend Protocol "
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "307", protocolStatusCode in ("200", "201", "202", "305", "306"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "WithDraw Protocol 1"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "115", protocolStatusCode in ("101", "203"),  submissionStatusCode in ("101","102","103"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Disapprove Protocol 1"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "301", protocolStatusCode == "101",  submissionStatusCode in ("102", "103"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Create new Renewal without amendment"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "104", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Create new Renewal with amendment"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "106", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Create new Continuation without amendment"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "103", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Create new Continutaion with amendment"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "105", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Create new amendment"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "102", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Response Approval Protocol"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "208", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "6", protocolReviewerCountCond1 == true)
+then    
+    setAction(protocolAction, true);
+end
+
+rule "IACUC Acknowledgement"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "206", submissionStatusCode in ("102","103"), submissionTypeCode == "110")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "IACUC review not required"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "207",  protocolStatusCode == "101", submissionStatusCode == "101", protocolReviewTypeCode == "6")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Designated member review Approval"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "212",  protocolStatusCode == "101", submissionStatusCode in ("102","103"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Request for Termination 1"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "306", protocolStatusCode in ("200","201", "202","305","306","304"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Notify IACUC"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "114",
+      protocolStatusCode in ("105", "200", "201", "202", "300", "302", "303", "304", "305", "306", "307", "308"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Make Administrative Correction"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "113", protocolStatusCode in ("101", "200", "201", "202", "300", "303", "304", "305", "307", "308", "309"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Abandon 1 - SMR"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "117", protocolStatusCode == "104", submissionStatusCode == "210")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Abandon 2 - SRR"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "117", protocolStatusCode == "107", submissionStatusCode == "212")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Rule 1 -  Modify Protocol Submission"
+salience 100
+when
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == '309',  protocolStatusCode == '101', submissionStatusCode in ("101", "102"))
+then	
+    setAction(protocolAction, true);
+end
+
+rule "Modify Amendment Sections"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "125", protocolStatusCode in ("102", "104", "105", "106", "205", "206", "304"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Request Suspension"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "311", protocolStatusCode in ("201", "305", "306", "202"))
+then    
+    setAction(protocolAction, true);
+end
+
+
+rule "Withdraw Submission Request"
+salience 100
+when
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == "131", protocolStatusCode in ("200","201","202","305","306"), anySubmissionRequests == true)
+then	
+	setAction(protocolAction, true);
+end
+        

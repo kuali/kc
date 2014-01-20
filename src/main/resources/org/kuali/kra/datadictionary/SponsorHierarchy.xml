@@ -1,0 +1,643 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SponsorHierarchy" parent="SponsorHierarchy-parentBean" />
+
+  <bean id="SponsorHierarchy-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorHierarchy" />
+    <property name="objectLabel" value="Sponsor Hierarchy" />
+	<property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-GEN"
+            p:parameterName="sponsorGroupHierarchyName"
+            p:parameterDetailType="A" />
+    </property>
+    <property name="inquiryDefinition" >
+      <ref bean="SponsorHierarchy-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="SponsorHierarchy-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="hierarchyName" />
+    <property name="attributes" >
+      <list>
+        <ref bean="SponsorHierarchy-hierarchyName" />
+        <ref bean="SponsorHierarchy-sponsorCode" />
+        <ref bean="SponsorHierarchy-level1" />
+        <ref bean="SponsorHierarchy-level10" />
+        <ref bean="SponsorHierarchy-level10Sortid" />
+        <ref bean="SponsorHierarchy-level1Sortid" />
+        <ref bean="SponsorHierarchy-level2" />
+        <ref bean="SponsorHierarchy-level2Sortid" />
+        <ref bean="SponsorHierarchy-level3" />
+        <ref bean="SponsorHierarchy-level3Sortid" />
+        <ref bean="SponsorHierarchy-level4" />
+        <ref bean="SponsorHierarchy-level4Sortid" />
+        <ref bean="SponsorHierarchy-level5" />
+        <ref bean="SponsorHierarchy-level5Sortid" />
+        <ref bean="SponsorHierarchy-level6" />
+        <ref bean="SponsorHierarchy-level6Sortid" />
+        <ref bean="SponsorHierarchy-level7" />
+        <ref bean="SponsorHierarchy-level7Sortid" />
+        <ref bean="SponsorHierarchy-level8" />
+        <ref bean="SponsorHierarchy-level8Sortid" />
+        <ref bean="SponsorHierarchy-level9" />
+        <ref bean="SponsorHierarchy-level9Sortid" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="SponsorHierarchy-hierarchyName" parent="SponsorHierarchy-hierarchyName-parentBean" />
+
+  <bean id="SponsorHierarchy-hierarchyName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hierarchyName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Hierarchy Name" />
+    <property name="shortLabel" value="Hierarchy Name" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+    <property name="summary" value="Hierarchy Name" />
+    <property name="description" value="Hierarchy Name" />
+  </bean>
+  <bean id="SponsorHierarchy-sponsorCode" parent="SponsorHierarchy-sponsorCode-parentBean" />
+
+  <bean id="SponsorHierarchy-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sponsorCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sponsor Code" />
+    <property name="shortLabel" value="Sponsor Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Sponsor Code" />
+    <property name="description" value="Sponsor Code" />
+  </bean>
+  <bean id="SponsorHierarchy-level1" parent="SponsorHierarchy-level1-parentBean" />
+
+  <bean id="SponsorHierarchy-level1-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level1" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level1" />
+    <property name="shortLabel" value="Level1" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Level1" />
+    <property name="description" value="Level1" />
+  </bean>
+  <bean id="SponsorHierarchy-level10" parent="SponsorHierarchy-level10-parentBean" />
+
+  <bean id="SponsorHierarchy-level10-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level10" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level10" />
+    <property name="shortLabel" value="Level10" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Level10" />
+    <property name="description" value="Level10" />
+  </bean>
+  <bean id="SponsorHierarchy-level10Sortid" parent="SponsorHierarchy-level10Sortid-parentBean" />
+
+  <bean id="SponsorHierarchy-level10Sortid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level10Sortid" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level10 Sortid" />
+    <property name="shortLabel" value="Level10 Sortid" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Level10 Sortid" />
+    <property name="description" value="Level10 Sortid" />
+  </bean>
+  <bean id="SponsorHierarchy-level1Sortid" parent="SponsorHierarchy-level1Sortid-parentBean" />
+
+  <bean id="SponsorHierarchy-level1Sortid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level1Sortid" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level1 Sortid" />
+    <property name="shortLabel" value="Level1 Sortid" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Level1 Sortid" />
+    <property name="description" value="Level1 Sortid" />
+  </bean>
+  <bean id="SponsorHierarchy-level2" parent="SponsorHierarchy-level2-parentBean" />
+
+  <bean id="SponsorHierarchy-level2-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level2" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level2" />
+    <property name="shortLabel" value="Level2" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Level2" />
+    <property name="description" value="Level2" />
+  </bean>
+  <bean id="SponsorHierarchy-level2Sortid" parent="SponsorHierarchy-level2Sortid-parentBean" />
+
+  <bean id="SponsorHierarchy-level2Sortid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level2Sortid" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level2 Sortid" />
+    <property name="shortLabel" value="Level2 Sortid" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Level2 Sortid" />
+    <property name="description" value="Level2 Sortid" />
+  </bean>
+  <bean id="SponsorHierarchy-level3" parent="SponsorHierarchy-level3-parentBean" />
+
+  <bean id="SponsorHierarchy-level3-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level3" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level3" />
+    <property name="shortLabel" value="Level3" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Level3" />
+    <property name="description" value="Level3" />
+  </bean>
+  <bean id="SponsorHierarchy-level3Sortid" parent="SponsorHierarchy-level3Sortid-parentBean" />
+
+  <bean id="SponsorHierarchy-level3Sortid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level3Sortid" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level3 Sortid" />
+    <property name="shortLabel" value="Level3 Sortid" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Level3 Sortid" />
+    <property name="description" value="Level3 Sortid" />
+  </bean>
+  <bean id="SponsorHierarchy-level4" parent="SponsorHierarchy-level4-parentBean" />
+
+  <bean id="SponsorHierarchy-level4-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level4" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level4" />
+    <property name="shortLabel" value="Level4" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Level4" />
+    <property name="description" value="Level4" />
+  </bean>
+  <bean id="SponsorHierarchy-level4Sortid" parent="SponsorHierarchy-level4Sortid-parentBean" />
+
+  <bean id="SponsorHierarchy-level4Sortid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level4Sortid" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level4 Sortid" />
+    <property name="shortLabel" value="Level4 Sortid" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Level4 Sortid" />
+    <property name="description" value="Level4 Sortid" />
+  </bean>
+  <bean id="SponsorHierarchy-level5" parent="SponsorHierarchy-level5-parentBean" />
+
+  <bean id="SponsorHierarchy-level5-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level5" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level5" />
+    <property name="shortLabel" value="Level5" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Level5" />
+    <property name="description" value="Level5" />
+  </bean>
+  <bean id="SponsorHierarchy-level5Sortid" parent="SponsorHierarchy-level5Sortid-parentBean" />
+
+  <bean id="SponsorHierarchy-level5Sortid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level5Sortid" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level5 Sortid" />
+    <property name="shortLabel" value="Level5 Sortid" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Level5 Sortid" />
+    <property name="description" value="Level5 Sortid" />
+  </bean>
+  <bean id="SponsorHierarchy-level6" parent="SponsorHierarchy-level6-parentBean" />
+
+  <bean id="SponsorHierarchy-level6-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level6" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level6" />
+    <property name="shortLabel" value="Level6" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Level6" />
+    <property name="description" value="Level6" />
+  </bean>
+  <bean id="SponsorHierarchy-level6Sortid" parent="SponsorHierarchy-level6Sortid-parentBean" />
+
+  <bean id="SponsorHierarchy-level6Sortid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level6Sortid" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level6 Sortid" />
+    <property name="shortLabel" value="Level6 Sortid" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Level6 Sortid" />
+    <property name="description" value="Level6 Sortid" />
+  </bean>
+  <bean id="SponsorHierarchy-level7" parent="SponsorHierarchy-level7-parentBean" />
+
+  <bean id="SponsorHierarchy-level7-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level7" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level7" />
+    <property name="shortLabel" value="Level7" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Level7" />
+    <property name="description" value="Level7" />
+  </bean>
+  <bean id="SponsorHierarchy-level7Sortid" parent="SponsorHierarchy-level7Sortid-parentBean" />
+
+  <bean id="SponsorHierarchy-level7Sortid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level7Sortid" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level7 Sortid" />
+    <property name="shortLabel" value="Level7 Sortid" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Level7 Sortid" />
+    <property name="description" value="Level7 Sortid" />
+  </bean>
+  <bean id="SponsorHierarchy-level8" parent="SponsorHierarchy-level8-parentBean" />
+
+  <bean id="SponsorHierarchy-level8-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level8" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level8" />
+    <property name="shortLabel" value="Level8" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Level8" />
+    <property name="description" value="Level8" />
+  </bean>
+  <bean id="SponsorHierarchy-level8Sortid" parent="SponsorHierarchy-level8Sortid-parentBean" />
+
+  <bean id="SponsorHierarchy-level8Sortid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level8Sortid" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level8 Sortid" />
+    <property name="shortLabel" value="Level8 Sortid" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Level8 Sortid" />
+    <property name="description" value="Level8 Sortid" />
+  </bean>
+  <bean id="SponsorHierarchy-level9" parent="SponsorHierarchy-level9-parentBean" />
+
+  <bean id="SponsorHierarchy-level9-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level9" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level9" />
+    <property name="shortLabel" value="Level9" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Level9" />
+    <property name="description" value="Level9" />
+  </bean>
+  <bean id="SponsorHierarchy-level9Sortid" parent="SponsorHierarchy-level9Sortid-parentBean" />
+
+  <bean id="SponsorHierarchy-level9Sortid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="level9Sortid" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Level9 Sortid" />
+    <property name="shortLabel" value="Level9 Sortid" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Level9 Sortid" />
+    <property name="description" value="Level9 Sortid" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="SponsorHierarchy-inquiryDefinition" parent="SponsorHierarchy-inquiryDefinition-parentBean" />
+
+  <bean id="SponsorHierarchy-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Sponsor Hierarchy" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Sponsor Hierarchy" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="hierarchyName"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="sponsorCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level1" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level10" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level10Sortid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level1Sortid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level2" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level2Sortid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level3" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level3Sortid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level4" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level4Sortid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level5" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level5Sortid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level6" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level6Sortid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level7" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level7Sortid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level8" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level8Sortid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level9" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="level9Sortid" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="SponsorHierarchy-lookupDefinition" parent="SponsorHierarchy-lookupDefinition-parentBean" />
+
+  <bean id="SponsorHierarchy-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Sponsor Hierarchy Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="hierarchyName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level1" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level10" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level10Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level1Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level2" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level2Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level3" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level3Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level4" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level4Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level5" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level5Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level6" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level6Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level7" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level7Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level8" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level8Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level9" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level9Sortid" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="hierarchyName"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level1" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level10" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level10Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level1Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level2" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level2Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level3" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level3Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level4" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level4Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level5" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level5Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level6" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level6Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level7" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level7Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level8" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level8Sortid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level9" />
+        <bean parent="FieldDefinition"
+              p:attributeName="level9Sortid" />
+      </list>
+    </property>
+  </bean>
+</beans>

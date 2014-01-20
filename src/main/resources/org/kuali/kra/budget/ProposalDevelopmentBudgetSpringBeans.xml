@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2005-2014 The Kuali Foundation.
+
+    Licensed under the Educational Community License, Version 1.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl1.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+    
+    <bean id="budgetCalculationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetCalculationService" />
+    </bean>
+    
+    <bean id="budgetSubAwardService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetSubAwardService" />
+    </bean>    
+                     
+    <bean id="kraWorkflowService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kraWorkflowService" />
+    </bean>
+
+    <bean id="proposalBudgetService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.ProposalBudgetServiceImpl" >
+        <property name="budgetService" ref="budgetService" />
+        <property name="documentService" ref="documentService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="budgetCalculationService" ref="budgetCalculationService" />
+        <property name="budgetSubAwardService" ref="budgetSubAwardService" />
+    </bean>
+    
+    <bean id="proposalBudgetNumberOfMonthsService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.ProposalBudgetNumberOfMonthsServiceImpl" >
+    </bean>
+    
+    <bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl">
+        <property name="proposalHierarchyService" ref="proposalHierarchyService" />
+    </bean>
+    
+    <!-- Proposal Development Budget Task Authorizers -->
+    
+    <bean id="parentBudgetAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+    </bean>
+    
+    <bean id="proposalBudgetTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="proposalBudget" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ModifyProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="modifyBudget" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ViewProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="viewBudget" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.RejectProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="rejectBudget" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ModifyProposalBudgetRatesAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="modifyProposalBudgetRates" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ProposalHierarchyBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="maintainProposalHierarchy" />
+                </bean>                                
+                 <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ViewProposalBudgetPersonSalaryAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="viewPropPersonInstSalaries" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+               
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="budgetWebAuthorizer" class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+        <property name="classname" value="org.kuali.kra.budget.web.struts.action.BudgetAction" />
+        <property name="mappings">
+            <map>
+                <entry key="save">
+                    <bean class="org.kuali.kra.budget.document.authorization.BudgetTaskFactory">
+                        <property name="taskName" value="modifyBudget" />
+                    </bean>
+                </entry>
+                <entry key="reject">
+                    <bean class="org.kuali.kra.budget.document.authorization.BudgetTaskFactory">
+                        <property name="taskName" value="rejectBudget" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="budgetVersionsWebAuthorizer" class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+        <property name="classname" value="org.kuali.kra.budget.web.struts.action.BudgetVersionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+                <entry key="openBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory">
+                        <property name="taskName" value="openBudgets" />
+                    </bean>
+                </entry>
+                <entry key="copyBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="budgetActionsWebAuthorizer" class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+        <property name="classname" value="org.kuali.kra.budget.web.struts.action.BudgetActionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="printBudgetForm">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory">
+                        <property name="taskName" value="printProposal" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>

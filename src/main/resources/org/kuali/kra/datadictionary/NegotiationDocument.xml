@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans      http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+        <bean id="NegotiationDocument" parent="NegotiationDocument-parentBean"/>
+        <bean id="NegotiationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+        
+        
+        
+        
+        <property name="usePessimisticLocking" value="true"/>
+        <property name="useWorkflowPessimisticLocking" value="false"/>
+        
+        <property name="documentTypeName" value="NegotiationDocument"/>
+        <property name="documentClass" value="org.kuali.kra.negotiations.document.NegotiationDocument"/>
+        <property name="businessRulesClass" value="org.kuali.kra.negotiations.rules.NegotiationDocumentRule"/>
+        <property name="documentAuthorizerClass" value="org.kuali.kra.negotiations.document.authorization.NegotiationDocumentAuthorizer"/>
+                
+        <property name="allowsCopy" value="true"/>
+        <property name="headerNavigationList">
+        <list>
+            <bean parent="HeaderNavigation">
+            <property name="helpDefinition">
+                <bean parent="HelpDefinition" p:parameterNamespace="KC-NEGOTIATION" p:parameterName="negotiationNegotiationHelp" p:parameterDetailType="Document"/>
+            </property>
+            <property name="headerTabDisplayName" value="Negotiation"/>
+            <property name="headerTabNavigateTo" value="negotiation"/>
+            </bean>            
+        </list>
+        </property>
+        
+
+        <property name="attributes">
+            <list>
+                <ref bean="NegotiationDocument-versionNumber"/>
+                <ref bean="NegotiationDocument-documentNumber"/>
+                <ref bean="NegotiationDocument-updateTimestamp"/>
+            </list>
+        </property>
+        
+       	<property name="workflowProperties"> 
+			<ref bean="NegotiationDocument-workflowProperties"/> 
+		</property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="NegotiationDocument-versionNumber" parent="NegotiationDocument-versionNumber-parentBean"/>
+    <bean id="NegotiationDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+    
+   	<bean id="NegotiationDocument-documentNumber" parent="NegotiationDocument-documentNumber-parentBean" />
+	<bean id="NegotiationDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+		<property name="shortLabel" value="Document Id"/>
+	</bean>
+	
+	<bean id="NegotiationDocument-updateTimestamp" parent="NegotiationDocument-updateTimestamp-parentBean" />
+    <bean id="NegotiationDocument-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
+        <property name="label" value="Last Updated" />
+		<property name="shortLabel" value="Last Updated" />
+        <property name="description" value="The timestamp when the Negotiation Document was last modified." />
+    </bean>
+    
+  <bean id="NegotiationDocument-workflowProperties" parent="NegotiationDocument-workflowProperties-parentBean"/>
+  <bean id="NegotiationDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+ 			  <bean parent="WorkflowProperty" p:path="negotiation.negotiationId"/>
+ 			  <bean parent="WorkflowProperty" p:path="negotiation.negotiatorPersonId"/>
+              <bean parent="WorkflowProperty" p:path="negotiation.negotiatorName"/>
+              <bean parent="WorkflowProperty" p:path="negotiation.negotiationStartDate"/>
+              <bean parent="WorkflowProperty" p:path="negotiation.negotiationEndDate"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>    
+</beans>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.5  $ -->
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by David Xia (Northrop Grumman IT) -->
+<!--************************************************************************************************-->
+<!-- TITLE:    Research & Related, Project Performance Site                                       -->
+<!--               OMB Number:                                                                                           -->
+<!--                                                                                                                                -->
+<!-- DATE:    May 6, 2004                                                                                             -->
+<!-- VERSION:  1.0                                                                                                        -->
+<!--                                                                                                                                -->
+<!--                                                                                                                                -->
+<!-- REVISION HISTORY:                                                                                              -->
+<!--                                                                                                                                -->
+<!--************************************************************************************************-->
+<xs:schema targetNamespace="http://apply.grants.gov/forms/RR_PerformanceSite-V1.0" xmlns:RR_PerformanceSite="http://apply.grants.gov/forms/RR_PerformanceSite-V1.0" xmlns:codes="http://apply.grants.gov/system/UniversalCodes-V1.0" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V1.0" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Attachments-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/UniversalCodes-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/UniversalCodes-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/GlobalLibrary-V1.0.xsd"/>
+	<xs:element name="RR_PerformanceSite">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PrimarySite" type="RR_PerformanceSite:SiteLocationDataType"/>
+				<xs:element name="OtherSite" type="RR_PerformanceSite:SiteLocationDataType" minOccurs="0" maxOccurs="7"/>
+				<xs:element name="AttachedFile" type="att:AttachedFileDataType" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="SiteLocationDataType">
+		<xs:sequence>
+			<xs:element name="OrganizationName" type="globLib:OrganizationNameDataType" minOccurs="0"/>
+			<xs:element name="Address">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Street1" type="glob:StringMin1Max55Type"/>
+						<xs:element name="Street2" type="glob:StringMin1Max55Type" minOccurs="0"/>
+						<xs:element name="City" type="glob:StringMin1Max35Type"/>
+						<xs:element name="County" type="glob:StringMin1Max30Type" minOccurs="0"/>
+						<xs:element name="State" type="glob:StringMin1Max30Type" minOccurs="0"/>
+						<xs:element name="ZipCode" type="glob:StringMin1Max30Type" minOccurs="0"/>
+						<xs:element name="Country" type="codes:CountryCodeType" default="USA" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

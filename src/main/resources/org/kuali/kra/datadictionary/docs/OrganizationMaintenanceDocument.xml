@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="OrganizationMaintenanceDocument" parent="OrganizationMaintenanceDocument-parentBean"/>
+
+  <bean id="OrganizationMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.Organization"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.OrganizationMaintenableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="OrganizationMaintenanceDocument-EditOrganization"/>
+        <ref bean="OrganizationMaintenanceDocument-OrganizationType"/>
+        <ref bean="OrganizationMaintenanceDocument-OrganizationAudit"/>
+        <ref bean="OrganizationMaintenanceDocument-OrganizationIndirectcost"/>
+        <ref bean="OrganizationMaintenanceDocument-OrganizationYnq"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>organizationId</value>
+      </list>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
+    <property name="documentTypeName" value="OrganizationMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.OrganizationMaintenanceDocumentAuthorizer"/>
+    <property name="businessRulesClass" value="org.kuali.kra.rules.OrganizationMaintenanceDocumentRule"/>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="OrganizationMaintenanceDocument-EditOrganization" parent="OrganizationMaintenanceDocument-EditOrganization-parentBean"/>
+
+  <bean id="OrganizationMaintenanceDocument-EditOrganization-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization"/>
+    <property name="title" value="Edit Organization"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="address"/>
+        <bean parent="MaintainableFieldDefinition" p:name="agencySymbol"/>
+        <bean parent="MaintainableFieldDefinition" p:name="animalWelfareAssurance"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cableAddress"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cageNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cognizantAuditor"/>
+        <bean parent="MaintainableFieldDefinition" p:name="comGovEntityCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="congressionalDistrict"/>
+        <bean parent="MaintainableFieldDefinition" p:name="contactAddressId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="county"/>
+        <bean parent="MaintainableFieldDefinition" p:name="dodacNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="dunsNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="dunsPlusFourNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="federalEmployerId"/>
+        <bean parent="MaintainableFieldDefinition" p:name="humanSubAssurance"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incorporatedDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incorporatedIn"/>
+        <bean parent="MaintainableFieldDefinition" p:name="indirectCostRateAgreement"/>
+        <bean parent="MaintainableFieldDefinition" p:name="irsTaxExemption"/>
+        <bean parent="MaintainableFieldDefinition" p:name="stateEmployeeClaim"/>
+        <bean parent="MaintainableFieldDefinition" p:name="stateTaxExemptNum"/>
+        <bean parent="MaintainableFieldDefinition" p:name="nsfInstitutionalCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="numberOfEmployees"/>
+        <bean parent="MaintainableFieldDefinition" p:name="onrResidentRep"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="phsAccount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="scienceMisconductComplDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="telexNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorCode"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationMaintenanceDocument-OrganizationType" parent="OrganizationMaintenanceDocument-OrganizationType-parentBean"/>
+
+  <bean id="OrganizationMaintenanceDocument-OrganizationType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Organization Type"/>
+    <property name="title" value="Organization Type"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="organizationTypes"/>
+          <property name="sourceClassName" value="org.kuali.kra.bo.OrganizationType"/>
+          <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationType"/>
+          <property name="alwaysAllowCollectionDeletion" value="true"/>
+		  <property name="includeAddLine" value="true"/>
+		  <property name="includeMultipleLookupLine" value="false"/>
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="organizationTypeCode" p:required="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationMaintenanceDocument-OrganizationAudit" parent="OrganizationMaintenanceDocument-OrganizationAudit-parentBean"/>
+
+  <bean id="OrganizationMaintenanceDocument-OrganizationAudit-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Organization Audit"/>
+    <property name="title" value="Organization Audit"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="organizationAudits"/>
+          <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationAudit"/>
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="fiscalYear" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="auditAccepted"/>
+              <bean parent="MaintainableFieldDefinition" p:name="auditComment"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="OrganizationMaintenanceDocument-OrganizationIndirectcost" parent="OrganizationMaintenanceDocument-OrganizationIndirectcost-parentBean"/>
+  <bean id="OrganizationMaintenanceDocument-OrganizationIndirectcost-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Organization Indirectcost"/>
+    <property name="title" value="Organization Indirectcost"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="organizationIdcs"/>
+          <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationIndirectcost"/>
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="idcNumber" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="applicableIndirectcostRate"/>
+              <bean parent="MaintainableFieldDefinition" p:name="endDate"/>
+              <bean parent="MaintainableFieldDefinition" p:name="idcComment"/>
+              <bean parent="MaintainableFieldDefinition" p:name="idcRateTypeCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="requestedDate"/>
+              <bean parent="MaintainableFieldDefinition" p:name="startDate"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="OrganizationMaintenanceDocument-OrganizationYnq" parent="OrganizationMaintenanceDocument-OrganizationYnq-parentBean"/>
+  <bean id="OrganizationMaintenanceDocument-OrganizationYnq-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Organization Ynq"/>
+    <property name="title" value="Organization Ynq"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="organizationYnqs"/>
+          <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationYnq"/>
+          <property name="includeAddLine" value="false"/>
+          <property name="summaryFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="ynq.description"/>
+            </list>
+          </property>
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="ynq.description" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="questionId" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="answer"/>
+              <bean parent="MaintainableFieldDefinition" p:name="explanation"/>
+              <bean parent="MaintainableFieldDefinition" p:name="reviewDate"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

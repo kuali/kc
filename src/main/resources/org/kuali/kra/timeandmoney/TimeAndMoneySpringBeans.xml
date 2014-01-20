@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright 2005-2014 The Kuali Foundation.
+
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.opensource.org/licenses/ecl1.php
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd"> 
+                           
+    <bean id="timeAndMoneyModuleConfiguration" parent="timeAndMoneyModuleConfiguration-parentBean" />
+    <bean id="timeAndMoneyModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KC-T" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kra.timeandmoney</value>
+            </list>
+        </property>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/kra/timeandmoney/repository-timeandmoney.xml</value>
+			</list>
+		</property>
+	</bean>
+    
+    <!-- Time and Money Services -->
+
+    <bean id="timeAndMoneyActionSummaryService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyActionSummaryServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="timeAndMoneyDao" ref="timeAndMoneyDao" />
+    </bean>
+    
+    <bean id="activePendingTransactionsService" class="org.kuali.kra.timeandmoney.service.impl.ActivePendingTransactionsServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
+		<property name="awardAmountInfoService" ref="awardAmountInfoService" />
+		<property name="awardVersionService" ref="awardVersionService" />
+		<property name="personService" ref="personService" />        
+    </bean>
+    
+    <bean id="timeAndMoneyDao" parent="platformAwareDao" class="org.kuali.kra.timeandmoney.dao.impl.TimeAndMoneyDaoOjb" />
+    
+    <bean id="timeAndMoneyExistenceService" class="org.kuali.kra.service.impl.TimeAndMoneyExistenceServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+    </bean>
+    
+    <bean id="timeAndMoneyHistoryService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyHistoryServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
+		<property name="documentService" ref="documentService" />
+		<property name="awardVersionService" ref="awardVersionService" />    
+    </bean>
+    
+    <bean id="awardFnaDistributionService" class="org.kuali.kra.timeandmoney.service.impl.AwardFnaDistributionServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+	
+	<!-- Time and Money Task Authorizers -->
+	
+    <bean id="parentTimeAndMoneyAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+    </bean>
+    
+    <bean id="timeAndMoneyTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="timeAndMoney" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.timeandmoney.document.authorizer.ModifyTimeAndMoneyAuthorizer" parent="parentTimeAndMoneyAuthorizer">
+                    <property name="taskName" value="modifyTimeAndMoney" />
+                </bean>
+                
+                <bean class="org.kuali.kra.timeandmoney.document.authorizer.ViewTimeAndMoneyAuthorizer" parent="parentTimeAndMoneyAuthorizer">
+                    <property name="taskName" value="viewTimeAndMoney" />
+                </bean>
+                
+                <!--  Task Authorizer for modifying persons and their roles on an award -->
+                <bean class="org.kuali.kra.timeandmoney.document.authorizer.ModifyTimeAndMoneyPermissionsAuthorizer" parent="parentTimeAndMoneyAuthorizer">
+                    <property name="taskName" value="modifyTimeAndMoneyRoles" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

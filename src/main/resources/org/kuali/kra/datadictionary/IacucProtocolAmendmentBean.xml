@@ -1,0 +1,213 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="IacucProtocolAmendmentBean" parent="IacucProtocolAmendmentBean-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendmentBean" />
+		<property name="objectLabel" value="Iacuc Protocol Amendment Bean" />
+		<property name="titleAttribute" value="IacucProtocolAmendmentBean-summary" />
+		<property name="attributes" >
+			<list>
+				<ref bean="IacucProtocolAmendmentBean-summary" />
+				<ref bean="IacucProtocolAmendmentBean-generalInfo" />
+				<ref bean="IacucProtocolAmendmentBean-fundingSource" />
+				<ref bean="IacucProtocolAmendmentBean-protocolReferencesAndOtherIdentifiers" />
+				<ref bean="IacucProtocolAmendmentBean-protocolOrganizations" />
+				<ref bean="IacucProtocolAmendmentBean-subjects" />
+				<ref bean="IacucProtocolAmendmentBean-addModifyAttachments" />
+				<ref bean="IacucProtocolAmendmentBean-areasOfResearch" />
+				<ref bean="IacucProtocolAmendmentBean-specialReview" />
+				<ref bean="IacucProtocolAmendmentBean-protocolPersonnel" />
+				<ref bean="IacucProtocolAmendmentBean-others" />
+                <ref bean="IacucProtocolAmendmentBean-protocolPermissions" />
+                <ref bean="IacucProtocolAmendmentBean-questionnaire" />
+                <ref bean="IacucProtocolAmendmentBean-threers" />
+                <ref bean="IacucProtocolAmendmentBean-speciesAndGroups" />
+                <ref bean="IacucProtocolAmendmentBean-procedures" />
+                <ref bean="IacucProtocolAmendmentBean-protocolExceptions" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+    <bean id="IacucProtocolAmendmentBean-summary" parent="IacucProtocolAmendmentBean-summary-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-summary-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="summary" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Amendment Summary" />
+		<property name="shortLabel" value="Amendment Summary" />
+		<property name="required" value="true" />
+		<property name="maxLength" value="4000" />
+		<property name="control" >
+      		<bean parent="TextareaControlDefinition"
+		          p:rows="2"
+		          p:cols="100" />
+		</property>
+		<property name="summary" value="Amendment Summary" />
+		<property name="description" value="Amendment Summary" />
+	</bean>	
+	
+	<bean id="IacucProtocolAmendmentBean-generalInfo" parent="IacucProtocolAmendmentBean-generalInfo-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-generalInfo-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="generalInfo" />
+	    <property name="label" value="General Info" />
+	    <property name="shortLabel" value="General Info" />
+	    <property name="summary" value="General Info" />
+	    <property name="description" value="General Info" />
+	</bean>
+	
+	<bean id="IacucProtocolAmendmentBean-fundingSource" parent="IacucProtocolAmendmentBean-fundingSource-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-fundingSource-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="fundingSource" />
+	    <property name="label" value="Funding Source" />
+	    <property name="shortLabel" value="Funding Source" />
+	    <property name="summary" value="Funding Source" />
+	    <property name="description" value="Funding Source" />
+	</bean>
+	
+	<bean id="IacucProtocolAmendmentBean-protocolReferencesAndOtherIdentifiers" parent="IacucProtocolAmendmentBean-protocolReferencesAndOtherIdentifiers-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-protocolReferencesAndOtherIdentifiers-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="protocolReferencesAndOtherIdentifiers" />
+	    <property name="label" value="Protocol References and Other Identifiers" />
+	    <property name="shortLabel" value="Protocol References and Other Identifiers" />
+	    <property name="summary" value="Protocol References and Other Identifiers" />
+	    <property name="description" value="Protocol References and Other Identifiers" />
+	</bean>
+	
+	<bean id="IacucProtocolAmendmentBean-protocolOrganizations" parent="IacucProtocolAmendmentBean-protocolOrganizations-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-protocolOrganizations-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="protocolOrganizations" />
+	    <property name="label" value="Protocol Organizations" />
+	    <property name="shortLabel" value="Protocol Organizations" />
+	    <property name="summary" value="Protocol Organizations" />
+	    <property name="description" value="Protocol Organizations" />
+	</bean>
+	
+	<bean id="IacucProtocolAmendmentBean-subjects" parent="IacucProtocolAmendmentBean-subjects-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-subjects-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="subjects" />
+	    <property name="label" value="Subjects" />
+	    <property name="shortLabel" value="Subjects" />
+	    <property name="summary" value="Subjects" />
+	    <property name="description" value="Subjects" />
+	</bean>
+	
+	<bean id="IacucProtocolAmendmentBean-addModifyAttachments" parent="IacucProtocolAmendmentBean-addModifyAttachments-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-addModifyAttachments-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="addModifyAttachments" />
+	    <property name="label" value="Add/Modify Attachments" />
+	    <property name="shortLabel" value="Add/Modify Attachments" />
+	    <property name="summary" value="Add/Modify Attachments" />
+	    <property name="description" value="Add/Modify Attachments" />
+	</bean>
+	
+	<bean id="IacucProtocolAmendmentBean-areasOfResearch" parent="IacucProtocolAmendmentBean-areasOfResearch-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-areasOfResearch-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="areasOfResearch" />
+	    <property name="label" value="Areas of Research" />
+	    <property name="shortLabel" value="Areas of Research" />
+	    <property name="summary" value="Areas of Research" />
+	    <property name="description" value="Areas of Research" />
+	</bean>
+	
+	<bean id="IacucProtocolAmendmentBean-specialReview" parent="IacucProtocolAmendmentBean-specialReview-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-specialReview-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="specialReview" />
+	    <property name="label" value="Special Review" />
+	    <property name="shortLabel" value="Special Review" />
+	    <property name="summary" value="Special Review" />
+	    <property name="description" value="Special Review" />
+	</bean>
+	
+	<bean id="IacucProtocolAmendmentBean-protocolPersonnel" parent="IacucProtocolAmendmentBean-protocolPersonnel-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-protocolPersonnel-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="protocolPersonnel" />
+	    <property name="label" value="Protocol Personnel" />
+	    <property name="shortLabel" value="Protocol Personnel" />
+	    <property name="summary" value="Protocol Personnel" />
+	    <property name="description" value="Protocol Personnel" />
+	</bean>
+	
+	<bean id="IacucProtocolAmendmentBean-others" parent="IacucProtocolAmendmentBean-others-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-others-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="others" />
+	    <property name="label" value="Others" />
+	    <property name="shortLabel" value="Others" />
+	    <property name="summary" value="Others" />
+	    <property name="description" value="Others" />
+	</bean>
+	
+	<bean id="IacucProtocolAmendmentBean-questionnaire" parent="IacucProtocolAmendmentBean-questionnaire-parentBean" />
+	<bean id="IacucProtocolAmendmentBean-questionnaire-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="questionnaire" />
+	    <property name="label" value="Questionnaire" />
+	    <property name="shortLabel" value="Questionnaire" />
+	    <property name="summary" value="Questionnaire" />
+	    <property name="description" value="Questionnaire" />
+	</bean>
+	
+    <bean id="IacucProtocolAmendmentBean-protocolPermissions" parent="IacucProtocolAmendmentBean-protocolPermissions-parentBean" />
+    <bean id="IacucProtocolAmendmentBean-protocolPermissions-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="protocolPermissions" />
+        <property name="label" value="Protocol Permissions" />
+        <property name="shortLabel" value="Protocol Permissions" />
+        <property name="summary" value="Protocol Permissions" />
+        <property name="description" value="Protocol Permissions" />
+    </bean>
+
+    <bean id="IacucProtocolAmendmentBean-threers" parent="IacucProtocolAmendmentBean-threers-parentBean" />
+    <bean id="IacucProtocolAmendmentBean-threers-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="threers" />
+        <property name="label" value="Three R's" />
+        <property name="shortLabel" value="Three R's" />
+        <property name="summary" value="Three R's" />
+        <property name="description" value="Three R's" />
+    </bean>
+
+    <bean id="IacucProtocolAmendmentBean-speciesAndGroups" parent="IacucProtocolAmendmentBean-speciesAndGroups-parentBean" />
+    <bean id="IacucProtocolAmendmentBean-speciesAndGroups-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="speciesAndGroups" />
+        <property name="label" value="Species/Groups" />
+        <property name="shortLabel" value="Species/Groups" />
+        <property name="summary" value="Species/Groups" />
+        <property name="description" value="Species/Groups" />
+    </bean>
+
+    <bean id="IacucProtocolAmendmentBean-procedures" parent="IacucProtocolAmendmentBean-procedures-parentBean" />
+    <bean id="IacucProtocolAmendmentBean-procedures-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="procedures" />
+        <property name="label" value="Procedures" />
+        <property name="shortLabel" value="Procedures" />
+        <property name="summary" value="Procedures" />
+        <property name="description" value="Procedures" />
+    </bean>
+
+    <bean id="IacucProtocolAmendmentBean-protocolExceptions" parent="IacucProtocolAmendmentBean-protocolExceptions-parentBean" />
+    <bean id="IacucProtocolAmendmentBean-protocolExceptions-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="protocolExceptions" />
+        <property name="label" value="Protocol Exceptions" />
+        <property name="shortLabel" value="Protocol Exceptions" />
+        <property name="summary" value="Protocol Exceptions" />
+        <property name="description" value="Protocol Exceptions" />
+    </bean>
+   
+</beans>

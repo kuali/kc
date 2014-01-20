@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="InstitutionalProposalDocument" parent="InstitutionalProposalDocument-parentBean"/>
+
+  <bean id="InstitutionalProposalDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    
+    
+    
+    
+    <property name="usePessimisticLocking" value="true"/>
+    <property name="useWorkflowPessimisticLocking" value="false"/>
+    
+    <property name="documentTypeName" value="InstitutionalProposalDocument"/>
+    <property name="documentClass" value="org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.institutionalproposal.rules.InstitutionalProposalDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer"/>
+
+    <property name="allowsNoteAttachments" value="true"/>
+     
+    <property name="allowsCopy" value="true"/>
+    <property name="headerNavigationList">
+      <list>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+          
+          <property name="headerTabDisplayName" value="Institutional Proposal"/>
+          <property name="headerTabNavigateTo" value="home"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+       
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalConstactsHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+          
+          <property name="headerTabDisplayName" value="Contacts"/>
+          <property name="headerTabNavigateTo" value="contacts"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalCustomDataHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+         
+          <property name="headerTabDisplayName" value="Custom Data"/>
+          <property name="headerTabNavigateTo" value="customData"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalSpecialReviewHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+        
+          <property name="headerTabDisplayName" value="Special Review"/>
+          <property name="headerTabNavigateTo" value="specialReview"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+       
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalIPReviewHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+          
+          <property name="headerTabDisplayName" value="Intellectual Property Review"/>
+          <property name="headerTabNavigateTo" value="intellectualPropertyReview"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalDistributionHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+        
+          <property name="headerTabDisplayName" value="Distribution"/>
+          <property name="headerTabNavigateTo" value="distribution"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalActionsHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+         
+          <property name="headerTabDisplayName" value="Institutional Proposal Actions"/>
+          <property name="headerTabNavigateTo" value="institutionalProposalActions"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalMedusaHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Medusa"/>
+          <property name="headerTabNavigateTo" value="medusa"/>
+        </bean>
+      </list>
+    </property>
+    
+    <property name="workflowProperties">
+    	<ref bean="InstitutionalProposalDocument-workflowProperties"/>
+    </property>
+    
+    <property name="attributes">
+      <list>      	
+        <ref bean="InstitutionalProposalDocument-versionNumber"/>        
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->	
+  
+  <bean id="InstitutionalProposalDocument-versionNumber" parent="InstitutionalProposalDocument-versionNumber-parentBean"/>
+
+  <bean id="InstitutionalProposalDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  
+  <bean id="InstitutionalProposalDocument-workflowProperties" parent="InstitutionalProposalDocument-workflowProperties-parentBean"/>
+  <bean id="InstitutionalProposalDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.proposalId"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.proposalNumber"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.currentAccountNumber"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.principalInvestigator.contact.fullName"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.title"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.sponsor.sponsorCode"/>
+			  <bean parent="WorkflowProperty" p:path="institutionalProposal.leadUnit.unitNumber"/>
+			 </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>  
+</beans>

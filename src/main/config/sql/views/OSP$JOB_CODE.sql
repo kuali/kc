@@ -1,0 +1,3 @@
+create or replace view OSP$JOB_CODE as 
+	select JOB_CODE,JOB_TITLE,UPDATE_TIMESTAMP,UPDATE_USER
+	from JOB_CODE;

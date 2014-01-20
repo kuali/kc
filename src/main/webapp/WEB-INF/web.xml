@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    version="2.5"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>KCRA Application</display-name>
+
+<!-- Rice content Start -->
+    <context-param>
+      <param-name>environment</param-name>
+      <param-value>dev</param-value>
+    </context-param>
+
+    <!-- Change this if you want to use a different Spring file -->
+    <context-param>
+      <param-name>web.bootstrap.spring.file</param-name>
+      <param-value>classpath:kc-bootstrap-springbeans.xml</param-value>
+    </context-param>
+    
+    ${monitoring.filter}
+    
+	<filter>
+	    <filter-name>HttpRequestLogger</filter-name>
+	    <filter-class>org.kuali.rice.core.RequestLoggingFilter</filter-class>
+	</filter>
+	
+	<filter>
+        <filter-name>HideWebInfFilter</filter-name>
+        <filter-class>org.kuali.rice.krad.web.filter.HideWebInfFilter</filter-class>
+    </filter>
+    
+    <filter>
+		<filter-name>ResponseOverrideFilter</filter-name>
+		<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+	</filter>
+
+	<filter>
+	    <filter-name>BootstrapFilter</filter-name>
+	    <filter-class>org.kuali.rice.krad.web.filter.BootstrapFilter</filter-class>
+	</filter>
+
+	<filter>
+	    <filter-name>UserLoginFilter</filter-name>
+	    <filter-class>org.kuali.rice.krad.web.filter.UserLoginFilter</filter-class>
+	</filter>
+
+    <filter>
+    	<filter-name>UserPreferencesFilter</filter-name>
+    	<filter-class>org.kuali.rice.kew.web.UserPreferencesFilter</filter-class>
+    </filter>
+
+  <filter>
+    <filter-name>DummyLoginFilter</filter-name>
+    <filter-class>org.kuali.rice.krad.web.filter.DummyLoginFilter</filter-class>
+  </filter>
+
+	${monitoring.mapping}
+
+    <filter-mapping>
+	    <filter-name>HttpRequestLogger</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+        <filter-name>HideWebInfFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+	<filter-mapping>
+		<filter-name>ResponseOverrideFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+  
+    <filter-mapping>
+      <filter-name>BootstrapFilter</filter-name>
+      <servlet-name>action</servlet-name>
+    </filter-mapping>
+
+  	<filter-mapping>
+    	<filter-name>UserLoginFilter</filter-name>
+    	<servlet-name>action</servlet-name>
+  	</filter-mapping>    
+
+  	<filter-mapping>
+    	<filter-name>UserPreferencesFilter</filter-name>
+    	<servlet-name>action</servlet-name>
+  	</filter-mapping>
+  	
+    <filter-mapping>
+      <filter-name>BootstrapFilter</filter-name>
+      <servlet-name>notification</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>notification</servlet-name>
+    </filter-mapping>
+    
+    <filter-mapping>
+    	<filter-name>UserPreferencesFilter</filter-name>
+    	<servlet-name>notification</servlet-name>
+  	</filter-mapping>
+
+    <filter-mapping>
+        <filter-name>DummyLoginFilter</filter-name>
+        <servlet-name>login</servlet-name>
+    </filter-mapping>
+    <!-- for KCB Spring Web MVC pages -->
+    <filter-mapping>
+        <filter-name>BootstrapFilter</filter-name>
+        <servlet-name>kcb</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>kcb</servlet-name>
+    </filter-mapping>
+  	
+  	<filter-mapping>
+    	<filter-name>UserPreferencesFilter</filter-name>
+    	<servlet-name>kcb</servlet-name>
+ 	</filter-mapping>    
+ 	
+ 	<filter-mapping>
+    <filter-name>BootstrapFilter</filter-name>
+    <servlet-name>krad</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>UserLoginFilter</filter-name>
+    <servlet-name>krad</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>UserPreferencesFilter</filter-name>
+    <servlet-name>krad</servlet-name>
+  </filter-mapping>
+<!-- Rice content End -->
+
+  <filter>
+    <filter-name>SessionExpiredFilter</filter-name>
+    <filter-class>org.kuali.kra.web.filter.SessionExpiredFilter</filter-class>
+  </filter>
+  <filter-mapping> 
+    <filter-name>SessionExpiredFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>     
+
+  <filter-mapping>
+    <filter-name>ResponseOverrideFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+
+   <!-- ******************* Start Logging Filters ********************* -->
+  <filter>
+    <filter-name>JspLoggingFilter</filter-name>
+    <filter-class>org.kuali.kra.web.filter.RequestLoggingFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>JspLoggingFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>StrutsActionLoggingFilter</filter-name>
+    <filter-class>org.kuali.kra.web.filter.RequestLoggingFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>StrutsActionLoggingFilter</filter-name>
+    <servlet-name>action</servlet-name>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>PerformanceLoggingFilter</filter-name>
+    <filter-class>org.kuali.kra.web.filter.PerformanceLoggingFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>PerformanceLoggingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- ******************* End Logging Filters ********************* -->
+  
+  ${monitoring.listener}
+  
+  <listener>
+    <listener-class>org.kuali.kra.infrastructure.KraServiceLocatorListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.kuali.kra.web.listener.SessionLoggingListener</listener-class>
+  </listener>
+
+<!-- Rice content Start -->
+  	<listener>
+    	<listener-class>org.kuali.rice.krad.web.listener.NonSerializableSessionListener</listener-class>
+ 	</listener>
+   
+    <listener>
+        <listener-class>org.kuali.rice.core.web.listener.BootstrapListener</listener-class>
+    </listener>
+
+    <listener>
+	  <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
+	</listener>
+    
+	<listener>
+	    <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+	</listener>
+      
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
+        <init-param>
+          <param-name>config</param-name>
+          <param-value>/WEB-INF/struts-config.xml</param-value>
+        </init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+  			<param-name>config-kc</param-name>
+  			<param-value>/WEB-INF/dwr-kra.xml</param-value>
+		</init-param>
+		<init-param>
+  			<param-name>config-kns</param-name>
+  			<param-value>/WEB-INF/dwr-kns.xml</param-value>
+		</init-param>
+		<init-param>
+  			<param-name>config-kew</param-name>
+  			<param-value>/WEB-INF/dwr-kew.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!-- KRAD Servlet -->
+	<servlet>
+        <servlet-name>krad</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>krad</servlet-name>
+        <url-pattern>/kr-krad/*</url-pattern>
+    </servlet-mapping>
+
+	<servlet>
+		<servlet-name>remoting</servlet-name>
+		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
+		<init-param>
+          <param-name>contextConfigLocation</param-name>
+          <param-value>classpath:org/kuali/rice/ksb/config/remoting-servlet.xml</param-value>
+        </init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>export</servlet-name>
+		<servlet-class>org.kuali.rice.core.web.impex.ExportServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>exportsecurity</servlet-name>
+		<servlet-class>org.kuali.rice.ksb.security.admin.ExportServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>attachment</servlet-name>
+		<servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+        <servlet-name>login</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+  
+	
+	<!--  
+	
+		Following servlet and servlet mapping for the PostDataLoadEncryptionServlet are commented out.
+		Uncomment these if you want to run the servlet in order to encrypt some data in the Rice database
+		(this would most likely be used for external identifiers in KIM that require encryption)
+		
+		It is not recommended to enable this service for a production instance except during initial
+		data load.  It is not secured in any way and would allow for easy corruption of data if mishandled.
+	
+	-->
+	<!--
+	<servlet>
+	    <servlet-name>postDataLoadEncryption</servlet-name>
+	    <servlet-class>org.kuali.rice.kns.web.servlet.PostDataLoadEncryptionServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>postDataLoadEncryption</servlet-name>
+		<url-pattern>/postDataLoadEncryption</url-pattern>
+	</servlet-mapping>
+	-->
+
+    <!-- Notification system servlets -->
+    <!-- Notification System Spring MVC UI -->
+    <servlet>
+        <servlet-name>notification</servlet-name>
+        <servlet-class>org.kuali.kra.rice.ConditionalInitDispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>initConfigPropertyName</param-name>
+            <param-value>ken.mode</param-value>
+        </init-param>
+        <init-param>
+            <param-name>initConfigPropertyValue</param-name>
+            <param-value>LOCAL</param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>ken/WEB-INF/notification-servlet.xml</param-value>
+        </init-param>
+        <init-param>
+            <description>this init parameter is Ken's module prefix within the containing webapp, it is propagated as a
+                property in the XmlApplicationContext
+            </description>
+            <param-name>prefix</param-name>
+            <param-value>/ken</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>kcb</servlet-name>
+        <servlet-class>org.kuali.kra.rice.ConditionalInitDispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>initConfigPropertyName</param-name>
+            <param-value>kcb.mode</param-value>
+        </init-param>
+        <init-param>
+            <param-name>initConfigPropertyValue</param-name>
+            <param-value>LOCAL</param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>kcb/WEB-INF/kcb-servlet.xml</param-value>
+        </init-param>
+        <init-param>
+            <description>this init parameter is KCB's module prefix within the containing webapp, it is propagated as a
+                property in the XmlApplicationContext
+            </description>
+            <param-name>prefix</param-name>
+            <param-value>/kcb</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>notification</servlet-name>
+        <url-pattern>*.form</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>kcb</servlet-name>
+        <url-pattern>*.kcb</url-pattern>
+    </servlet-mapping>
+    
+	<servlet-mapping>
+		<servlet-name>remoting</servlet-name>
+		<url-pattern>/remoting/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>export</servlet-name>
+		<url-pattern>/export/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>exportsecurity</servlet-name>
+		<url-pattern>/exportsecurity/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>attachment</servlet-name>
+		<url-pattern>/kew/attachment/*</url-pattern>
+	</servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>login</servlet-name>
+        <url-pattern>/kr-login/*</url-pattern>
+    </servlet-mapping>
+    
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- only need to include this for the kuali tlds
+	     since tld file will only be searched from within other jars -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://www.kuali.org/jsp/jstl/functions</taglib-uri>
+			<taglib-location>/WEB-INF/tld/kuali-func.tld</taglib-location>
+		</taglib>
+		
+		<!-- customized struts tags -->
+		<taglib>
+			<taglib-uri>http://www.kuali.org/struts.apache.org/tags-html</taglib-uri>
+			<taglib-location>/WEB-INF/tld/kuali-struts-html.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://www.kuali.org/struts.apache.org/tags-html-el</taglib-uri>
+			<taglib-location>/WEB-INF/tld/kuali-struts-html-el.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	
+<!-- Rice content End -->
+
+</web-app>
+

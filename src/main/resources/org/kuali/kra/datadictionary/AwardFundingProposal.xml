@@ -1,0 +1,160 @@
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="AwardFundingProposal" parent="AwardFundingProposal-parentBean" />
+    <bean id="AwardFundingProposal-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" />
+        <property name="objectLabel" value="Award Funding Proposal" />
+        <property name="inquiryDefinition" >
+            <ref bean="AwardFundingProposal-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="AwardFundingProposal-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="awardFundingProposalId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="AwardFundingProposal-awardFundingProposalId" />
+                <ref bean="AwardFundingProposal-awardId" />
+                <ref bean="AwardFundingProposal-proposalId" />
+                <ref bean="AwardFundingProposal-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="AwardFundingProposal-awardFundingProposalId" parent="AwardFundingProposal-awardFundingProposalId-parentBean" />
+    <bean id="AwardFundingProposal-awardFundingProposalId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="awardFundingProposalId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Award Funding Proposal Id" />
+        <property name="shortLabel" value="Award Funding Proposal Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Award Funding Proposal Id" />
+        <property name="description" value="Award Funding Proposal Id" />
+    </bean>
+
+    <bean id="AwardFundingProposal-awardId" parent="AwardFundingProposal-awardId-parentBean" />
+    <bean id="AwardFundingProposal-awardId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="awardId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Award ID" />
+        <property name="shortLabel" value="Award ID" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Award ID" />
+        <property name="description" value="Award ID" />
+    </bean>
+
+    <bean id="AwardFundingProposal-proposalId" parent="AwardFundingProposal-proposalId-parentBean" />
+    <bean id="AwardFundingProposal-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal ID" />
+        <property name="shortLabel" value="Proposal ID" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal ID" />
+        <property name="description" value="Proposal ID" />
+    </bean>
+
+    <bean id="AwardFundingProposal-versionNumber" parent="AwardFundingProposal-versionNumber-parentBean" />
+    <bean id="AwardFundingProposal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="AwardFundingProposal-inquiryDefinition" parent="AwardFundingProposal-inquiryDefinition-parentBean" />
+    <bean id="AwardFundingProposal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Award Funding Proposal Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Award Funding Proposal Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="awardFundingProposalId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="awardId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="AwardFundingProposal-lookupDefinition" parent="AwardFundingProposal-lookupDefinition-parentBean" />
+    <bean id="AwardFundingProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Award Funding Proposals Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="awardFundingProposalId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="awardId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalId" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="awardFundingProposalId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="awardId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalId" />
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,121 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="MailType" parent="MailType-parentBean" />
+
+  <bean id="MailType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailType" />
+		<property name="objectLabel" value="Mail Type" />
+    <property name="inquiryDefinition" >
+      <ref bean="MailType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="MailType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="mailType" />
+    <property name="attributes" >
+      <list>
+        <ref bean="MailType-mailType" />
+        <ref bean="MailType-description" />
+        <ref bean="MailType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="MailType-mailType" parent="MailType-mailType-parentBean" />
+
+  <bean id="MailType-mailType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="mailType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Mail Type" />
+    <property name="shortLabel" value="Mail Type" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Mail Type" />
+    <property name="description" value="Mail Type" />
+  </bean>
+  <bean id="MailType-description" parent="MailType-description-parentBean" />
+
+  <bean id="MailType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="MailType-versionNumber" parent="MailType-versionNumber-parentBean" />
+
+  <bean id="MailType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="MailType-inquiryDefinition" parent="MailType-inquiryDefinition-parentBean" />
+
+  <bean id="MailType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Mail Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Mail Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="mailType"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="MailType-lookupDefinition" parent="MailType-lookupDefinition-parentBean" />
+
+  <bean id="MailType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Mail Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+     <property name="helpDefinition" >
+        <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-M"
+            p:parameterName="mailTypeMaintenanceHelp"
+            p:parameterDetailType="Document" />
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="mailType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="mailType"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

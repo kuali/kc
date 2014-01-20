@@ -1,0 +1,804 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Organization" parent="Organization-parentBean"/>
+
+  <bean abstract="true" id="Organization-parentBean" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.Organization"/>
+		<property name="objectLabel" value="Organization"/>
+    <property name="inquiryDefinition">
+      <ref bean="Organization-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Organization-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="organizationId"/>
+    <property name="helpDefinition">
+      <bean p:parameterDetailType="Document" p:parameterName="proposalDevelopmentOrganizationHelpUrl" p:parameterNamespace="KC-PD" parent="HelpDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="Organization-organizationId"/>
+        <ref bean="Organization-address"/>
+        <ref bean="Organization-agencySymbol"/>
+        <ref bean="Organization-animalWelfareAssurance"/>
+        <ref bean="Organization-cableAddress"/>
+        <ref bean="Organization-cageNumber"/>
+        <ref bean="Organization-cognizantAuditor"/>
+        <ref bean="Organization-cognizantAuditorRolodex.fullName"/>
+        <ref bean="Organization-comGovEntityCode"/>
+        <ref bean="Organization-congressionalDistrict"/>
+        <ref bean="Organization-contactAddressId"/>
+        <ref bean="Organization-rolodex.fullName"/>
+        <ref bean="Organization-rolodex.addressLine1"/>
+        <ref bean="Organization-county"/>
+        <ref bean="Organization-dodacNumber"/>
+        <ref bean="Organization-dunsNumber"/>
+        <ref bean="Organization-dunsPlusFourNumber"/>
+        <ref bean="Organization-federalEmployerId"/>
+        <ref bean="Organization-humanSubAssurance"/>
+        <ref bean="Organization-incorporatedDate"/>
+        <ref bean="Organization-incorporatedIn"/>
+        <ref bean="Organization-indirectCostRateAgreement"/>
+        <ref bean="Organization-irsTaxExemption"/>
+        <ref bean="Organization-stateEmployeeClaim"/>
+        <ref bean="Organization-stateTaxExemptNum"/>
+        <ref bean="Organization-nsfInstitutionalCode"/>
+        <ref bean="Organization-numberOfEmployees"/>
+        <ref bean="Organization-onrResidentRep"/>
+        <ref bean="Organization-onrResidentRepRolodex.fullName"/>
+        <ref bean="Organization-organizationName"/>
+        <ref bean="Organization-phsAccount"/>
+        <ref bean="Organization-scienceMisconductComplDate"/>
+        <ref bean="Organization-telexNumber"/>
+        <ref bean="Organization-vendorCode"/>
+      </list>
+    </property>
+    <property name="collections">
+      <list>
+        <bean p:description="Organization Types" p:label="Organization Types" p:name="organizationTypes" p:shortLabel="Organization Types" p:summary="Organization Types" parent="CollectionDefinition"/>
+        <bean p:description="Listing of Organization YNQ." p:elementLabel="Organization YNQ" p:label="Organization YNQ" p:name="organizationYnqs" p:shortLabel="Organization YNQ" p:summary="Organization YNQ" parent="CollectionDefinition"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="rolodex"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean p:sourceName="contactAddressId" p:targetName="rolodexId" parent="PrimitiveAttributeDefinition"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean p:identifier="true" p:sourceName="rolodex.addressLine1" p:targetName="addressLine1" parent="SupportAttributeDefinition"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="cognizantAuditorRolodex"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean p:sourceName="cognizantAuditor" p:targetName="rolodexId" parent="PrimitiveAttributeDefinition"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean p:identifier="true" p:sourceName="cognizantAuditorRolodex.fullName" p:targetName="fullName" parent="SupportAttributeDefinition"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="onrResidentRepRolodex"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean p:sourceName="onrResidentRep" p:targetName="rolodexId" parent="PrimitiveAttributeDefinition"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean p:identifier="true" p:sourceName="onrResidentRepRolodex.fullName" p:targetName="fullName" parent="SupportAttributeDefinition"/>
+            </list>
+          </property>
+        </bean>        
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Organization-organizationId" parent="Organization-organizationId-parentBean"/>
+
+  <bean abstract="true" id="Organization-organizationId-parentBean" parent="AttributeDefinition">
+    <property name="name" value="organizationId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Organization Id"/>
+    <property name="shortLabel" value="Organization Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="8" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Organization Id"/>
+    <property name="description" value="Organization Id"/>
+  </bean>
+  <bean id="Organization-address" parent="Organization-address-parentBean"/>
+
+  <bean abstract="true" id="Organization-address-parentBean" parent="AttributeDefinition">
+    <property name="name" value="address"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Address"/>
+    <property name="shortLabel" value="Address"/>
+    <property name="maxLength" value="60"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="60" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Address"/>
+    <property name="description" value="Address"/>
+  </bean>
+  <bean id="Organization-agencySymbol" parent="Organization-agencySymbol-parentBean"/>
+
+  <bean abstract="true" id="Organization-agencySymbol-parentBean" parent="AttributeDefinition">
+    <property name="name" value="agencySymbol"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Agency Symbol"/>
+    <property name="shortLabel" value="Agency Symbol"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Agency Symbol"/>
+    <property name="description" value="Agency Symbol"/>
+  </bean>
+  <bean id="Organization-animalWelfareAssurance" parent="Organization-animalWelfareAssurance-parentBean"/>
+
+  <bean abstract="true" id="Organization-animalWelfareAssurance-parentBean" parent="AttributeDefinition">
+    <property name="name" value="animalWelfareAssurance"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Animal Welfare Assurance"/>
+    <property name="shortLabel" value="Animal Welfare Assurance"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Animal Welfare Assurance"/>
+    <property name="description" value="Animal Welfare Assurance"/>
+  </bean>
+  <bean id="Organization-cableAddress" parent="Organization-cableAddress-parentBean"/>
+
+  <bean abstract="true" id="Organization-cableAddress-parentBean" parent="AttributeDefinition">
+    <property name="name" value="cableAddress"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Cable Address"/>
+    <property name="shortLabel" value="Cable Address"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Cable Address"/>
+    <property name="description" value="Cable Address"/>
+  </bean>
+  <bean id="Organization-cageNumber" parent="Organization-cageNumber-parentBean"/>
+
+  <bean abstract="true" id="Organization-cageNumber-parentBean" parent="AttributeDefinition">
+    <property name="name" value="cageNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="CAGE Number"/>
+    <property name="shortLabel" value="CAGE Number"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="CAGE Number"/>
+    <property name="description" value="CAGE Number"/>
+  </bean>
+  <bean id="Organization-cognizantAuditor" parent="Organization-cognizantAuditor-parentBean"/>
+
+  <bean abstract="true" id="Organization-cognizantAuditor-parentBean" parent="AttributeDefinition">
+    <property name="name" value="cognizantAuditor"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Cognizant Auditor"/>
+    <property name="shortLabel" value="Cognizant Auditor"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Cognizant Auditor"/>
+    <property name="description" value="Cognizant Auditor"/>
+  </bean>
+  <bean id="Organization-cognizantAuditorRolodex.fullName" parent="Organization-cognizantAuditorRolodex.fullName-parentBean"/>
+
+  <bean abstract="true" id="Organization-cognizantAuditorRolodex.fullName-parentBean" parent="Rolodex-fullName">
+    <property name="name" value="cognizantAuditorRolodex.fullName"/>
+    <property name="label" value="Cognizant Auditor Full Name"/>
+    <property name="shortLabel" value="Cognizant Auditor Full Name"/>
+  </bean>
+  
+  <bean id="Organization-comGovEntityCode" parent="Organization-comGovEntityCode-parentBean"/>
+
+  <bean abstract="true" id="Organization-comGovEntityCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="comGovEntityCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Com Gov Entity Code"/>
+    <property name="shortLabel" value="Com Gov Entity Code"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Com Gov Entity Code"/>
+    <property name="description" value="Com Gov Entity Code"/>
+  </bean>
+  <bean id="Organization-congressionalDistrict" parent="Organization-congressionalDistrict-parentBean"/>
+
+  <bean abstract="true" id="Organization-congressionalDistrict-parentBean" parent="AttributeDefinition">
+    <property name="name" value="congressionalDistrict"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Congressional District"/>
+    <property name="shortLabel" value="Congressional District"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean p:pattern="^[a-zA-Z][a-zA-Z]-[0-9]{1,3}|[a-zA-Z][a-zA-Z]-all|00-000|US-all$" p:validationErrorMessageKey="error.congressionalDistrict.format" parent="RegexValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Congressional District"/>
+    <property name="description" value="This field represents the &quot;applicant&quot; congressional district"/>
+  </bean>
+  <bean id="Organization-contactAddressId" parent="Organization-contactAddressId-parentBean"/>
+
+  <bean abstract="true" id="Organization-contactAddressId-parentBean" parent="AttributeDefinition">
+    <property name="name" value="contactAddressId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Contact Address Id"/>
+    <property name="shortLabel" value="Contact Address Id"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Contact Address Id"/>
+    <property name="description" value="Contact Address Id"/>
+  </bean>
+  <bean id="Organization-rolodex.fullName" parent="Organization-rolodex.fullName-parentBean"/>
+
+  <bean abstract="true" id="Organization-rolodex.fullName-parentBean" parent="Rolodex-fullName">
+    <property name="name" value="rolodex.fullName"/>
+    <property name="label" value="Contact Name"/>
+    <property name="shortLabel" value="Contact Name"/>
+  </bean>
+  <bean id="Organization-rolodex.addressLine1" parent="Organization-rolodex.addressLine1-parentBean"/>
+
+  <bean abstract="true" id="Organization-rolodex.addressLine1-parentBean" parent="Rolodex-addressLine1">
+    <property name="name" value="rolodex.addressLine1"/>
+    <property name="label" value="Contact Address Id"/>
+    <property name="shortLabel" value="Contact Address Id"/>
+  </bean>
+  <bean id="Organization-county" parent="Organization-county-parentBean"/>
+
+  <bean abstract="true" id="Organization-county-parentBean" parent="AttributeDefinition">
+    <property name="name" value="county"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="County"/>
+    <property name="shortLabel" value="County"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="County"/>
+    <property name="description" value="County"/>
+  </bean>
+  <bean id="Organization-dodacNumber" parent="Organization-dodacNumber-parentBean"/>
+
+  <bean abstract="true" id="Organization-dodacNumber-parentBean" parent="AttributeDefinition">
+    <property name="name" value="dodacNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="DODAC Number"/>
+    <property name="shortLabel" value="DODAC Number"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="DODAC Number"/>
+    <property name="description" value="DODAC Number"/>
+  </bean>
+  <bean id="Organization-dunsNumber" parent="Organization-dunsNumber-parentBean"/>
+
+  <bean abstract="true" id="Organization-dunsNumber-parentBean" parent="AttributeDefinition">
+    <property name="name" value="dunsNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="DUNS Number"/>
+    <property name="shortLabel" value="DUNS Number"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="DUNS Number"/>
+    <property name="description" value="DUNS Number"/>
+  </bean>
+  <bean id="Organization-dunsPlusFourNumber" parent="Organization-dunsPlusFourNumber-parentBean"/>
+
+  <bean abstract="true" id="Organization-dunsPlusFourNumber-parentBean" parent="AttributeDefinition">
+    <property name="name" value="dunsPlusFourNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="DUNS Plus Four Number"/>
+    <property name="shortLabel" value="DUNS Plus Four Number"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="DUNS Plus Four Number"/>
+    <property name="description" value="DUNS Plus Four Number"/>
+  </bean>
+  <bean id="Organization-federalEmployerId" parent="Organization-federalEmployerId-parentBean"/>
+
+  <bean abstract="true" id="Organization-federalEmployerId-parentBean" parent="AttributeDefinition">
+    <property name="name" value="federalEmployerId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Federal Employer Id"/>
+    <property name="shortLabel" value="Federal Employer Id"/>
+    <property name="maxLength" value="15"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="15" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Federal Employer Id"/>
+    <property name="description" value="Federal Employer Id"/>
+  </bean>
+  <bean id="Organization-humanSubAssurance" parent="Organization-humanSubAssurance-parentBean"/>
+
+  <bean abstract="true" id="Organization-humanSubAssurance-parentBean" parent="AttributeDefinition">
+    <property name="name" value="humanSubAssurance"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Human Sub Assurance"/>
+    <property name="shortLabel" value="Human Sub Assurance"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Human Sub Assurance"/>
+    <property name="description" value="Human Sub Assurance"/>
+  </bean>
+  <bean id="Organization-incorporatedDate" parent="Organization-incorporatedDate-parentBean"/>
+
+  <bean abstract="true" id="Organization-incorporatedDate-parentBean" parent="AttributeDefinition">
+    <property name="name" value="incorporatedDate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Incorporated Date"/>
+    <property name="shortLabel" value="Incorporated Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Incorporated Date"/>
+    <property name="description" value="Incorporated Date"/>
+  </bean>
+  <bean id="Organization-incorporatedIn" parent="Organization-incorporatedIn-parentBean"/>
+
+  <bean abstract="true" id="Organization-incorporatedIn-parentBean" parent="AttributeDefinition">
+    <property name="name" value="incorporatedIn"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Incorporated In"/>
+    <property name="shortLabel" value="Incorporated In"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="50" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Incorporated In"/>
+    <property name="description" value="Incorporated In"/>
+  </bean>
+  <bean id="Organization-indirectCostRateAgreement" parent="Organization-indirectCostRateAgreement-parentBean"/>
+
+  <bean abstract="true" id="Organization-indirectCostRateAgreement-parentBean" parent="AttributeDefinition">
+    <property name="name" value="indirectCostRateAgreement"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Indirect Cost Rate Agreement"/>
+    <property name="shortLabel" value="Indirect Cost Rate Agreement"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="50" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Indirect Cost Rate Agreement"/>
+    <property name="description" value="Indirect Cost Rate Agreement"/>
+  </bean>
+  <bean id="Organization-irsTaxExemption" parent="Organization-irsTaxExemption-parentBean"/>
+
+  <bean abstract="true" id="Organization-irsTaxExemption-parentBean" parent="AttributeDefinition">
+    <property name="name" value="irsTaxExemption"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="IRS Tax Exemption"/>
+    <property name="shortLabel" value="IRS Tax Exemption"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="IRS Tax Exemption"/>
+    <property name="description" value="IRS Tax Exemption"/>
+  </bean>
+  <bean id="Organization-stateEmployeeClaim" parent="Organization-stateEmployeeClaim-parentBean"/>
+
+  <bean abstract="true" id="Organization-stateEmployeeClaim-parentBean" parent="AttributeDefinition">
+    <property name="name" value="stateEmployeeClaim"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="State Employee Claim"/>
+    <property name="shortLabel" value="State Employee Claim"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="State Employee Claim"/>
+    <property name="description" value="State Employee Claim"/>
+  </bean>
+  <bean id="Organization-stateTaxExemptNum" parent="Organization-stateTaxExemptNum-parentBean"/>
+
+  <bean abstract="true" id="Organization-stateTaxExemptNum-parentBean" parent="AttributeDefinition">
+    <property name="name" value="stateTaxExemptNum"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="State Tax Exempt Num"/>
+    <property name="shortLabel" value="State Tax Exempt Num"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="State Tax Exempt Num"/>
+    <property name="description" value="State Tax Exempt Num"/>
+  </bean>
+  <bean id="Organization-nsfInstitutionalCode" parent="Organization-nsfInstitutionalCode-parentBean"/>
+
+  <bean abstract="true" id="Organization-nsfInstitutionalCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="nsfInstitutionalCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="NSF Institutional Code"/>
+    <property name="shortLabel" value="NSF Institutional Code"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="NSF Institutional Code"/>
+    <property name="description" value="NSF Institutional Code"/>
+  </bean>
+  <bean id="Organization-numberOfEmployees" parent="Organization-numberOfEmployees-parentBean"/>
+
+  <bean abstract="true" id="Organization-numberOfEmployees-parentBean" parent="AttributeDefinition">
+    <property name="name" value="numberOfEmployees"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Number Of Employees"/>
+    <property name="shortLabel" value="Number Of Employees"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Number Of Employees"/>
+    <property name="description" value="Number Of Employees"/>
+  </bean>
+  <bean id="Organization-onrResidentRep" parent="Organization-onrResidentRep-parentBean"/>
+
+  <bean abstract="true" id="Organization-onrResidentRep-parentBean" parent="AttributeDefinition">
+    <property name="name" value="onrResidentRep"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="ONR Resident Rep"/>
+    <property name="shortLabel" value="ONR Resident Rep"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="ONR Resident Rep"/>
+    <property name="description" value="ONR Resident Rep"/>
+  </bean>
+  <bean id="Organization-onrResidentRepRolodex.fullName" parent="Organization-onrResidentRepRolodex.fullName-parentBean"/>
+
+  <bean abstract="true" id="Organization-onrResidentRepRolodex.fullName-parentBean" parent="Rolodex-fullName">
+    <property name="name" value="onrResidentRepRolodex.fullName"/>
+    <property name="label" value="ONR Resident Rep Full Name"/>
+    <property name="shortLabel" value="ONR Resident Rep Full Name"/>
+  </bean>
+  
+  <bean id="Organization-organizationName" parent="Organization-organizationName-parentBean"/>
+
+  <bean abstract="true" id="Organization-organizationName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="organizationName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Organization Name"/>
+    <property name="shortLabel" value="Organization Name"/>
+    <property name="maxLength" value="60"/>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="60" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Organization Name"/>
+    <property name="description" value="Organization Name"/>
+  </bean>
+  <bean id="Organization-phsAccount" parent="Organization-phsAccount-parentBean"/>
+
+  <bean abstract="true" id="Organization-phsAccount-parentBean" parent="AttributeDefinition">
+    <property name="name" value="phsAccount"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="PHS Account"/>
+    <property name="shortLabel" value="PHS Account"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="PHS Account"/>
+    <property name="description" value="PHS Account"/>
+  </bean>
+  <bean id="Organization-scienceMisconductComplDate" parent="Organization-scienceMisconductComplDate-parentBean"/>
+
+  <bean abstract="true" id="Organization-scienceMisconductComplDate-parentBean" parent="AttributeDefinition">
+    <property name="name" value="scienceMisconductComplDate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Science Misconduct Compl Date"/>
+    <property name="shortLabel" value="Science Misconduct Compl Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Science Misconduct Compl Date"/>
+    <property name="description" value="Science Misconduct Compl Date"/>
+  </bean>
+  <bean id="Organization-telexNumber" parent="Organization-telexNumber-parentBean"/>
+
+  <bean abstract="true" id="Organization-telexNumber-parentBean" parent="AttributeDefinition">
+    <property name="name" value="telexNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Telex Number"/>
+    <property name="shortLabel" value="Telex Number"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="control">
+      <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Telex Number"/>
+    <property name="description" value="Telex Number"/>
+  </bean>
+  <bean id="Organization-vendorCode" parent="Organization-vendorCode-parentBean"/>
+
+  <bean abstract="true" id="Organization-vendorCode-parentBean" parent="AttributeDefinition">
+    <property name="name" value="vendorCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Vendor Code"/>
+    <property name="shortLabel" value="Vendor Code"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Vendor Code"/>
+    <property name="description" value="Vendor Code"/>
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Organization-inquiryDefinition" parent="Organization-inquiryDefinition-parentBean"/>
+
+  <bean abstract="true" id="Organization-inquiryDefinition-parentBean" parent="InquiryDefinition">
+    <property name="title" value="Organization"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean p:attributeName="organizationId" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="address" parent="FieldDefinition"/>
+              <bean p:attributeName="agencySymbol" parent="FieldDefinition"/>
+              <bean p:attributeName="animalWelfareAssurance" parent="FieldDefinition"/>
+              <bean p:attributeName="cableAddress" parent="FieldDefinition"/>
+              <bean p:attributeName="cageNumber" parent="FieldDefinition"/>
+              <bean p:attributeName="cognizantAuditor" parent="FieldDefinition"/>
+              <bean p:attributeName="comGovEntityCode" parent="FieldDefinition"/>
+              <bean p:attributeName="congressionalDistrict" parent="FieldDefinition"/>
+              <bean p:attributeName="contactAddressId" parent="FieldDefinition"/>
+              <bean p:attributeName="rolodex.fullName" parent="FieldDefinition"/>
+              <bean p:attributeName="county" parent="FieldDefinition"/>
+              <bean p:attributeName="dodacNumber" parent="FieldDefinition"/>
+              <bean p:attributeName="dunsNumber" parent="FieldDefinition"/>
+              <bean p:attributeName="dunsPlusFourNumber" parent="FieldDefinition"/>
+              <bean p:attributeName="federalEmployerId" parent="FieldDefinition"/>
+              <bean p:attributeName="humanSubAssurance" parent="FieldDefinition"/>
+              <bean p:attributeName="incorporatedDate" parent="FieldDefinition"/>
+              <bean p:attributeName="incorporatedIn" parent="FieldDefinition"/>
+              <bean p:attributeName="indirectCostRateAgreement" parent="FieldDefinition"/>
+              <bean p:attributeName="irsTaxExemption" parent="FieldDefinition"/>
+              <bean p:attributeName="stateEmployeeClaim" parent="FieldDefinition"/>
+              <bean p:attributeName="stateTaxExemptNum" parent="FieldDefinition"/>
+              <bean p:attributeName="nsfInstitutionalCode" parent="FieldDefinition"/>
+              <bean p:attributeName="numberOfEmployees" parent="FieldDefinition"/>
+              <bean p:attributeName="onrResidentRep" parent="FieldDefinition"/>
+              <bean p:attributeName="organizationName" parent="FieldDefinition"/>
+              <bean p:attributeName="phsAccount" parent="FieldDefinition"/>
+              <bean p:attributeName="scienceMisconductComplDate" parent="FieldDefinition"/>
+              <bean p:attributeName="telexNumber" parent="FieldDefinition"/>
+              <bean p:attributeName="vendorCode" parent="FieldDefinition"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Types"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="organizationTypes"/>
+                <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationType"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean p:attributeName="organizationTypeList.description" parent="FieldDefinition"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Audits"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="organizationAudits"/>
+                <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationAudit"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean p:attributeName="fiscalYear" parent="FieldDefinition"/>
+                    <bean p:attributeName="auditAccepted" parent="FieldDefinition"/>
+                    <bean p:attributeName="auditComment" parent="FieldDefinition"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Indirectcosts"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="organizationIdcs"/>
+                <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationIndirectcost"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean p:attributeName="idcNumber" parent="FieldDefinition"/>
+                    <bean p:attributeName="applicableIndirectcostRate" parent="FieldDefinition"/>
+                    <bean p:attributeName="endDate" parent="FieldDefinition"/>
+                    <bean p:attributeName="idcComment" parent="FieldDefinition"/>
+                    <bean p:attributeName="idcRateTypeCode" parent="FieldDefinition"/>
+                    <bean p:attributeName="requestedDate" parent="FieldDefinition"/>
+                    <bean p:attributeName="startDate" parent="FieldDefinition"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Ynqs"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="organizationYnqs"/>
+                <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationYnq"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean p:attributeName="questionId" parent="FieldDefinition"/>
+                    <bean p:attributeName="answer" parent="FieldDefinition"/>
+                    <bean p:attributeName="explanation" parent="FieldDefinition"/>
+                    <bean p:attributeName="reviewDate" parent="FieldDefinition"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Organization-lookupDefinition" parent="Organization-lookupDefinition-parentBean"/>
+
+  <bean abstract="true" id="Organization-lookupDefinition-parentBean" parent="LookupDefinition">
+    <property name="title" value="Organization Lookup"/>
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
+
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean p:attributeName="organizationId" parent="FieldDefinition"/>
+        <bean p:attributeName="organizationName" parent="FieldDefinition"/>
+        <bean p:attributeName="address" parent="FieldDefinition"/>
+        <bean p:attributeName="federalEmployerId" parent="FieldDefinition"/>
+        <bean p:attributeName="congressionalDistrict" parent="FieldDefinition"/>
+        <bean p:attributeName="dunsNumber" parent="FieldDefinition"/>
+        <bean p:attributeName="dunsPlusFourNumber" parent="FieldDefinition"/>
+        <bean p:attributeName="humanSubAssurance" parent="FieldDefinition"/>
+        <bean p:attributeName="cageNumber" parent="FieldDefinition"/>
+        <bean p:attributeName="dodacNumber" parent="FieldDefinition"/>
+        <bean p:attributeName="numberOfEmployees" parent="FieldDefinition"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:attributeName="organizationId" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="organizationName" parent="FieldDefinition"/>
+        <bean p:attributeName="address" parent="FieldDefinition"/>
+        <bean p:attributeName="federalEmployerId" parent="FieldDefinition"/>
+        <bean p:attributeName="congressionalDistrict" parent="FieldDefinition"/>
+        <bean p:attributeName="contactAddressId" parent="FieldDefinition"/>
+        <bean p:attributeName="dunsNumber" parent="FieldDefinition"/>
+        <bean p:attributeName="dunsPlusFourNumber" parent="FieldDefinition"/>
+        <bean p:attributeName="humanSubAssurance" parent="FieldDefinition"/>
+      </list>
+    </property>
+  </bean>
+</beans>

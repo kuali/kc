@@ -1,0 +1,39 @@
+package org.kuali.kra.irb.drools.rules;
+
+import org.kuali.kra.irb.actions.submit.ProtocolActionFollowupMapping;
+
+function void setIsOpenForFollowup(ProtocolActionFollowupMapping mapping, boolean isOpenForFollowup) {
+    mapping.setIsOpenForFollowup(isOpenForFollowup);
+}
+
+rule "Committee Decision -> Approve"
+salience 100
+when
+    mapping : ProtocolActionFollowupMapping(protocolActionTypeCode == "204", committeeDecisionMotionTypeCode == "1")
+then    
+    setIsOpenForFollowup(mapping, true);
+end
+
+rule "Committee Decision -> Disapprove"
+salience 100
+when
+    mapping : ProtocolActionFollowupMapping(protocolActionTypeCode == "304", committeeDecisionMotionTypeCode == "2")
+then    
+    setIsOpenForFollowup(mapping, true);
+end
+
+rule "Committee Decision -> Return for SMR"
+salience 100
+when
+    mapping : ProtocolActionFollowupMapping(protocolActionTypeCode == "203", committeeDecisionMotionTypeCode == "3")
+then    
+    setIsOpenForFollowup(mapping, true);
+end
+
+rule "Committee Decision -> Return for SRR"
+salience 100
+when
+    mapping : ProtocolActionFollowupMapping(protocolActionTypeCode == "202", committeeDecisionMotionTypeCode == "4")
+then    
+    setIsOpenForFollowup(mapping, true);
+end

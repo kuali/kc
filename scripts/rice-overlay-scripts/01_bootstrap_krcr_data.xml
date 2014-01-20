@@ -1,0 +1,74 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">	
+	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRCR_NMSPC_T" dbms="oracle">
+		<loadData tableName="KRCR_NMSPC_T" file="bootstrap/KRCR_NMSPC_T.csv">
+			<column header="NMSPC_CD" type="string" />
+			<column header="NM" type="string" />
+			<column header="ACTV_IND" type="string" />
+			<column header="APPL_ID" type="string" />
+		</loadData>
+		<rollback>
+			<delete tableName="KRCR_NMSPC_T">
+				<where>NMSPC_CD LIKE 'KC%'</where>
+			</delete>
+		</rollback>
+    </changeSet>
+
+	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRCR_NMSPC_T" dbms="mysql">
+		<loadData tableName="KRCR_NMSPC_T" file="bootstrap/KRCR_NMSPC_T.csv">
+			<column header="NMSPC_CD" type="string" />
+			<column header="NM" type="string" />
+			<column header="ACTV_IND" type="string" />
+			<column header="APPL_ID" type="string" />
+		</loadData>
+		<rollback>
+			<delete tableName="KRCR_NMSPC_T">
+				<where>NMSPC_CD LIKE 'KC%'</where>
+			</delete>
+		</rollback>
+    </changeSet>
+    
+	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRCR_PARM_T_oracle" dbms="oracle">
+		<loadData tableName="KRCR_PARM_T" file="bootstrap/KRCR_PARM_T.csv">
+			<column header="NMSPC_CD" type="string" />
+			<column header="CMPNT_CD" type="string" />
+			<column header="PARM_NM" type="string" />
+			<column header="OBJ_ID" type="string" />
+			<column header="PARM_TYP_CD" type="string" />
+			<column header="VAL" type="string" />
+			<column header="PARM_DESC_TXT" type="string" />
+			<column header="EVAL_OPRTR_CD" type="string" />
+			<column header="APPL_ID" type="string" />
+		</loadData>
+		<rollback>
+			<delete tableName="KRCR_PARM_T">
+				<where>NMSPC_CD LIKE 'KC%'</where>
+			</delete>
+		</rollback>
+    </changeSet>
+
+	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRCR_PARM_T_mysql" dbms="mysql">
+		<sql>
+		   SET sql_mode='NO_BACKSLASH_ESCAPES'
+		</sql>
+		<loadData tableName="KRCR_PARM_T" file="bootstrap/KRCR_PARM_T.csv">
+			<column header="NMSPC_CD" type="string" />
+			<column header="CMPNT_CD" type="string" />
+			<column header="PARM_NM" type="string" />
+			<column header="OBJ_ID" type="string" />
+			<column header="PARM_TYP_CD" type="string" />
+			<column header="VAL" type="string" />
+			<column header="PARM_DESC_TXT" type="string" />
+			<column header="EVAL_OPRTR_CD" type="string" />
+			<column header="APPL_ID" type="string" />
+		</loadData>
+		<rollback>
+			<delete tableName="KRCR_PARM_T">
+				<where>NMSPC_CD LIKE 'KC%'</where>
+			</delete>
+		</rollback>
+    </changeSet>
+
+</databaseChangeLog>   
+      

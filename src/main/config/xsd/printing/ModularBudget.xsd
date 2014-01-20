@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by jenlu (Massachusetts Institute of Technology) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:modularbudget="http://v2.xml.utils.coeus.mit.edu/modularbudget"
+           targetNamespace=    "http://v2.xml.utils.coeus.mit.edu/modularbudget"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+    <xs:element name="MODULAR_BUDGETS">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="modularbudget:MODULAR_BUDGET" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MODULAR_BUDGET">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="PROPOSAL_NUMBER" minOccurs="0">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="8"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="VERSION_NUMBER">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                            <xs:totalDigits value="3"/>
+                            <xs:fractionDigits value="0"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="BUDGET_PERIOD_NUMBER" type="xs:int"/>
+                <xs:element name="DIRECT_COST_LESS_CONSOR_FNA" type ="modularbudget:costType"/>
+                <xs:element name="CONSORTIUM_FNA"  type ="modularbudget:costType"/>
+                <xs:element name="TOTAL_DIRECT_COST" type ="modularbudget:costType"/>
+                <xs:element ref="modularbudget:INDIRECT_COSTS" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="INDIRECT_COSTS">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="modularbudget:INDIRECT_COST" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="INDIRECT_COST">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="RATE_NUMBER" type="xs:int"/>
+                <xs:element name="DESCRIPTION">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="8"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="IDC_RATE" type ="modularbudget:costType"/>
+                <xs:element name="IDC_BASE" type ="modularbudget:costType"/>
+                <xs:element name="FUNDS_REQUESTED" type ="modularbudget:costType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CUMULATIVE_MODULAR_BUDGET">
+        <xs:complexType>
+            <xs:sequence>
+                 <xs:element name="VERSION_NUMBER">
+                      <xs:simpleType>
+                          <xs:restriction base="xs:decimal">
+                              <xs:totalDigits value="3"/>
+                              <xs:fractionDigits value="0"/>
+                          </xs:restriction>
+                      </xs:simpleType>
+                  </xs:element>
+		  <xs:element name="DIRECT_COST_LESS_CONSOR_FNA" type="modularbudget:costType"/>
+		  <xs:element name="CONSORTIUM_FNA" type="modularbudget:costType"/>
+		  <xs:element name="TOTAL_DIRECT_COST" type="modularbudget:costType"/>
+		  <xs:element name="TOTAL_INDIRECT_COST" type="modularbudget:costType"/>
+		  <xs:element name="TOTAL_COST" type="modularbudget:costType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="costType">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="12"/>
+            <xs:fractionDigits value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

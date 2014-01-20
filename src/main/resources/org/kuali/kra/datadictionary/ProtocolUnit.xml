@@ -1,0 +1,250 @@
+<!--
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ProtocolUnit" parent="ProtocolUnit-parentBean" />
+	<bean id="ProtocolUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.personnel.ProtocolUnit" />
+		<property name="objectLabel" value="Protocol Unit" />
+		<property name="inquiryDefinition" >
+			<ref bean="ProtocolUnit-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="ProtocolUnit-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="protocolUnitsId" />
+		<property name="attributes" >
+			<list>
+				<ref bean="ProtocolUnit-protocolUnitsId" />
+				<ref bean="ProtocolUnit-protocolPersonId" />
+				<ref bean="ProtocolUnit-protocolNumber" />
+				<ref bean="ProtocolUnit-sequenceNumber" />
+				<ref bean="ProtocolUnit-unitNumber" />
+				<ref bean="ProtocolUnit-leadUnitFlag" />
+				<ref bean="ProtocolUnit-personId" />
+				<ref bean="ProtocolUnit-versionNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="ProtocolUnit-protocolUnitsId" parent="ProtocolUnit-protocolUnitsId-parentBean" />
+	<bean id="ProtocolUnit-protocolUnitsId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolUnitsId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Units Id" />
+		<property name="shortLabel" value="Protocol Units Id" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Units Id" />
+		<property name="description" value="Protocol Units Id" />
+	</bean>
+
+	<bean id="ProtocolUnit-protocolPersonId" parent="ProtocolUnit-protocolPersonId-parentBean" />
+	<bean id="ProtocolUnit-protocolPersonId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolPersonId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Person Id" />
+		<property name="shortLabel" value="Protocol Person Id" />
+		<property name="maxLength" value="9" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="9" />
+		</property>
+		<property name="summary" value="Protocol Person Id" />
+		<property name="description" value="Protocol Person Id" />
+	</bean>
+
+	<bean id="ProtocolUnit-protocolNumber" parent="ProtocolUnit-protocolNumber-parentBean" />
+	<bean id="ProtocolUnit-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Number" />
+		<property name="shortLabel" value="Protocol Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Number" />
+		<property name="description" value="Protocol Number" />
+	</bean>
+
+	<bean id="ProtocolUnit-sequenceNumber" parent="ProtocolUnit-sequenceNumber-parentBean" />
+	<bean id="ProtocolUnit-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="sequenceNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Sequence Number" />
+		<property name="shortLabel" value="Sequence Number" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Sequence Number" />
+		<property name="description" value="Sequence Number" />
+	</bean>
+
+	<bean id="ProtocolUnit-unitNumber" parent="ProtocolUnit-unitNumber-parentBean" />
+	<bean id="ProtocolUnit-unitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="unitNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Unit Number" />
+		<property name="shortLabel" value="Unit Number" />
+		<property name="maxLength" value="8" />
+        <property name="required" value="true" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="8" />
+		</property>
+		<property name="summary" value="Unit Number" />
+		<property name="description" value="Unit Number" />
+	</bean>
+
+	<bean id="ProtocolUnit-leadUnitFlag" parent="ProtocolUnit-leadUnitFlag-parentBean" />
+	<bean id="ProtocolUnit-leadUnitFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+		<property name="name" value="leadUnitFlag" />
+		<property name="label" value="Lead" />
+		<property name="shortLabel" value="Lead" />
+		<property name="summary" value="Lead Unit Flag" />
+        <property name="required" value="true" />
+		<property name="description" value="Lead Unit Flag" />
+	</bean>
+
+	<bean id="ProtocolUnit-personId" parent="ProtocolUnit-personId-parentBean" />
+	<bean id="ProtocolUnit-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person Id" />
+		<property name="shortLabel" value="Person Id" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Person Id" />
+		<property name="description" value="Person Id" />
+	</bean>
+
+	<bean id="ProtocolUnit-versionNumber" parent="ProtocolUnit-versionNumber-parentBean" />
+	<bean id="ProtocolUnit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ProtocolUnit-inquiryDefinition" parent="ProtocolUnit-inquiryDefinition-parentBean" />
+	<bean id="ProtocolUnit-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Protocol Units Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Protocol Units Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolUnitsId" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="sequenceNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="unitNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="leadUnitFlag" />
+							<bean parent="FieldDefinition"
+								p:attributeName="personId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="ProtocolUnit-lookupDefinition" parent="ProtocolUnit-lookupDefinition-parentBean" />
+	<bean id="ProtocolUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Protocol Units Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolUnitsId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="unitNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitFlag" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolUnitsId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="unitNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitFlag" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+			</list>
+		</property>
+	</bean>
+</beans>

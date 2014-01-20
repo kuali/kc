@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProposalUser" parent="ProposalUser-parentBean" />
+
+  <bean id="ProposalUser-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalUser" />
+		<property name="objectLabel" value="Proposal User" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-PD"
+            p:parameterName="proposalUserHelpUrl"
+            p:parameterDetailType="Document" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalUser-username" />
+        <ref bean="ProposalUser-roleName" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ProposalUser-username" parent="ProposalUser-username-parentBean" />
+
+  <bean id="ProposalUser-username-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="username" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="User Name" />
+    <property name="shortLabel" value="User Name" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="User Name" />
+    <property name="description" value="User Name" />
+  </bean>
+  <bean id="ProposalUser-roleName" parent="ProposalUser-roleName-parentBean" />
+
+  <bean id="ProposalUser-roleName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="roleName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Role" />
+    <property name="shortLabel" value="Role" />
+    <property name="maxLength" value="5" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Role Name" />
+    <property name="description" value="Role Name" />
+  </bean>
+</beans>

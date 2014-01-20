@@ -1,0 +1,650 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by E Shavell (Massachusetts Institute of Technology) -->
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Eleanor Shavell (Massachusetts Institute of Technology) -->
+<!--Change History:
+     9/26/2003:  Redefined optionality of AssuranceNumber and IACUCApprovalDate, under AnimalSubject node.  These are now optional elements,
+                        not required.
+    10/21/2003: Changed HumanSubjectsType to show IRBApprovalDate as an optional (instead of mandatory) component.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://era.nih.gov/Projectmgmt/SBIR/CGAP/common.namespace" xmlns:rar="http://era.nih.gov/Projectmgmt/SBIR/CGAP/researchandrelated.namespace" targetNamespace="http://era.nih.gov/Projectmgmt/SBIR/CGAP/researchandrelated.namespace">
+	<xs:import namespace="http://era.nih.gov/Projectmgmt/SBIR/CGAP/common.namespace" schemaLocation="commontypes.xsd"/>
+	<!-- ****************** Simple Types Definitions ****************** -->
+	<xs:simpleType name="ProjectRoleType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="PI/PD"/>
+			<xs:enumeration value="Co-PI/PD"/>
+			<xs:enumeration value="Key Person"/>
+			<xs:enumeration value="Post Doctoral"/>
+			<xs:enumeration value="Post Doctoral Associate"/>
+			<xs:enumeration value="Other Professional"/>
+			<xs:enumeration value="Graduate Student"/>
+			<xs:enumeration value="Undergraduate Student"/>
+			<xs:enumeration value="Secretarial/Clerical"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TravelType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Domestic"/>
+			<xs:enumeration value="Foreign"/>
+			<xs:enumeration value="Total"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ParticipantType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Inpatient"/>
+			<xs:enumeration value="Outpatient"/>
+			<xs:enumeration value="Stipends"/>
+			<xs:enumeration value="Travel"/>
+			<xs:enumeration value="Subsistence"/>
+			<xs:enumeration value="Insurance"/>
+			<xs:enumeration value="Fees"/>
+			<xs:enumeration value="Tuition"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="TotalParticipantCosts"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CoreProjectTitle">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="OtherDirectType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Materials and Supplies"/>
+			<xs:enumeration value="Animal Consultant Services"/>
+			<xs:enumeration value="Publication"/>
+			<xs:enumeration value="ADP Services"/>
+			<xs:enumeration value="Equipment Maintenance"/>
+			<xs:enumeration value="Equipment or Facility Rental/Use Fees"/>
+			<xs:enumeration value="Ancillary Service Contracts"/>
+			<xs:enumeration value="Alterations and Renovations"/>
+			<xs:enumeration value="Patient Travel"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Total Other Direct Costs"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ****************** Complex Type Definitions ****************** -->
+	<xs:complexType name="CoreApplicationRevisionType">
+		<xs:sequence>
+			<xs:element name="ActionCode" type="xs:token">
+				<xs:annotation>
+					<xs:documentation>SF424 item 8.  Describes the type of revision action requested with this submission.  Possible actions are:  Increase Award, Decrease Award, Increase Duration, Decrease Duration, or Other.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActionDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SF424 item 8.  If Revision Action is *other*, this provides description of the action being requested.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoreApplicationCategoryType">
+		<xs:sequence>
+			<xs:element name="CategoryIdentifier" type="xs:token">
+				<xs:annotation>
+					<xs:documentation>SF424 item 8.  Indicates whether submission should be categorized as new, continuation, or revision.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RevisionAction" type="rar:CoreApplicationRevisionType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SF424 item 8.  Describes the type of revision action requested with this submission, if the ApplicationCategory indicates this is a revision.  Possible actions are:  Increase Award, Decrease Award, Increase Duration, Decrease Duration, or Other.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoreSubmissionCategoryType">
+		<xs:sequence>
+			<xs:element name="SubmissionStatus" type="xs:token">
+				<xs:annotation>
+					<xs:documentation>SF424 item 1.  Indicates whether this submission is an application or pre-application.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProjectCategory" type="xs:token">
+				<xs:annotation>
+					<xs:documentation>SF424 item 1.  Indicates whether the submission is for a construction or non-construction project.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoreStateReceiptQualifiersType">
+		<xs:sequence>
+			<xs:element name="StateReceiptDate" type="xs:date"/>
+			<xs:element name="StateApplicationIdentifier" type="xs:token" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoreFederalAgencyReceiptQualifiersType">
+		<xs:sequence>
+			<xs:element name="AgencyReceiptDate" type="xs:date"/>
+			<xs:element name="AgencyApplicationIdentifier" type="xs:token" minOccurs="0"/>
+			<xs:element name="AgencyName" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoreApplicantSubmissionQualifiersType">
+		<xs:sequence>
+			<xs:element name="ApplicationDate" type="xs:date"/>
+			<xs:element name="ApplicationIdentifier" type="xs:token" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoreStateIntergovernmentalReviewType">
+		<xs:sequence>
+			<xs:element name="SubjectToReviewQuestion" type="xs:boolean"/>
+			<xs:choice>
+				<xs:element name="ReviewAvailabilityDate" type="xs:date"/>
+				<xs:element name="ReviewExclusionReason" type="xs:string"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoreCFDAQuestionsType">
+		<xs:annotation>
+			<xs:documentation>Questions asked on SF424, item 10, labeled:  Catalog of Federal Domestic Assistance. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CatalogNumber" type="xs:token"/>
+			<xs:element name="CatalogTitle" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoreFederalDebtDelinquencyQuestionsType">
+		<xs:sequence>
+			<xs:element name="ApplicantDelinquentIndicator" type="xs:boolean"/>
+			<xs:element name="DelinquencyExplanation" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoreProjectDatesType">
+		<xs:sequence>
+			<xs:element name="ProjectStartDate" type="xs:date"/>
+			<xs:element name="ProjectEndDate" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoreBudgetTotalsType">
+		<xs:sequence>
+			<xs:element name="FederalCost" type="common:CurrencyType"/>
+			<xs:element name="ApplicantCost" type="common:CurrencyType"/>
+			<xs:element name="StateCost" type="common:CurrencyType"/>
+			<xs:element name="LocalCost" type="common:CurrencyType"/>
+			<xs:element name="OtherCost" type="common:CurrencyType"/>
+			<xs:element name="ProgramIncome" type="common:CurrencyType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="CoverPageCoreQuestionsType">
+		<xs:sequence>
+			<xs:element name="SubmissionCategory" type="rar:CoreSubmissionCategoryType"/>
+			<xs:element name="ApplicationCategory" type="rar:CoreApplicationCategoryType"/>
+			<xs:element name="ApplicantSubmissionQualifiers" type="rar:CoreApplicantSubmissionQualifiersType"/>
+			<xs:element name="FederalAgencyReceiptQualifiers" type="rar:CoreFederalAgencyReceiptQualifiersType"/>
+			<xs:element name="StateReceiptQualifiers" type="rar:CoreStateReceiptQualifiersType"/>
+			<xs:element name="StateIntergovernmentalReview" type="rar:CoreStateIntergovernmentalReviewType"/>
+			<xs:element name="CFDAQuestions" type="rar:CoreCFDAQuestionsType" minOccurs="0"/>
+			<xs:element name="FederalDebtDelinquencyQuestions" type="rar:CoreFederalDebtDelinquencyQuestionsType"/>
+			<xs:element name="ProjectDates" type="rar:CoreProjectDatesType"/>
+			<xs:element name="BudgetTotals" type="rar:CoreBudgetTotalsType"/>
+			<xs:element name="ProjectTitle" type="rar:CoreProjectTitle"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="OtherAgencyQuestionsType">
+		<xs:sequence>
+			<xs:element name="OtherAgencyIndicator" type="xs:boolean"/>
+			<xs:element name="OtherAgencyNames" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FundingOpportunityDetailsType">
+		<xs:sequence>
+			<xs:element name="FundingOpportunityNumber" type="xs:token"/>
+			<xs:element name="FundingOpportunityTitle" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="CoverPageQuestionsType">
+		<xs:sequence>
+			<xs:group ref="rar:CoverPageCoreQuestionsType"/>
+			<xs:element name="OtherAgencyQuestions" type="rar:OtherAgencyQuestionsType"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ApplicantOrganizationType">
+		<xs:sequence>
+			<xs:element name="OrganizationName" type="xs:string"/>
+			<xs:element name="OrganizationDUNS" type="common:DUNSType"/>
+			<xs:element name="OrganizationEIN" type="xs:token"/>
+			<xs:element name="OrganizationTIN" type="xs:token" minOccurs="0"/>
+			<xs:element name="PHSAccountID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>added for phs account</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OrganizationAddress" type="common:PostalAddressType"/>
+			<xs:element name="OrganizationCounty" type="xs:string" minOccurs="0"/>
+			<xs:element name="OrganizationalUnit" type="xs:string" minOccurs="0"/>
+			<xs:element name="OrganizationCongressionalDistrict" type="xs:string"/>
+			<xs:element name="OrganizationCategoryCode" type="xs:token"/>
+			<xs:element name="OrganizationCategoryDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="OrganizationContactPerson">
+				<xs:complexType>
+					<xs:group ref="rar:ContactTitlePersonType"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CageNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>coeus extension</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonFullNameType">
+		<xs:sequence>
+			<xs:element name="NamePrefix" type="xs:string" minOccurs="0"/>
+			<xs:group ref="common:PersonFullNameType"/>
+			<xs:element name="NameSuffix" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="ContactPersonType">
+		<xs:sequence>
+			<xs:element name="Name" type="rar:PersonFullNameType"/>
+			<xs:element name="ContactInformation" type="common:ContactInfoType"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="ContactTitlePersonType">
+		<xs:sequence>
+			<xs:group ref="rar:ContactPersonType"/>
+			<xs:element name="PositionTitle" type="xs:string"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="AuthorizedOrganizationalRepresentativeType">
+		<xs:group ref="rar:ContactTitlePersonType"/>
+	</xs:complexType>
+	<xs:complexType name="KeyPersonType">
+		<xs:sequence>
+			<xs:group ref="rar:ContactPersonType"/>
+			<xs:sequence>
+				<xs:element name="PositionTitle" type="xs:string" minOccurs="0"/>
+				<xs:element name="OrganizationName" type="xs:string"/>
+				<xs:element name="OrganizationDivision" type="xs:string" minOccurs="0"/>
+				<xs:element name="OrganizationDepartment" type="xs:string" minOccurs="0"/>
+				<xs:element name="AuthenticationCredential" type="xs:string" minOccurs="0"/>
+				<xs:element name="SocialSecurityNumber" type="xs:string" minOccurs="0"/>
+				<xs:element name="BiographicalSketch" type="xs:string" minOccurs="0"/>
+				<xs:element name="keyPersonFlag" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="keyPersonFlagCode" type="xs:string" minOccurs="0"/>
+							<xs:element name="keyPersonFlagDesc" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProjectSiteType">
+		<xs:sequence>
+			<xs:element name="OrganizationName" type="xs:token" minOccurs="0"/>
+			<xs:element name="PostalAddress" type="common:PostalAddressType" minOccurs="0"/>
+			<xs:element name="CountyName" type="xs:token" minOccurs="0"/>
+			<xs:element name="CongressionalDistrict" type="xs:token" minOccurs="0"/>
+			<xs:element name="AffectedAreas" type="xs:token" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BudgetTotalsType">
+		<xs:sequence>
+			<xs:element name="FederalCost" type="common:CurrencyType"/>
+			<xs:element name="ApplicantCost" type="common:CurrencyType"/>
+			<xs:element name="StateCost" type="common:CurrencyType"/>
+			<xs:element name="LocalCost" type="common:CurrencyType"/>
+			<xs:element name="OtherCost" type="common:CurrencyType"/>
+			<xs:element name="ProgramIncome" type="common:CurrencyType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DescriptionBlockType">
+		<xs:choice>
+			<xs:element name="Text" type="xs:string"/>
+			<xs:element name="FileIdentifier" type="common:FileIdentifierType">
+				<xs:annotation>
+					<xs:documentation>Format TBD.  This will uniquely identify a file attachment that supplies the descriptive information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="BudgetPeriodType">
+		<xs:sequence>
+			<xs:element name="BudgetPeriodID" type="xs:integer"/>
+			<xs:element name="StartDate" type="xs:date"/>
+			<xs:element name="EndDate" type="xs:date"/>
+			<xs:element name="ProgramIncome" type="common:CurrencyType"/>
+			<xs:element name="Fee" type="common:CurrencyType"/>
+			<xs:element ref="rar:SalariesAndWages" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="rar:EquipmentCosts" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="rar:TravelCosts" minOccurs="0" maxOccurs="2"/>
+			<xs:element ref="rar:ParticipantPatientCosts" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="rar:OtherDirectCosts" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="SalariesWagesTotal" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="EquipmentTotal" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="TravelTotal" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="ParticipantPatientTotal" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="OtherDirectTotal" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="PeriodDirectCostsTotal" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="IndirectCostsTotal" type="common:CurrencyType"/>
+			<xs:element name="PeriodCostsTotal" type="common:CurrencyType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SalariesAndWagesType">
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element name="Name" type="rar:PersonFullNameType"/>
+				<xs:element name="ProjectRole" type="rar:ProjectRoleType"/>
+				<xs:element name="ProjectRoleDescription" type="xs:token" minOccurs="0"/>
+				<xs:element name="AppointmentType" type="common:AppointmentCategoryType"/>
+				<xs:element name="AppointmentMonths" type="common:MonthNumberType"/>
+				<xs:element name="FundingMonths" type="common:MonthNumberType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>this is calendar months</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SummerFundingMonths" type="common:MonthNumberType" minOccurs="0"/>
+				<xs:element name="AcademicFundingMonths" type="common:MonthNumberType" minOccurs="0"/>
+				<xs:element name="RequestedCost" type="common:CurrencyType"/>
+				<xs:element name="FringeCost" type="common:CurrencyType"/>
+				<xs:element name="BaseSalary" type="common:CurrencyType" minOccurs="0"/>
+				<xs:element name="SalaryAndFringeTotal" type="common:CurrencyType" minOccurs="0"/>
+				<xs:element name="SalariesTotal" type="common:CurrencyType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BudgetSummaryType">
+		<xs:sequence>
+			<xs:element name="InitialBudgetTotals" type="rar:BudgetTotalsType"/>
+			<xs:element name="AllBudgetTotals" type="rar:BudgetTotalsType"/>
+			<xs:element name="BudgetPeriod" type="rar:BudgetPeriodType" maxOccurs="5"/>
+			<xs:element name="BudgetJustification" type="rar:DescriptionBlockType" minOccurs="0"/>
+			<xs:element name="BudgetDirectCostsTotal" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="BudgetIndirectCostsTotal" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="BudgetCostsTotal" type="common:CurrencyType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HumanSubjectsType">
+		<xs:sequence>
+			<xs:element name="HumanSubjectsUsedQuestion" type="xs:boolean"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="ExemptionNumber" type="xs:token" maxOccurs="6"/>
+				<xs:sequence>
+					<xs:element name="AssuranceNumber" type="xs:string"/>
+					<xs:element name="IRBApprovalDate" type="xs:date" minOccurs="0"/>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgAssurancesType">
+		<xs:sequence>
+			<xs:element name="GeneralCertificationQuestion" type="xs:boolean"/>
+			<xs:element name="LobbyingQuestion" type="xs:boolean"/>
+			<xs:element name="DrugFreeWorkplace" type="common:AssuranceType"/>
+			<xs:element name="DebarmentAndSuspension" type="common:AssuranceType"/>
+			<xs:element ref="rar:SBIRSurvey" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ****************** Research and Related Elements ****************** -->
+	<xs:element name="HumanSubject" type="rar:HumanSubjectsType"/>
+	<xs:element name="AnimalSubject">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="VertebrateAnimalsUsedQuestion" type="xs:boolean"/>
+				<xs:sequence minOccurs="0">
+					<xs:element name="AssuranceNumber" type="xs:string" minOccurs="0"/>
+					<xs:choice minOccurs="0">
+						<xs:element name="IACUCApprovalPending">
+							<xs:simpleType>
+								<xs:restriction base="xs:token">
+									<xs:length value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="IACUCApprovalDate">
+							<xs:simpleType>
+								<xs:restriction base="xs:date"/>
+							</xs:simpleType>
+						</xs:element>
+					</xs:choice>
+				</xs:sequence>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProjectSurvey">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CBQuestion" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="CBText" type="xs:token" minOccurs="0"/>
+				<xs:element name="G3Question" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="G3Text" type="xs:token" minOccurs="0"/>
+				<xs:element name="G4Question" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="G4Text" type="xs:token" minOccurs="0"/>
+				<xs:element name="G6Question" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="G6Text" type="xs:token" minOccurs="0"/>
+				<xs:element name="G8Question" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="G8Text" type="xs:token" minOccurs="0"/>
+				<xs:element name="EnvImpactQuestion" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="EnvImpactText" type="xs:token" minOccurs="0"/>
+				<xs:element name="EnvExemptionQuestion" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="EnvExemptionCBText" type="xs:token" minOccurs="0"/>
+				<xs:element name="H1Question" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="H1Text" type="xs:token" minOccurs="0"/>
+				<xs:element name="H4Question" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>NSF extension</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SmallGrantQuestion" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>NSF extension</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="NSFbeginningInvestQuestion" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>NSFExtenstion</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="StemCellQuestion" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Coeus  extension</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="StemCellText" type="xs:token" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Coeus  extension</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrgAssurances" type="rar:OrgAssurancesType"/>
+	<xs:element name="SBIRSurvey">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SBCertificationQuestion" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="Phase2AwardsQuestion" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="Phase2AwardsReportedQuestion" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="PrimaryEmploymentQuestion" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="FederalLaboratoryQuestion" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="Question8A" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="WomenOwnedQuestion" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="HUBZoneQuestion" type="xs:boolean" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BudgetSummary" type="rar:BudgetSummaryType"/>
+	<xs:element name="SalariesAndWages" type="rar:SalariesAndWagesType"/>
+	<xs:element name="EquipmentCosts">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Description" type="xs:token"/>
+				<xs:element name="Cost" type="common:CurrencyType"/>
+				<xs:element name="Total" type="common:CurrencyType" minOccurs="0"/>
+				<xs:element name="EquipmentDescription" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>NSF extension</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TravelCosts">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Type" type="rar:TravelType">
+					<xs:annotation>
+						<xs:documentation>NSF note - type will denote domestic or foreign travel</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Cost" type="common:CurrencyType"/>
+				<xs:element name="Total" type="common:CurrencyType" minOccurs="0"/>
+				<xs:element name="Description" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>NSF extension</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ParticipantPatientCosts">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Type" type="rar:ParticipantType"/>
+				<xs:element name="Description" type="xs:token" minOccurs="0"/>
+				<xs:element name="Cost" type="common:CurrencyType"/>
+				<xs:element name="Total" type="common:CurrencyType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProgramDirectorPrincipalInvestigator">
+		<xs:complexType>
+			<xs:group ref="rar:ContactPersonType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AuthorizedOrganizationalRepresentative" type="rar:AuthorizedOrganizationalRepresentativeType"/>
+	<xs:element name="ResearchCoverPage">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="rar:CoverPageQuestionsType"/>
+				<xs:element name="ApplicantOrganization" type="rar:ApplicantOrganizationType"/>
+				<xs:element name="PrimaryProjectSite" type="rar:ProjectSiteType" minOccurs="0"/>
+				<xs:element ref="rar:ProgramDirectorPrincipalInvestigator"/>
+				<xs:element name="FundingOpportunityDetails" type="rar:FundingOpportunityDetailsType" minOccurs="0"/>
+				<xs:element name="AuthorizedOrganizationalRepresentative" type="rar:AuthorizedOrganizationalRepresentativeType"/>
+				<xs:element name="OfficialSignatureDate" type="xs:date"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OtherDirectCosts">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Type" type="xs:string"/>
+				<xs:element name="Description" type="xs:token" minOccurs="0"/>
+				<xs:element name="Cost" type="common:CurrencyType"/>
+				<xs:element name="Total" type="common:CurrencyType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ****************** Research and Related Root Element ****************** -->
+	<xs:element name="ResearchAndRelatedProject">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="rar:ProjectDescription"/>
+				<xs:sequence>
+					<xs:element name="KeyPerson" type="rar:KeyPersonType"/>
+				</xs:sequence>
+				<xs:element ref="rar:OrgAssurances"/>
+				<xs:element ref="rar:BudgetSummary"/>
+				<xs:element ref="rar:ResearchCoverPage"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProjectDescription">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="rar:HumanSubject"/>
+				<xs:element ref="rar:AnimalSubject"/>
+				<xs:element ref="rar:ProjectSurvey" minOccurs="0"/>
+				<xs:element name="ProjectSummary" type="rar:DescriptionBlockType" minOccurs="0"/>
+				<xs:element name="FacilitiesDescription" type="rar:DescriptionBlockType" minOccurs="0"/>
+				<xs:element name="EquipmentDescription" type="rar:DescriptionBlockType" minOccurs="0"/>
+				<xs:element name="References" type="rar:DescriptionBlockType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ****************** Possible Cross Agency Candidates ****************** -->
+	<xs:element name="Demographics">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="BirthDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="Gender" type="common:GenderType"/>
+				<xs:element name="Ethnicity" type="common:EthnicityType"/>
+				<xs:element name="Race" type="common:RaceType"/>
+				<xs:element name="CitizenshipStatus" type="common:CitizenshipType"/>
+				<xs:element name="CountryOfCitizenship" type="xs:token" minOccurs="0"/>
+				<xs:element name="DisabilityStatus" type="common:DisabilityStatusType"/>
+				<xs:element name="DisabilityCategory" type="common:DisabilityType" minOccurs="0"/>
+				<xs:element name="DisabilityDescription" type="xs:token" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PopulationStudy">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="StudyTitle" type="xs:string" minOccurs="0"/>
+				<xs:element name="HispanicFemaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="HispanicMaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="NotHispanicFemaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="NotHispanicMaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="AlaskaFemaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="AlaskaMaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="AsianFemaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="AsianMaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="HawaiianFemaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="HawaiianMaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="BlackFemaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="BlackMaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="WhiteFemaleCount" type="common:CountType" minOccurs="0"/>
+				<xs:element name="WhiteMaleCount" type="common:CountType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OtherSupport">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="common:PersonFullNameType"/>
+				<xs:element name="ProjectTitle" type="xs:token"/>
+				<xs:element name="Location" type="common:PostalAddressType"/>
+				<xs:element name="Source" type="xs:token"/>
+				<xs:element name="TotalAwardAmount" type="common:CurrencyType"/>
+				<xs:element name="PeriodStartDate" type="xs:date"/>
+				<xs:element name="PeriodEndDate" type="xs:date"/>
+				<xs:element name="PersonMonths" type="xs:integer"/>
+				<xs:element name="AppointmentCategory" type="common:AppointmentCategoryType"/>
+				<xs:element name="SupportFileIdentifier" type="xs:token" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Identifies a file that describes the other support for this person.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SupportStatus" type="xs:token"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ProposalPersonType">
+		<xs:annotation>
+			<xs:documentation>NSF extension</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element name="Name" type="rar:PersonFullNameType"/>
+				<xs:element name="SSN" type="xs:token" minOccurs="0"/>
+				<xs:element name="DOB" type="xs:token" minOccurs="0"/>
+				<xs:element name="Phone" type="common:PhoneNumberType" minOccurs="0"/>
+				<xs:element name="Email" type="xs:token" minOccurs="0"/>
+				<xs:element name="Degree" type="xs:string" minOccurs="0"/>
+				<xs:element name="ProjectRole" type="rar:ProjectRoleType"/>
+				<xs:element name="PercentEffort" type="xs:decimal"/>
+				<xs:element name="FundingMonths" type="common:MonthNumberType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>this is calendar months</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SummerFundingMonths" type="common:MonthNumberType" minOccurs="0"/>
+				<xs:element name="AcademicFundingMonths" type="common:MonthNumberType" minOccurs="0"/>
+				<xs:element name="RequestedCost" type="common:CurrencyType"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,145 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProposalPersonUnit" parent="ProposalPersonUnit-parentBean" />
+
+  <bean id="ProposalPersonUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit" />
+		<property name="objectLabel" value="Proposal Person Unit" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalPersonUnit-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalPersonUnit-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="unitNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalPersonUnit-proposalNumber" />
+        <ref bean="ProposalPersonUnit-proposalPersonNumber" />
+        <ref bean="ProposalPersonUnit-unitNumber" />
+        <ref bean="ProposalPersonUnit-leadUnit" />
+        <ref bean="ProposalPersonUnit-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ProposalPersonUnit-proposalNumber" parent="ProposalPersonUnit-proposalNumber-parentBean" />
+
+  <bean id="ProposalPersonUnit-proposalNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="proposalNumber" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Prop Nbr" />
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="ProposalPersonUnit-proposalPersonNumber" parent="ProposalPersonUnit-proposalPersonNumber-parentBean" />
+
+  <bean id="ProposalPersonUnit-proposalPersonNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="proposalPersonNumber" />
+    <property name="label" value="Proposal Person Number" />
+    <property name="shortLabel" value="Prop Per Nbr" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Proposal Person Number" />
+    <property name="description" value="Proposal Person Number" />
+  </bean>
+  <bean id="ProposalPersonUnit-unitNumber" parent="ProposalPersonUnit-unitNumber-parentBean" />
+
+  <bean id="ProposalPersonUnit-unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+  </bean>
+  <bean id="ProposalPersonUnit-leadUnit" parent="ProposalPersonUnit-leadUnit-parentBean" />
+
+  <bean id="ProposalPersonUnit-leadUnit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="leadUnit" />
+    <property name="label" value="Is Lead Unit" />
+    <property name="shortLabel" value="Lead Unit" />
+    <property name="summary" value="Is Lead Unit" />
+    <property name="description" value="Is Lead Unit" />
+  </bean>
+  <bean id="ProposalPersonUnit-versionNumber" parent="ProposalPersonUnit-versionNumber-parentBean" />
+
+  <bean id="ProposalPersonUnit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ProposalPersonUnit-inquiryDefinition" parent="ProposalPersonUnit-inquiryDefinition-parentBean" />
+
+  <bean id="ProposalPersonUnit-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Proposal Person Unit" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Proposal Person Unit" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalPersonNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="unitNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="leadUnit" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ProposalPersonUnit-lookupDefinition" parent="ProposalPersonUnit-lookupDefinition-parentBean" />
+
+  <bean id="ProposalPersonUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Proposal Person Unit" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPersonNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="leadUnit" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPersonNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="leadUnit" />
+      </list>
+    </property>
+  </bean>
+</beans>

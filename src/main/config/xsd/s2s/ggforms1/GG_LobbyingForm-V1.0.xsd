@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Revision:   1.2  $ -->
+<xs:schema targetNamespace="http://apply.grants.gov/forms/GG_LobbyingForm-V1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:glob="http://apply.grants.gov/system/Global-V1.0" xmlns:globLib="http://apply.grants.gov/system/GlobalLibrary-V1.0" xmlns:GG_LobbyingForm="http://apply.grants.gov/forms/GG_LobbyingForm-V1.0" elementFormDefault="qualified" attributeFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://apply.grants.gov/system/Global-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/Global-V1.0.xsd"/>
+	<xs:import namespace="http://apply.grants.gov/system/GlobalLibrary-V1.0" schemaLocation="http://apply.grants.gov/system/schemas/GlobalLibrary-V1.0.xsd"/>
+	<xs:element name="LobbyingForm">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ApplicantName" type="globLib:OrganizationNameDataType"/>
+				<xs:element name="AuthorizedRepresentativeName" type="globLib:HumanNameDataType"/>
+				<xs:element name="AuthorizedRepresentativeTitle" type="globLib:HumanTitleDataType"/>
+				<xs:element name="AuthorizedRepresentativeSignature" type="globLib:SignatureDataType"/>
+				<xs:element name="SubmittedDate" type="xs:date"/>
+			</xs:sequence>
+			<xs:attribute ref="globLib:FormVersion" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
