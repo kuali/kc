@@ -16,9 +16,9 @@
 
 package org.kuali.kra.award.printing.xmlstream;
 
-import noNamespace.AwardTransactionType;
-import noNamespace.AwardType.AwardTransactionInfo;
-import noNamespace.SchoolInfoType2;
+import org.kuali.kra.printing.schema.AwardTransactionType;
+import org.kuali.kra.printing.schema.AwardType.AwardTransactionInfo;
+import org.kuali.kra.printing.schema.SchoolInfoType2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;

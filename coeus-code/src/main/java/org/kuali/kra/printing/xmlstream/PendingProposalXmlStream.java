@@ -1,10 +1,10 @@
 package org.kuali.kra.printing.xmlstream;
 
-import noNamespace.CurrentAndPendingSupportDocument;
-import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport;
-import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingReportCEColumnNames;
-import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport;
-import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport.PendingReportCEColomnValues;
+import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument;
+import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport;
+import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingReportCEColumnNames;
+import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport;
+import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport.PendingReportCEColomnValues;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.printing.PendingReportBean;

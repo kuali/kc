@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import noNamespace.AwardNoticeDocument;
-import noNamespace.AwardNoticeDocument.AwardNotice.PrintRequirement;
-import noNamespace.AwardType;
-import noNamespace.AwardType.AwardOtherDatas;
-import noNamespace.AwardType.AwardOtherDatas.OtherData;
-import noNamespace.AwardType.AwardPaymentSchedules;
-import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
-import noNamespace.AwardType.AwardSpecialReviews;
-import noNamespace.AwardType.AwardTransferringSponsors;
-import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
-import noNamespace.SpecialReviewType;
+import org.kuali.kra.printing.schema.AwardNoticeDocument;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
+import org.kuali.kra.printing.schema.AwardType;
+import org.kuali.kra.printing.schema.AwardType.AwardOtherDatas;
+import org.kuali.kra.printing.schema.AwardType.AwardOtherDatas.OtherData;
+import org.kuali.kra.printing.schema.AwardType.AwardPaymentSchedules;
+import org.kuali.kra.printing.schema.AwardType.AwardPaymentSchedules.PaymentSchedule;
+import org.kuali.kra.printing.schema.AwardType.AwardSpecialReviews;
+import org.kuali.kra.printing.schema.AwardType.AwardTransferringSponsors;
+import org.kuali.kra.printing.schema.AwardType.AwardTransferringSponsors.TransferringSponsor;
+import org.kuali.kra.printing.schema.SpecialReviewType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;

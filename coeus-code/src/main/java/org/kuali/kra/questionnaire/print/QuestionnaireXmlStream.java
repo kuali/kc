@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.questionnaire.print;
 
-import noNamespace.*;
-import noNamespace.QuestionnaireDocument.Questionnaire;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.QuestionnaireDocument.Questionnaire;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

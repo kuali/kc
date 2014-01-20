@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.negotiations.printing.xmlstream;
 
-import noNamespace.*;
-import noNamespace.NegotiationsDocument.Negotiations;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.NegotiationsDocument.Negotiations;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;

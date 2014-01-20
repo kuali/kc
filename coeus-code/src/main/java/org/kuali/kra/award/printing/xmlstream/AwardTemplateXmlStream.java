@@ -16,10 +16,10 @@
 
 package org.kuali.kra.award.printing.xmlstream;
 
-import noNamespace.*;
-import noNamespace.ContactType;
-import noNamespace.ReportTermDetailsType.MailCopies;
-import noNamespace.TemplateDocument.Template;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.ContactType;
+import org.kuali.kra.printing.schema.ReportTermDetailsType.MailCopies;
+import org.kuali.kra.printing.schema.TemplateDocument.Template;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;

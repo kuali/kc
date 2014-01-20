@@ -1,9 +1,9 @@
 package org.kuali.kra.award.printing.xmlstream;
 
-import noNamespace.*;
-import noNamespace.AwardNoticeDocument.AwardNotice;
-import noNamespace.AwardNoticeDocument.AwardNotice.PrintRequirement;
-import noNamespace.AwardType.AwardDetails;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
+import org.kuali.kra.printing.schema.AwardType.AwardDetails;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -205,8 +205,8 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 		return printRequirement;
 	}
 
-	protected noNamespace.AwardType getAward() {
-		noNamespace.AwardType awardType = noNamespace.AwardType.Factory
+	protected org.kuali.kra.printing.schema.AwardType getAward() {
+		org.kuali.kra.printing.schema.AwardType awardType = org.kuali.kra.printing.schema.AwardType.Factory
 				.newInstance();
 		awardType.setAwardDetails(getAwardDetails());
 		return awardType;
