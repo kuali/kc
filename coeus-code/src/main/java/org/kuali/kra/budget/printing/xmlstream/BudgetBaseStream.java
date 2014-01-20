@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import noNamespace.GroupsType;
-import noNamespace.ReportHeaderType;
-import noNamespace.ReportPageType.CalculationMethodology;
-import noNamespace.ReportType;
-import noNamespace.SubReportType;
+import org.kuali.kra.printing.schema.GroupsType;
+import org.kuali.kra.printing.schema.ReportHeaderType;
+import org.kuali.kra.printing.schema.ReportPageType.CalculationMethodology;
+import org.kuali.kra.printing.schema.ReportType;
+import org.kuali.kra.printing.schema.SubReportType;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.logging.Log;

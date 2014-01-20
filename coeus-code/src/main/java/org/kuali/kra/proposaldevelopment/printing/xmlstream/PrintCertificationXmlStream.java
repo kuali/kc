@@ -16,10 +16,10 @@
 
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
-import noNamespace.*;
-import noNamespace.OrganizationType;
-import noNamespace.PrintCertificationDocument.PrintCertification;
-import noNamespace.Sponsor;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.OrganizationType;
+import org.kuali.kra.printing.schema.PrintCertificationDocument.PrintCertification;
+import org.kuali.kra.printing.schema.Sponsor;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.document.ResearchDocumentBase;

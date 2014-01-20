@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import noNamespace.BudgetPeriodData;
-import noNamespace.BudgetSalaryDocument.BudgetSalary;
-import noNamespace.SalaryType;
+import org.kuali.kra.printing.schema.BudgetPeriodData;
+import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
+import org.kuali.kra.printing.schema.SalaryType;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.BudgetCategory;

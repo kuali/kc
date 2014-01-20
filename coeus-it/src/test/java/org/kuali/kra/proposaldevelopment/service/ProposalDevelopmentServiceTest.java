@@ -41,6 +41,7 @@ public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
         budgetService = KraServiceLocator.getService(BudgetService.class);
         document = ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT.getDocument();
         document.getDevelopmentProposal().setPrimeSponsorCode("000120");
+        document.getDevelopmentProposal().setSponsorCode("000120");
     }
     
     @After
@@ -49,11 +50,11 @@ public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
     
     @Test
     public void testDeleteProposal() throws WorkflowException {
-        KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
-        proposalDevelopmentService.deleteProposal(document);
+        document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
+        document = proposalDevelopmentService.deleteProposal(document);
         document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertTrue(document.isProposalDeleted());
-        assertTrue(document.getDevelopmentProposal().getTitle() == null);
+        assertTrue(document.getDevelopmentProposal() == null);
     }
     
     @Test
@@ -61,10 +62,10 @@ public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
         BudgetDocument<DevelopmentProposal> budget1 = budgetService.addBudgetVersion(document, "Ver1");
         BudgetDocument<DevelopmentProposal> budget2 = budgetService.addBudgetVersion(document, "Ver2 With Long Name");
         KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
-        proposalDevelopmentService.deleteProposal(document);
+        document = proposalDevelopmentService.deleteProposal(document);
         document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertTrue(document.isProposalDeleted());
-        assertTrue(document.getDevelopmentProposal().getTitle() == null);
+        assertTrue(document.getDevelopmentProposal() == null);
         budget1 = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(budget1.getDocumentNumber());
         budget2 = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(budget2.getDocumentNumber());
         assertTrue(budget1.isBudgetDeleted());
