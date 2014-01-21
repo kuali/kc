@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.service;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -57,11 +58,11 @@ public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
         assertTrue(document.getDevelopmentProposal() == null);
     }
     
-    @Test
+    @Test @Ignore("KCINFR-996")
     public void testDeleteProposalWithBudget() throws WorkflowException {
         BudgetDocument<DevelopmentProposal> budget1 = budgetService.addBudgetVersion(document, "Ver1");
         BudgetDocument<DevelopmentProposal> budget2 = budgetService.addBudgetVersion(document, "Ver2 With Long Name");
-        KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
+        document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
         document = proposalDevelopmentService.deleteProposal(document);
         document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertTrue(document.isProposalDeleted());
