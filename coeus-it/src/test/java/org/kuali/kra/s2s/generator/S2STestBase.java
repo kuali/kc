@@ -71,7 +71,7 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
         generatorObject.setAttachments(new ArrayList<AttachmentData>());
         XmlObject object=generatorObject.getFormObject(document);
         System.out.println(object);
-        getService(S2SValidatorService.class).validate(generatorObject.getFormObject(document), errors);
+        getService(S2SValidatorService.class).validate(object, errors);
         for (AuditError auditError : errors) {
             assertNull(auditError.getMessageKey()+":"+auditError.getErrorKey(),auditError.getErrorKey());
         }
@@ -119,10 +119,6 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
         return developmentProposal;
     }
 
-    /**
-     * This method...
-     * @param pd
-     */
     protected ProposalDevelopmentDocument saveBO(Document bo) throws Exception {
         return (ProposalDevelopmentDocument) getService(DocumentService.class).saveDocument(bo);
     }

@@ -176,6 +176,7 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		proposalPersonList.add(keyPerson);
 		developmentProposal.setProposalPersons(proposalPersonList);
 		developmentProposal.setApplicantOrgFromOrganization(organization);
+        developmentProposal.setOwnedByUnitNumber(unit.getUnitNumber());
 		developmentProposal.setOwnedByUnit(unit);
 		developmentProposal.getOwnedByUnit().setParentUnit(unit2);
 		developmentProposal.setNarratives(naList);
@@ -188,6 +189,7 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 			site.setLocationName("NJ");
 			site.setSiteNumber(++count);
 		}
+        //developmentProposal.refreshReferenceObject("ownedByUnit");
         saveBO(developmentProposal);
 	}
 }
