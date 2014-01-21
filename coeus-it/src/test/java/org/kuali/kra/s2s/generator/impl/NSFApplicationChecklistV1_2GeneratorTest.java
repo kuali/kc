@@ -82,14 +82,17 @@ public class NSFApplicationChecklistV1_2GeneratorTest extends
 
 		ProposalAbstract propsAbstract = new ProposalAbstract();
 		propsAbstract.setAbstractTypeCode("15");
+        propsAbstract.setAbstractDetails("details details");
+        propsAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+
 		ProposalAbstract propsAbstract1 = new ProposalAbstract();
 		propsAbstract1.setAbstractTypeCode("12");
+        propsAbstract1.setAbstractDetails("details details1");
+        propsAbstract1.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+
 		List<ProposalAbstract> proList = new ArrayList<ProposalAbstract>();
 		proList.add(propsAbstract);
 		proList.add(propsAbstract1);
-
-        propsAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-        propsAbstract1.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 
 		developmentProposal.setProposalAbstracts(proList);
 		document.setDevelopmentProposal(developmentProposal);
