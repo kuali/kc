@@ -65,17 +65,8 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param narrative
      */
     public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-        narrative.setProposalNumber(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
-        narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
-        narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
-        updateUserTimestamp(narrative);
-        narrative.refreshReferenceObject("narrativeType");
-        narrative.refreshReferenceObject("narrativeStatus");
-        narrative.populateAttachment();
-        if (narrative.getNarrativeTypeCode().equalsIgnoreCase("200")) {
-            narrative = changeDataManagementPlanAttachmentName(narrative);
-        }
-        populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
+        prepareNarrative(proposaldevelopmentDocument, narrative);
+        
         getBusinessObjectService().save(narrative);
         narrative.clearAttachment();
         proposaldevelopmentDocument.getDevelopmentProposal().getNarratives().add(narrative);
@@ -231,17 +222,23 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param narrative
      */
     public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-        narrative.setProposalNumber(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
-        narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
-        narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
-        narrative.refreshReferenceObject("narrativeType");
-        narrative.populateAttachment();
-        
-        populateNarrativeUserRights(proposaldevelopmentDocument,narrative);  
+        prepareNarrative(proposaldevelopmentDocument, narrative);
         
         getBusinessObjectService().save(narrative);
         narrative.clearAttachment();
         proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments().add(narrative);  
+    }
+    
+    public void prepareNarrative(ProposalDevelopmentDocument document, Narrative narrative) {
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        narrative.setModuleNumber(getNextModuleNumber(document));
+        narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(document));
+        narrative.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+        narrative.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+        narrative.refreshReferenceObject("narrativeType");
+        narrative.refreshReferenceObject("narrativeStatus");
+        narrative.populateAttachment();
+        populateNarrativeUserRights(document,narrative);
     }
 
     /**

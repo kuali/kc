@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.config;
 
-import org.kuali.kra.common.config.AbstractConfigurer;
+import org.kuali.kra.common.config.KcConfigurer;
 import org.kuali.rice.core.api.config.module.RunMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProposalDevelopmentConfigurer extends AbstractConfigurer {
+public class ProposalDevelopmentConfigurer extends KcConfigurer {
 
     private static final String PROPOSAL_DEVELOPMENT_SPRING_BEANS_PATH = "classpath:org/kuali/kra/proposaldevelopment/ProposalDevelopmentSpringBeans.xml";
     private static final String PROPOSAL_DEVELOPMENT_BUDGET_SPRING_BEANS_PATH = "classpath:org/kuali/kra/budget/ProposalDevelopmentBudgetSpringBeans.xml";

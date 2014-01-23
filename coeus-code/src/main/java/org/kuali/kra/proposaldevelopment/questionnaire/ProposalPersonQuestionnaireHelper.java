@@ -34,8 +34,10 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -53,8 +55,6 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
 
     private ProposalPerson proposalPerson;
     
-    private DevelopmentProposal developmentProposal;
-    
     private QuestionnaireService questionnaireService;
     
     private ParameterService parameterService;
@@ -65,16 +65,8 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      * Constructs a ProposalPersonQuestionnaireHelper.java.
      * @param form
      */
-    public ProposalPersonQuestionnaireHelper(ProposalDevelopmentForm form, ProposalPerson proposalPerson) {
-        this.developmentProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
-        this.setProposalPerson(proposalPerson);
-        this.populateAnswers();
-    }
-    
     public ProposalPersonQuestionnaireHelper(ProposalPerson proposalPerson) {
-        this.developmentProposal = proposalPerson.getDevelopmentProposal();
-        this.proposalPerson = proposalPerson;
-        this.populateAnswers();
+        this.setProposalPerson(proposalPerson);
     }
     
     
@@ -88,17 +80,15 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
         this.proposalPerson = proposalPerson;
     }
 
-
-
     /**
      * 
      * @see org.kuali.kra.questionnaire.QuestionnaireHelperBase#getModuleQnBean()
      */
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
-        ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument(); 
+        //ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument(); 
         ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean = 
-            new ProposalPersonModuleQuestionnaireBean(propDevDoc.getDevelopmentProposal(), getProposalPerson());
+            new ProposalPersonModuleQuestionnaireBean(getProposalPerson().getDevelopmentProposal(), getProposalPerson());
         return moduleQuestionnaireBean;
     }
     
@@ -158,9 +148,16 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      * @return
      */
     protected ProposalDevelopmentDocument getProposalDevelopmentDocument() {
-        ProposalDevelopmentDocument document = developmentProposal.getProposalDocument();
+        ProposalDevelopmentDocument document = getProposalPerson().getDevelopmentProposal().getProposalDocument();
         if (document == null || document.getDevelopmentProposal() == null) {
             throw new IllegalArgumentException("invalid (null) ProposalDevelopmentDocument in ProposalDevelopmentForm");
+        }
+        if (!document.getDocumentHeader().hasWorkflowDocument()) {
+            try {
+                document = (ProposalDevelopmentDocument) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber());
+            }
+            catch (WorkflowException e) {
+            }         
         }
         return document;
     }

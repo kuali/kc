@@ -258,7 +258,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         proposalPersonQuestionnaireHelpers = new ArrayList<ProposalPersonQuestionnaireHelper>();
         for (ProposalPerson person : this.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
-            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(this, person);
+            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
             proposalPersonQuestionnaireHelpers.add(helper);
         }
         

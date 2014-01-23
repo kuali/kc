@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <!-- shared parent collection -->
+  	<bean id="PropDev-Attachment-Collection" abstract="true" parent="Uif-StackedCollectionSection">
+  		<property name="collectionObjectClass" value="org.kuali.kra.proposaldevelopment.bo.Narrative"/>
+  		<property name="propertyName" value="narratives"/>
+  		<property name="layoutManager.summaryTitle" value="@{#lp.fileName}" />
+  		<property name="layoutManager.addLineGroup">
+  			<bean parent="Uif-VerticalBoxSection">
+  				<property name="footer">
+						<bean parent="Uif-FooterBase"/>
+					</property>
+				</bean>            		
+  		</property>
+  		<property name="layoutManager.lineGroupPrototype">
+  			<bean parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:readOnly="true">
+  				<property name="footer">
+						<bean parent="Uif-FooterBase"/>
+					</property>
+				</bean>
+  		</property>
+		</bean> 
+		
+    <bean id="PropDev-ProposalAttachmentsPage" parent="PropDev-ProposalAttachmentsPage-parentBean"/>
+    <bean id="PropDev-ProposalAttachmentsPage-parentBean" parent="Uif-DocumentPage">
+        <property name="items">
+            <list>
+                <ref bean="PropDev-ProposalAttachmentSection"/>
+            </list>
+        </property>
+        <property name="footer">
+        	<bean parent="Uif-FooterBase">
+        		<property name="items"><list>
+        			<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveProposalAttachments" p:actionLabel="Save"/>
+        			<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveProposalAttachments" p:actionLabel="Save and continue..."
+        				p:navigateToPageId="PropDev-PersonnelAttachmentsPage"/>
+        		</list></property>
+        	</bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-ProposalAttachmentSection" parent="PropDev-ProposalAttachmentSection-parentBean"/>
+    <bean id="PropDev-ProposalAttachmentSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="header.headerText" value="Proposal Attachments"/>
+        <property name="instructionalText" value="Add attachments to this proposal"/>
+        <property name="items">
+            <list>
+							<ref bean="PropDev-Narrative-Collection"/>
+						</list>
+				</property>
+    		<property name="fieldBindingObjectPath" value="document.developmentProposal"/>
+    </bean>
+    
+		<bean id="PropDev-Narrative-Collection" parent="PropDev-Narrative-Collection-parentBean"/>
+		<bean id="PropDev-Narrative-Collection-parentBean" abstract="true" parent="PropDev-Attachment-Collection">
+			<property name="collectionObjectClass" value="org.kuali.kra.proposaldevelopment.bo.Narrative"/>
+			<property name="layoutManager.summaryTitle" value="@{#lp.narrativeType.description + (#lp.narrativeType?.allowMultiple == 'Y' ? ' (' + #lp.moduleTitle + ')' : '')}" />
+			<property name="propertyName" value="narratives"/>
+			<property name="items"><list>
+				<bean parent="Uif-InputField" p:propertyName="kradFile" p:render="@{#isAddLine}" p:required="true" />
+				<bean parent="Uif-ActionLinkField" p:action.methodToCall="downloadNarrative"
+					p:fieldLabel.labelText="File" p:actionLabel="@{#lp.fileName}" p:render="@{!#isAddLine}" p:additionalSubmitData="moduleNumber:@{#lp.moduleNumber}"/>
+				<bean parent="Uif-InputField" p:propertyName="narrativeTypeCode" p:readOnlyDisplayReplacementPropertyName="narrativeType.description"/>
+				<bean parent="Uif-InputField" p:propertyName="moduleStatusCode" p:readOnlyDisplayReplacementPropertyName="narrativeStatus.description" p:required="true" p:readOnly="false"/>
+				<bean parent="Uif-InputField" p:propertyName="contactName" />
+				<bean parent="Uif-InputField" p:propertyName="emailAddress" />
+				<bean parent="Uif-InputField" p:propertyName="phoneNumber" />
+				<bean parent="Uif-InputField" p:propertyName="comments" />
+				<bean parent="Uif-InputField" p:propertyName="moduleTitle" p:required="@{#lp.narrativeType?.allowMultiple == 'Y'}" p:refreshWhenChangedPropertyNames="#lp.narrativeTypeCode"/>
+				<bean parent="Uif-InputField" p:propertyName="updateUser" p:render="@{!#isAddLine}"/>
+				<bean parent="Uif-InputField" p:propertyName="updateTimestamp" p:render="@{!#isAddLine}"/>
+			</list></property>	
+		</bean>
+		
+</beans>

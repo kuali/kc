@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.subaward.config;
 
-import org.kuali.kra.common.config.AbstractConfigurer;
+import org.kuali.kra.common.config.KcConfigurer;
 import org.kuali.rice.core.api.config.module.RunMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SubAwardConfigurer extends AbstractConfigurer {
+public class SubAwardConfigurer extends KcConfigurer {
 
     private static final String SUBAWARD_SPRING_BEANS_PATH = "classpath:org/kuali/kra/subaward/SubAwardSpringBeans.xml";
 

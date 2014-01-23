@@ -70,5 +70,7 @@ public interface NarrativeService {
      */
     public void setNarrativeTimeStampUser(List<Narrative> narratives);
     public void setNarrativeTimeStampUser(DevelopmentProposal proposal);
+    
+    public void prepareNarrative(ProposalDevelopmentDocument document, Narrative narrative);
 
 }

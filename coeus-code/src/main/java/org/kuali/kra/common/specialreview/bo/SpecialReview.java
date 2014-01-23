@@ -77,6 +77,9 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
 
     @Column(name = "PROTOCOL_STATUS_DESCRIPTION")
     private String protocolStatus;
+    
+    @Transient
+    private boolean linkedToProtocol;
 
     // Struts 1 does not like having objects in multiselect boxes, so these two fields are a hack to make this work nicely with Struts.  
     //  
@@ -362,4 +365,12 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
         }
         return true;
     }
+
+	public boolean isLinkedToProtocol() {
+		return linkedToProtocol;
+	}
+
+	public void setLinkedToProtocol(boolean linkedToProtocol) {
+		this.linkedToProtocol = linkedToProtocol;
+	}
 }

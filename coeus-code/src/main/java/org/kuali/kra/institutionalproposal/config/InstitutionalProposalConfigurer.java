@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.institutionalproposal.config;
 
-import org.kuali.kra.common.config.AbstractConfigurer;
+import org.kuali.kra.common.config.KcConfigurer;
 import org.kuali.rice.core.api.config.module.RunMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class InstitutionalProposalConfigurer extends AbstractConfigurer {
+public class InstitutionalProposalConfigurer extends KcConfigurer {
 
     private static final String INSTITUTIONAL_PROPOSAL_SPRING_BEANS_PATH = "classpath:org/kuali/kra/institutionalproposal/InstitutionalProposalSpringBeans.xml";
 

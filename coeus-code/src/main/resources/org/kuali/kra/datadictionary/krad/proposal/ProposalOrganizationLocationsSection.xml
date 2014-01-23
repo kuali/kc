@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="PropDev-OrganizationLocationsSection" parent="PropDev-OrganizationLocationsSection-parentBean"/>
+    <bean id="PropDev-OrganizationLocationsSection-parentBean" parent="Uif-VerticalBoxSubSection">
+        <property name="fieldBindingObjectPath"
+                  value="document.developmentProposal.applicantOrganization"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridCondensedSubSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField-condensedTable" p:propertyName="organization.organizationName"/>
+                            <bean parent="Uif-DataField-condensedTable" p:propertyName="rolodex.addressLine1"/>
+                            <bean parent="Uif-DataField-condensedTable" p:propertyName="rolodex.addressLine2"/>
+                            <bean parent="Uif-DataField-condensedTable" p:propertyName="rolodex.addressLine3"/>
+                            <bean parent="Uif-DataField-condensedTable" p:propertyName="rolodex.city"/>
+                            <bean parent="Uif-DataField-condensedTable" p:propertyName="rolodex.state"/>
+                            <bean parent="Uif-DataField-condensedTable" p:propertyName="rolodex.postalCode"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-ListCollectionSubSection" p:additionalCssClasses="col-md-2">
+                    <property name="collectionObjectClass"
+                              value="org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict"/>
+                    <property name="propertyName" value="congressionalDistricts"/>
+                    <property name="renderAddBlankLineButton" value="true"/>
+                    <property name="addLinePlacement" value="BOTTOM"/>
+                    <property name="items">
+                      <list>
+                        <bean parent="Uif-InputField" p:propertyName="congressionalDistrict">
+                          <property name="postInputAddons">
+                            <list>
+                              <bean parent="Uif-DeleteLineAction" p:wrapperCssClasses="input-group-btn"/>
+                            </list>
+                          </property>
+                        </bean>
+                      </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>
+   					
