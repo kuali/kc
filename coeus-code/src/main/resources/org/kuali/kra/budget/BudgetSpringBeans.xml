@@ -75,7 +75,7 @@
 		</property>
 	</bean>
 
-	<bean id="budgetRatesServiceImpl" class="org.kuali.kra.budget.rates.BudgetRateServiceImpl" abstract="true">
+	<bean id="budgetRatesServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

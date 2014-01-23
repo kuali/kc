@@ -263,25 +263,6 @@
 
 	<bean id="committeeBatchCorrespondenceDao" parent="platformAwareDao"
 		class="org.kuali.kra.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjb" />
-	
-	<bean id="committeeCollaboratorBusinessLogicFactoryGroup" 
-		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeCollaboratorBusinessLogicFactoryGroupImpl"
-		scope="prototype">
-		<property name="committeeBusinessLogicFactory">
-			<ref bean="committeeBusinessLogicFactory" />
-		</property>
-		<property name="committeeResearchAreaBusinessLogicFactory">
-			<ref bean="committeeResearchAreaBusinessLogicFactory" />
-		</property>
-	</bean>
-	
-	<bean id="committeeBusinessLogicFactory" 
-		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeBusinessLogicFactoryImpl"
-		scope="prototype" />
-		
-	<bean id="committeeResearchAreaBusinessLogicFactory" 
-		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicFactoryImpl"
-		scope="prototype" />
 
 	<bean id="irbCommitteeIdByUnitValuesFinderService" class="org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinderServiceImpl" 
     	parent="committeeIdByUnitValuesFinderServiceParent" />

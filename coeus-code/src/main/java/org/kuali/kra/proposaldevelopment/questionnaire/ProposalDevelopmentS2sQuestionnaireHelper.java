@@ -41,9 +41,8 @@ public class ProposalDevelopmentS2sQuestionnaireHelper extends ProposalDevelopme
     }
 
     @Override
-    public ModuleQuestionnaireBean getModuleQnBean() {
-        ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument(); 
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentS2sModuleQuestionnaireBean(propDevDoc.getDevelopmentProposal());
+    public ModuleQuestionnaireBean getModuleQnBean() { 
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentS2sModuleQuestionnaireBean(getDocument().getDevelopmentProposal());
         return moduleQuestionnaireBean;
     }
   
@@ -54,7 +53,7 @@ public class ProposalDevelopmentS2sQuestionnaireHelper extends ProposalDevelopme
      * This method get/setup questionnaire answers when 'questionnaire' page is clicked.
      */
     public void populateAnswers() {
-        List<AnswerHeader> headers = getProposalDevelopmentS2sQuestionnaireService().getProposalS2sAnswerHeaders(getProposalDevelopmentDocument().getDevelopmentProposal());
+        List<AnswerHeader> headers = getProposalDevelopmentS2sQuestionnaireService().getProposalS2sAnswerHeaders(getDocument().getDevelopmentProposal());
         setAnswerHeaders(headers);
         resetHeaderLabels();
     }

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.negotiations.config;
 
-import org.kuali.kra.common.config.AbstractConfigurer;
+import org.kuali.kra.common.config.KcConfigurer;
 import org.kuali.rice.core.api.config.module.RunMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NegotiationConfigurer extends AbstractConfigurer {
+public class NegotiationConfigurer extends KcConfigurer {
 
     private static final String NEGOTIATION_SPRING_BEANS_PATH = "classpath:/org/kuali/kra/negotiation/NegotiationSpringBeans.xml";
 

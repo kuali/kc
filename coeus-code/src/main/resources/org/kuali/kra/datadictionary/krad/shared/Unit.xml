@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <bean id="Unit" parent="Unit-parentBean"/>
+  <bean id="Unit-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.kra.bo.Unit"/>
+    <property name="objectLabel" value="Unit"/>
+    <property name="titleAttribute" value="unitNumber"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Unit-unitNumber"/>
+        <ref bean="Unit-parentUnitNumber"/>
+        <ref bean="Unit-parentUnit.unitName"/>
+        <ref bean="Unit-parentUnit.unitNumber"/>
+        <ref bean="Unit-organizationId"/>
+        <ref bean="Unit-organizationIdForMaintenance"/>
+        <ref bean="Unit-organization.organizationName"/>
+        <ref bean="Unit-unitName"/>
+        <ref bean="Unit-campusCode"/>
+        <ref bean="Unit-active"/>
+        <ref bean="Unit-versionNumber"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Unit-unitNumber" parent="Unit-unitNumber-parentBean"/>
+  <bean id="Unit-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Unit Number"/>
+    <property name="shortLabel" value="Unit Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="required" value="true"/>
+    <property name="summary" value="Unit Number"/>
+    <property name="description" value="Unit Number"/>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
+  </bean>
+
+  <bean id="Unit-parentUnitNumber" parent="Unit-parentUnitNumber-parentBean"/>
+  <bean id="Unit-parentUnitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parentUnitNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Parent Unit Number"/>
+    <property name="shortLabel" value="Parent Unit Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="summary" value="Parent Unit Number"/>
+    <property name="description" value="Parent Unit Number"/>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
+  </bean>
+
+  <bean id="Unit-parentUnit.unitName" parent="Unit-parentUnit.unitName-parentBean"/>
+  <bean id="Unit-parentUnit.unitName-parentBean" abstract="true" parent="Unit-unitName">
+    <property name="name" value="parentUnit.unitName"/>
+    <property name="label" value="Parent Unit"/>
+    <property name="shortLabel" value="Parent Unit"/>
+  </bean>
+
+  <bean id="Unit-parentUnit.unitNumber" parent="Unit-parentUnit.unitNumber-parentBean"/>
+  <bean id="Unit-parentUnit.unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+    <property name="name" value="parentUnit.unitNumber"/>
+    <property name="label" value="Parent Unit Number"/>
+    <property name="shortLabel" value="Parent Unit Number"/>
+  </bean>
+
+  <bean id="Unit-organizationId" parent="Unit-organizationId-parentBean"/>
+  <bean id="Unit-organizationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Organization Id"/>
+    <property name="shortLabel" value="Organization Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="summary" value="Organization Id"/>
+    <property name="description" value="Organization Id"/>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
+  </bean>
+
+  <bean id="Unit-organizationIdForMaintenance" parent="Unit-organizationIdForMaintenance-parentBean"/>
+  <bean id="Unit-organizationIdForMaintenance-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationIdForMaintenance"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Organization Id"/>
+    <property name="shortLabel" value="Organization Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="summary" value="Organization Id"/>
+    <property name="description" value="Organization Id"/>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
+  </bean>
+
+  <bean id="Unit-organization.organizationName" parent="Unit-organization.organizationName-parentBean"/>
+  <bean id="Unit-organization.organizationName-parentBean" abstract="true" parent="Organization-organizationName">
+    <property name="name" value="organization.organizationName"/>
+    <property name="label" value="Organization"/>
+    <property name="shortLabel" value="Organization"/>
+  </bean>
+
+  <bean id="Unit-unitName" parent="Unit-unitName-parentBean"/>
+  <bean id="Unit-unitName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Unit Name"/>
+    <property name="shortLabel" value="Unit Name"/>
+    <property name="maxLength" value="60"/>
+    <property name="summary" value="Unit Name"/>
+    <property name="description" value="Unit Name"/>
+    <property name="controlField">
+      <bean p:size="60" parent="Uif-TextControl"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean p:allowWhitespace="true" parent="AnyCharacterPatternConstraint"/>
+    </property>
+  </bean>
+
+  <bean id="Unit-campusCode" parent="Unit-campusCode-parentBean"/>
+  <bean id="Unit-campusCode-parentBean" abstract="true" parent="Campus-code">
+    <property name="name" value="code"/>
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="Unit-active" parent="Unit-active-parentBean"/>
+  <bean id="Unit-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="summary" value="Active"/>
+    <property name="description" value="Active"/>
+  </bean>
+
+  <bean id="Unit-versionNumber" parent="Unit-versionNumber-parentBean"/>
+  <bean id="Unit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
+
+  <bean id="Unit-InquiryView" parent="Unit-InquiryView-parentBean"/>
+  <bean id="Unit-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Unit"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.Unit"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Unit"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="unitName" parent="Uif-DataField"/>
+              <bean p:propertyName="parentUnit.unitName" parent="Uif-DataField"/>
+              <bean p:propertyName="parentUnit.unitNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="organization.organizationName" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-StackedCollectionSection">
+          <property name="headerText" value="Unit Unit Administrators"/>
+          <property name="propertyName" value="unitAdministrators"/>
+          <property name="collectionObjectClass" value="org.kuali.kra.bo.UnitAdministrator"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="person.fullName" parent="Uif-DataField"/>
+              <bean p:propertyName="unitAdministratorType.description" parent="Uif-DataField"/>
+              <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Lookup View -->
+
+  <bean id="Unit-LookupView" parent="Unit-LookupView-parentBean"/>
+  <bean id="Unit-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.Unit"/>
+    <property name="headerText" value="Unit Lookup"/>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="unitNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="parentUnitNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="organizationId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="unitName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="parentUnit.unitName" parent="Uif-DataField"/>
+        <bean p:propertyName="organization.organizationName" parent="Uif-DataField"/>
+        <bean p:propertyName="unitName" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

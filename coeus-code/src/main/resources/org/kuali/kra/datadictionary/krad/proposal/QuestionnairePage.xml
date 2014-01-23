@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <bean id="PropDev-QuestionnairePage" parent="PropDev-QuestionnairePage-parentBean"/>
+    <bean id="PropDev-QuestionnairePage-parentBean" parent="Uif-DocumentPage">
+        <property name="items">
+            <list>
+                <ref bean="PropDev-QuestionnaireSection"/>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-PageHeader"/>
+        </property>
+        <property name="footer">
+            <null/>
+        </property>
+    </bean>
+		
+    <bean id="PropDev-QuestionnaireSection" parent="PropDev-QuestionnaireSection-parentBean"/>
+    <bean id="PropDev-QuestionnaireSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="header.headerText" value="Questionnaire"/>
+        <property name="items">
+            <list>
+							<ref bean="PropDev-Questionnaire-Collection"/>
+						</list>
+				</property>
+    </bean>		
+		
+    <bean id="PropDev-Questionnaire-Collection" parent="PropDev-Questionnaire-Collection-parentBean"/>
+    <bean id="PropDev-Questionnaire-Collection-parentBean" abstract="true" parent="Uif-StackedCollectionSection"
+					p:collectionObjectClass="org.kuali.kra.questionnaire.answer.AnswerHeader"
+					p:propertyName="questionnaireHelper.answerHeaders"
+          p:layoutManager.summaryTitle="@{#lp.label} (@{#lp.completed ? 'Complete' : 'Incomplete'})"
+          p:renderAddLine="false"
+          p:showInactiveLines="false"
+          p:renderInactiveToggleButton="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-FieldGroupBase">
+                    <property name="group">
+                        <bean parent="Questionnaire-QuestionsGroup"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+          <list/>
+        </property>
+        <property name="layoutManager.lineGroupPrototype">
+          <bean parent="Uif-CollectionHorizontalBoxItem" p:disclosure.render="true">
+            <property name="layoutManager">
+              <bean parent="Uif-SimpleLayout"/>
+            </property>
+            <property name="header">
+              <bean parent="Uif-HeaderFour"/>
+            </property>
+          </bean>
+        </property>
+    </bean>		
+		<bean id="Questionnaire-QuestionsGroup" parent="Questionnaire-QuestionsGroup-parentBean"/>
+		<bean id="Questionnaire-QuestionsGroup-parentBean" abstract="true" parent="Uif-ListCollectionGroup" 
+					p:collectionObjectClass="org.kuali.kra.questionnaire.question.QuestionDTO" 
+					p:propertyName="questions" p:renderAddLine="false" p:renderLineActions="false"
+					p:additionalCssClasses="questionnaireContent">
+			<property name="subCollections"><list>
+				<bean parent="Questionnaire-SubCollection"/>
+			</list></property>
+			<property name="layoutManager.subCollectionFieldGroupPrototype">
+	      <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.labelText="@{#lp.questionnaireQuestion.question.question}"
+	      	p:fieldLabel.renderColon="false"
+	      	p:additionalCssClasses="question" p:hidden="@{!#lp.childMatched}">
+	      	<!-- data attributes to support the associated kradQuestionnaireAnswer.js which toggles display of questions based on questionnaire rules -->
+					<property name="dataAttributes">
+						<map merge="true">
+							<entry key="kc-questionindex" value="@{#index}"/>
+							<entry key="kc-questionid" value="@{#lp.questionnaireQuestion.questionNumber}"/>
+							<entry key="kc-question-matched" value="@{#lp.childMatched}"/>
+							<entry key="kc-question-parentid" value="@{#lp.questionnaireQuestion.parentQuestionNumber}"/>
+							<entry key="kc-question-condition" value="({ 'conditionFlag' : '@{#lp.questionnaireQuestion.conditionFlag}', 'condition': '@{#lp.questionnaireQuestion.condition}', 'conditionValue' : '@{#lp.questionnaireQuestion.conditionValue}'})"/>
+						</map>
+					</property>	
+				</bean>      
+    	</property>		
+		</bean>	
+		
+		<bean id="Questionnaire-SubCollection" parent="Questionnaire-SubCollection-parentBean"/>
+		<bean id="Questionnaire-SubCollection-parentBean" abstract="true" parent="Uif-ListCollectionSubSection"
+			p:collectionObjectClass="org.kuali.kra.questionnaire.answer.Answer" 
+			p:propertyName="answers" p:renderAddLine="false" p:renderLineActions="false">
+			<property name="items"><list>
+				<bean parent="Questionnaire-InputField"/>
+			</list></property>
+		</bean>
+		
+		<bean id="Questionnaire-InputField" parent="Questionnaire-InputField-parentBean"/>
+		<bean id="Questionnaire-InputField-parentBean" abstract="true" class="org.kuali.kra.web.krad.QuestionField" 
+					parent="Uif-InputField" p:propertyName="answer" p:useSuggest="false" p:fieldLabel.render="false"
+					p:additionalCssClasses="question"
+					p:onChangeScript="QuestionnaireAnswer.answerChanged(this);">
+			<property name="controlMappings">
+				<bean parent="Questionnaire-ControlMappings"/>
+			</property>
+			<!-- default to render = false so these will only render when a lookupclass is provided by the question -->
+			<property name="suggest">
+				<bean parent="Questionnaire-Suggest" p:render="false"/>
+			</property>
+			<property name="quickfinder">
+				<bean parent="Questionnaire-QuickFinder" p:render="false"/>
+			</property>
+		</bean>			
+		<util:map id="Questionnaire-ControlMappings">
+			<entry key="1" value="Questionnaire-YesNoControl"/>
+			<entry key="2" value="Questionnaire-YesNoNaControl"/>
+			<entry key="3" value="Uif-TextControl"/>
+			<entry key="4" value="Uif-DateControlOnFocus"/>
+			<entry key="5" value="Uif-TextControl"/>
+			<entry key="6" value="Uif-TextControl"/>
+		</util:map>		
+		<bean id="Questionnaire-YesNoControl" parent="Questionnaire-YesNoControl-parentBean"/>
+		<bean id="Questionnaire-YesNoControl-parentBean" abstract="true" parent="Uif-VerticalRadioControl">
+			<property name="options"><list>
+				<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
+        <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
+			</list></property>
+		</bean>
+		<bean id="Questionnaire-YesNoNaControl" parent="Questionnaire-YesNoControl-parentBean"/>
+		<bean id="Questionnaire-YesNoNaControl-parentBean" abstract="true" parent="Uif-VerticalRadioControl">
+			<property name="options"><list>
+				<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
+        <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
+        <bean parent="Uif-KeyLabelPair" p:key="X" p:value="N/A"/>
+			</list></property>
+		</bean>
+		<bean id="Questionnaire-Suggest" parent="Questionnaire-Suggest-parentBean"/>
+		<bean id="Questionnaire-Suggest-parentBean" abstract="true" parent="Uif-Suggest">
+		</bean>
+		<bean id="Questionnaire-QuickFinder" parent="Questionnaire-QuickFinder-parentBean"/>
+		<bean id="Questionnaire-QuickFinder-parentBean" abstract="true" parent="Uif-QuickFinder">
+		</bean>
+		
+</beans>

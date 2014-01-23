@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- Proposal Document View -->
+    <bean id="PropDev-DefaultView" parent="PropDev-DefaultView-parentBean"/>
+    <bean id="PropDev-DefaultView-parentBean" abstract="true" parent="Uif-TransactionalDocumentView"
+          p:headerText="Proposal Development Document"
+          p:formClass="org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentDocumentForm"
+          p:documentClass="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument"
+          p:viewHelperServiceClass="org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentViewHelperServiceImpl"
+          p:stickyApplicationHeader="true" p:stickyFooter="true" p:breadcrumbs.render="false" p:cssClasses="uif-formView">
+        <property name="navigation" ref="PropDev-Menu"/>
+        <property name="items">
+            <list>
+                <ref bean="PropDev-DetailsPage"/>
+                <ref bean="PropDev-OpportunitySearchPage"/>
+                <ref bean="PropDev-PersonnelPage"/>
+                <ref bean="PropDev-CompliancePage"/>
+                <ref bean="PropDev-OrganizationLocationsPage"/>
+                <ref bean="PropDev-ProposalAttachmentsPage"/>
+                <ref bean="PropDev-InternalAttachmentsPage"/>
+                <ref bean="PropDev-PersonnelAttachmentsPage"/>
+                <ref bean="PropDev-AbstractsPage"/>
+                <ref bean="PropDev-NotesPage"/>
+                <ref bean="PropDev-QuestionnairePage"/>
+                <bean id="PropDev-DeliveryInfo" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-SponsorProgramInfo" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-CreditAllocation" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Budget-Summary" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Budget-Parameters" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Budget-Rates" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Budget-Personnel" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Budget-NonPersonnel" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Budget-DistIncome" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Budget-Modular" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Budget-Actions" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Summplemental1" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Summplemental2" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-Summplemental3" parent="PropDev-UnderDevelopmentPage"/>
+                <bean id="PropDev-SummarySubmit" parent="PropDev-UnderDevelopmentPage"/>
+            </list>
+        </property>
+        <property name="unifiedHeader" value="false"/>
+        <property name="header" ref="PropDev-DocumentHeader"/>
+        <property name="footer" ref="PropDev-DocumentFooter"/>
+        <property name="defaultBindingObjectPath" value=""/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>scripts/kradQuestionnaireAnswer.js</value>
+                <value>scripts/proposaldevelopment.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>css/proposaldevelopment.css</value>
+            </list>
+        </property>
+        <property name="dialogs">
+          <list>
+            <ref bean="PropDev-ProposalPersonWizardAdd"/>
+          </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-DocumentFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="previousPage"
+                      p:actionLabel="Back" p:render="@{canGoBack()}"/>
+                <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:performClientSideValidation="true"
+                			p:methodToCall="save" p:actionLabel="Save"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:performClientSideValidation="true"
+                      p:methodToCall="saveAndContinue" p:actionLabel="Save and Continue" p:render="@{canGoForward()}"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Proposal Menu -->
+    <bean id="PropDev-Menu" parent="PropDev-Menu-parentBean"/>
+    <bean id="PropDev-Menu-parentBean" abstract="true" parent="Uif-MenuNavigationGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SidebarToggleMenu" p:toggleText="Basics" p:iconClass="icon-file-alt">
+                    <property name="menuItems">
+                        <list>
+                            <bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-DetailsPage"
+                                  p:actionLabel="Proposal Details"/>
+                            <bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-OpportunitySearchPage"
+                                  p:actionLabel="S2S Opportunity Search"/>
+                            <bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-DeliveryInfo"
+                                  p:actionLabel="Delivery Info"/>
+                            <bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-SponsorProgramInfo"
+                                  p:actionLabel="Sponsor &amp; Program Information"/>
+                            <bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-OrganizationLocationsPage"
+                                  p:actionLabel="Organization and Location"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-SidebarToggleMenu" p:toggleText="Key Personnel" p:iconClass="icon-user">
+                    <property name="menuItems">
+                        <list>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-PersonnelPage"
+                                  p:actionLabel="Personnel"/>
+                            <bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-CreditAllocation"
+                                  p:actionLabel="Credit Allocation"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-CompliancePage"
+                      p:actionLabel="Compliance" p:iconClass="icon-ok"/>
+                <bean parent="Uif-SidebarToggleMenu" p:toggleText="Attachments" p:iconClass="icon-paper-clip">
+                    <property name="menuItems">
+                        <list>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-ProposalAttachmentsPage"
+                                  p:actionLabel="Proposal Attachments"/>
+                            <bean parent="Uif-NavigationActionLink"
+                                  p:navigateToPageId="PropDev-PersonnelAttachmentsPage"
+                                  p:actionLabel="Personnel Attachments"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-InternalAttachmentsPage"
+                                  p:actionLabel="Internal Attachments"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-AbstractsPage"
+                                  p:actionLabel="Abstracts"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-NotesPage"
+                                  p:actionLabel="Notes"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-QuestionnairePage"
+                      p:actionLabel="Questionnaire" p:actionEvent="navigateToQuestionnaire"
+                      p:iconClass="icon-question"/>
+                <bean parent="Uif-SidebarToggleMenu" p:toggleText="Budget" p:iconClass="icon-money">
+                    <property name="menuItems">
+                        <list>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Summary"
+                                  p:actionLabel="Summary"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Parameters"
+                                  p:actionLabel="Parameters"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Rates"
+                                  p:actionLabel="Rates"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Personnel"
+                                  p:actionLabel="Personnel"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-NonPersonnel"
+                                  p:actionLabel="Non-Personnel"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-DistIncome"
+                                  p:actionLabel="Distribution &amp; Income"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Modular"
+                                  p:actionLabel="Modular"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Actions"
+                                  p:actionLabel="Actions"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-SidebarToggleMenu" p:toggleText="Supplemental Information" p:iconClass="icon-bell">
+                    <property name="menuItems">
+                        <list>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Summplemental1"
+                                  p:actionLabel="Personnel Items for Review"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Summplemental2"
+                                  p:actionLabel="Project Details"/>
+                            <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Summplemental3"
+                                  p:actionLabel="Other"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-SummarySubmit"
+                      p:actionLabel="Summary/Submit" p:iconClass="icon-signout"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-DocumentHeader" parent="PropDev-DocumentHeader-parentBean"/>
+    <bean id="PropDev-DocumentHeader-parentBean" abstract="true" parent="Uif-ViewHeader"
+          p:headerText="Proposal: #@{document.developmentProposal.proposalNumber}"
+          p:areaTitleText="Proposal Development"
+          p:supportTitleText="PI: [em]@{document.developmentProposal.principalInvestigatorName == null ? 'Not yet assigned' : document.developmentProposal.principalInvestigatorName}[/em]">
+        <property name="rightGroup">
+            <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="uif-documentInfo">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Message" p:messageText="[strong]Document Info[/strong]"/>
+                        <bean parent="Uif-MessageField" p:label="Doc Nbr" p:messageText="@{document.documentNumber}"/>
+                        <bean parent="Uif-MessageField" p:label="Initiator"
+                              p:messageText="@{documentInitiatorNetworkId}"/>
+                        <bean parent="Uif-MessageField" p:label="Status"
+                              p:messageText="@{document.developmentProposal.proposalState.description}"/>
+                        <bean parent="PropDev-DocumentHeader-MoreInfo"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lowerGroup">
+            <bean parent="Uif-ActionBar">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Audit Mode &lt;span style='color:#090'&gt;(on)&lt;/span&gt;"/>
+                        <bean parent="Uif-ActionLink" p:methodToCall="noop" p:actionLabel="Print"
+                              p:iconClass="icon-print"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Medusa" p:iconClass="icon-tasks"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Hierachy" p:iconClass="icon-list-ol"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Access" p:iconClass="icon-lock"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-DocumentHeader-MoreInfo" parent="Uif-DropdownToggleMenu" p:toggleText="more..."
+          p:toggleCaretClass="">
+        <property name="menuGroup">
+            <bean parent="Uif-DropdownTable" p:layoutManager.libraryCssClasses="table,table-condensed"
+                  p:headerText="Document Info">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-MessageField" p:messageText="@{document.documentNumber}"
+                              p:fieldLabel.renderColon="false" p:label="Doc Nbr"/>
+                        <bean parent="Uif-LinkField" p:linkText="@{documentInitiatorNetworkId}"
+                              p:fieldLabel.renderColon="false" p:label="Initiator"/>
+                        <bean parent="Uif-MessageField"
+                              p:messageText="@{document.developmentProposal.proposalState.description}"
+                              p:fieldLabel.renderColon="false" p:label="Status"/>
+                        <bean parent="Uif-MessageField"
+                              p:messageText="@{document.developmentProposal.principalInvestigatorName}"
+                              p:fieldLabel.renderColon="false" p:label="PI"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{documentCreateDate}"
+                              p:fieldLabel.renderColon="false" p:label="Created"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{document.updateTimestamp.toString()}"
+                              p:fieldLabel.renderColon="false" p:label="Updated"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.proposalNumber}"
+                              p:fieldLabel.renderColon="false" p:label="Proposal Nbr"/>
+                        <bean parent="Uif-MessageField"
+                              p:messageText="@{document.developmentProposal.sponsor.sponsorName}"
+                              p:fieldLabel.renderColon="false" p:label="Sponsor Name"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>
