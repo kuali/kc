@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__2692", [["Documents/coidisclosureeventtype.htm", "right", "COI Disclosure Event Type"],["Documents/coidispositionstatus.htm", "right", "COI Disposition Status"]]);
