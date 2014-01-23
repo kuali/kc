@@ -40,6 +40,7 @@
             WEB-INF/web.xml,
 
             acknowledgments.jsp,
+            index.jsp,
             WEB-INF/tags/rice-portal/portalBody.tag,
             WEB-INF/tags/rice-portal/portalTabs.tag,
         </rice.web.excludes>
