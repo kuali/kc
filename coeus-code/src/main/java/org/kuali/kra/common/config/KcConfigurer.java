@@ -24,6 +24,7 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.module.RunMode;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
@@ -69,13 +70,15 @@ public class KcConfigurer extends ModuleConfigurer {
     
     @Override
     protected void doAdditionalModuleStartLogic() throws Exception {
-        DispatcherServlet loaderServlet = new DispatcherServlet((WebApplicationContext) ((SpringResourceLoader) rootResourceLoader.getResourceLoaders().get(0)).getContext());
-        ServletRegistration registration = getServletContext().addServlet(dispatchServletName, loaderServlet);
-        registration.addMapping("/" + dispatchServletName + "/*");
-        for (String filterName : filtersToMap) {
-            FilterRegistration filter = getServletContext().getFilterRegistration(filterName);
-            filter.addMappingForServletNames(null, true, dispatchServletName);
-        }
+    	if (StringUtils.isNotBlank(dispatchServletName)) {
+	        DispatcherServlet loaderServlet = new DispatcherServlet((WebApplicationContext) ((SpringResourceLoader) rootResourceLoader.getResourceLoaders().get(0)).getContext());
+	        ServletRegistration registration = getServletContext().addServlet(dispatchServletName, loaderServlet);
+	        registration.addMapping("/" + dispatchServletName + "/*");
+	        for (String filterName : filtersToMap) {
+	            FilterRegistration filter = getServletContext().getFilterRegistration(filterName);
+	            filter.addMappingForServletNames(null, true, dispatchServletName);
+	        }
+    	}
     }
     
     public void setModuleName(String moduleName) {
