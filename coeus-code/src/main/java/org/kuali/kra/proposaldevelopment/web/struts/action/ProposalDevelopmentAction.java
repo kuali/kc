@@ -112,7 +112,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
-        
+
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         String command = proposalDevelopmentForm.getCommand();
         String createProposalFromGrantsGov=request.getParameter("createProposalFromGrantsGov");
@@ -741,7 +741,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         } 
         List<ProposalPersonQuestionnaireHelper> proposalPersonQuestionnaireHelpers  = new ArrayList<ProposalPersonQuestionnaireHelper>();
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
+            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
             proposalPersonQuestionnaireHelpers.add(helper);
         }
         pdform.setProposalPersonQuestionnaireHelpers(proposalPersonQuestionnaireHelpers);
