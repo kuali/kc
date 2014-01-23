@@ -77,7 +77,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         form = new ProposalDevelopmentForm();
         form.setDocument(proposal.getProposalDocument());
         form.initialize();
-        questionnaireHelper = new ProposalPersonQuestionnaireHelper(form, getPerson());
+        questionnaireHelper = new ProposalPersonQuestionnaireHelper(getPerson());
     }
 
     @After

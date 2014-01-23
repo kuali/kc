@@ -1,0 +1,201 @@
+/**
+ * Copyright 2005-2013 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/** overridding styles on controls to be 90% **/
+input[type="text"], .uif-textAreaControl {
+    width: 100%;
+}
+
+.form-control {
+    width: 100%;
+}
+
+.input-group-addon, .input-group-btn {
+    width: 1%;
+    vertical-align: top;
+}
+
+.input-group-msg {
+    width: 1%;
+}
+
+.input-group {
+    width: 100%;
+}
+
+.input-group-btn:nth-child(2) > .btn {
+    margin-left: -1px;
+}
+
+.form-inline .form-control {
+    display: inline-block;
+}
+
+.form-control {
+    border-radius: 0 !important;
+}
+
+.input-group-btn > a {
+    display: inline-block;
+    border-top: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    color: #1150b0;
+    border-color: #cccccc;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #ffffff), color-stop(50%, #ffffff), color-stop(52%, #f2f2f2), color-stop(100%, #e6e6e6));
+    background: -webkit-linear-gradient(top, #ffffff 20%, #ffffff 50%, #f2f2f2 52%, #e6e6e6 100%);
+    background: -moz-linear-gradient(top, #ffffff 20%, #ffffff 50%, #f2f2f2 52%, #e6e6e6 100%);
+    background: -o-linear-gradient(top, #ffffff 20%, #ffffff 50%, #f2f2f2 52%, #e6e6e6 100%);
+    background: linear-gradient(top, #ffffff 20%, #ffffff 50%, #f2f2f2 52%, #e6e6e6 100%);
+    background-clip: padding-box;
+    margin-left: 0px;
+}
+
+.input-group-btn > a.icon-search {
+    padding: 7px 7px 8px 7px;
+}
+
+.input-group-btn > a.icon-edit-sign {
+    padding: 8px 7px 7px 7px;
+}
+
+.uif-viewHeader-contentWrapper .uif-viewHeader {
+    margin-top: 0;
+    padding-top: 0px;
+}
+
+.uif-stickyButtonFooter {
+    background: none repeat scroll 0 0 #F8F8F8;
+    border-top: 1px solid #E2E2E2;
+    /* box-shadow: none;     */
+    padding: 0;
+}
+
+.uif-stickyButtonFooter > div {
+    float: right;
+    padding: 15px;
+}
+
+.uif-stickyButtonFooter button {
+    margin: 0;
+}
+
+.textarea_popout {
+    padding: 15px;
+}
+
+.uif-lightbox h1 {
+    font-size: 26px;
+    margin: 0;
+    padding-bottom: 10px;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.uif-lightbox h3 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.uif-lightbox .uif-cssGridLayout .uif-cssGridLayout {
+    background-color: #FFFFFF;
+    margin-left: -7px;
+    margin-right: -7px;
+    padding: 15px 15px 1px;
+}
+
+.uif-lightbox .uif-footer {
+    background: none repeat scroll 0 0 #F9F9F9;
+    margin-bottom: 0;
+    padding-top: 10px;
+    text-align: right;
+}
+
+.uif-lightbox > div .uif-label-top {
+    margin-bottom: 5px;
+}
+
+.uif-lightbox .row{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.uif-lightbox .container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.uif-lightbox .uif-viewContentWrapper .uif-pageContentWrapper  {
+    padding: 0px;
+    background: white;
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+}
+
+.uif-lightbox .uif-viewHeader-contentWrapper {
+    background: #f9f9f9;
+}
+.uif-lightbox .uif-viewHeader-contentWrapper .uif-viewHeader .uif-headerText .uif-headerText-span {
+    font-size: 26px;
+}
+
+
+.fancybox-skin {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 15px !important;
+    background: #f9f9f9;
+}
+
+.kc-personnel-table .dataTables_filter, .kc-personnel-table .dataTables_length {
+    display: none;
+}
+
+.kc-personnel-table th, .kc-personnel-table td, .kc-personnel-table table {
+    border: none !important;
+}
+
+.kc-personnel-table tr {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.kc-personnel-table tfoot {
+    display: none;
+}
+
+.kc-personnel-table th {
+    background-color: white !important;
+    color: black !important;
+}
+
+.uif-verticalRadioFieldset > span {
+    margin-bottom: 5px;
+}
+
+.kc-personnel-table .uif-verticalRadioFieldset > span {
+    margin: 0;
+}
+
+.btn {
+    border-radius: 0 !important;
+}
