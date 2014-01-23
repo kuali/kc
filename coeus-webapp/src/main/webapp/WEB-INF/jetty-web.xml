@@ -9,8 +9,7 @@
 <Configure class="org.eclipse.jetty.webapp.WebAppContext">
     <Call name="setAttribute">
         <Arg>org.eclipse.jetty.server.webapp.WebInfIncludeJarPattern</Arg>
-        <!-- <Arg>.*/.*jsp-api-[^/]\.jar$|./.*jsp-[^/]\.jar$|./.*taglibs[^/]*\.jar$</Arg>-->
-        <Arg>donotscananything.jar</Arg>
+        <Arg>.*/.*jsp-api-[^/]\.jar$|./.*jsp-[^/]\.jar$|./.*taglibs[^/]*\.jar$</Arg>
     </Call>
   <Set name="baseResource">
     <New class="org.eclipse.jetty.util.resource.ResourceCollection">
