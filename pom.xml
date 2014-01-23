@@ -1133,27 +1133,6 @@
 									</filesets>
 								</configuration>
 							</execution>
-							<execution>
-                                <id>delete-help</id>
-                                <phase>clean</phase>
-                                <goals>
-                                    <goal>clean</goal>
-                                </goals>
-                                <configuration>
-                                    <filesets>
-                                        <fileset>
-                                            <directory>src/main/webapp/static</directory>
-                                            <includes>
-                                                <include>help/</include>
-                                            </includes>
-                                            <excludes>
-                                                <exclude>**/.svn</exclude>
-                                                <exclude>**/.svn/**</exclude>
-                                            </excludes>
-                                        </fileset>
-                                    </filesets>
-                                </configuration>
-                            </execution>
 						</executions>
 		    		</plugin>
 				</plugins>
