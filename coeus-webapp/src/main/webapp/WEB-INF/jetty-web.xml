@@ -11,7 +11,7 @@
         <Arg>org.eclipse.jetty.server.webapp.WebInfIncludeJarPattern</Arg>
         <Arg>.*/.*jsp-api-[^/]\.jar$|./.*jsp-[^/]\.jar$|./.*taglibs[^/]*\.jar$</Arg>
     </Call>
-  <Set name="baseResource">
+<!--  <Set name="baseResource">
     <New class="org.eclipse.jetty.util.resource.ResourceCollection">
       <Arg>
         <Array type="java.lang.String">
@@ -21,5 +21,5 @@
         </Array>
       </Arg>
     </New>
-  </Set>    
+  </Set>-->
 </Configure>
