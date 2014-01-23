@@ -90,6 +90,8 @@ public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSp
             specialReview.setExpirationDate(protocol.getExpirationDate());
             
             setProtocolExemptStudiesCheckListItemHook(protocol, specialReview);
+            
+            specialReview.setLinkedToProtocol(true);
         }
     
     }

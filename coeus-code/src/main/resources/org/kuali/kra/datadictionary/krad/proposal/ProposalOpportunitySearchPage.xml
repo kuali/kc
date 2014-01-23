@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- Opportunity Search Page -->
+    <bean id="PropDev-OpportunitySearchPage" parent="PropDev-OpportunitySearchPage-parentBean"/>
+    <bean id="PropDev-OpportunitySearchPage-parentBean" parent="Uif-DocumentPage">
+        <property name="items">
+            <list>
+                <ref bean="PropDev-OpportunitySearchSection"/>
+                <ref bean="PropDev-OpportunityInfo"/>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-PageHeader" p:headerText="Opportunity Search"/>
+        </property>
+        <property name="footer">
+            <null/>
+        </property>
+    </bean>
+
+    <!-- Opportunity Search Section -->
+    <bean id="PropDev-OpportunitySearchSection" parent="PropDev-OpportunitySearchSection-parentBean"/>
+    <bean id="PropDev-OpportunitySearchSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection" p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId == null}">
+        <property name="items">
+            <list>
+            	<bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="newS2sOpportunity.opportunityId">
+            		<property name="control"><bean parent="Uif-HiddenControl"/></property>
+            		<property name="quickfinder">
+		              <bean parent="Uif-QuickFinder" 
+		                    p:dataObjectClassName="org.kuali.kra.s2s.bo.S2sOpportunity" p:hideCriteriaOnSearch="true"
+		                    p:fieldConversions="opportunityId:newS2sOpportunity.opportunityId,cfdaNumber:newS2sOpportunity.cfdaNumber,opportunityTitle:newS2sOpportunity.opportunityTitle,s2sSubmissionTypeCode:newS2sOpportunity.s2sSubmissionTypeCode,revisionCode:newS2sOpportunity.revisionCode,competetionId:newS2sOpportunity.competetionId,openingDate:newS2sOpportunity.openingDate,closingDate:newS2sOpportunity.closingDate,instructionUrl:newS2sOpportunity.instructionUrl,schemaUrl:newS2sOpportunity.schemaUrl,providerCode:newS2sOpportunity.providerCode">
+		                  <property name="quickfinderAction">
+		                      <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="performLookup"
+            										p:focusOnIdAfterSubmit="NEXT_INPUT" p:wrapperCssClasses="input-group-btn"
+		                            p:actionLabel="Find an opportunity" p:iconClass="icon-search" />
+		                  </property>
+		              </bean>
+	              </property>
+	            </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="PropDev-OpportunityInfo" parent="PropDev-OpportunityInfo-parentBean"/>
+    <bean id="PropDev-OpportunityInfo-parentBean" abstract="true" parent="Uif-TabSection"
+    			p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null}">
+    	<property name="items"><list>
+    		<ref bean="PropDev-OpportunityInfo-General"/>
+    		<ref bean="PropDev-OpportunityInfo-Forms"/>
+    		<ref bean="PropDev-OpportunityInfo-SubmissionDetails"/>
+    	</list></property>
+			<property name="fieldBindingObjectPath" value="document.developmentProposal.s2sOpportunity"/>
+			<property name="footer">
+				<bean parent="Uif-FooterBase">
+					<property name="items"><list>
+						<bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="newS2sOpportunity.opportunityId">
+          		<property name="control"><bean parent="Uif-HiddenControl"/></property>
+          		<property name="quickfinder">
+	              <bean parent="Uif-QuickFinder" 
+	                    p:dataObjectClassName="org.kuali.kra.s2s.bo.S2sOpportunity" p:hideCriteriaOnSearch="true"
+	                    p:fieldConversions="opportunityId:newS2sOpportunity.opportunityId,cfdaNumber:newS2sOpportunity.cfdaNumber,opportunityTitle:newS2sOpportunity.opportunityTitle,s2sSubmissionTypeCode:newS2sOpportunity.s2sSubmissionTypeCode,revisionCode:newS2sOpportunity.revisionCode,competetionId:newS2sOpportunity.competetionId,openingDate:newS2sOpportunity.openingDate,closingDate:newS2sOpportunity.closingDate,instructionUrl:newS2sOpportunity.instructionUrl,schemaUrl:newS2sOpportunity.schemaUrl,providerCode:newS2sOpportunity.providerCode">
+	                  <property name="quickfinderAction">
+	                      <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="performLookup"
+          										p:focusOnIdAfterSubmit="NEXT_INPUT" p:wrapperCssClasses="input-group-btn"
+	                            p:actionLabel="Change opportunity" p:iconClass="icon-exchange" />
+	                  </property>
+	              </bean>
+              </property>
+            </bean>
+						<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Remove opportunity" p:methodToCall="clearOpportunity" p:iconClass="icon-remove"/>
+					</list></property>
+				</bean>
+			</property>
+    </bean>
+
+		<bean id="PropDev-OpportunityInfo-General" parent="PropDev-OpportunityInfo-General-parentBean"/>
+		<bean id="PropDev-OpportunityInfo-General-parentBean" abstract="true" parent="Uif-GridSection"
+					p:headerText="Opportunity"
+					p:layoutManager.libraryCssClasses="table,table-condensed"
+					p:layoutManager.cssClasses=""
+					p:layoutManager.applyDefaultCellWidths="false">
+				<property name="items"><list>
+					<bean parent="Uif-DataField" p:propertyName="opportunityId" p:fieldLabel.renderColon="false"/>
+					<bean parent="Uif-DataField" p:propertyName="opportunityTitle" p:fieldLabel.renderColon="false"/>
+					<bean parent="Uif-InputField" p:propertyName="s2sSubmissionTypeCode" p:fieldLabel.renderColon="false"/>
+					<bean parent="Uif-InputField" p:propertyName="revisionCode" p:fieldLabel.renderColon="false"/>
+					<bean parent="Uif-DataField" p:propertyName="cfdaNumber" p:fieldLabel.renderColon="false"/>
+					<bean parent="Uif-DataField" p:propertyName="competetionId" p:fieldLabel.renderColon="false"/>
+					<bean parent="Uif-DataField" p:propertyName="openingDate" p:fieldLabel.renderColon="false"/>
+					<bean parent="Uif-DataField" p:propertyName="closingDate" p:fieldLabel.renderColon="false"/>
+					<bean parent="Uif-LinkField" p:fieldLabel.labelText="Instruction Page" p:href="@{document.developmentProposal.s2sOpportunity?.instructionUrl}" p:linkText="Download Instructions"/>
+					<bean parent="Uif-LinkField" p:fieldLabel.labelText="Schema URL" p:href="@{document.developmentProposal.s2sOpportunity?.schemaUrl}" p:linkText="View schema"/>
+					<bean parent="Uif-DataField" p:propertyName="s2sProvider.description" p:fieldLabel.renderColon="false"/>
+				</list></property>
+		</bean>
+		
+		<bean id="PropDev-OpportunityInfo-Forms" parent="PropDev-OpportunityInfo-Forms-parentBean"/>
+		<bean id="PropDev-OpportunityInfo-Forms-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+					p:headerText="Forms" p:propertyName="s2sOppForms"
+					p:collectionObjectClass="org.kuali.kra.s2s.bo.S2sOppForms"
+          p:renderAddLine="false"
+          p:layoutManager.renderSequenceField="false"
+          p:renderLineActions="false"
+          p:pageSize="100"
+          p:layoutManager.richTable.disableTableSort="true"
+          p:layoutManager.richTable.showSearchAndExportOptions="false">
+			<property name="items"><list>
+				<bean parent="Uif-DataField" p:propertyName="formName"/>
+				<bean parent="Uif-MessageField" p:fieldLabel.labelText="Mandatory" p:messageText="@{#lp.mandatory ? 'Yes' : 'No'}"/>
+				<bean parent="Uif-InputField" p:propertyName="include" p:readOnly="@{#lp.mandatory}" p:readOnlyDisplayReplacement="Yes"/>
+				<bean parent="Uif-MessageField" p:fieldLabel.labelText="Description" p:messageText="@{#lp.available ? 'Available' : 'Unavailable'}"/>
+				<bean parent="Uif-InputField" p:propertyName="selectToPrint" p:fieldLabel.labelText="PDF"/>
+			</list></property>
+		</bean>
+		<bean id="PropDev-OpportunityInfo-SubmissionDetails" parent="PropDev-OpportunityInfo-SubmissionDetails-parentBean"/>
+		<bean id="PropDev-OpportunityInfo-SubmissionDetails-parentBean" abstract="true" parent="Uif-GridSection"
+					p:headerText="Submission Details"/>
+		
+</beans>

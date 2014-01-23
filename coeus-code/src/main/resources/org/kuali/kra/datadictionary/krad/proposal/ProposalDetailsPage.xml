@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- Proposal Details Page -->
+    <bean id="PropDev-DetailsPage" parent="PropDev-DetailsPage-parentBean"/>
+    <bean id="PropDev-DetailsPage-parentBean" parent="Uif-DocumentPage">
+        <property name="items">
+            <list>
+                <ref bean="PropDev-DetailsSection"/>
+            </list>
+        </property>
+        <property name="header.headerText" value="Proposal Details"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Message" p:messageText="[p]* indicates required fields[/p]"
+                              p:cssClasses="text-muted"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="footer">
+            <null/>
+        </property>
+    </bean>
+
+    <!-- Proposal Details Section -->
+    <bean id="PropDev-DetailsSection" parent="PropDev-DetailsSection-parentBean"/>
+    <bean id="PropDev-DetailsSection-parentBean" abstract="true" parent="PropDev-DefaultDetails-Section">
+        <property name="items">
+            <list merge="true">
+								<bean parent="PropDev-SponsorField" p:propertyName="primeSponsorCode" p:instructionalMessage.messageText="@{document.developmentProposal.primeSponsor?.sponsorName?:'&amp;nbsp;'}"/>                   
+                <bean parent="PropDev-InputField" p:propertyName="currentAwardNumber"
+                      p:helperText="Enter the award ID for this proposal." p:progressiveRender="@{#fp.proposalTypeCode != '1'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kra.award.home.Award"
+                              p:fieldConversions="awardNumber:currentAwardNumber"
+                              p:lookupParameters="currentAwardNumber:awardNumber"
+                              p:returnByScript="true"
+                              p:hideCriteriaOnSearch="true"
+                              p:viewName="popup"/>
+                    </property>
+                </bean>
+                <bean parent="PropDev-InputField" p:propertyName="continuedFrom"
+                      p:helperText="Enter the original institutional ID for this proposal." p:progressiveRender="@{#fp.proposalTypeCode != '1'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"
+                              p:fieldConversions="proposalNumber:continuedFrom"
+                              p:lookupParameters="continuedFrom:proposalNumber"
+                              p:returnByScript="true"
+                              p:hideCriteriaOnSearch="true"
+                              p:viewName="popup"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="fieldBindingObjectPath" value="document.developmentProposal"/>
+    </bean>
+
+    <bean id="PropDev-ProjectDatesField" parent="Uif-CssGridFieldGroup" p:label="Project dates" p:required="true">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-InputField" p:propertyName="requestedStartDateInitial" p:colSpan="6"
+                      p:fieldLabel.render="false">
+                    <property name="control">
+                        <bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                    <property name="postInputAddons">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="to" p:wrapperCssClasses="input-group-msg"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="PropDev-InputField" p:propertyName="requestedEndDateInitial" p:colSpan="6"
+                      p:fieldLabel.render="false">
+                    <property name="control">
+                        <bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-DefaultDetails-Section" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-InputField" p:propertyName="proposalTypeCode"/>
+                <bean parent="PropDev-InputField" p:propertyName="ownedByUnitNumberRestricted"/>
+                <bean parent="PropDev-InputField" p:propertyName="activityTypeCode">
+                  <property name="quickfinder">
+                  	<bean parent="Uif-QuickFinder" p:returnByScript="true" p:hideCriteriaOnSearch="true" p:viewName="popup"></bean>
+                  </property>
+                </bean>
+                <bean parent="PropDev-ProjectDatesField"/>
+                <bean parent="PropDev-InputField" p:propertyName="title"
+                      p:helperText="Give this proposal a title. Be detailed but concise."/>
+                <bean parent="PropDev-SponsorField" p:propertyName="sponsorCode" p:instructionalMessage.messageText="@{document.developmentProposal.sponsor?.sponsorName?:'&amp;nbsp;'}"/>
+							</list>
+        </property>
+        <property name="fieldBindingObjectPath" value="document.developmentProposal"/>
+    </bean>
+    
+	<bean id="PropDev-SponsorField" parent="PropDev-InputField"
+        p:helperText="Enter the sponsor code for this proposal or find one using the lookup tool."
+        p:additionalCssClasses="transparentField">
+    <property name="quickfinder">
+    	<bean parent="Uif-QuickFinder" p:returnByScript="true" p:hideCriteriaOnSearch="true" p:viewName="popup"/>
+    </property>                      
+		<property name="suggest">
+			<bean parent="Uif-Suggest" p:render="true" p:additionalPropertiesToReturn="sponsorName">
+				<property name="templateOptions"><map>
+					<entry key="minLength" value="1"/>
+					<entry key="delay" value="1"/>
+					<entry key="html" value="true"/>
+					<entry key="select" value="function(event, ui) { ProposalDevelopmentMethods.sponsorSuggestSelect(event, ui); return false; }"/>
+				</map></property>
+				<property name="suggestQuery">
+					<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="performSponsorFieldSuggest"/>
+				</property>
+			</bean>
+		</property>
+		<property name="instructionalMessage">
+			<bean parent="Uif-Message" p:messageText="@{document.developmentProposal.sponsor?.sponsorName?:'&amp;nbsp;'}"
+						p:additionalCssClasses="informationalText,belowInputField,form-control,input-sm,uif-textControl,has-helper"/>
+		</property>
+		<property name="control">
+			<bean parent="Uif-TextControl" 
+				p:onBlurScript="ProposalDevelopmentMethods.updateSponsorName(jQuery(this).val(), jQuery(this).parent().find('span.informationalText'));"/>
+		</property>
+	</bean>
+    
+
+</beans>

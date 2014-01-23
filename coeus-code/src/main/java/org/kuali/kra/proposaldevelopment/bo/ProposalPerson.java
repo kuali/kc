@@ -53,6 +53,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.Sponsorable;
@@ -387,9 +388,15 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     @Transient
     private transient boolean moveUpAllowed;
+    
+    @Transient
+    private boolean selected;
 
     @Transient
     private transient KcPersonService kcPersonService;
+    
+    @Transient
+    private ProposalPersonQuestionnaireHelper questionnaireHelper;
 
     /**
      * This list is not automatically populated by the ORM by design.
@@ -425,6 +432,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         isInvestigator = false;
         delete = false;
         setFullName(new String());
+        questionnaireHelper = new ProposalPersonQuestionnaireHelper(this);
     }
 
     /**
@@ -2342,4 +2350,21 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
             return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.proposalPersonNumber, other.proposalPersonNumber).toComparison();
         }
     }
+
+	public ProposalPersonQuestionnaireHelper getQuestionnaireHelper() {
+		return questionnaireHelper;
+	}
+
+	public void setQuestionnaireHelper(
+			ProposalPersonQuestionnaireHelper questionnaireHelper) {
+		this.questionnaireHelper = questionnaireHelper;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
 }

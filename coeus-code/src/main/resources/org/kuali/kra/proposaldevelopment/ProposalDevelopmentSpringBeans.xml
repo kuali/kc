@@ -47,6 +47,7 @@
 
     <bean id="proposalDevelopmentModuleConfiguration" parent="proposalDevelopmentModuleConfiguration-parentBean" />
     <bean id="proposalDevelopmentModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+    	<property name="initializeDataDictionary" value="true" />
         <property name="namespaceCode" value="KC-PD" />
         <property name="packagePrefixes">
             <list>
@@ -58,7 +59,40 @@
                 <value>org/kuali/kra/proposaldevelopment/repository-proposaldevelopment.xml</value>
             </list>
         </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/AbstractsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/InternalAttachmentsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/NotesPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/PersonnelAttachmentsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalAttachmentsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalCommon.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalCompliancePage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalDetailsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalDevelopmentDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalDocumentView.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalInitiatePage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalInitiateView.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalOpportunityPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalOpportunitySearchPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalOrganizationLocationsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalOrganizationLocationsSection.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalPersonnelPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalS2SPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/QuestionnairePage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/S2sOpportunityLookup.xml</value>
+            </list>
+       </property>     
     </bean>
+    
+	<import resource="classpath:krad-base-servlet.xml"/>
+ 
+	<context:annotation-config />
+	<context:component-scan base-package="org.kuali.kra.proposaldevelopment.web.krad"/> 
+    
+  <bean id="transactionalDocumentControllerService" class="org.kuali.kra.AnnotationGlobalResourceLoaderServiceFactoryBean">
+  	<property name="serviceName" value="transactionalDocumentControllerService"/>
+  </bean>    
    
     <bean id="legacyDataAdapter" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="legacyDataAdapter" />
@@ -226,6 +260,26 @@
     <bean id="s2SService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="s2SService"/>
     </bean> 
+    
+    <bean id="attachmentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="attachmentService" />
+    </bean>
+    
+  <bean id="kcPersonLookupableHelperServiceTarget" class="org.kuali.kra.AnnotationGlobalResourceLoaderServiceFactoryBean" lazy-init="true">
+        <property name="serviceName" value="kcPersonLookupableHelperService" />
+  </bean>
+  <bean id="kcPersonLookupableHelperService" class="org.springframework.aop.framework.ProxyFactoryBean">
+   <property name="targetSource">
+     <bean class="org.springframework.aop.target.LazyInitTargetSource">
+       <property name="targetBeanName"><idref local="kcPersonLookupableHelperServiceTarget"/></property>
+     </bean>
+   </property>
+   <property name="interfaces"><list><value>org.kuali.rice.kns.lookup.LookupableHelperService</value></list></property>
+  </bean>
+  <bean id="lookupCriteriaGenerator" class="org.kuali.kra.AnnotationGlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="lookupCriteriaGenerator" />
+  </bean>
+    
         
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />

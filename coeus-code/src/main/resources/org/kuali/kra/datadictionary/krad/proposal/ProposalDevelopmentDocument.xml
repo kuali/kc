@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="PropDev-S2S" parent="PropDev-S2S-parentBean"/>
+  <bean id="PropDev-S2S-parentBean" abstract="true" parent="Uif-Disclosure-VerticalBoxSection">
+	<property name="header.headerText" value="S2S"/>
+    <property name="items">
+      <list>
+      	<bean parent="Uif-GridSubSection" p:headerText="Opportunity Search">
+      		<property name="layoutManager.numberOfColumns" value="2"/>
+      		<property name="items">
+      			<list>
+			        <bean parent="PropDev-InputField" p:propertyName="developmentProposal.opportunityIdForGG" />
+        			<bean parent="PropDev-InputField" p:propertyName="developmentProposal.cfdaNumber"/>
+      			</list>
+      		</property>
+      	</bean>
+      	<bean parent="Uif-GridSubSection" p:headerText="Opportunity">
+      		<property name="fieldBindingObjectPath" value="document.developmentProposal.s2sOpportunity"/>
+      		<property name="layoutManager.numberOfColumns" value="2"/>
+      		<property name="items">
+      			<list>
+			        <bean parent="PropDev-InputField" p:propertyName="opportunityId" p:readOnly="true"/>
+        			<bean parent="PropDev-InputField" p:propertyName="opportunityTitle" p:readOnly="true"/>
+        			<bean parent="PropDev-InputField" p:propertyName="s2sSubmissionType.description" p:readOnly="true"/>
+        			<bean parent="PropDev-InputField" p:propertyName="s2sRevisionType.description" p:readOnly="true"/>
+      			</list>
+      		</property>
+      	</bean>
+      	<bean parent="Uif-HorizontalBoxSubSection" p:headerText="Submission Details">
+      		<property name="items">
+      			<list>
+			        <bean parent="Uif-Message" p:messageText="Submission details will be available after the proposal is submitted."/>
+      			</list>
+      		</property>
+      	</bean>
+      	<bean parent="Uif-HorizontalBoxSubSection" p:headerText="Forms">
+      		<property name="items">
+      			<list>
+			        <bean parent="Uif-Message" p:messageText="No forms are currently available for the Grants.gov opportunity selected."/>
+      			</list>
+      		</property>
+      	</bean>
+
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PropDev-SponsorInformation" parent="PropDev-SponsorInformation-parentBean"/>
+  <bean id="PropDev-SponsorInformation-parentBean" abstract="true" parent="Uif-Disclosure-VerticalBoxSection">
+	<property name="header.headerText" value="Sponsor and Program Information"/>
+	<property name="fieldBindingObjectPath" value="document.developmentProposal"/>
+    <property name="items">
+      <list>
+        <bean parent="PropDev-InputField" p:propertyName="deadlineDate" >
+          <property name="control">
+         	<bean parent="Uif-DateControl"/>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+</beans>

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.config;
 
-import org.kuali.kra.common.config.AbstractConfigurer;
+import org.kuali.kra.common.config.KcConfigurer;
 import org.kuali.rice.core.api.config.module.RunMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CoreConfigurer extends AbstractConfigurer {
+public class CoreConfigurer extends KcConfigurer {
     
     private static final String CORE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/CoreSpringBeans.xml";
     private static final String BUDGET_SPRING_BEANS_PATH = "classpath:org/kuali/kra/budget/BudgetSpringBeans.xml";

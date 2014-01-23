@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="Kc-LandingPage-DefaultView" parent="Kc-LandingPage-DefaultView-parentBean"/>
+    <bean id="Kc-LandingPage-DefaultView-parentBean" abstract="true" parent="Uif-FormView"
+          p:headerText="Kuali Coeus 6.0" p:formClass="org.kuali.kra.web.krad.LandingPageForm">
+        <property name="unifiedHeader" value="false"/>
+        <property name="defaultBindingObjectPath" value=""/>
+        <property name="singlePageView" value="true"/>
+        <property name="page">
+            <bean parent="Kc-LandingPage-DefaultPage"/>
+        </property>
+    </bean>
+
+    <bean id="Kc-LandingPage-DefaultPage" parent="Kc-LandingPage-DefaultPage-parentBean"/>
+    <bean id="Kc-LandingPage-DefaultPage-parentBean" abstract="true" parent="Uif-Page">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message"
+                      p:messageText="Lorem ipsum dolor sit amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismodt. Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismodt. Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet."/>
+                <bean parent="Uif-Message"
+                      p:messageText="Lorem ipsum dolor sit amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismodt. Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismodt. Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet."/>
+            </list>
+        </property>
+    </bean>
+</beans>
