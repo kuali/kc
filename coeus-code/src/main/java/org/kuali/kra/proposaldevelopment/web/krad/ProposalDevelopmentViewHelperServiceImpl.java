@@ -75,14 +75,15 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     
     public List<SponsorSuggestResult> performSponsorFieldSuggest(String sponsorCode) {
         List<SponsorSuggestResult> result = new ArrayList<SponsorSuggestResult>();
+        List<Sponsor> allSponsors = new ArrayList<Sponsor>();
         Map<String, String> values = new HashMap<String, String>();
         values.put("sponsorCode", sponsorCode + "*");
-        Collection<Sponsor> sponsors = getLookupService().findCollectionBySearchUnbounded(Sponsor.class, values);
+        allSponsors.addAll(getLookupService().findCollectionBySearchUnbounded(Sponsor.class, values));
         values.clear();
         values.put("acronym", sponsorCode + "*");
-        sponsors.addAll(getLookupService().findCollectionBySearchUnbounded(Sponsor.class, values));
+        allSponsors.addAll(getLookupService().findCollectionBySearchUnbounded(Sponsor.class, values));
         
-        for (Sponsor sponsor : sponsors) {
+        for (Sponsor sponsor : allSponsors) {
             result.add(new SponsorSuggestResult(sponsor));
         }
         return result;
