@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__4235", [["Documents/sponsorhierarchy.htm", "right", "Sponsor Hierarchy"],["Documents/gloss_sponsorhierarchy1.htm", "d2hWnd_SecondaryPopup", "Sponsor Hierarchy"]]);

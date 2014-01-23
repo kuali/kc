@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__4299", [["Documents/coireviewer.htm", "right", "COI Reviewer"],["Documents/gloss_coireviewer1.htm", "d2hWnd_SecondaryPopup", "COI Reviewer"]]);
