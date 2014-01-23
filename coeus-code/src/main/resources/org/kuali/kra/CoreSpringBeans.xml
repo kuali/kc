@@ -921,6 +921,20 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/WatermarkMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/YnqExplanationMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/YnqMaintenanceDocument.xml</value>
+                
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/ActivityTypeInquiry.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/ActivityTypeLookup.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/ActivityTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/KcApplicationHeader.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/KraComponents.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/LandingPageView.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/QuestionnaireInquiry.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/QuestionnaireLookup.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/QuestionnaireMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/Sponsor.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/shared/Unit.xml</value>
+                
+                <value>classpath:org/kuali/kra/datadictionary/krad/irb/IrbProtocolLookup.xml</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
@@ -935,6 +949,11 @@
             </list>
         </property>
     </bean>
+    
+    <import resource="classpath:krad-base-servlet.xml"/>
+   
+  	<context:annotation-config />
+	<context:component-scan base-package="org.kuali.kra.web.krad"/>    
     
     <bean class="org.kuali.rice.core.framework.util.spring.NamedOrderedListBean">
         <property name="name" value="scriptConfigurationFilePaths" />

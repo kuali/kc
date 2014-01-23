@@ -302,7 +302,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             sort(document.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
             sort(document.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
             
-            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, proposalPerson);
+            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(proposalPerson);
             pdform.getProposalPersonQuestionnaireHelpers().add(helper);
             sort(pdform.getProposalPersonQuestionnaireHelpers(), new ProposalPersonQuestionnaireHelperComparator());
             
@@ -426,7 +426,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                         person_it.remove();
                         proposal.getInvestigators().remove(person);
                         proposal.removePersonnelAttachmentForDeletedPerson(person);
-                        ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
+                        ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
                         pdform.getAnswerHeadersToDelete().addAll(helper.getAnswerHeaders());
                     }
                 }
@@ -761,7 +761,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         final int personIndex = this.getSelectedLine(request);
         
         ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(personIndex);
-        ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
+        ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
         AnswerHeader header = helper.getAnswerHeaders().get(0);
         
         reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());

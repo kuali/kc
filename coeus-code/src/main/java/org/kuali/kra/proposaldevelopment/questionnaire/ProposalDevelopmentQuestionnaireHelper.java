@@ -27,10 +27,17 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
 
     private static final long serialVersionUID = 8595107639632039291L;
 
+    @Deprecated
     private ProposalDevelopmentForm proposalDevelopmentForm;
+    private ProposalDevelopmentDocument document;
     
     public ProposalDevelopmentQuestionnaireHelper(ProposalDevelopmentForm form) {
         this.proposalDevelopmentForm = form;
+        this.document = form.getProposalDevelopmentDocument();
+    }
+    
+    public ProposalDevelopmentQuestionnaireHelper(ProposalDevelopmentDocument document) {
+        this.document = document;
     }
     
     @Override
@@ -40,20 +47,9 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
 
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
-        ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument(); 
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(propDevDoc.getDevelopmentProposal());
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(document.getDevelopmentProposal());
         return moduleQuestionnaireBean;
     }
-    
-
-    protected ProposalDevelopmentDocument getProposalDevelopmentDocument() {
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        if (document == null || document.getDevelopmentProposal() == null) {
-            throw new IllegalArgumentException("invalid (null) ProposalDevelopmentDocument in ProposalDevelopmentForm");
-        }
-        return document;
-    }
-    
     
     /**
      * Gets the proposalDevelopmentForm attribute. 
@@ -76,7 +72,7 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
      * This method is to set up things for questionnaire page to be displayed.
      */
     public void prepareView() {
-        initializePermissions(proposalDevelopmentForm.getProposalDevelopmentDocument());
+        initializePermissions(document);
     }
 
     /*
@@ -85,6 +81,14 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
     private void initializePermissions(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         ProposalTask task = new ProposalTask(TaskName.ANSWER_PROPOSAL_QUESTIONNAIRE, proposalDevelopmentDocument);
         setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+    }
+
+    protected ProposalDevelopmentDocument getDocument() {
+        return document;
+    }
+
+    public void setDocument(ProposalDevelopmentDocument document) {
+        this.document = document;
     }
 
     

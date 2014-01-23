@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.coi.config;
 
-import org.kuali.kra.common.config.AbstractConfigurer;
+import org.kuali.kra.common.config.KcConfigurer;
 import org.kuali.rice.core.api.config.module.RunMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CoiConfigurer extends AbstractConfigurer {
+public class CoiConfigurer extends KcConfigurer {
 
     private static final String COI_SPRING_BEANS_PATH = "classpath:org/kuali/kra/coi/CoiSpringBeans.xml";
 

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="Uif-GlobalApplicationHeader" parent="KC-ApplicationHeader"/>
+    <bean id="KC-ApplicationHeader" parent="Uif-ApplicationHeaderBase">
+        <property name="applicationNavigation.brandImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/static/images/kuali-logo.png"/>
+        </property>
+        <property name="applicationNavigation.items">
+            <list>
+                <bean parent="Kc-Header-ResearcherMenu"/>
+                <bean parent="Kc-Header-DefaultMenu" p:toggleText="UNIT"/>
+                <bean parent="Kc-Header-DefaultMenu" p:toggleText="CENTRAL ADMIN"/>
+                <bean parent="Kc-Header-DefaultMenu" p:toggleText="MAINTENANCE"/>
+                <bean parent="Kc-Header-DefaultMenu" p:toggleText="SYSTEM ADMIN"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="KNS PORTAL" p:actionUrl.href="../portal.do"/>
+            </list>
+        </property>
+        <property name="applicationToolbar.items">
+            <list>
+                <bean parent="Uif-ListGroup" p:layoutManager.additionalCssClasses="nav,pull-right">
+                    <property name="items">
+                        <list>
+                            <bean parent="Kc-Header-Actionlist" p:toggleText="Action list">
+                                <property name="wrapperCssClasses">
+                                    <list merge="true">
+                                        <value>pull-right</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-Link" p:linkText="Doc Search"
+                                  p:href="@{#ConfigProperties['application.url']}/kew/DocumentSearch.do?docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/kc-krad/landingPage&amp;hideReturnLink=true">
+                                <property name="wrapperCssClasses">
+                                    <list merge="true">
+                                        <value>dropdown</value>
+                                        <value>pull-right</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Kc-Header-User" p:toggleText="User: quickstart">
+                                <property name="wrapperCssClasses">
+                                    <list merge="true">
+                                        <value>pull-right</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-ApplicationLogo" parent="Uif-Image"  p:source="../static/images/kuali-logo.png"/>
+
+    <bean id="Kc-Header-ResearcherMenu" parent="Uif-DropdownToggleMenu" p:toggleText="RESEARCHER" p:toggleCaretClass="">
+        <property name="menuGroup">
+            <bean parent="Uif-AppMenuGroup" p:layoutManager.defaultItemColSpan="3">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SimpleGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Kc-Header-Researcher-ProposalGroup"/>
+                                    <bean parent="Kc-Header-Researcher-AwardGroup"/>
+                                    <bean parent="Kc-Header-Researcher-NegotiationGroup"/>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-SimpleGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Kc-Header-Researcher-IRBGroup"/>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-SimpleGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Kc-Header-Researcher-COIGroup"/>
+                                    <bean parent="Kc-Header-Researcher-IacucGroup"/>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-SimpleGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Kc-Header-Researcher-QuicklinksGroup"/>
+                                    <bean parent="Kc-Header-Researcher-PersonnelGroup"/>
+                                    <bean parent="Kc-Header-Researcher-WorkflowGroup"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-Researcher-ProposalGroup" parent="Uif-MenuList" p:headerText="Proposals">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MenuAction" p:actionLabel="Create Proposal" p:actionUrl.baseUrl="../kc-pd-krad"
+                      p:actionUrl.viewId="PropDev-InitiateView"
+                      p:actionUrl.controllerMapping="/proposalDevelopment"
+                      p:actionUrl.methodToCall="docHandler"
+                      p:actionUrl.requestParameters="command:initiate"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Proposals Enroute"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="All My Proposals"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Create Proposal For S2S Opportunity"/>
+                <bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Search Proposals"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Search Proposal Log"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Search Institutional Proposals"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-Researcher-AwardGroup" parent="Uif-MenuList" p:headerText="Awards">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MenuAction" p:actionLabel="Awards in Progress"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="All my Awards"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-Researcher-NegotiationGroup" parent="Uif-MenuList" p:headerText="Negotiations">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MenuAction" p:actionLabel="All My Negotiations"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-Researcher-IRBGroup" parent="Uif-MenuList" p:headerText="IRB Protocols">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SimpleHeaderFour" p:headerText="Actions"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Create IRB Protocol"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Amend or Renew IRB Protocol"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Notify IRB on a Protocol"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Request a Status Change on a IRB Protocol"/>
+                <bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Pending Protocols"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Protocols Pending PI Action"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Protocols Pending Committee Action"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Protocols Under Development"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="All My Protocols"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Search Protocols"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="All My Reviews"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="All My Schedules"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-Researcher-COIGroup" parent="Uif-MenuList" p:headerText="Conflict of Interest">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SimpleHeaderFour" p:headerText="My Financial Entities"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Financial Entity"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="View/Edit Financial Entities"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="All My Financial Entities"/>
+                <bean parent="Uif-SimpleHeaderFour" p:headerText="My Disclosures"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Master Disclosure"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Create Annual Disclosure"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Create Manual Disclosure"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="New Project Disclosures To Complete"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Update Master Disclosure"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="All My Disclosures"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Search Disclosures"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-Researcher-IacucGroup" parent="Uif-MenuList" p:headerText="IACUC Protocols">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SimpleHeaderFour" p:headerText="Actions"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Create IACUC Protocol"/>
+                <bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="All My Protocols"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Search Protocols"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="All My Reviews"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-Researcher-QuicklinksGroup" parent="Uif-MenuList" p:headerText="Quicklinks">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MenuAction" p:actionLabel="Pessimistic Lock"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Grants.gov Opportunity Lookup"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Change Password"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-Researcher-PersonnelGroup" parent="Uif-MenuList" p:headerText="Personnel">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MenuAction" p:actionLabel="Degree Information"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Current &amp; Pending Support"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Bio-sketches"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="All my Training"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-Researcher-WorkflowGroup" parent="Uif-MenuList" p:headerText="Workflow">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MenuAction" p:actionLabel="Preferences"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-DefaultMenu" parent="Uif-DropdownToggleMenu" p:toggleCaretClass="">
+        <property name="menuGroup">
+            <bean parent="Uif-AppMenuGroup" p:layoutManager.defaultItemColSpan="3">
+                <property name="items">
+                    <list>
+                        <bean parent="Kc-Header-SampleGroup"/>
+                        <bean parent="Kc-Header-SampleGroup"/>
+                        <bean parent="Kc-Header-SampleGroup"/>
+                        <bean parent="Kc-Header-SampleGroup"/>
+                        <bean parent="Kc-Header-SampleGroup"/>
+                        <bean parent="Kc-Header-SampleGroup"/>
+                        <bean parent="Kc-Header-SampleGroup"/>
+                        <bean parent="Kc-Header-SampleGroup"/>
+                        <bean parent="Kc-Header-SampleGroup"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-SampleGroup" parent="Uif-SimpleGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MenuList" p:headerText="Sample Heading">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SimpleHeaderFour" p:headerText="Subheading"/>
+                            <bean parent="Uif-MenuAction" p:actionLabel="Link"/>
+                            <bean parent="Uif-MenuAction" p:actionLabel="Link"/>
+                            <bean parent="Uif-MenuAction" p:actionLabel="Link"/>
+                            <bean parent="Uif-SimpleHeaderFour" p:headerText="Subheading"/>
+                            <bean parent="Uif-MenuAction" p:actionLabel="Link"/>
+                            <bean parent="Uif-MenuAction" p:actionLabel="Link"/>
+                            <bean parent="Uif-MenuAction" p:actionLabel="Link"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-Actionlist" parent="Uif-DropdownToggleMenu">
+        <property name="menuItems">
+          <list>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547"/>
+              <bean parent="Uif-MenuDivider"/>
+              <bean parent="Uif-MenuAction" p:actionLabel="Full Action List"/>
+          </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-User" parent="Uif-DropdownToggleMenu">
+        <property name="menuItems">
+          <list>
+            <bean parent="Uif-MenuAction" p:actionLabel="Preferences"/>
+            <bean parent="Uif-MenuAction" p:actionLabel="Logout"/>
+          </list>
+        </property>
+    </bean>
+</beans>

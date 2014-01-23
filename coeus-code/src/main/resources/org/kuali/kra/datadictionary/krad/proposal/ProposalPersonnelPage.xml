@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <bean id="PropDev-PersonnelPage" parent="PropDev-PersonnelPage-parentBean"/>
+    <bean id="PropDev-PersonnelPage-parentBean" parent="Uif-DocumentPage">
+        <property name="items">
+            <list>
+                <ref bean="PropDev-PersonnelSection"/>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-PageHeader"/>
+        </property>
+        <property name="footer">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="PropDev-PersonnelSection" parent="PropDev-PersonnelSection-parentBean"/>
+    <bean id="PropDev-PersonnelSection-parentBean" abstract="true" parent="Uif-CssGridSection">
+        <property name="header.headerText" value="Key Personnel"/>
+        <property name="instructionalText" value="Search for and add key personnel"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add Personnel"
+                      p:refreshId="PropDev-ProposalPersonWizardAdd" p:methodToCall="refresh"
+                      p:successCallback="showLightboxComponent('PropDev-ProposalPersonWizardAdd');"
+                      p:actionParameters="PropDev-ProposalPersonWizardAdd.step:0" p:iconClass="icon-plus"/>
+                <ref bean="PropDev-Personnel-Collection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-ProposalPersonWizardAdd" parent="Uif-VerticalBoxGroup"
+          class="org.kuali.rice.contrib.uif.element.WizardGroup" p:fieldBindingObjectPath="addKeyPersonHelper"
+          p:resetDataOnRefresh="true" p:retrieveViaAjax="true">
+        <property name="header">
+            <bean parent="Uif-HeaderOne" p:headerText="Add Personnel"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-CssGridSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:fieldLabel.renderColon="true"
+                                  p:propertyName="personType" p:label="Search for" p:defaultValue="E">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="E" p:value="Employees"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Non-employees"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-CssGridSection-1FieldLabelColumn"
+                                  p:headerText="Enter Known Details">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:label="Last name"
+                                              p:propertyName="lookupFieldValues['lastName']">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:label="First name"
+                                              p:propertyName="lookupFieldValues['firstName']">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:label="Username"
+                                              p:propertyName="lookupFieldValues['userName']">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:label="Email address"
+                                              p:propertyName="lookupFieldValues['emailAddress']">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:watermarkText="user@domain.com"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:label="Office phone"
+                                              p:propertyName="lookupFieldValues['officePhone']">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="footer">
+                        <bean parent="Uif-FooterBase">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-PrimaryActionButton"
+                                          p:actionLabel="Continue..."
+                                          p:refreshId="PropDev-ProposalPersonWizardAdd"
+                                          p:methodToCall="performPersonnelSearch"
+                                          p:actionParameters="PropDev-ProposalPersonWizardAdd.step:1"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-CssGridGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-TableCollectionSection"
+                                  p:headerText="Search Results"
+                                  p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPerson"
+                                  p:propertyName="results"
+                                  p:additionalCssClasses="kc-personnel-table"
+                                  p:renderAddLine="false" p:renderLineActions="false"
+                                  p:layoutManager.renderSequenceField="false">
+                                <property name="layoutManager.richTable.templateOptions">
+                                    <map>
+                                        <entry key="bAutoWidth" value="false"/>
+                                        <entry key="sDom" value="tip"/>
+                                        <entry key="bRetrieve" value="true"/>
+                                        <entry key="sPaginationType" value="full_numbers"/>
+                                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                                        <entry key="aoColumnDefs"
+                                               value="[{'sWidth' : '20px', 'bSortable':false, 'aTargets' : [0]}]"/>
+                                    </map>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="selected" p:label="" p:readOnly="false">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value=""/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                            <property name="onClickScript"
+                                                      value="ProposalDevelopmentMethods.unselectCollectionRadioButtons(this, &quot;input[name$='selected']&quot;);"/>
+                                        </bean>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="fullName" p:label="Name" p:readOnly="true"/>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="userName" p:label="User ID" p:readOnly="true"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="footer">
+                        <bean parent="Uif-FooterBase">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-PrimaryActionButton"
+                                          p:actionLabel="Go back"
+                                          p:refreshId="PropDev-ProposalPersonWizardAdd"
+                                          p:methodToCall="refresh"
+                                          p:actionParameters="PropDev-ProposalPersonWizardAdd.step:0">
+                                    </bean>
+                                    <bean parent="Uif-PrimaryActionButton"
+                                          p:actionLabel="Continue..."
+                                          p:refreshId="PropDev-ProposalPersonWizardAdd"
+                                          p:methodToCall="refresh"
+                                          p:actionParameters="PropDev-ProposalPersonWizardAdd.step:2"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-CssGridSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:fieldLabel.renderColon="true"
+                                  p:propertyName="personRole" p:label="Assign a role">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="includeInProposalBudget">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl" p:checked="true"
+                                          p:checkboxLabel="Yes, include in this proposal's budget"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="footer">
+                        <bean parent="Uif-FooterBase">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-PrimaryActionButton"
+                                          p:actionLabel="Go back"
+                                          p:refreshId="PropDev-ProposalPersonWizardAdd"
+                                          p:methodToCall="refresh"
+                                          p:actionParameters="PropDev-ProposalPersonWizardAdd.step:1"/>
+                                    <bean parent="Uif-PrimaryActionButton"
+                                          p:actionLabel="Add Person"
+                                          p:refreshId="PropDev-Personnel-Collection"
+                                          p:methodToCall="addPerson"
+                                          p:successCallback="closeLightbox();"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Personnel-Collection" parent="PropDev-Personnel-Collection-parentBean"/>
+    <bean id="PropDev-Personnel-Collection-parentBean" abstract="true" parent="Uif-StackedCollectionSection"
+          p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPerson"
+          p:propertyName="document.developmentProposal.proposalPersons"
+          p:layoutManager.summaryTitle="@{#lp.fullName} (@{#lp.proposalPersonRoleId})"
+          p:renderAddLine="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-FieldGroupBase">
+                    <property name="group">
+                        <bean parent="PropDev-Personnel-TabGroup"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+          <list/>
+        </property>
+        <property name="layoutManager.lineGroupPrototype">
+          <bean parent="Uif-CollectionHorizontalBoxItem" p:disclosure.render="true">
+            <property name="layoutManager">
+              <bean parent="Uif-SimpleLayout"/>
+            </property>
+            <property name="header">
+              <bean parent="Uif-HeaderFour">
+                <property name="rightGroup">
+                  <bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                      <list>
+                        <bean parent="Uif-DeleteLineAction" p:actionLabel="" p:iconClass="icon-close"/>
+                      </list>
+                    </property>
+                  </bean>
+                </property>
+              </bean>
+            </property>
+          </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Personnel-TabGroup" parent="PropDev-Personnel-TabGroup-parentBean"/>
+    <bean id="PropDev-Personnel-TabGroup-parentBean" abstract="true" parent="Uif-TabGroup">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-Personnel-Details"/>
+                <bean parent="PropDev-Personnel-Organization"/>
+                <bean parent="PropDev-Personnel-Education"/>
+                <bean parent="PropDev-Personnel-ExtendedDetails"/>
+                <bean parent="PropDev-Personnel-Degrees"/>
+                <bean parent="PropDev-Personnel-UnitDetails"/>
+                <bean parent="PropDev-Personnel-Questionnaire"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Personnel-Details" parent="PropDev-Personnel-Details-parentBean"/>
+    <bean id="PropDev-Personnel-Details-parentBean" abstract="true" parent="Uif-CssGridSection-2FieldLabelColumn"
+          p:headerText="Details">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="proposalPersonRoleId"/>
+                <bean parent="Uif-InputField" p:propertyName="fullName"/>               
+                <bean parent="Uif-InputField" p:propertyName="userName"/>
+                <bean parent="Uif-InputField" p:propertyName="firstName"/>
+                <bean parent="Uif-InputField" p:propertyName="lastName"/>
+                <bean parent="Uif-InputField" p:propertyName="middleName"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Personnel-Organization" parent="PropDev-Personnel-Organization-parentBean"/>
+    <bean id="PropDev-Personnel-Organization-parentBean" abstract="true" parent="Uif-CssGridSection-2FieldLabelColumn"
+          p:headerText="Organization">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="emailAddress"/>
+                <bean parent="Uif-InputField" p:propertyName="officePhone"/>
+                <bean parent="Uif-InputField" p:propertyName="faxNumber"/>
+                <bean parent="Uif-InputField" p:propertyName="pagerNumber"/>
+                <bean parent="Uif-InputField" p:propertyName="mobilePhoneNumber"/>
+                <bean parent="Uif-InputField" p:propertyName="primaryTitle"/>
+                <bean parent="Uif-InputField" p:propertyName="directoryTitle"/>
+                <bean parent="Uif-InputField" p:propertyName="homeUnit"/>
+                <bean parent="Uif-InputField" p:propertyName="division"/>                
+                <bean parent="Uif-InputField" p:propertyName="eraCommonsUserName"/>
+                <bean parent="Uif-InputField" p:propertyName="officeLocation"/>
+                <bean parent="Uif-InputField" p:propertyName="secondaryOfficeLocation"/>
+                <bean parent="Uif-InputField" p:propertyName="addressLine1"/>
+                <bean parent="Uif-InputField" p:propertyName="addressLine2"/>
+                <bean parent="Uif-InputField" p:propertyName="addressLine3"/>
+                <bean parent="Uif-InputField" p:propertyName="city"/>
+                <bean parent="Uif-InputField" p:propertyName="county"/>
+                <bean parent="Uif-InputField" p:propertyName="countryCode"/>
+                <bean parent="Uif-InputField" p:propertyName="postalCode"/>
+                <bean parent="Uif-InputField" p:propertyName="state"/>
+                <bean parent="Uif-InputField" p:propertyName="percentageEffort"/>
+                <bean parent="Uif-InputField" p:propertyName="facultyFlag"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Personnel-Education" parent="PropDev-Personnel-Education-parentBean"/>
+    <bean id="PropDev-Personnel-Education-parentBean" abstract="true" parent="Uif-CssGridSection-2FieldLabelColumn"
+          p:headerText="Education">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="educationLevel"/>
+                <bean parent="Uif-InputField" p:propertyName="yearGraduated"/>
+                <bean parent="Uif-InputField" p:propertyName="major"/>
+                <bean parent="Uif-InputField" p:propertyName="degree"/>
+                <bean parent="Uif-InputField" p:propertyName="school"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Personnel-ExtendedDetails" parent="PropDev-Personnel-ExtendedDetails-parentBean"/>
+    <bean id="PropDev-Personnel-ExtendedDetails-parentBean" abstract="true"
+          parent="Uif-CssGridSection-2FieldLabelColumn"
+          p:headerText="Extended Details">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="ageByFiscalYear"/>
+                <bean parent="Uif-InputField" p:propertyName="race"/>
+                <bean parent="Uif-InputField" p:propertyName="personId"/>
+                <bean parent="Uif-InputField" p:propertyName="handicappedFlag"/>
+                <bean parent="Uif-InputField" p:propertyName="handicapType"/>
+                <bean parent="Uif-InputField" p:propertyName="veteranFlag"/>
+                <bean parent="Uif-InputField" p:propertyName="veteranType"/>
+                <bean parent="Uif-InputField" p:propertyName="hasVisa"/>
+                <bean parent="Uif-InputField" p:propertyName="visaCode"/>
+                <bean parent="Uif-InputField" p:propertyName="visaType"/>
+                <bean parent="Uif-InputField" p:propertyName="visaRenewalDate">
+                	<property name="control">
+                		<bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy"/>
+                	</property>
+                </bean>                	
+                <bean parent="Uif-InputField" p:propertyName="directoryDepartment"/>
+                <bean parent="Uif-InputField" p:propertyName="vacationAccrualFlag"/>
+                <bean parent="Uif-InputField" p:propertyName="onSabbaticalFlag"/>
+                <bean parent="Uif-InputField" p:propertyName="idProvided"/>
+                <bean parent="Uif-InputField" p:propertyName="idVerified"/>
+                <bean parent="Uif-InputField" p:propertyName="countryOfCitizenship"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Personnel-UnitDetails" parent="PropDev-Personnel-UnitDetails-parentBean"/>
+    <bean id="PropDev-Personnel-UnitDetails-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+          p:headerText="Unit Details" p:propertyName="units"
+          p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit"
+          p:renderAddLine="false"
+          p:layoutManager.renderSequenceField="false">
+        <property name="layoutManager.pagerWidget">
+            <null/>
+        </property>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder"
+                  p:dataObjectClassName="org.kuali.kra.bo.Unit"
+                  p:fieldConversions="unitNumber:unitNumber"/>
+        </property>
+        <property name="items">
+            <list>
+                <!-- <bean parent="Uif-InputField" p:propertyName="leadUnit"/> -->
+                <bean parent="Uif-InputField" p:propertyName="unit.unitName" p:readOnly="true"/>
+                <bean parent="Uif-InputField" p:propertyName="unitNumber" p:readOnly="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Personnel-Degrees" parent="PropDev-Personnel-Degrees-parentBean"/>
+    <bean id="PropDev-Personnel-Degrees-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+          p:headerText="Degrees" p:propertyName="proposalPersonDegrees"
+          p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree"
+          p:renderAddBlankLineButton="true"
+          p:layoutManager.richTable.render="true"
+          p:layoutManager.renderSequenceField="false"
+          p:addLinePlacement="BOTTOM">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="degreeCode"/>
+                <bean parent="Uif-InputField" p:propertyName="degree"/>
+                <bean parent="Uif-InputField" p:propertyName="graduationYear"/>
+                <bean parent="Uif-InputField" p:propertyName="school"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Personnel-Questionnaire" parent="PropDev-Personnel-Questionnaire-parentBean"/>
+    <bean id="PropDev-Personnel-Questionnaire-parentBean" abstract="true" parent="Uif-CssGridSection"
+          p:render="@{#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0}"
+          p:headerText="@{(#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0) ? #line.questionnaireHelper.answerHeaders[0].label : ''}">
+        <property name="items">
+            <list>
+                <bean parent="Questionnaire-QuestionsGroup"
+                      p:propertyName="questionnaireHelper.answerHeaders[0].questions"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

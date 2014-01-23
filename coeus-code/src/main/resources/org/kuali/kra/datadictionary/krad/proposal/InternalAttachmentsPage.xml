@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <bean id="PropDev-InternalAttachmentsPage" parent="PropDev-InternalAttachmentsPage-parentBean"/>
+    <bean id="PropDev-InternalAttachmentsPage-parentBean" parent="Uif-DocumentPage">
+        <property name="items">
+            <list>
+                <ref bean="PropDev-InternalAttachmentSection"/>
+            </list>
+        </property>
+        <property name="footer">
+        	<bean parent="Uif-FooterBase">
+        		<property name="items"><list>
+        			<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveInternalAttachments" p:actionLabel="Save"/>
+        			<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveInternalAttachments" p:actionLabel="Save and continue..."
+        				p:navigateToPageId="PropDev-AbstractsPage"/>
+        		</list></property>
+        	</bean>
+        </property>
+    </bean>
+		
+    <bean id="PropDev-InternalAttachmentSection" parent="PropDev-InternalAttachmentSection-parentBean"/>
+    <bean id="PropDev-InternalAttachmentSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="header.headerText" value="Internal Attachments"/>
+        <property name="instructionalText" value="Add attachments to this proposal"/>
+        <property name="items">
+            <list>
+							<ref bean="PropDev-InternalAttachments-Collection"/>
+						</list>
+				</property>
+    		<property name="fieldBindingObjectPath" value="document.developmentProposal"/>
+    </bean>		
+		
+		<bean id="PropDev-InternalAttachments-Collection" parent="PropDev-InternalAttachments-Collection-parentBean"/>
+		<bean id="PropDev-InternalAttachments-Collection-parentBean" abstract="true" parent="PropDev-Attachment-Collection">
+			<property name="collectionObjectClass" value="org.kuali.kra.proposaldevelopment.bo.Narrative"/>
+			<property name="propertyName" value="instituteAttachments"/>
+			<property name="items"><list>
+				<bean parent="Uif-InputField" p:propertyName="kradFile" p:readOnlyDisplayReplacementPropertyName="fileName" p:required="true" />
+				<bean parent="Uif-InputField" p:propertyName="narrativeTypeCode" p:readOnlyDisplayReplacementPropertyName="narrativeType.description">
+					<property name="optionsFinder">
+						<bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.InstituteAttachmentTypeValuesFinder"/>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="moduleTitle" />
+				<bean parent="Uif-InputField" p:propertyName="updateUser" p:render="@{!#isAddLine}"/>
+				<bean parent="Uif-InputField" p:propertyName="updateTimestamp" p:render="@{!#isAddLine}"/>
+			</list></property>
+		</bean>		
+</beans>

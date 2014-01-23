@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentSpecialReviewService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -36,22 +37,32 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     private static final long serialVersionUID = 8832539481443727887L;
 
-    private ProposalDevelopmentForm form;
     private ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
+    private ProposalDevelopmentDocument proposalDevelopmentDocument;
+    private boolean modifySpecialReviewPermission;
     
     /**
      * Constructs a SpecialReviewHelper.
      * @param form the container form
      */
     public SpecialReviewHelper(ProposalDevelopmentForm form) {
-        this.form = form;
+        proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+        modifySpecialReviewPermission = BooleanUtils.toBoolean((String) form.getEditingMode().get("modifyProposal"));
         setNewSpecialReview(new ProposalSpecialReview());
         setLinkedProtocolNumbers(new ArrayList<String>());
     }
+    
+    public SpecialReviewHelper(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean modifySpecialReviewPermission) {
+        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
+        this.modifySpecialReviewPermission = modifySpecialReviewPermission;
+        setNewSpecialReview(new ProposalSpecialReview());
+        setLinkedProtocolNumbers(new ArrayList<String>()); 
+    }
+    
 
     @Override
     protected boolean hasModifySpecialReviewPermission(String principalId) {
-        return BooleanUtils.toBoolean((String) form.getEditingMode().get("modifyProposal"));
+        return modifySpecialReviewPermission;
     }
     
     @Override
@@ -66,17 +77,17 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     @Override
     protected List<ProposalSpecialReview> getSpecialReviews() {
-        return form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews();
+        return getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews();
     }
 
     @Override
     public boolean isCanCreateIrbProtocol() {
-        return getProposalDevelopmentSpecialReviewService().canCreateIrbProtocol(form.getProposalDevelopmentDocument());
+        return getProposalDevelopmentSpecialReviewService().canCreateIrbProtocol(getProposalDevelopmentDocument());
     }
 
     @Override
     public boolean isCanCreateIacucProtocol() {
-        return getProposalDevelopmentSpecialReviewService().canCreateIacucProtocol(form.getProposalDevelopmentDocument());
+        return getProposalDevelopmentSpecialReviewService().canCreateIacucProtocol(getProposalDevelopmentDocument());
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -94,7 +105,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
        {
            String [] splitString =StringUtils.split(summarySpecialReview, ",");
            List<ProposalSpecialReview> propSpecialReviewFilteredList = new ArrayList<ProposalSpecialReview>();
-            for(ProposalSpecialReview proposalSpecialReview : form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews())
+            for(ProposalSpecialReview proposalSpecialReview : getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews())
             {
                 for(int i=0; i<splitString.length; i++ ) {
                     if ( proposalSpecialReview.getSpecialReviewTypeCode().equals(splitString[i] ) )
@@ -103,7 +114,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
                     }
                 }
             }
-            form.getProposalDevelopmentDocument().getDevelopmentProposal().setPropSpecialReviews(propSpecialReviewFilteredList);
+            getProposalDevelopmentDocument().getDevelopmentProposal().setPropSpecialReviews(propSpecialReviewFilteredList);
        }
    }
 
@@ -117,6 +128,14 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     public void setProposalDevelopmentSpecialReviewService(
             ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService) {
         this.proposalDevelopmentSpecialReviewService = proposalDevelopmentSpecialReviewService;
+    }
+
+    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        return proposalDevelopmentDocument;
+    }
+
+    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
     }
 
 }
