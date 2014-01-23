@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>CFDA Batch</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><link rel="stylesheet" type="text/css" href="../Theme/nav.css" /><link rel="stylesheet" type="text/css" href="../Theme/popupmenu.css" /><link rel="stylesheet" type="text/css" href="../Theme/lf.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/C1H_HTML.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/KC.css" />
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+var _needIndentation = false;
+
+
+
+
+//]]></script>
+
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2010.1.0.520" />
+<meta name="D2HTheme" content="KC v.138" />
+</head>
+<body style="PADDING-BOTTOM: 0px; BACKGROUND-COLOR: #a02919; MARGIN: 7px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; OVERFLOW: hidden; PADDING-TOP: 0px" onload="d2hOnLoadToolbar(event);" relpart="../">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+
+d2hTopicPreOpen();
+
+
+
+d2hTrySyncTOC();
+
+
+
+
+
+
+
+var prev = true;
+
+
+
+
+
+var next = true;
+
+
+
+if (typeof d2hInitMainThemeHandlers != "undefined")
+
+    d2hInitMainThemeHandlers(prev, next);
+
+d2hAdjustTopicBorders(document);    
+
+
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+if (typeof d2hLoadNavUrls != "undefined")
+
+    d2hLoadNavUrls();
+
+
+
+
+//]]></script>
+
+<div style="PADDING-BOTTOM: 0px; BACKGROUND-COLOR: white; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 100%; PADDING-RIGHT: 0px; HEIGHT: 100%; OVERFLOW: auto; PADDING-TOP: 0px" id="D2HTopicOuterBody" class="d2h_outer_topic">
+<div id="nsbanner" class="d2hNavigatorTopic">
+<div style="PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px" id="TitleRow" class="d2h_main_titlerow">
+<div style="DISPLAY: none"><a id="D2HPreviousAnchor" href="changingbudgetamountsusingkctimeandmoneydocument1.htm"></a><a id="D2HNextAnchor" href="settingupcfdabatchintegration.htm"></a></div></div>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+if (typeof d2hProcessTopicNavForCSH != "undefined")
+
+    d2hProcessTopicNavForCSH();
+
+
+//]]></script>
+</div>
+<div style="PADDING-BOTTOM: 10px; PADDING-LEFT: 22px; PADDING-RIGHT: 10px; PADDING-TOP: 5px" id="nstext" class="d2h_main_nstext" valign="bottom">
+<div id="d2h_breadcrumbs" class="d2h_breadcrumbs"><span class="d2h_breadcrumbsLabel">You are here: </span><span class="d2h_breadcrumbsContentsOnly">Appendix C: Kuali Financial System 
+Integration</span></div>
+<h2>CFDA Batch</h2>
+<p class="MsoBodyText"><span style="DISPLAY: none"></span></p>
+<p class="MsoBodyText">One of the KFS-KC integration points allows for the running 
+of a Catalog of Federal Domestic Assistance (CFDA) batch job in KC to ensure 
+this KC reference table has the most up-to-date data available from the 
+authoritative source at cfda.org.  This functionality used to be a part of 
+KFS, but it is now a part of KC, making KC the system of record for CFDA number 
+selection.  </p>
+<p class="MsoBodyText">The CFDA # validations are a part of KC now instead of KFS, 
+and there is a new CFDA maintenance document that is populated from a batch job 
+to call and get valid values from CFDA to populate the table.  These are 
+associated with the Award and thus the account.  This batch job 
+functionality ensures the Catalog of Federal Domestic Assistance (CFDA) table in 
+KC is automatically updated with data from the cfda.gov website so that the CFDA 
+values available for selection on a KC Award document are valid.  </p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image9_2390.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 1253  Location of CFDA Number field in the KC 
+Award document &amp; Direct Inquiry record example</p>
+<p class="MsoBodyText">The KFS-KC integration point that allows for the running of 
+a Catalog of Federal Domestic Assistance (CFDA) batch job in KC ensures the CFDA 
+table in KC is automatically updated with data from the cfda.gov website so that 
+the CFDA values available for selection on a KC Award document are valid.  
+This functionality includes the following features:</p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>The 
+CFDA lookup on the KFS Account maintenance document points to the KC CFDA 
+table.</p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>The 
+CFDA Batch Job (cfdaBatchStep) allows for standard CFDA numbers to be populated 
+by an automated batch program (CFDA maintenance type = AUTOMATIC), OR by the 
+CFDA maintenance document (CFDA maintenance type = MANUAL).</p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>When 
+a KFS Account is created from a KC Award, the CFDA number is carried 
+forward.</p>
+<table style="BORDER-COLLAPSE: collapse" class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 24.3pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="32">
+      <p style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" class="Note"><img border="0" alt="tip.png" src="../ImagesExt/image9_4.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 472.5pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="630">
+      <div style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 1pt; MARGIN-TOP: 9pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 1pt">
+      <p style="MARGIN-TOP: 0pt; MARGIN-BOTTOM: 0pt" class="Note"><b>Key 
+      Concepts</b>:  While the CFDA number is validated on the Award 
+      document, it remains a “free-form” entry field that is not validated on 
+      the Proposal Development document in KC.  KFS retains the ability to 
+      assign CFDA numbers on accounts that are not associated with KC Awards 
+      (important for institutions who implement KFS, but not 
+  KC).</p></div></td></tr></tbody></table>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image9_2391.png" alt="" /></p>
+<p class="MsoCaption">Figure 1254  CFDA Number field – KFS Account document 
+example</p>
+<p class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'; FONT-SIZE: 18pt"></span></b> </p>
+<p class="RelatedHead">Subtopics:</p>
+<p class="MsoNormal"><a style="TEXT-DECORATION: none" href="settingupcfdabatchintegration.htm"><img border="0" alt="" align="absMiddle" src="../button.gif" />Setting up CFDA batch 
+integration</a></p></div></div></body></html>

@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__23678", [["Documents/quickreferenceguideabbreviatedprocedure2.htm", "right", "Quick Reference Guide - Abbreviated Procedure"],["Documents/quickreferenceguideabbreviatedprocedure3.htm", "right", "Quick Reference Guide - Abbreviated Procedure"]]);
