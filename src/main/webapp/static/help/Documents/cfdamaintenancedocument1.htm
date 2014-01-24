@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>CFDA Maintenance Document</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><link rel="stylesheet" type="text/css" href="../Theme/nav.css" /><link rel="stylesheet" type="text/css" href="../Theme/popupmenu.css" /><link rel="stylesheet" type="text/css" href="../Theme/lf.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/C1H_HTML.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/KC.css" />
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+var _needIndentation = false;
+
+
+
+
+//]]></script>
+
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2010.1.0.520" />
+<meta name="D2HTheme" content="KC v.138" />
+</head>
+<body style="PADDING-BOTTOM: 0px; BACKGROUND-COLOR: #a02919; MARGIN: 7px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; OVERFLOW: hidden; PADDING-TOP: 0px" onload="d2hOnLoadToolbar(event);" relpart="../">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+
+d2hTopicPreOpen();
+
+
+
+d2hTrySyncTOC();
+
+
+
+
+
+
+
+var prev = true;
+
+
+
+
+
+var next = true;
+
+
+
+if (typeof d2hInitMainThemeHandlers != "undefined")
+
+    d2hInitMainThemeHandlers(prev, next);
+
+d2hAdjustTopicBorders(document);    
+
+
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+if (typeof d2hLoadNavUrls != "undefined")
+
+    d2hLoadNavUrls();
+
+
+
+
+//]]></script>
+
+<div style="PADDING-BOTTOM: 0px; BACKGROUND-COLOR: white; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 100%; PADDING-RIGHT: 0px; HEIGHT: 100%; OVERFLOW: auto; PADDING-TOP: 0px" id="D2HTopicOuterBody" class="d2h_outer_topic">
+<div id="nsbanner" class="d2hNavigatorTopic">
+<div style="PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px" id="TitleRow" class="d2h_main_titlerow">
+<div style="DISPLAY: none"><a id="D2HPreviousAnchor" href="settingupcfdabatchintegration.htm"></a><a id="D2HNextAnchor" href="effortcertification.htm"></a></div></div>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+if (typeof d2hProcessTopicNavForCSH != "undefined")
+
+    d2hProcessTopicNavForCSH();
+
+
+//]]></script>
+</div>
+<div style="PADDING-BOTTOM: 10px; PADDING-LEFT: 22px; PADDING-RIGHT: 10px; PADDING-TOP: 5px" id="nstext" class="d2h_main_nstext" valign="bottom">
+<div id="d2h_breadcrumbs" class="d2h_breadcrumbs"><span class="d2h_breadcrumbsLabel">You are here: </span><span class="d2h_breadcrumbsContentsOnly">Appendix C: Kuali Financial System 
+Integration</span><span class="d2h_breadcrumbsLinkSeparator"> &gt; </span><a class="d2h_breadcrumbsNormal" href="cfdabatch.htm">CFDA Batch</a><span class="d2h_breadcrumbsLinkSeparator"> &gt; </span><a class="d2h_breadcrumbsNormal" href="settingupcfdabatchintegration.htm">Setting up CFDA batch 
+integration</a></div>
+<h4>CFDA Maintenance Document</h4>
+<p class="MsoNormal"><span style="DISPLAY: none"></span></p>
+<p class="MsoBodyText">A part of the setup of the CFDA-related KFS-KC integration 
+functionality is the CFDA maintenance document, which is new to the KC 
+system.  The CFDA maintenance document is used to establish and maintain 
+numeric codes and textual description values which are stored in the database 
+table.  This data serves as reference information that is made available 
+for display and selection in various areas of the system, including e-docs and 
+other maintenance e-docs.  The e-doc that this maintenance document 
+supports is the KC Award document, which has a CFDA Number field that appears on 
+the Award page &gt; Details &amp; Dates section &gt; Sponsor subsection, with 
+text entry, lookup, and direct inquiry icons that query this table.  </p>
+<p class="MsoBodyText"><img border="0" alt="cfda.jpg" src="../ImagesExt/image9_2392.jpg" /></p>
+<p class="MsoCaption">Figure 1255  CFDA Number Field w/ Lookup and Direct 
+Inquiry buttons as it appears on the KC Award e-doc</p>
+<h6>Navigation / Creation</h6>
+<p style="MARGIN-LEFT: 0pt" class="Source">KC app &gt; <b>Maintenance </b>menu 
+&gt; <b>Awards</b> group &gt; <b><u>CFDA</u></b> link &gt; <b>[create new]</b> 
+button on CFDA Lookup screen</p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image9_2393.png" alt="" /></p>
+<p class="MsoCaption">Figure 1256  Navigation to Maintenance menu in KC</p>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image9_2394.png" alt="" /> </p>
+<p class="MsoCaption">Figure 1257  Awards group on Maintenance menu &gt; CFDA 
+link location</p>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image9_2395.png" alt="" /></p>
+<p class="MsoCaption">Figure 1258  Location of create new button on CFDA 
+Lookup screen</p>
+<h6>Document Layout</h6>
+<p class="MsoNormal">The CFDA Maintenance document has one unique tabbed section 
+that is labeled Edit CFDA.  This houses four required fields that allow for 
+the necessary creation and maintenance of the primary information that makes up 
+a single record.</p>
+<p class="MsoNormal"><img border="0" src="../ImagesExt/image9_2396.png" alt="" /></p>
+<p class="MsoCaption">Figure 1259 CFDA Maintenance Document -  Layout</p>
+<h6>Edit CFDA Section</h6>
+<p class="MsoBodyText">The Edit CFDA section of the CFDA maintenance document is a 
+unique section that allows you to specify and maintain the details associated 
+with the reference table record in fields.</p>
+<p class="MsoNormal"> </p>
+<p class="MsoCaption">Table 858 CFDA Maintenance Document - Edit CFDA Section 
+Field Descriptions</p>
+<table style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-COLLAPSE: collapse; BORDER-TOP: medium none; BORDER-RIGHT: medium none" class="MsoNormalTable" border="1" cellspacing="0" cellpadding="0">
+  <thead>
+  <tr style="PAGE-BREAK-INSIDE: avoid">
+    <td style="BORDER-BOTTOM: windowtext 2.25pt double; BORDER-LEFT: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 135.9pt; PADDING-RIGHT: 5.4pt; BACKGROUND: #e5e5e5; BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0pt" valign="top" width="181">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field</span></p></td>
+    <td style="BORDER-BOTTOM: windowtext 2.25pt double; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 360.9pt; PADDING-RIGHT: 5.4pt; BACKGROUND: #e5e5e5; BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; PADDING-TOP: 0pt" valign="top" width="481">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 135.9pt; PADDING-RIGHT: 5.4pt; BACKGROUND: #fbf8e0; BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0pt" valign="top" width="181">
+      <p class="TableText">CFDA Number</p></td>
+    <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 360.9pt; PADDING-RIGHT: 5.4pt; BACKGROUND: #fbf8e0; BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; PADDING-TOP: 0pt" valign="top" width="481">
+      <p class="TableText">Required.  The numeric value assigned by 
+      grants.gov as a result of validation against the database in the cfda.org 
+      website.  Click within the <b>text box</b> (or press the tab<img border="0" src="../ImagesExt/image9_523.jpg" alt="" /> key from a previous field) to 
+      reposition the cursor so that it is within the field, and then type (or 
+      paste from virtual clipboard) to enter text in the box as necessary to 
+      provide the appropriate information.</p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 135.9pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0pt" valign="top" width="181">
+      <p class="TableText">CFDA Program Title Name</p></td>
+    <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 360.9pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; PADDING-TOP: 0pt" valign="top" width="481">
+      <p class="TableText">Required.  The textual name associated with the 
+      numeric value commonly used to refer to the program verbally or in 
+      writing.  Click within the <b>text box</b> (or press the tab<img border="0" src="../ImagesExt/image9_523.jpg" alt="" /> key from a previous field) to 
+      reposition the cursor so that it is within the field, and then type (or 
+      paste from virtual clipboard) to enter text in the box as necessary to 
+      provide the appropriate information.</p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 135.9pt; PADDING-RIGHT: 5.4pt; BACKGROUND: #fbf8e0; BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0pt" valign="top" width="181">
+      <p class="TableText">CFDA Maintenance Type Id</p></td>
+    <td style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 360.9pt; PADDING-RIGHT: 5.4pt; BACKGROUND: #fbf8e0; BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; PADDING-TOP: 0pt" valign="top" width="481">
+      <p class="TableText">Required.  When set to Automatic, this indicates 
+      updating from the batch job that validates information against the 
+      cfda.org website.  When set to Manual, this indicates updating of 
+      this CFDA record in KC is done via the editing of the CFDA Maintenance 
+      Document.  Click within the <b>text box</b> (or press the tab<img border="0" src="../ImagesExt/image9_523.jpg" alt="" /> key from a previous field) to 
+      reposition the cursor so that it is within the field, and then type (or 
+      paste from virtual clipboard) to enter text in the box as necessary to 
+      provide the appropriate information.</p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: windowtext 2.25pt double; BORDER-LEFT: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 135.9pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0pt" valign="top" width="181">
+      <p class="TableText">Active</p></td>
+    <td style="BORDER-BOTTOM: windowtext 2.25pt double; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 360.9pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; PADDING-TOP: 0pt" valign="top" width="481">
+      <p class="TableText">Required.  Indicates whether or not the CFDA 
+      record is active in the system, and thus made available for selection in 
+      other e-docs.  Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image9_901.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr></tbody></table>
+<h6>Examples</h6>
+<p class="MsoNormal"> </p>
+<p class="MsoCaption">Figure 1260  CFDA Maintenance Document – Example Table 
+Values from Automatic Batch Job Update</p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image9_2397.png" alt="" /></p>
+<h6>Common Features</h6>
+<p class="MsoBodyText">This maintenance document includes the following features 
+that are common to most KC maintenance documents:</p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Document Header</p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Document Overview Tabbed Section</p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Notes 
+and Attachments Tabbed Section</p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Ad 
+Hoc Recipients Tabbed Section</p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Route 
+Log Tabbed Section</p>
+<table style="BORDER-COLLAPSE: collapse" class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 18.9pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="25">
+      <p style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" class="Note"><img border="0" alt="link.png" src="../ImagesExt/image9_5.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 477.9pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="637">
+      <div style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 1pt; MARGIN-TOP: 9pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 1pt">
+      <p style="MARGIN-TOP: 0pt; MARGIN-BOTTOM: 0pt" class="Note">For more 
+      information about how to use these common maintenance e-doc features, see 
+      the respective subtopic in the “Common E-Doc Tabbed Sections” in the 
+      Overview portion of the KC User Manual or Online 
+  Help.</p></div></td></tr></tbody></table>
+<h6>Common Procedures</h6>
+<table style="BORDER-COLLAPSE: collapse" class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 24.3pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="32">
+      <p style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" class="Note"><img border="0" alt="link.png" src="../ImagesExt/image9_5.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 472.5pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="630">
+      <div style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 1pt; MARGIN-TOP: 9pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 1pt">
+      <p style="MARGIN-TOP: 0pt; MARGIN-BOTTOM: 0pt" class="Note">For information 
+      about searching for, initiating, editing, copying, submitting, saving, 
+      closing, canceling, and/or routing a maintenance document, see “Common 
+      Maintenance E-Doc Operations” in the Overview section of the KC User 
+      Manual or Online Help.</p></div></td></tr></tbody></table>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"> </p>
+<h1> </h1></div></div></body></html>
