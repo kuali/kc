@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3579", [["Documents/proposal.htm", "right", "Proposal"],["Documents/gloss_proposal1.htm", "d2hWnd_SecondaryPopup", "Proposal"]]);
