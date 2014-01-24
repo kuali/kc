@@ -1,0 +1,50 @@
+﻿SPAN.Revision1 {COLOR: purple; }
+
+P.regulartextchar {LINE-HEIGHT: normal;  MARGIN: 0pt;  FONT-FAMILY: "Calibri","sans-serif";  COLOR: black;  FONT-SIZE: 10pt; }
+
+SPAN.Revision2 {COLOR: purple; }
+
+P.Flowchart {LINE-HEIGHT: 14pt;  MARGIN: 3pt 0pt;  FONT-FAMILY: "Arial","sans-serif";  FONT-SIZE: 11pt; }
+
+P.Code-Inline {LINE-HEIGHT: 14pt;  MARGIN: 6pt 0pt 6pt 126pt;  FONT-FAMILY: Consolas;  FONT-SIZE: 9pt; }
+
+SPAN.regulartextbold1 {FONT-FAMILY: "Arial","sans-serif";  COLOR: black;  FONT-WEIGHT: bold; }
+
+P.BoxText {PAGE-BREAK-AFTER: avoid;  BORDER-BOTTOM: medium none;  BORDER-LEFT: medium none;  PADDING-BOTTOM: 0pt;  LINE-HEIGHT: 14pt;  MARGIN: 3pt 0pt 3pt 36pt;  PADDING-LEFT: 0pt;  PADDING-RIGHT: 0pt;  FONT-FAMILY: "Arial","sans-serif";  FONT-SIZE: 11pt;  BORDER-TOP: medium none;  BORDER-RIGHT: medium none;  PADDING-TOP: 0pt; }
+
+P.Heading3noautolinks {PAGE-BREAK-AFTER: avoid;  LINE-HEIGHT: normal;  MARGIN: 9pt 0pt 7pt;  FONT-FAMILY: "Verdana","sans-serif";  FONT-SIZE: 16pt;  FONT-WEIGHT: bold; }
+
+SPAN.style1 {}
+
+SPAN.command0 {}
+
+P.Directive {LINE-HEIGHT: 14pt;  MARGIN: 12pt 0pt 0pt;  FONT-FAMILY: "Verdana","sans-serif";  FONT-SIZE: 12pt;  FONT-WEIGHT: bold; }
+
+SPAN.search-highlight {}
+
+SPAN.Command {FONT-FAMILY: "Times New Roman","serif";  FONT-WEIGHT: bold; }
+
+P.Task1 {LINE-HEIGHT: 14pt;  TEXT-INDENT: -21.6pt;  MARGIN: 12pt 0pt 0pt 21.6pt;  FONT-FAMILY: "Verdana","sans-serif";  FONT-SIZE: 12pt;  tab-stops: 21.6pt; }
+
+P.Task2 {LINE-HEIGHT: 14pt;  TEXT-INDENT: -18pt;  MARGIN: 12pt 0pt 0pt 39.6pt;  FONT-FAMILY: "Verdana","sans-serif";  FONT-SIZE: 12pt;  tab-stops: list 39.6pt left 43.2pt; }
+
+P.Heading4noautolinks {PAGE-BREAK-AFTER: avoid;  LINE-HEIGHT: normal;  MARGIN: 2pt 0pt;  FONT-FAMILY: "Verdana","sans-serif";  FONT-SIZE: 12pt;  FONT-WEIGHT: bold; }
+
+P.Default {LINE-HEIGHT: normal;  MARGIN: 0pt;  FONT-FAMILY: "Arial","sans-serif";  COLOR: black;  FONT-SIZE: 12pt; }
+
+SPAN.Heading4Char {FONT-FAMILY: "Verdana","sans-serif";  FONT-WEIGHT: bold; }
+
+SPAN.Code-InlineChar {FONT-FAMILY: Consolas; }
+
+P {LINE-HEIGHT: 14pt;  MARGIN: 5pt 0pt 0pt;  FONT-FAMILY: "Verdana","sans-serif";  FONT-SIZE: 10pt; }
+
+P.instruction {LINE-HEIGHT: normal;  MARGIN: 3pt 0pt;  FONT-FAMILY: "Calibri","sans-serif";  FONT-SIZE: 10pt;  tab-stops: 18.0pt; }
+
+SPAN.ColoredLetter-Black {FONT-FAMILY: "Arial Narrow","sans-serif";  FONT-WEIGHT: bold; }
+
+SPAN.TableHeaderText {FONT-FAMILY: "Calibri","sans-serif";  COLOR: black;  FONT-WEIGHT: bold; }
+
+P.Actor {PAGE-BREAK-AFTER: avoid;  TEXT-ALIGN: center;  MARGIN: 12pt 0pt 0pt;  FONT-FAMILY: "Verdana","sans-serif";  BACKGROUND: #cccccc;  FONT-SIZE: 16pt;  FONT-WEIGHT: bold; }
+
+P.Heading2noautolinks {PAGE-BREAK-AFTER: avoid;  LINE-HEIGHT: normal;  MARGIN: 9pt 0pt 7pt;  FONT-FAMILY: "Verdana","sans-serif";  FONT-SIZE: 16pt;  FONT-WEIGHT: bold; }
+
