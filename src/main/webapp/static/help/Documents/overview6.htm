@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>Overview</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><link rel="stylesheet" type="text/css" href="../Theme/nav.css" /><link rel="stylesheet" type="text/css" href="../Theme/popupmenu.css" /><link rel="stylesheet" type="text/css" href="../Theme/lf.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/C1H_HTML.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/KC.css" />
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+var _needIndentation = false;
+
+
+
+
+//]]></script>
+
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2010.1.0.520" />
+<meta name="D2HTheme" content="KC v.138" />
+</head>
+<body style="PADDING-BOTTOM: 0px; BACKGROUND-COLOR: #a02919; MARGIN: 7px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; OVERFLOW: hidden; PADDING-TOP: 0px" onload="d2hOnLoadToolbar(event);" relpart="../">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+
+d2hTopicPreOpen();
+
+
+
+d2hTrySyncTOC();
+
+
+
+
+
+
+
+var prev = true;
+
+
+
+
+
+var next = true;
+
+
+
+if (typeof d2hInitMainThemeHandlers != "undefined")
+
+    d2hInitMainThemeHandlers(prev, next);
+
+d2hAdjustTopicBorders(document);    
+
+
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+if (typeof d2hLoadNavUrls != "undefined")
+
+    d2hLoadNavUrls();
+
+
+
+
+//]]></script>
+
+<div style="PADDING-BOTTOM: 0px; BACKGROUND-COLOR: white; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 100%; PADDING-RIGHT: 0px; HEIGHT: 100%; OVERFLOW: auto; PADDING-TOP: 0px" id="D2HTopicOuterBody" class="d2h_outer_topic">
+<div id="nsbanner" class="d2hNavigatorTopic">
+<div style="PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px" id="TitleRow" class="d2h_main_titlerow">
+<div style="DISPLAY: none"><a id="D2HPreviousAnchor" href="creatingakfsbudgetadjustmentfromakcawardbudget1.htm"></a><a id="D2HNextAnchor" href="quickreferenceguideabbreviatedprocedure3.htm"></a></div></div>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+if (typeof d2hProcessTopicNavForCSH != "undefined")
+
+    d2hProcessTopicNavForCSH();
+
+
+//]]></script>
+</div>
+<div style="PADDING-BOTTOM: 10px; PADDING-LEFT: 22px; PADDING-RIGHT: 10px; PADDING-TOP: 5px" id="nstext" class="d2h_main_nstext" valign="bottom">
+<div id="d2h_breadcrumbs" class="d2h_breadcrumbs"><span class="d2h_breadcrumbsLabel">You are here: </span><span class="d2h_breadcrumbsContentsOnly">Appendix C: Kuali Financial System 
+Integration</span><span class="d2h_breadcrumbsLinkSeparator"> &gt; </span><a class="d2h_breadcrumbsNormal" href="budgetadjustment.htm">Budget 
+Adjustment</a><span class="d2h_breadcrumbsLinkSeparator"> &gt; </span><a class="d2h_breadcrumbsNormal" href="creatingakfsbudgetadjustmentfromakcawardbudget1.htm">Creating a KFS Budget 
+Adjustment from a KC Award Budget</a></div>
+<h4>Overview</h4>
+<p class="MsoNormal"><span style="DISPLAY: none"></span></p>
+<p class="MsoBodyText">Before you start to use the KFS-KC integration 
+functionality that allows you to create a KFS Budget Adjustment document from a 
+KC Award Budget document, it is important to have a basic understanding of the 
+context of its use and why it is important.</p>
+<p class="MsoBodyText">It is also helpful for you to understand the trigger or 
+circumstance that initiates the need to use this functionality, and the 
+fundamentals of its life cycle – when it is required, who completes it, its 
+routing, etc.</p>
+<h6>Business Needs and Purpose</h6>
+<p class="MsoBodyText">The purpose and justification for usage of the BA creation 
+from KC Award Budget functionality, and the events that occur as a result of its 
+usage are:</p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>The 
+finalized KC Award Budget should be the source of the eventual KFS Account 
+budget representing those project funds. </p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Prior 
+to this integration, the KC budget and KFS budget were generated independently 
+and there was no definitive tie between KC object codes and KFS object codes. 
+Creating the associated account budget in KFS was a manual process that, 
+depending on the variance of object codes between the two systems, would involve 
+a fair degree of guesswork by the user. </p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>This 
+will ensure a more direct relationship between the two budgets and limit 
+error-prone manual entry of the budget into KFS.  </p>
+<h6>Policy</h6>
+<p class="MsoBodyText">Implementing institutions likely have policy statements 
+pertaining to this activity which require:</p>
+<p style="TEXT-INDENT: -18.75pt; tab-stops: 36.0pt" class="C1HBullet"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>a 
+single set of object codes shared by multiple systems</p>
+<h6>Roles and Responsibilities</h6>
+<p class="MsoBodyText">The primary responsibilities for each actor in this 
+procedure are:</p>
+<p style="TEXT-INDENT: -18.75pt; tab-stops: 36.0pt" class="C1HBullet"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>The 
+KC Central Admin Staff Member  is responsible for creating the Award and 
+Award Budget document.</p>
+<p style="TEXT-INDENT: -18.75pt; tab-stops: 36.0pt" class="C1HBullet"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>The 
+Principal Investigator is responsible for approving the Award Budget 
+document.</p>
+<p style="tab-stops: 36.0pt" class="C1HBullet"> </p>
+<p style="tab-stops: 36.0pt" class="C1HBullet"> </p>
+<h6>Scope</h6>
+<p class="MsoBodyText">This procedure covers:</p>
+<p style="TEXT-INDENT: -18.75pt; tab-stops: 36.0pt" class="C1HBullet"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Posting a KC Award Budget document to KFS</p>
+<p style="TEXT-INDENT: -18.75pt; tab-stops: 36.0pt" class="C1HBullet"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Creating a KFS Budget Adjustment document from a KC Award Budget 
+document</p>
+<h6>Before You Begin</h6>
+<p class="MsoNormal">Before you begin this procedure, you will first need the 
+following:</p>
+<table style="BORDER-COLLAPSE: collapse" class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0" width="662">
+  <tbody>
+  <tr>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" width="1">
+      <p class="MsoNormal"> </p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 27pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="36" colspan="2">
+      <p style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" class="Note"><img border="0" alt="link.png" src="../ImagesExt/image9_5.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 455.45pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="607">
+      <div style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 1pt; MARGIN-TOP: 9pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 1pt">
+      <p style="MARGIN-TOP: 0pt; MARGIN-BOTTOM: 0pt" class="Note"><b>Prior 
+      Procedure Reference</b>:  This procedure continues from “<a href="usingtheuserdocumentation.htm">Setting up BA creation 
+      integration</a>” on page <span style="mso-field-code: ' PAGEREF _d2h_bmk__Ref303694357_17 * MERGEFORMAT '; IsFieldElement: 1">1543</span>  
+      in this document, which outlines pre-existing condition requirements and 
+      associated prerequisite tasks that must be completed prior to initiating 
+      this activity.</p></div></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" width="18">
+      <p class="MsoNormal"> </p></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 24.3pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="32" colspan="2">
+      <p style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" class="Note"><img border="0" alt="caution.png" src="../ImagesExt/image9_6.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 472.5pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="630" colspan="3">
+      <div style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 1pt; MARGIN-TOP: 9pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 1pt">
+      <p style="MARGIN-TOP: 0pt; MARGIN-BOTTOM: 0pt" class="Note"><b>Caution</b>:  Fringe Benefits are calculated is based 
+      on two different Rate Class and Rate Types, so it gets split into 
+      different KFS object codes.  This is due to the way the different 
+      Rate Class and Rate Type combinations are split into two separate budget 
+      items.</p></div></td></tr>
+    </tbody><td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" width="1"></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" width="31"></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" width="5"></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" width="607"></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" width="18"></td></table>
+<h6>Navigation Path</h6>
+<p class="MsoBodyText">Getting started – this quick system reference depicts how 
+to access the start screen for this procedure.  The process task steps in 
+the ordered list below assume you will be creating a KFS BA from a KC Award 
+Budget document.</p>
+<p class="MsoBodyText"><b>Create New:</b></p>
+<div style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 1pt; MARGIN: 3pt 0pt 3pt 34pt; PADDING-LEFT: 1pt; PADDING-RIGHT: 1pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 1pt">
+<p style="MARGIN-TOP: 0pt; MARGIN-BOTTOM: 0pt; MARGIN-LEFT: 0pt" class="BoxText"><img border="0" src="../ImagesExt/image9_841.png" alt="" /> <b><span style="FONT-SIZE: 16pt">&gt;</span></b><b><span style="FONT-SIZE: 16pt"><img border="0" src="../ImagesExt/image9_2394.png" alt="" /></span></b><b><span style="FONT-SIZE: 16pt"> &gt;</span></b><b><span style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; FONT-SIZE: 16pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 0pt"><img border="0" src="../ImagesExt/image9_2395.png" alt="" /></span></b><b><span style="FONT-SIZE: 16pt">&gt;</span></b><b><span style="FONT-SIZE: 16pt"><img border="0" src="../ImagesExt/image9_2396.png" alt="" /></span></b></p></div>
+<table style="BORDER-COLLAPSE: collapse" class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 24.3pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="32">
+      <p style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" class="Note"><img border="0" alt="link.png" src="../ImagesExt/image9_5.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 472.5pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="630">
+      <div style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 1pt; MARGIN-TOP: 9pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 1pt">
+      <p style="MARGIN-TOP: 0pt; MARGIN-BOTTOM: 0pt" class="Note">For general 
+      information on <b>creating a new Award Budget document</b>, see 
+      “Initiating a Document” in Common E-Doc 
+Operations.</p></div></td></tr></tbody></table>
+<p class="MsoBodyText"><b>Access Existing:</b></p>
+<div style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; PADDING-BOTTOM: 1pt; MARGIN: 3pt 0pt 3pt 34pt; PADDING-LEFT: 1pt; PADDING-RIGHT: 1pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; PADDING-TOP: 1pt">
+<p style="MARGIN-TOP: 0pt; MARGIN-LEFT: 0pt" class="BoxText"><img border="0" alt="doc search.jpg" src="../ImagesExt/image9_842.jpg" /><b><span style="FONT-SIZE: 16pt">&gt;</span></b><img border="0" src="../ImagesExt/image9_843.png" alt="" /><b><span style="FONT-SIZE: 16pt">&gt;</span></b> enter/select criteria <b><span style="FONT-SIZE: 16pt">&gt;</span></b><img border="0" alt="search.jpg" src="../ImagesExt/image9_844.jpg" /><b><span style="FONT-SIZE: 16pt">&gt;</span></b><b><span style="FONT-SIZE: 16pt"><img border="0" src="../ImagesExt/image9_845.png" alt="" /></span></b></p>
+<p style="MARGIN-LEFT: 0pt" class="BoxText">or…</p>
+<p style="MARGIN-LEFT: 0pt" class="BoxText"><img border="0" alt="action list.jpg" src="../ImagesExt/image9_846.jpg" /> <b><span style="FONT-SIZE: 16pt">&gt;</span></b><b><span style="FONT-SIZE: 16pt"><img border="0" src="../ImagesExt/image9_847.png" alt="" /></span></b> <b><span style="FONT-SIZE: 16pt">&gt;</span></b><img border="0" src="../ImagesExt/image9_848.png" alt="" /><b><span style="FONT-SIZE: 16pt"></span></b></p>
+<p style="MARGIN-LEFT: 0pt" class="BoxText">or…</p>
+<p style="MARGIN-BOTTOM: 0pt; MARGIN-LEFT: 0pt" class="BoxText"><img border="0" src="../ImagesExt/image9_2397.png" alt="" /></p></div>
+<table style="BORDER-COLLAPSE: collapse" class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 24.35pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="32">
+      <p style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" class="Note"><img border="0" alt="link.png" src="../ImagesExt/image9_5.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 472.45pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="630" colspan="2">
+      <div style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 1pt; MARGIN-TOP: 9pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 1pt">
+      <p style="MARGIN-TOP: 0pt; MARGIN-BOTTOM: 0pt" class="Note">For more 
+      information on accessing an existing document using the global <b>doc 
+      search</b> button, see “Searching for a Document” in Common E-Doc 
+      Operations.</p></div></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 24.35pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="32">
+      <p style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none" class="Note"><img border="0" alt="link.png" src="../ImagesExt/image9_5.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; WIDTH: 471.45pt; PADDING-RIGHT: 5.4pt; PADDING-TOP: 0pt" valign="top" width="629">
+      <div style="BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 1pt; MARGIN-TOP: 9pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 1pt">
+      <p style="MARGIN-TOP: 0pt; MARGIN-BOTTOM: 0pt" class="Note">For more 
+      information on accessing an existing document using the global <b>action 
+      list</b> button, see “Using the Action List” in Common E-Doc 
+      Operations.</p></div></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 0pt; PADDING-RIGHT: 0pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" width="1">
+      <p class="MsoNormal"> </p></td></tr></tbody></table>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"><span style="FONT-FAMILY: 'Arial','sans-serif'; FONT-SIZE: 14pt"></span> </p></div></div></body></html>
