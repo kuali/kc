@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__1989", [["Documents/copytonewdocument.htm", "right", "Copy to New Document"],["Documents/copytonewdocument1.htm", "right", "Copy to New Document"],["Documents/copytonewdocument2.htm", "right", "Copy to New Document"]]);

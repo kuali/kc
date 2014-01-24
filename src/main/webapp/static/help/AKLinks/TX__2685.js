@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__2685", [["Documents/negotiationstatus.htm", "right", "Negotiation Status"],["Documents/gloss_negotiationstatus1.htm", "d2hWnd_SecondaryPopup", "Negotiation Status"]]);

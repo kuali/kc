@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__2827", [["Documents/serviceregistry.htm", "right", "Service Registry"],["Documents/gloss_serviceregistry1.htm", "d2hWnd_SecondaryPopup", "Service Registry"]]);
