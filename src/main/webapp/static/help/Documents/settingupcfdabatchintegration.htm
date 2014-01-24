@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>Setting up CFDA batch integration</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><link rel="stylesheet" type="text/css" href="../Theme/nav.css" /><link rel="stylesheet" type="text/css" href="../Theme/popupmenu.css" /><link rel="stylesheet" type="text/css" href="../Theme/lf.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/C1H_HTML.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/KC.css" />
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+var _needIndentation = false;
+
+
+
+
+//]]></script>
+
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2010.1.0.520" />
+<meta name="D2HTheme" content="KC v.138" />
+</head>
+<body style="PADDING-BOTTOM: 0px; BACKGROUND-COLOR: #a02919; MARGIN: 7px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; OVERFLOW: hidden; PADDING-TOP: 0px" onload="d2hOnLoadToolbar(event);" relpart="../">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+
+d2hTopicPreOpen();
+
+
+
+d2hTrySyncTOC();
+
+
+
+
+
+
+
+var prev = true;
+
+
+
+
+
+var next = true;
+
+
+
+if (typeof d2hInitMainThemeHandlers != "undefined")
+
+    d2hInitMainThemeHandlers(prev, next);
+
+d2hAdjustTopicBorders(document);    
+
+
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+if (typeof d2hLoadNavUrls != "undefined")
+
+    d2hLoadNavUrls();
+
+
+
+
+//]]></script>
+
+<div style="PADDING-BOTTOM: 0px; BACKGROUND-COLOR: white; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 100%; PADDING-RIGHT: 0px; HEIGHT: 100%; OVERFLOW: auto; PADDING-TOP: 0px" id="D2HTopicOuterBody" class="d2h_outer_topic">
+<div id="nsbanner" class="d2hNavigatorTopic">
+<div style="PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px" id="TitleRow" class="d2h_main_titlerow">
+<div style="DISPLAY: none"><a id="D2HPreviousAnchor" href="cfdabatch.htm"></a><a id="D2HNextAnchor" href="cfdamaintenancedocument1.htm"></a></div></div>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+if (typeof d2hProcessTopicNavForCSH != "undefined")
+
+    d2hProcessTopicNavForCSH();
+
+
+//]]></script>
+</div>
+<div style="PADDING-BOTTOM: 10px; PADDING-LEFT: 22px; PADDING-RIGHT: 10px; PADDING-TOP: 5px" id="nstext" class="d2h_main_nstext" valign="bottom">
+<div id="d2h_breadcrumbs" class="d2h_breadcrumbs"><span class="d2h_breadcrumbsLabel">You are here: </span><span class="d2h_breadcrumbsContentsOnly">Appendix C: Kuali Financial System 
+Integration</span><span class="d2h_breadcrumbsLinkSeparator"> &gt; </span><a class="d2h_breadcrumbsNormal" href="cfdabatch.htm">CFDA Batch</a></div>
+<h3>Setting up CFDA batch integration</h3>
+<p class="MsoNormal"><span style="DISPLAY: none"></span></p>
+<h6>Implementation Overview</h6>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span><b>Integration parameter</b>:  When a CFDA lookup on an Award 
+document is performed, validation occurs when the integration parameter is set 
+to ON.  The CFDA number integration service for querying CFDA data from KC 
+is a web service similar to the Unit Service that is exposed on the Kuali 
+Service Bus (KSB).  Related notifications are sent to those listed in the 
+CFDA_BATCH_NOTIFICATION_RECIPIENT parameter.  </p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span><b>Override parameter</b>:  With regard to the sending of 
+information from a KC Award document to a KFS Account document, KC sends CFDA 
+information from the Award to KFS when the KC_OVERRIDES_KFS parameter flag is 
+enabled.</p>
+<p style="TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoBodyText"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span><b>Maintenance document</b>:  The KC Award e-doc offers lookup and 
+direct inquiry tools to query the CFDA table to populate the CFDA number field 
+in the Sponsor section, which can be maintained by a maintenance e-doc.</p>
+<p class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'; FONT-SIZE: 14pt"></span></b> </p>
+<p class="RelatedHead">Subtopics:</p>
+<p class="MsoNormal"><a style="TEXT-DECORATION: none" href="cfdamaintenancedocument1.htm"><img border="0" alt="" align="absMiddle" src="../button.gif" />CFDA Maintenance Document</a></p></div></div></body></html>
