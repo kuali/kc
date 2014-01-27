@@ -22,7 +22,6 @@ import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.questionnaire.question.QuestionDTO;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
