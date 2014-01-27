@@ -113,7 +113,7 @@
                   	<bean parent="Uif-QuickFinder" p:returnByScript="true" p:hideCriteriaOnSearch="true" p:viewName="popup"></bean>
                   </property>
                 </bean>
-                <bean parent="PropDev-ProjectDatesField"/>
+                <!-- <bean parent="PropDev-ProjectDatesField"/>-->
                 <bean parent="PropDev-InputField" p:propertyName="title"
                       p:helperText="Give this proposal a title. Be detailed but concise."/>
                 <bean parent="PropDev-SponsorField" p:propertyName="sponsorCode" p:instructionalMessage.messageText="@{document.developmentProposal.sponsor?.sponsorName?:'&amp;nbsp;'}"/>
