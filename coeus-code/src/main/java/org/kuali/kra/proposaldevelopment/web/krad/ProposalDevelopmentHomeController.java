@@ -53,6 +53,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   System.out.println("Testing");
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
        initialSave(proposalDevelopmentDocument);

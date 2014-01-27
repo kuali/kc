@@ -36,6 +36,7 @@ import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.kra.questionnaire.question.QuestionDTO;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -449,6 +450,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         AnswerHeader answerHeader = new AnswerHeader(moduleQuestionnaireBean, questionnaire.getQuestionnaireRefIdAsLong());
         answerHeader.setQuestionnaire(questionnaire);
         List<Answer> answers = new ArrayList<Answer>();
+        List<QuestionnaireQuestion> questions = new ArrayList<QuestionnaireQuestion>();
         for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
             if (question.getParentQuestionNumber() == 0) {
                 answers.addAll(setupAnswersForQuestion(question));
@@ -460,9 +462,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         answerHeader.setAnswers(answers);
         setupChildAnswerIndicator(answerHeader);
-        return answerHeader;
-    }
 
+        return answerHeader;
+    }   
 
     /*
      * Load the descendant questions for this questionnaire question.
@@ -585,6 +587,28 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             }
         }
 
+        prepareQuestionnaireView(answerHeader);
+    }
+    
+    protected void prepareQuestionnaireView(AnswerHeader answerHeader) {
+        answerHeader.setQuestions(new ArrayList<QuestionDTO>());
+        for (Answer answer : answerHeader.getAnswers()) {
+            QuestionDTO currentQuestion = null;
+            for (QuestionDTO question : answerHeader.getQuestions()) {
+                if (question.getQuestionnaireQuestion().getQuestionNumber().equals(answer.getQuestionNumber())) {
+                    currentQuestion = question;
+                    break;
+                }
+            }
+            if (currentQuestion == null) {
+                currentQuestion = new QuestionDTO(answer.getQuestionnaireQuestion());
+                answerHeader.getQuestions().add(currentQuestion);
+                currentQuestion.setChildMatched(StringUtils.equals(answer.getMatchedChild(), YES));
+                currentQuestion.setRuleMatched(answer.isRuleMatched());
+                currentQuestion.setParentAnswers(answer.getParentAnswer());
+            }
+            currentQuestion.getAnswers().add(answer);
+        }
     }
     
     /*

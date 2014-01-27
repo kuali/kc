@@ -18,6 +18,10 @@ package org.kuali.kra.questionnaire.answer;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.Questionnaire;
+import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.kra.questionnaire.question.QuestionDTO;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +29,7 @@ import java.util.List;
 /**
  * Holds additional information related to a series of {@link Answer Answers}.
  */
-public class AnswerHeader extends KraPersistableBusinessObjectBase {
+public class AnswerHeader extends KraPersistableBusinessObjectBase implements Inactivatable {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,6 +52,8 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     private boolean completed = false;
 
     private List<Answer> answers;
+    
+    private List<QuestionDTO> questions;
 
     // Transient properties for questionnaire answer   
     private boolean newerVersionPublished = false;
@@ -61,6 +67,8 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     private boolean notUpdated = false;
 
     private transient boolean activeQuestionnaire = true;
+    
+    private transient String label;
 
     public AnswerHeader() {
         super();
@@ -76,6 +84,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
         // current coeus is setting this to 0  
         //       this.moduleSubItemCode = "0";  
         answers = new ArrayList<Answer>();
+        questions = new ArrayList<QuestionDTO>();
         showQuestions = NOT_SHOW_ANSWER;
     }
 
@@ -298,5 +307,26 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     public void setHasVisibleQuestion(boolean hasVisibleQuestion) {
         this.hasVisibleQuestion = hasVisibleQuestion;
+    }
+
+    public List<QuestionDTO> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<QuestionDTO> questions) {
+        this.questions = questions;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+    
+    @Override
+    public boolean isActive() {
+        return this.activeQuestionnaire && this.hasVisibleQuestion;
     }
 }
