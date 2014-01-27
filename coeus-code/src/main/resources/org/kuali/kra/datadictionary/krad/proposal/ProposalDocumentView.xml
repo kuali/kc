@@ -202,7 +202,6 @@
                         <bean parent="Uif-MessageField" p:label="Initiator"
                               p:messageText="@{documentInitiatorNetworkId}"/>
                         <bean parent="Uif-MessageField" p:label="Status"
-<<<<<<< HEAD
                               p:messageText="@{document.developmentProposal.proposalState?.description}"/>
                         <bean parent="PropDev-DocumentHeader-MoreInfo"/>
                     </list>
@@ -239,44 +238,6 @@
                               p:fieldLabel.renderColon="false" p:label="Initiator"/>
                         <bean parent="Uif-MessageField"
                               p:messageText="@{document.developmentProposal.proposalState?.description}"
-=======
-                              p:messageText="@{document.developmentProposal.proposalState.description}"/>
-                        <bean parent="PropDev-DocumentHeader-MoreInfo"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="lowerGroup">
-            <bean parent="Uif-ActionBar">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Audit Mode &lt;span style='color:#090'&gt;(on)&lt;/span&gt;"/>
-                        <bean parent="Uif-ActionLink" p:methodToCall="noop" p:actionLabel="Print"
-                              p:iconClass="icon-print"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Medusa" p:iconClass="icon-tasks"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Hierachy" p:iconClass="icon-list-ol"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Access" p:iconClass="icon-lock"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="PropDev-DocumentHeader-MoreInfo" parent="Uif-DropdownToggleMenu" p:toggleText="more..."
-          p:toggleCaretClass="">
-        <property name="menuGroup">
-            <bean parent="Uif-DropdownTable" p:layoutManager.libraryCssClasses="table,table-condensed"
-                  p:headerText="Document Info">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-MessageField" p:messageText="@{document.documentNumber}"
-                              p:fieldLabel.renderColon="false" p:label="Doc Nbr"/>
-                        <bean parent="Uif-LinkField" p:linkText="@{documentInitiatorNetworkId}"
-                              p:fieldLabel.renderColon="false" p:label="Initiator"/>
-                        <bean parent="Uif-MessageField"
-                              p:messageText="@{document.developmentProposal.proposalState.description}"
->>>>>>> branch 'master' of https://github.com/kuali/kc.git
                               p:fieldLabel.renderColon="false" p:label="Status"/>
                         <bean parent="Uif-MessageField"
                               p:messageText="@{document.developmentProposal.principalInvestigatorName}"
