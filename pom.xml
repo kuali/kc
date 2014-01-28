@@ -4,7 +4,7 @@
 	
 	<!-- 
 		The default build of this project targets a servlet 2.4 web container.  Profiles are provided for
-		targeting different environments.
+		targeting different environments!
 	 -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.kra</groupId>
