@@ -1544,7 +1544,7 @@ module of int tests -->
             1) have a new child module called kc-rice-standalone.  It will be an empty overlay of rice-standalone.
             2) configure all the jetty/tomcat stuff in a central place under pluginManagement
             3) to run kc you go to the kc web module and invoke jetty or tomcat
-            4) to run rice you go to the kc-rice-standalone and invoke jetty or tomcat
+            4) to run rice you go to the kc-rice-standalone and invoke jetty or tomcat!
          -->
         <profile>
             <id>rice-server</id>
