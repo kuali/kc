@@ -19,4 +19,6 @@ This config file only contains properties that are set by the maven build proces
 -->
 <config>
 	<param name="version">${build.version}</param>
+    <param name="rice.kr.additionalSpringFiles">${build.rice.kr.additionalSpringFiles}</param>
+    <param name="rice.krad.dev.mode">${build.rice.krad.dev.mode}</param>
 </config>
