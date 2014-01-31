@@ -28,10 +28,6 @@ public class SubAwardApprovalType extends KraPersistableBusinessObjectBase {
 
     private String description;
 
-    private TemplateSubAwardTerms templateSubAwardTerms;
-
-    private AwardSubAwardTerms awardSubAwardTerms;
-
     /**
      * Constructs a SubAwardApprovalType.java.
      */
@@ -66,33 +62,5 @@ public class SubAwardApprovalType extends KraPersistableBusinessObjectBase {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-    /**
-     * This method is for getting TemplateSubAwardTerms ...
-     * @return templateSubAwardTerms
-     */
-    public TemplateSubAwardTerms getTemplateSubAwardTerms() {
-        return templateSubAwardTerms;
-    }
-    /**
-     * This method is for setting templateSubAwardTerms...
-     * @param templateSubAwardTerms the templateSubAwardTerms to set
-     */
-    public void setTemplateSubAwardTerms(TemplateSubAwardTerms templateSubAwardTerms) {
-        this.templateSubAwardTerms = templateSubAwardTerms;
-    }
-    /**
-     * This method is for getting awardSubAwardTerms ...
-     * @return awardSubAwardTerms
-     */
-    public AwardSubAwardTerms getAwardSubAwardTerms() {
-        return awardSubAwardTerms;
-    }
-    /**
-     * This method is for setting awardSubAwardTerms...
-     * @param awardSubAwardTerms the awardSubAwardTerms to set
-     */
-    public void setAwardSubAwardTerms(AwardSubAwardTerms awardSubAwardTerms) {
-        this.awardSubAwardTerms = awardSubAwardTerms;
     }
 }
