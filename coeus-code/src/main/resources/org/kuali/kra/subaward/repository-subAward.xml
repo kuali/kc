@@ -252,7 +252,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor> 
-	
+<!--
 	<class-descriptor class="org.kuali.kra.subaward.bo.AwardSubAwardTerms" table="AWARD_SUBAWARD_TERMS">
 		<field-descriptor name="awardSubawardTermsId" column="AWARD_SUBAWARD_TERMS_ID" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="INTEGER" />
@@ -270,8 +270,8 @@
 			<foreignkey field-ref="subAwardApprovalTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
-	
-    <class-descriptor class="org.kuali.kra.subaward.bo.TemplateSubAwardTerms" table="TEMPLATE_SUBAWARD_TERMS">
+-->
+<!--    <class-descriptor class="org.kuali.kra.subaward.bo.TemplateSubAwardTerms" table="TEMPLATE_SUBAWARD_TERMS">
         <field-descriptor name="templateSubAwardTermsId" column="TEMPLATE_SUBAWARD_TERMS_ID" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="templateCode" column="TEMPLATE_CODE" jdbc-type="INTEGER" />
         <field-descriptor name="subAwardApprovalTypeCode" column="SUBAWARD_APPROVAL_CODE" jdbc-type="INTEGER" />
@@ -287,5 +287,5 @@
             <foreignkey field-ref="templateCode"/>
         </reference-descriptor>
      </class-descriptor>
-	
+-->
 </descriptor-repository>
