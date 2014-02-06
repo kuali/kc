@@ -1770,12 +1770,9 @@
     </pluginRepositories>
 
     <scm>
-        <connection>scm:svn:https://svn.kuali.org/repos/kc/branches/kc_project-6_0
-        </connection>
-        <developerConnection>scm:svn:https://svn.kuali.org/repos/kc/branches/kc_project-6_0
-        </developerConnection>
-        <tag>HEAD</tag>
-        <url>https://fisheye.kuali.org/browse/kc</url>
+        <connection>scm:git:git@github.com:kuali/kc.git</connection>
+        <developerConnection>scm:git:git@github.com:kuali/kc.git</developerConnection>
+        <url>https://github.com/kuali/kc</url>
     </scm>
 
     <issueManagement>
