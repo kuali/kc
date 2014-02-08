@@ -73,8 +73,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-import static org.kuali.kra.logging.BufferedLogger.debug;
-
 /**
  * This class implements methods specified by BudgetDocumentService interface
  */
@@ -104,7 +102,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     @Override
     public BudgetDocument<T> addBudgetVersion(BudgetParentDocument<T> document, String versionName) throws WorkflowException {
         if (!isBudgetVersionNameValid(document, versionName)) {
-            debug("Buffered Version not Valid");
+            LOG.debug("Buffered Version not Valid");
             return null;
         }
 
@@ -132,7 +130,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      */
     @Override
     public boolean isBudgetVersionNameValid(BudgetParentDocument<T> document,  String name) {
-        debug("Invoking budgetrule getBudgetVersionRule()");
+        LOG.debug("Invoking budgetrule getBudgetVersionRule()");
         return new AddBudgetVersionEvent(document, name).invokeRuleMethod(getBudgetVersionRule());
     }
     /**

@@ -39,8 +39,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-import static org.kuali.kra.logging.BufferedLogger.debug;
-
 /**
  * This class isbase class for KC Transactional Documents ...
  */
@@ -264,7 +262,6 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public void populatePersonEditableFields() {
         // TODO : should refactor this editablefields related to parent class, so it can be shared by other 
         // modules
-        debug("Adding PersonEditableFields");
 
         setPersonEditableFields(new HashMap<String, Boolean>());
 
@@ -274,7 +271,6 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         fieldValues.put("moduleCode", getModuleCode());
         Collection<PersonEditableField> fields = getBusinessObjectService().findMatching(PersonEditableField.class, fieldValues);
         for (PersonEditableField field : fields) {
-            debug("found field " + field.getFieldName());
                 getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
         }
         // if "All" is implemented

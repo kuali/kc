@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -25,10 +27,11 @@ import java.util.List;
 
 import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplitRule.PROPOSAL_CREDIT_SPLIT_LIST_ERROR_KEY;
-import static org.kuali.kra.logging.BufferedLogger.info;
 
 public class InstitutionalProposalCreditSplitAuditError extends AuditError {
-        
+
+    private static final Log LOG = LogFactory.getLog(InstitutionalProposalCreditSplitAuditError.class);
+
     /**
      * 
      * @param messageKey to be delegated to <code>{@link AuditError}</code> superclass
@@ -101,7 +104,7 @@ public class InstitutionalProposalCreditSplitAuditError extends AuditError {
         
         if (!getAuditErrors().contains(error)) {
             getAuditErrors().add(error);
-            info("Adding audit error ", messageKey, " to audit list.");
+            LOG.info("Adding audit error " + messageKey + " to audit list.");
         }
     }
 

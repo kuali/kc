@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
@@ -85,7 +87,6 @@ import java.util.*;
 
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.warn;
 import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
 
 
@@ -96,6 +97,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                                                                         CustomDataDocumentForm {
     
     private static final long serialVersionUID = 7928293162992415894L;
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentForm.class);
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
     
     private boolean creditSplitEnabled;
@@ -1188,8 +1190,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             setCreditSplitEnabled(cSplitEnabled);
         }
         catch (Exception e) {
-            warn(MISSING_PARAM_MSG, CREDIT_SPLIT_ENABLED_RULE_NAME);
-            warn(e.getMessage());
+            LOG.warn(MISSING_PARAM_MSG + CREDIT_SPLIT_ENABLED_RULE_NAME);
+            LOG.warn(e.getMessage());
         }
     }
 

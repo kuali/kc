@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import org.kuali.kra.logging.TraceLogProxyFactory;
-import org.kuali.kra.logging.Traceable;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
@@ -26,10 +24,10 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 
 /**
- * Event class for actions that trigger modification of a <code>{@link ProposalPerson}</code> added to a <code>{@link ProposalDocument}</code>
+ * Event class for actions that trigger modification of a <code>{@link ProposalPerson}</code> added to a <code>{@link ProposalDevelopmentDocument}</code>
  * 
  */
-public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDocumentEvent, Traceable<ChangeKeyPersonEvent> {
+public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDocumentEvent {
     
     private BusinessObject source;
     private int index;
@@ -93,16 +91,5 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
        // GlobalVariables.getMessageMap().removeFromErrorPath(getErrorPathPrefix());
         
         return retval;
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.logging.Traceable#getProxy(java.lang.Object)
-     */
-    public ChangeKeyPersonEvent getProxy(ChangeKeyPersonEvent archetype) {
-        if (archetype == null) {
-            archetype = this;
-        }
-        return TraceLogProxyFactory.getProxyFor(archetype);
     }
 }

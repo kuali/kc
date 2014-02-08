@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -29,9 +31,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static org.kuali.kra.logging.BufferedLogger.info;
-
 public class InstitutionalProposalPersonProjectRolesValuesFinder extends InstitutionalProposalContactsProjectRoleValuesFinder {
+
+    private static final Log LOG = LogFactory.getLog(InstitutionalProposalPersonProjectRolesValuesFinder.class);
 
     private KeyPersonnelService keyPersonnelService;
 
@@ -48,16 +50,16 @@ public class InstitutionalProposalPersonProjectRolesValuesFinder extends Institu
         for (ProposalPersonRole role : roles) {
             boolean showRole = true;
 
-            info("showRole = ", showRole);
+            LOG.info("showRole = " + showRole);
 
             if (showRole) {
                 String roleDescription =  roleDescriptions.get(role.getRoleCode());
                 keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), roleDescription));
-                info("Added role ", role.getProposalPersonRoleId());
-                info("With description ", roleDescription);
+                LOG.info("Added role " + role.getProposalPersonRoleId());
+                LOG.info("With description " + roleDescription);
             }
 
-            info("Returning ", keyValues);
+            LOG.info("Returning " + keyValues);
         }
         return keyValues;
     }

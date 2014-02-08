@@ -18,22 +18,21 @@ package org.kuali.kra.util.spring;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.aop.framework.ProxyFactoryBean;
 
 import java.lang.reflect.Method;
 
-import static org.kuali.kra.logging.BufferedLogger.info;
 
 /**
  * <p>Integrated with Spring for creating a tracing proxy for Spring Services. Makes use of the {@link ProxyFactoryBean} 
  * in order to proxy services.</p>
- *
- * <p>Some code copied from {@link org.kuali.core.util.spring.MethodLoggingInterceptor}
  * 
  * 
  */
 public class MethodLoggingInterceptor implements MethodInterceptor {
-
+    private static final Log LOG = LogFactory.getLog(MethodLoggingInterceptor.class);
 
     /**
      * Surrounds the method invocation with TRACE-level log messages. This is responsible for the trace messages we see. Covers entering, and exiting of
@@ -46,17 +45,17 @@ public class MethodLoggingInterceptor implements MethodInterceptor {
         Object methodResult = null;
         String invocationLabel = buildInvocationLabel(invocation);
         try {
-            info("entering ", invocationLabel);
+            LOG.info("entering " + invocationLabel);
 
             methodResult = invocation.proceed();
         }
         catch (Throwable invocationException) {
             String exceptionLabel = buildExceptionLabel(invocationException);
-            info("aborting ", invocationLabel, ": throwing ", exceptionLabel);
+            LOG.info("aborting " + invocationLabel + ": throwing " + exceptionLabel);
 
             throw invocationException;
         }
-        info(new StringBuffer("leaving  ").append(invocationLabel).append(" / took ").append(System.currentTimeMillis() - startTime).append(" ms"));
+        LOG.info(new StringBuffer("leaving  ").append(invocationLabel).append(" / took ").append(System.currentTimeMillis() - startTime).append(" ms"));
 
         return methodResult;
     }

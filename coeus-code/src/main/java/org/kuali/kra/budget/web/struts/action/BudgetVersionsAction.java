@@ -17,6 +17,8 @@ package org.kuali.kra.budget.web.struts.action;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -58,8 +60,6 @@ import java.util.List;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.debug;
-import static org.kuali.kra.logging.BufferedLogger.info;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
@@ -67,6 +67,9 @@ import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAM
  * Struts Action class for requests from the Budget Versions page.
  */
 public class BudgetVersionsAction extends BudgetAction {
+
+    private static final Log LOG = LogFactory.getLog(BudgetVersionsAction.class);
+
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT = "confirmSynchBudgetRateForBudgetDocument";
     private static final String NO_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT = "noSynchBudgetRateForBudgetDocument";    
@@ -101,7 +104,7 @@ public class BudgetVersionsAction extends BudgetAction {
             BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1).getBudgetVersionOverview();
             String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
-            debug("validating ", copiedName);
+            LOG.debug("validating " + copiedName);
             boolean valid = getBudgetService().isBudgetVersionNameValid(parentDocument, copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             budgetForm.setSaveAfterCopy(!valid);
@@ -361,7 +364,7 @@ public class BudgetVersionsAction extends BudgetAction {
                 valid &=getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(parentDocument);
         }
         catch (Exception ex) {
-                info("Audit rule check failed ", ex.getStackTrace());
+            LOG.info("Audit rule check failed " + ex.getStackTrace());
             }
             if (!valid) {
                 // set up error message to go to validate panel
@@ -381,7 +384,7 @@ public class BudgetVersionsAction extends BudgetAction {
             BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1).getBudgetVersionOverview();
             String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
-            debug("validating ", copiedName);
+            LOG.debug("validating " + copiedName);
             valid = getBudgetService().isBudgetVersionNameValid(parentDocument, copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             budgetForm.setSaveAfterCopy(!valid);
