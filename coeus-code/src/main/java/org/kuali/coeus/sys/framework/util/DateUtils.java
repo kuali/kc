@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.util;
+package org.kuali.coeus.sys.framework.util;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -21,11 +21,15 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Utility methods for comparing dates
- * 
- * 
+ * Utility methods for working with dates
  */
-public class DateUtils extends org.apache.commons.lang.time.DateUtils {
+public final class DateUtils {
+
+    /** private ctor. */
+    private DateUtils() {
+        throw new UnsupportedOperationException("do not call");
+    }
+
     /**
      * Adds null-safety to commons.DateUtils isSameDay method.
      * 

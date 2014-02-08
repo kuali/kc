@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.service;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -36,7 +37,6 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
@@ -176,7 +176,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcIntegrationTestBa
         };
         protocol1.setProtocolNumber(PROTOCOL_NUMBER);
         protocol1.setSequenceNumber(SEQUENCE_NUMBER);
-        protocol1.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 17).getTime())); 
+        protocol1.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 17).getTime()));
         protocol1.setProtocolActions(new ArrayList<ProtocolActionBase>());
         ProtocolAction protocolAction1 = new ProtocolAction();
         protocolAction1.setActionDate(new Timestamp(DateUtils.addDays(new Date(System.currentTimeMillis()), -2).getTime()));

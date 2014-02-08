@@ -55,7 +55,7 @@ import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
-import org.kuali.kra.util.DateUtils;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;

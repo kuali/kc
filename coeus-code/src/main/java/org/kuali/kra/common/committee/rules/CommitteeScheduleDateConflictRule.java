@@ -21,7 +21,7 @@ import org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.Erro
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.util.DateUtils;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 
 import java.sql.Date;
 import java.util.LinkedHashSet;

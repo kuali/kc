@@ -16,6 +16,7 @@
 package org.kuali.kra.common.committee.bo;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.committee.meeting.*;
@@ -26,7 +27,6 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.util.DateUtils;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -640,7 +640,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
      */
     public boolean isScheduleDateInPast(){
         boolean retVal = false;
-        Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
+        Date currentDate = org.kuali.coeus.sys.framework.util.DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
         if(this.scheduledDate != null) {
             retVal = this.scheduledDate.before(currentDate);
         }

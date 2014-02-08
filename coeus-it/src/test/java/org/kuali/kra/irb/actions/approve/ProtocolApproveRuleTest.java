@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -25,7 +26,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.kra.util.DateUtils;
 
 import java.sql.Date;
 
@@ -36,8 +36,8 @@ import java.sql.Date;
 public class ProtocolApproveRuleTest extends ProtocolRuleTestBase {
     
     private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
-    private static final Date APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
-    private static final Date EXPIRATION_DATE = DateUtils.convertToSqlDate(DateUtils.addYears(ACTION_DATE, 1));
+    private static final Date APPROVAL_DATE = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
+    private static final Date EXPIRATION_DATE = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(DateUtils.addYears(ACTION_DATE, 1));
     
     private static final String APPROVAL_DATE_FIELD = "approvalDate";
     private static final String EXPIRATION_DATE_FIELD = "expirationDate";

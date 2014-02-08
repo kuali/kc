@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.actions;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -105,7 +106,6 @@ import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -314,7 +314,7 @@ public class IacucActionHelper extends ActionHelperBase {
         if (expirationDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation()) {
             java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, getDefaultExpirationDateDifference());
             newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
-            expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
+            expirationDate = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(newExpirationDate);
         }
         
         return expirationDate;
