@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -28,9 +28,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * A ProtocolBase Authorizer determines if a user can perform
  * a given task on a protocol.  
  */
-public abstract class ProtocolAuthorizerBase extends TaskAuthorizerImpl {
+public abstract class ProtocolAuthorizerBase extends TaskAuthorizerBase {
     
-    protected KraAuthorizationService kraAuthorizationService;
+    protected KcAuthorizationService kraAuthorizationService;
     private ProtocolActionService protocolActionService;
     
     /**
@@ -41,9 +41,6 @@ public abstract class ProtocolAuthorizerBase extends TaskAuthorizerImpl {
         this.protocolActionService = protocolActionService;
     }
 
-    /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
-     */
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (ProtocolTaskBase) task);
     }
@@ -60,7 +57,7 @@ public abstract class ProtocolAuthorizerBase extends TaskAuthorizerImpl {
      * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
      * @param kraAuthorizationService
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

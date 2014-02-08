@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="ns:workflow resource:WorkflowData">
   <groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
     <group>
@@ -1650,7 +1650,7 @@
 	 <description>Parent of maintenance documents in KC</description>
 	 <label>KcMaintenanceDocument</label>
 	 <parent>KC</parent>
-	 <postProcessorName>org.kuali.kra.workflow.KcPostProcessor</postProcessorName>
+	 <postProcessorName>org.kuali.coeus.sys.framework.kew.KcPostProcessor</postProcessorName>
 	 <superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 	 <blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 	 <defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
@@ -1747,7 +1747,7 @@
 	     <finalApproval>false</finalApproval>
 	   </start>
 	   <split name="isHierarchyChild">
-	     <type>org.kuali.kra.kew.SimpleBooleanSplitNode</type>
+	     <type>org.kuali.coeus.sys.framework.kew.SimpleBooleanSplitNode</type>
 	   </split>
 	   <role name="OSPInitial">
 	     <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
@@ -1972,7 +1972,7 @@
 	 <description>Manage Award</description>
 	 <label>KC Award</label>
 	 <parent>KC</parent>
-	 <postProcessorName>org.kuali.kra.workflow.KcPostProcessor</postProcessorName>
+	 <postProcessorName>org.kuali.coeus.sys.framework.kew.KcPostProcessor</postProcessorName>
 	 <superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 	 <blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 	 <defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
@@ -2029,10 +2029,10 @@
 	     <finalApproval>false</finalApproval>
 	   </start>
 	   <split name="hasSync">
-	     <type>org.kuali.kra.kew.SimpleBooleanSplitNode</type>
+	     <type>org.kuali.coeus.sys.framework.kew.SimpleBooleanSplitNode</type>
 	   </split>
 	   <split name="isSyncChild">
-	     <type>org.kuali.kra.kew.SimpleBooleanSplitNode</type>
+	     <type>org.kuali.coeus.sys.framework.kew.SimpleBooleanSplitNode</type>
 	   </split>
 	   <role name="ApplySync">
 	     <activationType>S</activationType>

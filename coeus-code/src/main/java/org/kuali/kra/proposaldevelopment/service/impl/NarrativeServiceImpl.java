@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -31,9 +32,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -165,7 +165,7 @@ public class NarrativeServiceImpl implements NarrativeService {
     protected List<KcPerson> getPersons(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         List<Role> proposalRoles = systemAuthorizationService.getRoles(RoleConstants.PROPOSAL_ROLE_TYPE);
         
-        KraAuthorizationService kraAuthorizationService = getKraAuthorizationService();
+        KcAuthorizationService kraAuthorizationService = getKraAuthorizationService();
         List<KcPerson> allPersons = new ArrayList<KcPerson>();
 
         for (Role proposalRole : proposalRoles) {
@@ -467,8 +467,8 @@ public class NarrativeServiceImpl implements NarrativeService {
      * This is a helper method for retrieving KraAuthorizationService
      * @return
      */
-    protected KraAuthorizationService getKraAuthorizationService(){
-        return KraServiceLocator.getService(KraAuthorizationService.class);
+    protected KcAuthorizationService getKraAuthorizationService(){
+        return KraServiceLocator.getService(KcAuthorizationService.class);
     }
 
     public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {

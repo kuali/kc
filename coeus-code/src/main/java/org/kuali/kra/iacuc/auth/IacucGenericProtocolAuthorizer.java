@@ -102,6 +102,7 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
      * This method sets the genericTaskName variable.  Please use the static strings in this class.
      * @param genericTaskName String.
      */
+    @Override
     public void setGenericTaskName(String genericTaskName) {
         if (TASK_NAME_TO_ACTION_TYPE_MAP.containsKey(genericTaskName)) {
             this.genericTaskName = genericTaskName;

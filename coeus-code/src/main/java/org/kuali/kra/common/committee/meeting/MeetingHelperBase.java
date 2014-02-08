@@ -16,6 +16,7 @@
 package org.kuali.kra.common.committee.meeting;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
@@ -24,8 +25,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -79,7 +79,7 @@ public abstract class MeetingHelperBase implements Serializable {
 
     private static final String MESSAGE_COMMITTEESCHEDULE_AGENDASENT = "message.committeeSchedule.agendaSent";
     private static final String MESSAGE_COMMITTEESCHEDULE_MINUTESSENT = "message.committeeSchedule.minutesSent";
-    private transient KraAuthorizationService kraAuthorizationService;
+    private transient KcAuthorizationService kraAuthorizationService;
 
     public MeetingHelperBase(MeetingFormBase form) {
         this.form = form;
@@ -517,9 +517,9 @@ public abstract class MeetingHelperBase implements Serializable {
     }
     
     
-    protected KraAuthorizationService getKraAuthorizationService() {
+    protected KcAuthorizationService getKraAuthorizationService() {
         if (this.kraAuthorizationService == null) {
-            this.kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+            this.kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
         }
         
         return this.kraAuthorizationService;

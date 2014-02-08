@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -24,6 +25,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  */
 public class ProtocolReturnToPIAuthorizer extends ProtocolAuthorizer {
 
+    private KcWorkflowService kraWorkflowService;
+
     /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, ProtocolTask task) {
@@ -31,5 +34,13 @@ public class ProtocolReturnToPIAuthorizer extends ProtocolAuthorizer {
                kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) &&
                canExecuteAction(task.getProtocol(), ProtocolActionType.RETURNED_TO_PI) &&
                hasPermission(username, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

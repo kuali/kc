@@ -18,6 +18,7 @@ package org.kuali.kra.award.awardhierarchy.sync.service;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.award.AwardDocumentRule;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
@@ -33,8 +34,7 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.KraWorkflowService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -85,8 +85,8 @@ public class AwardSyncServiceImpl implements AwardSyncService {
     private TaskExecutor syncExecutor;
     @SuppressWarnings("unchecked")
     private PersonService personService;
-    private KraWorkflowService kraWorkflowService;
-    private KraAuthorizationService kraAuthorizationService;
+    private KcWorkflowService kraWorkflowService;
+    private KcAuthorizationService kraAuthorizationService;
         
     /**
      * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#validateHierarchyChanges(org.kuali.kra.award.home.Award)
@@ -997,11 +997,11 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         this.personService = personService;
     }
 
-    protected KraWorkflowService getKraWorkflowService() {
+    protected KcWorkflowService getKraWorkflowService() {
         return kraWorkflowService;
     }
 
-    public void setKraWorkflowService(KraWorkflowService kraWorkflowService) {
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
     }
 
@@ -1029,11 +1029,11 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         this.awardSyncUtilityService = awardSyncUtilityService;
     }
 
-    protected KraAuthorizationService getKraAuthorizationService() {
+    protected KcAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
     }
 
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
 }

@@ -15,27 +15,16 @@
     limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xmlns:p="http://www.springframework.org/schema/p" 
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:lang="http://www.springframework.org/schema/lang"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-                           http://www.springframework.org/schema/beans
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
-                           http://www.springframework.org/schema/lang
-                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
-                           http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-                           http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-                           
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:annotation-config />
+
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
@@ -83,8 +72,8 @@
         <property name="serviceName" value="encryptionService" />
     </bean>
     
-    <bean id="kraAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kraAuthorizationService" />
+    <bean id="kcAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcAuthorizationService" />
     </bean>
     
     <bean id="kcPersonService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -95,8 +84,8 @@
         <property name="serviceName" value="kcNotificationService" />
     </bean>
     
-    <bean id="kraWorkflowService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kraWorkflowService" />
+    <bean id="kcWorkflowService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcWorkflowService" />
     </bean>
     
     <bean id="kualiModuleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -278,70 +267,85 @@
 
     <bean id="parentCoiDisclosureAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="kraWorkflowService" ref="kcWorkflowService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="coiDisclosureService" ref="coiDisclosureService" />
     </bean>
 
-    <bean id="coiDisclosureTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+    <bean id="coiDisclosureTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="coiDisclosure" />
         <property name="taskAuthorizers">
             <list>
                 <bean class="org.kuali.kra.coi.auth.ModifyCoiDisclosureAuthorizer" parent="parentCoiDisclosureAuthorizer">
                     <property name="taskName" value="modifyCoiDisclosure" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.coi.auth.AnswerCoiDisclosureQuestionnaireAuthorizer" parent="parentCoiDisclosureAuthorizer">
                     <property name="taskName" value="answerCoiDisclosureQuestionnaire" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.coi.auth.ViewCoiDisclosureAuthorizer" parent="parentCoiDisclosureAuthorizer">
                     <property name="taskName" value="viewCoiDisclosure" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.coi.auth.AddCoiDisclosureAttachmentsAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="addCoiDisclosureAttachments"/>
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>  
                               
                 <bean class="org.kuali.kra.coi.auth.MaintainCoiDisclosureAttachmentsAuthorizer" parent="parentCoiDisclosureAuthorizer" >
-                	 <property name="taskName" value="maintainCoiDisclosureAttachments" />                	 
+                	 <property name="taskName" value="maintainCoiDisclosureAttachments" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.coi.auth.AddCoiDisclosureNotesAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="addCoiDisclosureNotes"/>
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 <bean class="org.kuali.kra.coi.auth.MaintainCoiDisclosureNotesAuthorizer" parent="parentCoiDisclosureAuthorizer" >
-                	 <property name="taskName" value="maintainCoiDisclosureNotes" />   
+                	 <property name="taskName" value="maintainCoiDisclosureNotes" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.coi.auth.ViewRestrictedNotesCoiDisclosureAuthorizer" parent="parentCoiDisclosureAuthorizer" >
-                	 <property name="taskName" value="viewCoiRestrictedNotes" />               	
+                	 <property name="taskName" value="viewCoiRestrictedNotes" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.coi.auth.MaintainCoiReviewersAuthorizer" parent="parentCoiDisclosureAuthorizer" >
-                     <property name="taskName" value="maintainCoiReviewers" />                
+                     <property name="taskName" value="maintainCoiReviewers" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>       
                  <bean class="org.kuali.kra.coi.auth.ApproveCoiDisclosureAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="approveCoiDisclosure" />
+                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                   <bean class="org.kuali.kra.coi.auth.ViewCoiDisclosureActionsAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="viewCoiDisclosureAction" />
+                      <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                  <bean class="org.kuali.kra.coi.auth.PerformCoiDisclosureActionsAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="performCoiDisclosureAction" />
+                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean> 
                 <bean class="org.kuali.kra.coi.auth.CoiDeleteUpdateNoteAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="deleteUpdateNote" />
                 	<property name="roleService" ref ="roleService" />
                 	 <property name="identityService" ref ="identityService" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean> 
                 <bean class="org.kuali.kra.coi.auth.CoiDeleteUpdateAttachmentAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="deleteUpdateAttachment" />
                 	<property name="roleService" ref ="roleService" />
                 	 <property name="identityService" ref ="identityService" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean> 
                 <bean class="org.kuali.kra.coi.auth.UpdateFEStatusAdminAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="updateFEStatusAdmin" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean> 
             </list>
         </property>

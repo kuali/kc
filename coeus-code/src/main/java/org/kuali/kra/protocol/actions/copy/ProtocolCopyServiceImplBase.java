@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.actions.copy;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -32,8 +33,7 @@ import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
@@ -80,7 +80,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
     
     private DocumentService documentService;
     private SystemAuthorizationService systemAuthorizationService;
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     //private ProtocolNumberService protocolNumberService;
     private SequenceAccessorService sequenceAccessorService;
 
@@ -104,7 +104,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
      * Set the Kra Authorization Service.
      * @param kralAuthorizationService
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

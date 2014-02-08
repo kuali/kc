@@ -26,7 +26,7 @@ import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -120,7 +120,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {
-        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
         return kraAuthService.getPersonsInRole(getAward(), roleName);
     }
 

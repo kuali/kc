@@ -15,8 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import java.util.Collections;
-
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -26,7 +25,11 @@ import org.kuali.rice.kew.api.action.RoutingReportCriteria;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 
+import java.util.Collections;
+
 public class IacucProtocolAssignReviewersCmtSelAuthorizer extends IacucProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
@@ -58,4 +61,11 @@ public class IacucProtocolAssignReviewersCmtSelAuthorizer extends IacucProtocolA
         return results;
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

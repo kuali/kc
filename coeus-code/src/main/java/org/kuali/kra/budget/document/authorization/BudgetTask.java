@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.document.authorization;
 
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.kra.budget.document.BudgetDocument;
 
 /**

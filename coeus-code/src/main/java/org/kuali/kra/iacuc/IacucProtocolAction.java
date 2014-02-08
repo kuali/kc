@@ -44,7 +44,7 @@ import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -148,7 +148,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
     
     @Override
     protected void initialDocumentSaveAddRolesHook(String userId, ProtocolBase protocol) {
-        KraAuthorizationService kraAuthService = getKraAuthorizationService();
+        KcAuthorizationService kraAuthService = getKraAuthorizationService();
         kraAuthService.addRole(userId, RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
         kraAuthService.addRole(userId, RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);         
     }

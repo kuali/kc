@@ -55,7 +55,7 @@ public class ProtocolAssignCmtSchedAuthorizerTest extends ProtocolAuthorizerTest
     
     @Override
     protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
-        ProtocolAuthorizer authorizer = new ProtocolAssignCmtSchedAuthorizer();
+        ProtocolAssignCmtSchedAuthorizer authorizer = new ProtocolAssignCmtSchedAuthorizer();
         authorizer.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO, hasPermission));
         authorizer.setKraWorkflowService(buildKraWorkflowService(protocolDocument, isInWorkflow));

@@ -15,22 +15,14 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
@@ -52,17 +44,8 @@ import org.kuali.kra.iacuc.actions.followup.IacucFollowupActionService;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
 import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestBean;
-import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolAddReviewAttachmentEvent;
-import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolAddReviewCommentEvent;
-import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolManageReviewAttachmentEvent;
-import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewAttachmentsBean;
-import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
-import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
-import org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction;
+import org.kuali.kra.iacuc.actions.reviewcomments.*;
+import org.kuali.kra.iacuc.actions.submit.*;
 import org.kuali.kra.iacuc.actions.undo.IacucProtocolUndoLastActionService;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
@@ -105,7 +88,6 @@ import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.summary.AttachmentSummary;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -116,6 +98,14 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class IacucProtocolActionsAction extends IacucProtocolAction {
     

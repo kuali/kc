@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.document.authorization.TimeAndMoneyTask;
@@ -29,9 +30,8 @@ import org.kuali.kra.timeandmoney.document.authorization.TimeAndMoneyTask;
  */
 public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
 
-    /**
-     * @see org.kuali.kra.irb.TimeAndMoneyAuthorizer.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.AwardTask)
-     */
+    private KcWorkflowService kraWorkflowService;
+
     public boolean isAuthorized(String userId, TimeAndMoneyTask task) {
         
         TimeAndMoneyDocument timeAndMoneyDocument = task.getTimeAndMoneyDocument();
@@ -89,6 +89,12 @@ public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
                         hasPermission(userId, doc, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission()) &&
                         !kraWorkflowService.isInWorkflow(doc);
     }
-    
-    
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

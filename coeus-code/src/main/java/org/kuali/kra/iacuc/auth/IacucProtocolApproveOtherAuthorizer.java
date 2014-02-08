@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 
 public class IacucProtocolApproveOtherAuthorizer  extends IacucProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /**
      * {@inheritDoc}
@@ -31,5 +34,11 @@ public class IacucProtocolApproveOtherAuthorizer  extends IacucProtocolAuthorize
                !kraWorkflowService.isUserRouteRespRequestRecipient(protocolDocument, userId, null);
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
 
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

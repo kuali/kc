@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
@@ -34,11 +35,7 @@ import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
-import org.kuali.kra.iacuc.notification.IacucRejectReviewNotificationRenderer;
+import org.kuali.kra.iacuc.notification.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -56,7 +53,6 @@ import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelperBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.protocol.onlinereview.event.*;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -529,8 +525,8 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     }
 
 
-    private KraWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KraWorkflowService.class);
+    private KcWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KcWorkflowService.class);
     }
 
     private void setOnlineReviewCommentFinalFlags(ProtocolOnlineReviewBase onlineReview, boolean flagValue) {

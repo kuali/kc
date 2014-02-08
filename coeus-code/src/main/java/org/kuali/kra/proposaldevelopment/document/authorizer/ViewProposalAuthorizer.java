@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -24,6 +25,8 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
  * to view a specific proposal.
  */
 public class ViewProposalAuthorizer extends ProposalAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /**
      * {@inheritDoc}
@@ -36,5 +39,12 @@ public class ViewProposalAuthorizer extends ProposalAuthorizer {
         return hasProposalPermission(userId, doc, PermissionConstants.VIEW_PROPOSAL)
             || kraWorkflowService.hasWorkflowPermission(userId, doc);
     }
-    
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

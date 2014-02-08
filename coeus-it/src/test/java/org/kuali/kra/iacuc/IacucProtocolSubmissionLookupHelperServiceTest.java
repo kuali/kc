@@ -29,8 +29,8 @@ import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.UserSession;
@@ -38,7 +38,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 public class IacucProtocolSubmissionLookupHelperServiceTest extends KcIntegrationTestBase {
     
     private static final String EDIT_URL ="../iacucProtocolProtocol.do?viewDocument=false&docId=101&submissionId=102&docTypeName=IacucProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
@@ -78,7 +80,7 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends KcIntegratio
         pkNames.add("protocolId");
         final IacucProtocolSubmission protocolSubmission = initProtocolSubmission();
 
-        final KraAuthorizationService kraAuthorizationService = context.mock(KraAuthorizationService.class);
+        final KcAuthorizationService kraAuthorizationService = context.mock(KcAuthorizationService.class);
         final String principalId = GlobalVariables.getUserSession().getPrincipalId();
         context.checking(new Expectations() {{
             one(kraAuthorizationService).hasPermission(principalId, protocolSubmission.getProtocol(), PermissionConstants.MODIFY_IACUC_PROTOCOL);

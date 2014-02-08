@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
@@ -39,7 +40,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
@@ -57,7 +57,7 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.service.DeepCopyPostProcessor;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -96,7 +96,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     private ProposalHierarchyDao proposalHierarchyDao;
     private NarrativeService narrativeService;
     private BudgetService budgetService;
@@ -105,7 +105,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private ParameterService parameterService;
     private IdentityService identityManagementService;
     private ConfigurationService configurationService;
-    private KraDocumentRejectionService kraDocumentRejectionService;
+    private KcDocumentRejectionService kraDocumentRejectionService;
     private List<ProposalPersonExtendedAttributes> proposalPersonExtendedAttributesToDelete;
     private SessionDocumentService sessionDocumentService;
     private WorkflowDocumentService workflowDocumentService;
@@ -120,7 +120,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     public void setProposalHierarchyDao(ProposalHierarchyDao proposalHierarchyDao) {
@@ -1878,10 +1878,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
        return msg;
        
     }
-    public KraDocumentRejectionService getKraDocumentRejectionService() {
+    public KcDocumentRejectionService getKraDocumentRejectionService() {
         return kraDocumentRejectionService;
     }
-    public void setKraDocumentRejectionService(KraDocumentRejectionService kraDocumentRejectionService) {
+    public void setKraDocumentRejectionService(KcDocumentRejectionService kraDocumentRejectionService) {
         this.kraDocumentRejectionService = kraDocumentRejectionService;
     }
     public void setSessionDocumentService(SessionDocumentService sessionDocumentService) {
@@ -1896,7 +1896,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected DocumentService getDocumentService() {
         return documentService;
     }
-    protected KraAuthorizationService getKraAuthorizationService() {
+    protected KcAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
     }
     protected ProposalHierarchyDao getProposalHierarchyDao() {

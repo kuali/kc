@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolDocument;
 
@@ -22,6 +23,8 @@ import org.kuali.kra.irb.ProtocolDocument;
  * Is the user allowed to approve protocols?
  */
 public class ProtocolApproveOtherAuthorizer extends ProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /**
      * {@inheritDoc}
@@ -36,7 +39,12 @@ public class ProtocolApproveOtherAuthorizer extends ProtocolAuthorizer {
             );
     }
 
-    
-        
-    
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

@@ -17,14 +17,14 @@ package org.kuali.kra.protocol.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
+import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -51,7 +51,7 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
 
     protected BusinessObjectService businessObjectService;
 
-    protected KraAuthorizationService kraAuthorizationService;
+    protected KcAuthorizationService kraAuthorizationService;
 
     protected UnitAuthorizationService unitAuthorizationService;
          
@@ -78,7 +78,7 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
     }
 
    
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
 

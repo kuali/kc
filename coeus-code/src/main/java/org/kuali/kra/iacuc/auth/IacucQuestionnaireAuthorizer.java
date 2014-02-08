@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class IacucQuestionnaireAuthorizer extends IacucProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
@@ -30,4 +33,11 @@ public class IacucQuestionnaireAuthorizer extends IacucProtocolAuthorizer {
         return hasPermission;
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

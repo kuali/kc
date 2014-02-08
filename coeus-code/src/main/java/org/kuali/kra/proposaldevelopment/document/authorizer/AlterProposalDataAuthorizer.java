@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -33,7 +34,9 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
  */
 public class AlterProposalDataAuthorizer extends ProposalAuthorizer {
 
-    org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AlterProposalDataAuthorizer.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AlterProposalDataAuthorizer.class);
+
+    private KcWorkflowService kraWorkflowService;
 
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
@@ -54,6 +57,13 @@ public class AlterProposalDataAuthorizer extends ProposalAuthorizer {
             }
         }
         return ret;
-    }      
-     
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

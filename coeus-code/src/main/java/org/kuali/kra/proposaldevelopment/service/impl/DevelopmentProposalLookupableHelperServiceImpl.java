@@ -20,7 +20,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -41,7 +41,7 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
 
     private static final long serialVersionUID = 8611232870631352662L;
 
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     
     @Override
     @SuppressWarnings("unchecked")
@@ -134,7 +134,7 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
      * Sets the kraAuthorizationService attribute value.
      * @param kraAuthorizationService The kraAuthorizationService to set.
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

@@ -35,8 +35,8 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBeanBase;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -331,8 +331,8 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
         this.protocolNotificationHelper = notificationHelper;
     }
 
-    public KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KraAuthorizationService.class);
+    public KcAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KcAuthorizationService.class);
     }
 
     public List<ExtraButton> getExtraActionsButtons() {

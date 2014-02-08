@@ -18,8 +18,9 @@ package org.kuali.kra.award.document;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
@@ -53,7 +54,6 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -66,7 +66,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -79,7 +78,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -282,7 +280,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
      * @see org.kuali.kra.document.ResearchDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
-    public boolean answerSplitNodeQuestion( String routeNodeName ) throws Exception {
+    public boolean answerSplitNodeQuestion( String routeNodeName ) {
         LOG.debug("Processing answerSplitNodeQuestion:"+routeNodeName );
         if (StringUtils.equals(HAS_SYNC_SPLITNODE, routeNodeName)) {
             return !getAward().getSyncChanges().isEmpty();
@@ -623,7 +621,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
              */
             if (getDocumentHeader().getWorkflowDocument().isFinal() 
                     || getDocumentHeader().getWorkflowDocument().isProcessed()
-                    || KraServiceLocator.getService(KraWorkflowService.class).hasPendingApprovalRequests(getDocumentHeader().getWorkflowDocument())) {
+                    || KraServiceLocator.getService(KcWorkflowService.class).hasPendingApprovalRequests(getDocumentHeader().getWorkflowDocument())) {
                 isComplete = true;
             } else if (!getAward().getSyncChanges().isEmpty() && getAward().getSyncStatuses().size() > 1) {
                 //if we are doing a sync(sync changes is not empty) and we have a sync status for an award

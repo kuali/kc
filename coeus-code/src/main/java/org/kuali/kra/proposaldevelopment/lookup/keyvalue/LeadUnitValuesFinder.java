@@ -16,10 +16,8 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -46,8 +44,8 @@ public class LeadUnitValuesFinder extends UifKeyValuesFinderBase {
         keyValues.add(new ConcreteKeyValue("", "select"));
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      
-        List<Unit> userUnits = authService.getUnits(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
+        ProposalDevelopmentService authService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        List<Unit> userUnits = authService.getUnitsForCreateProposal(userId);
 
         // Sort the list of units by Unit Number.  If there are lots of units,
         // the sort will make it easier for the user to find when they view

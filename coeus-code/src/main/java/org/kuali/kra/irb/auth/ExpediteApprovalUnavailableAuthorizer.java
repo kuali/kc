@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -24,6 +25,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  */
 public class ExpediteApprovalUnavailableAuthorizer extends ProtocolAuthorizer {
 
+    private KcWorkflowService kraWorkflowService;
+
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
@@ -31,5 +34,13 @@ public class ExpediteApprovalUnavailableAuthorizer extends ProtocolAuthorizer {
         return (   !canExecuteAction(task.getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL) 
                 || !kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME))
                && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

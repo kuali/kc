@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.budget.document.authorization;
 
-import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -182,7 +182,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canEdit(Document document, Person user) {
@@ -190,7 +190,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canSave(Document document, Person user) {
@@ -198,7 +198,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canCancel(Document document, Person user) {
@@ -207,7 +207,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canReload(Document document, Person user) {
@@ -215,7 +215,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canRoute(Document document, Person user) {
@@ -223,7 +223,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canCopy(Document document, Person user) {
