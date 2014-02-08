@@ -16,12 +16,15 @@
 package org.kuali.kra.iacuc.auth;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class IacucProtocolAssignToCmtAuthorizer extends IacucProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
@@ -34,4 +37,11 @@ public class IacucProtocolAssignToCmtAuthorizer extends IacucProtocolAuthorizer 
    
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

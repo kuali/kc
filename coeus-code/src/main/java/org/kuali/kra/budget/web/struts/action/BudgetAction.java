@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
@@ -45,7 +46,6 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularService;
@@ -753,7 +753,7 @@ public class BudgetAction extends BudgetActionBase {
                 //reject the document using the service.
                 BudgetDocument document = ((BudgetForm)form).getBudgetDocument();
                 document.documentHasBeenRejected(reason);
-                KraServiceLocator.getService(KraDocumentRejectionService.class).reject(document.getDocumentNumber(), reason, 
+                KraServiceLocator.getService(KcDocumentRejectionService.class).reject(document.getDocumentNumber(), reason,
                         GlobalVariables.getUserSession().getPrincipalId());
                 //tell the document it is being rejected and returned to the initial node.
                 forward = super.returnToSender(request, mapping, kualiDocumentFormBase);

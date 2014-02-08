@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
@@ -36,7 +36,7 @@ public class RejectProposalBudgetAuthorizer extends BudgetAuthorizer {
     public boolean isAuthorized(String username, BudgetTask task) {
         org.kuali.kra.budget.document.BudgetDocument doc = task.getBudgetDocument();
         WorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
-        return (!workDoc.isCompletionRequested()) && (! KraServiceLocator.getService(KraDocumentRejectionService.class).isDocumentOnInitialNode(doc)) && (workDoc.isApprovalRequested()) && (workDoc.isEnroute());
+        return (!workDoc.isCompletionRequested()) && (! KraServiceLocator.getService(KcDocumentRejectionService.class).isDocumentOnInitialNode(doc)) && (workDoc.isApprovalRequested()) && (workDoc.isEnroute());
     }
     
     

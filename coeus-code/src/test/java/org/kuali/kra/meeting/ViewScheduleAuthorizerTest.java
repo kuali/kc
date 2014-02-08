@@ -22,7 +22,7 @@ import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
 
 import static org.junit.Assert.assertEquals;
@@ -35,20 +35,20 @@ public class ViewScheduleAuthorizerTest {
     public void testViewSchedulePermission() throws Exception {
         ViewScheduleAuthorizer authorizer = new ViewScheduleAuthorizer();
         
-        final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
+        final KcAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         Committee committee = createCommittee("viewschedule1", "view schedule test");
         CommitteeTaskBase<Committee> task = new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, TaskName.VIEW_SCHEDULE, committee) {};
         assertEquals(true, authorizer.isAuthorized(USERNAME, task));
-        final KraAuthorizationService kraAuthorizationService1 = new KraAuthorizationServiceMock(false);
+        final KcAuthorizationService kraAuthorizationService1 = new KraAuthorizationServiceMock(false);
         authorizer.setKraAuthorizationService(kraAuthorizationService1);
         assertEquals(false, authorizer.isAuthorized("tdurkin", task));
         
         
         // now check the available to reviewers flag functionality        
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
-        final KraAuthorizationService kraAuthorizationService2 = new KraAuthorizationServiceMock(true);
+        final KcAuthorizationService kraAuthorizationService2 = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService2);        
         task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getParentCommittee(), committeeSchedule);
         assertEquals(false, authorizer.isAuthorized(PERSON_ID, task));        

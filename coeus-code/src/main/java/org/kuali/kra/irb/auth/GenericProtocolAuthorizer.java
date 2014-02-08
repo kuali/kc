@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.coeus.sys.framework.auth.task.GenericTaskAuthorizer;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
@@ -25,7 +26,7 @@ import java.util.Map;
  * 
  * This class is the authorizer for all the generic actions.
  */
-public class GenericProtocolAuthorizer extends ProtocolAuthorizer {
+public class GenericProtocolAuthorizer extends ProtocolAuthorizer implements GenericTaskAuthorizer {
     
     /**
      * close protocol generic action.
@@ -101,6 +102,7 @@ public class GenericProtocolAuthorizer extends ProtocolAuthorizer {
      * This method sets the genericTaskName variable.  Please use the static strings in this class.
      * @param genericTaskName String.
      */
+    @Override
     public void setGenericTaskName(String genericTaskName) {
         if (TASK_NAME_TO_ACTION_TYPE_MAP.containsKey(genericTaskName)) {
             this.genericTaskName = genericTaskName;

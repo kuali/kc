@@ -18,6 +18,7 @@ package org.kuali.kra.protocol;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
@@ -27,9 +28,8 @@ import org.kuali.kra.irb.ResearchArea;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -76,7 +76,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
     private DictionaryValidationService dictionaryValidationService;
     
     protected KcPersonService kcPersonService;
-    protected KraAuthorizationService kraAuthorizationService;
+    protected KcAuthorizationService kraAuthorizationService;
     protected TaskAuthorizationService taskAuthorizationService;
     protected DocumentService documentService;
 
@@ -429,7 +429,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
          return GlobalVariables.getUserSession().getPrincipalId();
     }
 
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

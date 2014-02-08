@@ -16,6 +16,7 @@
 package org.kuali.kra.subaward;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -26,7 +27,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.medusa.MedusaBean;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.customdata.CustomDataHelper;

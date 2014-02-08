@@ -15,24 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -47,11 +36,7 @@ import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.*;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -65,12 +50,7 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.KraPersistenceStructureService;
-import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.kra.service.*;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -84,7 +64,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.data.PersistenceOption;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -109,6 +88,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private S2SService s2sService;
     private SponsorService sponsorService;
     private KeyPersonnelService keyPersonnelService;
+    private UnitService unitService;
+    private SystemAuthorizationService systemAuthorizationService;
 
 
     /**
@@ -182,8 +163,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public List<Unit> getDefaultModifyProposalUnitsForUser(String userId) {
-        return unitAuthService.getUnits(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
-                PermissionConstants.CREATE_PROPOSAL);
+        return getUnitsForCreateProposal(userId);
     }
 
     /**
@@ -682,7 +662,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         if(getRoleService().principalHasRole(principalId, roleIds, qualifications)){
             return true;
         }
-        KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService proposalAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
         List<KcPerson> persons = proposalAuthService.getPersonsInRole(document, RoleConstants.AGGREGATOR);
         for (KcPerson person : persons) {
             if(GlobalVariables.getUserSession().getPrincipalName().equals(person.getUserName())){
@@ -945,6 +925,46 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             Collections.sort(proposal.getS2sOpportunity().getS2sOppForms(), new S2sOppFormsComparator());
         }
     }
+
+    @Override
+    public List<Unit> getUnitsForCreateProposal(String userId) {
+        final String namespaceCode = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
+        final String permissionName = PermissionConstants.CREATE_PROPOSAL;
+
+        Set<Unit> units = new LinkedHashSet<Unit>();
+        // Start by getting all of the Qualified Roles that the person is in.  For each
+        // qualified role that has the UNIT_NUMBER qualification, check to see if the role
+        // has the required permission.  If so, add that unit to the list.  Also, if the
+        // qualified role has the SUBUNITS qualification set to YES, then also add all of the
+        // subunits the to the list.
+        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
+        Map<String,String> qualification =new HashMap<String,String>(qualifiedRoleAttributes);
+        List<String> roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
+
+        List<Map<String,String>> qualifiers = roleService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualification);
+        for (Map<String,String> qualifier : qualifiers) {
+            Unit unit = unitService.getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
+            if (unit != null) {
+                units.add(unit);
+                if (qualifier.containsKey(KcKimAttributes.SUBUNITS) && StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS))) {
+                    addDescendantUnits(unit, units);
+                }
+            }
+        }
+        //the above line could potentially be a performance problem - need to revisit
+        return new ArrayList<Unit>(units);
+    }
+
+    protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) {
+        List<Unit> subunits = unitService.getSubUnits(parentUnit.getUnitNumber());
+        if (CollectionUtils.isNotEmpty(subunits)) {
+            units.addAll(subunits);
+            for (Unit subunit : subunits) {
+                addDescendantUnits(subunit, units);
+            }
+        }
+    }
     
     protected RoleService getRoleService() {
         return roleService;
@@ -976,5 +996,37 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
+    }
+
+    public SystemAuthorizationService getSystemAuthorizationService() {
+        return systemAuthorizationService;
+    }
+
+    public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
+        this.systemAuthorizationService = systemAuthorizationService;
+    }
+
+    public UnitService getUnitService() {
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
+    }
+
+    public VersionHistoryService getVersionHistoryService() {
+        return versionHistoryService;
+    }
+
+    public UnitAuthorizationService getUnitAuthService() {
+        return unitAuthService;
+    }
+
+    public void setUnitAuthService(UnitAuthorizationService unitAuthService) {
+        this.unitAuthService = unitAuthService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -25,6 +26,8 @@ import org.kuali.kra.protocol.actions.ProtocolActionBase;
  * Is the user allowed to record committee decisions for a protocol?
  */
 public class RecordCommitteeDecisionIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
@@ -48,5 +51,12 @@ public class RecordCommitteeDecisionIacucProtocolAuthorizer extends IacucProtoco
                 
         return false;
     }
-    
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

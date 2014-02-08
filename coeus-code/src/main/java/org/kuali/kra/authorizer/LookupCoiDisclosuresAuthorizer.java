@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.authorizer;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class LookupCoiDisclosuresAuthorizer extends TaskAuthorizerImpl {
+public class LookupCoiDisclosuresAuthorizer extends TaskAuthorizerBase {
 
     @Override
     public boolean isAuthorized(String userId, Task task) {

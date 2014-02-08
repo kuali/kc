@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.budget.document;
 
-import java.util.Collections;
-import java.util.List;
-import javax.persistence.MappedSuperclass;
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionCollection;
@@ -31,6 +28,10 @@ import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.datadictionary.KNSDocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+
+import javax.persistence.MappedSuperclass;
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("serial")
 @MappedSuperclass

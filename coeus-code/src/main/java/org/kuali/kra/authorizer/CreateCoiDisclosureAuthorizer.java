@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.authorizer;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class CreateCoiDisclosureAuthorizer extends TaskAuthorizerImpl {
+public class CreateCoiDisclosureAuthorizer extends TaskAuthorizerBase {
 
     private CoiDisclosureService coiDisclosureService;
     /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
+     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
      */
     public boolean isAuthorized(String userId, Task task) {
         // TODO : do we let coi admin create coi disclosure if admin is not a reporter ?

@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.onlinereview;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.infrastructure.Constants;

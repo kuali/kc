@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
@@ -28,7 +29,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ViewProposalBudgetAuthorizer extends BudgetAuthorizer {
- 
+
+    private KcWorkflowService kraWorkflowService;
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.budget.document.authorizer.BudgetAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.budget.document.authorization.BudgetTask)
@@ -42,5 +45,12 @@ public class ViewProposalBudgetAuthorizer extends BudgetAuthorizer {
             || kraWorkflowService.hasWorkflowPermission(userId, doc);
             
     }
-    
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

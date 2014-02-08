@@ -16,14 +16,14 @@
 package org.kuali.kra.committee.authorizers;
 
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorizer.ModifyCommitteeAuthorizer;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -69,7 +69,7 @@ public class ModifyCommitteeAuthorizerTest {
         final UnitAuthorizationService unitAuthorizationService = new UnitAuthorizationServiceMock(true);
         authorizer.setUnitAuthorizationService(unitAuthorizationService);
 
-        final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
+        final KcAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         CommitteeTaskBase<Committee> task = new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, TaskName.MODIFY_COMMITTEE, committee) {};
@@ -85,7 +85,7 @@ public class ModifyCommitteeAuthorizerTest {
         final UnitAuthorizationService unitAuthorizationService = new UnitAuthorizationServiceMock(true);
         authorizer.setUnitAuthorizationService(unitAuthorizationService);
 
-        final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(false);
+        final KcAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(false);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         CommitteeTaskBase<Committee> task = new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, TaskName.MODIFY_COMMITTEE, committee) {};
@@ -101,7 +101,7 @@ public class ModifyCommitteeAuthorizerTest {
         final UnitAuthorizationService unitAuthorizationService = new UnitAuthorizationServiceMock(true);
         authorizer.setUnitAuthorizationService(unitAuthorizationService);
 
-        final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
+        final KcAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         CommitteeTaskBase<Committee> task = new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, TaskName.MODIFY_COMMITTEE, committee) {};

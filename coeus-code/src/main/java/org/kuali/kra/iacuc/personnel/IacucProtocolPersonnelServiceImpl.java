@@ -15,17 +15,12 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMappingBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonnelServiceImplBase;
-import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.protocol.personnel.*;
+import org.kuali.kra.service.KcAuthorizationService;
 
 public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBase implements IacucProtocolPersonnelService {
 
@@ -74,7 +69,7 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
                 // Assign the PI the AGGREGATOR role if PI has a personId.
                 if (newPrincipalInvestigator.getPersonId() != null) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
-                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                    KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR,
                             protocol);
                     kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);

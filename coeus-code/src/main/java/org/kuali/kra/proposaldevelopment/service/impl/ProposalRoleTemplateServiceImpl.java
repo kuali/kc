@@ -17,12 +17,11 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -35,7 +34,7 @@ import java.util.*;
  * The Proposal Role Template Service Implementation.
  */
 public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateService {
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     private RoleService roleManagementService;
     private ProposalRoleService proposalRoleService;
     
@@ -43,7 +42,7 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
      * Set the Proposal Authorization Service.  Injected by the Spring Framework.
      * @param kraAuthorizationService the proposal authorization service
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

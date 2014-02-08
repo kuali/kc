@@ -15,18 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import javax.persistence.*;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.DocumentCustomData;
+import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -34,7 +28,6 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.*;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
@@ -44,14 +37,13 @@ import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
-import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -60,6 +52,7 @@ import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -69,9 +62,16 @@ import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.workflow.DocumentInitiator;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.rice.krms.api.engine.Facts;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @NAMESPACE(namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT)
 @COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
@@ -194,7 +194,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         }
         if (!isProposalDeleted()) {
             ProposalHierarchyService hService = KraServiceLocator.getService(ProposalHierarchyService.class);
-            KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
+            KcDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KcDocumentRejectionService.class);
             if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode())) {
                 try {
                     if (documentRejectionService.isDocumentOnInitialNode(this)) {
@@ -282,7 +282,16 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
      */
     @Override
     public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
-        KraDocumentXMLMaterializer xmlWrapper = (KraDocumentXMLMaterializer) super.wrapDocumentWithMetadataForXmlSerialization();
+        KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
+        DocumentInitiator initiator = new DocumentInitiator();
+        String initiatorPrincipalId = getDocumentHeader().getWorkflowDocument().getDocument().getInitiatorPrincipalId();
+        Person initiatorUser = KimApiServiceLocator.getPersonService().getPerson(initiatorPrincipalId);
+        initiator.setPerson(initiatorUser);
+        transInfo.setDocumentInitiator(initiator);
+        PropDevDocumentXMLMaterializer xmlWrapper = new PropDevDocumentXMLMaterializer();
+        xmlWrapper.setDocument(this);
+        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
+
         xmlWrapper.setRolepersons(getAllRolePersons());
         return xmlWrapper;
     }
@@ -466,7 +475,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
      * @see org.kuali.kra.document.ResearchDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
-    public boolean answerSplitNodeQuestion(String routeNodeName) throws Exception {
+    public boolean answerSplitNodeQuestion(String routeNodeName) {
         LOG.debug("Processing answerSplitNodeQuestion:" + routeNodeName);
         if (StringUtils.equals(HIERARCHY_CHILD_SPLITNODE_QUESTION, routeNodeName)) {
             return getDevelopmentProposal().isChild();
@@ -575,6 +584,19 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
             return this.getDocumentHeader().getDocumentDescription();
         } else {
             return super.getDocumentTitle();
+        }
+    }
+
+    public static class PropDevDocumentXMLMaterializer extends KualiDocumentXmlMaterializer{
+
+        List<RolePersons> rolepersons;
+
+        public List<RolePersons> getRolepersons() {
+            return rolepersons;
+        }
+
+        public void setRolepersons(List<RolePersons> rolepersons) {
+            this.rolepersons = rolepersons;
         }
     }
 }

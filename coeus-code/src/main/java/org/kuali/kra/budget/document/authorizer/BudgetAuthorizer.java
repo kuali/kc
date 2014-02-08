@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.budget.document.authorizer;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
@@ -28,9 +28,9 @@ import org.kuali.rice.krad.document.Document;
  * Base class for Narrative Authorizers.
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
+public abstract class BudgetAuthorizer extends TaskAuthorizerBase {
     
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     private boolean requiresWritableDoc = false;
     
     public boolean isAuthorized(String userId, Task task) {
@@ -51,7 +51,7 @@ public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
      * Set the Kra Authorization Service.  Injected by the Spring Framework.
      * @param kraAuthorizationService the Kra Authorization Service
      */
-    public final void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public final void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

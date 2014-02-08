@@ -22,7 +22,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -94,8 +94,8 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        KraAuthorizationService kraAuthService = 
-               (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
+        KcAuthorizationService kraAuthService =
+               (KcAuthorizationService) KraServiceLocator.getService(KcAuthorizationService.class);
         return new ArrayList<RolePersons>();
     }
     

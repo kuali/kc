@@ -16,23 +16,23 @@
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 
 /**
  * A Proposal Authorizer determines if a user can perform
  * a given task on a proposal.  
  */
-public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
+public abstract class ProposalAuthorizer extends TaskAuthorizerBase {
     
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     private boolean requiresWritableDoc = false;
     
     /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
+     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
      */
     public final boolean isAuthorized(String userId, Task task) {
         if (isRequiresWritableDoc() && ((ProposalTask)task).getDocument().isViewOnly() && task.getTaskName() != null && !StringUtils.equals(task.getTaskName(),"rejectProposal")) {
@@ -54,7 +54,7 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
      * Set the Kra Authorization Service.  Injected by the Spring Framework.
      * @param kraAuthorizationService the Kra Authorization Service
      */
-    public final void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public final void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

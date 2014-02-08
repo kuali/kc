@@ -30,7 +30,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolActionBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -81,8 +81,8 @@ public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase
      * Get the ProtocolBase Authorization Service.
      * @return the ProtocolBase Authorization Service
      */
-    private KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KraAuthorizationService.class);
+    private KcAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KcAuthorizationService.class);
     }
 
     /**

@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 
 
@@ -35,6 +36,8 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  * the document cannot be in workflow.
  */
 public class ModifyProposalAuthorizer extends ProposalAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     public boolean isAuthorized(String userId, ProposalTask task) {
         boolean hasPermission = true;
@@ -62,12 +65,20 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              */
             WorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
 
-            boolean hasBeenRejected=KraServiceLocator.getService(KraDocumentRejectionService.class).isDocumentOnInitialNode(doc);
+            boolean hasBeenRejected=KraServiceLocator.getService(KcDocumentRejectionService.class).isDocumentOnInitialNode(doc);
             hasPermission = !doc.isViewOnly() &&
                             hasProposalPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL) &&
                             (!kraWorkflowService.isInWorkflow(doc) || hasBeenRejected) &&
                             !doc.getDevelopmentProposal().getSubmitFlag();
         }
         return hasPermission;
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

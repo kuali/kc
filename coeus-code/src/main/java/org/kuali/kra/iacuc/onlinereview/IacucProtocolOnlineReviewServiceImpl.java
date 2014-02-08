@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.onlinereview;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
@@ -31,7 +32,6 @@ import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewServiceImplBase;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -45,7 +45,7 @@ import java.util.List;
 public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewServiceImplBase implements IacucProtocolOnlineReviewService {
     
     private static final Log LOG = LogFactory.getLog(IacucProtocolOnlineReviewServiceImpl.class);
-    private KraWorkflowService kraWorkflowService;
+    private KcWorkflowService kraWorkflowService;
   
     public boolean isProtocolInStateToBeReviewed(ProtocolBase protocol) {
         boolean isReviewable = false;
@@ -70,7 +70,7 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
         return isReviewable;
     }
 
-    public void setKraWorkflowService(KraWorkflowService kraWorkflowService) {
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
     }
 

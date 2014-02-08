@@ -17,9 +17,9 @@ package org.kuali.kra.proposaldevelopment.web.struts.authorization;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,17 +29,17 @@ import javax.servlet.http.HttpServletRequest;
  * class is responsible for returning the actual narrative to insert into the
  * task.  A narrative could be a proposal or institutional attachment.
  */
-public abstract class NarrativeTaskFactory extends WebTaskFactoryImpl {
+public abstract class NarrativeTaskFactory extends WebTaskFactoryBase {
     
     private static final String LINE_NUMBER = "line";
     
     /**
-     * @see org.kuali.kra.web.struts.authorization.WebTaskFactory#createTask(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactory#createTask(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
     public abstract Task createTask(ActionForm form, HttpServletRequest request);
     
     /**
-     * @see org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl#getTaskGroupName()
+     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase#getTaskGroupName()
      */
     @Override
     public final String getTaskGroupName() {

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.document.authorization;
 
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 
 /**

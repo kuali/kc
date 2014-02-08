@@ -17,10 +17,10 @@ package org.kuali.kra.common.committee.lookup.keyvalue;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;

@@ -18,11 +18,11 @@ package org.kuali.kra.service.impl.mocks;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 
 import java.util.List;
 
-public class KraAuthorizationServiceMock implements KraAuthorizationService {
+public class KraAuthorizationServiceMock implements KcAuthorizationService {
 
     private boolean hasPermission;
     

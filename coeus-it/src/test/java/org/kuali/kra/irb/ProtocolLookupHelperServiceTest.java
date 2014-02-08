@@ -27,8 +27,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;
@@ -42,7 +42,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 public class ProtocolLookupHelperServiceTest extends KcIntegrationTestBase {
     
     private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
@@ -150,7 +151,7 @@ public class ProtocolLookupHelperServiceTest extends KcIntegrationTestBase {
         ProtocolDocument document = new ProtocolDocument();
         document.setDocumentNumber("101");
         protocol.setProtocolDocument(document);
-        final KraAuthorizationService kraAuthorizationService = context.mock(KraAuthorizationService.class);
+        final KcAuthorizationService kraAuthorizationService = context.mock(KcAuthorizationService.class);
         final String principalId = GlobalVariables.getUserSession().getPrincipalId();
         context.checking(new Expectations() {{
             Map<String, String> fieldValues = new HashMap<String, String>();

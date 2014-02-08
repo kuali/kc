@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -23,6 +24,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  * Determine if a user can assign a protocol to a committee/schedule and the action is currently unavailable.
  */
 public class ManageReviewCommentsUnavailableAuthorizer extends ProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /** {@inheritDoc} */
     @Override
@@ -34,4 +37,11 @@ public class ManageReviewCommentsUnavailableAuthorizer extends ProtocolAuthorize
         return  hasPermission && (!canExecute || !isWorklowed);
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

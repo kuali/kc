@@ -20,8 +20,8 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.web.ui.Field;
@@ -44,7 +44,7 @@ public abstract class ProtocolSubmissionLookupableHelperServiceImplBase extends 
     protected static final String PROTOCOL_TITLE = "protocol.title";
     protected static final String PROTOCOL_NUMBER = "protocolNumber";
     protected static final String DOC_TYPE_NAME_PARAM = "&docTypeName=";
-    protected KraAuthorizationService kraAuthorizationService;
+    protected KcAuthorizationService kraAuthorizationService;
     protected KcPersonService kcPersonService;
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -63,7 +63,7 @@ public abstract class ProtocolSubmissionLookupableHelperServiceImplBase extends 
         return viewHtmlData;
     }
 
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
 

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -25,8 +26,7 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelperBase;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -44,7 +44,7 @@ public class NotesAttachmentsHelper extends NotesAttachmentsHelperBase {
     public NotesAttachmentsHelper(final ProtocolForm form) {
         super(form, KraServiceLocator.getService(ProtocolAttachmentService.class), 
                    KraServiceLocator.getService(TaskAuthorizationService.class),
-                   KraServiceLocator.getService(KraAuthorizationService.class),
+                   KraServiceLocator.getService(KcAuthorizationService.class),
                    KraServiceLocator.getService(DateTimeService.class),
                    KraServiceLocator.getService(ProtocolNotepadService.class),
                    KraServiceLocator.getService(ParameterService.class),

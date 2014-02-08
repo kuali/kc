@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.subaward.document.authorization;
 
-import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kim.api.identity.Person;

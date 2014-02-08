@@ -17,10 +17,10 @@ package org.kuali.kra.award.budget.document.authorizer;
 
 
 
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
@@ -34,7 +34,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  */
 public class RejectAwardBudgetAuthorizer extends BudgetAuthorizer {
     
-    private KraDocumentRejectionService kraDocumentRejectionService;
+    private KcDocumentRejectionService kraDocumentRejectionService;
 
     public boolean isAuthorized(String username, BudgetTask task) {
         BudgetDocument doc = task.getBudgetDocument();
@@ -45,10 +45,10 @@ public class RejectAwardBudgetAuthorizer extends BudgetAuthorizer {
             && workDoc.isEnroute();
     }
     
-    protected KraDocumentRejectionService getKraDocumentRejectionService() {
+    protected KcDocumentRejectionService getKraDocumentRejectionService() {
         return kraDocumentRejectionService;
     }
-    public void setKraDocumentRejectionService(KraDocumentRejectionService kraDocumentRejectionService) {
+    public void setKraDocumentRejectionService(KcDocumentRejectionService kraDocumentRejectionService) {
         this.kraDocumentRejectionService = kraDocumentRejectionService;
     }
     

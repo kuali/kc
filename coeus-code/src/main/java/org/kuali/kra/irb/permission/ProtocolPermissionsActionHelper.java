@@ -33,7 +33,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -85,8 +85,8 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
      * Get the Protocol Authorization Service.
      * @return the Protocol Authorization Service
      */
-    private KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KraAuthorizationService.class);
+    private KcAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KcAuthorizationService.class);
     }
     @Override
     public ActionForward editRoles(ActionMapping mapping, ActionForm form, HttpServletRequest request,

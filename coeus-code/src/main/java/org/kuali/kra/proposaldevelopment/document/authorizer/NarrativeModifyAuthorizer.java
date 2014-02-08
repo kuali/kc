@@ -15,10 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
@@ -31,6 +32,8 @@ import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
  */
 public class NarrativeModifyAuthorizer extends NarrativeAuthorizer {
 
+    private KcWorkflowService kraWorkflowService;
+
     public boolean isAuthorized(String userId, NarrativeTask task) {
         
         ProposalDevelopmentDocument doc = task.getDocument();
@@ -40,7 +43,7 @@ public class NarrativeModifyAuthorizer extends NarrativeAuthorizer {
         // a sanity check.  If they have the MODIFY_NARRATIVE_RIGHT, then they are
         // required to have the MODIFY_NARRATIVE permission.
         
-        KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
+        KcDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KcDocumentRejectionService.class);
         boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
         boolean hasPermission = false;
         
@@ -52,5 +55,13 @@ public class NarrativeModifyAuthorizer extends NarrativeAuthorizer {
             }
         }
         return hasPermission;
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

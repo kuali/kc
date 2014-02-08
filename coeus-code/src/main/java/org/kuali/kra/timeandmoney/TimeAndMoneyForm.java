@@ -16,6 +16,7 @@
 package org.kuali.kra.timeandmoney;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -24,7 +25,6 @@ import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -679,8 +679,8 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         this.directIndirectViewEnabled = directIndirectViewEnabled;
     }
     
-    protected KraWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KraWorkflowService.class);
+    protected KcWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KcWorkflowService.class);
     }
     
     @SuppressWarnings("unchecked")

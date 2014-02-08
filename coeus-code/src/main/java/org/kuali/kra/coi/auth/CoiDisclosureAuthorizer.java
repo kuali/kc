@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.coi.auth;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -29,13 +30,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This class is the parent authorizer for coidisclosure tasks
  */
-public abstract class CoiDisclosureAuthorizer extends TaskAuthorizerImpl {
+public abstract class CoiDisclosureAuthorizer extends TaskAuthorizerBase {
 
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     private CoiDisclosureService coiDisclosureService;
+    private KcWorkflowService kraWorkflowService;
 
     /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
+     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
      */
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (CoiDisclosureTask) task);
@@ -55,7 +57,7 @@ public abstract class CoiDisclosureAuthorizer extends TaskAuthorizerImpl {
      * 
      * @param kraAuthorizationService
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
 
@@ -111,5 +113,13 @@ public abstract class CoiDisclosureAuthorizer extends TaskAuthorizerImpl {
         && !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument())
         && !coiDisclosure.isApprovedDisclosure()
         && !coiDisclosure.isDisapprovedDisclosure();
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

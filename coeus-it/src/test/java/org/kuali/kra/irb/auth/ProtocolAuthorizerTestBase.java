@@ -21,6 +21,8 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
+import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -29,14 +31,13 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
     
     protected static final String PROTOCOL_NUMBER = "0906000001";
@@ -124,8 +125,8 @@ public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
         return service;
     }
 
-    protected KraAuthorizationService buildKraAuthorizationService(final ProtocolDocument protocolDocument, final String permissionConstant, final boolean hasPermission) {
-        final KraAuthorizationService service = context.mock(KraAuthorizationService.class);
+    protected KcAuthorizationService buildKraAuthorizationService(final ProtocolDocument protocolDocument, final String permissionConstant, final boolean hasPermission) {
+        final KcAuthorizationService service = context.mock(KcAuthorizationService.class);
         
         context.checking(new Expectations() {{
             allowing(service).hasPermission(USERNAME, protocolDocument.getProtocol(), permissionConstant); 
@@ -142,8 +143,8 @@ public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
         return service;
     }
     
-    protected KraWorkflowService buildKraWorkflowService(final ProtocolDocument protocolDocument, final boolean isInWorkflow) {
-        final KraWorkflowService service = context.mock(KraWorkflowService.class);
+    protected KcWorkflowService buildKraWorkflowService(final ProtocolDocument protocolDocument, final boolean isInWorkflow) {
+        final KcWorkflowService service = context.mock(KcWorkflowService.class);
         
         context.checking(new Expectations() {{
             allowing(service).isInWorkflow(protocolDocument); will(returnValue(isInWorkflow)); 
@@ -156,8 +157,8 @@ public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
         return service;
     }
     
-    protected KraWorkflowService buildKraWorkflowNodeService(final ProtocolDocument protocolDocument, final boolean isInWorkflow) {
-        final KraWorkflowService service = context.mock(KraWorkflowService.class);
+    protected KcWorkflowService buildKraWorkflowNodeService(final ProtocolDocument protocolDocument, final boolean isInWorkflow) {
+        final KcWorkflowService service = context.mock(KcWorkflowService.class);
         
         context.checking(new Expectations() {{
             allowing(service).isInWorkflow(protocolDocument); will(returnValue(isInWorkflow)); 

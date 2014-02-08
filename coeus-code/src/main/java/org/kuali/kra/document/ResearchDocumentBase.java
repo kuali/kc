@@ -15,14 +15,10 @@
  */
 package org.kuali.kra.document;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import javax.persistence.*;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.kew.SimpleBooleanSplitNodeAware;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
@@ -33,7 +29,6 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
-import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -44,20 +39,18 @@ import org.kuali.rice.krad.data.jpa.DisableVersioning;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.LegacyDetectionAdvice;
-import org.kuali.rice.krad.workflow.DocumentInitiator;
-import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.*;
 
 @DisableVersioning
 @MappedSuperclass
 @AttributeOverride(name="documentNumber", column = @Column(name = "DOCUMENT_NUMBER",length=14) )
-public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
+public abstract class ResearchDocumentBase extends TransactionalDocumentBase implements SimpleBooleanSplitNodeAware {
 
     private static final long serialVersionUID = -1879382692835231633L;
 
@@ -255,25 +248,6 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         return customAttributeDocuments.get(key);
     }
 
-    /**
-     * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
-     * 
-     * @see org.kuali.rice.krad.document.Document#wrapDocumentWithMetadataForXmlSerialization()
-     */
-    @Override
-    public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
-        KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
-        DocumentInitiator initiatior = new DocumentInitiator();
-        String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        final Person initiatorUser = this.getPersonService().getPersonByPrincipalName(initiatorNetworkId);
-        initiatior.setPerson(initiatorUser);
-        transInfo.setDocumentInitiator(initiatior);
-        KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer();
-        xmlWrapper.setDocument(this);
-        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
-        return xmlWrapper;
-    }
-
     /*
      * Please keep in mind that the system checks for existing locks by matching the lock descriptor string  against 
      * all the descriptors for the given document while creating new locks. So elements that change over the document's
@@ -350,7 +324,8 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
      * if it does not support answering the question for the supplied route name.
      * 
      */
-    public boolean answerSplitNodeQuestion(String routeNodeName) throws Exception {
+    @Override
+    public boolean answerSplitNodeQuestion(String routeNodeName) {
         throw new UnsupportedOperationException("Document does not support answerSplitNodeQuestion for routeNodeName:" + routeNodeName);
     }
 

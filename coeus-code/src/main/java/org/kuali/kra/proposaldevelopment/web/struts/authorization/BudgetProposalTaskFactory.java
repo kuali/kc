@@ -16,11 +16,11 @@
 package org.kuali.kra.proposaldevelopment.web.struts.authorization;
 
 import org.apache.struts.action.ActionForm;
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,10 +31,10 @@ import javax.servlet.http.HttpServletRequest;
  * sometimes need to determine if we can perform a proposal task from
  * within a budget document.
  */
-public class BudgetProposalTaskFactory extends WebTaskFactoryImpl {
+public class BudgetProposalTaskFactory extends WebTaskFactoryBase {
 
     /**
-     * @see org.kuali.kra.web.struts.authorization.WebTaskFactory#createTask(java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactory#createTask(java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
     public Task createTask(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm) form;
@@ -43,7 +43,7 @@ public class BudgetProposalTaskFactory extends WebTaskFactoryImpl {
     }
     
     /**
-     * @see org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl#getTaskGroupName()
+     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase#getTaskGroupName()
      */
     @Override
     public String getTaskGroupName() {

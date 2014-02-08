@@ -20,7 +20,7 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -33,13 +33,13 @@ public class ModifyScheduleAuthorizerTest {
     public void testModifySchedulePermission() throws WorkflowException {
         ModifyScheduleAuthorizer authorizer = new ModifyScheduleAuthorizer();
         
-        final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
+        final KcAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         Committee committee = createCommittee("modifyschedule1", "modify schedule test");
         CommitteeTaskBase<Committee> task = new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, TaskName.VIEW_SCHEDULE, committee) {};
         assertEquals(true, authorizer.isAuthorized(USERNAME, task));
-        final KraAuthorizationService kraAuthorizationService1 = new KraAuthorizationServiceMock(false);
+        final KcAuthorizationService kraAuthorizationService1 = new KraAuthorizationServiceMock(false);
         authorizer.setKraAuthorizationService(kraAuthorizationService1);
         assertEquals(false, authorizer.isAuthorized("tdurkin", task));
     }

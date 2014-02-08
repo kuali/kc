@@ -15,26 +15,23 @@
     limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xmlns:p="http://www.springframework.org/schema/p" 
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:lang="http://www.springframework.org/schema/lang"
-       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-                           http://www.springframework.org/schema/beans
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-3.0.xsd
-                           http://www.springframework.org/schema/lang
-                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
-                           http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+
+
+
+
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.kuali.coeus.sys" />
 
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
@@ -1163,6 +1160,15 @@
     <bean id="termRepositoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="termRepositoryService" />
     </bean>
+
+    <bean id="postProcessorService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="postProcessorService" />
+    </bean>
+
+    <bean id="enDocumentTypeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="enDocumentTypeService" />
+    </bean>
+
     <bean id="krmsDistributedCacheManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="krmsCacheAdminService" />
         <property name="serviceNamespace">
@@ -1329,11 +1335,6 @@
     <bean id="documentHeaderService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="documentHeaderService" />
     </bean>
-    
-    <bean id="kraDocumentRejectionService" class="org.kuali.kra.kew.KraDocumentRejectionServiceImpl">
-        <property name="documentService" ref="documentService" />
-        <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
-    </bean>
 
     <bean id="kcEmailService" class="org.kuali.kra.service.impl.KcEmailServiceImpl" >
     	<property name="mailSender" ref="mailSender" />
@@ -1475,17 +1476,6 @@
         <property name="parameterService" ref="parameterService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
-    </bean>
-    
-    <bean id="kcPostProcessorService" class="org.kuali.kra.service.impl.KcPostProcessorServiceImpl" >
-        <property name="workflowDocumentService" ref="kewWorkflowDocumentService" />
-        <property name="documentService" ref="documentService" /> 
-    </bean>
-    
-    <bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl">
-        <property name="workflowDocumentService" ref="kewWorkflowDocumentService" />
-        <property name="workflowDocumentActionsService" ref="workflowDocumentActionsService" />
-        <property name="actionListService" ref="actionListService" />
     </bean>
     
     <bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl" />
@@ -1731,21 +1721,8 @@
     </bean>
 
     <!-- Authorization Services -->
-    
-    <bean id="systemAuthorizationService" class="org.kuali.kra.service.impl.SystemAuthorizationServiceImpl">
-        <property name="roleManagementService" ref="roleService" />
-        <property name="permissionService" ref="permissionService" />   
-        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
-    </bean>
 
-    <bean id="unitAuthorizationService" class="org.kuali.kra.service.impl.UnitAuthorizationServiceImpl">
-        <property name="unitService" ref="unitService" />
-        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
-        <property name="permissionService" ref="permissionService" />
-        <property name="roleManagementService" ref="roleService" />
-    </bean>
-
-    <bean id="kraAuthorizationService" class="org.kuali.kra.service.impl.KraAuthorizationServiceImpl">
+    <bean id="kcAuthorizationService" class="org.kuali.kra.service.impl.KcAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="roleManagementService" ref="roleService" />
@@ -1757,10 +1734,9 @@
     
     <bean id="parentAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kraWorkflowService" ref="kraWorkflowService" />
     </bean>
     
-    <bean id="applicationTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup" lazy-init="true">
+    <bean id="applicationTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup" lazy-init="true">
         <property name="groupName" value="application" />
         <property name="taskAuthorizers">
             <list>
@@ -1812,54 +1788,44 @@
     </bean>
 
     <bean id="unitAclLoadService" class="org.kuali.kra.service.impl.UnitAclLoadServiceImpl">
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="roleManagementService" ref="roleService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
     </bean>
 
     <!-- Task Authorization Service -->
+    <util:set id="taskAuthorizerGroupNames">
+        <value>applicationTaskAuthorizers</value>
+        <value>proposalTaskAuthorizers</value>
+        <value>proposalBudgetTaskAuthorizers</value>
+        <value>narrativeTaskAuthorizers</value>
+        <value>awardTaskAuthorizers</value>
+        <value>awardBudgetTaskAuthorizers</value>
+        <value>subAwardTaskAuthorizers</value>
+        <value>timeAndMoneyTaskAuthorizers</value>
+        <value>negotiationTaskAuthorizers</value>
+        <value>protocolTaskAuthorizers</value>
+        <value>protocolOnlineReviewTaskAuthorizers</value>
+        <value>iacucProtocolTaskAuthorizers</value>
+        <value>iacucProtocolOnlineReviewTaskAuthorizers</value>
+        <value>coiDisclosureTaskAuthorizers</value>
+        <value>committeeTaskAuthorizers</value>
+        <value>iacucCommitteeTaskAuthorizers</value>
+    </util:set>
 
-    <bean id="taskAuthorizationService" class="org.kuali.kra.service.impl.TaskAuthorizationServiceImpl">
-        <property name="taskAuthorizerGroupNames">
-            <set>
-                <value>applicationTaskAuthorizers</value>
-                <value>proposalTaskAuthorizers</value>
-                <value>proposalBudgetTaskAuthorizers</value>
-                <value>narrativeTaskAuthorizers</value>
-                <value>awardTaskAuthorizers</value>
-                <value>awardBudgetTaskAuthorizers</value>
-                <value>subAwardTaskAuthorizers</value>
-                <value>timeAndMoneyTaskAuthorizers</value>
-                <value>negotiationTaskAuthorizers</value>
-                <value>protocolTaskAuthorizers</value>
-                <value>protocolOnlineReviewTaskAuthorizers</value>
-                <value>iacucProtocolTaskAuthorizers</value>
-                <value>iacucProtocolOnlineReviewTaskAuthorizers</value>
-                <value>coiDisclosureTaskAuthorizers</value>
-                <value>committeeTaskAuthorizers</value>
-                <value>iacucCommitteeTaskAuthorizers</value>
-            </set>
-        </property>
-    </bean>
-
-    <bean id="webAuthorizationService" class="org.kuali.kra.web.struts.authorization.impl.WebAuthorizationServiceImpl">
-        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
-        <property name="webAuthorizerNames">
-            <set>
-                <value>proposalDevelopmentWebAuthorizer</value>
-                <value>proposalGrantsGovWebAuthorizer</value>
-                <value>proposalKeyPersonnelWebAuthorizer</value>
-                <value>proposalAbstractsAttachmentsWebAuthorizer</value>
-                <value>proposalBudgetVersionsWebAuthorizer</value>
-                <value>proposalPermissionsWebAuthorizer</value>
-                <value>proposalActionsWebAuthorizer</value>
-                <value>budgetWebAuthorizer</value>
-                <value>budgetVersionsWebAuthorizer</value>
-                <value>budgetActionsWebAuthorizer</value>
-                <value>awardBudgetsWebAuthorizer</value>
-            </set>
-        </property>
-    </bean>       
+    <util:set id="webAuthorizerNames">
+        <value>proposalDevelopmentWebAuthorizer</value>
+        <value>proposalGrantsGovWebAuthorizer</value>
+        <value>proposalKeyPersonnelWebAuthorizer</value>
+        <value>proposalAbstractsAttachmentsWebAuthorizer</value>
+        <value>proposalBudgetVersionsWebAuthorizer</value>
+        <value>proposalPermissionsWebAuthorizer</value>
+        <value>proposalActionsWebAuthorizer</value>
+        <value>budgetWebAuthorizer</value>
+        <value>budgetVersionsWebAuthorizer</value>
+        <value>budgetActionsWebAuthorizer</value>
+        <value>awardBudgetsWebAuthorizer</value>
+    </util:set>
     
     <bean id="krmsRulesExecutionService" class="org.kuali.kra.krms.service.impl.KrmsRulesExecutionServiceImpl">
         <property name="kcKrmsCacheManager" ref="kcKrmsCacheManager" /> 

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service.impl;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class TimeAndMoneyExistenceServiceImpl implements TimeAndMoneyExistenceService {
 
-    private KraWorkflowService kraWorkflowService;
+    private KcWorkflowService kraWorkflowService;
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     
@@ -70,7 +70,7 @@ public class TimeAndMoneyExistenceServiceImpl implements TimeAndMoneyExistenceSe
      * Gets the kraWorkflowService attribute. 
      * @return Returns the kraWorkflowService.
      */
-    public KraWorkflowService getKraWorkflowService() {
+    public KcWorkflowService getKraWorkflowService() {
         return kraWorkflowService;
     }
 
@@ -78,7 +78,7 @@ public class TimeAndMoneyExistenceServiceImpl implements TimeAndMoneyExistenceSe
      * Sets the kraWorkflowService attribute value.
      * @param kraWorkflowService The kraWorkflowService to set.
      */
-    public void setKraWorkflowService(KraWorkflowService kraWorkflowService) {
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
     }
 

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -23,6 +24,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  * Determine if a user can assign a protocol to a committee/schedule and the action is currently unavailable.
  */
 public class IacucManageReviewCommentsUnavailableAuthorizer extends IacucProtocolAuthorizer {
+    private KcWorkflowService kraWorkflowService;
 
     /** {@inheritDoc} */
     @Override
@@ -36,4 +38,11 @@ public class IacucManageReviewCommentsUnavailableAuthorizer extends IacucProtoco
         return  hasPermission && (!(isWorkflowed && canExecute));
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

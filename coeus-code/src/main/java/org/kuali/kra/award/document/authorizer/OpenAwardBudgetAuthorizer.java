@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
@@ -27,7 +28,9 @@ import org.kuali.kra.infrastructure.Constants;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class OpenAwardBudgetAuthorizer extends AwardAuthorizer {
- 
+
+    private KcWorkflowService kraWorkflowService;
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.award.document.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.award.document.authorization.AwardTask)
@@ -41,5 +44,12 @@ public class OpenAwardBudgetAuthorizer extends AwardAuthorizer {
                     AwardPermissionConstants.VIEW_AWARD_BUDGET.getAwardPermission())
             || kraWorkflowService.hasWorkflowPermission(userId, doc);       
     }
-    
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

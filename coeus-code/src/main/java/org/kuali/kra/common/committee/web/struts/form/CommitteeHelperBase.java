@@ -16,6 +16,7 @@
 package org.kuali.kra.common.committee.web.struts.form;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.common.committee.bo.*;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -25,7 +26,6 @@ import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 

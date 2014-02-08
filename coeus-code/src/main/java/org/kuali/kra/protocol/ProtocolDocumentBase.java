@@ -16,7 +16,6 @@
 package org.kuali.kra.protocol;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.bo.RolePersons;
@@ -35,14 +34,13 @@ import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
@@ -50,11 +48,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public abstract class ProtocolDocumentBase extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext {
@@ -169,8 +165,8 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        KraAuthorizationService kraAuthService = 
-               (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
+        KcAuthorizationService kraAuthService =
+               (KcAuthorizationService) KraServiceLocator.getService(KcAuthorizationService.class);
         return kraAuthService.getAllRolePersons(getProtocol());
     }
     

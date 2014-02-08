@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.*;
 import org.kuali.kra.proposaldevelopment.bo.*;
@@ -24,8 +26,6 @@ import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.service.SystemAuthorizationService;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
     public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUser proposalUser) {
         boolean isValid = true;
         
-        KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
+        KcWorkflowService kraWorkflowService = KraServiceLocator.getService(KcWorkflowService.class);
         
         //KRACOEUS-5530 Check if user name is Null or Empty
         
@@ -90,7 +90,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      */
     public boolean processDeleteProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, int index) {
         boolean isValid = true;
-        KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
+        KcWorkflowService kraWorkflowService = KraServiceLocator.getService(KcWorkflowService.class);
         ProposalUserRoles proposalUserRole = proposalUserRolesList.get(index);
         String username = proposalUserRole.getUsername();
 
@@ -126,7 +126,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      */
     public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserEditRoles editRoles) {
         boolean isValid = true;
-        KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
+        KcWorkflowService kraWorkflowService = KraServiceLocator.getService(KcWorkflowService.class);
         String username = editRoles.getUsername();
         if (isRemovingModifyNarrativePermission(proposalUserRolesList, editRoles)) {
             isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.EDIT_ROLES_PROPERTY_KEY, "Proposal Attachment");

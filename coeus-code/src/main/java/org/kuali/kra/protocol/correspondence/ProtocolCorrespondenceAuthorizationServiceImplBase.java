@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.correspondence;
 
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class ProtocolCorrespondenceAuthorizationServiceImplBase implements ProtocolCorrespondenceAuthorizationService {

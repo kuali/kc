@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
@@ -22,6 +23,8 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  * to view a specific protocol.
  */
 public class ViewProtocolAuthorizer extends ProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /**
      * {@inheritDoc}
@@ -31,5 +34,12 @@ public class ViewProtocolAuthorizer extends ProtocolAuthorizer {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_PROTOCOL)
             || kraWorkflowService.hasWorkflowPermission(userId, task.getProtocol().getProtocolDocument());
     }
-    
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

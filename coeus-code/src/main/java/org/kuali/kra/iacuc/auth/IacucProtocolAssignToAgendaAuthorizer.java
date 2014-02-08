@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -24,6 +25,8 @@ import org.kuali.kra.protocol.ProtocolBase;
  * Determine if a user can assign a protocol to a committee/schedule.
  */
 public class IacucProtocolAssignToAgendaAuthorizer extends IacucProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /** {@inheritDoc} */
     @Override
@@ -35,5 +38,11 @@ public class IacucProtocolAssignToAgendaAuthorizer extends IacucProtocolAuthoriz
                 && hasPermission(username, protocol, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
 
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

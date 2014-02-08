@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -24,6 +25,8 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
  * Users to Proposal Roles & the document cannot be in workflow.
  */
 public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
@@ -67,5 +70,13 @@ public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
 
         return hasPermission;
          
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

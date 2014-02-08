@@ -25,7 +25,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -36,7 +36,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.UUID;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 /**
  * Unit tests for the BudgetService interface
@@ -151,7 +153,7 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
         PersonService personService = getService(PersonService.class);
         Person user = personService.getPersonByPrincipalName("quickstart");
         
-        getService(KraAuthorizationService.class).addRole(user.getPrincipalId(), RoleConstants.AGGREGATOR, pdDocument);
+        getService(KcAuthorizationService.class).addRole(user.getPrincipalId(), RoleConstants.AGGREGATOR, pdDocument);
         
         return pdDocument;
     }

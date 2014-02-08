@@ -28,7 +28,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
@@ -36,10 +36,10 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
 import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 // TODO : temporary extends ProposalDevelopmentRuleTestBase to test proposal document custom data 
@@ -112,7 +112,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         document.addPessimisticLock(lock);
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
 
         try {
             KraServiceLocator.getService(DocumentService.class).saveDocument(document);

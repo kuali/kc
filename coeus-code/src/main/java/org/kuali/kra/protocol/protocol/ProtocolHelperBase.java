@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.protocol;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
@@ -34,7 +35,6 @@ import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;

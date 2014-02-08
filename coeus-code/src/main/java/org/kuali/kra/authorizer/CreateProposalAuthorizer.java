@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.authorizer;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
@@ -25,10 +25,10 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  * permission to create a proposal. The user must have the CREATE_PROPOSAL
  * permission in any of the units in order to create a proposal.
  */
-public class CreateProposalAuthorizer extends TaskAuthorizerImpl {
+public class CreateProposalAuthorizer extends TaskAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
+     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
      */
     public boolean isAuthorized(String userId, Task task) { 
         return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);

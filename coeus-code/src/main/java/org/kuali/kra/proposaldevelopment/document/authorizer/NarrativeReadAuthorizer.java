@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -29,6 +30,8 @@ import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */ 
 public class NarrativeReadAuthorizer extends NarrativeAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /**
      * {@inheritDoc}
@@ -58,5 +61,12 @@ public class NarrativeReadAuthorizer extends NarrativeAuthorizer {
        
         return hasPermission;
     }
-    
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }
