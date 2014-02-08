@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.versions;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
@@ -23,11 +25,11 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 import static org.apache.commons.lang.StringUtils.substringAfterLast;
 import static org.kuali.kra.infrastructure.Constants.EMPTY_STRING;
-import static org.kuali.kra.logging.BufferedLogger.debug;
-import static org.kuali.kra.logging.BufferedLogger.logger;
 
 public class AddBudgetVersionEvent extends KraDocumentEventBase {
-    
+
+    private static final Log LOG = LogFactory.getLog(AddBudgetVersionEvent.class);
+
     private String versionName;
     private Budget budget;
 
@@ -88,7 +90,7 @@ public class AddBudgetVersionEvent extends KraDocumentEventBase {
      * DEBUG is enabled in Log4j
      */
     protected void logEvent() {
-        if (!logger().isDebugEnabled()) {
+        if (!LOG.isDebugEnabled()) {
             return;
         }
 
@@ -96,7 +98,7 @@ public class AddBudgetVersionEvent extends KraDocumentEventBase {
         logMessage.append(" with ").append(versionName).append(" versionName");
 
 
-        debug(logMessage);
+        LOG.debug(logMessage);
     }
 
     /**

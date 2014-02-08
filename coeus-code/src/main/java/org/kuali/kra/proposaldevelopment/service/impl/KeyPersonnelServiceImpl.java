@@ -17,6 +17,8 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.personnel.PersonRolodex;
@@ -37,11 +39,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.*;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.logging.BufferedLogger.info;
-import static org.kuali.kra.logging.FormattedLogger.debug;
-import static org.kuali.kra.logging.FormattedLogger.info;
 
 /**
  * A Service implementation for persisted modifications of Key Personnel related business objects
@@ -51,8 +48,10 @@ import static org.kuali.kra.logging.FormattedLogger.info;
  * @version $Revision: 1.34 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
+
+    private static final Log LOG = LogFactory.getLog(KeyPersonnelServiceImpl.class);
+
     private static final String READ_ONLY_ROLES_PARAM_NAME = "personrole.readonly.roles";
-    private static final String ADDED_PERSON_MSG  = "Added Proposal Person with proposalNumber = %s and proposalPersonNumber = %s";
     private static final String ROLODEX_PERSON = "Unknown";
     private static final String NIH_PARM_KEY = "nih.";
 
@@ -86,7 +85,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             document.getDevelopmentProposal().setInvestigatorCreditTypes(getInvestigatorCreditTypes());
         }
         if (document.getDevelopmentProposal().getInvestigators().isEmpty() && !document.getDevelopmentProposal().getProposalPersons().isEmpty()) {
-            info("Need to repopulate investigator list");
+            LOG.info("Need to repopulate investigator list");
             populateInvestigators(document);
             if(!(document.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals("R"))){
                 populateActiveCredittypesPerson(document);
@@ -154,16 +153,16 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      */
     public void populateInvestigators(ProposalDevelopmentDocument document) {
         // Populate Investigators from a proposal document's persons
-        debug("Populating Investigators");
-        debug("Clearing investigator list");
+        LOG.debug("Populating Investigators");
+        LOG.debug("Clearing investigator list");
         document.getDevelopmentProposal().getInvestigators().clear();
 
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            debug(person.getFullName() + " is " + isInvestigator(person));
+            LOG.debug(person.getFullName() + " is " + isInvestigator(person));
             person.setInvestigatorFlag(isInvestigator(person));
 
             if (person.isInvestigator()) {
-                info("Adding investigator " + person.getFullName());
+                LOG.info("Adding investigator " + person.getFullName());
                 document.getDevelopmentProposal().getInvestigators().add(person);
             }
         }
@@ -184,7 +183,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
         document.getDevelopmentProposal().addProposalPerson(proposalPerson);
         
-        info(ADDED_PERSON_MSG, document.getDevelopmentProposal().getProposalNumber(), proposalPerson.getProposalPersonNumber());
+        LOG.info("Added Proposal Person with proposalNumber = " + document.getDevelopmentProposal().getProposalNumber() + " and proposalPersonNumber = " + proposalPerson.getProposalPersonNumber());
         // handle lead unit for investigators respective to coi or pi
         if (isPrincipalInvestigator(proposalPerson)) {
             assignLeadUnit(proposalPerson, document.getDevelopmentProposal().getOwnedByUnitNumber());
@@ -216,7 +215,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     /**
      * Determines whether the person has valid unit
      * 
-     * @param proposalperson
+     * @param person
      * @return boolean
      */
     @SuppressWarnings("unchecked")
@@ -512,9 +511,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     /**
      * Assigns the lead unit of the proposal to the given principal investigator
-     *
-     * @param document
-     * @param person Principal 
      */
     public void assignLeadUnit(ProposalPerson person, String unitNumber) {
         if (person.containsUnit(unitNumber)) {

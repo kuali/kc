@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -44,8 +46,6 @@ import org.kuali.rice.krad.util.MessageMap;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.kuali.kra.logging.BufferedLogger.info;
-
 
 
 /**
@@ -54,7 +54,7 @@ import static org.kuali.kra.logging.BufferedLogger.info;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, BusinessRuleInterface, SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule {
-    
+
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class); 
     private static final String PROPOSAL_QUESTIONS_KEY="proposalYnq[%d].%s";
@@ -153,7 +153,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             String ynqAnswer = proposalYnq.getAnswer();
             /* look for answers - required for routing */
             if(docRouting && StringUtils.isBlank(proposalYnq.getAnswer())) {
-                info("no answer");
+                LOG.info("no answer");
                 valid = false;
                 
                 reportError(String.format(PROPOSAL_QUESTIONS_KEY,j,PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER), KeyConstants.ERROR_REQUIRED_ANSWER, questionSerial.get(proposalYnq.getQuestionId()).toString(),groupName);
@@ -164,7 +164,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                 if (StringUtils.isNotBlank(ynqAnswer) && 
                         dateRequiredFor.contains(ynqAnswer) && 
                         proposalYnq.getReviewDate() == null) {
-                    info("No review date");
+                    LOG.info("No review date");
                     valid = false;
                     reportError(String.format(PROPOSAL_QUESTIONS_KEY,j,PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE), KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE,  questionSerial.get(proposalYnq.getQuestionId()).toString(),groupName);
      
@@ -177,7 +177,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                 if (StringUtils.isNotBlank(ynqAnswer) && 
                     explanationRequiredFor.contains(ynqAnswer) && 
                     StringUtils.isBlank(proposalYnq.getExplanation())) {
-                    info("No explanation date");
+                    LOG.info("No explanation date");
                     valid = false;
                     reportError(String.format(PROPOSAL_QUESTIONS_KEY,j,PROPOSAL_QUESTIONS_KEY_PROPERTY_EXPLANATION),  KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION,  questionSerial.get(proposalYnq.getQuestionId()).toString(),groupName);
                 }
@@ -506,7 +506,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @see org.kuali.kra.proposaldevelopment.rule.SaveKeyPersonRule#processSaveKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document) {
-        info("In processSaveKeyPersonBusinessRules()");
+        LOG.info("In processSaveKeyPersonBusinessRules()");
         return new ProposalDevelopmentKeyPersonsRule().processCustomSaveDocumentBusinessRules(document);
     }
 

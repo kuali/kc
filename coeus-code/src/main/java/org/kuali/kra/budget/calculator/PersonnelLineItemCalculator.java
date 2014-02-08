@@ -17,6 +17,8 @@ package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
@@ -30,12 +32,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.kuali.kra.logging.BufferedLogger.debug;
-
 /**
  * This class is for calculating personnel line items.
  */
 public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
+
+    private static final Log LOG = LogFactory.getLog(PersonnelLineItemCalculator.class);
 
     private BudgetPersonnelDetails budgetPersonnelLineItem;
     private Budget budget;
@@ -113,8 +115,8 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
            if(applyRateFlags != null && applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+ budgetPersonnelCalculatedAmount.getRateTypeCode()) != null) {
                budgetPersonnelCalculatedAmount.setApplyRateFlag(applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+budgetPersonnelCalculatedAmount.getRateTypeCode()));
            }
-           debug(budgetPersonnelCalculatedAmount);
-           debug(budgetPersonnelCalculatedAmount.getRateClass());
+           LOG.debug(budgetPersonnelCalculatedAmount);
+           LOG.debug(budgetPersonnelCalculatedAmount.getRateClass());
        }        
     }
 

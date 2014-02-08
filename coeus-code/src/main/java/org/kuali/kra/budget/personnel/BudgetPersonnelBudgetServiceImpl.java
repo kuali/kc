@@ -19,6 +19,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
@@ -41,12 +43,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.kuali.kra.logging.BufferedLogger.debug;
 
 /**
  * This class...
  */
 public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetService {
+
+    private static final Log LOG = LogFactory.getLog(BudgetPersonnelBudgetServiceImpl.class);
 
     private BudgetPersonService budgetPersonService;
     private BudgetCalculationService budgetCalculationService;
@@ -231,7 +234,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
                     }
 
                     if (ObjectUtils.equalByKeys(personnelDetails.getBudgetPerson(), person)) {
-                        debug("Comparing ", personnelDetails.getBudgetPerson().getPersonId(),  " and ",  person.getPersonId());
+                        LOG.debug("Comparing " + personnelDetails.getBudgetPerson().getPersonId() + " and " + person.getPersonId());
 
                         lineItem.setBudgetPersonnelLineItemDeleted(true);
                         personFound = true;
@@ -242,7 +245,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         }
         
         if (personFound && toRemove != null && lineItem != null) {
-            debug("Removing ", toRemove);
+            LOG.debug("Removing " + toRemove);
             lineItem.getBudgetPersonnelDetailsList().remove(toRemove);
         }
     }

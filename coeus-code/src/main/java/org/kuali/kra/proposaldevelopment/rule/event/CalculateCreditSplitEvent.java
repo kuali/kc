@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
@@ -23,11 +25,10 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-import static org.kuali.kra.logging.BufferedLogger.debug;
-import static org.kuali.kra.logging.BufferedLogger.info;
-
 public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
-     
+
+    private static final Log LOG = LogFactory.getLog(CalculateCreditSplitEvent.class);
+
     /**
      * Constructs an CalculateCreditSplitEvent with the given errorPathPrefix, document.
      * 
@@ -55,7 +56,7 @@ public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
             logMessage.delete(logMessage.length() - 2, logMessage.length());
         }
 
-        debug(logMessage);
+        LOG.debug(logMessage);
         
     }
 
@@ -65,7 +66,6 @@ public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
      * 
      * @param errorPathPrefix
      * @param document
-     * @param proposalPerson
      */
     public CalculateCreditSplitEvent(String errorPathPrefix, Document document) {
         this(errorPathPrefix, (ProposalDevelopmentDocument) document);
@@ -80,7 +80,7 @@ public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
      * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        info("Calling processCalculateCreditSplitBusinessRules on ", rule.getClass().getSimpleName());
+        LOG.info("Calling processCalculateCreditSplitBusinessRules on " + rule.getClass().getSimpleName());
         return ((CalculateCreditSplitRule) rule).processCalculateCreditSplitBusinessRules((ProposalDevelopmentDocument) getDocument());
     }
 

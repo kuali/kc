@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +39,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.util.Map;
 
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.logging.FormattedLogger.info;
 import static org.junit.Assert.*;
 
 /**
@@ -48,6 +49,9 @@ import static org.junit.Assert.*;
  * @version $Revision: 1.9 $
  */
 public class KeyPersonnelServiceTest extends KcIntegrationTestBase {
+
+    private static final Log LOG = LogFactory.getLog(KeyPersonnelServiceTest.class);
+
     private ProposalDevelopmentDocument document;
     private ProposalDevelopmentDocument blankDocument;
     private DocumentService documentService = null;
@@ -145,7 +149,7 @@ public class KeyPersonnelServiceTest extends KcIntegrationTestBase {
         
         Map<String, Map<String,KualiDecimal>> totals = getKeyPersonnelService().calculateCreditSplitTotals(document);
         for(String key : totals.keySet()) {
-            info("Key = %s", key);
+            LOG.info("Key = " + key);
         }
     }
     

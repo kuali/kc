@@ -30,7 +30,6 @@ import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.info;
 
 /**
  * Validates Credit Splits on a <code>{@link ProposalPerson}</code> and/or <code>{@link ProposalPersonUnit}</code> by
@@ -63,7 +62,7 @@ public class CreditSplitValidator {
         boolean retval = true;
         
         for (InvestigatorCreditType creditType : creditTypes) {
-            info(VALIDATING_CT_MESSAGE, creditType.getDescription());
+            LOG.info(VALIDATING_CT_MESSAGE + creditType.getDescription());
             if (creditType.addsToHundred()) {
                 retval &= validate(document.getDevelopmentProposal().getInvestigators(), creditType);
             }
@@ -93,7 +92,7 @@ public class CreditSplitValidator {
             retval = false;
         }
 
-        info(INV_VALIDATION_MESSAGE, retval);
+        LOG.info(INV_VALIDATION_MESSAGE + retval);
 
         for (ProposalPerson investigator : investigators) {
             DecimalHolder unitCreditTotal = new DecimalHolder(KualiDecimal.ZERO);
@@ -103,7 +102,7 @@ public class CreditSplitValidator {
                 retval = false;
             }
 
-            info(UNIT_VALIDATION_MESSAGE, retval);
+            LOG.info(UNIT_VALIDATION_MESSAGE + retval);
         }
         
         
@@ -125,7 +124,7 @@ public class CreditSplitValidator {
         boolean retval = true;
         
         CreditSplitable splitable = splitable_it.next();
-        info(VALIDATING_MESSAGE, getCreditSplitableName(splitable));
+        LOG.info(VALIDATING_MESSAGE + getCreditSplitableName(splitable));
      
         DecimalHolder lesserCummulative = new DecimalHolder(KualiDecimal.ZERO);        
         retval &= validateCreditSplit(splitable.getCreditSplits().iterator(), creditType, lesserCummulative);
@@ -164,7 +163,7 @@ public class CreditSplitValidator {
         CreditSplit creditSplit = creditSplit_it.next();
         if (creditType.getInvCreditTypeCode().equals(creditSplit.getInvCreditTypeCode())) {
             lesserCummulative.add(creditSplit.getCredit());
-            info("Credit split is %s", creditSplit.getCredit());
+            LOG.info("Credit split is " + creditSplit.getCredit());
             return isCreditSplitValid(creditSplit.getCredit());
         }
      
@@ -226,7 +225,7 @@ public class CreditSplitValidator {
         
         if (!getAuditErrors().contains(error)) {
             getAuditErrors().add(error);
-            info(AUDIT_ADDITION_MESSAGE_1, messageKey, AUDIT_ADDITION_MESSAGE_2);
+            LOG.info(AUDIT_ADDITION_MESSAGE_1 + messageKey + AUDIT_ADDITION_MESSAGE_2);
         }
     }
     
