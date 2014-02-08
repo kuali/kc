@@ -22,12 +22,12 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!-- Opportunity Search Page -->
-    <bean id="PropDev-OpportunitySearchPage" parent="PropDev-OpportunitySearchPage-parentBean"/>
-    <bean id="PropDev-OpportunitySearchPage-parentBean" parent="Uif-DocumentPage">
+    <bean id="PropDev-OpportunityPage" parent="PropDev-OpportunityPage-parentBean"/>
+    <bean id="PropDev-OpportunityPage-parentBean" parent="Uif-DocumentPage">
         <property name="items">
             <list>
-                <ref bean="PropDev-OpportunitySearchSection"/>
-                <ref bean="PropDev-OpportunityInfo"/>
+                <bean parent="PropDev-OpportunityPage-SearchSection"/>
+                <bean parent="PropDev-OpportunityPage-Info"/>
             </list>
         </property>
         <property name="header">
@@ -39,8 +39,8 @@
     </bean>
 
     <!-- Opportunity Search Section -->
-    <bean id="PropDev-OpportunitySearchSection" parent="PropDev-OpportunitySearchSection-parentBean"/>
-    <bean id="PropDev-OpportunitySearchSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection" p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId == null}">
+    <bean id="PropDev-OpportunityPage-SearchSection" parent="PropDev-OpportunityPage-SearchSection-parentBean"/>
+    <bean id="PropDev-OpportunityPage-SearchSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection" p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId == null}">
         <property name="items">
             <list>
             	<bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="newS2sOpportunity.opportunityId">
@@ -61,8 +61,8 @@
         </property>
     </bean>
     
-    <bean id="PropDev-OpportunityInfo" parent="PropDev-OpportunityInfo-parentBean"/>
-    <bean id="PropDev-OpportunityInfo-parentBean" abstract="true" parent="Uif-TabSection"
+    <bean id="PropDev-OpportunityPage-Info" parent="PropDev-OpportunityPage-Info-parentBean"/>
+    <bean id="PropDev-OpportunityPage-Info-parentBean" abstract="true" parent="Uif-TabSection"
     			p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null}">
     	<property name="items"><list>
     		<ref bean="PropDev-OpportunityInfo-General"/>

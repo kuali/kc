@@ -28,34 +28,25 @@
     <bean id="PropDev-AbstractsPage-parentBean" parent="Uif-DocumentPage">
         <property name="items">
             <list>
-                <ref bean="PropDev-AbstractsSection"/>
+                <bean parent="PropDev-AbstractsPage-AbstractsSection"/>
             </list>
-        </property>
-        <property name="footer">
-        	<bean parent="Uif-FooterBase">
-        		<property name="items"><list>
-        			<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveAbstracts" p:actionLabel="Save"/>
-        			<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveAbstracts" p:actionLabel="Save and continue..."
-        				p:navigateToPageId="PropDev-NotesPage"/>
-        		</list></property>
-        	</bean>
         </property>
     </bean>
 		
-    <bean id="PropDev-AbstractsSection" parent="PropDev-AbstractsSection-parentBean"/>
-    <bean id="PropDev-AbstractsSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+    <bean id="PropDev-AbstractsPage-AbstractsSection" parent="PropDev-AbstractsPage-AbstractsSection-parentBean"/>
+    <bean id="PropDev-AbstractsPage-AbstractsSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
         <property name="header.headerText" value="Abstracts"/>
         <property name="instructionalText" value="Add attachments to this proposal"/>
         <property name="items">
             <list>
-							<ref bean="PropDev-Abstracts-Collection"/>
+							<ref bean="PropDev-AbstractsPage-Collection"/>
 						</list>
 				</property>
     		<property name="fieldBindingObjectPath" value="document.developmentProposal"/>
     </bean>		
 		
-		<bean id="PropDev-Abstracts-Collection" parent="PropDev-Abstracts-Collection-parentBean"/>
-		<bean id="PropDev-Abstracts-Collection-parentBean" abstract="true" parent="PropDev-Attachment-Collection">
+		<bean id="PropDev-AbstractsPage-Collection" parent="PropDev-AbstractsPage-Collection-parentBean"/>
+		<bean id="PropDev-AbstractsPage-Collection-parentBean" abstract="true" parent="PropDev-Attachment-Collection">
 			<property name="collectionObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract"/>
 			<property name="propertyName" value="proposalAbstracts"/>
 			<property name="layoutManager.summaryTitle" value="@{#lp.abstractType.description}" />
