@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
@@ -26,7 +27,6 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
-import org.kuali.kra.util.ValuesFinderUtility;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -164,7 +164,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
         FrequencyCodeValuesFinder frequencyCodeValuesFinder = getFrequencyCodeValuesFinder(reportClassCode, reportCode);
                 
-        return ValuesFinderUtility.processKeyValueList(frequencyCodeValuesFinder.getKeyValues());
+        return ValuesFinderUtils.processKeyValueList(frequencyCodeValuesFinder.getKeyValues());
     }
     
     
@@ -177,7 +177,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     public String getFrequencyBaseCodes(String frequencyCode){        
         FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = getFrequencyBaseCodeValuesFinder(frequencyCode);
             
-        return ValuesFinderUtility.processKeyValueList(frequencyBaseCodeValuesFinder.getKeyValues());
+        return ValuesFinderUtils.processKeyValueList(frequencyBaseCodeValuesFinder.getKeyValues());
         
     }
 

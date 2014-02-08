@@ -20,6 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
@@ -35,7 +36,6 @@ import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.util.CollectionUtil;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -234,7 +234,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        ProtocolAttachmentProtocolBase attachment = (ProtocolAttachmentProtocolBase)CollectionUtil.getFromList(selection, form.getProtocolDocument().getProtocol().getAttachmentProtocols());
+        ProtocolAttachmentProtocolBase attachment = (ProtocolAttachmentProtocolBase) CollectionUtils.getFromList(selection, form.getProtocolDocument().getProtocol().getAttachmentProtocols());
                
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);

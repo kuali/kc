@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.kra.util.DateUtils;
 
 import java.sql.Date;
 import java.util.List;
@@ -35,7 +35,7 @@ public class ProtocolRiskLevelServiceTest extends KcIntegrationTestBase {
     private static final String HIGH_RISK_LEVEL_COMMENTS = "Very high risk.";
     private static final String ACTIVE_STATUS = "A";
     private static final String INACTIVE_STATUS = "I";
-    private static final Date ASSIGNED_DATE = DateUtils.convertToSqlDate(DateUtils.addDays(new Date(System.currentTimeMillis()), -1));
+    private static final Date ASSIGNED_DATE = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(DateUtils.addDays(new Date(System.currentTimeMillis()), -1));
     private static final Date INACTIVATED_DATE = new Date(System.currentTimeMillis());
     
     private ProtocolRiskLevelServiceImpl service;

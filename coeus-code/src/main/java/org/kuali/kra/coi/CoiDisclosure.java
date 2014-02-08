@@ -18,6 +18,7 @@ package org.kuali.kra.coi;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
@@ -34,7 +35,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;

@@ -25,6 +25,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
@@ -34,7 +35,6 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.util.ValuesFinderUtility;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -89,7 +89,7 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
     public final void testProcessFrequencyBaseCodes() {
         AwardReportsServiceImpl service = new AwardReportsServiceImpl();
         Assert.assertEquals(MOCK_EXPECTED_STRING,
-                ValuesFinderUtility.processKeyValueList(KeyValueList));
+                ValuesFinderUtils.processKeyValueList(KeyValueList));
     }
     
     @Test
