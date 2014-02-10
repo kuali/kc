@@ -19,7 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDispositionStatus;
@@ -27,8 +28,7 @@ import org.kuali.kra.coi.CoiReviewStatus;
 import org.kuali.kra.coi.actions.CoiDisclosureActionService;
 import org.kuali.kra.coi.lookup.dao.CoiDisclosureDao;
 import org.kuali.kra.infrastructure.*;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -51,7 +51,7 @@ public class CoiCustomSearchAction extends KualiAction {
     private CoiDisclosureActionService coiDisclosureActionService;
     private DocumentService documentService;
     private PermissionService permissionService;
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     
     public ActionForward openCustomSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if(isAuthorizedForCoiLookups()) {
@@ -163,14 +163,14 @@ public class CoiCustomSearchAction extends KualiAction {
         this.documentService = documentService;
     }
 
-    protected KraAuthorizationService getKraAuthorizationService() {
+    protected KcAuthorizationService getKraAuthorizationService() {
         if (kraAuthorizationService == null) {
-            kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+            kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
         }
         return kraAuthorizationService;
     }
 
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
 

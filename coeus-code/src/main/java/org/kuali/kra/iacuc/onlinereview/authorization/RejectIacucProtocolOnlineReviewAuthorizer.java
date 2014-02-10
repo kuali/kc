@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.onlinereview.authorization;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 public class RejectIacucProtocolOnlineReviewAuthorizer extends IacucProtocolOnlineReviewAuthorizer {
 
-    /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
-     */
+    private KcWorkflowService kraWorkflowService;
+
     public boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task) {
         boolean hasPermission = false;
         ProtocolOnlineReviewBase protocolOnlineReview = task.getProtocolOnlineReview();
@@ -40,4 +40,11 @@ public class RejectIacucProtocolOnlineReviewAuthorizer extends IacucProtocolOnli
         return hasPermission;
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

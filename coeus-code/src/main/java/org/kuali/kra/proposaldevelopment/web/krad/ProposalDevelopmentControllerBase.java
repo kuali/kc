@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.krad;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.specialreview.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -28,35 +22,30 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.web.krad.TransactionalDocumentControllerService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.DocumentBase;
-import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 import org.kuali.rice.krad.service.AttachmentService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
-import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.UifConstants.WorkflowAction;
-import org.kuali.rice.krad.uif.field.AttributeQueryResult;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public abstract class ProposalDevelopmentControllerBase {
 
@@ -65,7 +54,7 @@ public abstract class ProposalDevelopmentControllerBase {
     
     protected String PROPDEV_DEFAULT_VIEW_ID = "PropDev-DefaultView";
     
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     private ProposalDevelopmentService proposalDevelopmentService;
     private AttachmentService attachmentService;
     private LegacyDataAdapter legacyDataAdapter;
@@ -168,13 +157,13 @@ public abstract class ProposalDevelopmentControllerBase {
          }
      }
 
-    protected KraAuthorizationService getKraAuthorizationService() {
+    protected KcAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
     }
 
     @Autowired
-    @Qualifier("kraAuthorizationService")
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    @Qualifier("kcAuthorizationService")
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
 

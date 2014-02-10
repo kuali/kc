@@ -58,7 +58,7 @@ public class ModifyProtocolAuthorizerTest extends ProtocolAuthorizerTestBase {
     
     @Override
     protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
-        ProtocolAuthorizer authorizer = new ModifyProtocolAuthorizer();
+        ModifyProtocolAuthorizer authorizer = new ModifyProtocolAuthorizer();
         authorizer.setUnitAuthorizationService(buildUnitAuthorizationService(PermissionConstants.CREATE_PROTOCOL, hasPermission));
         authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.MODIFY_PROTOCOL, hasPermission));
         authorizer.setKraWorkflowService(buildKraWorkflowService(protocolDocument, isInWorkflow));

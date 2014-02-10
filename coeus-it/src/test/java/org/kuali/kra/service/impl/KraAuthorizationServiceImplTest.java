@@ -24,7 +24,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
@@ -33,6 +33,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.List;
+
 import static org.junit.Assert.*;
 /**
  * Test the Kra Authorization Service Impl.  Mocks are used
@@ -43,13 +44,13 @@ import static org.junit.Assert.*;
  */
 public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
 
-    private KraAuthorizationService kraAuthService;
+    private KcAuthorizationService kraAuthService;
     private IdentityService identityManagementService;
     private ProposalDevelopmentService proposalDevelopmentService;
 
     @Before
     public void setUp() throws Exception {
-        kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         identityManagementService = KraServiceLocator.getService(IdentityService.class);
     }

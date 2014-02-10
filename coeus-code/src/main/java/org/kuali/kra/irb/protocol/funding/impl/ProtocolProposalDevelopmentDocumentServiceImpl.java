@@ -36,7 +36,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -139,7 +139,7 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
      */
     protected void initializeAuthorization(ProposalDevelopmentDocument document) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
         kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
     }
 

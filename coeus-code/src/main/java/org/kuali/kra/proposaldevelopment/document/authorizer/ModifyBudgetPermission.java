@@ -15,19 +15,22 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 
 
 public class ModifyBudgetPermission extends ProposalAuthorizer {
 
+    private KcWorkflowService kraWorkflowService;
+
     @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
         boolean hasPermission = false;
-        KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
+        KcDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KcDocumentRejectionService.class);
         ProposalDevelopmentDocument doc = task.getDocument();
         boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
 
@@ -35,6 +38,14 @@ public class ModifyBudgetPermission extends ProposalAuthorizer {
                 hasProposalPermission(userId, doc, PermissionConstants.MODIFY_BUDGET));
 
         return hasPermission;
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }
 

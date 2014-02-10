@@ -16,12 +16,12 @@
 package org.kuali.kra.budget.document.authorization;
 
 import org.apache.struts.action.ActionForm;
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  * The Budget Task Factory will create a Budget Task with its
  * task name and the budget document contained within the form.
  */
-public class BudgetTaskFactory extends WebTaskFactoryImpl {
+public class BudgetTaskFactory extends WebTaskFactoryBase {
 
     private String taskGroupName = TaskGroupName.PROPOSAL_BUDGET;
     @Override

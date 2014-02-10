@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -24,6 +25,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  */
 public class ProtocolAssignCmtSchedUnavailableAuthorizer extends ProtocolAuthorizer {
 
+    private KcWorkflowService kraWorkflowService;
+
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
@@ -32,5 +35,13 @@ public class ProtocolAssignCmtSchedUnavailableAuthorizer extends ProtocolAuthori
         return (!kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) ||
                 !canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE)) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

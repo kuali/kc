@@ -15,29 +15,17 @@
  */
 package org.kuali.kra.irb.actions;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.infrastructure.*;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
@@ -96,12 +84,14 @@ import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.*;
 
 // import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 

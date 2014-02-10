@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.auth;
 
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -25,6 +26,8 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class IacucReturnToPIAuthorizer extends IacucProtocolAuthorizer {
 
+    private KcWorkflowService kraWorkflowService;
+
     /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, IacucProtocolTask task) {
@@ -32,5 +35,13 @@ public class IacucReturnToPIAuthorizer extends IacucProtocolAuthorizer {
                kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.IACUC_PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME) &&
                canExecuteAction(task.getProtocol(), IacucProtocolActionType.RETURNED_TO_PI) && 
                hasPermission(username, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

@@ -22,10 +22,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.SponsorFormTemplate;
-import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -56,8 +56,8 @@ import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPri
 import org.kuali.kra.proposaldevelopment.rule.event.BudgetDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
 import org.kuali.kra.proposaldevelopment.rules.ProposalAttachmentSubmitToSponsorRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
@@ -69,9 +69,8 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionType;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KraPersistenceStructureService;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -106,7 +105,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
@@ -137,7 +135,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         SUPER_USER_APPROVE, TAKE_SUPER_USER_ACTIONS
     }
    
-    private transient KraWorkflowService kraWorkflowService;
+    private transient KcWorkflowService kraWorkflowService;
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -484,7 +482,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             // Use the Copy Service to copy the proposal.
             
             ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
-            KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+            KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
             
             if (proposalCopyService == null) {
                 
@@ -1635,14 +1633,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
 
 
-    protected KraWorkflowService getKraWorkflowService() {
+    protected KcWorkflowService getKraWorkflowService() {
         if (kraWorkflowService == null) {
-            kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);            
+            kraWorkflowService = KraServiceLocator.getService(KcWorkflowService.class);
         }
         return kraWorkflowService;
     }
 
-    public void setKraWorkflowService(KraWorkflowService kraWorkflowService) {
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
     }
     

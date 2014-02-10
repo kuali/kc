@@ -16,13 +16,13 @@
 package org.kuali.kra.irb.auth;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;

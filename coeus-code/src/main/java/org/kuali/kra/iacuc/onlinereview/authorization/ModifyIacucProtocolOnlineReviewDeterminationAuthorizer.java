@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.onlinereview.authorization;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -29,9 +30,9 @@ import java.util.Calendar;
 public class ModifyIacucProtocolOnlineReviewDeterminationAuthorizer extends IacucProtocolOnlineReviewAuthorizer {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ModifyIacucProtocolOnlineReviewDeterminationAuthorizer.class);
-    /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
-     */
+
+    private KcWorkflowService kraWorkflowService;
+
     public boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task) {
         boolean hasPermission = false;
         IacucProtocolOnlineReview protocolOnlineReview = (IacucProtocolOnlineReview) task.getProtocolOnlineReview();
@@ -69,4 +70,11 @@ public class ModifyIacucProtocolOnlineReviewDeterminationAuthorizer extends Iacu
         return hasPermission;
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

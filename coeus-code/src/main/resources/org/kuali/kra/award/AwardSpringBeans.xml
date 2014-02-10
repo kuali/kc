@@ -15,27 +15,23 @@
     limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xmlns:p="http://www.springframework.org/schema/p" 
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:lang="http://www.springframework.org/schema/lang"
-       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-                           http://www.springframework.org/schema/beans
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-3.0.xsd
-                           http://www.springframework.org/schema/lang
-                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
-                           http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+
+
+
+
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-                           
+
+    <context:annotation-config />
+
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
@@ -97,8 +93,8 @@
         <property name="serviceName" value="fiscalYearMonthService" />
     </bean>
     
-    <bean id="kraAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kraAuthorizationService" />
+    <bean id="kcAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcAuthorizationService" />
     </bean>
     
     <bean id="kraLookupDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -113,8 +109,8 @@
         <property name="serviceName" value="kcPersonService" />
     </bean>
     
-    <bean id="kraWorkflowService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kraWorkflowService" />
+    <bean id="kcWorkflowService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcWorkflowService" />
     </bean>
     
     <bean id="kualiConfigurationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -652,8 +648,8 @@
         <property name="documentService" ref="documentService"/>
         <property name="personService" ref="personService"/>
         <property name="awardSyncHelpersService" ref="awardSyncHelpersService"/>
-        <property name="kraWorkflowService" ref="kraWorkflowService"/>
-        <property name="kraAuthorizationService" ref="kraAuthorizationService"/>
+        <property name="kraWorkflowService" ref="kcWorkflowService"/>
+        <property name="kraAuthorizationService" ref="kcAuthorizationService"/>
         <property name="syncExecutor">
             <!-- 
                 Leaving this as an executor, but care should be taken before making this a concurrent executor as database synchronization bugs still exist
@@ -809,41 +805,42 @@
      
      <bean id="parentAwardAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
     </bean>
 
-    <bean id="awardTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+    <bean id="awardTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="award" />
         <property name="taskAuthorizers">
             <list>
                 <bean class="org.kuali.kra.award.document.authorizer.ModifyAwardAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="modifyAward" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 <bean class="org.kuali.kra.award.document.authorizer.ViewAwardAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="viewAward" />
                 </bean>
                 <!--  Task Authorizer for modifying persons and their roles on an award -->
                 <bean class="org.kuali.kra.award.document.authorizer.ModifyAwardPermissionsAuthorizer" parent="parentAwardAuthorizer">
-                    <property name="taskName" value="modifyAwardRoles" /> 
+                    <property name="taskName" value="modifyAwardRoles" />
                 </bean>
                 <bean class="org.kuali.kra.award.document.authorizer.CreateAwardBudgetAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="addBudget" />
                 </bean>
                 <bean class="org.kuali.kra.award.document.authorizer.OpenAwardBudgetAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="openBudgets" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>                
                 <bean class="org.kuali.kra.award.document.authorizer.MaintainAwardReportTrackingAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="maintainReportTracking" />
-                </bean>    
+                </bean>
                 <bean class="org.kuali.kra.award.document.authorizer.CreateAwardAccountAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="createAwardAccount" />
-                </bean>          
+                </bean>
             </list>
          </property>
      </bean>
      
-    <bean id="awardBudgetsWebAuthorizer" class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+    <bean id="awardBudgetsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.kra.award.web.struts.action.AwardBudgetsAction" />
         <property name="mappings">
             <map>

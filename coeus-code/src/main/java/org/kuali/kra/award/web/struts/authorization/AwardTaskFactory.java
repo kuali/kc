@@ -16,11 +16,11 @@
 package org.kuali.kra.award.web.struts.authorization;
 
 import org.apache.struts.action.ActionForm;
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  * task name and the proposal development document contained within
  * the form.
  */
-public class AwardTaskFactory extends WebTaskFactoryImpl {
+public class AwardTaskFactory extends WebTaskFactoryBase {
 
     @Override
     public Task createTask(ActionForm form, HttpServletRequest request) {

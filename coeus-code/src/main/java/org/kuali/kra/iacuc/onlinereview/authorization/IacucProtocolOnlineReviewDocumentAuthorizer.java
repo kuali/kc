@@ -17,8 +17,9 @@ package org.kuali.kra.iacuc.onlinereview.authorization;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
@@ -26,7 +27,6 @@ import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
@@ -150,7 +150,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canEdit(Document document, Person user) {
@@ -159,7 +159,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canSave(Document document, Person user) {
@@ -167,7 +167,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canCopy(Document document, Person user) {
@@ -175,7 +175,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canCancel(Document document, Person user) {
@@ -183,7 +183,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canRoute(Document document, Person user) {
@@ -191,7 +191,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canApprove(Document document, Person user) {

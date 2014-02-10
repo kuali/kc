@@ -18,9 +18,9 @@ package org.kuali.kra.subaward.document.authorization;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -29,7 +29,8 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class TestSubAwardAuthorizersTest extends KcIntegrationTestBase {
     
     TaskAuthorizationService taskAuthorizationService;

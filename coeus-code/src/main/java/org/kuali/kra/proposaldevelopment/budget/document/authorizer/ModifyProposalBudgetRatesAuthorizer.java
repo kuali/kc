@@ -15,23 +15,34 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public class ModifyProposalBudgetRatesAuthorizer extends BudgetAuthorizer {
 
+    private KcWorkflowService kraWorkflowService;
+
     public boolean isAuthorized(String userId, BudgetTask task) {
-        KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
+        KcDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KcDocumentRejectionService.class);
         BudgetDocument budgetDocument = task.getBudgetDocument();
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
         boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
              
         return (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&
                 hasParentPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL_RATES) &&!doc.getDevelopmentProposal().getSubmitFlag(); 
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

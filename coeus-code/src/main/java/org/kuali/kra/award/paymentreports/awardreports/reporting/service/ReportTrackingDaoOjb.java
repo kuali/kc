@@ -16,12 +16,13 @@
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
-import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -36,7 +37,9 @@ import java.util.*;
  * Report Tracking Dao for OJB.
  */
 public class ReportTrackingDaoOjb extends LookupDaoOjb implements ReportTrackingDao {
-    
+
+    private static final Log LOG = LogFactory.getLog(ReportTrackingDaoOjb.class);
+
     private PersistenceStructureService persistenceStructureServiceLocal;
 
     /**
@@ -115,8 +118,8 @@ public class ReportTrackingDaoOjb extends LookupDaoOjb implements ReportTracking
                 try {
                     v1 = BeanUtils.getProperty(o1, column);
                     v2 = BeanUtils.getProperty(o2, column);
-                } catch (Exception e) { 
-                    BufferedLogger.warn("Exception while trying to sort report tracking records.", e);
+                } catch (Exception e) {
+                    LOG.warn("Exception while trying to sort report tracking records.", e);
                 }
                 if (v1 == null && v2 == null) {
                     return 0;

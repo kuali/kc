@@ -16,9 +16,9 @@
 package org.kuali.kra.kim.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.service.ProposalRoleService;
-import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.type.KimType;
 

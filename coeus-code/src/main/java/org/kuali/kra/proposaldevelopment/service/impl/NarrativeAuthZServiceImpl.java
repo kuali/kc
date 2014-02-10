@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Collections;
@@ -30,7 +30,7 @@ import java.util.List;
 public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
     private BusinessObjectService businessObjectService;
     private SystemAuthorizationService systemAuthorizationService;
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
 
     /**
      * Accessor for <code>{@link BusinessObjectService}</code>
@@ -104,7 +104,7 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
      * Set the Proposal Authorization Service.  Injected by the Spring Framework.
      * @param kraAuthorizationService the Proposal Authorization Service
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
 }

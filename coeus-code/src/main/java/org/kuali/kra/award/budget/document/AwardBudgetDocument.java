@@ -16,6 +16,7 @@
 package org.kuali.kra.award.budget.document;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.commitments.FandaRateType;
@@ -29,7 +30,6 @@ import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -214,7 +214,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     public void doActionTaken(ActionTakenEvent event) {
         super.doActionTaken(event);
         ActionTaken actionTaken = event.getActionTaken();
-        KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
+        KcDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KcDocumentRejectionService.class);
         if( LOG.isDebugEnabled() ) {
             LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()) );
         }

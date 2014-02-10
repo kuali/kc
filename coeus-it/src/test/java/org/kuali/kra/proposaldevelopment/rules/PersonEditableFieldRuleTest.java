@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,13 +26,15 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import static org.kuali.kra.logging.FormattedLogger.info;
 import static org.junit.Assert.*;
 
 /**
  * Contains tests for <code>{@link PersonEditableFieldRule}</code>
  */
 public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
+
+    private static final Log LOG = LogFactory.getLog(PersonEditableFieldRuleTest.class);
+
     private static final PersonEditableFieldFixture ADDRESS_LINE1_FIELD = PersonEditableFieldFixture.ADDRESS_LINE1_FIELD;
     private static final PersonEditableFieldFixture ADDRESS_LINE2_FIELD = PersonEditableFieldFixture.ADDRESS_LINE2_FIELD;
         
@@ -68,7 +72,7 @@ public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
         MaintenanceDocument editableFieldDocument = newMaintDoc(editableField);
         PersonEditableFieldRule rule = setupMaintDocRule(editableFieldDocument, PersonEditableFieldRule.class);
         
-        info("pass %s", rule.processCustomRouteDocumentBusinessRules(editableFieldDocument));
+        LOG.info("pass " + rule.processCustomRouteDocumentBusinessRules(editableFieldDocument));
     }
 }
 

@@ -19,11 +19,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
@@ -32,8 +33,7 @@ import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.KraWorkflowService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -60,11 +60,11 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
-    protected KraAuthorizationService kraAuthorizationService;
+    protected KcAuthorizationService kraAuthorizationService;
     protected ProtocolAssignReviewersService protocolAssignReviewersService;
     protected IdentityService identityManagementService;
     protected CommitteeServiceBase committeeService;
-    protected KraDocumentRejectionService kraDocumentRejectionService;
+    protected KcDocumentRejectionService kraDocumentRejectionService;
     protected ProtocolFinderDao protocolFinderDao;
     protected ReviewCommentsService reviewCommentsService;
     protected WorkflowDocumentService workflowDocumentService;
@@ -557,10 +557,10 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     public DocumentService getDocumentService() {
         return documentService;
     }
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
-    public KraAuthorizationService getKraAuthorizationService() {
+    public KcAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
     }
     public void setProtocolAssignReviewersService(ProtocolAssignReviewersService protocolAssignReviewersService) {
@@ -581,8 +581,8 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
      * Gets the workflowDocumentService attribute. 
      * @return Returns the workflowDocumentService.
      */
-    public KraWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KraWorkflowService.class);
+    public KcWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KcWorkflowService.class);
     }
     /**
      * Gets the personService attribute. 
@@ -645,7 +645,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
      * Gets the kraDocumentRejectionService attribute. 
      * @return Returns the kraDocumentRejectionService.
      */
-    public KraDocumentRejectionService getKraDocumentRejectionService() {
+    public KcDocumentRejectionService getKraDocumentRejectionService() {
         return kraDocumentRejectionService;
     }
 
@@ -653,7 +653,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
      * Sets the kraDocumentRejectionService attribute value.
      * @param kraDocumentRejectionService The kraDocumentRejectionService to set.
      */
-    public void setKraDocumentRejectionService(KraDocumentRejectionService kraDocumentRejectionService) {
+    public void setKraDocumentRejectionService(KcDocumentRejectionService kraDocumentRejectionService) {
         this.kraDocumentRejectionService = kraDocumentRejectionService;
     }
 

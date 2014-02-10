@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
+import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucProtocolCorrespondenceTemplateAuthorizationServiceImpl  implements IacucProtocolCorrespondenceTemplateAuthorizationService {

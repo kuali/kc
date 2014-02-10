@@ -15,22 +15,22 @@
  */
 package org.kuali.kra.award.document.authorizer;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 
 /**
  * An Award Authorizer determines if a user can perform
  * a given task on an award.  
  */
-public abstract class AwardAuthorizer extends TaskAuthorizerImpl {
+public abstract class AwardAuthorizer extends TaskAuthorizerBase {
     
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     
     /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
+     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
      */
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (AwardTask) task); 
@@ -48,7 +48,7 @@ public abstract class AwardAuthorizer extends TaskAuthorizerImpl {
      * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
      * @param kraAuthorizationService
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

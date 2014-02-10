@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.*;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -544,7 +545,7 @@ public class AwardAction extends BudgetParentActionBase {
      */
     protected void createInitialAwardUsers(Award award) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
         if (!kraAuthService.hasRole(userId, KraAuthorizationConstants.KC_AWARD_NAMESPACE, AwardRoleConstants.AWARD_MODIFIER.getAwardRole())) {
             kraAuthService.addRole(userId, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), award); 
         }
@@ -578,7 +579,7 @@ public class AwardAction extends BudgetParentActionBase {
         String leadUnitNumber = awardDocument.getLeadUnitNumber();
         if (StringUtils.isNotEmpty(leadUnitNumber) && checkNoMoreThanOnePI(awardDocument.getAward())) {
             String userId = GlobalVariables.getUserSession().getPrincipalId();
-            UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      
+            UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);
             //List<Unit> userUnits = authService.getUnits(userId, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
             return authService.hasMatchingQualifiedUnits(userId, Constants.MODULE_NAMESPACE_AWARD, 
                     AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(), leadUnitNumber);

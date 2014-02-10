@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.subaward.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -25,6 +26,8 @@ import org.kuali.kra.subaward.document.authorization.SubAwardTask;
  * This class checks the authorization for modifySubAward...
  */
 public class ModifySubAwardAutherizer extends SubAwardAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     @Override
     public boolean isAuthorized(String userId, SubAwardTask task) {
@@ -56,5 +59,13 @@ public class ModifySubAwardAutherizer extends SubAwardAuthorizer {
  protected boolean canUserCreateSubAward(String userId, SubAward award) {
         return hasUnitPermission(userId, Constants.
         MODULE_NAMESPACE_SUBAWARD, PermissionConstants.CREATE_SUBAWARD);
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

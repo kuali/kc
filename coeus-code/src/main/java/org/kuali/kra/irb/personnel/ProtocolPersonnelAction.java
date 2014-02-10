@@ -34,7 +34,7 @@ import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -353,7 +353,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
 
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the PI the AGGREGATOR role.
-                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                    KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
@@ -365,7 +365,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the Other Role To Viewer the AGGREGATOR role.
-                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                    KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_VIEWER, protocol);                    
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }

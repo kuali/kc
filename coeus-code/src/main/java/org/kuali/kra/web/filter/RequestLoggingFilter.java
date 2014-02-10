@@ -18,7 +18,8 @@ package org.kuali.kra.web.filter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.MDC;
-import org.kuali.kra.util.SensitiveFieldFilterUtil;
+import org.kuali.coeus.sys.framework.sensitive.SensitiveFieldMatcher;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -175,13 +176,15 @@ public class RequestLoggingFilter implements Filter {
     private String getRequestParametersMessage(HttpServletRequest request, Boolean sensitivefieldsfilter, String... params) {
         
         StringBuilder retval = new StringBuilder();
-        
+
+        final SensitiveFieldMatcher matcher = KraServiceLocator.getService("sensitiveFieldPatternMatcher");
+
         for (Enumeration<String> parameterNames = request.getParameterNames(); parameterNames.hasMoreElements();) {
             
             String parameterName = parameterNames.nextElement();
             
             //Avoid logging Sensitive Fields if SENSITIVE_FILEDS_FILTER is set to true
-            if(sensitivefieldsfilter && SensitiveFieldFilterUtil.isFieldSensitive(parameterName)) {
+            if(sensitivefieldsfilter && matcher.match(parameterName)) {
                 continue;
             }
             
@@ -246,7 +249,7 @@ public class RequestLoggingFilter implements Filter {
 
     /**
      * Determine if the logging is allowed by using {@link Log#isInfoEnabled()}. Currently the <code>INFO</code> level
-     * is required for logging here. It is possible that by extending this class and overriding {@link #isLoggingAllowed()} the 
+     * is required for logging here. It is possible that by extending this class and overriding {@link #isInfoNotAllowed()} the
      * required log level can be adjusted.
      *
      * @return the value of {@link Log#isInfoEnabled()} directly.

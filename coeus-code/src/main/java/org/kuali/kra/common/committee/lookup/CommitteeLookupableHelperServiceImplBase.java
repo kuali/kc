@@ -25,7 +25,7 @@ import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -397,8 +397,8 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         return businessObject;
     }
 
-    protected KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KraAuthorizationService.class);
+    protected KcAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KcAuthorizationService.class);
     }
     
     /*

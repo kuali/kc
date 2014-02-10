@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.rice.krad.document.Document;
@@ -29,14 +30,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class is to check authorization to answer protocol questionnaire.
  */
 public class AnswerProposalQuestionnaireAuthorizer extends ProposalAuthorizer {
-
+    private KcWorkflowService kraWorkflowService;
   
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
      */
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        boolean hasBeenRejected=KraServiceLocator.getService(KraDocumentRejectionService.class).isDocumentOnInitialNode(doc);
+        boolean hasBeenRejected=KraServiceLocator.getService(KcDocumentRejectionService.class).isDocumentOnInitialNode(doc);
         return !task.getDocument().isViewOnly()
                 && !isPessimisticLocked(task.getDocument())
                 && (!kraWorkflowService.isInWorkflow(task.getDocument()) || hasBeenRejected);
@@ -55,4 +56,11 @@ public class AnswerProposalQuestionnaireAuthorizer extends ProposalAuthorizer {
         return isLocked;
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

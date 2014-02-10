@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -25,10 +26,20 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
  */
 public class DeleteProposalAuthorizer extends ProposalAuthorizer {
 
+    private KcWorkflowService kraWorkflowService;
+
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         boolean result = hasProposalPermission(userId, doc, PermissionConstants.DELETE_PROPOSAL);
         result &= !kraWorkflowService.isInWorkflow(doc);
         return result;
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

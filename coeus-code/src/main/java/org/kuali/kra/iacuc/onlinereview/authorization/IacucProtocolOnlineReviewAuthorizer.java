@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.iacuc.onlinereview.authorization;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 
-public abstract class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizerImpl {
-    private KraAuthorizationService kraAuthorizationService;
+public abstract class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizerBase {
+    private KcAuthorizationService kraAuthorizationService;
    
     
     /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
+     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
      */
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (IacucProtocolOnlineReviewTask) task);
@@ -37,7 +37,7 @@ public abstract class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizer
      * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
      * @param kraAuthorizationService
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     
@@ -57,7 +57,7 @@ public abstract class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizer
      * Gets the kraAuthorizationService attribute. 
      * @return Returns the kraAuthorizationService.
      */
-    public KraAuthorizationService getKraAuthorizationService() {
+    public KcAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
     }
 }

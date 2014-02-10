@@ -17,6 +17,8 @@ package org.kuali.kra.protocol.actions;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -71,10 +73,8 @@ import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -280,7 +280,7 @@ public abstract class ActionHelperBase implements Serializable {
     @SuppressWarnings("rawtypes")
     protected transient CommitteeScheduleServiceBase committeeScheduleService;
     protected transient KcPersonService kcPersonService;
-    protected transient KraAuthorizationService kraAuthorizationService;
+    protected transient KcAuthorizationService kraAuthorizationService;
     protected transient BusinessObjectService businessObjectService;
     protected transient FollowupActionService<?> followupActionService;
         
@@ -520,7 +520,7 @@ public abstract class ActionHelperBase implements Serializable {
         if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
             java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, getDefaultExpirationDateDifference());
             newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
-            expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
+            expirationDate = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(newExpirationDate);
         }
         
         return expirationDate;
@@ -2320,8 +2320,8 @@ public abstract class ActionHelperBase implements Serializable {
      * Sets the protocolSummaryPrintOptions attribute value.
      * @param protocolSummaryPrintOptions The protocolSummaryPrintOptions to set.
      */
-    public void setProtocolSummaryPrintOptions(ProtocolSummaryPrintOptions protocolSumamryPrintOptions) {
-        this.protocolSummaryPrintOptions = protocolSumamryPrintOptions;
+    public void setProtocolSummaryPrintOptions(ProtocolSummaryPrintOptions protocolSummaryPrintOptions) {
+        this.protocolSummaryPrintOptions = protocolSummaryPrintOptions;
     }
 
 
@@ -2520,9 +2520,9 @@ public abstract class ActionHelperBase implements Serializable {
         this.protocolCorrespondence = protocolCorrespondence;
     }
 
-    protected KraAuthorizationService getKraAuthorizationService() {
+    protected KcAuthorizationService getKraAuthorizationService() {
         if (this.kraAuthorizationService == null) {
-            this.kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+            this.kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
         }
         
         return this.kraAuthorizationService;

@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.permission;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.web.bean.Role;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -23,8 +24,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -196,7 +196,7 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
      */
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {
-        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
         return kraAuthorizationService.getPersonsInRole(getProtocol(), roleName);
     }
     

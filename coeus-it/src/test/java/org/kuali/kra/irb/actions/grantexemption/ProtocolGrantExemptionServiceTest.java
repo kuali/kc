@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.grantexemption;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -32,7 +33,6 @@ import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGene
 import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
@@ -45,7 +45,7 @@ import static org.junit.Assert.*;
 public class ProtocolGrantExemptionServiceTest extends KcIntegrationTestBase {
 
     private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
-    private static final Date APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
+    private static final Date APPROVAL_DATE = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
     private static final String COMMENTS = "something silly";
     private static final String VALID_EXEMPT_STUDIES_ITEM_CODE = "1";
     

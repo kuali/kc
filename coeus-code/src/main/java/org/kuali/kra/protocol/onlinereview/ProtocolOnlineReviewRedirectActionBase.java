@@ -23,7 +23,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -85,8 +85,8 @@ public abstract class ProtocolOnlineReviewRedirectActionBase extends KraTransact
     protected String getAdminRoleName() {
         return "IRB Administrator";
     }
-    private KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KraAuthorizationService.class);
+    private KcAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KcAuthorizationService.class);
     }
 
     private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
