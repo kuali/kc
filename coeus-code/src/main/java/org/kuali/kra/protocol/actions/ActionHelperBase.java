@@ -2318,10 +2318,10 @@ public abstract class ActionHelperBase implements Serializable {
 
     /**
      * Sets the protocolSummaryPrintOptions attribute value.
-     * @param protocolSumamryPrintOptions The protocolSummaryPrintOptions to set.
+     * @param protocolSummaryPrintOptions The protocolSummaryPrintOptions to set.
      */
-    public void setProtocolSummaryPrintOptions(ProtocolSummaryPrintOptions protocolSumamryPrintOptions) {
-        this.protocolSummaryPrintOptions = protocolSumamryPrintOptions;
+    public void setProtocolSummaryPrintOptions(ProtocolSummaryPrintOptions protocolSummaryPrintOptions) {
+        this.protocolSummaryPrintOptions = protocolSummaryPrintOptions;
     }
 
 
