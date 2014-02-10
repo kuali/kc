@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
@@ -54,8 +55,7 @@ import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
-import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.util.DateUtils;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -905,8 +905,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return KraServiceLocator.getService(ReviewCommentsService.class);
     }
         
-    private KraWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KraWorkflowService.class);
+    private KcWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KcWorkflowService.class);
     }
     
     protected void recordOnlineReviewActionSuccess(String onlineReviewActionName, ProtocolOnlineReviewDocument document) {

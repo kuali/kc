@@ -17,6 +17,8 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -33,7 +35,6 @@ import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
@@ -57,6 +58,9 @@ import java.util.List;
  * Struts Action class for the Proposal Development Budget Versions page
  */
 public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopmentAction {
+
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentBudgetVersionsAction.class);
+
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
@@ -266,7 +270,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
             final String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
-            BufferedLogger.debug("validating ", copiedName);
+            LOG.debug("validating " + copiedName);
             valid = getBudgetService().isBudgetVersionNameValid(pdForm.getProposalDevelopmentDocument(), copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             pdForm.setSaveAfterCopy(!valid);

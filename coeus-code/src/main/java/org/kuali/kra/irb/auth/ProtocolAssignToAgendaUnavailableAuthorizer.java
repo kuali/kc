@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
@@ -27,6 +28,8 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
  * Determine if a user can assign a protocol to a committee/schedule and the action is currently not available.
  */
 public class ProtocolAssignToAgendaUnavailableAuthorizer extends ProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /** {@inheritDoc} */
     @Override
@@ -69,5 +72,11 @@ public class ProtocolAssignToAgendaUnavailableAuthorizer extends ProtocolAuthori
         return protocolSubmission;
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
 
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

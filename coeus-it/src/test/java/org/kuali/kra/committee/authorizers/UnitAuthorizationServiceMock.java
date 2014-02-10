@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.committee.authorizers;
 
+import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.service.UnitAuthorizationService;
 
 import java.util.List;
 

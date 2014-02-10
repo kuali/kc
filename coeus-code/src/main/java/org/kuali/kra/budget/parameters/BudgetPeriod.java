@@ -23,7 +23,7 @@ import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetNumberOfMonthsService;
-import org.kuali.kra.util.DateUtils;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 
 import java.io.Serializable;
 import java.sql.Date;

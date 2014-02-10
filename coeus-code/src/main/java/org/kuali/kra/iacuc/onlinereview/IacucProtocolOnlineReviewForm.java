@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.onlinereview;
 
 import org.apache.commons.logging.Log;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.onlinereview.authorization.IacucProtocolOnlineReviewTask;
@@ -23,8 +24,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewFormBase;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -92,7 +92,7 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewFormBase
     
     
     public boolean getAdminFieldsEditable() {
-        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+        return KraServiceLocator.getService(KcAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(),
                                     getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(), PermissionConstants.MAINTAIN_IACUC_ONLINE_REVIEWS);
     }
 

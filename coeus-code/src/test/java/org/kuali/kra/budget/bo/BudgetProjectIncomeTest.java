@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.util.DateUtils;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.util.Calendar;

@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorization;
 
-import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -26,7 +27,6 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;

@@ -16,6 +16,7 @@
 package org.kuali.kra.award.budget;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
@@ -28,7 +29,6 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;

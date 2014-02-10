@@ -34,7 +34,7 @@ import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.protocol.ProtocolHelperBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolProposalDevelopmentDocumentService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
@@ -137,7 +137,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
      */
     protected void initializeAuthorization(ProposalDevelopmentDocument document) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
         kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
     }
 

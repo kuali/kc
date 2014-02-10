@@ -23,8 +23,7 @@ package org.kuali.kra.infrastructure;
  * values in the SpringBeans.xml.
  */
 public interface TaskGroupName {
-    
-    public static final String APPLICATION = "application";
+
     public static final String PROPOSAL = "proposal";
     public static final String NARRATIVE = "narrative";
     public static final String PROPOSAL_BUDGET = "proposalBudget";

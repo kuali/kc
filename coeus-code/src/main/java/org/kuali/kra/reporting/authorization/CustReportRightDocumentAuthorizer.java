@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.reporting.authorization;
 
+import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.document.Document;

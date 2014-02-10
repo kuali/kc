@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.authorizer;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class CreateIacucProtocolAuthorizer extends TaskAuthorizerImpl {
+public class CreateIacucProtocolAuthorizer extends TaskAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
+     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
      */
     public boolean isAuthorized(String userId, Task task) {
         return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_IACUC, PermissionConstants.CREATE_IACUC_PROTOCOL);

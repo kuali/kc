@@ -16,6 +16,8 @@
 package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -23,9 +25,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.util.CollectionUtil;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -46,7 +46,7 @@ public abstract class NotesAttachmentsHelperBase {
     
     protected final ProtocolAttachmentService notesService;
     protected final TaskAuthorizationService authService;
-    protected final KraAuthorizationService kraAuthorizationService;
+    protected final KcAuthorizationService kraAuthorizationService;
     protected final DateTimeService dateTimeService;
     protected final ProtocolNotepadService protocolNotepadService;
     protected final ParameterService parameterService;
@@ -80,7 +80,7 @@ public abstract class NotesAttachmentsHelperBase {
     protected NotesAttachmentsHelperBase(final ProtocolFormBase form,
                            final ProtocolAttachmentService notesService,
                            final TaskAuthorizationService authService,
-                           final KraAuthorizationService kraAuthorizationService,
+                           final KcAuthorizationService kraAuthorizationService,
                            final DateTimeService dateTimeService,
                            final ProtocolNotepadService protocolNotepadService,
                            final ParameterService parameterService,
@@ -394,7 +394,7 @@ public abstract class NotesAttachmentsHelperBase {
      */
     private <T extends ProtocolAttachmentBase> boolean deleteExistingAttachment(final int index, final List<T> attachments) {
         
-        if (!CollectionUtil.validIndexForList(index, attachments)) {
+        if (!CollectionUtils.validIndexForList(index, attachments)) {
             return false;
         }
         
@@ -436,7 +436,7 @@ public abstract class NotesAttachmentsHelperBase {
      * @return the attachment or null if not a valid index or if the reference at the index is null
      */
     private static <T extends ProtocolAttachmentBase> T retrieveExistingAttachment(final int index, final List<T> attachments) {
-        return CollectionUtil.getFromList(index, attachments);
+        return CollectionUtils.getFromList(index, attachments);
     }
     
     /**

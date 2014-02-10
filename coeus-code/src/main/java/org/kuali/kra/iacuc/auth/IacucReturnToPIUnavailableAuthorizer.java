@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -23,6 +24,8 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  * Determine if a user can return a protocol to a principal investigator.
  */
 public class IacucReturnToPIUnavailableAuthorizer extends IacucProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /** {@inheritDoc} */
     @Override
@@ -34,5 +37,13 @@ public class IacucReturnToPIUnavailableAuthorizer extends IacucProtocolAuthorize
             return true;
         }
         return false;          
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

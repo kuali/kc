@@ -15,11 +15,9 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.award.home.AwardBasisOfPayment;
-import org.kuali.kra.award.home.AwardMethodOfPayment;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
-import org.kuali.kra.util.ValuesFinderUtility;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -52,7 +50,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
             results.add(new ConcreteKeyValue( current.getBasisOfPaymentCode(), current.getBasisOfPayment().getDescription() ));
         }
 
-        return ValuesFinderUtility.processKeyValueList(results);
+        return ValuesFinderUtils.processKeyValueList(results);
     }
 
     @Override
@@ -64,7 +62,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
             current.refresh();
             results.add(new ConcreteKeyValue( current.getMethodOfPaymentCode(), current.getMethodOfPayment().getDescription() ));
         }
-        return ValuesFinderUtility.processKeyValueList(results);
+        return ValuesFinderUtils.processKeyValueList(results);
     }
 
 

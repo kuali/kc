@@ -15,27 +15,16 @@
     limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xmlns:p="http://www.springframework.org/schema/p" 
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:lang="http://www.springframework.org/schema/lang"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-                           http://www.springframework.org/schema/beans
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
-                           http://www.springframework.org/schema/lang
-                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
-                           http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-                           http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-                           
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:annotation-config />
+
     <bean id="irbModuleConfiguration" parent="irbModuleConfiguration-parentBean" />
     
     <bean id="irbModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
@@ -137,13 +126,12 @@
     
     <bean id="parentProtocolAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="protocolActionService" ref="protocolActionService" />
     </bean>
     
     <bean id = "protocolOnlineReviewService" class = "org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewServiceImpl">
-   		<property name = "kraAuthorizationService" ref = "kraAuthorizationService"/>
+   		<property name = "kraAuthorizationService" ref = "kcAuthorizationService"/>
    		<property name = "businessObjectService" ref = "businessObjectService"/>
    		<property name = "documentService" ref = "documentService"/>
    		<property name = "protocolAssignReviewersService" ref = "protocolAssignReviewersService"/>
@@ -151,7 +139,7 @@
    		<property name = "identityManagementService" ref = "identityService"/>
    		<property name = "committeeService" ref = "committeeService"/>
    		<property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
-   		<property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
+   		<property name = "kraDocumentRejectionService" ref = "kcDocumentRejectionService"/>
    		<property name = "reviewCommentsService" ref = "reviewCommentsService"/>
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
    		<property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
@@ -163,7 +151,7 @@
         <property name="protocolAmendRenewService" ref="protocolAmendRenewService" />
     </bean>
 	
-    <bean id="protocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+    <bean id="protocolTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="protocol" />
         <property name="taskAuthorizers">
             <list>
@@ -173,6 +161,7 @@
                 
                 <bean class="org.kuali.kra.irb.auth.ViewProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="viewProtocol" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>                
                 
                 <bean class="org.kuali.kra.irb.auth.AddProtocolBillableAuthorizer" parent="parentProtocolAuthorizer">
@@ -229,10 +218,12 @@
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolWithdraw" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolWithdrawUnavailable" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestCloseAuthorizer" parent="parentProtocolAuthorizer">
@@ -303,74 +294,92 @@
 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolPermissionsAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolRoles" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolGeneralInfoAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolGeneralInfo" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolFundingSourceAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolFundingSource" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolReferencesAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolReferences" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolOrganizationsAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolOrganizations" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubjectsAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolSubjects" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolAttachmentsAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolAttachments" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolAreasOfResearchAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolAreasOfResearch" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSpecialReviewAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolSpecialReview" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolPersonnelAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolPersonnel" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolOthersAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolOthers" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignToAgendaAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToAgenda" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignToAgendaUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToAgendaUnavailable" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignCmtSchedAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToCmtSched" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignCmtSchedUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToCmtSchedUnavailable" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignReviewers" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignReviewersUnavailable" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersCmtSelAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignReviewersCmtSel" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolGrantExemptionAuthorizer" parent="parentProtocolAuthorizer">
@@ -383,6 +392,7 @@
                 
                 <bean class="org.kuali.kra.irb.auth.AddProtocolNotesAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="addProtocolNotes" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ViewRestrictedNotesProtocolAuthorizer" parent="parentProtocolAuthorizer">
@@ -391,10 +401,12 @@
                  
                 <bean class="org.kuali.kra.irb.auth.ExpediteApprovalAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolExpediteApproval" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ExpediteApprovalUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolExpediteApprovalUnavailable" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ResponseApprovalAuthorizer" parent="parentProtocolAuthorizer">
@@ -455,10 +467,12 @@
                 
                 <bean class="org.kuali.kra.irb.auth.RecordCommitteeDecisionProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolRecordCommitteeDecision" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.RecordCommitteeDecisionProtocolUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolRecordCommitteeDecisionUnavailable" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.EnterRiskLevelProtocolAuthorizer" parent="parentProtocolAuthorizer">
@@ -466,6 +480,7 @@
                 </bean>
                 <bean class="org.kuali.kra.irb.auth.AnswerProtocolQuestionnaireAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="answerProtocolQuestionnaire" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.UndoLastActionProtocolAuthorizer" parent="parentProtocolAuthorizer">
@@ -501,12 +516,15 @@
                 </bean>    
                 <bean class="org.kuali.kra.irb.auth.ManageReviewCommentsAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolManageReviewComments" />
-                </bean>           
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
                 <bean class="org.kuali.kra.irb.auth.ManageReviewCommentsUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolManageReviewCommentsUnavailable" />
-                </bean>           
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
                 <bean class="org.kuali.kra.irb.auth.ProtocolApproveOtherAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolApproveOther" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>   
 
 
@@ -527,9 +545,11 @@
                                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolReturnToPIAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolReturnToPI" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 <bean class="org.kuali.kra.irb.auth.ProtocolReturnToPIUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolReturnToPIUnavailable" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 <bean class="org.kuali.kra.irb.auth.RecallProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="recallProtocol" />
@@ -560,21 +580,22 @@
 
 	<bean id="parentProtocolOnlineReviewAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService" />
     </bean>
   
 
-	<bean id="protocolOnlineReviewTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+	<bean id="protocolOnlineReviewTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
 		<property name="groupName" value="protocolOnlineReview" />
 		<property name="taskAuthorizers">
 			<list>
 				<bean class="org.kuali.kra.irb.onlinereview.authorization.ModifyProtocolOnlineReviewAuthorizer" parent="parentProtocolOnlineReviewAuthorizer">
                     <property name="taskName" value="modifyProtocolOnlineReview" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 <bean class="org.kuali.kra.irb.onlinereview.authorization.RejectProtocolOnlineReviewAuthorizer" parent="parentProtocolOnlineReviewAuthorizer">
                     <property name="taskName" value="rejectProtocolOnlineReview" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 <bean class="org.kuali.kra.irb.onlinereview.authorization.MaintainProtocolOnlineReviewsAuthorizer" parent = "parentProtocolOnlineReviewAuthorizer">
                 	<property name="taskName" value = "maintainProtocolOnlineReviews"/>
@@ -588,7 +609,7 @@
     <bean id="protocolCopyService" class="org.kuali.kra.irb.actions.copy.ProtocolCopyServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="protocolNumberService" ref="protocolNumberService" />
         <property name="sequenceAccessorService">
             <ref bean="sequenceAccessorService" />
@@ -610,7 +631,7 @@
             <ref bean="kcPersonService" />
         </property>
         <property name="kraAuthorizationService">
-            <ref bean="kraAuthorizationService" />
+            <ref bean="kcAuthorizationService" />
         </property>
         <property name="taskAuthorizationService">
             <ref bean="taskAuthorizationService" />
@@ -645,7 +666,7 @@
             <ref bean="kcPersonService" />
         </property>
         <property name="kraAuthorizationService">
-            <ref bean="kraAuthorizationService" />
+            <ref bean="kcAuthorizationService" />
         </property>
     </bean>
 
@@ -708,7 +729,7 @@
     
     <bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="followupActionService" ref = "followupActionService"/>
         <property name="protocolDao" ref="protocolDao" />
@@ -1056,7 +1077,7 @@
     <bean id="proposalDevelopmentProtocolDocumentService" class="org.kuali.kra.irb.protocol.funding.impl.ProposalDevelopmentProtocolDocumentServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="protocolNumberService" ref="protocolNumberService" />
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
         <property name="taskAuthorizationService" ref="taskAuthorizationService" />

@@ -16,11 +16,11 @@
 package org.kuali.kra.proposaldevelopment.web.struts.authorization;
 
 import org.apache.struts.action.ActionForm;
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,10 +29,10 @@ import javax.servlet.http.HttpServletRequest;
  * task name and the proposal development document contained within
  * the form.
  */
-public class ProposalTaskFactory extends WebTaskFactoryImpl {
+public class ProposalTaskFactory extends WebTaskFactoryBase {
 
     /**
-     * @see org.kuali.kra.web.struts.authorization.WebTaskFactory#createTask(java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactory#createTask(java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
     public Task createTask(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -40,7 +40,7 @@ public class ProposalTaskFactory extends WebTaskFactoryImpl {
     }
 
     /**
-     * @see org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl#getTaskGroupName()
+     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase#getTaskGroupName()
      */
     @Override
     public String getTaskGroupName() {

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.undo;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -43,7 +44,6 @@ import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -63,8 +63,8 @@ public class UndoLastActionServiceTest extends KcIntegrationTestBase {
     private static final String ASSIGN_TO_AGENDA_COMMENTS = "assigning to agenda";
     private static final Date ASSIGN_TO_AGENDA_ACTION_DATE = new Date(System.currentTimeMillis());
     private static final Date APPROVAL_ACTION_DATE = new Date(System.currentTimeMillis());
-    private static final Date APPROVAL_APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(APPROVAL_ACTION_DATE, -1));
-    private static final Date APPROVAL_EXPIRATION_DATE = DateUtils.convertToSqlDate(DateUtils.addYears(APPROVAL_ACTION_DATE, 1));
+    private static final Date APPROVAL_APPROVAL_DATE = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(DateUtils.addWeeks(APPROVAL_ACTION_DATE, -1));
+    private static final Date APPROVAL_EXPIRATION_DATE = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(DateUtils.addYears(APPROVAL_ACTION_DATE, 1));
     private static final String APPROVAL_COMMENTS = "approving";
     private static final String CLOSE_COMMENTS = "closing administratively";
     private static final String CLOSE_ENROLLMENT_COMMENTS = "closing enrollment";

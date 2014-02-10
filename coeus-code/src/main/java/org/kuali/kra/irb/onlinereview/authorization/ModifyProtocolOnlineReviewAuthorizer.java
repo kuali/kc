@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.onlinereview.authorization;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
@@ -35,6 +36,9 @@ import org.kuali.rice.krad.service.DocumentService;
 public class ModifyProtocolOnlineReviewAuthorizer extends ProtocolOnlineReviewAuthorizer {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ModifyProtocolOnlineReviewAuthorizer.class);
+
+    private KcWorkflowService kraWorkflowService;
+
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
@@ -67,5 +71,11 @@ public class ModifyProtocolOnlineReviewAuthorizer extends ProtocolOnlineReviewAu
         return hasPermission;
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
 
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

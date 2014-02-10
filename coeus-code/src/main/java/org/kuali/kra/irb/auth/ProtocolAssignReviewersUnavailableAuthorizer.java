@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
@@ -28,6 +29,8 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
  * Determine if a user can assign a protocol to a committee/schedule.
  */
 public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
@@ -87,4 +90,11 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
         return submission != null && ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.subaward.document.authorizer;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.authorization.SubAwardTask;
 
 /**
  * This class is using for SubAwardAuthorizer...
  */
-public abstract class SubAwardAuthorizer extends TaskAuthorizerImpl {
+public abstract class SubAwardAuthorizer extends TaskAuthorizerBase {
 
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
 
     @Override
     public boolean isAuthorized(String userId, Task task) {
@@ -44,7 +44,7 @@ public abstract class SubAwardAuthorizer extends TaskAuthorizerImpl {
      * Usually injected by the Spring Framework.
      * @param kraAuthorizationService
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
 

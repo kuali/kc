@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -35,7 +36,6 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -47,8 +47,8 @@ public class ProtocolApproveServiceImplTest extends KcIntegrationTestBase {
     
     private static final Date ACTION_DATE = new Date(System.currentTimeMillis());
     private static final String COMMENTS = "some comments go here";
-    private static final Date APPROVAL_DATE = DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
-    private static final Date EXPIRATION_DATE = DateUtils.convertToSqlDate(DateUtils.addYears(ACTION_DATE, 1));
+    private static final Date APPROVAL_DATE = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(DateUtils.addWeeks(ACTION_DATE, -1));
+    private static final Date EXPIRATION_DATE = org.kuali.coeus.sys.framework.util.DateUtils.convertToSqlDate(DateUtils.addYears(ACTION_DATE, 1));
     
     private static final String PROTOCOL_TYPE_EXEMPT = "4";
     

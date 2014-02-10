@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.negotiations.auth;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 
-public abstract class NegotiationAuthorizer extends TaskAuthorizerImpl {
+public abstract class NegotiationAuthorizer extends TaskAuthorizerBase {
     
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
 
     /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
+     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
      */
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (NegotiationTask) task);
@@ -43,7 +43,7 @@ public abstract class NegotiationAuthorizer extends TaskAuthorizerImpl {
      * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
      * @param kraAuthorizationService
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -23,6 +24,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  * Is the user allowed to withdraw the protocol and the action is currently unavailable?
  */
 public class ProtocolWithdrawUnavailableAuthorizer extends ProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
@@ -37,5 +40,13 @@ public class ProtocolWithdrawUnavailableAuthorizer extends ProtocolAuthorizer {
         }
       
         return false;
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

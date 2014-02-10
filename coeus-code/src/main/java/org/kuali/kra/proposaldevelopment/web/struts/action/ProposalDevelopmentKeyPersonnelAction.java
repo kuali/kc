@@ -18,6 +18,8 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -53,9 +55,6 @@ import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.*;
 import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.info;
-import static org.kuali.kra.logging.FormattedLogger.debug;
-import static org.kuali.kra.logging.FormattedLogger.warn;
 import static org.kuali.rice.krad.util.KRADConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 /**
@@ -66,9 +65,9 @@ import static org.kuali.rice.krad.util.KRADConstants.METHOD_TO_CALL_ATTRIBUTE;
  * @version $Revision: 1.63 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
-    private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
-    private static final String ROLE_CHANGED_MSG  = "roleChanged for person %s = %s";
-    private static final String INV_SIZE_MSG      = "Number of investigators are ";
+
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
+
     private static final String EMPTY_STRING = "";
     
     private static final String ERROR_REMOVE_HIERARCHY_PI = "error.hierarchy.personnel.removePrincipleInvestigator";
@@ -165,8 +164,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         //need to set this based on route status, permissions...
         pdform.populatePersonEditableFields();
         handleRoleChangeEvents(pdform.getProposalDevelopmentDocument());
-        
-        debug(INV_SIZE_MSG, pdform.getProposalDevelopmentDocument().getDevelopmentProposal().getInvestigators().size());
+
+        LOG.debug("Number of investigators are " + pdform.getProposalDevelopmentDocument().getDevelopmentProposal().getInvestigators().size());
     
         try {
             boolean creditSplitEnabled = this.getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME)
@@ -175,8 +174,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             pdform.setCreditSplitEnabled(creditSplitEnabled);
         }
         catch (Exception e) {
-            warn(MISSING_PARAM_MSG, CREDIT_SPLIT_ENABLED_RULE_NAME);
-            warn(e.getMessage());
+            LOG.warn("Couldn't find parameter " + CREDIT_SPLIT_ENABLED_RULE_NAME);
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -192,7 +191,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     private void handleRoleChangeEvents(ProposalDevelopmentDocument document) {
         int index = 0;
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            debug(ROLE_CHANGED_MSG, person.getFullName(), person.isRoleChanged());
+            LOG.debug("roleChanged for person " + person.getFullName() + " = " + person.isRoleChanged());
             
             if (person.isRoleChanged()) {
                 if (document.getDevelopmentProposal().isParent()) {

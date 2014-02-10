@@ -31,7 +31,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -50,7 +50,7 @@ public class ProposalHierarcyActionHelper {
     private static final Log LOG = LogFactory.getLog(ProposalHierarcyActionHelper.class);
 
     private ProposalHierarchyService hierarchyService;
-    private KraAuthorizationService authorizationService;
+    private KcAuthorizationService authorizationService;
 
     public void syncAllHierarchy(ProposalDevelopmentDocument doc) {
         syncAllHierarchy(doc, false);
@@ -207,9 +207,9 @@ public class ProposalHierarcyActionHelper {
         return hierarchyService;
     }
     
-    private KraAuthorizationService getAuthoriztionService() {
+    private KcAuthorizationService getAuthoriztionService() {
         if (authorizationService == null) {
-            authorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+            authorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
         }
         return authorizationService;
     }

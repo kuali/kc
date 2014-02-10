@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.award.budget.document.authorizer;
 
-import org.kuali.kra.authorization.Task;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.kra.award.document.AwardDocument;
@@ -31,6 +32,8 @@ import org.kuali.kra.infrastructure.Constants;
  */
 public class SubmitAwardBudgetAuthorizer extends BudgetAuthorizer {
 
+    private KcWorkflowService kraWorkflowService;
+
     public boolean isAuthorized(String userId, Task task) {
         AwardBudgetTask budgetTask = (AwardBudgetTask) task;
         
@@ -40,5 +43,12 @@ public class SubmitAwardBudgetAuthorizer extends BudgetAuthorizer {
         return !kraWorkflowService.isInWorkflow(budgetDocument) && 
                 hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.SUBMIT_AWARD_BUDGET.getAwardPermission());
     }
-    
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
@@ -43,8 +45,6 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.FormattedLogger.debug;
-import static org.kuali.kra.logging.FormattedLogger.info;
 
 /**
  * Implementation of business rules required for the Key Persons Page of the 
@@ -55,7 +55,9 @@ import static org.kuali.kra.logging.FormattedLogger.info;
  * @version $Revision: 1.46 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
-    private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
+
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
+
     private static final int FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH = 6;
     private KcPersonService kcPersonService;
     
@@ -75,7 +77,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @return boolean
      */
     public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document) {
-        info("Processing Key Personnel Save Document Rule");
+        LOG.info("Processing Key Personnel Save Document Rule");
         boolean retval = true;
         int pi_cnt = 0;
         int personIndex = 0;
@@ -90,14 +92,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             
             if (person.getProposalPersonExtendedAttributes() != null 
                     && person.getProposalPersonExtendedAttributes().getCitizenshipTypeCode() == null) {
-                debug("error.noCitizenshipType");
+                LOG.debug("error.noCitizenshipType");
                 //document.developmentProposalList[0].proposalPersons[0].proposalPersonExtendedAttributes.citizenshipTypeCode
                 reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].proposalPersonExtendedAttributes.citizenshipTypeCode", ERROR_MISSING_CITIZENSHIP_TYPE);
                 retval = false;
             }
             
-            if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) { 
-                debug("error.missingPersonRole");
+            if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
+                LOG.debug("error.missingPersonRole");
                 reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "]", ERROR_MISSING_PERSON_ROLE);
             }
             personIndex++;
@@ -182,25 +184,25 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      */
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         boolean retval = true;
-        
-        debug("validating " + person);
-        info("Person role is " + person.getRole());
+
+        LOG.debug("validating " + person);
+        LOG.info("Person role is " + person.getRole());
 
         if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
-            debug("error.principalInvestigator.limit");
+            LOG.debug("error.principalInvestigator.limit");
             reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, getKeyPersonnelService().getPrincipalInvestigatorRoleDescription(document));
             retval = false;
         }
-        info("roleid is %s", person.getProposalPersonRoleId());
-        info("role is %s", person.getRole());
+        LOG.info("roleid is " + person.getProposalPersonRoleId());
+        LOG.info("role is " + person.getRole());
         if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
-            debug("Tried to add person without role");
+            LOG.debug("Tried to add person without role");
             reportError("newProposalPerson", ERROR_MISSING_PERSON_ROLE);
             retval = false;
         }
-        
-        debug("Does document contain a proposal person with PERSON_ID " + person.getPersonId() + "?");
-        debug(document.getDevelopmentProposal().getProposalPersons().contains(person) + "");
+
+        LOG.debug("Does document contain a proposal person with PERSON_ID " + person.getPersonId() + "?");
+        LOG.debug(document.getDevelopmentProposal().getProposalPersons().contains(person) + "");
         int firstIndex = document.getDevelopmentProposal().getProposalPersons().indexOf(person);
         int lastIndex = document.getDevelopmentProposal().getProposalPersons().lastIndexOf(person);
         if (firstIndex != -1) {
@@ -327,11 +329,11 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
         
         if (source == null) {
-            debug("validated null unit");
+            LOG.debug("validated null unit");
             return false;
         }
-        
-        debug("Validating unit %s",  source);
+
+        LOG.debug("Validating unit " + source);
        
         if (source.getUnit() == null && isBlank(source.getUnitNumber()) && (GlobalVariables.getMessageMap().getMessages("newProposalPersonUnit*")== null)) {
             GlobalVariables.getMessageMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_SELECT_UNIT);
@@ -344,7 +346,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
 
-        debug("isLeadUnit %s", source.isLeadUnit());
+        LOG.debug("isLeadUnit " + source.isLeadUnit());
         if(source.isDelete()){
             if(person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)){
                if (isDeletingUnitFromPrincipalInvestigator(source, person)&& (GlobalVariables.getMessageMap().getMessages("newProposalPersonUnit*")== null)) {
@@ -361,7 +363,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval=false;
         }
         }
-         debug("validateUnit = %s", retval);
+        LOG.debug("validateUnit = " + retval);
         
         return retval;
     }
@@ -394,7 +396,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     private boolean isDeletingUnitFromPrincipalInvestigator(ProposalPersonUnit unit, ProposalPerson person) {
         boolean retval = false;
         
-        info(PERSON_HAS_UNIT_MSG, person.getProposalPersonNumber(), unit.getUnitNumber());
+        LOG.info("Person " + person.getProposalPersonNumber() + " has unit " + unit.getUnitNumber());
         
         return retval && unit.isDelete() && unit.isLeadUnit() && getKeyPersonnelService().isPrincipalInvestigator(person);
     }

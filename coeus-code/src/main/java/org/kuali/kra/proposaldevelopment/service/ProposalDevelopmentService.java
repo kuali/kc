@@ -147,4 +147,13 @@ public interface ProposalDevelopmentService {
     
     public void sortS2sForms(DevelopmentProposal proposal);
 
+    /**
+     * Get the units that the user has tht can create proposal.
+     * If the user has the create proposal in the global space, all of
+     * the units will be returned.  If the user doesn't have create proposal
+     * in any unit, an empty list is returned.
+     * @param userId the user's username
+     * @return the list of units the user has this permission in
+     */
+    public List<Unit> getUnitsForCreateProposal(String userId);
 }

@@ -22,7 +22,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -81,7 +81,7 @@ public class ProtocolFactory {
         protocolDocument.getProtocol().setSequenceNumber(sequenceNumber);
         
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
         if(!kraAuthorizationService.hasRole(principalId, protocolDocument.getProtocol(), RoleConstants.PROTOCOL_AGGREGATOR)) {
             kraAuthorizationService.addRole(principalId, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
         }

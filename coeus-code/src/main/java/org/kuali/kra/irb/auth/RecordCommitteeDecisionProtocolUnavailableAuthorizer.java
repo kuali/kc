@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -23,6 +24,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  * Is the user allowed to record committee decisions for a protocol?
  */
 public class RecordCommitteeDecisionProtocolUnavailableAuthorizer extends ProtocolAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
 
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
@@ -48,5 +51,13 @@ public class RecordCommitteeDecisionProtocolUnavailableAuthorizer extends Protoc
         }
                 
         return false;
+    }
+
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
 }

@@ -15,23 +15,12 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
@@ -42,7 +31,6 @@ import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -71,6 +59,12 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
@@ -1093,8 +1087,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         return new ActionForward(forward, true);
     }
     
-    protected KraWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KraWorkflowService.class);
+    protected KcWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KcWorkflowService.class);
     }
     
     /**

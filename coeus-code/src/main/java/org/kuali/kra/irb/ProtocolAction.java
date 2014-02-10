@@ -49,7 +49,7 @@ import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -351,7 +351,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
 
     @Override
     protected void initialDocumentSaveAddRolesHook(String userId, ProtocolBase protocol) {
-        KraAuthorizationService kraAuthService = getKraAuthorizationService();
+        KcAuthorizationService kraAuthService = getKraAuthorizationService();
         kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, protocol);
         kraAuthService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, protocol); 
         

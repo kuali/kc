@@ -37,7 +37,7 @@ public class ViewProtocolAuthorizerTest extends ProtocolAuthorizerTestBase {
     
     @Override
     protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
-        ProtocolAuthorizer authorizer = new ViewProtocolAuthorizer();
+        ViewProtocolAuthorizer authorizer = new ViewProtocolAuthorizer();
         authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.VIEW_PROTOCOL, hasPermission));
         authorizer.setKraWorkflowService(buildKraWorkflowService(protocolDocument, false));
 

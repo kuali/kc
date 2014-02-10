@@ -25,7 +25,7 @@ import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
-import org.kuali.kra.util.DateUtils;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 
 import java.sql.Date;
 import java.util.ArrayList;

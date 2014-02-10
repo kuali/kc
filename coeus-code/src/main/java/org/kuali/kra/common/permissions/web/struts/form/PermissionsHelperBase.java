@@ -16,14 +16,14 @@
 package org.kuali.kra.common.permissions.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.web.bean.*;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.SystemAuthorizationService;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;

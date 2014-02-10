@@ -20,6 +20,8 @@ import edu.mit.irb.irbnamespace.ProtocolDocument;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.*;
@@ -33,8 +35,6 @@ import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.util.CollectionUtil;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -323,7 +323,7 @@ public class CoiNotesAndAttachmentsHelper {
     }
 
     private static <T extends CoiDisclosureAttachment> T retrieveExistingAttachment(final int index, final List<T> attachments) {
-        return CollectionUtil.getFromList(index, attachments);
+        return CollectionUtils.getFromList(index, attachments);
     }
 
     private <T extends CoiDisclosureAttachment> Map<String, Integer> createTypeToMaxDocNumber(final Collection<T> attachments) {
@@ -525,7 +525,7 @@ public class CoiNotesAndAttachmentsHelper {
 
     protected <T extends CoiDisclosureAttachment> boolean deleteExistingAttachment(final int index, final List<T> attachments) {
 
-        if (!CollectionUtil.validIndexForList(index, attachments)) {
+        if (!CollectionUtils.validIndexForList(index, attachments)) {
             return false;
         }
 

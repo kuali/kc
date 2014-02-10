@@ -16,10 +16,14 @@
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.Budget;
@@ -47,7 +51,9 @@ import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.service.*;
+import org.kuali.kra.service.KcAuthorizationService;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -74,7 +80,6 @@ import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.AutoPopulatingList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -82,7 +87,6 @@ import java.util.*;
 
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.warn;
 import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
 
 
@@ -93,6 +97,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                                                                         CustomDataDocumentForm {
     
     private static final long serialVersionUID = 7928293162992415894L;
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentForm.class);
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
     
     private boolean creditSplitEnabled;
@@ -937,7 +942,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * @param roleName the name of role to query for persons assigned to that role
      */
     private void addPersons(List<ProposalUserRoles> propUserRolesList, String roleName) {
-        KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService proposalAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
         ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         
         List<KcPerson> persons = proposalAuthService.getPersonsInRole(doc, roleName);
@@ -1185,8 +1190,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             setCreditSplitEnabled(cSplitEnabled);
         }
         catch (Exception e) {
-            warn(MISSING_PARAM_MSG, CREDIT_SPLIT_ENABLED_RULE_NAME);
-            warn(e.getMessage());
+            LOG.warn(MISSING_PARAM_MSG + CREDIT_SPLIT_ENABLED_RULE_NAME);
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -1222,11 +1227,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public boolean isSubmissionStatusReadOnly() {
         boolean result = true;
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService proposalAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
         boolean canModify = proposalAuthService.hasPermission(userId, this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
         if (canModify) { result = false; }
         
-        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
         if(kraAuthorizationService.hasRole(userId, RoleConstants.KC_ADMIN_NAMESPACE, RoleConstants.OSP_ADMINISTRATOR)) {
             result =  false;
         }
@@ -1441,7 +1446,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     public boolean isInWorkflow() {
-        return KraServiceLocator.getService(KraWorkflowService.class).isInWorkflow(this.getDocument());
+        return KraServiceLocator.getService(KcWorkflowService.class).isInWorkflow(this.getDocument());
     }
     
     /**

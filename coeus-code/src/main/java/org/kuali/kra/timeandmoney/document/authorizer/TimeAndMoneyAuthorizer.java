@@ -15,21 +15,21 @@
  */
 package org.kuali.kra.timeandmoney.document.authorizer;
 
-import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.document.authorization.TimeAndMoneyTask;
 
 /**
  * An Time And Money Authorizer determines if a user can perform a given task on a Time and Money document.  
  */
-public abstract class TimeAndMoneyAuthorizer extends TaskAuthorizerImpl {
+public abstract class TimeAndMoneyAuthorizer extends TaskAuthorizerBase {
     
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     
     /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
+     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
      */
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (TimeAndMoneyTask) task);
@@ -47,7 +47,7 @@ public abstract class TimeAndMoneyAuthorizer extends TaskAuthorizerImpl {
      * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
      * @param kraAuthorizationService
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

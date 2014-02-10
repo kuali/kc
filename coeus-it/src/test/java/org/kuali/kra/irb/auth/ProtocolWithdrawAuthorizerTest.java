@@ -48,7 +48,7 @@ public class ProtocolWithdrawAuthorizerTest extends ProtocolAuthorizerTestBase {
     
     @Override
     protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
-        ProtocolAuthorizer authorizer = new ProtocolWithdrawAuthorizer();
+        ProtocolWithdrawAuthorizer authorizer = new ProtocolWithdrawAuthorizer();
         authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.SUBMIT_PROTOCOL, hasPermission));
         authorizer.setProtocolActionService(buildProtocolActionService(ProtocolActionType.WITHDRAWN, protocolDocument, isActionAllowed));
         authorizer.setKraWorkflowService(buildKraWorkflowNodeService(protocolDocument, isInWorkflow));

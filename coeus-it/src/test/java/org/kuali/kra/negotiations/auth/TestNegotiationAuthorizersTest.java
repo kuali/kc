@@ -19,13 +19,13 @@ package org.kuali.kra.negotiations.auth;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -35,7 +35,9 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.HashMap;
 import java.util.Map;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class TestNegotiationAuthorizersTest extends KcIntegrationTestBase {
     
     TaskAuthorizationService taskAuthorizationService;

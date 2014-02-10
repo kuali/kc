@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.versions;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentRule;
@@ -27,7 +29,6 @@ import java.util.List;
 
 import static org.kuali.kra.infrastructure.KeyConstants.BUDGET_VERSION_EXISTS;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_BUDGET_NAME_MISSING;
-import static org.kuali.kra.logging.BufferedLogger.info;
 import static org.springframework.util.StringUtils.hasText;
 
 /**
@@ -36,6 +37,8 @@ import static org.springframework.util.StringUtils.hasText;
  * 
  **/
 public class BudgetVersionRule  implements AddBudgetVersionRule {
+
+    private static final Log LOG = LogFactory.getLog(BudgetVersionRule.class);
 
     /**
      * Entry method for the business rule
@@ -84,7 +87,7 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
         for (BudgetDocumentVersion budgetDocumentVersion : document.getBudgetDocumentVersions()) {
             BudgetVersionOverview version = budgetDocumentVersion.getBudgetVersionOverview();
             
-            info("Comparing ", version.getDocumentDescription(), " to ", versionName);
+            LOG.info("Comparing " + version.getDocumentDescription() + " to " + versionName);
             if (version.getDocumentDescription().equals(versionName)) {
                 return true;
             }

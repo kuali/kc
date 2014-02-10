@@ -17,6 +17,8 @@ package org.kuali.kra.award.web.struts.action;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -39,7 +41,6 @@ import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
@@ -60,6 +61,8 @@ import java.util.List;
  * Struts Action class for the Propsoal Development Budget Versions page
  */
 public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
+
+    private static final Log LOG = LogFactory.getLog(AwardBudgetsAction.class);
 
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
@@ -86,7 +89,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
             final String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
-            BufferedLogger.debug("validating ", copiedName);
+            LOG.debug("validating " + copiedName);
             boolean valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument(), copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             awardForm.setSaveAfterCopy(!valid);
@@ -292,7 +295,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
             final String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
-            BufferedLogger.debug("validating ", copiedName);
+            LOG.debug("validating " + copiedName);
             valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument(), copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             awardForm.setSaveAfterCopy(!valid);

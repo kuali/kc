@@ -16,17 +16,14 @@
 package org.kuali.kra.protocol.protocol.funding.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -34,12 +31,9 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.protocol.protocol.ProtocolNumberServiceBase;
-import org.kuali.kra.protocol.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.SystemAuthorizationService;
-import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -56,7 +50,7 @@ import java.util.List;
  */
 public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T extends ProtocolDocumentBase>  {
     private SystemAuthorizationService systemAuthorizationService;
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     private SequenceAccessorService sequenceAccessorService;
     private TaskAuthorizationService taskAuthorizationService;
     private DocumentService documentService;
@@ -92,7 +86,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
      * Set the Kra Authorization Service.
      * @param kralAuthorizationService
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

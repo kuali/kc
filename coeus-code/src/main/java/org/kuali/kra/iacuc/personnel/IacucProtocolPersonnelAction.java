@@ -22,7 +22,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.iacuc.IacucProtocolAction;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -38,7 +37,7 @@ import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -359,7 +358,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
 
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the PI the AGGREGATOR role.
-                    KraAuthorizationService kraAuthService = getKraAuthorizationService();
+                    KcAuthorizationService kraAuthService = getKraAuthorizationService();
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
@@ -370,7 +369,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
                
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the Other Role To Viewer the AGGREGATOR role.
-                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                    KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_VIEWER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }

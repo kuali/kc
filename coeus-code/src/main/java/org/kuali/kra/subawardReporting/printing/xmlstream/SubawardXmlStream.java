@@ -34,7 +34,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
-import org.kuali.kra.util.DateUtils;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;

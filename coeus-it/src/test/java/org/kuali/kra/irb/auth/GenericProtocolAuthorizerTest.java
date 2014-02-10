@@ -27,20 +27,22 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class GenericProtocolAuthorizerTest extends KcIntegrationTestBase {
     
     private static final String VALID_TASK_NAME = GenericProtocolAuthorizer.TERMINATE_PROTOCOL;
     private static final String INVALID_TASK_NAME = "foobar";
     
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     private ProtocolActionService protocolActionService;
     
     //private Mockery context;
@@ -51,7 +53,7 @@ public class GenericProtocolAuthorizerTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         auth = new GenericProtocolAuthorizer();
-        kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
         protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
         auth.setKraAuthorizationService(kraAuthorizationService);
         auth.setProtocolActionService(protocolActionService);

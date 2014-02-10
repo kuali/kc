@@ -20,7 +20,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.util.DateUtils;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;

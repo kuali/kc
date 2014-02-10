@@ -17,6 +17,7 @@ package org.kuali.kra.coi.disclosure;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
@@ -29,7 +30,6 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;

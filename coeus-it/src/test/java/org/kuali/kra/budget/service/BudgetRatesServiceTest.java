@@ -32,7 +32,7 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.kra.util.DateUtils;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 
 import java.sql.Date;
 import java.util.*;

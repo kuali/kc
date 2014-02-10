@@ -16,9 +16,9 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class UnitAclLoadServiceImpl implements UnitAclLoadService {
 
-    private KraAuthorizationService kraAuthorizationService;
+    private KcAuthorizationService kraAuthorizationService;
     private RoleService roleManagementService;
     private SystemAuthorizationService systemAuthorizationService;
     
@@ -40,7 +40,7 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
      * Set the Proposal Authorization Service.  Injected by the Spring Framework.
      * @param kraAuthorizationService the proposal authorization service
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     

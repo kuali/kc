@@ -23,9 +23,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.task.WebAuthorizationService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.committee.bo.Committee;
@@ -44,10 +46,8 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.ResearchDocumentService;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
-import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -95,8 +95,6 @@ import java.util.*;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kra.logging.BufferedLogger.debug;
-import static org.kuali.kra.logging.BufferedLogger.error;
 import static org.kuali.rice.krad.util.KRADConstants.*;
 
 // TODO : should move this class to org.kuali.kra.web.struts.action
@@ -196,9 +194,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     public ActionForward confirm(StrutsConfirmation question, String yesMethodName, String noMethodName) throws Exception {
         // Figure out what the caller is. We want the direct caller of confirm()
         question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
-        debug("Caller is ", question.getCaller());
-        debug("Setting caller from stacktrace ", Arrays.asList(new Throwable().getStackTrace()));
-        debug("Current action is ", getClass());
 
         if (question.hasQuestionInstAttributeName()) {
             Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
@@ -324,7 +319,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         ((KraTransactionalDocumentFormBase) form).setActionName(getClass().getSimpleName());
         boolean isAuthorized = webAuthorizationService.isAuthorized(userId, this.getClass(), methodName, form, request);
         if (!isAuthorized) {
-            error("User not authorized to perform ", methodName, " for document: ",
+            LOG.error("User not authorized to perform " + methodName + " for document: " +
                      ((KualiDocumentFormBase) form).getDocument().getClass().getName());
         }
         return isAuthorized;

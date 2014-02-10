@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.protocol.customdata;
 
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
@@ -22,7 +23,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Collection;

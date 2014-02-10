@@ -37,7 +37,7 @@ import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -486,8 +486,8 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         return mapping.findForward(getProtocolOnlineReviewForwardNameHook());
     }
     
-    protected KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KraAuthorizationService.class);
+    protected KcAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KcAuthorizationService.class);
     }
     
     protected UnitAclLoadService getUnitAclLoadService() {

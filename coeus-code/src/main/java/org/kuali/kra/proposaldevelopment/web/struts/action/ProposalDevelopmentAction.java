@@ -15,30 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -52,7 +36,6 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
@@ -67,10 +50,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.web.ErrorUtils;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.NonCancellingRecallQuestion;
 import org.kuali.rice.core.api.util.RiceConstants;
@@ -79,6 +60,8 @@ import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -93,7 +76,12 @@ import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.CollectionUtils;
 
-import com.google.common.collect.Lists;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.*;
+
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
@@ -129,7 +117,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             //forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             //KRACOEUS-5064
-            KraWorkflowService workflowService = KraServiceLocator.getService(KraWorkflowService.class);
+            PropDevWorkflowService workflowService = KraServiceLocator.getService(PropDevWorkflowService.class);
             ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
             proposalDevelopmentForm.setApproverViewDO(approverViewDO);           
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_SUMMARY_PAGE);
@@ -139,12 +127,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 proposalDevelopmentForm.setDocTypeName("ProposalDevelopmentDocument");
             }
             boolean rejectedDocument = false;
-            KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
+            KcDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KcDocumentRejectionService.class);
             if(proposalDevelopmentForm.getDocument().getDocumentNumber() != null){
                 rejectedDocument = documentRejectionService.isDocumentOnInitialNode(proposalDevelopmentForm.getDocument().getDocumentNumber());
             }
-             
-            KraWorkflowService workflowService = KraServiceLocator.getService(KraWorkflowService.class);
+
+            PropDevWorkflowService workflowService = KraServiceLocator.getService(PropDevWorkflowService.class);
             if (workflowService.canPerformWorkflowAction(proposalDevelopmentForm.getProposalDevelopmentDocument()) && !rejectedDocument) {
 
                 ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
@@ -1078,5 +1066,40 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
     public void setProposalDevelopmentPrintingService(ProposalDevelopmentPrintingService proposalDevelopmentPrintingService) {
         this.proposalDevelopmentPrintingService = proposalDevelopmentPrintingService;
+    }
+
+    @SuppressWarnings("deprecation")
+    private static class ErrorUtils {
+
+        /** private ctor. */
+        private ErrorUtils() {
+            throw new UnsupportedOperationException("do not call");
+        }
+
+
+        /**
+         * Copies audit errors from audit error map to message map. Arguments are optional and can both be null.
+         * @param auditClusterCategory optional cluster category string if errors should be restricted. If null all audit clusters are included
+         * @param errorkey optional errorkey to use instead of the one included in the audit error. This is to display the errors even if the property
+         * is not included in the current page
+         * @return true if any audit clusters are processed.
+         */
+        public static boolean copyAuditErrorsToPage(String auditClusterCategory, String errorkey) {
+            boolean auditClusterFound = false;
+            Iterator<String> iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator();
+            while (iter.hasNext()) {
+               String errorKey = (String) iter.next();
+                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(errorKey);
+                if(auditClusterCategory == null || StringUtils.equalsIgnoreCase(auditCluster.getCategory(), auditClusterCategory)){
+                    auditClusterFound = true;
+                    for (Object error : auditCluster.getAuditErrorList()) {
+                        AuditError auditError = (AuditError)error;
+                        GlobalVariables.getMessageMap().putError(errorKey == null ? auditError.getErrorKey() : errorKey,
+                                auditError.getMessageKey(), auditError.getParams());
+                    }
+                }
+            }
+            return auditClusterFound;
+        }
     }
 }
