@@ -41,7 +41,10 @@ import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -89,14 +92,14 @@ public class CommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorre
                         protocolCorrespondenceType.getProtoCorrespTypeCode()) == null) {
                     LOG.warn("Correspondence template \"" + protocolCorrespondenceType.getDescription() + "\" is missing.  Correspondence for protocol " 
                             + protocol.getProtocolNumber() + " has not been generated.  Add the missing template and regenerate correspondence.");
-                } else {
+                } 
+                else if (!isOutstandingRenewal(protocol.getProtocolNumber(), batchCorrespondence, protocolCorrespondenceType)) {
                     CommitteeBatchCorrespondenceDetail batchCorrespondenceDetail = (CommitteeBatchCorrespondenceDetail) createBatchCorrespondenceDetail(committeeId, protocol, 
                             protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode);
                     committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(batchCorrespondenceDetail);
                     
                     Long detailId = batchCorrespondenceDetail.getCommitteeBatchCorrespondenceDetailId();
                     String description = protocolCorrespondenceType.getDescription();
-                    //String userFullName = kcPersonService.getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName();
                     String userFullName = Constants.EMPTY_STRING;
                     BatchCorrespondenceNotificationRenderer renderer 
                         = new BatchCorrespondenceNotificationRenderer((Protocol) protocol, detailId, description, userFullName);
@@ -114,6 +117,26 @@ public class CommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorre
         
         return committeeBatchCorrespondence;
     }
+
+
+    protected boolean isOutstandingRenewal(String protocolNumber, BatchCorrespondence batchCorresp, ProtocolCorrespondenceType correspType) {
+        boolean outstandingRenewalFound = false;
+        
+        if(batchCorresp.getFinalActionCorrespType().equals(correspType.getProtoCorrespTypeCode())) {
+            return outstandingRenewalFound;
+        }
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("protocolNumber", protocolNumber + "R*");
+        fieldValues.put("active", "Y");
+        
+        Collection <Protocol> matchingProtocols = businessObjectService.findMatching(Protocol.class, fieldValues);
+        if  ( (matchingProtocols != null) && (!matchingProtocols.isEmpty()) ) {
+            outstandingRenewalFound = true;
+        }
+         
+        return outstandingRenewalFound;
+    }
+
 
     @Override
     /**
