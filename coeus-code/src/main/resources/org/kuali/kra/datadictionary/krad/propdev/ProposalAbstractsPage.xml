@@ -31,6 +31,9 @@
                 <bean parent="PropDev-AbstractsPage-AbstractsSection"/>
             </list>
         </property>
+        <property name="footer">
+			<null />
+		</property>
     </bean>
 		
     <bean id="PropDev-AbstractsPage-AbstractsSection" parent="PropDev-AbstractsPage-AbstractsSection-parentBean"/>

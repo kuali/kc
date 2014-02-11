@@ -63,7 +63,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalInitiateView.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalOpportunitySearchPage.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalOrganizationLocationsPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalOrganizationLocationsSection.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalPersonnelPage.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalQuestionnairePage.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/propdev/S2sOpportunityLookup.xml</value>

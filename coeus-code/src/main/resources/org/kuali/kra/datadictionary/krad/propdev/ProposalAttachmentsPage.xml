@@ -22,6 +22,9 @@
 				<ref bean="PropDev-ProposalAttachmentsPage-Section" />
 			</list>
 		</property>
+		<property name="footer">
+			<null />
+		</property>		
 	</bean>
 
 	<bean id="PropDev-ProposalAttachmentsPage-Section" parent="PropDev-ProposalAttachmentsPage-Section-parentBean" />
