@@ -177,7 +177,8 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         List<Printable> printableArtifactLists = new ArrayList<Printable>();
         Map<String, String> allFields = new HashMap<String,String>(lookupForm.getFields());
-        List<ReportTracking> detailResults = getReportTrackingDao().getDetailResults(allFields, lookupForm.getDetailFields());
+		List<ReportTracking> detailResults =
+                getReportTrackingDao().getResultsGroupedBy(allFields, lookupForm.getGroupedByFields(), lookupForm.getGroupedByDisplayFields());
         for (ReportTracking detailResult : detailResults) {
             AwardReportTracking  printables = new AwardReportTracking();  
             printables = getReportTrackingPrintingService().getReportPrintable(ReportTrackingType.AWARD_REPORT_TRACKING,detailResult,printables);
