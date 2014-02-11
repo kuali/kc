@@ -111,6 +111,9 @@ public class ReportTrackingXmlStream implements XmlStream {
         searchValues.put("dueDate",  getDateTimeService().toDateString(reportTracking.getDueDate()));
         if(reportTracking.getComments()!=null)
         searchValues.put("comments", reportTracking.getComments());
+        if (reportTracking.getOspDistributionCode() != null) {
+            searchValues.put("ospDistributionCode", reportTracking.getOspDistributionCode());
+        }            
         
         List<String> detailFields = new ArrayList<String>();
         detailFields.add("awardNumber");
@@ -126,8 +129,12 @@ public class ReportTrackingXmlStream implements XmlStream {
         ReportingRequirement reportingRequirement = ReportingRequirement.Factory.newInstance();
         reportingRequirement.setPrincipleInvestigatorName(reportTracking.getPiName());
         reportingRequirement.setReportClass(reportTracking.getReportClass().getDescription());
-        reportingRequirement.setFrequency(reportTracking.getFrequency().getDescription());
-        reportingRequirement.setFrequencyBase(reportTracking.getFrequencyBase().getDescription());
+        if (reportTracking.getFrequency() != null) {
+            reportingRequirement.setFrequency(reportTracking.getFrequency().getDescription());
+        }
+        if (reportTracking.getFrequencyBase() != null) {
+            reportingRequirement.setFrequencyBase(reportTracking.getFrequencyBase().getDescription());
+        }
         if(reportTracking.getBaseDate()!=null){
             reportingRequirement.setBaseDate(reportTracking.getBaseDate().toString());}
         reportingRequirement.setCopyOSP(reportTracking.getOspDistributionCode());
