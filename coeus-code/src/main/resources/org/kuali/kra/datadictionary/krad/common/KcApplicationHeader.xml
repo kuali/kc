@@ -13,7 +13,8 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="Uif-GlobalApplicationHeader" parent="Kc-ApplicationHeader" />
-	<bean id="Kc-ApplicationHeader" parent="Uif-ApplicationHeaderBase">
+	<bean id="Kc-ApplicationHeader" parent="Kc-ApplicationHeader-parentBean" />
+	<bean id="Kc-ApplicationHeader-parentBean" parent="Uif-ApplicationHeaderBase">
 		<property name="applicationNavigation.brandImage">
 			<bean parent="Uif-Image"
 				p:source="@{#ConfigProperties['application.url']}/static/images/kuali-logo.png" />
@@ -72,11 +73,14 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-ApplicationLogo" parent="Uif-Image"
-		p:source="../static/images/kuali-logo.png" />
+	<bean id="Kc-Header-ApplicationLogo" parent="Kc-Header-ApplicationLogo-parentBean" />
+	<bean id="Kc-Header-ApplicationLogo-parentBean" parent="Uif-Image"
+		abstract="true" p:source="../static/images/kuali-logo.png" />
 
-	<bean id="Kc-Header-ResearcherMenu" parent="Uif-DropdownToggleMenu"
-		p:toggleText="RESEARCHER" p:toggleCaretClass="">
+	<bean id="Kc-Header-ResearcherMenu" parent="Kc-Header-ResearcherMenu-parentBean" />
+	<bean id="Kc-Header-ResearcherMenu-parentBean" abstract="true"
+		parent="Uif-DropdownToggleMenu" p:toggleText="RESEARCHER"
+		p:toggleCaretClass="">
 		<property name="menuGroup">
 			<bean parent="Uif-AppMenuGroup"
 				p:layoutManager.defaultItemColSpan="3">
@@ -137,8 +141,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-Researcher-ProposalGroup" parent="Uif-MenuList"
-		p:headerText="Proposals">
+	<bean id="Kc-Header-Researcher-ProposalGroup" parent="Kc-Header-Researcher-ProposalGroup-parentBean" />
+	<bean id="Kc-Header-Researcher-ProposalGroup-parentBean" abstract="true"
+		parent="Uif-MenuList" p:headerText="Proposals">
 		<property name="items">
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="Create Proposal"
@@ -164,8 +169,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-Researcher-AwardGroup" parent="Uif-MenuList"
-		p:headerText="Awards">
+	<bean id="Kc-Header-Researcher-AwardGroup" parent="Kc-Header-Researcher-AwardGroup-parentBean" />
+	<bean id="Kc-Header-Researcher-AwardGroup-parentBean" abstract="true"
+		parent="Uif-MenuList" p:headerText="Awards">
 		<property name="items">
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="Awards in Progress"
@@ -176,8 +182,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-Researcher-NegotiationGroup" parent="Uif-MenuList"
-		p:headerText="Negotiations">
+	<bean id="Kc-Header-Researcher-NegotiationGroup" parent="Kc-Header-Researcher-NegotiationGroup-parentBean" />
+	<bean id="Kc-Header-Researcher-NegotiationGroup-parentBean"
+		abstract="true" parent="Uif-MenuList" p:headerText="Negotiations">
 		<property name="items">
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="All My Negotiations"
@@ -185,9 +192,9 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="Kc-Header-Researcher-IRBGroup" parent="Uif-MenuList"
-		p:headerText="IRB Protocols">
+	<bean id="Kc-Header-Researcher-IRBGroup" parent="Kc-Header-Researcher-IRBGroup-parentBean" />
+	<bean id="Kc-Header-Researcher-IRBGroup-parentBean" abstract="true"
+		parent="Uif-MenuList" p:headerText="IRB Protocols">
 		<property name="items">
 			<list>
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Actions"
@@ -222,8 +229,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-Researcher-COIGroup" parent="Uif-MenuList"
-		p:headerText="Conflict of Interest">
+	<bean id="Kc-Header-Researcher-COIGroup" parent="Kc-Header-Researcher-COIGroup-parentBean" />
+	<bean id="Kc-Header-Researcher-COIGroup-parentBean" abstract="true"
+		parent="Uif-MenuList" p:headerText="Conflict of Interest">
 		<property name="items">
 			<list>
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="My Financial Entities"
@@ -254,8 +262,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-Researcher-IacucGroup" parent="Uif-MenuList"
-		p:headerText="IACUC Protocols">
+	<bean id="Kc-Header-Researcher-IacucGroup" parent="Kc-Header-Researcher-IacucGroup-parentBean" />
+	<bean id="Kc-Header-Researcher-IacucGroup-parentBean" abstract="true"
+		parent="Uif-MenuList" p:headerText="IACUC Protocols">
 		<property name="items">
 			<list>
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Actions"
@@ -274,8 +283,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-Researcher-QuicklinksGroup" parent="Uif-MenuList"
-		p:headerText="Quicklinks">
+	<bean id="Kc-Header-Researcher-QuicklinksGroup" parent="Kc-Header-Researcher-QuicklinksGroup-parentBean" />
+	<bean id="Kc-Header-Researcher-QuicklinksGroup-parentBean"
+		abstract="true" parent="Uif-MenuList" p:headerText="Quicklinks">
 		<property name="items">
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="Pessimistic Lock"
@@ -288,8 +298,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-Researcher-PersonnelGroup" parent="Uif-MenuList"
-		p:headerText="Personnel">
+	<bean id="Kc-Header-Researcher-PersonnelGroup" parent="Kc-Header-Researcher-PersonnelGroup-parentBean" />
+	<bean id="Kc-Header-Researcher-PersonnelGroup-parentBean"
+		abstract="true" parent="Uif-MenuList" p:headerText="Personnel">
 		<property name="items">
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="Degree Information"
@@ -304,8 +315,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-Researcher-WorkflowGroup" parent="Uif-MenuList"
-		p:headerText="Workflow">
+	<bean id="Kc-Header-Researcher-WorkflowGroup" parent="Kc-Header-Researcher-WorkflowGroup-parentBean" />
+	<bean id="Kc-Header-Researcher-WorkflowGroup-parentBean" abstract="true"
+		parent="Uif-MenuList" p:headerText="Workflow">
 		<property name="items">
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="Preferences"
@@ -314,8 +326,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-DefaultMenu" parent="Uif-DropdownToggleMenu"
-		p:toggleCaretClass="">
+	<bean id="Kc-Header-DefaultMenu" parent="Kc-Header-DefaultMenu-parentBean" />
+	<bean id="Kc-Header-DefaultMenu-parentBean" abstract="true"
+		parent="Uif-DropdownToggleMenu" p:toggleCaretClass="">
 		<property name="menuGroup">
 			<bean parent="Uif-AppMenuGroup"
 				p:layoutManager.defaultItemColSpan="3">
@@ -336,7 +349,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-SampleGroup" parent="Uif-SimpleGroup">
+	<bean id="Kc-Header-SampleGroup" parent="Kc-Header-SampleGroup-parentBean" />
+	<bean id="Kc-Header-SampleGroup-parentBean" abstract="true"
+		parent="Uif-SimpleGroup">
 		<property name="items">
 			<list>
 				<bean parent="Uif-MenuList" p:headerText="Sample Heading">
@@ -357,7 +372,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-Actionlist" parent="Uif-DropdownToggleMenu">
+	<bean id="Kc-Header-ActionList" parent="Kc-Header-ActionList-parentBean" />
+	<bean id="Kc-Header-Actionlist-parentBean" abstract="true"
+		parent="Uif-DropdownToggleMenu">
 		<property name="menuItems">
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="Approve: Doc #5547" />
@@ -378,7 +395,9 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-User" parent="Uif-DropdownToggleMenu">
+	<bean id="Kc-Header-User" parent="Kc-Header-User-parentBean" />
+	<bean id="Kc-Header-User-parentBean" abstract="true"
+		parent="Uif-DropdownToggleMenu">
 		<property name="menuItems">
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="Preferences" />

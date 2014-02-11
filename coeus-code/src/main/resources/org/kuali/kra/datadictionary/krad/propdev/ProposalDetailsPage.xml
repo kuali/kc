@@ -40,19 +40,21 @@
 	<bean id="PropDev-DetailsPage-Section" parent="PropDev-DetailsPage-Section-parentBean" />
 	<bean id="PropDev-DetailsPage-Section-parentBean" abstract="true"
 		parent="PropDev-DefaultDetails-Section" p:fieldBindingObjectPath="document.developmentProposal">
-	<property name="items">
-		<list merge="true">
-			<bean parent="PropDev-DetailsPage-PrimeSponsorField" p:order="60" />
-			<bean parent="PropDev-DetailsPage-CurrentAwardNumberField"
-				p:order="70" />
-			<bean parent="PropDev-DetailsPage-ContinuedFromField" p:order="80" />
-		</list>
-	</property>
+		<property name="items">
+			<list merge="true">
+				<bean parent="PropDev-DetailsPage-PrimeSponsorField" p:order="60" />
+				<bean parent="PropDev-DetailsPage-CurrentAwardNumberField"
+					p:order="70" />
+				<bean parent="PropDev-DetailsPage-ContinuedFromField" p:order="80" />
+			</list>
+		</property>
 
-</bean>
+	</bean>
 
-	<bean id="PropDev-ProjectDatesField" parent="Uif-CssGridFieldGroup"
-		p:label="Project dates" p:required="true">
+	<bean id="PropDev-DetailsPage-ProjectDatesField" parent="PropDev-DetailsPage-ProjectDatesField-parentBean" />
+	<bean id="PropDev-DetailsPage-ProjectDatesField-parentBean"
+		abstract="true" parent="Uif-CssGridFieldGroup" p:label="Project dates"
+		p:required="true">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="requestedStartDateInitial"
@@ -77,7 +79,8 @@
 		</property>
 	</bean>
 
-	<bean id="PropDev-DefaultDetails-Section" abstract="true"
+	<bean id="PropDev-DefaultDetails-Section" parent="PropDev-DefaultDetails-Section-parentBean" />
+	<bean id="PropDev-DefaultDetails-Section-parentBean" abstract="true"
 		parent="Uif-CssGridSection-1FieldLabelColumn"
 		p:fieldBindingObjectPath="document.developmentProposal">
 		<property name="items">
@@ -90,10 +93,10 @@
 					p:order="30">
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinder" p:returnByScript="true"
-							p:hideCriteriaOnSearch="true" p:viewName="popup"></bean>
+							p:hideCriteriaOnSearch="true" p:viewName="popup" />
 					</property>
 				</bean>
-				<!-- <bean parent="PropDev-ProjectDatesField"/> -->
+				<!-- <bean parent="PropDev-DetailsPage-ProjectDatesField"/> -->
 				<bean parent="Uif-InputField" p:propertyName="title"
 					p:helperText="Give this proposal a title. Be detailed but concise."
 					p:order="40" />
@@ -104,9 +107,8 @@
 	</bean>
 
 	<bean id="PropDev-DetailsPage-SponsorField" parent="PropDev-DetailsPage-SponsorField-parentBean" />
-	<bean id="PropDev-DetailsPage-SponsorField-parentBean"
-		abstract="true" parent="PropDev-DetailsPage-SponsorField-Defaults"
-		p:propertyName="sponsorCode"
+	<bean id="PropDev-DetailsPage-SponsorField-parentBean" abstract="true"
+		parent="PropDev-DetailsPage-SponsorField-Defaults" p:propertyName="sponsorCode"
 		p:instructionalMessage.messageText="@{document.developmentProposal.sponsor?.sponsorName?:'&amp;nbsp;'}" />
 
 	<bean id="PropDev-DetailsPage-PrimeSponsorField" parent="PropDev-DetailsPage-PrimeSponsorField-parentBean" />
@@ -117,8 +119,8 @@
 
 	<bean id="PropDev-DetailsPage-SponsorField-Defaults" abstract="true"
 		parent="PropDev-DetailsPage-SponsorField-Defaults-parentBean" />
-	<bean id="PropDev-DetailsPage-SponsorField-Defaults-parentBean" abstract="true"
-		parent="Uif-InputField"
+	<bean id="PropDev-DetailsPage-SponsorField-Defaults-parentBean"
+		abstract="true" parent="Uif-InputField"
 		p:helperText="Enter the sponsor code for this proposal or find one using the lookup tool."
 		p:additionalCssClasses="transparentField">
 		<property name="quickfinder">

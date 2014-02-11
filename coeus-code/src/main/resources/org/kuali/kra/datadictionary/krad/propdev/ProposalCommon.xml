@@ -12,7 +12,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="PropDev-UnderDevelopmentPage" parent="Uif-DocumentPage">
+	<bean id="PropDev-UnderDevelopmentPage" parent="PropDev-UnderDevelopmentPage-parentBean" />
+	<bean id="PropDev-UnderDevelopmentPage-parentBean" abstract="true"
+		parent="Uif-DocumentPage">
 		<property name="items">
 			<list merge="false">
 				<bean parent="Uif-HeaderOne" p:headerText="Under Construction" />
@@ -28,6 +30,8 @@
 
 	<!-- shared parent collection -->
 	<bean id="PropDev-Attachment-Collection" abstract="true"
+		parent="PropDev-Attachment-Collection-parentBean" />
+	<bean id="PropDev-Attachment-Collection-parentBean" abstract="true"
 		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.Narrative"
 		p:propertyName="narratives" p:layoutManager.summaryTitle="@{#lp.fileName}">
 		<property name="layoutManager.addLineGroup">
