@@ -30,7 +30,7 @@
 		<property name="items">
 			<list>
 				<ref bean="PropDev-DetailsPage" />
-				<ref bean="PropDev-OpportunitySearchPage" />
+				<ref bean="PropDev-OpportunityPage" />
 				<ref bean="PropDev-PersonnelPage" />
 				<ref bean="PropDev-CompliancePage" />
 				<ref bean="PropDev-OrganizationLocationsPage" />
@@ -59,7 +59,7 @@
 		</property>
 		<property name="dialogs">
 			<list>
-				<ref bean="PropDev-ProposalPersonWizardAdd" />
+				<ref bean="PropDev-PersonnelPage-Wizard"/>
 			</list>
 		</property>
 	</bean>
