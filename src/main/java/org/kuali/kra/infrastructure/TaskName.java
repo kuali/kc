@@ -40,6 +40,10 @@ public interface TaskName {
     public static final String MODIFY_PROPOSAL_ROLES = "modifyProposalRoles";
     public static final String ADD_NARRATIVE = "addNarrative";
     public static final String CERTIFY = "certify";
+    public static final String PROXY_CERTIFY = "proxyCertify";
+    public static final String VIEW_PROPOSAL_PERSON_CERTIFICATION = "viewCertifications";
+    public static final String MODIFY_PROPOSAL_PERSON_CERTIFICATION = "maintainCertifications";
+    public static final String NOTIFY_PROPOSAL_PERSONS = "notifyProposalPersons";
     public static final String ALTER_PROPOSAL_DATA = "alterProposalData";
     public static final String SHOW_ALTER_PROPOSAL_DATA = "showAlterProposalData";
     public static final String SUBMIT_TO_WORKFLOW = "submitToWorkflow";
@@ -374,4 +378,5 @@ public interface TaskName {
     
     /* COI Undisclosed events */
     public static final String VIEW_COI_UNDISCLOSED_EVENTS = "viewCoiUndisclosedEvents";
+
 }

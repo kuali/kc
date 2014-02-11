@@ -135,10 +135,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         if (canExecuteTask(userId, doc, TaskName.ADD_NARRATIVE)) {
             editModes.add("addNarratives");
         }
-                   
-        if (canExecuteTask(userId, doc, TaskName.CERTIFY)) {
-            editModes.add("certify");
-        }
         
         if (canExecuteTask(userId, doc, TaskName.MODIFY_NARRATIVE_STATUS)) {
             editModes.add("modifyNarrativeStatus");
@@ -159,12 +155,29 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         if (canExecuteTask(userId, doc, TaskName.SUBMIT_TO_SPONSOR)) {
             editModes.add("submitToSponsor");
         }
+        
         if (canExecuteTask(userId, doc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
             editModes.add("maintainProposalHierarchy");
         }
         
         if (canExecuteTask(userId, doc, TaskName.REJECT_PROPOSAL)) {
             editModes.add(TaskName.REJECT_PROPOSAL);
+        }
+        
+        if (canExecuteTask(userId, doc, TaskName.CERTIFY)) {
+            editModes.add("certify");
+        }
+
+        if (canExecuteTask(userId, doc, TaskName.VIEW_PROPOSAL_PERSON_CERTIFICATION)) {
+            editModes.add("viewCertifications");
+        }
+        
+        if (canExecuteTask(userId, doc, TaskName.MODIFY_PROPOSAL_PERSON_CERTIFICATION)) {
+            editModes.add("maintainCertifications");
+        }
+        
+        if(canExecuteTask(userId, doc, TaskName.NOTIFY_PROPOSAL_PERSONS)) {
+            editModes.add("notifyProposalPersons");
         }
         
         setNarrativePermissions(userId, doc, editModes);

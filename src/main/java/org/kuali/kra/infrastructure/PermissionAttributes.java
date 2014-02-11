@@ -35,6 +35,7 @@ public class PermissionAttributes {
     private static final String SECTION_PROPOSAL = "proposal";
     private static final String SECTION_BUDGET = "budget";
     private static final String SECTION_NARRATIVE = "narrative";
+    private static final String SECTION_PROPOSAL_PERSON_CERTIFICATION = "proposal_person_certification";
     private static final String SECTION_PROPOSAL_PERMISSIONS = "proposal_permissions";
     private static final String SECTION_PROTOCOL = "protocol";
     private static final String SECTION_PROTOCOL_PERMISSIONS = "protocol_permissions";
@@ -118,7 +119,21 @@ public class PermissionAttributes {
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 
         attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_CERTIFY); 
         tempAttributesMap.put(PermissionConstants.CERTIFY, attributes);
+        
         attributes = new HashMap<String, String>(); 
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 
+        attributes.put(ATTR_SECTION_NAME, SECTION_PROPOSAL_PERSON_CERTIFICATION);
+        //does this mean that the proposal person certification section will be visible
+        //when the user has BOTH maintain and view permissions, or simply that either will
+        //suffice?
+        tempAttributesMap.put(PermissionConstants.MAINTAIN_PERSONNEL_CERTIFICATION, attributes);
+        tempAttributesMap.put(PermissionConstants.VIEW_PERSONNEL_CERTIFICATION, attributes);
+        
+        attributes = new HashMap<String,String>();
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT);
+        attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_CERTIFY);
+        tempAttributesMap.put(PermissionConstants.MAINTAIN_PERSONNEL_CERTIFICATION, attributes);
+        attributes = new HashMap<String, String>();
 
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 
         attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_PRINT); 

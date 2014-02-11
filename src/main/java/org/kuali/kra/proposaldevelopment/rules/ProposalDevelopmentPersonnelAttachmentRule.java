@@ -98,26 +98,9 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
         return rulePassed;
     }
 
-    private boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography) {
-        KcAttachmentService attachmentService = getKcAttachmentService();
-        boolean rulePassed = true;
-        // Checking attachment file name for invalid characters.
-        String attachmentFileName = proposalPersonBiography.getFileName();
-        String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
-        if (ObjectUtils.isNotNull(invalidCharacters)) {
-            String parameter = getParameterService().
-                getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
-            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
-                rulePassed &= false;
-                reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, invalidCharacters);
-            } else {
-                rulePassed &= true;
-                reportWarning(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, invalidCharacters);
-            }
-        }
-        return rulePassed;
+    @Override
+    public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
+        return checkForInvalidCharacters(event.getProposalPersonBiography());
     }
 
     /**
@@ -142,6 +125,28 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
             }
         }
 
+        return rulePassed;
+    }
+    
+    private boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography) {
+        KcAttachmentService attachmentService = getKcAttachmentService();
+        boolean rulePassed = true;
+        // Checking attachment file name for invalid characters.
+        String attachmentFileName = proposalPersonBiography.getFileName();
+        String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
+        if (ObjectUtils.isNotNull(invalidCharacters)) {
+            String parameter = getParameterService().
+                getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
+                rulePassed &= false;
+                reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, invalidCharacters);
+            } else {
+                rulePassed &= true;
+                reportWarning(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, invalidCharacters);
+            }
+        }
         return rulePassed;
     }
     
@@ -194,11 +199,6 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
             this.parameterService = KraServiceLocator.getService(ParameterService.class);             
         }
         return this.parameterService;
-    }
-
-    @Override
-    public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
-        return checkForInvalidCharacters(event.getProposalPersonBiography());
     }
     
 }
