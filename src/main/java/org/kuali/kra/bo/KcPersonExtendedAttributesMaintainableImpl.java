@@ -19,6 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.Document;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -170,4 +174,9 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
         return filteredSections;
     }
 
+    public boolean documentNotRouted() {
+        WorkflowDocumentService documentService = KewApiServiceLocator.getWorkflowDocumentService();
+        Document doc = documentService.getDocument(getDocumentNumber());
+        return doc.getStatus() == DocumentStatus.SAVED || doc.getStatus() == DocumentStatus.INITIATED;
+    }
 }

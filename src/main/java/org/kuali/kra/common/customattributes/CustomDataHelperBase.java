@@ -25,6 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * The CustomDataHelperBase is the base class for all Custom Data Helper classes.
@@ -38,34 +39,56 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
      */
     private boolean modifyCustomData = false;
     
-    
+        
+    public abstract boolean documentNotRouted(); 
+       
     /**
      * This method builds the custom data collections used on the form and populates the values from the collection of AwardCustomData on the Award.
      * @param customAttributeGroups
      */
     @SuppressWarnings("unchecked")
     public void buildCustomDataCollectionsOnExistingDocument(SortedMap<String, List> customAttributeGroups) {
-        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:getCustomAttributeDocuments().entrySet()) {
-            T loopAwardCustomData = null;
-            for(T awardCustomData : getCustomDataList()){
-                if(awardCustomData.getCustomAttributeId() == (long) customAttributeDocumentEntry.getValue().getCustomAttribute().getId()){
-                    loopAwardCustomData = awardCustomData;
+        boolean documentNotRouted = false;
+        documentNotRouted = documentNotRouted();
+        
+        List<T> customDataInDocument = getCustomDataList();
+        Set<Entry<String, CustomAttributeDocument>> allCustomAttributeDocuments = getCustomAttributeDocuments().entrySet();
+        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:allCustomAttributeDocuments) {
+            for (T  documentCustomData : customDataInDocument) {
+                if (isMatch(documentCustomData, customAttributeDocumentEntry)) {
+                    String groupName = getCustomAttributeDocuments().get(documentCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
+                    addToGroup(groupName, customAttributeGroups, customAttributeDocumentEntry);
                     break;
-                }
+                } 
             }
-            if (loopAwardCustomData != null) {
-                String groupName = getCustomAttributeDocuments().get(loopAwardCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
-                List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
-                if (customAttributeDocumentList == null) {
-                    customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                    customAttributeGroups.put(groupName, customAttributeDocumentList);
+        }
+        /*
+         * Go through all the custom data documents and if there are new custom data documents available, 
+         * add those to the document as well.
+         */
+        if (documentNotRouted) {
+            for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:allCustomAttributeDocuments) {
+                if (!customAttributeGroups.containsKey(customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName())) {
+                    String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
+                    addToGroup(groupName, customAttributeGroups, customAttributeDocumentEntry);
                 }
-                customAttributeDocumentList.add(getCustomAttributeDocuments().get(loopAwardCustomData.getCustomAttributeId().toString()));
-                Collections.sort(customAttributeDocumentList, new LabelComparator());
             }
         }
     }
 
+    protected void addToGroup(String groupName, SortedMap<String, List> customAttributeGroups, Entry<String, CustomAttributeDocument> customAttributeDocument) {
+        List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
+        if (customAttributeDocumentList == null) {
+            customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+            customAttributeGroups.put(groupName, customAttributeDocumentList);
+        }
+        customAttributeDocumentList.add(customAttributeDocument.getValue());
+    }
+
+    protected boolean isMatch(T documentCustomData, Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
+        return documentCustomData.getCustomAttributeId() == ((long)customAttributeDocumentEntry.getValue().getCustomAttributeId());
+    }
+    
     /**
      * This method builds the custom data collections used on the form
      * @param customAttributeGroups
