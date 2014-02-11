@@ -143,19 +143,7 @@ public class PrintServiceImpl implements PrintService {
         String exportDate = StringUtils.replaceChars((pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");  
         exportDate = StringUtils.replaceChars(exportDate, " ", ".");
         if (grantsGovXmlDirectoryFile == null) {
-            grantsGovXmlDirectoryFile = new File(loggingDirectory + proposalnumber);
-        }
-        File newgrantsGovXmlDirectoryFile = null;
-        int suffix = 1;
-        while (grantsGovXmlDirectoryFile.exists() && formEntryFlag) {
-            grantsGovXmlDirectoryFile = new File(loggingDirectory + proposalnumber);
-            String filename = String.valueOf(suffix);
-            newgrantsGovXmlDirectoryFile = new File(loggingDirectory + proposalnumber + "-" + filename);
-            if (!newgrantsGovXmlDirectoryFile.exists()) {
-                grantsGovXmlDirectoryFile = newgrantsGovXmlDirectoryFile;
-                break;
-            }
-            suffix++;
+            grantsGovXmlDirectoryFile = new File(loggingDirectory + opportunityId + "." + proposalnumber + "." + exportDate);
         }
         if (formEntryFlag) {
             grantsGovXmlDirectoryFile.mkdir();
