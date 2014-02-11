@@ -12,8 +12,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="S2sOpportunity-LookupView" parent="Uif-LookupView"
-		p:header.headerText="Opportunity Search" p:dataObjectClassName="org.kuali.kra.s2s.bo.S2sOpportunity"
+	<bean id="S2sOpportunity-LookupView" parent="S2sOpportunity-LookupView-parentBean" />
+	<bean id="S2sOpportunity-LookupView-parentBean" abstract="true"
+		parent="Uif-LookupView" p:header.headerText="Opportunity Search"
+		p:dataObjectClassName="org.kuali.kra.s2s.bo.S2sOpportunity"
 		p:viewHelperServiceClass="org.kuali.kra.s2s.lookup.S2sOpportunityLookupable">
 
 		<property name="criteriaFields">

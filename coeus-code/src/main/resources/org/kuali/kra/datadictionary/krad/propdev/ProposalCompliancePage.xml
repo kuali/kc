@@ -138,7 +138,8 @@
 
 	<bean id="PropDev-CompliancePage-HiddenFieldPropertyReplacers"
 		parent="PropDev-CompliancePage-HiddenFieldPropertyReplacers-parentBean" />
-	<util:list id="PropDev-CompliancePage-HiddenFieldPropertyReplacers-parentBean">
+	<util:list
+		id="PropDev-CompliancePage-HiddenFieldPropertyReplacers-parentBean">
 		<bean parent="Uif-ConditionalBeanPropertyReplacer"
 			p:propertyName="progressiveRender"
 			p:condition="specialReviewHelper.IsIrbProtocolLinkingEnabled and specialReviewHelper.IsIacucProtocolLinkingEnabled">
