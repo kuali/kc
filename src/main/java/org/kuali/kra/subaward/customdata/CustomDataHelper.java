@@ -18,6 +18,8 @@ package org.kuali.kra.subaward.customdata;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.subaward.SubAwardForm;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
 import java.util.Map;
@@ -66,4 +68,9 @@ public class CustomDataHelper extends CustomDataHelperBase<SubAwardCustomData> {
         return subAwardForm.getSubAwardDocument().getCustomAttributeDocuments();
     }
 
+    @Override
+    public boolean documentNotRouted() {
+        WorkflowDocument doc = subAwardForm.getSubAwardDocument().getDocumentHeader().getWorkflowDocument();
+        return doc.isSaved() || doc.isInitiated();
+    }
 }

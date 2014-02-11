@@ -21,8 +21,10 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
+import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
 import java.util.Map;
@@ -57,7 +59,7 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase<
     
     @Override
     public void prepareCustomData() {
-        this.initializePermissions();
+        this.initializePermissions();        
         super.prepareCustomData();
     }
 
@@ -75,6 +77,4 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase<
     public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
         return form.getProtocolDocument().getCustomAttributeDocuments();
     }
-
-
 }

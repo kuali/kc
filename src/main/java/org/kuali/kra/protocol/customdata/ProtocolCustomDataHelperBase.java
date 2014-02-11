@@ -23,6 +23,8 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Collection;
@@ -111,4 +113,11 @@ public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData>
     protected String getDocumentTypeCode() {
         return form.getProtocolDocument().getDocumentTypeCode();
     }
+    
+    public boolean documentNotRouted() {
+        WorkflowDocument doc = form.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+        return doc.isSaved() || doc.isInitiated();
+    }
+    
+
 }

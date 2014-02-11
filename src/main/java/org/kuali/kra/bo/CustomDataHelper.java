@@ -16,6 +16,8 @@
 package org.kuali.kra.bo;
 
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,6 +58,9 @@ public class CustomDataHelper extends CustomDataHelperBase<PersonCustomData> imp
     public void setCustomAttributeDocuments(Map<String, CustomAttributeDocument> customAttributeDocuments) {
         this.customAttributeDocuments = customAttributeDocuments;
     }
-    
-    
+
+    @Override
+    public boolean documentNotRouted() {
+        return maintainableImpl.documentNotRouted();
+    }
 }

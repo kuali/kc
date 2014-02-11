@@ -20,6 +20,8 @@ import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
 import java.util.Map;
@@ -77,7 +79,11 @@ public class CustomDataHelper extends CustomDataHelperBase<NegotiationCustomData
     public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
         return negotiationForm.getNegotiationDocument().getCustomAttributeDocuments();
     }
+   
+    @Override
+    public boolean documentNotRouted() {
+        WorkflowDocument doc = negotiationForm.getNegotiationDocument().getDocumentHeader().getWorkflowDocument();
+        return doc.isSaved() || doc.isInitiated();
 
-
-
+    }
 }
