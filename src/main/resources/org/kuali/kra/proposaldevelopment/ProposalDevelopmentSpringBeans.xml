@@ -520,7 +520,7 @@
 				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="certify" />
 					<property name="permission" value="Certify" />
-					<property name="requiresWritableDoc" value="true" />
+					<property name="requiresWritableDoc" value="false" />
 				</bean>
 				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ShowAlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="showAlterProposalData" />
@@ -586,6 +586,20 @@
                 </bean>   
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.RecallAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="recallProposal" />
+                </bean>
+                
+                <!-- KEY PERSONS -->
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.CertifyProposalPersonAuthorizer" parent="parentProposalAuthorizer">
+                	<property name="taskName" value="maintainCertifications" />
+                	<property name="requiresWritableDoc" value="false" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NotifyProposalPersonsAuthorizer" parent="parentProposalAuthorizer">
+                	<property name="taskName" value="notifyProposalPersons" />
+                	<property name="requiresWritableDoc" value="false" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ViewPersonCertificationAuthorizer" parent="parentProposalAuthorizer">
+                	<property name="taskName" value="viewCertifications" />
+                	<property name="requiresWritableDoc" value="false" />
                 </bean>
 			</list>
 		</property>

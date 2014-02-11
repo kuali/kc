@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.document.authorization;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
@@ -27,6 +28,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 public final class ProposalTask extends Task {
     
     private ProposalDevelopmentDocument document;
+    private ProposalPerson proposalPerson;
     public static final String CREATE_IRB_PROTOCOL_FROM_PROPOSAL = "createIrbProtocolFromProposal";
     public static final String CREATE_IACUC_PROTOCOL_FROM_PROPOSAL = "createIacucProtocolFromProposal";
     
@@ -46,5 +48,9 @@ public final class ProposalTask extends Task {
      */
     public ProposalDevelopmentDocument getDocument() {
         return document;
+    }
+    
+    public ProposalPerson getProposalPerson() {
+        return proposalPerson;
     }
 }

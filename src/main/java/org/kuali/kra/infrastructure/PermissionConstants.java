@@ -34,6 +34,8 @@ public interface PermissionConstants {
     public static final String VIEW_BUDGET = "View Budget";
     public static final String MAINTAIN_PROPOSAL_ACCESS = "Modify ProposalPermissions";
     public static final String CERTIFY = "Certify";
+    public static final String MAINTAIN_PERSONNEL_CERTIFICATION = "Maintain Personnel Certification";
+    public static final String VIEW_PERSONNEL_CERTIFICATION = "View Personnel Certification";
     public static final String PRINT_PROPOSAL = "Print Proposal";
     public static final String ALTER_PROPOSAL_DATA = "Alter Proposal Data";
     public static final String SUBMIT_TO_SPONSOR = "Submit to Sponsor";

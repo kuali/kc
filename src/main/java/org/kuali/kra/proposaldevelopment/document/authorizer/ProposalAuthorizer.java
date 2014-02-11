@@ -68,6 +68,10 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
     protected final boolean hasProposalPermission(String userId, ProposalDevelopmentDocument doc, String permissionName) {
         return kraAuthorizationService.hasPermission(userId, doc, permissionName);
     }
+    
+    protected KraAuthorizationService getKraAuthorizationService() {
+        return kraAuthorizationService;
+    }
 
     public boolean isRequiresWritableDoc() {
         return requiresWritableDoc;
