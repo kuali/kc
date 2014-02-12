@@ -110,6 +110,7 @@ public interface Constants {
     public static final String MODULE_NAMESPACE_NEGOTIATION = "KC-NEGOTIATION";
     public static final String MODULE_NAMESPACE_SUBAWARD = "KC-SUBAWARD";
     public static final String MODULE_NAMESPACE_IACUC = "KC-IACUC"; 
+    public static final String MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL = "KC-IP";
 
     public static final String PESSIMISTIC_LOCKING_EXPIRATION_AGE = "pessimisticLocking.expirationAge";
     
@@ -904,6 +905,8 @@ public interface Constants {
     public static final String SUBAWARD_MODULE = "subaward";
     public static final String IRB_MODULE = "irb";
     public static final String IACUC_MODULE = "iacuc";
+
+    public static final String PD_INITIATED_ROUTE_NODE_NAME = "Initiated";
     
 }
 
