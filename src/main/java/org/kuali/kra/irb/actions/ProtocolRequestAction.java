@@ -67,7 +67,7 @@ public enum ProtocolRequestAction {
                                     TaskName.PROTOCOL_REQUEST_SUSPENSION,
                                     Constants.PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY, 
                                     "protocolSuspendRequestBean", 
-                                    "Withdraw Request for Suspension"), 
+                                    "Request for Suspension"), 
                                   
     /**
      * Request for termination of a Protocol.

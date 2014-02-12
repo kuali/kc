@@ -799,7 +799,15 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             List<AnswerHeader> answerHeaders = requestBean.getQuestionnaireHelper().getAnswerHeaders();
             valid &= isMandatoryQuestionnaireComplete(answerHeaders, "actionHelper." + requestAction.getBeanName() + ".datavalidation");
             if (valid) {
-                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), requestBean);            
+                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), requestBean);
+                
+                //Assign to Committee and Schedule sub-panel Committee drop down needs to reflect the Committee value just selected
+                protocolForm.getProtocolDocument().getProtocol().refreshReferenceObject("protocolSubmissions");
+                ProtocolAssignCmtSchedBean cmtAssignBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
+                cmtAssignBean.setCommitteeId(requestBean.getCommitteeId());
+                cmtAssignBean.setScheduleId("");
+                cmtAssignBean.prepareView();
+
                 generateActionCorrespondence(requestBean.getProtocolActionTypeCode(), protocolForm.getProtocolDocument().getProtocol());
                 recordProtocolActionSuccess(requestAction.getActionName());
                 return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IrbConstants.PROTOCOL_ACTIONS_TAB);
