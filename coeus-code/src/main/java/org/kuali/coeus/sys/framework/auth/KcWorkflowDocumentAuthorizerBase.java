@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.authorization;
+package org.kuali.coeus.sys.framework.auth;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -33,9 +33,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class KcWorkflowDocumentAuthorizer extends KimDocumentTypeAuthorizer {
+public abstract class KcWorkflowDocumentAuthorizerBase extends KimDocumentTypeAuthorizer {
     
-    protected static final Log LOG = LogFactory.getLog(KcWorkflowDocumentAuthorizer.class);
+    protected static final Log LOG = LogFactory.getLog(KcWorkflowDocumentAuthorizerBase.class);
     
     private transient DocumentService documentService;
     private transient BusinessObjectService businessObjectService;
