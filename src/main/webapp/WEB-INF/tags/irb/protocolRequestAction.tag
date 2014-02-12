@@ -38,7 +38,6 @@
             <kra-irb-action:submitAction />
             <kra-irb-action:withdrawAction />
             <kra-irb-action:modifySubmissionAction />
-            <kra-irb-action:assignCmtSchedAction />
             <kra-irb-action:assignReviewersAction />
             <kra-irb-action:assignToAgendaAction />
             <kra-irb-action:grantExemptionAction />
@@ -251,11 +250,6 @@
 	            <kra-irb-action:genericUnavailableAction tabTitle="Modify Submission Request"
                                                          canPerformAction="${KualiForm.actionHelper.canModifyProtocolSubmissionUnavailable}" 
                                                          reason="Protocol status must be Submitted To IRB." />
-	            <kra-irb-action:genericUnavailableAction tabTitle="Assign to Committee and Schedule"
-                                                         canPerformAction="${KualiForm.actionHelper.canAssignCmtSchedUnavailable}" 
-                                                         reason="Protocol submission status must be Pending or Submitted To Committee.
-                                                                 <p>
-                                                                 Protocol must be enroute in workflow." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Assign Reviewers"
                                                          canPerformAction="${KualiForm.actionHelper.canAssignReviewersUnavailable}" 
                                                          reason="Protocol must be assigned to a committee.
