@@ -40,7 +40,7 @@ public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
     }
 
     public boolean isOnNode(Protocol protocol) {
-        return kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+        return kraWorkflowService.isCurrentNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
     }
 
     /**

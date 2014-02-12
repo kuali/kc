@@ -24,6 +24,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -73,7 +74,11 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      */
     public String getAssignedCommitteeId(Protocol protocol) {
         ProtocolSubmission submission = findSubmission(protocol);
-        if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+        if ( submission != null && 
+             (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)
+              || 
+              (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) & 
+               StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.REQUEST_FOR_SUSPENSION))) ) {
             return submission.getCommitteeId();
         }
         return null;

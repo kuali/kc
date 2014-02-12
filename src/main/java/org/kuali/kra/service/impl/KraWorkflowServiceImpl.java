@@ -185,8 +185,22 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
             result = document != null && document.getDocumentHeader().getWorkflowDocument().getNodeNames().contains(nodeName);
             return result;
         } catch(Exception we) {
-            LOG.error( String.format( "Exception generated when trying to determine if document %s is on %s node.  Reason:%s", nodeName,document.getDocumentNumber(), we.getMessage()) );
-            throw new RuntimeException( String.format( "Exception generated when trying determine if document %s is on %s route node.  Reason:%s", nodeName, document.getDocumentNumber(), we.getMessage()), we ); 
+            LOG.error( String.format( "Exception generated when trying to determine if document %s is on active %s node.  Reason:%s", nodeName,document.getDocumentNumber(), we.getMessage()) );
+            throw new RuntimeException( String.format( "Exception generated when trying determine if document %s is on active %s route node.  Reason:%s", nodeName, document.getDocumentNumber(), we.getMessage()), we ); 
+        }
+    }
+    
+    /**
+     * @see org.kuali.kra.service.KraWorkflowService#isCurrentNode(org.kuali.rice.krad.document.Document, java.lang.String)
+     */
+    public boolean isCurrentNode(Document document, String nodeName){
+        boolean result = false;
+        try {
+            result = document != null && document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(nodeName);
+            return result;
+        } catch(Exception we) {
+            LOG.error( String.format( "Exception generated when trying to determine if document %s is on active or terminal %s node.  Reason:%s", nodeName,document.getDocumentNumber(), we.getMessage()) );
+            throw new RuntimeException( String.format( "Exception generated when trying determine if document %s is on active or terminal %s route node.  Reason:%s", nodeName, document.getDocumentNumber(), we.getMessage()), we ); 
         }
     }
 
