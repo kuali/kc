@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,17 +25,29 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.PersonAppointment;
+import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.SpecialReviewType;
+import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.AppointmentType;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
-import org.kuali.kra.proposaldevelopment.bo.*;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
@@ -41,11 +56,15 @@ import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sOppForms;
-
-import java.util.*;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.action.ActionRequest;
 
 
 public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements PropDevJavaFunctionKrmsTermService {
+    private static final int INT_PERMANENT_RESIDENT_OF_U_S_PENDING = 4;
+    private DateTimeService dateTimeService;
+    private static final Log LOG = LogFactory.getLog(PropDevJavaFunctionKrmsTermServiceImpl.class);
+    
     /**
      * 
      * This method checks if the formName is included in the given proposal
@@ -284,7 +303,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      */
     @Override
     public String divisionCodeRule(DevelopmentProposal developmentProposal) {
-        return StringUtils.isEmpty(developmentProposal.getActivityTypeCode()) ? TRUE : FALSE;
+        return StringUtils.isEmpty(developmentProposal.getAgencyDivisionCode()) ? TRUE : FALSE;
     }
     
     /**
@@ -896,4 +915,240 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return TRUE;
     }
+
+    /**
+     * This method is to CHECK  PI citizenship type
+     * Check if the citizenship type of the Principal Investigator equal to the specified value
+     * FN_PI_CITIZENSHIP_TYPE_RULE
+     * @param developmentProposal
+     * @param citizenshipTypeToCheck
+     * @return
+     */
+    public String investigatorCitizenshipTypeRule(DevelopmentProposal developmentProposal, String citizenshipTypeToCheck) {
+        String RETURN_VALUE = FALSE;
+        ProposalPerson principalInvestigator = developmentProposal.getPrincipalInvestigator();
+        char citizenType = citizenshipTypeToCheck != null ? citizenshipTypeToCheck.charAt(0) : '0';
+        Integer citizenshipTypeCode = principalInvestigator.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
+        switch(citizenType){
+            case 'A' :
+                if(citizenshipTypeCode.equals(CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA)) {
+                    RETURN_VALUE = TRUE;
+                }
+                break;
+            case 'C' :
+                if(citizenshipTypeCode.equals(CitizenshipDataType.INT_U_S_CITIZEN_OR_NONCITIZEN_NATIONAL)) {
+                    RETURN_VALUE = TRUE;
+                }
+                break;
+            case 'N' :
+                if(citizenshipTypeCode.equals(CitizenshipDataType.INT_PERMANENT_RESIDENT_OF_U_S)) {
+                    RETURN_VALUE = TRUE;
+                }
+                break;
+            case 'P' :
+                if(citizenshipTypeCode.equals(INT_PERMANENT_RESIDENT_OF_U_S_PENDING)) {
+                    RETURN_VALUE = TRUE;
+                }
+                break;
+        }
+        return RETURN_VALUE;
+    }
+
+    /**
+     * This method is to check if the PI or any multi-PI has PI status
+     * FN_PI_APPOINTMENT_TYPE_RULE
+     * @param developmentProposal
+     * @return
+     */
+    public String piAppointmentTypeRule(DevelopmentProposal developmentProposal) {
+        List<ProposalPerson> people = developmentProposal.getProposalPersons();
+        List<AppointmentType> appointmentTypes = (List<AppointmentType>)getBusinessObjectService().findAll(AppointmentType.class);
+        for (ProposalPerson person : people) {
+            if ((person.isInvestigator() && person.getRole().isPrincipalInvestigatorRole()) || (person.isMultiplePi())) {
+                List<PersonAppointment> appointments = person.getProposalPersonExtendedAttributes().getPersonAppointments();
+                for(PersonAppointment personAppointment : appointments) {
+                    if(isAppointmentTypeEqualsJobTitle(appointmentTypes, personAppointment.getJobTitle())) {
+                        return TRUE;
+                    }
+                }
+            }
+        }
+        return FALSE;
+    }
+    
+    private boolean isAppointmentTypeEqualsJobTitle(List<AppointmentType> appointmentTypes, String jobTitle) {
+        for(AppointmentType appointmentType : appointmentTypes) {
+            if(appointmentType.getDescription().equalsIgnoreCase(jobTitle)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * This method is to check campus
+     * Check if the lead unit of the Proposal belong to campus
+     * FN_PROPOSAL_CAMPUS_RULE
+     * @param developmentProposal
+     * @param a2SCampusCode
+     * @return
+     */
+    public String proposalCampusRule(DevelopmentProposal developmentProposal, String a2SCampusCode) {
+        for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+            for (ProposalPersonUnit unit : person.getUnits()) {
+                if(unit.isLeadUnit() && StringUtils.equals(unit.getUnitNumber().substring(1, 3), a2SCampusCode)) {
+                        return TRUE;
+                }
+            }
+        }
+        return FALSE;
+    }
+    
+    /**
+     * This method is to check document in routing
+     * Check if the proposal has been approved or rejected by OSP
+     * FN_ROUTED_TO_OSP_RULE
+     * @param developmentProposal
+     * @return
+     */
+    public String routedToOSPRule(DevelopmentProposal developmentProposal) {
+        if(developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isApproved() ||
+                developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
+    /**
+     * This method to check submit user
+     * Check if the submit/given user is the PI of the proposal
+     * @param developmentProposal
+     * @return
+     */
+    public String isUserProposalPI(DevelopmentProposal developmentProposal, String principalId) {
+        return checkProposalPiRule(developmentProposal, principalId);
+    }
+
+    /**
+     * This method is to check units
+     * Check if any proposal unit is below a specified unit in the hierarchy
+     * FN_PROPOSAL_UNIT_BELOW
+     * @param developmentProposal
+     * @param unitNumberToCheck
+     * @return
+     */
+    public String proposalUnitBelow(DevelopmentProposal developmentProposal, String unitNumberToCheck) {
+        List<Unit> units = this.getUnitService().getAllSubUnits(unitNumberToCheck);
+        if (units != null && units.size() > 0) {
+            for (Unit unit : units) {
+                for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+                    for (ProposalPersonUnit proposalUnit : person.getUnits()) {
+                        if (StringUtils.equals(proposalUnit.getUnitNumber(), unit.getUnitNumber())) {
+                            return TRUE;
+                        }
+                    }
+                }
+            }
+        }
+        return FALSE;
+    }
+
+    /**
+     * This method is to check rolodex person
+     * Check if the proposal involves a specific rolodex id
+     * FN_USES_ROLODEX
+     * @param developmentProposal
+     * @param rolodexId
+     * @return
+     */
+    public String usesRolodex(DevelopmentProposal developmentProposal, Integer rolodexId) {
+        for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+            if(person.getRolodexId().equals(rolodexId)) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
+    /**
+     * This method is to check s2s competition id
+     * FN_COMPETITION_ID_RULE
+     * @param developmentProposal
+     * @param competitionId
+     * @return
+     */
+    public String competitionIdRule(DevelopmentProposal developmentProposal, String competitionId) {
+        if(developmentProposal.getS2sOpportunity().getCompetetionId().equals(competitionId)) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
+    /**
+     * This method is to check if proposal Animal or Human Special review approval date 
+     * is in the future
+     * FN_SPECIAL_REV_DATE_RULE
+     * @param developmentProposal
+     * @return
+     */
+    public String specialReviewDateRule(DevelopmentProposal developmentProposal) {
+        Date currentDate = getDateTimeService().getCurrentSqlDateMidnight();
+        for (ProposalSpecialReview proposalSpecialReview : developmentProposal.getPropSpecialReviews()) {
+            if(proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS) || 
+                    proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE)) {
+                if(proposalSpecialReview.getApplicationDate().after(currentDate)) {
+                    return TRUE;
+                }
+            }
+        }
+        return FALSE;
+    }
+
+    /**
+     * This method is to check if the proposal's deadline date is before a specified date.
+     * @param developmentProposal
+     * FN_DEADLINE_DATE
+     * @param deadlineDate
+     * @return
+     */
+    public String deadlineDateRule(DevelopmentProposal developmentProposal, String deadlineDate) {
+        try {
+            Date checkDeadLineDate = getDateTimeService().convertToSqlDate(deadlineDate);
+            if(developmentProposal.getDeadlineDate().before(checkDeadLineDate)) {
+                return TRUE;
+            }
+        }catch(Exception ex) {
+            LOG.error(ex.getMessage());
+        }
+        return FALSE;
+    }
+
+    /**
+     * This method is to check if the proposal is being routed for the first time.
+     * FN_ROUTING_SEQ_RULE
+     * @param developmentProposal
+     * @return
+     */
+    public String routingSequenceRule(DevelopmentProposal developmentProposal) {
+        List<ActionRequest> actionRequests = developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().getDocumentDetail().getActionRequests();
+        int submitCount = 0;
+        for(ActionRequest actionRequest : actionRequests) {
+            if(actionRequest.getNodeName().equals(Constants.PD_INITIATED_ROUTE_NODE_NAME)) {
+                submitCount++;
+            }
+            if(submitCount > 1) {
+                return FALSE;
+            }
+        }
+        return TRUE;
+    }
+    
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
 }
