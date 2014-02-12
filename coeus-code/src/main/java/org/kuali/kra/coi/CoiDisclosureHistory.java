@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.coi;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is the bo class of coi disclosure history
  */
-public class CoiDisclosureHistory extends KraPersistableBusinessObjectBase { 
+public class CoiDisclosureHistory extends KcPersistableBusinessObjectBase {
     
 
     /**

@@ -17,14 +17,14 @@ package org.kuali.kra.protocol.onlinereview;
 
 import org.apache.commons.logging.Log;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
-import org.kuali.kra.web.struts.form.Auditable;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.document.Document;
@@ -39,7 +39,7 @@ import java.util.Set;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocumentFormBase implements PermissionsForm, Auditable  {
+public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocumentFormBase implements PermissionsForm, AuditableForm {
     
     private static final long serialVersionUID = -7633960906991275328L;
     
@@ -108,8 +108,8 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
     /**
      * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getResearchDocument()
      */
-    public ResearchDocumentBase getResearchDocument() {
-        return (ResearchDocumentBase) this.getDocument();
+    public KcTransactionalDocumentBase getResearchDocument() {
+        return (KcTransactionalDocumentBase) this.getDocument();
     }
 
     public PermissionsHelperBase getPermissionsHelper() {

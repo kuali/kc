@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class AwardTemplateComment extends KraPersistableBusinessObjectBase {
+public class AwardTemplateComment extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

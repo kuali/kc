@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 
@@ -26,7 +26,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
  * The relationship is maintained from both modules, so it has to be treated specially in various 
  * parts of the application, such as versioning.
  */
-public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
+public class AwardFundingProposal extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -8135146676358083314L;
 

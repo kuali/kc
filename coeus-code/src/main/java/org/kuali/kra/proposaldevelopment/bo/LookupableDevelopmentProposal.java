@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.util.List;
 
 /**
  * 
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * transactional documents can't set lookupDefinition in the DD framework.
  * 
  */
-public class LookupableDevelopmentProposal extends KraPersistableBusinessObjectBase {
+public class LookupableDevelopmentProposal extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

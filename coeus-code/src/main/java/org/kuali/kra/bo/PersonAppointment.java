@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.AppointmentType;
 import org.kuali.kra.budget.personnel.JobCode;
@@ -27,7 +28,7 @@ import java.sql.Date;
  * 
  * @see org.kuali.kra.bo.Person
  */
-public class PersonAppointment extends KraPersistableBusinessObjectBase {
+public class PersonAppointment extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -672222601606024412L;
 

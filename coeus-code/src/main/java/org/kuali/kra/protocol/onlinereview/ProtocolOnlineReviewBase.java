@@ -16,9 +16,9 @@
 package org.kuali.kra.protocol.onlinereview;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.permissions.Permissionable;
@@ -40,7 +40,7 @@ import java.util.Map;
  * a join between protocol, submission, and a reviewer.  The ProtocolReview
  * is created by the IRB Admin as request.
  */
-public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObjectBase implements Permissionable, UnitAclLoadable {
+public abstract class ProtocolOnlineReviewBase extends KcPersistableBusinessObjectBase implements Permissionable, UnitAclLoadable {
 
     private static final long serialVersionUID = 531397319695764847L;
 

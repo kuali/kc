@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Class representation of the Appointment Type Business Object
  *
  * AppointmentType.java
  */
-public class AppointmentType extends KraPersistableBusinessObjectBase {
+public class AppointmentType extends KcPersistableBusinessObjectBase {
 
     private String appointmentTypeCode;
 

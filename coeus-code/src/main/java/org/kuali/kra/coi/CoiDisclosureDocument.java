@@ -16,9 +16,8 @@
 package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
@@ -27,13 +26,10 @@ import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.engine.Facts;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +40,7 @@ import java.util.Map;
  */
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_COIDISCLOSURE)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class CoiDisclosureDocument extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext { 
+public class CoiDisclosureDocument extends KcTransactionalDocumentBase implements Copyable, SessionDocument, KrmsRulesContext {
     
     public static final String DOCUMENT_TYPE_CODE = "COI";
     private List<CoiDisclosure> coiDisclosureList;

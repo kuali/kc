@@ -20,8 +20,10 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.service.KcPersonService;
 
 import java.sql.Timestamp;
 
@@ -61,6 +63,7 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
     private transient boolean displayReviewerName;
     private transient boolean displayViewButton;
     private transient boolean shouldBeSaved = false;
+    private transient KcPersonService kcPersonService;
 
     public Long getReviewerAttachmentId() {
         return reviewerAttachmentId;
@@ -326,4 +329,11 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
         return shouldBeSaved;
     }
 
+
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
+    }
 }

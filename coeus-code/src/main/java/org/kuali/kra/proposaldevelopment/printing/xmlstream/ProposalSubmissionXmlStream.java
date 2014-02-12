@@ -22,9 +22,9 @@ import edu.mit.coeus.utils.xml.v2.sponsor.SPONSORDocument.SPONSOR;
 import edu.mit.coeus.utils.xml.v2.userUnit.UNITDocument.UNIT;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.*;
@@ -87,7 +87,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 
 	/**
 	 * This method generates XML for Proposal Development Report. It uses data
-	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
+	 * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -99,7 +99,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 *             in case of any errors occur during XML generation.
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
 		Budget budget = getBudget(developmentProposal.getProposalDocument());
 		PROPOSALDocument proposalDocument = PROPOSALDocument.Factory

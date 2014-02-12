@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;

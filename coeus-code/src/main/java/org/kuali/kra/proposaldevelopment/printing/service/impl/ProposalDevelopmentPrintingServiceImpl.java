@@ -16,7 +16,11 @@
 package org.kuali.kra.proposaldevelopment.printing.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.*;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.SponsorFormTemplate;
+import org.kuali.kra.bo.SponsorFormTemplateList;
+import org.kuali.kra.bo.SponsorForms;
+import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
@@ -76,7 +80,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	 * 
 	 */
 	public AttachmentDataSource printProposalDevelopmentReport(
-	        KraPersistableBusinessObjectBase printableBusinessObject, String reportName,
+	        KcPersistableBusinessObjectBase printableBusinessObject, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException {
 		AttachmentDataSource source = null;
 		AbstractPrint printable = null;
@@ -95,7 +99,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 		return source;
 	}
 
-	protected String getReportName(KraPersistableBusinessObjectBase printableBusinessObject,
+	protected String getReportName(KcPersistableBusinessObjectBase printableBusinessObject,
 			String reportName) {
 		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
 		String proposalNumber = developmentProposal.getProposalNumber();

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 
-public class IacucProtocolOnlineReviewDeterminationTypeRecommendation extends KraPersistableBusinessObjectBase {
+public class IacucProtocolOnlineReviewDeterminationTypeRecommendation extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2274982797374476521L;
     

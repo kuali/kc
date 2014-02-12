@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.notifications;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
@@ -29,7 +29,7 @@ public class NegotiationNotification extends KcNotification {
         super();
     }
 
-    public void persistOwningObject(KraPersistableBusinessObjectBase object) {
+    public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         Negotiation negotiation = (Negotiation)object;
         this.setOwningDocumentIdFk(negotiation.getNegotiationId());
         negotiation.addNotification(this);

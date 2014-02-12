@@ -16,14 +16,14 @@
 package org.kuali.kra.irb.actions.notification;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * 
  * This class is bo of protocol notification template
  */
-public class ProtocolNotificationTemplate extends KraPersistableBusinessObjectBase {
+public class ProtocolNotificationTemplate extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

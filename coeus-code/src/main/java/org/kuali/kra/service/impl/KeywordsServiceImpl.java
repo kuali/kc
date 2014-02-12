@@ -16,13 +16,13 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.MultiLookupForm;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
-import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -39,7 +39,7 @@ public class KeywordsServiceImpl implements KeywordsService {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeywordsServiceImpl.class);
 
     /**
-     * @see org.kuali.kra.service.KeywordsService#addKeyword(org.kuali.kra.document.ResearchDocumentBase, org.kuali.kra.bo.ScienceKeyword)
+     * @see org.kuali.kra.service.KeywordsService#addKeyword(org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase, org.kuali.kra.bo.ScienceKeyword)
      */
     public void addKeyword(KeywordsManager document, ScienceKeyword scienceKeyword) {
         if (!isDuplicateKeyword(scienceKeyword.getScienceKeywordCode(), document.getKeywords())) {
@@ -48,7 +48,7 @@ public class KeywordsServiceImpl implements KeywordsService {
     }
 
     /**
-     * @see org.kuali.kra.service.KeywordsService#deleteKeyword(org.kuali.kra.document.ResearchDocumentBase, org.kuali.kra.bo.ScienceKeyword)
+     * @see org.kuali.kra.service.KeywordsService#deleteKeyword(org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase, org.kuali.kra.bo.ScienceKeyword)
      */
     public void deleteKeyword(KeywordsManager keywordsDocument) {
         List<AbstractScienceKeyword> scienceKeywords = keywordsDocument.getKeywords();
@@ -78,9 +78,9 @@ public class KeywordsServiceImpl implements KeywordsService {
 
     /**
      * Method to add keywords into keywards list associated with particular BO/Document
-     * @see org.kuali.kra.service.KeywordsService#addKeywords(org.kuali.kra.document.KeywordsManager, org.kuali.kra.web.struts.form.MultiLookupFormBase)
+     * @see org.kuali.kra.service.KeywordsService#addKeywords(org.kuali.kra.document.KeywordsManager, org.kuali.coeus.sys.framework.model.MultiLookupForm)
      */
-    public void addKeywords(KeywordsManager document, MultiLookupFormBase multiLookUpForm) {
+    public void addKeywords(KeywordsManager document, MultiLookupForm multiLookUpForm) {
         try{
             // check to see if we are coming back from a lookup
             if (Constants.MULTIPLE_VALUE.equals(multiLookUpForm.getRefreshCaller())) {

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 
 /**
  * 
  * This class is for schedule meeting other action.
  */
-public abstract class CommScheduleActItemBase extends KraPersistableBusinessObjectBase {
+public abstract class CommScheduleActItemBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 5688256868516863628L;
 

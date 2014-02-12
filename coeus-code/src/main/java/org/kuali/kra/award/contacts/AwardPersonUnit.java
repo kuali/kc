@@ -16,11 +16,11 @@
 package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -32,7 +32,7 @@ import java.util.*;
 /**
  * This class associates an AwardContact and a Unit
  */
-public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements Comparable<AwardPersonUnit>, SequenceAssociate<Award> {
+public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements Comparable<AwardPersonUnit>, SequenceAssociate<Award> {
 
     private static final long serialVersionUID = 3550317176047537585L;
 

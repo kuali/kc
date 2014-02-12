@@ -16,11 +16,11 @@
 package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class CoiDisclosureAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<CoiDisclosure> {
+public class CoiDisclosureAssociate extends KcPersistableBusinessObjectBase implements SequenceAssociate<CoiDisclosure> {
 
     /**
      * Comment for <code>serialVersionUID</code>

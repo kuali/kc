@@ -16,7 +16,7 @@
 package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.sys.framework.kew.KcPostProcessor;
+import org.kuali.coeus.sys.framework.workflow.KcPostProcessor;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.KewApiConstants;

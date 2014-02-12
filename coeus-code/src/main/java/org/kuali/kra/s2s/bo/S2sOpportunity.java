@@ -15,29 +15,17 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.S2sRevisionType;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.S2sRevisionType;
-import org.kuali.kra.s2s.bo.S2sOppForms;
-import org.kuali.kra.s2s.bo.S2sProvider;
-import org.kuali.kra.s2s.bo.S2sSubmissionType;
-import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 @Entity
 @Table(name = "S2S_OPPORTUNITY")
-public class S2sOpportunity extends KraPersistableBusinessObjectBase {
+public class S2sOpportunity extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")

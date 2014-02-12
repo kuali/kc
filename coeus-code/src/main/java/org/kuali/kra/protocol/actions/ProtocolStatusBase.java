@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.actions;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public abstract class ProtocolStatusBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolStatusBase extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

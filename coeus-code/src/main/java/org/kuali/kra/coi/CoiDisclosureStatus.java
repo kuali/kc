@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class CoiDisclosureStatus extends KraPersistableBusinessObjectBase {
+public class CoiDisclosureStatus extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

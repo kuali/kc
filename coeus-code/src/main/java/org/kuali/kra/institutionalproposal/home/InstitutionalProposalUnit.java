@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 
-public class InstitutionalProposalUnit extends KraPersistableBusinessObjectBase {
+public class InstitutionalProposalUnit extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

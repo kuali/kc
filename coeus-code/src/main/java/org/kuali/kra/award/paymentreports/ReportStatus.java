@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.paymentreports;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * Report Status BO that represents the current status of report
  * tracking information (pending, received, etc).
  */
-public class ReportStatus extends KraPersistableBusinessObjectBase implements MutableInactivatable {
+public class ReportStatus extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     /**
      * Comment for <code>serialVersionUID</code>

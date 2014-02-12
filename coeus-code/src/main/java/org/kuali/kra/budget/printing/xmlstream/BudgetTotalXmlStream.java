@@ -15,19 +15,18 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.document.ResearchDocumentBase;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget total
- * Report. The data for XML is derived from {@link ResearchDocumentBase} and
+ * Report. The data for XML is derived from {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and
  * {@link Map} of details passed to the class.
  * 
  * @author
@@ -39,7 +38,7 @@ public class BudgetTotalXmlStream extends BudgetBaseSalaryStream {
 
 	/**
 	 * This method generates XML for Budget total Report. It uses data passed in
-	 * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
+	 * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl once
 	 * generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -49,7 +48,7 @@ public class BudgetTotalXmlStream extends BudgetBaseSalaryStream {
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		this.budget = (Budget) printableBusinessObject;
 		BudgetSalaryDocument budgetSalaryDocument = BudgetSalaryDocument.Factory

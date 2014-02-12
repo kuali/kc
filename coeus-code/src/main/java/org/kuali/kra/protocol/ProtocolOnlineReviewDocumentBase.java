@@ -17,8 +17,8 @@
 package org.kuali.kra.protocol;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
@@ -50,7 +50,7 @@ import java.util.List;
  */
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentBase implements Copyable, SessionDocument { 
+public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDocumentBase implements Copyable, SessionDocument {
 	
     private static final String DOCUMENT_TYPE_CODE = "PTRV";
     private static final String OLR_DOC_ID_PARAM = "olrDocId";
@@ -90,7 +90,7 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
      public abstract void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview);
 
      /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getAllRolePersons()
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {

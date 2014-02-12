@@ -15,18 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "EPS_PROP_COLUMNS_TO_ALTER")
-public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
+public class ProposalColumnsToAlter extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "COLUMN_NAME")

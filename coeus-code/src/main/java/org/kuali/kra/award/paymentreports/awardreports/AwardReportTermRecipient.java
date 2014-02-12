@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 
 /**
@@ -29,7 +29,7 @@ import org.kuali.kra.bo.Rolodex;
  * This class represents the AwardReportTermRecipient business object
  * 
  */
-public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase implements SequenceAssociate<Award> {
+public class AwardReportTermRecipient extends KcPersistableBusinessObjectBase implements SequenceAssociate<Award> {
 
     /**
      * Comment for <code>serialVersionUID</code>

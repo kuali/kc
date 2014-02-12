@@ -15,21 +15,18 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
 
 /**
  * This class models the UnitAdministratorType
  */
 @Entity
 @Table(name = "UNIT_ADMINISTRATOR_TYPE")
-public class UnitAdministratorType extends KraPersistableBusinessObjectBase implements ContactRole {
+public class UnitAdministratorType extends KcPersistableBusinessObjectBase implements ContactRole {
 
     public static final String ADMINISTRATIVE_OFFICER_TYPE_CODE = "1";
 

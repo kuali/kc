@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public class PendingTransaction extends KraPersistableBusinessObjectBase {
+public class PendingTransaction extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

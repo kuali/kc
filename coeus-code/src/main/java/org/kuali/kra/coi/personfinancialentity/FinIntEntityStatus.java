@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * This class is for FE status
  */
-public class FinIntEntityStatus extends KraPersistableBusinessObjectBase {
+public class FinIntEntityStatus extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

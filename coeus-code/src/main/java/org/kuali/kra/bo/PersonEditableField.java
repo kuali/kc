@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 
@@ -26,7 +27,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.3 $
  */
-public class PersonEditableField extends KraPersistableBusinessObjectBase implements MutableInactivatable {
+public class PersonEditableField extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     private String fieldName;
 

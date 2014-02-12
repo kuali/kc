@@ -15,18 +15,19 @@
  */
 package org.kuali.kra.common.specialreview.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.ExemptionType;
+
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import org.kuali.kra.bo.ExemptionType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * Defines the base class for the Special Review Exemption business object for all modules.
  */
 @MappedSuperclass
-public abstract class SpecialReviewExemption extends KraPersistableBusinessObjectBase {
+public abstract class SpecialReviewExemption extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -3039637933149436453L;
 

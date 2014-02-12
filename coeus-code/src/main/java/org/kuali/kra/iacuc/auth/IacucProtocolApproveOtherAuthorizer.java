@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 
 public class IacucProtocolApproveOtherAuthorizer  extends IacucProtocolAuthorizer {

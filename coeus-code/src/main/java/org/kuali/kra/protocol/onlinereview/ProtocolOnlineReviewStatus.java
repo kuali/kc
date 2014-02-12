@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.onlinereview;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class ProtocolOnlineReviewStatus extends KraPersistableBusinessObjectBase {
+public class ProtocolOnlineReviewStatus extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

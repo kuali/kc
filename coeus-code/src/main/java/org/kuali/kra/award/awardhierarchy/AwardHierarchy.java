@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
@@ -29,7 +29,7 @@ import java.util.*;
  * AwardHierarchy is version agnostic. It should always reference the active version of the Award if one is present. If not present, it will reference the one
  * and only pending Award matching the AwardHierarchy awardNumber.
  */
-public class AwardHierarchy extends KraPersistableBusinessObjectBase implements Cloneable {
+public class AwardHierarchy extends KcPersistableBusinessObjectBase implements Cloneable {
 
     public static final String ROOTS_PARENT_AWARD_NUMBER = "000000-00000";
 

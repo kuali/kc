@@ -15,14 +15,8 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import org.kuali.kra.printing.schema.*;
-import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
-import org.kuali.kra.printing.schema.AwardType.*;
-import org.kuali.kra.printing.schema.AwardType.AwardBudgetDetails.BudgetDetails;
-import org.kuali.kra.printing.schema.AwardType.AwardOtherDatas.OtherData;
-import org.kuali.kra.printing.schema.AwardType.AwardPaymentSchedules.PaymentSchedule;
-import org.kuali.kra.printing.schema.AwardType.AwardTransferringSponsors.TransferringSponsor;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.customdata.AwardCustomData;
@@ -33,18 +27,23 @@ import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
+import org.kuali.kra.printing.schema.AwardType.*;
+import org.kuali.kra.printing.schema.AwardType.AwardBudgetDetails.BudgetDetails;
+import org.kuali.kra.printing.schema.AwardType.AwardOtherDatas.OtherData;
+import org.kuali.kra.printing.schema.AwardType.AwardPaymentSchedules.PaymentSchedule;
+import org.kuali.kra.printing.schema.AwardType.AwardTransferringSponsors.TransferringSponsor;
 import org.kuali.kra.service.VersionHistoryService;
 
 import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Award Notice
- * Report. The data for XML is derived from {@link ResearchDocumentBase} and
+ * Report. The data for XML is derived from {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and
  * {@link Map} of details passed to the class.
  * 
  * 
@@ -73,7 +72,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 
 	/**
 	 * This method generates XML for Award Notice Report. It uses data passed in
-	 * {@link ResearchDocumentBase} for populating the XML nodes. The XML once
+	 * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XML once
 	 * generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -83,7 +82,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
 				.newInstance();

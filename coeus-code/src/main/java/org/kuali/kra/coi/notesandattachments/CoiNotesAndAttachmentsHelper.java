@@ -21,9 +21,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.auth.CoiDisclosureDeleteUpdateAttachmentTask;
 import org.kuali.kra.coi.auth.CoiDisclosureDeleteUpdateNoteTask;
@@ -611,7 +611,7 @@ public class CoiNotesAndAttachmentsHelper {
 
     }
 
-    protected void setUpdateFields(KraPersistableBusinessObjectBase bo) {
+    protected void setUpdateFields(KcPersistableBusinessObjectBase bo) {
         bo.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         bo.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
     }

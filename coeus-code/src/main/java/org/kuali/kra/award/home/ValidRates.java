@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.home;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * 
  * This class is the ValidRates business object.
  */
-public class ValidRates extends KraPersistableBusinessObjectBase {
+public class ValidRates extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

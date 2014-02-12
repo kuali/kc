@@ -16,8 +16,10 @@
 package org.kuali.kra.negotiations.bo;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
@@ -28,7 +30,7 @@ import java.util.List;
 /**
  * Negotiation Activity BO.
  */
-public class NegotiationActivity extends KraPersistableBusinessObjectBase {
+public class NegotiationActivity extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -72,6 +74,8 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
     private transient NegotiationActivityAttachment newAttachment;
 
     private transient boolean updated;
+
+    private transient KcPersonService kcPersonService;
 
     public NegotiationActivity() {
         restricted = Boolean.TRUE;
@@ -312,5 +316,16 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
 
     public void setNewAttachment(NegotiationActivityAttachment newAttachment) {
         this.newAttachment = newAttachment;
+    }
+
+    /**
+     * Looks up and returns the KcPersonService.
+     * @return the person service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
     }
 }

@@ -16,13 +16,13 @@
 package org.kuali.kra.timeandmoney.document;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -45,7 +45,7 @@ import java.util.*;
  * This class represents the Time and Money Document Object.
  * 
  */
-public class TimeAndMoneyDocument extends ResearchDocumentBase implements Copyable, SessionDocument, Permissionable, Comparable {
+public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements Copyable, SessionDocument, Permissionable, Comparable {
     
     /**
      * Comment for <code>serialVersionUID</code>

@@ -16,13 +16,13 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is for Person Int. FE details
  */
-public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase {
+public class PersonFinIntDisclDet extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.correspondence;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public abstract class BatchCorrespondenceDetailBase extends KraPersistableBusinessObjectBase implements Comparable<BatchCorrespondenceDetailBase> {
+public abstract class BatchCorrespondenceDetailBase extends KcPersistableBusinessObjectBase implements Comparable<BatchCorrespondenceDetailBase> {
 
     private static final long serialVersionUID = 1L;
 

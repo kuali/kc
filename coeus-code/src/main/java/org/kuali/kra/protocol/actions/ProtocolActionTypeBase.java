@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.protocol.actions;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * A ProtocolBase Action Type refers to the type of actions that an
  * that can be performed against a ProtocolBase document.
  */
 @SuppressWarnings("serial")
-public abstract class ProtocolActionTypeBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolActionTypeBase extends KcPersistableBusinessObjectBase {
 
     private String protocolActionTypeCode;
 

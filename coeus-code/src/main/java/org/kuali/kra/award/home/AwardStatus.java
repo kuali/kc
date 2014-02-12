@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.home;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class represents AwardStatus BO
  */
-public class AwardStatus extends KraPersistableBusinessObjectBase {
+public class AwardStatus extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

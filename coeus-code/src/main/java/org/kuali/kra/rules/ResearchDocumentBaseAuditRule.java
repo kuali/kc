@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.rules;
 
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.rule.event.AuditCustomDataEvent;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
@@ -32,8 +32,8 @@ public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
 
-        if (document instanceof ResearchDocumentBase) {
-            valid = new CustomDataRule().processRules(new AuditCustomDataEvent((ResearchDocumentBase)document));
+        if (document instanceof KcTransactionalDocumentBase) {
+            valid = new CustomDataRule().processRules(new AuditCustomDataEvent((KcTransactionalDocumentBase)document));
         }
 
         return valid;

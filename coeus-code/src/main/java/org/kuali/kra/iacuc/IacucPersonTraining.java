@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.iacuc;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.iacuc.procedures.IacucProcedure;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
 
-public class IacucPersonTraining extends KraPersistableBusinessObjectBase { 
+public class IacucPersonTraining extends KcPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 1L;
 
@@ -32,8 +34,11 @@ public class IacucPersonTraining extends KraPersistableBusinessObjectBase {
     
     private PersonTraining personTraining; 
     private IacucSpecies iacucSpecies; 
-    private IacucProcedure iacucProcedure; 
-    
+    private IacucProcedure iacucProcedure;
+
+
+    private transient KcPersonService kcPersonService;
+
     public IacucPersonTraining() { 
 
     } 
@@ -110,5 +115,12 @@ public class IacucPersonTraining extends KraPersistableBusinessObjectBase {
     
     public KcPerson getPerson() {
         return getKcPersonService().getKcPersonByPersonId(personId);
+    }
+
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
     }
 }

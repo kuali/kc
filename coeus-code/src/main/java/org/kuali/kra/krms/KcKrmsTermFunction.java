@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.krms;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.util.List;
 
 /**
  * This class...
  */
-public class KcKrmsTermFunction extends KraPersistableBusinessObjectBase {
+public class KcKrmsTermFunction extends KcPersistableBusinessObjectBase {
     
     /**
      * Comment for <code>serialVersionUID</code>

@@ -16,7 +16,8 @@
 package org.kuali.kra.timeandmoney;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -27,7 +28,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.*;
 
-public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
+public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Business object representation of Proposal Response
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $
  */
-public class ProposalResponse extends KraPersistableBusinessObjectBase {
+public class ProposalResponse extends KcPersistableBusinessObjectBase {
 
     private String proposalResponseCode;
 

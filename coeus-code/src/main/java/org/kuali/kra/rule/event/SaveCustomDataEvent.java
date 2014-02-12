@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.rule.event;
 
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.kra.rules.ErrorReporter;
@@ -52,10 +52,10 @@ public class SaveCustomDataEvent extends KraDocumentEventBaseExtension {
         this(errorPrefix, document, customDataList, customAttributeDocuments);
         this.validateRequiredFields = validateRequiredFields;
     }
-    public SaveCustomDataEvent(ResearchDocumentBase document) {
+    public SaveCustomDataEvent(KcTransactionalDocumentBase document) {
         this("customDataHelper.customDataList", document, document.getDocumentCustomData(), document.getCustomAttributeDocuments());
     }
-    public SaveCustomDataEvent(ResearchDocumentBase document, boolean validateRequiredFields) {
+    public SaveCustomDataEvent(KcTransactionalDocumentBase document, boolean validateRequiredFields) {
         this("customDataHelper.customDataList", document, document.getDocumentCustomData(), document.getCustomAttributeDocuments(), validateRequiredFields);
     }
     

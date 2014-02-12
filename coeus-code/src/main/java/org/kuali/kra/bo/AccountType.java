@@ -16,12 +16,14 @@
 package org.kuali.kra.bo;
 
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 /**
  * Account Type business object
  * 
  * @author Kuali Coeus development team (kc.dev@kuali.org)
  */
-public class AccountType extends KraPersistableBusinessObjectBase {
+public class AccountType extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -8445736738959087012L;
 

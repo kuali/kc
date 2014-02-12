@@ -1,6 +1,6 @@
 package org.kuali.kra.dao.ojb;
 
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -40,7 +40,7 @@ public class BaseReportDaoOjb extends PlatformAwareDaoBaseOjb implements OjbColl
 
     private WorkflowDocument loadWorkflowDocument(DocumentBase document) throws WorkflowException {
         String docNumber = document.getDocumentHeader().getDocumentNumber();
-        ResearchDocumentBase doc = (ResearchDocumentBase) getDocumentService().getByDocumentHeaderId(docNumber);
+        KcTransactionalDocumentBase doc = (KcTransactionalDocumentBase) getDocumentService().getByDocumentHeaderId(docNumber);
         return doc.getDocumentHeader().getWorkflowDocument();
     }
 

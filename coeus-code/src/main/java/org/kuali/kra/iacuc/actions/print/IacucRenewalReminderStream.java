@@ -20,7 +20,7 @@ import edu.mit.coeus.xml.iacuc.NextScheduleDateType;
 import edu.mit.coeus.xml.iacuc.RenewalReminderDocument;
 import edu.mit.coeus.xml.iacuc.RenewalReminderType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -38,9 +38,9 @@ public class IacucRenewalReminderStream extends RenewalReminderStreamBase {
     private IacucCommitteeXmlStream committeeXmlStream;
 
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
+     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         IacucProtocol protocol = (IacucProtocol)printableBusinessObject;
         RenewalReminderDocument renewalReminderDocument = RenewalReminderDocument.Factory.newInstance() ;
         RenewalReminderType renewalReminder = RenewalReminderType.Factory.newInstance() ;

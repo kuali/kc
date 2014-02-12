@@ -16,10 +16,12 @@
 package org.kuali.kra.bo;
 
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 /**
  * This class is business object representation of a Sponsor Term Type.
  */
-public class SponsorTermType extends KraPersistableBusinessObjectBase {
+public class SponsorTermType extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

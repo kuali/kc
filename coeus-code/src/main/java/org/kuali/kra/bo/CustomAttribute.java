@@ -15,24 +15,17 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.kuali.kra.bo.CustomAttributeDataType;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
+
+import javax.persistence.*;
 
 /**
  * This is bo class of CustomAttribute.
  */
 @Entity
 @Table(name = "CUSTOM_ATTRIBUTE")
-public class CustomAttribute extends KraPersistableBusinessObjectBase {
+public class CustomAttribute extends KcPersistableBusinessObjectBase {
 
     @PortableSequenceGenerator(name = "SEQ_CUSTOM_ATTRIBUTE")
     @GeneratedValue(generator = "SEQ_CUSTOM_ATTRIBUTE")

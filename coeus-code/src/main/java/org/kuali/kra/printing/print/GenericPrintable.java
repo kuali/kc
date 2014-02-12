@@ -1,6 +1,6 @@
 package org.kuali.kra.printing.print;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.util.watermark.Watermarkable;
@@ -15,7 +15,7 @@ public class GenericPrintable implements Printable {
 	Map<String, byte[]> attachments;
 	Map<String, Source> xSLTemplateWithBookmarks;
 	List<Source> xSLTemplates;
-	KraPersistableBusinessObjectBase printableBusinessObject;
+	KcPersistableBusinessObjectBase printableBusinessObject;
 
 	public void setStreamMap(Map<String, byte[]> streamMap) {
 		this.streamMap = streamMap;
@@ -34,7 +34,7 @@ public class GenericPrintable implements Printable {
 		xSLTemplates = templates;
 	}
 
-	public void setPrintableBusinessObject(KraPersistableBusinessObjectBase printableBusinessObject) {
+	public void setPrintableBusinessObject(KcPersistableBusinessObjectBase printableBusinessObject) {
 		this.printableBusinessObject = printableBusinessObject;
 	}
 
@@ -42,7 +42,7 @@ public class GenericPrintable implements Printable {
 		return attachments;
 	}
 
-	public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
+	public KcPersistableBusinessObjectBase getPrintableBusinessObject() {
 		return printableBusinessObject;
 	}
 

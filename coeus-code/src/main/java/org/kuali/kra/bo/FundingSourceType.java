@@ -16,7 +16,9 @@
 package org.kuali.kra.bo;
 
 
-public class FundingSourceType extends KraPersistableBusinessObjectBase {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+public class FundingSourceType extends KcPersistableBusinessObjectBase {
 
     public static final String SPONSOR = "1";
 

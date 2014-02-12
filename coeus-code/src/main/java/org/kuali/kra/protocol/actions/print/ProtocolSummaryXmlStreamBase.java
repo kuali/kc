@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.actions.print;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 
 import java.util.Map;
@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public abstract class ProtocolSummaryXmlStreamBase extends PrintBaseXmlStream {
 
-    public abstract Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters);
+    public abstract Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters);
     
     
 }

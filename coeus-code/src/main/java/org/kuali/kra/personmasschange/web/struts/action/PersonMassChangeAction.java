@@ -18,12 +18,12 @@ package org.kuali.kra.personmasschange.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeHomeHelper;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeViewHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Defines the overall action class for Person Mass Change.
  */
-public class PersonMassChangeAction extends KraTransactionalDocumentActionBase {
+public class PersonMassChangeAction extends KcTransactionalDocumentActionBase {
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

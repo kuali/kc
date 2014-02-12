@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class IndirectcostRateType extends KraPersistableBusinessObjectBase {
+public class IndirectcostRateType extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

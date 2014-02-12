@@ -15,24 +15,20 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "S2S_APP_ATTACHMENTS")
 @IdClass(S2sAppAttachments.S2sAppAttachmentsId.class)
-public class S2sAppAttachments extends KraPersistableBusinessObjectBase {
+public class S2sAppAttachments extends KcPersistableBusinessObjectBase {
 
     @PortableSequenceGenerator(name = "SEQ_S2S_APP_ATTACHMENT_ID")
     @GeneratedValue(generator = "SEQ_S2S_APP_ATTACHMENT_ID")

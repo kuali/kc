@@ -16,17 +16,17 @@
 
 package org.kuali.kra.award.paymentreports.awardreports.reporting;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDao;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.schema.AwardReportingRequirementDocument;
 import org.kuali.kra.printing.schema.AwardReportingRequirementDocument.AwardReportingRequirement;
 import org.kuali.kra.printing.schema.ReportingRequirement;
 import org.kuali.kra.printing.schema.ReportingRequirementDetail;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDao;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -51,7 +51,7 @@ public class ReportTrackingXmlStream implements XmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         ReportTracking reporTracking=(ReportTracking)printableBusinessObject;
         AwardReportingRequirementDocument awardReportRequirementDoc=AwardReportingRequirementDocument.Factory.newInstance();
         try {       
@@ -78,7 +78,7 @@ public class ReportTrackingXmlStream implements XmlStream {
      * @throws PrintingException
      */
    // @SuppressWarnings("unchecked")
-    public AwardReportingRequirement getAwardReporting(KraPersistableBusinessObjectBase
+    public AwardReportingRequirement getAwardReporting(KcPersistableBusinessObjectBase
         printableBusinessObject, Map<String, Object> htData) throws Exception{
         ReportTracking reportTracking =
         (ReportTracking) printableBusinessObject;

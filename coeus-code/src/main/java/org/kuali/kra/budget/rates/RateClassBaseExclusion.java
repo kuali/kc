@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.rates;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 
-public class RateClassBaseExclusion extends KraPersistableBusinessObjectBase { 
+public class RateClassBaseExclusion extends KcPersistableBusinessObjectBase {
     
     
 

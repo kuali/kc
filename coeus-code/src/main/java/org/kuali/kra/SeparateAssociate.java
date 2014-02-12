@@ -15,14 +15,14 @@
  */
 package org.kuali.kra;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * This class is meant to be a common base class for SeparatelySequenceableAssociate BOs (for BOs that haven't already
  * extended a class).
  * 
  */
-public abstract class SeparateAssociate extends KraPersistableBusinessObjectBase implements SeparatelySequenceableAssociate {
+public abstract class SeparateAssociate extends KcPersistableBusinessObjectBase implements SeparatelySequenceableAssociate {
 
     private static final long serialVersionUID = -8385115657304261423L;
 

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,7 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "CUSTOM_ATTRIBUTE_DATA_TYPE")
-public class CustomAttributeDataType extends KraPersistableBusinessObjectBase {
+public class CustomAttributeDataType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "DATA_TYPE_CODE")

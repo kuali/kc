@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class CoiDispositionStatus extends KraPersistableBusinessObjectBase { 
+public class CoiDispositionStatus extends KcPersistableBusinessObjectBase {
     
 
     /**

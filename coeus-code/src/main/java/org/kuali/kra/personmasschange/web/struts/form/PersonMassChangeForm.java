@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.personmasschange.web.struts.form;
 
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.Map;
 
-public class PersonMassChangeForm extends KraTransactionalDocumentFormBase {
+public class PersonMassChangeForm extends KcTransactionalDocumentFormBase {
 
     private static final long serialVersionUID = 6324968980895876372L;
     

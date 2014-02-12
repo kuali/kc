@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 @SuppressWarnings("serial")
-public abstract class ProtocolModuleBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolModuleBase extends KcPersistableBusinessObjectBase {
     
     protected String protocolModuleCode;
     protected String description;

@@ -62,7 +62,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
    private static final String CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY = "confirmDeleteProtocolFundingSource";
  
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -371,7 +371,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      * Exposing this to be used in ProtocolFundingSourceBase Service so we can avoid stacking funding source conditional logic in the
      * action
      * 
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#buildForwardUrl(java.lang.Long)
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#buildForwardUrl(java.lang.Long)
      */
     @Override
     public String buildForwardUrl(String routeHeaderId) {

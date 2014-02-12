@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class IacucProcedure extends KraPersistableBusinessObjectBase { 
+public class IacucProcedure extends KcPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 1L;
 

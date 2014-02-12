@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.notification;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -42,7 +42,7 @@ public class IRBProtocolNotification extends ProtocolNotification {
         this.protocolAction = protocolAction;
     }
 
-    public void persistOwningObject(KraPersistableBusinessObjectBase object) {
+    public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         Protocol protocol = (Protocol)object;
         this.setOwningDocumentIdFk(protocol.getLastProtocolAction().getProtocolActionId());
         protocol.getLastProtocolAction().addNotification(this);

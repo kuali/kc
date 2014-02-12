@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,7 +24,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "YNQ_EXPLANATION_TYPE")
-public class YnqExplanationType extends KraPersistableBusinessObjectBase {
+public class YnqExplanationType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "EXPLANATION_TYPE")

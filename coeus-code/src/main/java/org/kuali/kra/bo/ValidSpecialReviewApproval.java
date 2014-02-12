@@ -16,10 +16,12 @@
 package org.kuali.kra.bo;
 
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 /**
  * Defines the ValidSpecialReviewApproval business object of the KRA domain.
  */
-public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase {
+public class ValidSpecialReviewApproval extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2223133021712448327L;
 

@@ -16,9 +16,13 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
-import org.kuali.kra.bo.*;
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.FundingSourceType;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.permissions.web.bean.AssignedRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -79,9 +83,9 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
 
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.Map)
+     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject,
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) {
         Protocol protocol = (Protocol) printableBusinessObject;
         ProtocolSummaryDocument protocolSummaryDocument = ProtocolSummaryDocument.Factory.newInstance();
@@ -96,9 +100,9 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
         return printOption?"1":"0";
     }
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.Map)
+     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
      */
-    public ProtocolSummary getProtocolSummary(KraPersistableBusinessObjectBase printableBusinessObject,
+    public ProtocolSummary getProtocolSummary(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> htData) {
         Protocol protocol = (Protocol) printableBusinessObject;
         ProtocolSummary protocolSummary = ProtocolSummary.Factory.newInstance();

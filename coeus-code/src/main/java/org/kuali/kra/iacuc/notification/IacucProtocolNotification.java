@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.notification;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -31,7 +31,7 @@ public class IacucProtocolNotification extends ProtocolNotification {
         super();
     }
 
-    public void persistOwningObject(KraPersistableBusinessObjectBase object) {
+    public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         IacucProtocol protocol = (IacucProtocol)object;
         this.setOwningDocumentIdFk(protocol.getLastProtocolAction().getProtocolActionId());
         protocol.getLastProtocolAction().addNotification(this);

@@ -16,7 +16,11 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.*;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
+import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
@@ -33,7 +37,7 @@ import java.util.List;
 /**
  * Encapsulates data and behavior of a Proposal Log.
  */
-public class ProposalLog extends KraPersistableBusinessObjectBase implements Negotiable { 
+public class ProposalLog extends KcPersistableBusinessObjectBase implements Negotiable {
     
     /** Log Status property name. */
     static final String LOG_STATUS = "logStatus";

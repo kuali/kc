@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.home;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class AwardMethodOfPayment extends KraPersistableBusinessObjectBase {
+public class AwardMethodOfPayment extends KcPersistableBusinessObjectBase {
 
     private String methodOfPaymentCode;
 

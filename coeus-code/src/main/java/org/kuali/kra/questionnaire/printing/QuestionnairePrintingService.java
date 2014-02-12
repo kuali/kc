@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.questionnaire.printing;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 
@@ -29,7 +29,7 @@ public interface QuestionnairePrintingService {
      * @param questionnairesToPrints
      * @return
      */
-    List<Printable> getQuestionnairePrintable(KraPersistableBusinessObjectBase printableBusinessObject, 
+    List<Printable> getQuestionnairePrintable(KcPersistableBusinessObjectBase printableBusinessObject,
             List<QuestionnairePrintOption> questionnairesToPrints);
 
 }

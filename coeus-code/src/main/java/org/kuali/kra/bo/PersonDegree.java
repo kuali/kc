@@ -16,13 +16,15 @@
 package org.kuali.kra.bo;
 
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 /**
  * Business Object representation of a PersonDegree. A <code>{@link Person}</code> may have many degrees. This represents the relationship
  * of a <code>{@link Person}</code> to a degree as well as the degree itself.
  * 
  * @see org.kuali.kra.bo.Person
  */
-public class PersonDegree extends KraPersistableBusinessObjectBase {
+public class PersonDegree extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 586782856382134862L;
 

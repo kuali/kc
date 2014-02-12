@@ -1,14 +1,14 @@
 package org.kuali.kra.award.printing.xmlstream;
 
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
 import org.kuali.kra.printing.schema.AwardType.AwardDetails;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.award.printing.AwardPrintType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 
@@ -17,7 +17,7 @@ import java.util.*;
 public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
 				.newInstance();

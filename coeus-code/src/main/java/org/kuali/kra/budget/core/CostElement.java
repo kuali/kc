@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.budget.core;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CostElement extends KraPersistableBusinessObjectBase implements Comparable, MutableInactivatable {
+public class CostElement extends KcPersistableBusinessObjectBase implements Comparable, MutableInactivatable {
 
     private String costElement;
 

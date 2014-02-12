@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public abstract class ProtocolSubmissionStatusBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolSubmissionStatusBase extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

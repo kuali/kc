@@ -17,15 +17,15 @@ package org.kuali.kra.common.committee.bo;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.CoiReviewType;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
-import org.kuali.coeus.sys.framework.util.DateUtils;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
                                       CD extends CommitteeDocumentBase<CD, CMT, CS>, 
                                       CS extends CommitteeScheduleBase<CS, CMT, ?, ?>> 
     
-                                      extends KraPersistableBusinessObjectBase  
+                                      extends KcPersistableBusinessObjectBase
                                       
                                       implements Comparable<CMT>, SequenceOwner<CMT>, Permissionable {
     private Long id;

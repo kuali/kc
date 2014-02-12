@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * This class...
  */
-public class InstitutionalProposalPersonUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<InstitutionalProposal> {
+public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<InstitutionalProposal> {
 
     /**
      * Comment for <code>serialVersionUID</code>

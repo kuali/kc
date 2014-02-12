@@ -15,27 +15,18 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.SponsorType;
-import org.kuali.kra.bo.Unit;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
+
+import javax.persistence.*;
 
 /**
  * Class representing a Sponsor Business Object
  */
 @Entity
 @Table(name = "SPONSOR")
-public class Sponsor extends KraPersistableBusinessObjectBase {
+public class Sponsor extends KcPersistableBusinessObjectBase {
 
     @PortableSequenceGenerator(name = "SEQ_SPONSOR_CODE")
     @GeneratedValue(generator = "SEQ_SPONSOR_CODE")

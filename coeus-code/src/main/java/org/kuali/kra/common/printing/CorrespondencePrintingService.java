@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.common.printing;
 
-import java.util.List;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
+
+import java.util.List;
 
 public interface CorrespondencePrintingService {
     /**
@@ -29,6 +29,6 @@ public interface CorrespondencePrintingService {
      * @param correspondenceToPrint List of selected Correspondences to print, in the form of {@code CorrespondencePrintOption}s
      * @return List of printable correspondences.
      */
-    public List<Printable> getCorrespondencePrintable(KraPersistableBusinessObjectBase printableBusinessObject, 
+    public List<Printable> getCorrespondencePrintable(KcPersistableBusinessObjectBase printableBusinessObject,
             List<CorrespondencePrintOption> correspondenceToPrint);
 }

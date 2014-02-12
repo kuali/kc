@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 
 import java.sql.Timestamp;
@@ -24,7 +24,7 @@ import java.sql.Timestamp;
  * 
  * This class is super class for meeting generated doc classes.
  */
-public abstract class GeneratedMeetingDocBase extends KraPersistableBusinessObjectBase {
+public abstract class GeneratedMeetingDocBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -5187758950400693662L;
 

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateClassType;
 import org.kuali.kra.budget.rates.RateType;
 
-public class ValidCalcType extends KraPersistableBusinessObjectBase {
+public class ValidCalcType extends KcPersistableBusinessObjectBase {
 
     private String calcTypeId;
 

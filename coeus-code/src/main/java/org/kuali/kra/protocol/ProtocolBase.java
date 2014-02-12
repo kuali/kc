@@ -17,11 +17,11 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
@@ -66,7 +66,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 
-public abstract class ProtocolBase extends KraPersistableBusinessObjectBase implements SequenceOwner<ProtocolBase>, Permissionable, UnitAclLoadable, Disclosurable, KcKrmsContextBo {
+public abstract class ProtocolBase extends KcPersistableBusinessObjectBase implements SequenceOwner<ProtocolBase>, Permissionable, UnitAclLoadable, Disclosurable, KcKrmsContextBo {
    
     private static final long serialVersionUID = -5556152547067349988L;
       
@@ -853,7 +853,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     
     
     
-    private void updateUserFields(KraPersistableBusinessObjectBase bo) {
+    private void updateUserFields(KcPersistableBusinessObjectBase bo) {
         bo.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         bo.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
     }

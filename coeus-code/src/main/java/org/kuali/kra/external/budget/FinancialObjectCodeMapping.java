@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.external.budget;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 
-public class FinancialObjectCodeMapping extends KraPersistableBusinessObjectBase {
+public class FinancialObjectCodeMapping extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

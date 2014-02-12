@@ -1,17 +1,16 @@
 package org.kuali.kra.printing.xmlstream;
 
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.award.customdata.AwardCustomData;
+import org.kuali.kra.common.printing.CurrentReportBean;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentReportCEColumnNames;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentSupport;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentSupport.CurrentReportCEColomnValues;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.customdata.AwardCustomData;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.printing.CurrentReportBean;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -20,7 +19,7 @@ import java.util.*;
 /**
  * This class generates XML that confirms with the XSD related to Current
  * Proposal Report. The data for XML is derived from
- * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  */
 public class CurrentProposalXmlStream extends CurrentAndPendingBaseStream {
@@ -29,7 +28,7 @@ public class CurrentProposalXmlStream extends CurrentAndPendingBaseStream {
     private ParameterService parameterService;
 	/**
 	 * This method generates XML for Current Proposal Report. It uses data
-	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
+	 * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -39,7 +38,7 @@ public class CurrentProposalXmlStream extends CurrentAndPendingBaseStream {
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		CurrentAndPendingSupportDocument currentAndPendingSupportDocument=CurrentAndPendingSupportDocument.Factory.newInstance();
 		CurrentAndPendingSupport currentAndPendingSupport = CurrentAndPendingSupport.Factory

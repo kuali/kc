@@ -17,9 +17,9 @@ package org.kuali.kra.award.home;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase {
+public class ValidBasisMethodPayment extends KcPersistableBusinessObjectBase {
 
     private static final Log LOG = LogFactory.getLog(ValidBasisMethodPayment.class);
 

@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 
 /**
  * Defines the mapping between a Special Review Type and a module to allow per-module customization of certain Special Review Types.
  */
-public class SpecialReviewUsage extends KraPersistableBusinessObjectBase implements MutableInactivatable {
+public class SpecialReviewUsage extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 1123437346869395158L;
 

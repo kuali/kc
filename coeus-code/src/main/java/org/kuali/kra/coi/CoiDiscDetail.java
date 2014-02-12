@@ -16,13 +16,13 @@
 package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
-public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements Comparable<CoiDiscDetail> { 
+public class CoiDiscDetail extends KcPersistableBusinessObjectBase implements Comparable<CoiDiscDetail> {
     
 
     private static final long serialVersionUID = 779054686380799255L;

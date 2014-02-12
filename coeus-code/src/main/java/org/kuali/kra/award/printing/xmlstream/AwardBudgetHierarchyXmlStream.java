@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.printing.AwardPrintType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.schema.AmountInfoType;
 import org.kuali.kra.printing.schema.AwardNoticeDocument;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
 import org.kuali.kra.printing.schema.AwardType;
 import org.kuali.kra.printing.schema.AwardType.AwardAmountInfo;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.printing.AwardPrintType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -34,7 +33,7 @@ import java.util.*;
 /**
  * This class generates XML that conforms with the XSD related to Award Budget
  * hierarchy Report. The data for XML is derived from
- * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  * @author
  * 
@@ -42,7 +41,7 @@ import java.util.*;
 public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	/**
 	 * This method generates XML for Award Budget Hierarchy Report. It uses data
-	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
+	 * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -52,7 +51,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
 		Award award = (Award) printableBusinessObject;
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory.newInstance();

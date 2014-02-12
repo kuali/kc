@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.service;
 
+import org.kuali.coeus.sys.framework.model.MultiLookupForm;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.document.KeywordsManager;
-import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 
 /**
  * This service is to handle the requests from Keywords panel
@@ -39,6 +39,6 @@ public interface KeywordsService<T> {
      */
     public void deleteKeyword(KeywordsManager<T> document);
     
-    public void addKeywords(KeywordsManager<T> document,MultiLookupFormBase multiLookUpForm);
+    public void addKeywords(KeywordsManager<T> document,MultiLookupForm multiLookUpForm);
     
 }

@@ -16,14 +16,14 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 
 /**
  * 
  * This class is to contain entity's contact info, mainly addresses.  This is kc only.
  */
-public class FinancialEntityContactInfo extends KraPersistableBusinessObjectBase {
+public class FinancialEntityContactInfo extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

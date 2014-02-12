@@ -16,11 +16,11 @@
 package org.kuali.kra.award.home;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
 
-public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObjectBase {
+public class AwardTemplateReportTermRecipient extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

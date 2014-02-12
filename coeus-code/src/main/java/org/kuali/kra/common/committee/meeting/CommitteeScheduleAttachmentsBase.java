@@ -20,9 +20,9 @@ package org.kuali.kra.common.committee.meeting;
  */
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcAttachment;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
@@ -34,7 +34,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class CommitteeScheduleAttachmentsBase extends KraPersistableBusinessObjectBase  implements KcAttachment  {
+public abstract class CommitteeScheduleAttachmentsBase extends KcPersistableBusinessObjectBase implements KcAttachment  {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,7 +27,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "SP_REV_APPROVAL_TYPE")
-public class SpecialReviewApprovalType extends KraPersistableBusinessObjectBase {
+public class SpecialReviewApprovalType extends KcPersistableBusinessObjectBase {
 
     /**
      * The type code for Approval Type 'Approved'.

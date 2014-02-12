@@ -17,8 +17,8 @@ package org.kuali.kra.coi.disclosure;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -42,7 +42,7 @@ public class CoiDisclEventProject implements Serializable {
      */
     private static final long serialVersionUID = 3373941718110328593L;
     private String eventType; 
-    private KraPersistableBusinessObjectBase eventProjectBo; 
+    private KcPersistableBusinessObjectBase eventProjectBo;
     private List<CoiDiscDetail> coiDiscDetails;
     private boolean disclosureFlag;
    
@@ -51,7 +51,7 @@ public class CoiDisclEventProject implements Serializable {
         
     }
     
-    public CoiDisclEventProject(String eventType, KraPersistableBusinessObjectBase eventProjectBo, List<CoiDiscDetail> coiDiscDetails) {
+    public CoiDisclEventProject(String eventType, KcPersistableBusinessObjectBase eventProjectBo, List<CoiDiscDetail> coiDiscDetails) {
         this.eventType = eventType;
         this.eventProjectBo = eventProjectBo;
         this.coiDiscDetails = coiDiscDetails;
@@ -63,10 +63,10 @@ public class CoiDisclEventProject implements Serializable {
     public void setEventType(String eventType) {
         this.eventType = eventType;
     }
-    public KraPersistableBusinessObjectBase getEventProjectBo() {
+    public KcPersistableBusinessObjectBase getEventProjectBo() {
         return eventProjectBo;
     }
-    public void setEventProjectBo(KraPersistableBusinessObjectBase eventProjectBo) {
+    public void setEventProjectBo(KcPersistableBusinessObjectBase eventProjectBo) {
         this.eventProjectBo = eventProjectBo;
     }
     public List<CoiDiscDetail> getCoiDiscDetails() {

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.coi;
 
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
@@ -49,7 +49,7 @@ public class CoiDisclosureFactBuilderServiceImpl extends KcKrmsFactBuilderServic
         }
     }
     
-    public void addFacts(Builder factsBuilder, ResearchDocumentBase document){
+    public void addFacts(Builder factsBuilder, KcTransactionalDocumentBase document){
         CoiDisclosureDocument disclosureDocument = (CoiDisclosureDocument)document;
         CoiDisclosure coiDisclosure = disclosureDocument.getCoiDisclosure();
         addObjectMembersAsFacts(factsBuilder,coiDisclosure,KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE_CONTEXT_ID,Constants.MODULE_NAMESPACE_COIDISCLOSURE);
