@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Encapsulates the Save Questionnaire Answer event.
  */
-public class SaveQuestionnaireAnswerEvent extends KraDocumentEventBaseExtension {
+public class SaveQuestionnaireAnswerEvent extends KcDocumentEventBaseExtension {
 
     private List<AnswerHeader> answerHeaders;
     private String formProperty = "questionnaireHelper";

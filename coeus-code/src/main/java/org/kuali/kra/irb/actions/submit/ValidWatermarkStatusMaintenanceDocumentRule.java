@@ -16,10 +16,10 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.bo.Watermark;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -34,7 +34,7 @@ import java.util.Map;
  * 
  * This class is the maintenance document rule for valid status code for watermark table.
  */
-public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class ValidWatermarkStatusMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
 
     /**
      * 

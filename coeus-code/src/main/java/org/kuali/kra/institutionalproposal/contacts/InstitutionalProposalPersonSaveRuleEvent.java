@@ -17,8 +17,8 @@ package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * This class...
  */
-public class InstitutionalProposalPersonSaveRuleEvent extends KraDocumentEventBase {
+public class InstitutionalProposalPersonSaveRuleEvent extends KcDocumentEventBase {
 
 private static final Log LOG = LogFactory.getLog(InstitutionalProposalPersonSaveRuleEvent.class);
     

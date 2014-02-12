@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -29,8 +30,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
 import org.kuali.kra.proposaldevelopment.rule.BudgetDataOverrideRule;
 import org.kuali.kra.proposaldevelopment.rule.event.BudgetDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.KraPersistenceStructureService;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -47,7 +47,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class ProposalBudgetDataOverrideRule extends ResearchDocumentRuleBase implements BudgetDataOverrideRule {
+public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleBase implements BudgetDataOverrideRule {
 
     private static Map<String, String> validationClasses = new HashMap<String, String>();
     private static final String DATE = "DATE";
@@ -60,7 +60,7 @@ public class ProposalBudgetDataOverrideRule extends ResearchDocumentRuleBase imp
         boolean valid = true;
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KNSServiceLocator.getDataDictionaryService();
         String overriddenValue = budgetOverriddenData.getChangedValue();
-        KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
+        KcPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KcPersistenceStructureService.class);
         Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(BudgetVersionOverview.class);
         String overriddenName = dataDictionaryService.getAttributeErrorLabel(Budget.class, columnToAttributesMap.get(budgetOverriddenData.getColumnName()));
         Boolean isRequiredField = dataDictionaryService.isAttributeRequired(Budget.class, columnToAttributesMap.get(budgetOverriddenData.getColumnName()));

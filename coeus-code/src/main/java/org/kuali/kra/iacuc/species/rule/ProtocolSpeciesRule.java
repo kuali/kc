@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.species.rule;
 
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -24,7 +24,7 @@ import org.kuali.rice.krad.util.MessageMap;
  * This class is implementation of <code>AddProtocolSpeciesRule</code> interface. Impl makes sure necessary rules are satisfied 
  * before object can be used.
  */
-public class ProtocolSpeciesRule extends ResearchDocumentRuleBase implements AddProtocolSpeciesRule {
+public class ProtocolSpeciesRule extends KcTransactionalDocumentRuleBase implements AddProtocolSpeciesRule {
     private static final String NEW_PROTOCOL_SPECIES_PATH = "iacucProtocolSpeciesHelper.newIacucProtocolSpecies";
 
     /**

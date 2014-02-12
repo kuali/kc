@@ -19,12 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.rule.ResubmissionPromptRule;
 import org.kuali.kra.proposaldevelopment.rule.event.ResubmissionRuleEvent;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * Implements {@code ResubmissionPromptRule}.
  */
-public class ProposalDevelopmentResubmissionPromptRule extends ResearchDocumentRuleBase implements ResubmissionPromptRule {
+public class ProposalDevelopmentResubmissionPromptRule extends KcTransactionalDocumentRuleBase implements ResubmissionPromptRule {
 
     private static final String REBUSMISSION_OPTION = "resubmissionOption";
     

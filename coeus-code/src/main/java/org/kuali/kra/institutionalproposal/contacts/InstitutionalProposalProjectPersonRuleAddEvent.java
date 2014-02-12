@@ -17,15 +17,15 @@ package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.award.contacts.AwardProjectPersonRuleAddEvent;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class...
  */
-public class InstitutionalProposalProjectPersonRuleAddEvent extends KraDocumentEventBase {
+public class InstitutionalProposalProjectPersonRuleAddEvent extends KcDocumentEventBase {
 
 private static final Log LOG = LogFactory.getLog(AwardProjectPersonRuleAddEvent.class);
     

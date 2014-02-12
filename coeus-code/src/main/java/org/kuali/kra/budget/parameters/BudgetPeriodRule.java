@@ -27,7 +27,9 @@ import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.BudgetSummaryErrorConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -38,7 +40,7 @@ import java.util.List;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule{
+public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule{
     private static final Log LOG = LogFactory.getLog(BudgetPeriodRule.class);
 
     private static final String NEW_BUDGET_PERIOD = "newBudgetPeriod";
@@ -48,7 +50,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     private Date previousPeriodEndDate;
     private String[] errorParameter;
     private BudgetDocument budgetDocument;
-
+    private ParameterService parameterService;
     /**
      * 
      * @see org.kuali.kra.budget.parameters.AddBudgetPeriodRule#processAddBudgetPeriodBusinessRules(org.kuali.kra.budget.parameters.AddBudgetPeriodEvent)
@@ -488,6 +490,13 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             }
         }
         return retVal;
+    }
+
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
     }
 }
 

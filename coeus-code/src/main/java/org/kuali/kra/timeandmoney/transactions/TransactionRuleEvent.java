@@ -17,14 +17,14 @@ package org.kuali.kra.timeandmoney.transactions;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This the AwardPaymentScheduleRuleEvent
  */
-public class TransactionRuleEvent extends KraDocumentEventBase {
+public class TransactionRuleEvent extends KcDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(TransactionRuleEvent.class);
     
     private PendingTransaction pendingTransactionItem;
@@ -53,7 +53,7 @@ public class TransactionRuleEvent extends KraDocumentEventBase {
     }   
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

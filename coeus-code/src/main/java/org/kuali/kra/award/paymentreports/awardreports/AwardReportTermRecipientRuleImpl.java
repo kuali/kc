@@ -18,7 +18,7 @@ package org.kuali.kra.award.paymentreports.awardreports;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -27,7 +27,7 @@ import java.util.*;
 /**
  * The AwardPaymentScheduleRuleImpl
  */
-public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase 
+public class AwardReportTermRecipientRuleImpl extends KcTransactionalDocumentRuleBase
                                             implements AwardReportTermRecipientRule {
     
     private static final String AWARD_REPORT_TERM_RECIPIENT_CONTACT_ID_PROPERTY = "contactId";

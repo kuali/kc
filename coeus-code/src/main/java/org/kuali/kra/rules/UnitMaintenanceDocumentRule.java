@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -24,7 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
 
-public class UnitMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class UnitMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
      
     /**

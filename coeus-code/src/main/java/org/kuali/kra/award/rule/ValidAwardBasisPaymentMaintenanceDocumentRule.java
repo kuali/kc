@@ -16,12 +16,12 @@
 package org.kuali.kra.award.rule;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.award.home.AwardBasisOfPayment;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -35,7 +35,7 @@ import java.util.Map;
  * 
  * This class is check the uniqueness of award type code and basis of payment code.
  */
-public class ValidAwardBasisPaymentMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class ValidAwardBasisPaymentMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
 
     /**
      * 

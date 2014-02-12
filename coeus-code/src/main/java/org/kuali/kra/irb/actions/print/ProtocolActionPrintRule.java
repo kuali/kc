@@ -16,10 +16,10 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
-public class ProtocolActionPrintRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolActionPrintEvent> {
+public class ProtocolActionPrintRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<ProtocolActionPrintEvent> {
     private static final String PROTOCOL_PRINT_TYPE_FIELD = "actionHelper.reportType";
 
     public boolean processRules(ProtocolActionPrintEvent event) {

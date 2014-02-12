@@ -19,13 +19,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validate the assignment of a protocol to a agenda.
  */
-public class ProtocolAdminCorrectionRule extends ResearchDocumentRuleBase implements ExecuteProtocolAdminCorrectionRule {
+public class ProtocolAdminCorrectionRule extends KcTransactionalDocumentRuleBase implements ExecuteProtocolAdminCorrectionRule {
    
     public boolean processAdminCorrectionRule(ProtocolDocument document, AdminCorrectionBean actionBean) {
         boolean valid = true;

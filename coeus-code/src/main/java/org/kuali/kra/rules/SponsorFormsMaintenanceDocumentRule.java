@@ -16,6 +16,7 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.bo.SponsorForms;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -24,7 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class overrides the custom route and custom approve methods of the MaintenanceDocument processing to check the length of the
  * sponsor code and return a more informative error message than the Rice message if the length constraint is violated.
  */
-public class SponsorFormsMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
     /**
      * Constructs a SponsorMaintenanceDocumentRule.java.

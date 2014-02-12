@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.config;
 
-import org.kuali.kra.common.config.KcConfigurer;
+import org.kuali.coeus.sys.framework.config.KcConfigurer;
 import org.kuali.rice.core.api.config.module.RunMode;
 
 import java.util.ArrayList;

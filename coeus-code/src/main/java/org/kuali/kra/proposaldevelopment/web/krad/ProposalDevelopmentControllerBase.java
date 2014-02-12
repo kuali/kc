@@ -23,7 +23,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.service.KcAuthorizationService;
-import org.kuali.kra.web.krad.TransactionalDocumentControllerService;
+import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.document.DocumentBase;

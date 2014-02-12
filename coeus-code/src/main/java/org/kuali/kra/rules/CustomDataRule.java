@@ -16,12 +16,13 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.service.KcPersonService;
@@ -38,7 +39,7 @@ import java.util.*;
 /**
  * Validates the rules for a Custom Attribute save action.
  */
-public class CustomDataRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveCustomDataEvent> {
+public class CustomDataRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<SaveCustomDataEvent> {
 
     private static final String STRING = "String";
     private static final String DATE = "Date";
@@ -70,7 +71,7 @@ public class CustomDataRule extends ResearchDocumentRuleBase implements Business
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(SaveCustomDataEvent event) {
         boolean rulePassed = true;

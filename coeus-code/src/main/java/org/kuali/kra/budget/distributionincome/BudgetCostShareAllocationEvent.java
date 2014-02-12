@@ -17,11 +17,11 @@ package org.kuali.kra.budget.distributionincome;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class BudgetCostShareAllocationEvent extends KraDocumentEventBase {
+public class BudgetCostShareAllocationEvent extends KcDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(BudgetCostShareAllocationEvent.class);
     
     public BudgetCostShareAllocationEvent(String description, String errorPathPrefix, BudgetDocument document) {

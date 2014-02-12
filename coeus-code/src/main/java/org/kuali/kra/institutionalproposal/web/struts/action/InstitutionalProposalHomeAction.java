@@ -460,7 +460,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     }
     /**
      * Gets the parameter service.
-     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#getParameterService()
+     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#getParameterService()
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null ) {

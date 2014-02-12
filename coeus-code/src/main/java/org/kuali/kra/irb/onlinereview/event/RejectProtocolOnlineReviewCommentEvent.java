@@ -17,12 +17,12 @@ package org.kuali.kra.irb.onlinereview.event;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.rules.RejectOnlineReviewCommentRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class RejectProtocolOnlineReviewCommentEvent extends KraDocumentEventBase {
+public class RejectProtocolOnlineReviewCommentEvent extends KcDocumentEventBase {
     
     private static final Log LOG = LogFactory.getLog(RejectProtocolOnlineReviewCommentEvent.class);
     private String reason = null;

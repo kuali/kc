@@ -71,11 +71,7 @@ public final class KraServiceLocator {
         
         try {
             return (T) getAppContext().getBean(serviceName);
-        } catch (NoSuchBeanDefinitionException e) {
-            // If we don't find this service locally, look for it in the Rice context
-            return (T)GlobalResourceLoader.<T>getService(serviceName);
         } catch (Exception ex) {
-            //ex.printStackTrace();
             return (T)GlobalResourceLoader.<T>getService(serviceName);
         }
     }
@@ -90,7 +86,7 @@ public final class KraServiceLocator {
      * <p>
      * The service name and the service interface name are the same when converted to lowercase.
      * Again, this method should only be used in the special case where this convention applies.
-     * On KRA, this is usually the case.
+     * On KC, this is usually the case.
      * </p>
      * 
      * @param serviceClass Interface class of the service you want
@@ -107,7 +103,6 @@ public final class KraServiceLocator {
         final String name = serviceClass.getSimpleName().substring(0, 1).toLowerCase()
             + serviceClass.getSimpleName().substring(1);
 
-        //cannot use type inference for T here or continuum fails to compile under sun's jdk 1.5.0.8
         return KraServiceLocator.<T>getService(name);
     }
 

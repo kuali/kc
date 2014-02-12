@@ -32,7 +32,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.CollectionUtils;
 
@@ -43,7 +43,7 @@ import java.util.*;
  * This class validates all rules associated with SpecialReview.
  * @param <T> Special Review
  */
-public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialReviewExemption>> extends ResearchDocumentRuleBase {
+public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialReviewExemption>> extends KcTransactionalDocumentRuleBase {
     
     private static final String TYPE_CODE_FIELD = "specialReviewTypeCode";
     private static final String APPROVAL_TYPE_CODE_FIELD = "approvalTypeCode";

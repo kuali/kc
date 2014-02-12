@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
@@ -26,7 +27,7 @@ import java.util.Map;
 /**
  * This rule validates the Approval Type Code and Special Review Code fields on a Valid Special Review Approval document.
  */
-public class ValidSpecialReviewApprovalMaintenanceRule extends KraMaintenanceDocumentRuleBase {
+public class ValidSpecialReviewApprovalMaintenanceRule extends KcMaintenanceDocumentRuleBase {
     
     private static final String SPECIAL_REVIEW_TYPE_CODE = "specialReviewTypeCode";
     private static final String SPECIAL_REVIEW_TYPE_TITLE = "Special Review Type Code";

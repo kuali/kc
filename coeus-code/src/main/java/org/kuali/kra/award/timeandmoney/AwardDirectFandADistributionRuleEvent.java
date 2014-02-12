@@ -17,7 +17,7 @@ package org.kuali.kra.award.timeandmoney;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * This class represents the rule event for Award Direct F and A Distribution tab.
  */
-public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase {
+public class AwardDirectFandADistributionRuleEvent extends KcDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(AwardDirectFandADistributionRuleEvent.class);
     private static final String DIRECT_FNA_DISTRIBUTION = "Direct F and A Distribution";
@@ -86,7 +86,7 @@ public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase 
     
     
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

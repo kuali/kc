@@ -27,7 +27,7 @@ import org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.SavePersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -40,7 +40,7 @@ import java.util.Map;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule {
+public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule {
     public static final String OTHER_DOCUMENT_TYPE_DESCRIPTION = "Other";
     
     private static final String DOC_TYPE_DESCRIPTION = "description";
@@ -180,7 +180,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
     }
     /**
      * Gets the parameter service.
-     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#getParameterService()
+     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#getParameterService()
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null ) {

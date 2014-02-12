@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
@@ -35,7 +35,7 @@ public class BudgetColumnsValuesFinder extends UifKeyValuesFinderBase {
     public List<KeyValue> getKeyValues() {
         BusinessObjectEntry proposalEntry = 
             (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Budget.class.getName());
-        KraPersistenceStructureService persistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
+        KcPersistenceStructureService persistenceStructureService = KraServiceLocator.getService(KcPersistenceStructureService.class);
         Map<String, String> attrToColumnMap = persistenceStructureService.getPersistableAttributesColumnMap(Budget.class);        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (AttributeDefinition entry : proposalEntry.getAttributes()) {

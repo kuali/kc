@@ -20,7 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -30,14 +30,14 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ProtocolResearchAreaAuditRuleBase extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public abstract class ProtocolResearchAreaAuditRuleBase extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
     
     private static final String ADDITIONAL_INFORMATION_AUDIT_ERRORS = "additionalInformationAuditErrors";
     
     private List<AuditError> auditErrors;
     
     /**
-     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
+     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean isValid = true;

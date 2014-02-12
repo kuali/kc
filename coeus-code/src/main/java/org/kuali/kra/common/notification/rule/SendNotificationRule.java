@@ -18,15 +18,15 @@ package org.kuali.kra.common.notification.rule;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.List;
 
 /**
  * Runs the rule processing for saving a Notification.
  */
-public class SendNotificationRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SendNotificationEvent> {
+public class SendNotificationRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<SendNotificationEvent> {
     
     private static final String FULL_NAME_FIELD = "fullName";
     

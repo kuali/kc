@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.actions.approve;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * Encapsulates the event that the protocol Administrator approves a protocol.
  */
-public abstract class ProtocolApproveEventBase extends KraDocumentEventBaseExtension {
+public abstract class ProtocolApproveEventBase extends KcDocumentEventBaseExtension {
         
     private ProtocolApproveBean protocolApproveBean;
     

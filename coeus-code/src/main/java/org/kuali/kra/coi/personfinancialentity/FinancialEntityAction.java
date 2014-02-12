@@ -19,7 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
@@ -34,8 +36,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -186,7 +186,7 @@ public class FinancialEntityAction extends KualiAction {
      * @param event
      * @return
      */
-    protected boolean checkRule(KraDocumentEventBaseExtension event) {
+    protected boolean checkRule(KcDocumentEventBaseExtension event) {
         return event.getRule().processRules(event);
     }
 
@@ -285,7 +285,7 @@ public class FinancialEntityAction extends KualiAction {
     protected String buildForwardUrl(String routeHeaderId) {
         // TODO : this is a copy from KraTransactionalDocumentActionBase.
         // investigate if it can be shared
-        ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
+        DocHandlerService researchDocumentService = KraServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
  //       forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {

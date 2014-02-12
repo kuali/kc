@@ -17,7 +17,9 @@ package org.kuali.kra.irb.protocol.participant;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
@@ -27,12 +29,12 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class ProtocolParticipantRuleBase extends ResearchDocumentRuleBase {
+public class ProtocolParticipantRuleBase extends KcTransactionalDocumentRuleBase {
     
     private static final String DOT = ".";
     
     private static final String PARTICIPANT_TYPE_CODE_FIELD = "participantTypeCode";
-    
+    private DictionaryValidationService dictionaryValidationService;
     /**
      * ProcessDefinitionDefinitionDefinition the validation rules for an <code>{@link AddProtocolParticipantEvent}</code>
      * Participants with an invalid participant type code, duplicate participants (i.e. same
@@ -69,6 +71,13 @@ public class ProtocolParticipantRuleBase extends ResearchDocumentRuleBase {
         }
         
         return isValid;
+    }
+
+    protected DictionaryValidationService getKnsDictionaryValidationService() {
+        if (this.dictionaryValidationService == null) {
+            this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
+        }
+        return this.dictionaryValidationService;
     }
 
 }

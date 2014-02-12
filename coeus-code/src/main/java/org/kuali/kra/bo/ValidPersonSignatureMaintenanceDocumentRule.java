@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ValidPersonSignatureMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class ValidPersonSignatureMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     private static final String PERSON_SIGNATURE_FILE_INVALID_ERROR_KEY = "error.invalid.personSignature.invalid.fileName";
     private static final String PERSON_SIGNATURE_ID_INVALID_ERROR_KEY = "error.invalid.personSignature.invalid.personSignatureId";
 

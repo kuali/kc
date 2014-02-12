@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
-public class ProtocolActionPrintEvent<T extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
+public class ProtocolActionPrintEvent<T extends BusinessRuleInterface> extends KcDocumentEventBaseExtension {
 
     private Boolean summaryReport;
     private Boolean fullReport;

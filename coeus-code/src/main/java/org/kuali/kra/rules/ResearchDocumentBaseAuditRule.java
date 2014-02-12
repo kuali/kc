@@ -26,9 +26,6 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
  */
 public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
 
-    /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
 

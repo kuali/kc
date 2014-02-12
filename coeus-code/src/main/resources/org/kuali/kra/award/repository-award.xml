@@ -1412,7 +1412,7 @@
 		<collection-descriptor name="changeLogs" proxy="true" element-class-ref="org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="awardSyncStatusId"/>
 			<query-customizer
-      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+      			class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
 	          <attribute
 	              attribute-name="logTypeCode"
 	              attribute-value="CL"
@@ -1422,7 +1422,7 @@
 		<collection-descriptor name="validationLogs" proxy="true" element-class-ref="org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="awardSyncStatusId"/>
 			<query-customizer
-      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+      			class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
 	          <attribute
 	              attribute-name="logTypeCode"
 	              attribute-value="VM"

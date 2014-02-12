@@ -17,14 +17,14 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 
 /**
  * 
  * This class manages the rules for rejecting a proposal development.
  */
-public class ProposalDevelopmentRejectionRule extends ResearchDocumentRuleBase {
+public class ProposalDevelopmentRejectionRule extends KcTransactionalDocumentRuleBase {
     
     /**
      * 

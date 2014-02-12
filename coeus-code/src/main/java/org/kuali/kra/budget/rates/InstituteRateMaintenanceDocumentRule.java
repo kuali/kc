@@ -16,13 +16,13 @@
 package org.kuali.kra.budget.rates;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * Rule class for the InstituteRateMaintenanceDocument.
  */
-public class InstituteRateMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class InstituteRateMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
     private final InstituteRateRateTypeRateClassRule rule;
     

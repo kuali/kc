@@ -22,7 +22,7 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent;
@@ -37,7 +37,7 @@ import java.util.Map.Entry;
 /**
  * This class...
  */
-public class TimeAndMoneyAwardAmountTransactionRuleImpl extends ResearchDocumentRuleBase implements
+public class TimeAndMoneyAwardAmountTransactionRuleImpl extends KcTransactionalDocumentRuleBase implements
         TimeAndMoneyAwardAmountTransactionRule {
     
     private static final String NEW_AWARD_AMOUNT_TRANSACTION = "newAwardAmountTransaction";

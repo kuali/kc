@@ -20,7 +20,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -29,7 +29,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentCopyRule extends ResearchDocumentRuleBase implements CopyProposalRule {
+public class ProposalDevelopmentCopyRule extends KcTransactionalDocumentRuleBase implements CopyProposalRule {
 
     /**
      * TODO: fill this in

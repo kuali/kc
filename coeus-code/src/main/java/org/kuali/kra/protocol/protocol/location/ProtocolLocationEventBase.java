@@ -16,11 +16,11 @@
 package org.kuali.kra.protocol.protocol.location;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public abstract class ProtocolLocationEventBase extends KraDocumentEventBase implements ProtocolLocationEvent {
+public abstract class ProtocolLocationEventBase extends KcDocumentEventBase implements ProtocolLocationEvent {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(ProtocolLocationEventBase.class);
