@@ -17,7 +17,7 @@ package org.kuali.kra.irb.personnel;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelRuleBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Runs the rule processing for adding a <code>ProtocolPerson</code>.
@@ -26,7 +26,7 @@ public class AddProtocolPersonnelRule extends ProtocolPersonnelRuleBase implemen
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(AddProtocolPersonnelEvent event) {
         return processAddProtocolPersonnelEvent(event);

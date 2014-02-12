@@ -25,7 +25,7 @@ import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.document.Document;
 
@@ -37,7 +37,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public abstract class PermissionsRuleBase extends ResearchDocumentRuleBase implements PermissionsRule {
+public abstract class PermissionsRuleBase extends KcTransactionalDocumentRuleBase implements PermissionsRule {
     
     private static final String USERNAME_FIELD_NAME = "userName";
     private transient KcPersonService kcPersonService;

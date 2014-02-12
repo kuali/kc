@@ -17,15 +17,15 @@ package org.kuali.kra.common.committee.meeting;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * 
  * This class implements the business to check when moving member absent to present voting or present other.
  */
-public class MeetingPresentOtherOrVotingRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<MeetingPresentOtherOrVotingEvent> {
+public class MeetingPresentOtherOrVotingRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<MeetingPresentOtherOrVotingEvent> {
 
 
     private ErrorReporter errorReporter;

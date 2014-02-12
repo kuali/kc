@@ -28,7 +28,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;

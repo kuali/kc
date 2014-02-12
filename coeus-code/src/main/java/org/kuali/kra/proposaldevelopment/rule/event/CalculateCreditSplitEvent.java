@@ -18,14 +18,14 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
+public class CalculateCreditSplitEvent  extends KcDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(CalculateCreditSplitEvent.class);
 
@@ -34,7 +34,7 @@ public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
      * 
      * @param errorPathPrefix
      * @param document
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#KcDocumentEventBase(String, String, Document)
      */
     public CalculateCreditSplitEvent(String errorPathPrefix, ProposalDevelopmentDocument document) {
         super("Saving personnel on document " + getDocumentId(document), errorPathPrefix, document);

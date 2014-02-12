@@ -17,7 +17,7 @@ package org.kuali.kra.coi.notesandattachments;
 
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 

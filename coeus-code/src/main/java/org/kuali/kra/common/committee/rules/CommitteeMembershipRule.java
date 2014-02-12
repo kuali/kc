@@ -24,7 +24,7 @@ import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.common.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.common.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.sql.Date;
 import java.util.List;
@@ -35,7 +35,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class CommitteeMembershipRule extends ResearchDocumentRuleBase 
+public class CommitteeMembershipRule extends KcTransactionalDocumentRuleBase
                                      implements AddCommitteeMembershipRule,
                                                 AddCommitteeMembershipRoleRule {
 

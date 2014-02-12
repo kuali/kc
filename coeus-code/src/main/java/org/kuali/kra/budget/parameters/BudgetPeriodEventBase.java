@@ -16,11 +16,11 @@
 package org.kuali.kra.budget.parameters;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 
-public abstract class BudgetPeriodEventBase extends KraDocumentEventBase implements BudgetPeriodEvent {
+public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implements BudgetPeriodEvent {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
     .getLog(BudgetPeriodEventBase.class);
@@ -29,7 +29,7 @@ public abstract class BudgetPeriodEventBase extends KraDocumentEventBase impleme
     private int budgetPeriodNumber;
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#KcDocumentEventBase(String, String, Document)
      */
     protected BudgetPeriodEventBase(String description, String errorPathPrefix, BudgetDocument document,
             BudgetPeriod budgetPeriod) {
@@ -43,7 +43,7 @@ public abstract class BudgetPeriodEventBase extends KraDocumentEventBase impleme
     }
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#KcDocumentEventBase(String, String, Document)
      */
     protected BudgetPeriodEventBase(String description, String errorPathPrefix, BudgetDocument document,
             int budgetPeriodNumber) {
@@ -57,7 +57,7 @@ public abstract class BudgetPeriodEventBase extends KraDocumentEventBase impleme
     }
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#KcDocumentEventBase(String, String, Document)
      */
     protected BudgetPeriodEventBase(String description, String errorPathPrefix, BudgetDocument document) {
         super(description, errorPathPrefix, document);

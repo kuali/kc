@@ -16,20 +16,20 @@
 package org.kuali.kra.irb.actions.grantexemption;
 
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * Encapsulates the rules for granting an exemption on a Protocol.
  */
-public class ProtocolGrantExemptionRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolGrantExemptionEvent> {
+public class ProtocolGrantExemptionRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<ProtocolGrantExemptionEvent> {
     
     private static final String APPROVAL_DATE_FIELD = "approvalDate";
     private static final String ACTION_DATE_FIELD = "actionDate";
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(ProtocolGrantExemptionEvent event) {
         boolean isValid = true;

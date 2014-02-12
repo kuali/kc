@@ -17,7 +17,7 @@ package org.kuali.kra.iacuc.actions.assignagenda;
 
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaEventBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * The event that occurs when the IRB Administrator assigns a protocol to an agenda.

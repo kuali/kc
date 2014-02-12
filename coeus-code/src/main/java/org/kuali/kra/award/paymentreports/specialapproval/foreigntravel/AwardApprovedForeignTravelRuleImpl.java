@@ -16,7 +16,7 @@
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * The AwardApprovedEquipmentRuleImpl
  */
-public class AwardApprovedForeignTravelRuleImpl extends ResearchDocumentRuleBase 
+public class AwardApprovedForeignTravelRuleImpl extends KcTransactionalDocumentRuleBase
                                             implements AwardApprovedForeignTravelRule {
     
     private static final String NEW_TRAVEL_BASE = "approvedForeignTravelBean.newApprovedForeignTravel.";

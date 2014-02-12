@@ -19,7 +19,7 @@ import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.rules.SpecialReviewRuleBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Runs the rule processing for saving the Special Review links to the Protocol Funding Sources.
@@ -30,7 +30,7 @@ public class SaveSpecialReviewLinkRule<T extends SpecialReview<? extends Special
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(SaveSpecialReviewLinkEvent<T> event) {
         return processSaveSpecialReviewLinkEvent(event);

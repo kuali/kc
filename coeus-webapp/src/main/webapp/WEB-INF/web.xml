@@ -181,11 +181,11 @@
     <!-- ******************* End Logging Filters ********************* -->
 
     <listener>
-        <listener-class>org.kuali.kra.infrastructure.KraServiceLocatorListener</listener-class>
+        <listener-class>org.kuali.coeus.sys.framework.service.KcServiceLocatorListener</listener-class>
     </listener>
 
     <listener>
-        <listener-class>org.kuali.kra.web.listener.SessionLoggingListener</listener-class>
+        <listener-class>org.kuali.coeus.sys.framework.listener.SessionLoggingListener</listener-class>
     </listener>
 
     <!-- Rice content Start -->
@@ -314,7 +314,7 @@
     <!-- Notification System Spring MVC UI -->
     <servlet>
         <servlet-name>notification</servlet-name>
-        <servlet-class>org.kuali.kra.rice.ConditionalInitDispatcherServlet</servlet-class>
+        <servlet-class>org.kuali.coeus.sys.framework.controller.ConditionalInitDispatcherServlet</servlet-class>
         <init-param>
             <param-name>initConfigPropertyName</param-name>
             <param-value>ken.mode</param-value>
@@ -338,7 +338,7 @@
     </servlet>
     <servlet>
         <servlet-name>kcb</servlet-name>
-        <servlet-class>org.kuali.kra.rice.ConditionalInitDispatcherServlet</servlet-class>
+        <servlet-class>org.kuali.coeus.sys.framework.controller.ConditionalInitDispatcherServlet</servlet-class>
         <init-param>
             <param-name>initConfigPropertyName</param-name>
             <param-value>kcb.mode</param-value>

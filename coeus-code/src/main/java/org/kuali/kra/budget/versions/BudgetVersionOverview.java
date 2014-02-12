@@ -19,7 +19,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.BudgetDecimalConverter;
 import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;

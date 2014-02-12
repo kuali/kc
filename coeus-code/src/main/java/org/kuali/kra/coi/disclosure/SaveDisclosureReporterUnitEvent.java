@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.coi.DisclosureReporterUnit;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 import java.util.List;
 
-public class SaveDisclosureReporterUnitEvent  extends KraDocumentEventBaseExtension {
+public class SaveDisclosureReporterUnitEvent  extends KcDocumentEventBaseExtension {
     
     private String propertyName;
     private List<? extends DisclosureReporterUnit> disclosureReporterUnits;

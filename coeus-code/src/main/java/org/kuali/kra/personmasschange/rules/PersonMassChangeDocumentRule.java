@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.personmasschange.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.personmasschange.rule.event.PerformPersonMassChangeEvent;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.document.Document;
 
-public class PersonMassChangeDocumentRule extends ResearchDocumentRuleBase {
+public class PersonMassChangeDocumentRule extends KcTransactionalDocumentRuleBase {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -49,7 +49,7 @@ public class PersonMassChangeDocumentRule extends ResearchDocumentRuleBase {
     }
     
     @SuppressWarnings("unchecked")
-    private boolean processRules(KraDocumentEventBaseExtension event) {
+    private boolean processRules(KcDocumentEventBaseExtension event) {
         return event.getRule().processRules(event);
     }
     

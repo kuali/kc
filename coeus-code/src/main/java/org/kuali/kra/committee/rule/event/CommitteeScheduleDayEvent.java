@@ -19,7 +19,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rules.CommitteeScheduleDayRule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;

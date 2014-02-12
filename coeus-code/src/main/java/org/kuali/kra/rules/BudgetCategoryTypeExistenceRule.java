@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -22,7 +23,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BudgetCategoryTypeExistenceRule extends KraMaintenanceDocumentRuleBase {
+public class BudgetCategoryTypeExistenceRule extends KcMaintenanceDocumentRuleBase {
     
     /**
      * Constructs a BudgetCategoryTypeExistenceRule.java.

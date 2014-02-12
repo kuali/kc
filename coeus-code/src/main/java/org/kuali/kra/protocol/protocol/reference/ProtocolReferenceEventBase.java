@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.protocol.reference;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
  * This class is abstract base class for Event Notification
  */
-public abstract class ProtocolReferenceEventBase extends KraDocumentEventBase implements ProtocolReferenceEvent {
+public abstract class ProtocolReferenceEventBase extends KcDocumentEventBase implements ProtocolReferenceEvent {
     
     private ProtocolReferenceBeanBase protocolReferenceBean;
     
@@ -31,7 +31,7 @@ public abstract class ProtocolReferenceEventBase extends KraDocumentEventBase im
     }
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

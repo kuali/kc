@@ -19,7 +19,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 
 public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
 

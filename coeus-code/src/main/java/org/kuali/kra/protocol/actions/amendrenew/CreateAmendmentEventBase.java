@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * When an amendment is created, this event is generated.
  */
 @SuppressWarnings("unchecked")
-public abstract class CreateAmendmentEventBase extends KraDocumentEventBaseExtension {
+public abstract class CreateAmendmentEventBase extends KcDocumentEventBaseExtension {
 
     private ProtocolAmendmentBean amendmentBean;
     private String propertyName;

@@ -140,8 +140,8 @@
         <property name="serviceName" value="kcDocumentRejectionService" />
     </bean>
     
-    <bean id="kraPersistenceStructureService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kraPersistenceStructureService" />
+    <bean id="kcPersistenceStructureService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcPersistenceStructureService" />
     </bean>
     
     <bean id="kcPersonService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -291,7 +291,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
         <property name="dataObjectService" ref="dataObjectService" />
 		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
-		<property name="kraPersistenceStructureService" ref="kraPersistenceStructureService" />
+		<property name="kraPersistenceStructureService" ref="kcPersistenceStructureService" />
 		<property name="budgetService" ref="budgetService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="versionHistoryService" ref="versionHistoryService" />

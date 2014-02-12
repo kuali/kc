@@ -23,12 +23,13 @@ import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -37,9 +38,11 @@ import java.sql.Date;
 import java.util.Map.Entry;
 
 
-public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase implements TimeAndMoneyAwardDateSaveRule {
+public class TimeAndMoneyAwardDateSaveRuleImpl extends KcTransactionalDocumentRuleBase implements TimeAndMoneyAwardDateSaveRule {
 
     private static final String AWARD_EFFECTIVE_DATE_PROPERTY = "document.awardList[0].awardEffectiveDate";
+
+    private ParameterService parameterService;
 
     public boolean processSaveAwardDatesBusinessRules(TimeAndMoneyAwardDateSaveEvent timeAndMoneyAwardDateSaveEvent) {
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) timeAndMoneyAwardDateSaveEvent.getDocument();
@@ -142,5 +145,12 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
             valid = false;
         }
         return valid;
+    }
+
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
     }
 }

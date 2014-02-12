@@ -23,11 +23,10 @@ import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.HashMap;
@@ -39,7 +38,7 @@ import java.util.Map;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentAbstractsRule extends ResearchDocumentRuleBase implements AbstractsRule {
+public class ProposalDevelopmentAbstractsRule extends KcTransactionalDocumentRuleBase implements AbstractsRule {
 
     /**
      * Don't allow abstracts with an invalid abstract type code or duplicate abstracts, i.e.

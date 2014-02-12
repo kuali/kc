@@ -28,7 +28,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -41,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleBase implements IacucProtocolModifySubmissionRule {
+public class IacucProtocolModifySubmissionRuleImpl extends KcTransactionalDocumentRuleBase implements IacucProtocolModifySubmissionRule {
   
     private IacucProtocolOnlineReviewService protocolOnlineReviewService;
     

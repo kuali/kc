@@ -18,13 +18,13 @@ package org.kuali.kra.common.committee.rules;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDeadlineEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.sql.Date;
 import java.util.List;
 
-public class CommitteeScheduleDeadlineDateRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeScheduleDeadlineEvent>{
+public class CommitteeScheduleDeadlineDateRule extends KcTransactionalDocumentRuleBase implements  BusinessRuleInterface<CommitteeScheduleDeadlineEvent>{
     
     public static final String ID = "document.committeeList[0].committeeSchedules[%1$s].protocolSubDeadline";
     

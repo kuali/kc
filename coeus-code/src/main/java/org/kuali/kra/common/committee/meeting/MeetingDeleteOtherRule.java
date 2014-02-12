@@ -16,21 +16,21 @@
 package org.kuali.kra.common.committee.meeting;
 
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.List;
 
 /**
  * Defines the rule that a user cannot delete an Other Action if it is being used in a Minute entry.
  */
-public class MeetingDeleteOtherRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<MeetingDeleteOtherEvent> {
+public class MeetingDeleteOtherRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<MeetingDeleteOtherEvent> {
 
     /**
      * Checks to see whether the Other Action being deleted is being used by any of the Minute entries.
      * 
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(MeetingDeleteOtherEvent event) {
         boolean rulePassed = true;

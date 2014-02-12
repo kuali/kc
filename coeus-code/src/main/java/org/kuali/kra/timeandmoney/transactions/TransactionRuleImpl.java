@@ -22,7 +22,7 @@ import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * The AwardPaymentScheduleRuleImpl
  */
-public class TransactionRuleImpl extends ResearchDocumentRuleBase implements TransactionRule {
+public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase implements TransactionRule {
     
     private static final String SOURCE_AWARD_PROPERTY = "sourceAwardNumber";
     private static final String OBLIGATED_AMOUNT_PROPERTY = "obligatedAmount";

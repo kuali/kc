@@ -24,7 +24,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
 import org.kuali.kra.subawardReporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.subawardReporting.web.struts.form.IsrSsrReportGenerationForm;

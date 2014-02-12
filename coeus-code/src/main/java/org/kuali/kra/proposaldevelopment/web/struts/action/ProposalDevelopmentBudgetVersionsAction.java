@@ -41,7 +41,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.question.CopyPeriodsQuestion;
-import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.DocumentService;

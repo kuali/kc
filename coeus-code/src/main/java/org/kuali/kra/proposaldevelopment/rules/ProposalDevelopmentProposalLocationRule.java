@@ -23,11 +23,11 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.List;
 
-public class ProposalDevelopmentProposalLocationRule extends ResearchDocumentRuleBase implements AddProposalSiteRule, SaveProposalSitesRule {
+public class ProposalDevelopmentProposalLocationRule extends KcTransactionalDocumentRuleBase implements AddProposalSiteRule, SaveProposalSitesRule {
     private static final String LOCATION_NAME_PROPERTY = "locationName";
     private static final String ADDRESS_NAME_PROPERTY = "address";
 

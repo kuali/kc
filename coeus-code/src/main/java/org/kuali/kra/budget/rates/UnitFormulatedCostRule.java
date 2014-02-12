@@ -16,10 +16,10 @@
 package org.kuali.kra.budget.rates;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UnitFormulatedCostRule extends KraMaintenanceDocumentRuleBase {
+public class UnitFormulatedCostRule extends KcMaintenanceDocumentRuleBase {
 
     /**
      * Constructs a SponsorTemplateTermsExistenceRule

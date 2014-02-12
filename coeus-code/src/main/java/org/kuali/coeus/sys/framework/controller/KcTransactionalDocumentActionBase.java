@@ -46,7 +46,6 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
@@ -272,7 +271,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
      * @return String
      */
     protected String buildForwardUrl(String routeHeaderId) {
-        ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
+        DocHandlerService researchDocumentService = KraServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
         forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {

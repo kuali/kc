@@ -16,6 +16,7 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PersonTrainingMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class PersonTrainingMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
 
     /**
      * 

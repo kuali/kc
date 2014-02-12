@@ -17,7 +17,7 @@ package org.kuali.kra.irb.personnel;
 
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEventBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Represents the event to save a ProtocolPersonnel.

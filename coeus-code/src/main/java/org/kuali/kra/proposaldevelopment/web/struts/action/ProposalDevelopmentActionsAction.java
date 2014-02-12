@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.SpecialReviewType;
@@ -72,7 +73,6 @@ import org.kuali.kra.s2s.bo.S2sSubmissionType;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KcAuthorizationService;
-import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -344,7 +344,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward addProposalChangedData(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
+        KcPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KcPersistenceStructureService.class);
 
         ActionForward forward = mapping.findForward("basic");
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
@@ -1660,8 +1660,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
         BudgetDocument budgetDocument = null;
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator
-                .getService(KraPersistenceStructureService.class);
+        KcPersistenceStructureService kraPersistenceStructureService = KraServiceLocator
+                .getService(KcPersistenceStructureService.class);
 
         ActionForward forward = mapping.findForward("basic");
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;

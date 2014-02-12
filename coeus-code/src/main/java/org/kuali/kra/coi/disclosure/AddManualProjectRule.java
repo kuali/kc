@@ -21,8 +21,8 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddManualProjectRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddManualProjectEvent>  {
+public class AddManualProjectRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<AddManualProjectEvent>  {
 
     private static final String DISCLOSURE_EVENT_TYPE = "disclosureEventType";
     

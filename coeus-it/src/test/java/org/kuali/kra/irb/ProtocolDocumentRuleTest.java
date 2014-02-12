@@ -22,7 +22,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -62,10 +62,10 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
         setProtocolRequiredFields(document);
         
         MessageMap messageMap = GlobalVariables.getMessageMap();
-        messageMap.addToErrorPath(ResearchDocumentRuleBase.DOCUMENT_ERROR_PATH);
+        messageMap.addToErrorPath(KcTransactionalDocumentRuleBase.DOCUMENT_ERROR_PATH);
         dictionaryValidationService.validateDocumentAndUpdatableReferencesRecursively(document, 10, true, true);
         assertTrue(messageMap.hasNoErrors());
-        messageMap.removeFromErrorPath(ResearchDocumentRuleBase.DOCUMENT_ERROR_PATH);
+        messageMap.removeFromErrorPath(KcTransactionalDocumentRuleBase.DOCUMENT_ERROR_PATH);
         
         assertTrue(rule.processLeadUnitBusinessRules(document));
     }

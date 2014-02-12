@@ -17,14 +17,14 @@ package org.kuali.kra.irb.noteattachment;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * Event created when adding a new {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
  */
-class AddProtocolAttachmentProtocolEvent extends KraDocumentEventBase {
+class AddProtocolAttachmentProtocolEvent extends KcDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(AddProtocolAttachmentProtocolEvent.class);
     private final ProtocolAttachmentProtocol newAttachmentProtocol;

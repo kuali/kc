@@ -25,7 +25,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -42,7 +42,7 @@ import java.util.Map;
 /**
  * This class...
  */
-public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
+public class ProtocolSubmitActionRule extends KcTransactionalDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
 
     private static final String MANDATORY = "M";
     private ParameterService parameterService;

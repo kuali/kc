@@ -24,7 +24,7 @@ import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.KcPersonService;
 
 import java.util.List;
@@ -35,7 +35,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase implements PermissionsRule {
+public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentRuleBase implements PermissionsRule {
     
 
     private transient KcPersonService kcPersonService;

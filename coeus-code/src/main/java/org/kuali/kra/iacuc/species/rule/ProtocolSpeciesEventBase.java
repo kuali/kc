@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.species.rule;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
  * This class is abstract base class for Event Notification
  */
-public abstract class ProtocolSpeciesEventBase extends KraDocumentEventBase implements ProtocolSpeciesEvent {
+public abstract class ProtocolSpeciesEventBase extends KcDocumentEventBase implements ProtocolSpeciesEvent {
     
     private IacucProtocolSpecies protocolSpecies;
     
@@ -32,7 +32,7 @@ public abstract class ProtocolSpeciesEventBase extends KraDocumentEventBase impl
     }
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

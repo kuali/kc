@@ -27,7 +27,7 @@ import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
@@ -51,7 +51,7 @@ import java.util.Map.Entry;
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implements TransactionRule, AwardDirectFandADistributionRule {
+public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase implements TransactionRule, AwardDirectFandADistributionRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "award";

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
  * 
  * This class is using the new rule framework.  The old framework is using CommitteeMembershipRuleEventBase
  */
-public abstract class CommitteeMemberEventBase <Z extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
+public abstract class CommitteeMemberEventBase <Z extends BusinessRuleInterface> extends KcDocumentEventBaseExtension {
     
     /**
      * Enum helps identify type of error to respond.

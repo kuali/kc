@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.award;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class is to handle Award template sync
  */
-public class AwardTemplateSyncEvent  extends KraDocumentEventBase{
+public class AwardTemplateSyncEvent  extends KcDocumentEventBase {
 
     private AwardDocument awardDocument;
     private Award award;

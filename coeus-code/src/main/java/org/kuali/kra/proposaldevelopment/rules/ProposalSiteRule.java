@@ -18,12 +18,12 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.rule.event.BasicProposalSiteEvent;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * This class handles the "Delete Proposal Site" and "Clear Proposal Site Address" events; it is also a superclass for other rules
  */
-public class ProposalSiteRule extends ResearchDocumentRuleBase {
+public class ProposalSiteRule extends KcTransactionalDocumentRuleBase {
 
     public boolean processBasicProposalSiteRules(BasicProposalSiteEvent proposalSiteEvent) {
         String siteIndexStr = proposalSiteEvent.getSiteIndex();

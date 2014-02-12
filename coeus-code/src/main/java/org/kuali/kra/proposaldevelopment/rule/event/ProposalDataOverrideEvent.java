@@ -16,13 +16,13 @@
 package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.ProposalDataOverrideRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class ProposalDataOverrideEvent extends KraDocumentEventBase {
+public class ProposalDataOverrideEvent extends KcDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDataOverrideEvent.class);
     
     private ProposalChangedData proposalChangedData;
@@ -47,7 +47,7 @@ public class ProposalDataOverrideEvent extends KraDocumentEventBase {
     }
     
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

@@ -19,8 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -28,12 +30,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * set in the system params, the committee must be selected.
  */
 @SuppressWarnings("unchecked")
-public class IacucProtocolRequestRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<IacucProtocolRequestEvent> {
+public class IacucProtocolRequestRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<IacucProtocolRequestEvent> {
     
     private static final String MANDATORY = "M";
-
+    private ParameterService parameterService;
     /**
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(IacucProtocolRequestEvent event) {
         
@@ -67,5 +69,12 @@ public class IacucProtocolRequestRule extends ResearchDocumentRuleBase implement
         final String param = this.getParameterService().getParameterValueAsString(IacucProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
         return StringUtils.equalsIgnoreCase(MANDATORY, param);  
+    }
+
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
     }
 }

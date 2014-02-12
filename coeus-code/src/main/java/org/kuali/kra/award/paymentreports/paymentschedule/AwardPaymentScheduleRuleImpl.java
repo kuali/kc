@@ -16,7 +16,7 @@
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * The AwardPaymentScheduleRuleImpl
  */
-public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase 
+public class AwardPaymentScheduleRuleImpl extends KcTransactionalDocumentRuleBase
                                             implements AwardPaymentScheduleRule {
 
     private static final String DUE_DATE_ERROR_PARM = "Due Date (Due Date)";
