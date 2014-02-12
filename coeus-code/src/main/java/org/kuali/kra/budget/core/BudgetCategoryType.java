@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.budget.core;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Class representation of the BudgetCategory Type Business Object
  * 
  * BudgetCategoryType.java
  */
-public class BudgetCategoryType extends KraPersistableBusinessObjectBase implements Comparable {
+public class BudgetCategoryType extends KcPersistableBusinessObjectBase implements Comparable {
 
     private String budgetCategoryTypeCode;
 

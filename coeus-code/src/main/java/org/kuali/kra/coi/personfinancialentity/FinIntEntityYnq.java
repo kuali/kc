@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
 
 import java.sql.Date;
 
-public class FinIntEntityYnq extends KraPersistableBusinessObjectBase {
+public class FinIntEntityYnq extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

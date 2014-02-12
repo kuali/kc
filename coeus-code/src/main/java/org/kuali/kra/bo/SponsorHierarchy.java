@@ -16,6 +16,7 @@
 package org.kuali.kra.bo;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SponsorHierarchy extends KraPersistableBusinessObjectBase implements Permissionable {
+public class SponsorHierarchy extends KcPersistableBusinessObjectBase implements Permissionable {
 
     private static final long serialVersionUID = 2255685234044720175L;
 

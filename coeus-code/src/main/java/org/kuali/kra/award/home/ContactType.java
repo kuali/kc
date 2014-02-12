@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.home;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class represents the ContactType business object and is mapped
  * with CONTACT_TYPE table.
  */
-public class ContactType extends KraPersistableBusinessObjectBase implements ContactRole {
+public class ContactType extends KcPersistableBusinessObjectBase implements ContactRole {
 
     /**
      * Comment for <code>serialVersionUID</code>

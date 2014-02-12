@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,7 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "S2S_REVISION_TYPE")
-public class S2sRevisionType extends KraPersistableBusinessObjectBase {
+public class S2sRevisionType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "S2S_REVISION_TYPE_CODE")

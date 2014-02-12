@@ -16,7 +16,9 @@
 package org.kuali.kra.bo;
 
 
-public class SchoolCode extends KraPersistableBusinessObjectBase {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+public class SchoolCode extends KcPersistableBusinessObjectBase {
 
     private Integer schoolCode;
 

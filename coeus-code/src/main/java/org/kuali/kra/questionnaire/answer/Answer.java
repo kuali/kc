@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.question.Question;
 
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Holds a single answer for a {@link Question Question}.
  */
-public class Answer extends KraPersistableBusinessObjectBase {
+public class Answer extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

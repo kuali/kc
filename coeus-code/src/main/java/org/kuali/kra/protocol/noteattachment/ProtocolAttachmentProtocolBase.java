@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -72,6 +75,8 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
     // an indicator of whether this file has been changed/replaced or not.  This is if documentstatus is 1 or 3.  
     // if it is changed, then the updateuser and updatetimestamp of this record will be updated.  
     protected boolean changed = false;
+
+    private transient KcPersonService kcPersonService;
 
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -472,5 +477,22 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
         if (getCreateTimestamp() == null) {
             setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         }
+    }
+
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
+    }
+
+    /**
+     *
+     * This is ahelper method to get author person name
+     * @return
+     */
+    public String getAuthorPersonName() {
+        KcPerson person = this.getKcPersonService().getKcPersonByUserName(getUpdateUser());
+        return ObjectUtils.isNull(person) ? "Person not found" : person.getFullName();
     }
 }

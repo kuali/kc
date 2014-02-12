@@ -16,15 +16,16 @@
 
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
-import org.kuali.kra.printing.schema.*;
-import org.kuali.kra.printing.schema.OrganizationType;
-import org.kuali.kra.printing.schema.PrintCertificationDocument.PrintCertification;
-import org.kuali.kra.printing.schema.Sponsor;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.*;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.ArgValueLookup;
+import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.PrintCertificationDocument.PrintCertification;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
@@ -36,7 +37,7 @@ import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE
 /**
  * This class generates XML that confirms with the XSD related to Print
  * Certification Report. The data for XML is derived from
- * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  */
 public class PrintCertificationXmlStream extends ProposalBaseStream {
@@ -69,19 +70,19 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 
 	/**
 	 * This method generates XML for Print Certification Report. It uses data
-	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
+	 * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
-	 *            parameters related to XML generation
+	 *            parameters related to XML generation     CommitteeScheduleMinuteBase
 	 * @return {@link XmlObject} representing the XML
 	 * @throws PrintingException
 	 *             in case of any errors occur during XML generation.
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
 		ProposalPerson personToPrint = (ProposalPerson) reportParameters.get(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_PERSON);

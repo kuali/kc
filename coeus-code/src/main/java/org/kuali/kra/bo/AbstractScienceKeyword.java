@@ -16,12 +16,14 @@
 package org.kuali.kra.bo;
 
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 /**
  * 
  * This is an abstract class for holding common properties of ScienceKeyword
  * 
  */
-public abstract class AbstractScienceKeyword extends KraPersistableBusinessObjectBase {
+public abstract class AbstractScienceKeyword extends KcPersistableBusinessObjectBase {
 
     private String scienceKeywordCode;
 

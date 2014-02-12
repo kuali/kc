@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -34,11 +34,8 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAbstractsService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -50,7 +47,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -549,7 +545,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     // END SNIPPET: deleteAbstract
 
     /**
-     * Method dispatched from <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for when a "yes" condition is met.
+     * Method dispatched from <code>{@link org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for when a "yes" condition is met.
      * 
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
@@ -557,7 +553,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @param response the HTTP response
      * @return the destination (always the original proposal web page that caused this action to be invoked)
      * @throws Exception
-     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
      */
     // START SNIPPET: confirmDeleteAbstract
     public ActionForward confirmDeleteAbstract(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

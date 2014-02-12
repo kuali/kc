@@ -15,13 +15,16 @@
  */
 package org.kuali.kra.iacuc.committee.print;
 
-import edu.mit.coeus.xml.iacuc.FundingSourceType;
 import edu.mit.coeus.xml.iacuc.*;
 import edu.mit.coeus.xml.iacuc.ScheduleType.Attendents;
 import edu.mit.coeus.xml.iacuc.ScheduleType.OtherBusiness;
 import edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.*;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -55,7 +58,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     private String EXEMPT_ACTION_TYPE_CODE = "206";
     private String FOLLOW_UP_ACTION_CODE = "109";
 
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         CommitteeScheduleBase committeeSchedule = (CommitteeScheduleBase)printableBusinessObject;
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         ScheduleDocument scheduleDocument =

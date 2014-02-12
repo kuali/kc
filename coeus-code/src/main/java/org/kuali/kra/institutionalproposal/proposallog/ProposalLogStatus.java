@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class ProposalLogStatus extends KraPersistableBusinessObjectBase {
+public class ProposalLogStatus extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

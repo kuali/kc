@@ -16,13 +16,13 @@
 package org.kuali.kra.krms.service;
 
 
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.rice.krms.api.engine.Facts;
 
 public interface KcKrmsFactBuilderService {
     
     public void addFacts(Facts.Builder factsBuilder, String docContent);
     
-    public void addFacts(Facts.Builder factsBuilder, ResearchDocumentBase document);
+    public void addFacts(Facts.Builder factsBuilder, KcTransactionalDocumentBase document);
 
 }

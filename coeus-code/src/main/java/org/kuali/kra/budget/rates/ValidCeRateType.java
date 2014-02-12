@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.budget.rates;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class ValidCeRateType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
+public class ValidCeRateType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     private String costElement;
 

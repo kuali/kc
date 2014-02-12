@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 import java.io.Serializable;
 
@@ -25,7 +25,7 @@ import java.io.Serializable;
 /**
  * This class is for SubAwardAssociate...
  */
-public abstract class SubAwardAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<SubAward>, Serializable {
+public abstract class SubAwardAssociate extends KcPersistableBusinessObjectBase implements SequenceAssociate<SubAward>, Serializable {
     
     private static final long serialVersionUID = 1L;
     

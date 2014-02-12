@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.protocol;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class CriteriaFieldHelper {
 
     private String critFieldName;
     private String searchKey;
     private String fieldValue;
-    private Class<? extends KraPersistableBusinessObjectBase> clazz;
+    private Class<? extends KcPersistableBusinessObjectBase> clazz;
 
     public CriteriaFieldHelper() {
         
     }
     
-    public CriteriaFieldHelper(String searchKey, String critFieldName, Class<? extends KraPersistableBusinessObjectBase> clazz) {
+    public CriteriaFieldHelper(String searchKey, String critFieldName, Class<? extends KcPersistableBusinessObjectBase> clazz) {
         this.searchKey = searchKey;
         this.critFieldName = critFieldName;
         this.clazz = clazz;
@@ -50,11 +50,11 @@ public class CriteriaFieldHelper {
         this.fieldValue = fieldValue;
     }
 
-    public Class<? extends KraPersistableBusinessObjectBase> getClazz() {
+    public Class<? extends KcPersistableBusinessObjectBase> getClazz() {
         return clazz;
     }
 
-    public void setClazz(Class<? extends KraPersistableBusinessObjectBase> clazz) {
+    public void setClazz(Class<? extends KcPersistableBusinessObjectBase> clazz) {
         this.clazz = clazz;
     }
 

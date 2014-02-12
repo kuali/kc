@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.contacts;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
@@ -34,7 +34,7 @@ import java.util.Map;
  * @author $Id: ProposalUnitCreditSplit.java,v 1.8 2008-07-28 14:48:12 vsoni Exp $
  * @version $Revision: 1.8 $
  */
-public final class AwardPersonUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<Award> {
+public final class AwardPersonUnitCreditSplit extends KcPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<Award> {
 
     private static final long serialVersionUID = 7370393791601182821L;
 

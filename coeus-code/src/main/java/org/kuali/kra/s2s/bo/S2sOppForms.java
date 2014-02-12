@@ -15,25 +15,20 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "S2S_OPP_FORMS")
 @IdClass(S2sOppForms.S2sOppFormsId.class)
-public class S2sOppForms extends KraPersistableBusinessObjectBase {
+public class S2sOppForms extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "OPP_NAME_SPACE")

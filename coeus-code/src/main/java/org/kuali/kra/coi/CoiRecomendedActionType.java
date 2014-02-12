@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class CoiRecomendedActionType extends KraPersistableBusinessObjectBase { 
+public class CoiRecomendedActionType extends KcPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 1L;
 

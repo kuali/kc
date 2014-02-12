@@ -15,29 +15,22 @@
  */
 package org.kuali.kra.bo;
 
-import java.io.Serializable;
-import java.sql.Date;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.Organization;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.data.jpa.converters.KualiDecimalConverter;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Date;
 
 @Entity
 @Table(name = "ORGANIZATION_IDC")
 @IdClass(OrganizationIndirectcost.OrganizationIndirectcostId.class)
-public class OrganizationIndirectcost extends KraPersistableBusinessObjectBase {
+public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "IDC_NUMBER")

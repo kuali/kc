@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.meeting;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 
@@ -24,7 +24,7 @@ import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
  * 
  * This is a Bo class for committee schedule attendance.
  */
-public abstract class CommitteeScheduleAttendanceBase extends KraPersistableBusinessObjectBase {
+public abstract class CommitteeScheduleAttendanceBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -6010677692125364332L;
 

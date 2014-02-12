@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.paymentreports.closeout;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class represets the CloseoutReportType business object.
  */
-public class CloseoutReportType extends KraPersistableBusinessObjectBase {
+public class CloseoutReportType extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

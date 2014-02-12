@@ -16,11 +16,13 @@
 package org.kuali.kra.bo;
 
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 /**
  * 
  * This class is for risk level code maintenance.
  */
-public class RiskLevel extends KraPersistableBusinessObjectBase {
+public class RiskLevel extends KcPersistableBusinessObjectBase {
 
     private String riskLevelCode;
 

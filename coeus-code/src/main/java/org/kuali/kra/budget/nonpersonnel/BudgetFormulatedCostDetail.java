@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.rates.FormulatedType;
 
-public class BudgetFormulatedCostDetail extends KraPersistableBusinessObjectBase { 
+public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase {
     
     /**
      * Comment for <code>serialVersionUID</code>

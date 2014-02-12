@@ -16,6 +16,9 @@
 package org.kuali.kra.institutionalproposal.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
+import org.kuali.coeus.sys.framework.model.MultiLookupForm;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
@@ -34,10 +37,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecovered
 import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationContext;
 import org.kuali.kra.institutionalproposal.specialreview.SpecialReviewHelper;
 import org.kuali.kra.medusa.MedusaBean;
-import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -53,8 +53,8 @@ import java.util.Map;
 /**
  * This class...
  */
-public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase implements Auditable,
-                                                                        MultiLookupFormBase, ReportHelperBeanContainer,
+public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase implements AuditableForm,
+        MultiLookupForm, ReportHelperBeanContainer,
                                                                         CustomDataDocumentForm {
 
     /**
@@ -316,7 +316,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     }
     
     /**
-     * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#getLockRegion()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase#getLockRegion()
      */
     @Override
     protected String getLockRegion() {
@@ -324,7 +324,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     }
 
     /**
-     * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#setSaveDocumentControl(java.util.Map)
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase#setSaveDocumentControl(java.util.Map)
      */
     @Override
     protected void setSaveDocumentControl(Map editMode) {

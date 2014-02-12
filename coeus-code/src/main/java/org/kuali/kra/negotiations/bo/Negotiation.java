@@ -16,8 +16,8 @@
 package org.kuali.kra.negotiations.bo;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -26,6 +26,7 @@ import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.service.NegotiationService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -39,9 +40,11 @@ import java.util.Map;
  * 
  * This class handles the negotiation BO.
  */
-public class Negotiation extends KraPersistableBusinessObjectBase implements Permissionable {
+public class Negotiation extends KcPersistableBusinessObjectBase implements Permissionable {
 
     private static final long MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
+
+    private transient KcPersonService kcPersonService;
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -466,5 +469,12 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     public void addNotification(NegotiationNotification negotiationNotification) {
         getNegotiationNotifications().add(negotiationNotification);        
+    }
+
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
     }
 }

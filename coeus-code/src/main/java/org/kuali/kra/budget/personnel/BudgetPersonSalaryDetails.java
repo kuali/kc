@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
-public class BudgetPersonSalaryDetails extends KraPersistableBusinessObjectBase{
+public class BudgetPersonSalaryDetails extends KcPersistableBusinessObjectBase {
     
     private Long budgetPersonSalaryDetailId;  
     

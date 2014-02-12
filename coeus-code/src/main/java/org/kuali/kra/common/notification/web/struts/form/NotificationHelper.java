@@ -16,8 +16,8 @@
 package org.kuali.kra.common.notification.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.KcNotification;
@@ -215,7 +215,7 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
     public void sendNotification() {
         getNotificationService().sendNotification(notificationContext, notification, notificationRecipients);
     }
-    public void sendNotificationAndPersist(KcNotification notification, KraPersistableBusinessObjectBase object) {
+    public void sendNotificationAndPersist(KcNotification notification, KcPersistableBusinessObjectBase object) {
         notification.setMessage(getNotification().getMessage());
         notification.setSubject(getNotification().getSubject());
         getNotificationService().sendNotificationAndPersist(notificationContext, notification, notificationRecipients, object);

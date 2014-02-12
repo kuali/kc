@@ -16,7 +16,9 @@
 package org.kuali.kra.bo;
 
 
-public class Training extends KraPersistableBusinessObjectBase {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+public class Training extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

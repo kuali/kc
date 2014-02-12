@@ -15,16 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class helps create the foundation of attachment data sources.
  */
 @MappedSuperclass
-public abstract class AttachmentDataSource extends KraPersistableBusinessObjectBase {
+public abstract class AttachmentDataSource extends KcPersistableBusinessObjectBase {
 
     @Column(name = "FILE_NAME")
     private String fileName;

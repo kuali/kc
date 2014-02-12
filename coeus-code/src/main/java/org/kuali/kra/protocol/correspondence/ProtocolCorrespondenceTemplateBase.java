@@ -16,12 +16,12 @@
 package org.kuali.kra.protocol.correspondence;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-public abstract class ProtocolCorrespondenceTemplateBase extends KraPersistableBusinessObjectBase implements Comparable<ProtocolCorrespondenceTemplateBase> {
+public abstract class ProtocolCorrespondenceTemplateBase extends KcPersistableBusinessObjectBase implements Comparable<ProtocolCorrespondenceTemplateBase> {
 
     private static final long serialVersionUID = 1L;
 

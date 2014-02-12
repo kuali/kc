@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class JobCode extends KraPersistableBusinessObjectBase {
+public class JobCode extends KcPersistableBusinessObjectBase {
 
     private String jobCode;
 

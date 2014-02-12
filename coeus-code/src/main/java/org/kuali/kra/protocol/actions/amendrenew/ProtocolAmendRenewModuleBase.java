@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.ProtocolBase;
 
 @SuppressWarnings("serial")
-public abstract class ProtocolAmendRenewModuleBase extends KraPersistableBusinessObjectBase implements SequenceAssociate<ProtocolBase> {
+public abstract class ProtocolAmendRenewModuleBase extends KcPersistableBusinessObjectBase implements SequenceAssociate<ProtocolBase> {
 
     private Long protocolAmendRenewModuleId;
 

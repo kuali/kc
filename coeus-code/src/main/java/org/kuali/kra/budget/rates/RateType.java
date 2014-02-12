@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.rates;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class RateType extends KraPersistableBusinessObjectBase implements Comparable {
+public class RateType extends KcPersistableBusinessObjectBase implements Comparable {
 
     private String rateClassCode;
 

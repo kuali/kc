@@ -135,7 +135,7 @@
 
     <filter>
         <filter-name>SessionExpiredFilter</filter-name>
-        <filter-class>org.kuali.kra.web.filter.SessionExpiredFilter</filter-class>
+        <filter-class>org.kuali.coeus.sys.framework.controller.interceptor.SessionExpiredFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>SessionExpiredFilter</filter-name>
@@ -150,7 +150,7 @@
     <!-- ******************* Start Logging Filters ********************* -->
     <filter>
         <filter-name>JspLoggingFilter</filter-name>
-        <filter-class>org.kuali.kra.web.filter.RequestLoggingFilter</filter-class>
+        <filter-class>org.kuali.coeus.sys.framework.controller.interceptor.RequestLoggingFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -160,7 +160,7 @@
 
     <filter>
         <filter-name>StrutsActionLoggingFilter</filter-name>
-        <filter-class>org.kuali.kra.web.filter.RequestLoggingFilter</filter-class>
+        <filter-class>org.kuali.coeus.sys.framework.controller.interceptor.RequestLoggingFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -170,7 +170,7 @@
 
     <filter>
         <filter-name>PerformanceLoggingFilter</filter-name>
-        <filter-class>org.kuali.kra.web.filter.PerformanceLoggingFilter</filter-class>
+        <filter-class>org.kuali.coeus.sys.framework.controller.interceptor.PerformanceLoggingFilter</filter-class>
     </filter>
 
     <filter-mapping>

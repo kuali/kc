@@ -16,9 +16,11 @@
 package org.kuali.kra.coi.disclosure;
 
 import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.List;
 
@@ -114,5 +116,13 @@ public class DisclosurePerson extends DisclosureReporter implements SequenceAsso
         return this.getCoiDisclosure();
     }
 
-
+    /**
+     *
+     * This is ahelper method to get author person name
+     * @return
+     */
+    public String getAuthorPersonName() {
+        KcPerson person = this.getKcPersonService().getKcPersonByUserName(getUpdateUser());
+        return ObjectUtils.isNull(person) ? "Person not found" : person.getFullName();
+    }
 }

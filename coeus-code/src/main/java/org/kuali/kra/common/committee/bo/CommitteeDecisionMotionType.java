@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.common.committee.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Defines the type of motion (approve, disapprove, etc.) that the committee voted to enact.
  */
 @SuppressWarnings("serial")
-public class CommitteeDecisionMotionType extends KraPersistableBusinessObjectBase {
+public class CommitteeDecisionMotionType extends KcPersistableBusinessObjectBase {
 
     /**
      * The committee decision to approve the protocol.

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * This class is for FE entity data groups.
  */
-public class FinEntitiesDataGroup extends KraPersistableBusinessObjectBase implements Comparable<FinEntitiesDataGroup> {
+public class FinEntitiesDataGroup extends KcPersistableBusinessObjectBase implements Comparable<FinEntitiesDataGroup> {
 
     /**
      * Comment for <code>serialVersionUID</code>

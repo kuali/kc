@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlToken;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.ContactRole;
@@ -65,7 +66,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -91,7 +91,7 @@ import java.util.*;
 /**
  * This class generates XML that confirms with the RaR XSD related to Proposal
  * Submission Report or Sponsor Report. The data for XML is derived from
- * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  * 
  */
@@ -140,7 +140,7 @@ AbstractResearchAndRelatedStream {
 
     /**
      * This method generates XML for Proposal Submission Report or Sponsor
-     * Report. It uses data passed in {@link ResearchDocumentBase} for
+     * Report. It uses data passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for
      * populating the XML nodes. The XMl once generated is returned as
      * {@link XmlObject}
      * 
@@ -151,7 +151,7 @@ AbstractResearchAndRelatedStream {
      * @return {@link XmlObject} representing the XML
      */
     public Map<String, XmlObject> generateXmlStream(
-            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+            KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
         Budget budget = getBudget(developmentProposal.getProposalDocument());
         ResearchAndRelatedProjectDocument researchAndRelatedProjectDocument = ResearchAndRelatedProjectDocument.Factory

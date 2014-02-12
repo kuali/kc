@@ -15,25 +15,16 @@
  */
 package org.kuali.kra.bo;
 
-import java.io.Serializable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 @Entity
 @Table(name = "ROLODEX")
-public class Rolodex extends KraPersistableBusinessObjectBase implements Contactable, MutableInactivatable {
+public class Rolodex extends KcPersistableBusinessObjectBase implements Contactable, MutableInactivatable {
 
     private static final long serialVersionUID = -278526635683595863L;
 

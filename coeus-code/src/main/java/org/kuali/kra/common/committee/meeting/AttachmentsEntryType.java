@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Class representation of the Attachments Entry Type Type Business Object
  *
  */
-public class AttachmentsEntryType extends KraPersistableBusinessObjectBase implements Comparable< AttachmentsEntryType>{
+public class AttachmentsEntryType extends KcPersistableBusinessObjectBase implements Comparable< AttachmentsEntryType>{
 
     private String attachmentsTypeCode;
     private Integer sortId;

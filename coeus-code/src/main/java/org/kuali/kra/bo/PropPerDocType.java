@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,7 +24,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "EPS_PROP_PER_DOC_TYPE")
-public class PropPerDocType extends KraPersistableBusinessObjectBase {
+public class PropPerDocType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "DOCUMENT_TYPE_CODE")

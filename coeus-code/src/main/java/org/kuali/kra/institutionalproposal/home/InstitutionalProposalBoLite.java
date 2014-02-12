@@ -1,6 +1,6 @@
 package org.kuali.kra.institutionalproposal.home;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InstitutionalProposalBoLite extends KraPersistableBusinessObjectBase {
+public class InstitutionalProposalBoLite extends KcPersistableBusinessObjectBase {
 	
 	/**
 	 * 

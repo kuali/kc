@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class IacucValidProtoSubTypeQual  extends KraPersistableBusinessObjectBase {
+public class IacucValidProtoSubTypeQual  extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

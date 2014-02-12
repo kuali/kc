@@ -15,16 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import edu.mit.coeus.xml.iacuc.*;
+import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
@@ -70,33 +66,11 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import edu.mit.coeus.xml.iacuc.AlternateDbSearchType;
-import edu.mit.coeus.xml.iacuc.AmendRenewalType;
-import edu.mit.coeus.xml.iacuc.CorrespondentType;
-import edu.mit.coeus.xml.iacuc.ExceptionType;
-import edu.mit.coeus.xml.iacuc.FundingSourceType;
-import edu.mit.coeus.xml.iacuc.InvestigatorType;
-import edu.mit.coeus.xml.iacuc.KeyStudyPersonType;
-import edu.mit.coeus.xml.iacuc.LocationType;
-import edu.mit.coeus.xml.iacuc.NotesType;
-import edu.mit.coeus.xml.iacuc.OtherDataType;
-import edu.mit.coeus.xml.iacuc.PersonType;
-import edu.mit.coeus.xml.iacuc.PrinciplesType;
-import edu.mit.coeus.xml.iacuc.PrintRequirementType;
-import edu.mit.coeus.xml.iacuc.ProtocolActionsType;
-import edu.mit.coeus.xml.iacuc.ProtocolMasterDataType;
-import edu.mit.coeus.xml.iacuc.ProtocolReviewerType;
-import edu.mit.coeus.xml.iacuc.ProtocolType;
-import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
-import edu.mit.coeus.xml.iacuc.ReferencesType;
-import edu.mit.coeus.xml.iacuc.ResearchAreaType;
-import edu.mit.coeus.xml.iacuc.RolesType;
-import edu.mit.coeus.xml.iacuc.ScheduleSummaryType;
-import edu.mit.coeus.xml.iacuc.SpecialReviewType;
-import edu.mit.coeus.xml.iacuc.SpeciesType;
-import edu.mit.coeus.xml.iacuc.StudyGroupType;
-import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
-import edu.mit.coeus.xml.iacuc.UserRolesType;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
@@ -114,9 +88,9 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
 
 
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.Map)
+     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject,
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) {
         IacucProtocol protocol =  (IacucProtocol) printableBusinessObject;
         edu.mit.coeus.xml.iacuc.ProtocolDocument protocolDocument = edu.mit.coeus.xml.iacuc.ProtocolDocument.Factory.newInstance();
@@ -132,9 +106,9 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
     }
     
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.Map)
+     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
      */
-    public ProtocolType getProtocolSummary(KraPersistableBusinessObjectBase printableBusinessObject,
+    public ProtocolType getProtocolSummary(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> htData) {
         IacucProtocol protocol = (IacucProtocol) printableBusinessObject;
         protocol.refreshNonUpdateableReferences();

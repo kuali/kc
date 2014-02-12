@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
@@ -49,7 +50,7 @@ import java.util.List;
 /**
  * This class contains methods common to ProposalDevelopment and Budget actions.
  */
-public class BudgetActionBase extends KraTransactionalDocumentActionBase {
+public class BudgetActionBase extends KcTransactionalDocumentActionBase {
     
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.CostElement;
 
-public class ValidCeJobCode extends KraPersistableBusinessObjectBase {
+public class ValidCeJobCode extends KcPersistableBusinessObjectBase {
 
     private String costElement;
 

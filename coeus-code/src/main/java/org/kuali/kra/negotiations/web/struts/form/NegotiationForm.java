@@ -16,6 +16,7 @@
 package org.kuali.kra.negotiations.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -27,7 +28,6 @@ import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationCont
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -43,7 +43,7 @@ import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
  * 
  * This class holds all the objects required for a negotiation web object.
  */
-public class NegotiationForm extends KraTransactionalDocumentFormBase implements CustomDataDocumentForm {
+public class NegotiationForm extends KcTransactionalDocumentFormBase implements CustomDataDocumentForm {
     
     private static final long serialVersionUID = 6245888664423593163L;
 

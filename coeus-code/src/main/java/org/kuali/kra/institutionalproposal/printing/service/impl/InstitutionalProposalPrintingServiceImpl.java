@@ -1,6 +1,6 @@
 package org.kuali.kra.institutionalproposal.printing.service.impl;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
@@ -37,7 +37,7 @@ public class InstitutionalProposalPrintingServiceImpl implements
 	 * 
 	 */
 	public AttachmentDataSource printInstitutionalProposalReport(
-			KraPersistableBusinessObjectBase institutionalProposal, String reportName,
+			KcPersistableBusinessObjectBase institutionalProposal, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException {
 		AttachmentDataSource source = null;
 		AbstractPrint printable = null;

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.questionnaire.printing;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
@@ -50,9 +50,9 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
 
     /**
      * 
-     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#getQuestionnairePrintable(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.List)
+     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#getQuestionnairePrintable(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.List)
      */
-    public List<Printable> getQuestionnairePrintable(KraPersistableBusinessObjectBase printableBusinessObject, 
+    public List<Printable> getQuestionnairePrintable(KcPersistableBusinessObjectBase printableBusinessObject,
                                                      List<QuestionnairePrintOption> questionnairesToPrints) {
         List<Printable> printables = new ArrayList<Printable>();
         for (QuestionnairePrintOption printOption : questionnairesToPrints) {

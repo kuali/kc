@@ -15,31 +15,19 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a Proposal Site. It can either refer to an Organization, or to
@@ -48,7 +36,7 @@ import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 @Entity
 @Table(name = "EPS_PROP_SITES")
 @IdClass(ProposalSite.ProposalSiteId.class)
-public class ProposalSite extends KraPersistableBusinessObjectBase {
+public class ProposalSite extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -1657749549230077805L;
 

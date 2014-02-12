@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.service;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
@@ -72,5 +72,5 @@ public interface CommitteeScheduleServiceBase<CS extends CommitteeScheduleBase<C
      * @param committeScheduleAttachments
      * @return
      */
-     public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception;
+     public void downloadAttachment(KcPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception;
 }

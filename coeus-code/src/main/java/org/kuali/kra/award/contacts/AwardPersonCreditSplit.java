@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.contacts;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * Class representation of the Award Person credit split
  */
-public final class AwardPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<Award> {
+public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<Award> {
 
     private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
 

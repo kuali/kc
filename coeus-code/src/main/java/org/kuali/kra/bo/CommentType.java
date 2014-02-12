@@ -16,10 +16,12 @@
 package org.kuali.kra.bo;
 
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 /**
  * This class is Business Object representation of a comment type.
  */
-public class CommentType extends KraPersistableBusinessObjectBase {
+public class CommentType extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

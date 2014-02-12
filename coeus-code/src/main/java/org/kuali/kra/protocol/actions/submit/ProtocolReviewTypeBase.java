@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * A ProtocolBase Review Type refers to the type of review that an
  * IRB Committee will perform, e.g. Full, Expedited, Exempt, etc.
  */
 @SuppressWarnings("serial")
-public class ProtocolReviewTypeBase extends KraPersistableBusinessObjectBase {
+public class ProtocolReviewTypeBase extends KcPersistableBusinessObjectBase {
 
     private String reviewTypeCode;
 

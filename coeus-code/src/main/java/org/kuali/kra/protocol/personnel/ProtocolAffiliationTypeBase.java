@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public abstract class ProtocolAffiliationTypeBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAffiliationTypeBase extends KcPersistableBusinessObjectBase {
     
 
     /**

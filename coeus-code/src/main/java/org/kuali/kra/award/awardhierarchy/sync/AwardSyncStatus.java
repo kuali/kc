@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AwardSyncStatus extends KraPersistableBusinessObjectBase {
+public class AwardSyncStatus extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -8047529476039817371L;
 

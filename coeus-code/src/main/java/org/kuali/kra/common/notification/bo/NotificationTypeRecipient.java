@@ -16,7 +16,7 @@
 package org.kuali.kra.common.notification.bo;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * Defines the recipients for a {@code NotificationType}.
  */
-public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase {
+public class NotificationTypeRecipient extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -1455607096529901879L;
     

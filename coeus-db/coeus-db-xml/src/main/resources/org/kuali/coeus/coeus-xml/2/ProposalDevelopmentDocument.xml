@@ -438,7 +438,7 @@
 					<finalApproval>false</finalApproval>
 				</start>
 				<split name="isHierarchyChild">
-       			   <type>org.kuali.coeus.sys.framework.kew.SimpleBooleanSplitNode</type>
+       			   <type>org.kuali.coeus.sys.framework.workflow.SimpleBooleanSplitNode</type>
         		</split>
 				<role name="OSPInitial">
 					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>

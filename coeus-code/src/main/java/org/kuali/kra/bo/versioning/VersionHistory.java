@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.bo.versioning;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Date;
 
-public class VersionHistory extends KraPersistableBusinessObjectBase {
+public class VersionHistory extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -4851728455206181532L;
 

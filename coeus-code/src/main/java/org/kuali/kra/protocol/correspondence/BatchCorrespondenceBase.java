@@ -16,14 +16,14 @@
 package org.kuali.kra.protocol.correspondence;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class BatchCorrespondenceBase extends KraPersistableBusinessObjectBase {
+public abstract class BatchCorrespondenceBase extends KcPersistableBusinessObjectBase {
 
     // TODO normally these kind of public static vars would be pushed down to the IACUC/IRB subclasses, 
     // but it seems that they are going to have the same value in both IRB and IACUC so letting them stay here in the superclass. 

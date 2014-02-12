@@ -16,13 +16,13 @@
 package org.kuali.kra.negotiations.bo;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * Negotiation Activity Attachment BO.
  */
-public class NegotiationActivityAttachment extends KraPersistableBusinessObjectBase {
+public class NegotiationActivityAttachment extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

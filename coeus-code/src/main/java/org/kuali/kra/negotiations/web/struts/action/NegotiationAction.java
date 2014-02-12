@@ -18,6 +18,7 @@ package org.kuali.kra.negotiations.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -26,7 +27,6 @@ import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.printing.service.NegotiationPrintingService;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * 
  * This class...
  */
-public class NegotiationAction extends KraTransactionalDocumentActionBase {
+public class NegotiationAction extends KcTransactionalDocumentActionBase {
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NegotiationAction.class);
     

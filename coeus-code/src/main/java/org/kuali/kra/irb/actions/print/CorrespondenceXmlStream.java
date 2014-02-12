@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.print;
 import edu.mit.irb.irbnamespace.CorrespondenceDocument;
 import edu.mit.irb.irbnamespace.CorrespondenceDocument.Correspondence;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -33,9 +33,9 @@ import java.util.Map;
 public class CorrespondenceXmlStream extends CorrespondenceXmlStreamBase {
     private ProtocolXmlStream protocolXmlStream;
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
+     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Protocol protocol = (Protocol)printableBusinessObject;
         ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
         String scheduleId=null;

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.home;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SponsorTerm;
 
-public class AwardTemplateTerm extends KraPersistableBusinessObjectBase {
+public class AwardTemplateTerm extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

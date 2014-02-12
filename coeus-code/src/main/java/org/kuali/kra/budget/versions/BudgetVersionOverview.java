@@ -15,21 +15,7 @@
  */
 package org.kuali.kra.budget.versions;
 
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.BudgetDecimalConverter;
 import org.kuali.kra.budget.rates.RateClass;
@@ -38,8 +24,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class representation of a Budget Overview Business Object.  This BO maps to
@@ -49,7 +39,7 @@ import org.kuali.rice.krad.service.LegacyDataAdapter;
  */
 @Entity
 @Table(name = "BUDGET")
-public class BudgetVersionOverview extends KraPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
+public class BudgetVersionOverview extends KcPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -18,11 +18,11 @@
 <dwr>
 
 	<init>
-		<creator id="spring" class="org.kuali.kra.web.servlet.dwr.KcResourceDelegatingSpringCreator"/>
+		<creator id="spring" class="org.kuali.coeus.sys.framework.view.KcResourceDelegatingSpringCreator"/>
 	</init>
 	
 	<allow>
-		<filter class="org.kuali.kra.web.servlet.dwr.KcDWRFilter"/>
+		<filter class="org.kuali.coeus.sys.framework.view.KcDWRFilter"/>
 		
 		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
 			<param name="include" value="sponsorCode,sponsorName,rolodexId" />

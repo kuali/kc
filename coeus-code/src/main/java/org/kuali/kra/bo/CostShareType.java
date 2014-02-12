@@ -19,10 +19,13 @@ package org.kuali.kra.bo;
 /**
  * This class...
  */
+
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 /**
  * This class...
  */
-public class CostShareType extends KraPersistableBusinessObjectBase {
+public class CostShareType extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

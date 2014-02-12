@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.printing.service;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
@@ -46,6 +46,6 @@ public interface InstitutionalProposalPrintingService {
 	 *             if any errors occur during report generation
 	 */
 	public AttachmentDataSource printInstitutionalProposalReport(
-	        KraPersistableBusinessObjectBase institutionalProposal, String reportName,
+	        KcPersistableBusinessObjectBase institutionalProposal, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException;
 }

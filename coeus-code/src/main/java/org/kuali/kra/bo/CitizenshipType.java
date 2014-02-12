@@ -15,20 +15,18 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
 
 /**
  * This class...
  */
 @Entity
 @Table(name = "CITIZENSHIP_TYPE_T")
-public class CitizenshipType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
+public class CitizenshipType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     @Id
     @Column(name = "CITIZENSHIP_TYPE_CODE")

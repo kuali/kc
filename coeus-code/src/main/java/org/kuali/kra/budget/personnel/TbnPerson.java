@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * To Be Named person business object
  */
-public class TbnPerson extends KraPersistableBusinessObjectBase {
+public class TbnPerson extends KcPersistableBusinessObjectBase {
 
     private String tbnId;
 

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.personmasschange.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Defines the fields for a Negotiation Person Mass Change.
  */
-public class NegotiationPersonMassChange extends KraPersistableBusinessObjectBase {
+public class NegotiationPersonMassChange extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1050126059124935240L;
     

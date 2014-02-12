@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.document;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.DocumentCustomData;
@@ -24,8 +25,8 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -39,7 +40,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +47,7 @@ import java.util.Map;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_BUDGET)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase implements Copyable, SessionDocument,Permissionable,BudgetDocumentTypeChecker  {
+public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements Copyable, SessionDocument,Permissionable,BudgetDocumentTypeChecker  {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -103,7 +103,7 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
         //workaround till then
         /*****BEGIN BLOCK *****/
         if(propNextValue==1){
-            BusinessObjectService bos = getService(BusinessObjectService.class);
+            BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
             Map<String, Object> pkMap = new HashMap<String,Object>();
             pkMap.put("documentKey", getBudget().getBudgetId());
             pkMap.put("propertyName", propertyName);
@@ -209,7 +209,7 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
         return budgets.get(0);
     }
     /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getDocumentTypeCode()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getDocumentTypeCode()
      */
     @Override
     public String getDocumentTypeCode() {
@@ -226,7 +226,7 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
 
     /**
      * Sets the parentDocumentKey attribute value.
-     * @param parentDocumentKey The parentDocumentKey to set.
+     * @param parentDocumentNumber The parentDocumentKey to set.
      */
     public void setParentDocumentKey(String parentDocumentNumber) {
         this.parentDocumentKey = parentDocumentNumber;

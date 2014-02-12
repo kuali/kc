@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.common.committee.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class ScheduleStatus extends KraPersistableBusinessObjectBase {
+public class ScheduleStatus extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -7318684957814299092L;
 

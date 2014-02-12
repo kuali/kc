@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.printing.AwardPrintParameters;
+import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.printing.schema.AmountInfoType;
 import org.kuali.kra.printing.schema.AwardNoticeDocument;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
 import org.kuali.kra.printing.schema.AwardType;
 import org.kuali.kra.printing.schema.AwardType.AwardAmountInfo;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.printing.AwardPrintParameters;
-import org.kuali.kra.award.printing.AwardPrintType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -35,7 +34,7 @@ import java.util.*;
 /**
  * This class generates XML that conforms with the XSD related to Award Budget
  * History Transaction Report. The data for XML is derived from
- * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  * 
  */
@@ -46,7 +45,7 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 
 	/**
 	 * This method generates XML for Award Budget History Transaction Report. It
-	 * uses data passed in {@link ResearchDocumentBase} for populating the XML
+	 * uses data passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML
 	 * nodes. The XMl once generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -56,7 +55,7 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
 		Award award = (Award) printableBusinessObject;
 		Integer sequenceNumber = (Integer) reportParameters.get(AwardPrintParameters.SEQUENCE_NUMBER.getAwardPrintParameter());

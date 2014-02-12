@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Class representation of the Deadline Type Business Object
  *
  */
-public class DeadlineType extends KraPersistableBusinessObjectBase {
+public class DeadlineType extends KcPersistableBusinessObjectBase {
 
     private String deadlineTypeCode;
 

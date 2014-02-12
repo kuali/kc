@@ -15,16 +15,14 @@
  */
 package org.kuali.kra.institutionalproposal.printing.xmlstream;
 
-import org.kuali.kra.printing.schema.*;
-import org.kuali.kra.printing.schema.InstituteProposalDocument.InstituteProposal;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.costshare.CostShareService;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
@@ -37,6 +35,8 @@ import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintTy
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.InstituteProposalDocument.InstituteProposal;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.service.CustomAttributeService;
@@ -48,7 +48,7 @@ import java.util.*;
 /**
  * This class generates XML that conforms with the XSD related to Institution
  * Proposal Report. The data for XML is derived from
- * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  */
 public class InstitutionalProposalXmlStream extends
@@ -75,7 +75,7 @@ public class InstitutionalProposalXmlStream extends
 	
 	/**
 	 * This method generates XML for Institution Proposal Report. It uses data
-	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
+	 * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -85,7 +85,7 @@ public class InstitutionalProposalXmlStream extends
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		InstitutionalProposal institutionalProposal = (InstitutionalProposal) printableBusinessObject;
 		InstituteProposalDocument instituteProposalDocument = InstituteProposalDocument.Factory
