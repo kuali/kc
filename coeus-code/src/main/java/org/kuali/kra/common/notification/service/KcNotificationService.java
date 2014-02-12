@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.notification.service;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationType;
@@ -70,8 +70,8 @@ public interface KcNotificationService {
      * @param notificationContext
      * @return The KC Notification
      */
-    public void sendNotificationAndPersist(NotificationContext context, KcNotification notification, KraPersistableBusinessObjectBase object);
-    public void sendNotificationAndPersist(NotificationContext context, KcNotification notification, List<NotificationTypeRecipient> notificationTypeRecipients, KraPersistableBusinessObjectBase object);
+    public void sendNotificationAndPersist(NotificationContext context, KcNotification notification, KcPersistableBusinessObjectBase object);
+    public void sendNotificationAndPersist(NotificationContext context, KcNotification notification, List<NotificationTypeRecipient> notificationTypeRecipients, KcPersistableBusinessObjectBase object);
         
     /**
      * Retrieves a list of KC Notifications based on a Document Number, a Module Code, and a set of Action Codes.

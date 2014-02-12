@@ -18,13 +18,13 @@ package org.kuali.kra.coi.actions;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.disclosure.CoiDisclosureAdministratorActionRule;
 import org.kuali.kra.coi.notesandattachments.CoiNoteAndAttachmentAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 

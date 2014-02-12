@@ -15,36 +15,24 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.KcAttachment;
+import org.kuali.kra.bo.PropPerDocType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcAttachmentService;
+
+import javax.persistence.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.struts.upload.FormFile;
-import org.kuali.kra.bo.KcAttachment;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.PropPerDocType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
-import org.kuali.kra.service.KcAttachmentService;
 
 /**
  * 
@@ -53,7 +41,7 @@ import org.kuali.kra.service.KcAttachmentService;
 @Entity
 @Table(name = "EPS_PROP_PERSON_BIO")
 @IdClass(ProposalPersonBiography.ProposalPersonBiographyId.class)
-public class ProposalPersonBiography extends KraPersistableBusinessObjectBase implements KcAttachment {
+public class ProposalPersonBiography extends KcPersistableBusinessObjectBase implements KcAttachment {
 
     @Id
     @Column(name = "PROP_PERSON_NUMBER")

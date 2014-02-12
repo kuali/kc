@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * This class represents protocol person role mapping business object
  */
-public abstract class ProtocolPersonRoleMappingBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolPersonRoleMappingBase extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

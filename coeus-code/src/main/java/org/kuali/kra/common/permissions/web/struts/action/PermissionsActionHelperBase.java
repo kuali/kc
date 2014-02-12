@@ -19,6 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.kra.common.permissions.bo.PermissionsRoleState;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
@@ -34,8 +36,6 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.document.Document;
@@ -66,9 +66,9 @@ public abstract class PermissionsActionHelperBase implements Serializable {
     private static final String DELETE_USER_METHOD = "deleteUser";
     private static final String SET_EDIT_ROLES_METHOD = "setEditRoles";
     
-    private KraTransactionalDocumentActionBase parentAction;
+    private KcTransactionalDocumentActionBase parentAction;
     
-    protected PermissionsActionHelperBase(KraTransactionalDocumentActionBase parentAction) {
+    protected PermissionsActionHelperBase(KcTransactionalDocumentActionBase parentAction) {
         this.parentAction = parentAction;
     }
     

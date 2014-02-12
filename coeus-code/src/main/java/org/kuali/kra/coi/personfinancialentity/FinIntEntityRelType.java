@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
  * 
  * This class is for FE relationship types
  */
-public class FinIntEntityRelType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
+public class FinIntEntityRelType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     /**
      * Comment for <code>serialVersionUID</code>

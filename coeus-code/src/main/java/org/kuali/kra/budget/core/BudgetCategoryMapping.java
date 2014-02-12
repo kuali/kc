@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.core;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class BudgetCategoryMapping extends KraPersistableBusinessObjectBase {
+public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase {
 
     private String budgetCategoryCode;
 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class ProposalLocationType extends KraPersistableBusinessObjectBase {
+public class ProposalLocationType extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 4387258582030826617L;
 

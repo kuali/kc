@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
-import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.*;
 import org.kuali.kra.proposaldevelopment.bo.*;

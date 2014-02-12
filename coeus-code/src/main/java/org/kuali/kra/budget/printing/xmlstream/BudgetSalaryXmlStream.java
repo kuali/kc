@@ -15,11 +15,8 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import org.kuali.kra.printing.schema.BudgetSalaryDocument;
-import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
-import org.kuali.kra.printing.schema.SalaryType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
@@ -28,7 +25,9 @@ import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
 import org.kuali.kra.budget.printing.util.SalaryTypeVO;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.printing.schema.BudgetSalaryDocument;
+import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
+import org.kuali.kra.printing.schema.SalaryType;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -37,7 +36,7 @@ import java.util.Map;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget Salary
- * Report. The data for XML is derived from {@link ResearchDocumentBase} and
+ * Report. The data for XML is derived from {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and
  * {@link Map} of details passed to the class.
  * 
  * @author
@@ -51,7 +50,7 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 
 	/**
 	 * This method generates XML for Budget Salary Report. It uses data passed
-	 * in {@link ResearchDocumentBase} for populating the XML nodes. The XMl
+	 * in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl
 	 * once generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -61,7 +60,7 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		this.budget = (Budget) printableBusinessObject;
 		BudgetSalaryDocument budgetSalaryDocument = BudgetSalaryDocument.Factory

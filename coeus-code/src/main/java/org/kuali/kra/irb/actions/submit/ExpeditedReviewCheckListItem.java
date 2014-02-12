@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 @SuppressWarnings("serial")
-public class ExpeditedReviewCheckListItem extends KraPersistableBusinessObjectBase {
+public class ExpeditedReviewCheckListItem extends KcPersistableBusinessObjectBase {
 
     private String expeditedReviewCheckListCode;
 

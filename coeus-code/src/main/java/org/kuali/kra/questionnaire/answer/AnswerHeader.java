@@ -16,9 +16,8 @@
 package org.kuali.kra.questionnaire.answer;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.questionnaire.question.QuestionDTO;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
@@ -28,7 +27,7 @@ import java.util.List;
 /**
  * Holds additional information related to a series of {@link Answer Answers}.
  */
-public class AnswerHeader extends KraPersistableBusinessObjectBase implements Inactivatable {
+public class AnswerHeader extends KcPersistableBusinessObjectBase implements Inactivatable {
 
     private static final long serialVersionUID = 1L;
 

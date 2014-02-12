@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.negotiations;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.negotiations.bo.Negotiation;
 
 /**
  * This class handles the legacy sequenceNumber/awardNumber data from Coeus
  */
-public class NegotiationAssociate extends KraPersistableBusinessObjectBase {
+public class NegotiationAssociate extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

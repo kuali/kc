@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.home;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class CFDA extends KraPersistableBusinessObjectBase {
+public class CFDA extends KcPersistableBusinessObjectBase {
 
     private String cfdaNumber;
 

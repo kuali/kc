@@ -15,27 +15,16 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.springframework.util.AutoPopulatingList;
+
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import org.kuali.kra.bo.OrganizationAudit;
-import org.kuali.kra.bo.OrganizationIndirectcost;
-import org.kuali.kra.bo.OrganizationType;
-import org.kuali.kra.bo.OrganizationYnq;
-import org.kuali.kra.bo.Rolodex;
-import org.springframework.util.AutoPopulatingList;
 
 @Entity
 @Table(name = "ORGANIZATION")
-public class Organization extends KraPersistableBusinessObjectBase {
+public class Organization extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2010946634885248282L;
 

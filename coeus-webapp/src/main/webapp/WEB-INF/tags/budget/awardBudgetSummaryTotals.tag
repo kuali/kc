@@ -117,7 +117,7 @@
               <c:set var="personnelSalaryCumulativeTotals" value="0.00" />
               <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status">
                 	<c:set var="periodTotalVar" value="period${status.index}" />
-               		<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" />
+               		<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krabfn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" />
               		<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 		           		<td class="tab-subhead" >
 		           			<div align="right">
@@ -125,7 +125,7 @@
 		           			</div>
 		           		</td>
 		           	</c:if>
-	           		<c:set var="personnelSalaryCumulativeTotals" value = "${personnelSalaryCumulativeTotals + krafn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1]) }" />
+	           		<c:set var="personnelSalaryCumulativeTotals" value = "${personnelSalaryCumulativeTotals + krabfn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1]) }" />
 	          </c:forEach>
               <td  align="right" class="tab-subhead">
 				<div align="right">
@@ -270,9 +270,9 @@
 		           	  </div>
 		           	</td>
 		          </c:if>
-               	  <c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].totalFringeAmount)}" />
+               	  <c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krabfn:getBigDecimal(KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].totalFringeAmount)}" />
                	  
-		          <c:set var="personnelFringeCumulativeTotals" value = "${personnelFringeCumulativeTotals + krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].totalFringeAmount)}" />
+		          <c:set var="personnelFringeCumulativeTotals" value = "${personnelFringeCumulativeTotals + krabfn:getBigDecimal(KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].totalFringeAmount)}" />
 	          </c:forEach>
 	          
               <td  align="right" class="tab-subhead">
@@ -404,7 +404,7 @@
               	<c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
                 	<c:set var="periodTotalVar" value="period${status.index}" />
                 	<c:set var="personnelCalculatedExpenseSummaryTotal" value="${personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]}"/>
-               		<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(personnelCalculatedExpenseSummaryTotal)}" />
+               		<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krabfn:getBigDecimal(personnelCalculatedExpenseSummaryTotal)}" />
               		<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 		           		<td class="tab-subhead" >
 		           			<div align="right">
@@ -412,7 +412,7 @@
 		           			</div>
 		           		</td>
 		           	</c:if>
-	           		<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value = "${personnelCalculatedExpenseSummaryCumulativeTotals + krafn:getBigDecimal(personnelCalculatedExpenseSummaryTotal) }" />
+	           		<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value = "${personnelCalculatedExpenseSummaryCumulativeTotals + krabfn:getBigDecimal(personnelCalculatedExpenseSummaryTotal) }" />
 	          	</c:forEach>
 				<td align="right" class="tab-subhead">
 					<div align="right">
@@ -596,7 +596,7 @@
 		           			</div>
 		           		</td>
 		           	</c:if>
-	           		<c:set var="nonPersonnelCalculatedExpenseSummaryCumulativeTotals" value = "${nonPersonnelCalculatedExpenseSummaryCumulativeTotals + krafn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]) }" />
+	           		<c:set var="nonPersonnelCalculatedExpenseSummaryCumulativeTotals" value = "${nonPersonnelCalculatedExpenseSummaryCumulativeTotals + krabfn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]) }" />
 	          	</c:forEach>
 				<td  align="right" class="tab-subhead">
 					<div align="right">

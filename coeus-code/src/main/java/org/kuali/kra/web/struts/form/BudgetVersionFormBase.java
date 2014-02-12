@@ -16,6 +16,8 @@
 package org.kuali.kra.web.struts.form;
 
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -30,7 +32,7 @@ import java.util.List;
 /**
  * This class contains methods common to ProposalDevelopment and Budget forms.
  */
-public abstract class BudgetVersionFormBase extends KraTransactionalDocumentFormBase implements Auditable {
+public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormBase implements AuditableForm {
     
     private static final long serialVersionUID = -7013211193142134599L;
     private String newBudgetVersionName;

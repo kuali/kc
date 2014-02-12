@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public abstract class NegotiationsGroupingBase extends KraPersistableBusinessObjectBase implements Comparable<NegotiationsGroupingBase>, MutableInactivatable {
+public abstract class NegotiationsGroupingBase extends KcPersistableBusinessObjectBase implements Comparable<NegotiationsGroupingBase>, MutableInactivatable {
 
     private Long id;
 

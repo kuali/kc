@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.questionnaire.print;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -44,11 +44,11 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
 
     /**
      * 
-     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaire(org.kuali.kra.document.ResearchDocumentBase,
+     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaire(org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase,
      *      java.util.Map)
      */
     public AttachmentDataSource printQuestionnaire(
-            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters)
+            KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters)
             throws PrintingException {
         /* TODO : Questionnaire is a maintenance document.  questionnaireId is generated when document is approved and
         *   saved to DB. so, pk is not in doc xml content, and passing questionnaireid will not work.
@@ -72,7 +72,7 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
      * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaireAnswer(KewPersistableBusinessObjectBase,
      *      java.util.Map)
      */
-    public AttachmentDataSource printQuestionnaireAnswer(KraPersistableBusinessObjectBase printableBusinessObject, 
+    public AttachmentDataSource printQuestionnaireAnswer(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) throws PrintingException {
         AttachmentDataSource source = null;
         AbstractPrint printable = getQuestionnairePrint();
@@ -96,9 +96,9 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
 
     /**
      * 
-     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#getQuestionnairePrintable(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.List)
+     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#getQuestionnairePrintable(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.List)
      */
-    public List<Printable> getQuestionnairePrintable(KraPersistableBusinessObjectBase printableBusinessObject, 
+    public List<Printable> getQuestionnairePrintable(KcPersistableBusinessObjectBase printableBusinessObject,
                                                      List<QuestionnairePrintOption> questionnairesToPrints) {
         List<Printable> printables = new ArrayList<Printable>();
         for (QuestionnairePrintOption printOption : questionnairesToPrints) {

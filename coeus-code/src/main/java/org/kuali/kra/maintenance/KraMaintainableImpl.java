@@ -16,8 +16,8 @@
 package org.kuali.kra.maintenance;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -42,9 +42,9 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        if ((businessObject != null) && (businessObject instanceof KraPersistableBusinessObjectBase)) {
-            ((KraPersistableBusinessObjectBase) businessObject).setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
-            ((KraPersistableBusinessObjectBase) businessObject).setUpdateUserSet(true);
+        if ((businessObject != null) && (businessObject instanceof KcPersistableBusinessObjectBase)) {
+            ((KcPersistableBusinessObjectBase) businessObject).setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+            ((KcPersistableBusinessObjectBase) businessObject).setUpdateUserSet(true);
 
             // This is a solution to enable the lookreturn have a proper dropdown list ?
             if (businessObject instanceof CustomAttribute && StringUtils.isNotBlank(((CustomAttribute)businessObject).getLookupClass())) {

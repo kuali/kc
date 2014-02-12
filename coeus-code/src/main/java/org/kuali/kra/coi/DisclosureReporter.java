@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.coi;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
 import java.util.List;
 
-public  abstract class DisclosureReporter extends KraPersistableBusinessObjectBase {
+public  abstract class DisclosureReporter extends KcPersistableBusinessObjectBase {
 
     private transient KcPersonService kcPersonService;
     private transient KcPerson reporter;

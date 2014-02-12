@@ -16,7 +16,7 @@
 package org.kuali.kra.award.budget.document;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.commitments.FandaRateType;
@@ -105,7 +105,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     }
 
     /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getDocumentTypeCode()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getDocumentTypeCode()
      */
     @Override
     public String getDocumentTypeCode() {

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.printing;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.util.watermark.Watermarkable;
 
 import javax.xml.transform.Source;
@@ -55,7 +55,7 @@ public interface Printable extends Serializable {
 	 * 
 	 * @return ResearchDocument
 	 */
-	public KraPersistableBusinessObjectBase getPrintableBusinessObject();
+	public KcPersistableBusinessObjectBase getPrintableBusinessObject();
 	
 	/**
 	 * This method will return the PDF attachments specific to the printable.

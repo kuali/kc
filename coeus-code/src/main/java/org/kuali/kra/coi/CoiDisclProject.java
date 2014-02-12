@@ -17,9 +17,9 @@ package org.kuali.kra.coi;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.protocol.IacucProtocolType;
 import org.kuali.kra.infrastructure.Constants;
@@ -38,7 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoiDisclProject extends KraPersistableBusinessObjectBase implements Disclosurable { 
+public class CoiDisclProject extends KcPersistableBusinessObjectBase implements Disclosurable {
     
 
     /**

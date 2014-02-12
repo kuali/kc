@@ -1,16 +1,15 @@
 package org.kuali.kra.printing.xmlstream;
 
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.common.printing.PendingReportBean;
+import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingReportCEColumnNames;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport.PendingReportCEColomnValues;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.printing.PendingReportBean;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 
 import java.util.*;
@@ -18,7 +17,7 @@ import java.util.*;
 /**
  * This class generates XML that confirms with the XSD related to Pending
  * Proposal Report. The data for XML is derived from
- * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  */
 public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
@@ -30,7 +29,7 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
     private static final int PROP_PENDING_STATUS = 1;    
 	/**
 	 * This method generates XML for Pending Proposal Report. It uses data
-	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
+	 * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -40,7 +39,7 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		CurrentAndPendingSupportDocument currentAndPendingSupportDocument=CurrentAndPendingSupportDocument.Factory.newInstance();
 		CurrentAndPendingSupport currentAndPendingSupport = CurrentAndPendingSupport.Factory

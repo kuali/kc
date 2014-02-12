@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 public class InstitutionalProposalIntellectualPropertyReviewAction extends InstitutionalProposalAction {
     
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      * 
      * There's nothing editable on this page, so skip saving the whole object graph.
      */

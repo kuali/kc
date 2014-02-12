@@ -16,9 +16,8 @@
 package org.kuali.kra.negotiations.document;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
@@ -27,12 +26,9 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +37,7 @@ import java.util.List;
  */
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_NEGOTIATION)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class NegotiationDocument extends ResearchDocumentBase implements Serializable {
+public class NegotiationDocument extends KcTransactionalDocumentBase implements Serializable {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -74,7 +70,7 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
     
     /**
      * 
-     * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#initialize()
      */
     @Override
     public void initialize() {
@@ -97,7 +93,7 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
     }
 
     /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getDocumentTypeCode()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getDocumentTypeCode()
      */
     @Override
     public String getDocumentTypeCode() {

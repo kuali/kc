@@ -16,11 +16,11 @@
 package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 
-public class PersonFinIntDisclosureAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<PersonFinIntDisclosure> {
+public class PersonFinIntDisclosureAssociate extends KcPersistableBusinessObjectBase implements SequenceAssociate<PersonFinIntDisclosure> {
 
     /**
      * Comment for <code>serialVersionUID</code>

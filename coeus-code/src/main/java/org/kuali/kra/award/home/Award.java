@@ -17,6 +17,7 @@ package org.kuali.kra.award.home;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardTemplateSyncScope;
@@ -63,6 +64,7 @@ import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -86,7 +88,7 @@ import java.util.*;
  * This class is Award Business Object.
  * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
-public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>, Permissionable,
+public class Award extends KcPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>, Permissionable,
         SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable, Disclosurable {
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     public static final String BLANK_COMMENT = "";
@@ -259,7 +261,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private transient boolean allowUpdateTimestampToBeReset = true;
     
     private VersionHistorySearchBo versionHistory;
-
+    private transient KcPersonService kcPersonService;
     /**
      * 
      * Constructs an Award BO.
@@ -3595,5 +3597,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.projectPersons = projectPersons;
     }
 
-    
+    /**
+     * Looks up and returns the KcPersonService.
+     * @return the person service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
+    }
 }

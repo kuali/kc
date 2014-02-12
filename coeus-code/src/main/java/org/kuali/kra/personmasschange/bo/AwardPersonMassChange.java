@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.personmasschange.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Defines the fields for an Award Person Mass Change.
  */
-public class AwardPersonMassChange extends KraPersistableBusinessObjectBase {
+public class AwardPersonMassChange extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 7391485345162146878L;
     

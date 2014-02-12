@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.external.award;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 
-public class FinancialIndirectCostRecoveryTypeCode extends KraPersistableBusinessObjectBase {
+public class FinancialIndirectCostRecoveryTypeCode extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

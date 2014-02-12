@@ -17,15 +17,15 @@ package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
 
-public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>, SequenceOwner<Questionnaire>, MutableInactivatable, PersistableAttachment {
+public class Questionnaire extends KcPersistableBusinessObjectBase implements Comparable<Questionnaire>, SequenceOwner<Questionnaire>, MutableInactivatable, PersistableAttachment {
 
     private static final long serialVersionUID = 8679896046435777084L;
 

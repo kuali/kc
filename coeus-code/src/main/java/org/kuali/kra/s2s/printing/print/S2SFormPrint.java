@@ -1,6 +1,6 @@
 package org.kuali.kra.s2s.printing.print;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.xmlstream.XmlStream;
@@ -19,7 +19,7 @@ public class S2SFormPrint extends AbstractPrint {
 		// do nothing
 	}
 
-	public S2SFormPrint(XmlStream xmlStream, Source template,KraPersistableBusinessObjectBase printableBusinessObject) {
+	public S2SFormPrint(XmlStream xmlStream, Source template,KcPersistableBusinessObjectBase printableBusinessObject) {
 		setXmlStream(xmlStream);
 		setPrintableBusinessObject(printableBusinessObject);
 		templates = new ArrayList<Source>();

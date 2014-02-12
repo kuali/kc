@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.parameters;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class BudgetPeriodType extends KraPersistableBusinessObjectBase {
+public class BudgetPeriodType extends KcPersistableBusinessObjectBase {
 
     private String budgetPeriodTypeCode;
 

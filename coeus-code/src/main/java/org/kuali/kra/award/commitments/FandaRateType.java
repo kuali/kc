@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.commitments;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class represents the FandaRateType Business Object.
  */
-public class FandaRateType extends KraPersistableBusinessObjectBase {
+public class FandaRateType extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

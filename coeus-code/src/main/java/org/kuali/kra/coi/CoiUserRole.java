@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.coi;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class CoiUserRole extends KraPersistableBusinessObjectBase {
+public class CoiUserRole extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

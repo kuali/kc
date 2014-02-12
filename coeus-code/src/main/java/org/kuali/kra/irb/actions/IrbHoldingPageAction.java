@@ -18,8 +18,8 @@ package org.kuali.kra.irb.actions;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.controller.AbstractHoldingPageAction;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.web.struts.action.AbstractHoldingPageAction;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class IrbHoldingPageAction extends AbstractHoldingPageAction {
 
-    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -37,7 +36,7 @@ public class IrbHoldingPageAction extends AbstractHoldingPageAction {
         ActionForward forward = super.execute(mapping, form, request, response);
         
         Object documentId = GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_DOCUMENT_ID);
-        Document document = getDocumentService().getByDocumentHeaderId(documentId.toString());
+        Document document = getByDocumentHeaderId(documentId.toString());
         if (isDocumentPostprocessingComplete(document)) {
             String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
             GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
@@ -48,5 +47,4 @@ public class IrbHoldingPageAction extends AbstractHoldingPageAction {
         
         return forward;
     }
-   
 }

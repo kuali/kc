@@ -16,7 +16,9 @@
 package org.kuali.kra.bo;
 
 
-public abstract class ResearchAreaBase extends KraPersistableBusinessObjectBase {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+public abstract class ResearchAreaBase extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

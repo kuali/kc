@@ -297,7 +297,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
 
     /**
      * 
-     * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
+     * @see org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
     protected void preUpdate() {
@@ -319,7 +319,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
 
     /**
      * This sets the update time stamp only if it hasn't already been set.
-     * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#setUpdateTimestamp(java.sql.Timestamp)
+     * @see org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase#setUpdateTimestamp(java.sql.Timestamp)
      */
     @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {

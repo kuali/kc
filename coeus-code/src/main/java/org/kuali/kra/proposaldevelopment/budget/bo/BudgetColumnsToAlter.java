@@ -15,18 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "BUDGET_COLUMNS_TO_ALTER")
-public class BudgetColumnsToAlter extends KraPersistableBusinessObjectBase {
+public class BudgetColumnsToAlter extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "COLUMN_NAME")

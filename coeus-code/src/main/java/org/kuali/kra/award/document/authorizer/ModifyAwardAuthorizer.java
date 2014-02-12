@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.document.authorizer;
 
-import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;

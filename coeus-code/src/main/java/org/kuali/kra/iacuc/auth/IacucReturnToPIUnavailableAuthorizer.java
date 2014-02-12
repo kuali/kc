@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;

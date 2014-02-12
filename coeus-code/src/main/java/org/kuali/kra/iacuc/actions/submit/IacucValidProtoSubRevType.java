@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 
-public class IacucValidProtoSubRevType extends KraPersistableBusinessObjectBase {
+public class IacucValidProtoSubRevType extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

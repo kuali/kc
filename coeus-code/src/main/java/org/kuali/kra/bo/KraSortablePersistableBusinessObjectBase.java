@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 
 /**
  * Defines a sortable Business Object that sorts via a {@code sortId}.
  */
 @MappedSuperclass
-public abstract class KraSortablePersistableBusinessObjectBase extends KraPersistableBusinessObjectBase {
+public abstract class KraSortablePersistableBusinessObjectBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1375643268900632092L;
 

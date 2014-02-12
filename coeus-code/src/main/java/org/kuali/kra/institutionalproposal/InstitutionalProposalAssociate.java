@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.institutionalproposal;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 /**
  * This class handles the legacy sequenceNumber/awardNumber data from Coeus
  */
-public class InstitutionalProposalAssociate extends KraPersistableBusinessObjectBase {
+public class InstitutionalProposalAssociate extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

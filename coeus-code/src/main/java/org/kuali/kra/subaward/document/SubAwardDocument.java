@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.subaward.document;
 
-import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * This class is for subAwardDocument...
  */
-public class SubAwardDocument extends ResearchDocumentBase
+public class SubAwardDocument extends KcTransactionalDocumentBase
 implements  Copyable, SessionDocument {
 
     /**.

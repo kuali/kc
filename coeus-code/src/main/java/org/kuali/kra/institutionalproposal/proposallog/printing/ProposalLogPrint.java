@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.printing;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -46,7 +46,7 @@ public class ProposalLogPrint extends AbstractPrint {
 	}
 
     @Override
-    public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
+    public KcPersistableBusinessObjectBase getPrintableBusinessObject() {
         return null;
     }
 

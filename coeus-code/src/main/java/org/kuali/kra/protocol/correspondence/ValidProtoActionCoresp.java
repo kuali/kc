@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.correspondence;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
-public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase {
+public class ValidProtoActionCoresp extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

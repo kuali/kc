@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 @SuppressWarnings("serial")
-public class ProtocolReviewerType extends KraPersistableBusinessObjectBase {
+public class ProtocolReviewerType extends KcPersistableBusinessObjectBase {
 
     private String reviewerTypeCode;
 

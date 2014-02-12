@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.coi;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * This class represents the Coi Attachment Type.
  */
-public class CoiAttachmentType extends KraPersistableBusinessObjectBase {
+public class CoiAttachmentType extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 9039394358118993431L;
 

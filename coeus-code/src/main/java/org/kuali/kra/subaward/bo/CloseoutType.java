@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
 * This class represents closeout type.
 *  Here Close out description and corresponding type codes are getting.
  */
-public class CloseoutType extends KraPersistableBusinessObjectBase {
+public class CloseoutType extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

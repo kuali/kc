@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.paymentreports;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class represents a ValidClassReportFrequency business objects 
  */
-public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase {
+public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

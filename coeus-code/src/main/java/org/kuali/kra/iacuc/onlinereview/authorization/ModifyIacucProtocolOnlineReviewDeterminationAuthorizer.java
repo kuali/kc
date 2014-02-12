@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.onlinereview.authorization;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;

@@ -22,8 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
@@ -69,7 +69,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      */
     public void approveDisclosure(CoiDisclosure coiDisclosure, String coiDispositionCode) throws WorkflowException {
         CoiDisclosure masterCoiDisclosure = getMasterDisclosure(coiDisclosure.getCoiDisclosureNumber());
-        List<KraPersistableBusinessObjectBase> disclosures = new ArrayList<KraPersistableBusinessObjectBase>();
+        List<KcPersistableBusinessObjectBase> disclosures = new ArrayList<KcPersistableBusinessObjectBase>();
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.APPROVED);
         

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,7 +27,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "NOTICE_OF_OPPORTUNITY")
-public class NoticeOfOpportunity extends KraPersistableBusinessObjectBase {
+public class NoticeOfOpportunity extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "NOTICE_OF_OPPORTUNITY_CODE")

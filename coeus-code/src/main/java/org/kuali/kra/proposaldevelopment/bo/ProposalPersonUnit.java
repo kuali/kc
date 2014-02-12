@@ -15,31 +15,19 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
@@ -53,7 +41,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
 @Entity
 @Table(name = "EPS_PROP_PERSON_UNITS")
 @IdClass(ProposalPersonUnit.ProposalPersonUnitId.class)
-public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
+public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implements CreditSplitable {
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")

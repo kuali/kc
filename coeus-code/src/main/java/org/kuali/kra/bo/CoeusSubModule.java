@@ -16,7 +16,9 @@
 package org.kuali.kra.bo;
 
 
-public class CoeusSubModule extends KraPersistableBusinessObjectBase {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+public class CoeusSubModule extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

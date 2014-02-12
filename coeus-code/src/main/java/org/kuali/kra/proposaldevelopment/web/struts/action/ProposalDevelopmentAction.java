@@ -22,7 +22,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
+import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -52,8 +54,6 @@ import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.NonCancellingRecallQuestion;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
@@ -310,7 +310,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     }
 
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#saveOnClose(org.apache.struts.action.ActionMapping, 
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#saveOnClose(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -536,7 +536,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     }   
     
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#initialDocumentSave(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {

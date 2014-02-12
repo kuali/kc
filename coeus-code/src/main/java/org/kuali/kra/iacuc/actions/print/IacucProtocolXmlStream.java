@@ -18,8 +18,8 @@ package org.kuali.kra.iacuc.actions.print;
 import edu.mit.coeus.xml.iacuc.*;
 import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -60,9 +60,9 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
     protected static final String FLAG_NO = "No";
 
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
+     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         IacucProtocol protocol = (IacucProtocol) printableBusinessObject;        
         ProtocolDocument protocolDocumentType = ProtocolDocument.Factory.newInstance();   
         protocolDocumentType.setProtocol(getProtocol(protocol));

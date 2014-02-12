@@ -16,7 +16,9 @@
 package org.kuali.kra.bo;
 
 
-public abstract class AbstractSponsorFormTemplate extends KraPersistableBusinessObjectBase implements Comparable<AbstractSponsorFormTemplate> {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+public abstract class AbstractSponsorFormTemplate extends KcPersistableBusinessObjectBase implements Comparable<AbstractSponsorFormTemplate> {
 
     private Long sponsorFormTemplateId;
 

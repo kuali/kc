@@ -19,7 +19,7 @@ import com.lowagie.text.Image;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Watermark;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public abstract class ProtocolPrintWatermarkBase implements Watermarkable {
 
-    private KraPersistableBusinessObjectBase persistableBusinessObject;
+    private KcPersistableBusinessObjectBase persistableBusinessObject;
     private static final Log LOG = LogFactory.getLog(ProtocolPrintWatermarkBase.class);
     private static final String INVALID_WATERMARK_CODE = "-1";
     private WatermarkBean watermarkBean;
@@ -229,11 +229,11 @@ public abstract class ProtocolPrintWatermarkBase implements Watermarkable {
         this.watermarkBean = watermarkBean;
     }
 
-    public KraPersistableBusinessObjectBase getPersistableBusinessObject() {
+    public KcPersistableBusinessObjectBase getPersistableBusinessObject() {
         return persistableBusinessObject;
     }
 
-    public void setPersistableBusinessObject(KraPersistableBusinessObjectBase persistableBusinessObject) {
+    public void setPersistableBusinessObject(KcPersistableBusinessObjectBase persistableBusinessObject) {
         this.persistableBusinessObject = persistableBusinessObject;
     }
 

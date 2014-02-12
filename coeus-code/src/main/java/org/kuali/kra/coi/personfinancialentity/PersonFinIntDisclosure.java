@@ -16,9 +16,9 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.OrganizationTypeList;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
@@ -33,7 +33,7 @@ import java.util.List;
  * 
  * This class is bo of person Int. FE disclosure
  */
-public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<PersonFinIntDisclosure> { 
+public class PersonFinIntDisclosure extends KcPersistableBusinessObjectBase implements SequenceOwner<PersonFinIntDisclosure> {
 
     /**
      * Comment for <code>serialVersionUID</code>

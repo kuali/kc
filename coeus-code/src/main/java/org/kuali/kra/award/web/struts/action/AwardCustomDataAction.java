@@ -55,7 +55,7 @@ public class AwardCustomDataAction extends AwardAction {
     /**
      * There is the additional logic in save for custom data.  there is not add functionality in the custom data tab, so the form custom data
      * is being added to the award on save.
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -71,7 +71,7 @@ public class AwardCustomDataAction extends AwardAction {
     }
     
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     public void postDocumentSave(KualiDocumentFormBase form) throws Exception {

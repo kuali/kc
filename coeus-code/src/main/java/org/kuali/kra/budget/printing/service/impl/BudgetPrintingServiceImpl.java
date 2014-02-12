@@ -17,7 +17,7 @@ package org.kuali.kra.budget.printing.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.budget.printing.print.*;
@@ -71,7 +71,7 @@ public class BudgetPrintingServiceImpl implements BudgetPrintService {
 	 * 
 	 */
 	public AttachmentDataSource printBudgetReport(
-	        KraPersistableBusinessObjectBase budget, String reportName)
+	        KcPersistableBusinessObjectBase budget, String reportName)
 			throws PrintingException {
 		AttachmentDataSource attachmentDataSource = null;
 		AbstractPrint printable = null;

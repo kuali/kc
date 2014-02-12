@@ -16,16 +16,16 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 import java.io.Serializable;
 
 /**
  * This class handles the legacy sequenceNumber/awardNumber data from Coeus
  */
-public abstract class AwardAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Award>, Serializable {
+public abstract class AwardAssociate extends KcPersistableBusinessObjectBase implements SequenceAssociate<Award>, Serializable {
 
     private static final long serialVersionUID = -1966175324490120727L;
 
@@ -87,7 +87,7 @@ public abstract class AwardAssociate extends KraPersistableBusinessObjectBase im
     /**
      * If the award's award number is not equal to the award number we will persist, 
      * then update it based on the award.
-     * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#prePersist()
+     * @see org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase#prePersist()
      */
     @Override
     protected void prePersist() {

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,7 +26,7 @@ import java.util.Map;
  * a. It checks for number of attributes used in toStringMapper.
  * b. It also test for fields and values passed in toStringMapper.
  */
-public abstract class BoAttributeTestBase<T extends KraPersistableBusinessObjectBase> {
+public abstract class BoAttributeTestBase<T extends KcPersistableBusinessObjectBase> {
 
     private int attributeCount;
 

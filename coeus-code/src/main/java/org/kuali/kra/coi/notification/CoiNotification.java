@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.notification;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -30,7 +30,7 @@ public class CoiNotification extends KcNotification {
         super();
     }
 
-    public void persistOwningObject(KraPersistableBusinessObjectBase object) {
+    public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         if (object instanceof CoiDisclosure) {
             CoiDisclosure disclosure = (CoiDisclosure)object;
             disclosure.addNotification(this);

@@ -16,11 +16,11 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 
 @SuppressWarnings("serial")
-public class ProtocolExpeditedReviewCheckListItem extends KraPersistableBusinessObjectBase {
+public class ProtocolExpeditedReviewCheckListItem extends KcPersistableBusinessObjectBase {
 
     private Long protocolExpeditedCheckListId;
 

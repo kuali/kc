@@ -15,29 +15,22 @@
  */
 package org.kuali.kra.bo;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.kuali.kra.bo.CitizenshipType;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.bo.PersistableAttachmentList;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.springframework.util.AutoPopulatingList;
 
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Class contains attributes related to a KIM entity that do not currently have a home inside of KIM.
  */
 @MappedSuperclass
-public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase implements PersistableAttachmentList<PersonBiosketch> {
+public class KcPersonExtendedAttributes extends KcPersistableBusinessObjectBase implements PersistableAttachmentList<PersonBiosketch> {
 
     private static final long serialVersionUID = 4705483839362366571L;
 

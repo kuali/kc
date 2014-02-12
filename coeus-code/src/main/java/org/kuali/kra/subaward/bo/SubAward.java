@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.*;
@@ -44,7 +45,7 @@ import java.util.Map;
  * 
  * This class is using for SubAward...
  */
-public class SubAward extends KraPersistableBusinessObjectBase
+public class SubAward extends KcPersistableBusinessObjectBase
 implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     private static final long serialVersionUID = 1L;

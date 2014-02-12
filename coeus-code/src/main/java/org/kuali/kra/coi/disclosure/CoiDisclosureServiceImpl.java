@@ -18,13 +18,13 @@ package org.kuali.kra.coi.disclosure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.lookup.dao.CoiDisclosureDao;
@@ -60,7 +60,6 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
-
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -435,7 +434,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /*
      * get moduleitemkey from different project bo
      */
-    private String getModuleItemKey(CoiDisclosure coiDisclosure, KraPersistableBusinessObjectBase eventBo) {
+    private String getModuleItemKey(CoiDisclosure coiDisclosure, KcPersistableBusinessObjectBase eventBo) {
         // TODO : this is a temp method, should add interface and 'getmoduleitemkey' in the disclosurable bos    
         String moduleItemKey = null;
         if (coiDisclosure.isProtocolEvent()) {
@@ -456,7 +455,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return moduleItemKey;
     }
     
-    private String getProjectIdFk(CoiDisclosure coiDisclosure, KraPersistableBusinessObjectBase eventBo) {
+    private String getProjectIdFk(CoiDisclosure coiDisclosure, KcPersistableBusinessObjectBase eventBo) {
     // TODO : this is a temp method, should add interface and 'getmoduleitemkey' in the disclosurable bos    
         String projectIdFk = null;
         if (coiDisclosure.isProtocolEvent()) {
@@ -480,7 +479,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /*
      * get project title from different project bo
      */
-    private String getProjectTitle(CoiDisclosure coiDisclosure, KraPersistableBusinessObjectBase eventBo) {
+    private String getProjectTitle(CoiDisclosure coiDisclosure, KcPersistableBusinessObjectBase eventBo) {
         String projectTitle = null;
         if (coiDisclosure.isProtocolEvent()) {
             projectTitle = ((Protocol)eventBo).getTitle();
@@ -502,8 +501,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /*
      * set up the eventbo based on disclosure event and projectid
      */
-    private KraPersistableBusinessObjectBase getEventBo(CoiDisclosure coiDisclosure, String projectId) {
-        KraPersistableBusinessObjectBase eventBo = null;
+    private KcPersistableBusinessObjectBase getEventBo(CoiDisclosure coiDisclosure, String projectId) {
+        KcPersistableBusinessObjectBase eventBo = null;
         if (coiDisclosure.isProtocolEvent()) {
             eventBo = getProtocol(Long.valueOf(projectId));
         }

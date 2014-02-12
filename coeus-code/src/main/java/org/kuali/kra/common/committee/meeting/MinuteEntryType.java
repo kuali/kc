@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is minute entry type code.
  */
-public class MinuteEntryType extends KraPersistableBusinessObjectBase implements Comparable<MinuteEntryType> {
+public class MinuteEntryType extends KcPersistableBusinessObjectBase implements Comparable<MinuteEntryType> {
 
     public static final String ATTENDANCE = "2";
 

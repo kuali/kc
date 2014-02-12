@@ -16,7 +16,9 @@
 package org.kuali.kra.bo;
 
 
-public class NsfCode extends KraPersistableBusinessObjectBase {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+public class NsfCode extends KcPersistableBusinessObjectBase {
 
     private Integer nsfSequenceNumber;
 

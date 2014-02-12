@@ -16,11 +16,11 @@
 package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public abstract class DisclosureReporterUnit extends KraPersistableBusinessObjectBase {
+public abstract class DisclosureReporterUnit extends KcPersistableBusinessObjectBase {
     private String unitName;
     private Unit unit; 
     

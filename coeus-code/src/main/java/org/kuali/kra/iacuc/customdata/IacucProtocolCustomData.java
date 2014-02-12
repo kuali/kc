@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.customdata;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class IacucProtocolCustomData extends KraPersistableBusinessObjectBase implements DocumentCustomData {
+public class IacucProtocolCustomData extends KcPersistableBusinessObjectBase implements DocumentCustomData {
 
     private static final long serialVersionUID = 8074330420210212533L;
 

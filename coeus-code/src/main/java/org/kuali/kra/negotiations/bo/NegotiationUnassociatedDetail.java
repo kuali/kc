@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.negotiations.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import java.util.List;
  * 
  * This class handles the attributes needed for an unassociated negotiation.
  */
-public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectBase implements Negotiable {
+public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBase implements Negotiable {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -58,6 +60,8 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
     //transient
     private String piEmployeeUserName;
     private String contactAdminUserName;
+
+    private transient KcPersonService kcPersonService;
     
     /**
      * 
@@ -489,5 +493,16 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
     @Override
     public String getSubAwardRequisitionerId() {
         return EMPTY_STRING;
+    }
+
+    /**
+     * Looks up and returns the KcPersonService.
+     * @return the person service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
     }
 }

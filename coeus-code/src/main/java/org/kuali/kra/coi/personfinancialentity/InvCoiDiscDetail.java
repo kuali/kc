@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class InvCoiDiscDetail extends KraPersistableBusinessObjectBase {
+public class InvCoiDiscDetail extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

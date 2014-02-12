@@ -15,15 +15,11 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import org.kuali.kra.printing.schema.*;
-import org.kuali.kra.printing.schema.BudgetSummaryReportDocument.BudgetSummaryReport;
-import org.kuali.kra.printing.schema.ReportPageType.BudgetSummary;
-import org.kuali.kra.printing.schema.ReportPageType.CalculationMethodology;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
@@ -34,14 +30,17 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.printing.util.ReportTypeVO;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.BudgetSummaryReportDocument.BudgetSummaryReport;
+import org.kuali.kra.printing.schema.ReportPageType.BudgetSummary;
+import org.kuali.kra.printing.schema.ReportPageType.CalculationMethodology;
 
 import java.sql.Date;
 import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget Summary
- * Report. The data for XML is derived from {@link ResearchDocumentBase} and
+ * Report. The data for XML is derived from {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and
  * {@link Map} of details passed to the class.
  * 
  * @author
@@ -54,7 +53,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 
 	/**
 	 * This method generates XML for Award Delta Report. It uses data passed in
-	 * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
+	 * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl once
 	 * generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -64,7 +63,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		this.budget = (Budget) printableBusinessObject;
 		if (budget != null) {

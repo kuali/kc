@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class IntellectualPropertyReviewResultType extends KraPersistableBusinessObjectBase {
+public class IntellectualPropertyReviewResultType extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

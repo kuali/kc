@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.personmasschange.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonMassChange extends KraPersistableBusinessObjectBase {
+public class PersonMassChange extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2236054992674521658L;
 

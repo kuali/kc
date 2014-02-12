@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.printing;
 
-import org.kuali.kra.printing.schema.*;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -44,7 +43,7 @@ public class ProposalLogXmlStream implements XmlStream {
 
     /**
      * This method generates XML for Print Certification Report. It uses data
-     * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
+     * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
      * XMl once generated is returned as {@link XmlObject}
      * 
      * @param object
@@ -56,7 +55,7 @@ public class ProposalLogXmlStream implements XmlStream {
      *             in case of any errors occur during XML generation.
      */
     public Map<String, XmlObject> generateXmlStream(
-            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+            KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         ProposalLog proposalLog = (ProposalLog)reportParameters.get(ProposalLogPrintingService.PROPOSAL_LOG_KEY);
         proposalLog.refreshNonUpdateableReferences();

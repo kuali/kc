@@ -17,8 +17,8 @@ package org.kuali.kra.questionnaire.question;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
@@ -28,7 +28,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Question extends KraPersistableBusinessObjectBase implements Comparable<Question>, SequenceOwner<Question> {
+public class Question extends KcPersistableBusinessObjectBase implements Comparable<Question>, SequenceOwner<Question> {
 
     private static final long serialVersionUID = 1L;
 

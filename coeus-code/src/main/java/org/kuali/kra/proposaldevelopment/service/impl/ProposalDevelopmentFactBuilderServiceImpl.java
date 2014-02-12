@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
@@ -51,7 +51,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
         }
     }
     
-    public void addFacts(Facts.Builder factsBuilder, ResearchDocumentBase document) {
+    public void addFacts(Facts.Builder factsBuilder, KcTransactionalDocumentBase document) {
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         addBudgetFacts(factsBuilder,proposalDevelopmentDocument);

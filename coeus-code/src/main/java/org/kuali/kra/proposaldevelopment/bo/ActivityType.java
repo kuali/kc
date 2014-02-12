@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "ACTIVITY_TYPE")
-public class ActivityType extends KraPersistableBusinessObjectBase {
+public class ActivityType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "ACTIVITY_TYPE_CODE")

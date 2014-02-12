@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.onlinereview.authorization;
 
-import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 

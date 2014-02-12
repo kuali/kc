@@ -15,29 +15,20 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Every Proposal can have zero or more Abstracts attached to it.
@@ -49,7 +40,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 @Entity
 @Table(name = "EPS_PROP_ABSTRACT")
 @IdClass(ProposalAbstract.ProposalAbstractId.class)
-public class ProposalAbstract extends KraPersistableBusinessObjectBase {
+public class ProposalAbstract extends KcPersistableBusinessObjectBase {
 
     ;
 

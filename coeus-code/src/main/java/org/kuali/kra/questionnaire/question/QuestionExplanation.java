@@ -16,10 +16,10 @@
 package org.kuali.kra.questionnaire.question;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class QuestionExplanation extends KraPersistableBusinessObjectBase implements SequenceAssociate<Question> {
+public class QuestionExplanation extends KcPersistableBusinessObjectBase implements SequenceAssociate<Question> {
 
     private static final long serialVersionUID = 1L;
 

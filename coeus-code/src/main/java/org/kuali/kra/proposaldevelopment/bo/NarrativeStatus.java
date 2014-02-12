@@ -15,16 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "NARRATIVE_STATUS")
-public class NarrativeStatus extends KraPersistableBusinessObjectBase {
+public class NarrativeStatus extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "NARRATIVE_STATUS_CODE")

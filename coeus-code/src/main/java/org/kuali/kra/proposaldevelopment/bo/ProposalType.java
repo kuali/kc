@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "PROPOSAL_TYPE")
-public class ProposalType extends KraPersistableBusinessObjectBase {
+public class ProposalType extends KcPersistableBusinessObjectBase {
 
     public static final String RESUBMISSION_TYPE_CODE = "2";
 

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.budget.core;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * This class is for associating common Budget properties to the extended Budget children BOs
  */
-public abstract class BudgetAssociate extends KraPersistableBusinessObjectBase implements BudgetAssociateInterface {
+public abstract class BudgetAssociate extends KcPersistableBusinessObjectBase implements BudgetAssociateInterface {
 
     /**
      * Comment for <code>serialVersionUID</code>

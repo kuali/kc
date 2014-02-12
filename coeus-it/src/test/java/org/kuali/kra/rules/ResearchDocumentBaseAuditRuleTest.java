@@ -19,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -40,6 +40,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+
 import static org.junit.Assert.*;
 /**
  * This class tests the ResearchDocumentBaseAuditRule class
@@ -85,7 +86,7 @@ public class ResearchDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
 
         Map<String, CustomAttribute> requiredFields = new HashMap<String, CustomAttribute>();
 
-        Map<String, CustomAttributeDocument> customAttributeDocuments = ((ResearchDocumentBase)document).getCustomAttributeDocuments();
+        Map<String, CustomAttributeDocument> customAttributeDocuments = ((KcTransactionalDocumentBase)document).getCustomAttributeDocuments();
         for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry: customAttributeDocuments.entrySet()) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
@@ -129,7 +130,7 @@ public class ResearchDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
     @Test public void testRequiredCustomAttributeFieldsPopulated() throws Exception {
         ProposalDevelopmentDocument document = getNewDocument();
 
-        Map<String, CustomAttributeDocument> customAttributeDocuments = ((ResearchDocumentBase)document).getCustomAttributeDocuments();
+        Map<String, CustomAttributeDocument> customAttributeDocuments = ((KcTransactionalDocumentBase)document).getCustomAttributeDocuments();
         for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry: customAttributeDocuments.entrySet()) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();

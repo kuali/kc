@@ -29,8 +29,8 @@ import edu.mit.irb.irbnamespace.SpecialReviewDocument.SpecialReview;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
 import edu.mit.irb.irbnamespace.VulnerableSubjectDocument.VulnerableSubject;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
@@ -67,9 +67,9 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
     private CommitteeXmlStream committeeXmlStream;
 
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
+     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         org.kuali.kra.irb.Protocol protocol = (org.kuali.kra.irb.Protocol)printableBusinessObject;
         edu.mit.irb.irbnamespace.ProtocolDocument protocolDocumentType = edu.mit.irb.irbnamespace.ProtocolDocument.Factory.newInstance();
         protocolDocumentType.setProtocol(getProtocol(protocol));

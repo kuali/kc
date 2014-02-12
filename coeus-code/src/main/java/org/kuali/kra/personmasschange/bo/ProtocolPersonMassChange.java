@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.personmasschange.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Defines the fields for a Protocol Person Mass Change.
  */
-public class ProtocolPersonMassChange extends KraPersistableBusinessObjectBase {
+public class ProtocolPersonMassChange extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -1385372093731302793L;
     

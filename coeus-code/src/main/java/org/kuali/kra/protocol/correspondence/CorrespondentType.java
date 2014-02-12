@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.correspondence;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class CorrespondentType extends KraPersistableBusinessObjectBase {
+public class CorrespondentType extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

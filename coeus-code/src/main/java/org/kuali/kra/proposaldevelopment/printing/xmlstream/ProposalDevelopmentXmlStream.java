@@ -54,11 +54,10 @@ import edu.mit.coeus.utils.xml.v2.rolodex.ROLODEXDocument.ROLODEX;
 import edu.mit.coeus.utils.xml.v2.sponsor.SPONSORDocument.SPONSOR;
 import edu.mit.coeus.utils.xml.v2.userUnit.UNITDocument.UNIT;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
@@ -74,7 +73,7 @@ import java.util.*;
 
 /**
  * This class generates XML that confirms with the RaR XSD related to Proposal Submission Report or Sponsor Report. The data for XML
- * is derived from {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * is derived from {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  * 
  */
@@ -89,13 +88,13 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
     /**
      * This method generates XML for Proposal Submission Report or Sponsor Report. It uses data passed in
-     * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once generated is returned as {@link XmlObject}
+     * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl once generated is returned as {@link XmlObject}
      * 
      * @param printableBusinessObject using which XML is generated
      * @param reportParameters parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject,
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) {
         this.developmentProposal = (DevelopmentProposal) printableBusinessObject;
         PROPOSALDocument proposalDocument = PROPOSALDocument.Factory.newInstance();

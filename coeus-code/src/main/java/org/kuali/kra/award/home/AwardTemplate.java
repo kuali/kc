@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.springframework.util.AutoPopulatingList;
 
@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class AwardTemplate extends KraPersistableBusinessObjectBase {
+public class AwardTemplate extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

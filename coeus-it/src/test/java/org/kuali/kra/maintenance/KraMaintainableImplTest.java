@@ -17,7 +17,7 @@ package org.kuali.kra.maintenance;
 
 import org.junit.After;
 import org.junit.Test;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
@@ -25,6 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Timestamp;
 import java.util.Date;
+
 import static org.junit.Assert.*;
 /**
  * This class tests KraMaintainableImpl.
@@ -39,7 +40,7 @@ public class KraMaintainableImplTest extends KcIntegrationTestBase {
     @Test public void testPrepareForSaveInsertQuickstart() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
 
-        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
+        KcPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
@@ -57,7 +58,7 @@ public class KraMaintainableImplTest extends KcIntegrationTestBase {
     @Test public void testPrepareForSaveUpdateQuickstart() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
 
-        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
+        KcPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
@@ -75,7 +76,7 @@ public class KraMaintainableImplTest extends KcIntegrationTestBase {
     @Test public void testPrepareForSaveInsertJtester() throws Exception {
         GlobalVariables.setUserSession(new UserSession("jtester"));
 
-        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
+        KcPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
@@ -93,7 +94,7 @@ public class KraMaintainableImplTest extends KcIntegrationTestBase {
     @Test public void testPrepareForSaveUpdateJtester() throws Exception {
         GlobalVariables.setUserSession(new UserSession("jtester"));
 
-        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
+        KcPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
@@ -108,7 +109,7 @@ public class KraMaintainableImplTest extends KcIntegrationTestBase {
         updateAsserts("jtester", kraPersistableBusinessObjectBase);
     }
 
-    private void updateAsserts(String udpateUser, KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase) {
+    private void updateAsserts(String udpateUser, KcPersistableBusinessObjectBase kraPersistableBusinessObjectBase) {
         assertEquals(udpateUser, kraPersistableBusinessObjectBase.getUpdateUser());
         Timestamp updateTimestamp = kraPersistableBusinessObjectBase.getUpdateTimestamp();
         assertNotNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());

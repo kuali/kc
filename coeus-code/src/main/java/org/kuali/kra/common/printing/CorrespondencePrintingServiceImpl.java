@@ -15,14 +15,8 @@
  */
 package org.kuali.kra.common.printing;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
@@ -30,9 +24,13 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.questionnaire.print.QuestionnairePrint;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class CorrespondencePrintingServiceImpl implements CorrespondencePrintingService {
 
@@ -49,7 +47,7 @@ public abstract class CorrespondencePrintingServiceImpl implements Correspondenc
     }
     
     @Override
-    public List<Printable> getCorrespondencePrintable(KraPersistableBusinessObjectBase printableBusinessObject,
+    public List<Printable> getCorrespondencePrintable(KcPersistableBusinessObjectBase printableBusinessObject,
             List<CorrespondencePrintOption> correspondenceToPrint) {
         List<Printable> printables = new ArrayList<Printable>();
         for (CorrespondencePrintOption printOption : correspondenceToPrint) {

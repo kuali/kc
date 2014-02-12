@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.correspondence.CorrespondentType;
+import org.kuali.kra.service.KcPersonService;
 
-public abstract class Correspondent extends KraPersistableBusinessObjectBase {
+public abstract class Correspondent extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,6 +35,8 @@ public abstract class Correspondent extends KraPersistableBusinessObjectBase {
     private Integer correspondentTypeCode;
     
     protected CorrespondentType correspondentType;
+
+    private transient KcPersonService kcPersonService;
     
     public Correspondent() {
         super();
@@ -87,5 +92,12 @@ public abstract class Correspondent extends KraPersistableBusinessObjectBase {
 
     public void setCorrespondentType(CorrespondentType correspondentType) {
         this.correspondentType = correspondentType;
+    }
+
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
     }
 }

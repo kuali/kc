@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.reporting.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 
-public class CustReportType extends KraPersistableBusinessObjectBase { 
+public class CustReportType extends KcPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 1L;
 

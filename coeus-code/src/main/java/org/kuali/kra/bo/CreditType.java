@@ -16,12 +16,14 @@
 package org.kuali.kra.bo;
 
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 /**
  * Class representation of the Credit Type Business Object
  *
  * $Id: CreditType.java,v 1.2 2008-07-23 19:16:44 gmcgrego Exp $
  */
-public class CreditType extends KraPersistableBusinessObjectBase {
+public class CreditType extends KcPersistableBusinessObjectBase {
 
     private String creditTypeCode;
 

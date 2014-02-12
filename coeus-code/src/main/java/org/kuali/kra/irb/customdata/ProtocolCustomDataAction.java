@@ -36,7 +36,7 @@ public class ProtocolCustomDataAction extends ProtocolAction {
     private static final String CUSTOM_ATTRIBUTE_NAME = "IRBCustomDataAttribute";
 
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -69,7 +69,7 @@ public class ProtocolCustomDataAction extends ProtocolAction {
     
 
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     public void postDocumentSave(KualiDocumentFormBase form) throws Exception {

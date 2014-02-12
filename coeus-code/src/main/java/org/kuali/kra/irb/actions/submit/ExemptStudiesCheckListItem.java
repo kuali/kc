@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 @SuppressWarnings("serial")
-public class ExemptStudiesCheckListItem extends KraPersistableBusinessObjectBase {
+public class ExemptStudiesCheckListItem extends KcPersistableBusinessObjectBase {
 
     private String exemptStudiesCheckListCode;
 

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.budget;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.CostElement;
 
-public class AwardBudgetPeriodSummaryCalculatedAmount extends KraPersistableBusinessObjectBase {
+public class AwardBudgetPeriodSummaryCalculatedAmount extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

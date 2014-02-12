@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.threers;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class IacucAlternateSearchDatabase extends KraPersistableBusinessObjectBase {
+public class IacucAlternateSearchDatabase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 5292404765020148399L;
 

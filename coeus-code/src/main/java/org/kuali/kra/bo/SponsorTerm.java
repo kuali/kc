@@ -16,11 +16,12 @@
 package org.kuali.kra.bo;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * This class is business object representation of a Sponsor Term
  */
-public class SponsorTerm extends KraPersistableBusinessObjectBase {
+public class SponsorTerm extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

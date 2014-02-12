@@ -16,7 +16,9 @@
 package org.kuali.kra.bo;
 
 
-public class ArgValueLookup extends KraPersistableBusinessObjectBase {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+public class ArgValueLookup extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

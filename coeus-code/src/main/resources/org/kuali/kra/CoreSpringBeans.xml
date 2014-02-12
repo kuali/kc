@@ -1883,10 +1883,10 @@
          <property name="krmsDistributedCacheManager" ref="krmsDistributedCacheManager" /> 
     </bean>
 
-    <bean id="kcConfirmationQuestion" class="org.kuali.kra.web.struts.action.KcConfirmationQuestion">
+    <bean id="kcConfirmationQuestion" class="org.kuali.coeus.sys.framework.controller.KcConfirmationQuestion">
     </bean>         
      
-    <bean id="nonCancellingRecallQuestion" class="org.kuali.kra.web.struts.action.NonCancellingRecallQuestion">
+    <bean id="nonCancellingRecallQuestion" class="org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion">
     </bean>  
      
     <bean id="personSignatureLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

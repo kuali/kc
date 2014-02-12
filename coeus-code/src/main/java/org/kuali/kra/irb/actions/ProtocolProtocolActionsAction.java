@@ -23,6 +23,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -100,9 +102,6 @@ import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
 import org.kuali.kra.protocol.summary.AttachmentSummary;
 import org.kuali.kra.util.watermark.WatermarkConstants;
-import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -319,7 +318,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     /**
-     * Method dispatched from <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for
+     * Method dispatched from <code>{@link org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for
      * when a "yes" condition is met.
      * 
      * @param mapping The mapping associated with this action.
@@ -328,7 +327,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @param response the HTTP response
      * @return the destination
      * @throws Exception
-     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
      */
     public ActionForward confirmSubmitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {

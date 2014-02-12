@@ -15,13 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
+
+import javax.persistence.*;
 
 /**
  * This class represents a congressional district. A congressional district consists of a two-letter
@@ -29,7 +26,7 @@ import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
  */
 @Entity
 @Table(name = "EPS_PROP_CONG_DISTRICT")
-public class CongressionalDistrict extends KraPersistableBusinessObjectBase {
+public class CongressionalDistrict extends KcPersistableBusinessObjectBase {
 
     public static final int DISTRICT_NUMBER_LENGTH = 3;
 

@@ -15,27 +15,20 @@
  */
 package org.kuali.kra.bo;
 
-import java.io.Serializable;
-import java.sql.Date;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Ynq;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Date;
 
 @Entity
 @Table(name = "ORGANIZATION_YNQ")
 @IdClass(OrganizationYnq.OrganizationYnqId.class)
-public class OrganizationYnq extends KraPersistableBusinessObjectBase {
+public class OrganizationYnq extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "ORGANIZATION_ID")

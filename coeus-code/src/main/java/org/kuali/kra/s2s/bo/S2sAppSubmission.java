@@ -15,25 +15,25 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.List;
-import javax.persistence.*;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "S2S_APP_SUBMISSION")
 @IdClass(S2sAppSubmission.S2sAppSubmissionId.class)
-public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
+public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")

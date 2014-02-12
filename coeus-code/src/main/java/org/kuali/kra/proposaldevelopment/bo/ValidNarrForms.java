@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class ValidNarrForms extends KraPersistableBusinessObjectBase {
+public class ValidNarrForms extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

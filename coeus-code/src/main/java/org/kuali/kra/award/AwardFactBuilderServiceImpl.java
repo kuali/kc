@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award;
 
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
@@ -48,7 +48,7 @@ public class AwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper 
         }
     }
     
-    public void addFacts(Facts.Builder factsBuilder, ResearchDocumentBase researchDocument) {
+    public void addFacts(Facts.Builder factsBuilder, KcTransactionalDocumentBase researchDocument) {
         AwardDocument awardDocument = (AwardDocument)researchDocument;
         Award award = awardDocument.getAward();
         addObjectMembersAsFacts(factsBuilder,award,KcKrmsConstants.Award.AWARD_CONTEXT_ID,Constants.MODULE_NAMESPACE_AWARD);

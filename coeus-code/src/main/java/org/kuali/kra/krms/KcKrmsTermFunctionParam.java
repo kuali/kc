@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.krms;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class KcKrmsTermFunctionParam extends KraPersistableBusinessObjectBase implements Comparable<KcKrmsTermFunctionParam> {
+public class KcKrmsTermFunctionParam extends KcPersistableBusinessObjectBase implements Comparable<KcKrmsTermFunctionParam> {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.notesandattachments.attachments;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
 
 /**
  * This class...
  */
-public class AwardAttachmentType extends KraPersistableBusinessObjectBase {
+public class AwardAttachmentType extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

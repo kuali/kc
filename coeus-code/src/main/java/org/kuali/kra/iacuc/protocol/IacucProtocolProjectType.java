@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class IacucProtocolProjectType extends KraPersistableBusinessObjectBase {
+public class IacucProtocolProjectType extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -17,8 +17,8 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
@@ -280,7 +280,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * Update the User and Timestamp for the business object.
      * @param bo the business object
      */
-    protected void updateUserTimestamp(KraPersistableBusinessObjectBase bo) {
+    protected void updateUserTimestamp(KcPersistableBusinessObjectBase bo) {
         bo.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         bo.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
     }

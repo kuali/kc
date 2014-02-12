@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public class AwardSubcontractingBudgetedGoals extends KraPersistableBusinessObjectBase {
+public class AwardSubcontractingBudgetedGoals extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -16,24 +16,23 @@
 
 package org.kuali.kra.award.printing.xmlstream;
 
-import org.kuali.kra.printing.schema.*;
-import org.kuali.kra.printing.schema.ContactType;
-import org.kuali.kra.printing.schema.ReportTermDetailsType.MailCopies;
-import org.kuali.kra.printing.schema.TemplateDocument.Template;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.*;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.printing.AwardPrintType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.ContactType;
+import org.kuali.kra.printing.schema.ReportTermDetailsType.MailCopies;
+import org.kuali.kra.printing.schema.TemplateDocument.Template;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -44,7 +43,7 @@ import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Award Template
- * Report. The data for XML is derived from {@link ResearchDocumentBase} and
+ * Report. The data for XML is derived from {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and
  * {@link Map} of details passed to the class.
  * 
  * 
@@ -61,7 +60,7 @@ public class AwardTemplateXmlStream implements XmlStream {
 
 	/**
 	 * This method generates XML for Award template Report. It uses data passed
-	 * in {@link ResearchDocumentBase} for populating the XML nodes. The XMl
+	 * in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl
 	 * once generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
@@ -71,7 +70,7 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> awardTemplateXmlStream = new HashMap<String, XmlObject>();
 		AwardTemplate awardTemplate = (AwardTemplate) printableBusinessObject;
 		TemplateDocument templateDocument = TemplateDocument.Factory.newInstance();

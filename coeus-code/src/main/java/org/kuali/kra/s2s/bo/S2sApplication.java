@@ -15,22 +15,14 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+import javax.persistence.*;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.s2s.bo.S2sAppAttachments;
 
 @Entity
 @Table(name = "S2S_APPLICATION")
-public class S2sApplication extends KraPersistableBusinessObjectBase {
+public class S2sApplication extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")

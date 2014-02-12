@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.home;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.util.List;
 
-public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
+public class AwardBasisOfPayment extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

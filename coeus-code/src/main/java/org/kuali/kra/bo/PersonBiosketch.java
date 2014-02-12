@@ -16,9 +16,10 @@
 package org.kuali.kra.bo;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 
-public class PersonBiosketch extends KraPersistableBusinessObjectBase implements PersistableAttachment {
+public class PersonBiosketch extends KcPersistableBusinessObjectBase implements PersistableAttachment {
 
     private static final long serialVersionUID = 6206100185207514370L;
     

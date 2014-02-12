@@ -15,15 +15,13 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "EXEMPTION_TYPE")
-public class ExemptionType extends KraPersistableBusinessObjectBase implements Comparable<ExemptionType> {
+public class ExemptionType extends KcPersistableBusinessObjectBase implements Comparable<ExemptionType> {
 
     @Id
     @Column(name = "EXEMPTION_TYPE_CODE")

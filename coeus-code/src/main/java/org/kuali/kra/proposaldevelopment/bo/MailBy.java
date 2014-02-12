@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is the bo class of mailby code.
  */
-public class MailBy extends KraPersistableBusinessObjectBase {
+public class MailBy extends KcPersistableBusinessObjectBase {
 
     private String mailByCode;
 

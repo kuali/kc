@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.document.authorizer;
 
-import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
-import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
+import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;

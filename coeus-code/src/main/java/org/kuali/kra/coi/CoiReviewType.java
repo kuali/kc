@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.coi;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * A Coi Review Type refers to the type of review that an
  * COI Committee will perform, e.g. Full, Expedited, Response, etc.
  */
 @SuppressWarnings("serial")
-public class CoiReviewType extends KraPersistableBusinessObjectBase {
+public class CoiReviewType extends KcPersistableBusinessObjectBase {
 
     private String reviewTypeCode;
     private String description;
