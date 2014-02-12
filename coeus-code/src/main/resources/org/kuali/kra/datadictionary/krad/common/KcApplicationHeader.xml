@@ -372,7 +372,7 @@
 		</property>
 	</bean>
 
-	<bean id="Kc-Header-ActionList" parent="Kc-Header-ActionList-parentBean" />
+	<bean id="Kc-Header-Actionlist" parent="Kc-Header-Actionlist-parentBean" />
 	<bean id="Kc-Header-Actionlist-parentBean" abstract="true"
 		parent="Uif-DropdownToggleMenu">
 		<property name="menuItems">
