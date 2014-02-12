@@ -73,7 +73,7 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         ProtocolSubmission oldSubmission = createSubmission(protocolDocument.getProtocol(), ProtocolReviewType.FULL_TYPE_CODE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(oldSubmission);
         
-        service.modifySubmisison(protocolDocument, getMockProtocolModifySubmissionBean(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE));
+        service.modifySubmission(protocolDocument, getMockProtocolModifySubmissionBean(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE));
         
         ProtocolSubmission newSubmission = protocolDocument.getProtocol().getProtocolSubmission();
         assertEquals(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE, newSubmission.getProtocolReviewTypeCode());
@@ -85,7 +85,7 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         ProtocolSubmission oldSubmission = createSubmission(protocolDocument.getProtocol(), ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(oldSubmission);
         
-        service.modifySubmisison(protocolDocument, getMockProtocolModifySubmissionBean(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE));
+        service.modifySubmission(protocolDocument, getMockProtocolModifySubmissionBean(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE));
         
         ProtocolSubmission newSubmission = protocolDocument.getProtocol().getProtocolSubmission();
         assertEquals(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE, newSubmission.getProtocolReviewTypeCode());
@@ -97,7 +97,7 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         ProtocolSubmission oldSubmission = createSubmission(protocolDocument.getProtocol(), ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(oldSubmission);
         
-        service.modifySubmisison(protocolDocument, getMockProtocolModifySubmissionBean(ProtocolReviewType.FULL_TYPE_CODE));
+        service.modifySubmission(protocolDocument, getMockProtocolModifySubmissionBean(ProtocolReviewType.FULL_TYPE_CODE));
         
         ProtocolSubmission newSubmission = protocolDocument.getProtocol().getProtocolSubmission();
         assertEquals(ProtocolReviewType.FULL_TYPE_CODE, newSubmission.getProtocolReviewTypeCode());
