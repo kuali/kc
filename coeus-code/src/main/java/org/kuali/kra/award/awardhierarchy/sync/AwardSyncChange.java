@@ -16,10 +16,10 @@
 package org.kuali.kra.award.awardhierarchy.sync;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class AwardSyncChange extends KraPersistableBusinessObjectBase {
+public class AwardSyncChange extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -1131991638179375877L;
 

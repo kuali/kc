@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 import java.sql.Date;
 
 /**
  * This class represents an Intellectual Property Review Activity.
  */
-public class IntellectualPropertyReviewActivity extends KraPersistableBusinessObjectBase implements SequenceAssociate<IntellectualPropertyReview> {
+public class IntellectualPropertyReviewActivity extends KcPersistableBusinessObjectBase implements SequenceAssociate<IntellectualPropertyReview> {
 
     private static final long serialVersionUID = 1L;
 

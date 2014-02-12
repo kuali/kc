@@ -15,12 +15,16 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.io.Serializable;
 import java.sql.Date;
 
-public class AwardAmountTransaction extends KraPersistableBusinessObjectBase implements Serializable {
+public class AwardAmountTransaction extends KcPersistableBusinessObjectBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,6 +41,8 @@ public class AwardAmountTransaction extends KraPersistableBusinessObjectBase imp
     private String comments;
 
     private AwardTransactionType awardTransactionType;
+
+    private transient KcPersonService kcPersonService;
 
     public AwardAmountTransaction() {
     }
@@ -103,5 +109,26 @@ public class AwardAmountTransaction extends KraPersistableBusinessObjectBase imp
      */
     public void setAwardTransactionType(AwardTransactionType awardTransactionType) {
         this.awardTransactionType = awardTransactionType;
+    }
+
+    /**
+     *
+     * This is ahelper method to get author person name
+     * @return
+     */
+    public String getAuthorPersonName() {
+        KcPerson person = this.getKcPersonService().getKcPersonByUserName(getUpdateUser());
+        return ObjectUtils.isNull(person) ? "Person not found" : person.getFullName();
+    }
+
+    /**
+     * Looks up and returns the KcPersonService.
+     * @return the person service.
+     */
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
     }
 }

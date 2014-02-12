@@ -24,6 +24,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -106,7 +107,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     private transient boolean displayReviewerName;
     
     private transient boolean readOnly = true;
-
+    private transient KcPersonService kcPersonService;
     /*
      * This comparator orders CommitteeScheduleMinuteBase by entry type first and then by entry type detail (if available)
      */
@@ -614,5 +615,12 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;
+    }
+
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
     }
 }

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.notification;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -28,7 +28,7 @@ public class ProtocolNotification extends KcNotification {
 
     private static final long serialVersionUID = -8718347978876523074L;
 
-    public void persistOwningObject(KraPersistableBusinessObjectBase object) {
+    public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         ProtocolBase protocol = (ProtocolBase)object;
         protocol.getLastProtocolAction().addNotification(this);
         KraServiceLocator.getService(BusinessObjectService.class).save(protocol);

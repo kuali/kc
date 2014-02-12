@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
  * 
  * This class allows a coeus module to be associated with specific role names.
  */
-public class NotificationModuleRole extends KraPersistableBusinessObjectBase {
+public class NotificationModuleRole extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -2991839907693163026L;
 

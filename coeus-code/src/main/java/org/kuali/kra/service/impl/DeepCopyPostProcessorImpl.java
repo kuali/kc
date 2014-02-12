@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.service.DeepCopyPostProcessor;
@@ -71,7 +71,7 @@ public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor{
         Field[] fields = klass.getDeclaredFields();
         allFields.addAll(Arrays.asList(fields));
         klass = klass.getSuperclass();
-        if(klass != null && !klass.equals(KraPersistableBusinessObjectBase.class) ) {
+        if(klass != null && !klass.equals(KcPersistableBusinessObjectBase.class) ) {
             findAllFields(klass, allFields);
         }
     }

@@ -16,10 +16,10 @@
 package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 
-public class SubAwardForms extends KraPersistableBusinessObjectBase implements PersistableAttachment{ 
+public class SubAwardForms extends KcPersistableBusinessObjectBase implements PersistableAttachment{
     
     private static final long serialVersionUID = 1L;
 

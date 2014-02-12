@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * A committee type defines what the committee is responsible for.
@@ -23,7 +23,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * supported: IRB.
  */
 @SuppressWarnings("serial")
-public class CommitteeType extends KraPersistableBusinessObjectBase {
+public class CommitteeType extends KcPersistableBusinessObjectBase {
 
     public static final String IRB_TYPE_CODE = "1";
     public static final String COI_TYPE_CODE = "2";

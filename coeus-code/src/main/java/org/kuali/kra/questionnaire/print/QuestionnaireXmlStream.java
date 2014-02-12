@@ -15,23 +15,22 @@
  */
 package org.kuali.kra.questionnaire.print;
 
-import org.kuali.kra.printing.schema.*;
-import org.kuali.kra.printing.schema.QuestionnaireDocument.Questionnaire;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.maintenance.KraMaintenanceDocument;
 import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.QuestionnaireDocument.Questionnaire;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -58,7 +57,7 @@ import java.util.*;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget total
- * Report. The data for XML is derived from {@link ResearchDocumentBase} and
+ * Report. The data for XML is derived from {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and
  * {@link Map} of details passed to the class.
  * 
  */
@@ -78,7 +77,7 @@ public class QuestionnaireXmlStream implements XmlStream {
     
     /**
      * This method generates XML committee report. It uses data passed in
-     * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
+     * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl once
      * generated is returned as {@link XmlObject}
      * 
      * @param printableBusinessObject
@@ -87,7 +86,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         /* 
          * Just want to mention that Questionnaire is a maintenance document (not transactional doc), so passed in document will be null.
          * the report parameters does have a documentNumber, so it can be retrieved from document xml content.
@@ -131,7 +130,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      */
     @SuppressWarnings("unchecked")
     private QuestionnaireDocument getQuestionnaireData(
-        KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) throws PrintingException {
+        KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) throws PrintingException {
         QuestionnaireDocument questionnaireDocument = QuestionnaireDocument.Factory.newInstance();
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
         
@@ -253,7 +252,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @param moduleQuestionnaireBean
      * @param questionnaireType
      */
-    private void setAnswerInfo(KraPersistableBusinessObjectBase printableBusinessObject, ModuleQuestionnaireBean moduleQuestionnaireBean, 
+    private void setAnswerInfo(KcPersistableBusinessObjectBase printableBusinessObject, ModuleQuestionnaireBean moduleQuestionnaireBean,
             Questionnaire questionnaireType) {
         AnswerHeaderType answerHeader = questionnaireType.addNewAnswerHeader();
         if (printableBusinessObject instanceof ProposalPerson) {
@@ -377,7 +376,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @return
      */
     private ModuleQuestionnaireBean getQuestionnaireAnswerHeaderBean(
-            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) {
+            KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) {
         String moduleItemCode = null;
         String moduleSubItemCode = "0";
         String moduleItemKey = null;
@@ -514,7 +513,7 @@ public class QuestionnaireXmlStream implements XmlStream {
     }
 
     private void allocateQuestionHierarchy(QuestionsType questionsType,QuestionInfoType parentQuestionInfo,boolean questionnaireCompletionFlag,
-            KraPersistableBusinessObjectBase printableBusinessObject,List<AnswerHeader> answerHeaders){
+            KcPersistableBusinessObjectBase printableBusinessObject,List<AnswerHeader> answerHeaders){
         
         Long questionId;
         int questionNumber,parentQuestionNumber;
@@ -597,7 +596,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         }
         
     private void setAnswerInfoDetails(QuestionnaireQuestion questionnaireQuestion,QuestionInfoType questionInfo,
-            boolean questionnaireCompletionFlag,KraPersistableBusinessObjectBase printableBusinessObject,Long questionId,
+            boolean questionnaireCompletionFlag,KcPersistableBusinessObjectBase printableBusinessObject,Long questionId,
             int questionNumber, List<AnswerHeader> answerHeaders)throws PrintingException {
        
         
@@ -724,7 +723,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      */
     private void setQuestionInfoData(org.kuali.kra.questionnaire.Questionnaire questionnaire,
             ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType, boolean questionnaireCompletionFlag,
-            KraPersistableBusinessObjectBase printableBusinessObject) throws PrintingException {
+            KcPersistableBusinessObjectBase printableBusinessObject) throws PrintingException {
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         org.kuali.kra.questionnaire.Questionnaire answeredQuestionnaire = null;
         if (moduleQuestionnaireBean != null) {

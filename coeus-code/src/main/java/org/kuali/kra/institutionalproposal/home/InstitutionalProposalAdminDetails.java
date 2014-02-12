@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.sql.Date;
 
-public class InstitutionalProposalAdminDetails extends KraPersistableBusinessObjectBase {
+public class InstitutionalProposalAdminDetails extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

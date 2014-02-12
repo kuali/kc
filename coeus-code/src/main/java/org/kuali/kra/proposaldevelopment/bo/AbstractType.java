@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "ABSTRACT_TYPE")
-public class AbstractType extends KraPersistableBusinessObjectBase {
+public class AbstractType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "ABSTRACT_TYPE_CODE")

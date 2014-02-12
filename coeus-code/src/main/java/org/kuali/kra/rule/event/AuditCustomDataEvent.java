@@ -16,8 +16,8 @@
 package org.kuali.kra.rule.event;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class AuditCustomDataEvent extends SaveCustomDataEvent {
 
-    public AuditCustomDataEvent(ResearchDocumentBase document) {
+    public AuditCustomDataEvent(KcTransactionalDocumentBase document) {
         super(document, true);
     }
     

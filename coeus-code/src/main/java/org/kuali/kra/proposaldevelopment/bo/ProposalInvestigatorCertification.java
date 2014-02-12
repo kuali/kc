@@ -15,20 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.io.Serializable;
-import java.sql.Date;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Date;
 
 /**
  * Represents the Proposal Investigator Certification <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
@@ -41,7 +37,7 @@ import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 @Entity
 @Table(name = "PROPOSAL_INV_CERTIFICATION")
 @IdClass(ProposalInvestigatorCertification.ProposalInvestigatorCertificationId.class)
-public class ProposalInvestigatorCertification extends KraPersistableBusinessObjectBase {
+public class ProposalInvestigatorCertification extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "PROP_PERSON_NUMBER")

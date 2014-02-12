@@ -53,7 +53,7 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
     }
 
     /**
-     * @see org.kuali.kra.service.UnitAclLoadService#loadUnitAcl(org.kuali.kra.document.ResearchDocumentBase)
+     * @see org.kuali.kra.service.UnitAclLoadService#loadUnitAcl(org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase)
      */
     public void loadUnitAcl(Permissionable permissionable) {
         String creatorUserId = getCreator();

@@ -15,6 +15,15 @@
  */
 package org.kuali.kra.subawardReporting.printing.xmlstream;
 
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.util.DateUtils;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
+import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmountsInDateRange;
+import org.kuali.kra.bo.*;
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.schema.NameAndAddressTypeDocument.NameAndAddressType;
 import org.kuali.kra.printing.schema.SubcontractReportPageType;
 import org.kuali.kra.printing.schema.SubcontractReportPageType.VendorType;
@@ -24,17 +33,9 @@ import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractRepor
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.CompanyInfo;
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ContractorType;
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ReportingPeriod;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
-import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmountsInDateRange;
-import org.kuali.kra.bo.*;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
-import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -75,7 +76,7 @@ public class SubawardXmlStream implements XmlStream {
     }
 
     @Override
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject,
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) {
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         SubcontractReportsDocument subcontractReportsDocument = SubcontractReportsDocument.Factory.newInstance();

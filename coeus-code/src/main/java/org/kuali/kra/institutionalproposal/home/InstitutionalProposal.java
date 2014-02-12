@@ -17,6 +17,7 @@ package org.kuali.kra.institutionalproposal.home;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.AwardType;
@@ -46,6 +47,7 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.service.FiscalYearMonthService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -56,7 +58,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
 
-public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements
+public class InstitutionalProposal extends KcPersistableBusinessObjectBase implements
         KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable, Negotiable {
 
     public static final String PROPOSAL_ID_PROPERTY_STRING = "proposalId";
@@ -162,6 +164,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private transient FiscalYearMonthService fiscalYearMonthService;
     
     private transient boolean allowUpdateTimestampToBeReset = true;
+
+    private transient KcPersonService kcPersonService;
 
     public InstitutionalProposal() {
         super();
@@ -1844,5 +1848,12 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         } else {
             setAllowUpdateTimestampToBeReset(true);
         }
+    }
+
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
     }
 }

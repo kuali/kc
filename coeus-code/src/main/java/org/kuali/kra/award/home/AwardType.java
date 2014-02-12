@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * Award Type business object
@@ -28,7 +29,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 @Entity
 @Table(name = "AWARD_TYPE")
-public class AwardType extends KraPersistableBusinessObjectBase {
+public class AwardType extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1652576733758069217L;
 

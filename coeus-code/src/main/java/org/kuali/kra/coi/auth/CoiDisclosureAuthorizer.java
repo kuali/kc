@@ -17,7 +17,7 @@ package org.kuali.kra.coi.auth;
 
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
-import org.kuali.coeus.sys.framework.kew.KcWorkflowService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.service.KcAuthorizationService;

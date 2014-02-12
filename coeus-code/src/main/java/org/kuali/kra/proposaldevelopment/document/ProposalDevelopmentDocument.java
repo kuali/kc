@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.document;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.Task;
-import org.kuali.coeus.sys.framework.kew.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.RolePersons;
@@ -396,12 +396,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     @Override
     public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
-        getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
+        KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
     }
 
     @Override
     public void processAfterRetrieveForBudget(BudgetDocument budgetDocument) {
-        getService(ProposalStatusService.class).loadBudgetStatusByProposalDocumentNumber(budgetDocument.getParentDocumentKey());
+        KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatusByProposalDocumentNumber(budgetDocument.getParentDocumentKey());
     }
 
     @Override
@@ -472,7 +472,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
     public boolean answerSplitNodeQuestion(String routeNodeName) {

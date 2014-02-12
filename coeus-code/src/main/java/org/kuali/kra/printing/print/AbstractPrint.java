@@ -16,8 +16,7 @@
 package org.kuali.kra.printing.print;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.xmlstream.XmlStream;
@@ -31,7 +30,7 @@ import java.util.Map;
 
 /**
  * This class provides all the objects required for printing reports. It
- * provides methods for fetching XML generator {@link XmlStream},{@link ResearchDocumentBase},
+ * provides methods for fetching XML generator {@link XmlStream},{@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase},
  * {@link Map} of parameters required for printing.
  * 
  * @author
@@ -40,7 +39,7 @@ import java.util.Map;
 public abstract class AbstractPrint implements Printable {
 
 	private XmlStream xmlStream;
-	private KraPersistableBusinessObjectBase printableBusinessObject;
+	private KcPersistableBusinessObjectBase printableBusinessObject;
 	 // reportParameters used to pass parameters to CommitteeTemplatePrint.java
 	private Map<String, Object> reportParameters;
 	private Map<String, byte[]> attachments;
@@ -61,11 +60,11 @@ public abstract class AbstractPrint implements Printable {
 	}
 
     /**
-     * Fetches the {@link ResearchDocumentBase}
+     * Fetches the {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase}
      * 
-     * @return {@link ResearchDocumentBase} document
+     * @return {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} document
      */
-    public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
+    public KcPersistableBusinessObjectBase getPrintableBusinessObject() {
         return printableBusinessObject;
     }
 
@@ -73,7 +72,7 @@ public abstract class AbstractPrint implements Printable {
 	 * @param printableBusinessObject
 	 *            the document to set
 	 */
-	public void setPrintableBusinessObject(KraPersistableBusinessObjectBase printableBusinessObject) {
+	public void setPrintableBusinessObject(KcPersistableBusinessObjectBase printableBusinessObject) {
 		this.printableBusinessObject = printableBusinessObject;
 	}
 

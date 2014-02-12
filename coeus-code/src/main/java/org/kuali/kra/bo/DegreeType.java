@@ -15,11 +15,9 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+import javax.persistence.*;
 
 /**
  * Class representation of the Degree Type Business Object
@@ -28,7 +26,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "DEGREE_TYPE")
-public class DegreeType extends KraPersistableBusinessObjectBase {
+public class DegreeType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "DEGREE_CODE")

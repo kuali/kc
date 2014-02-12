@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public abstract class ProtocolPersonRoleBase extends KraPersistableBusinessObjectBase implements Comparable<ProtocolPersonRoleBase>, MutableInactivatable {
+public abstract class ProtocolPersonRoleBase extends KcPersistableBusinessObjectBase implements Comparable<ProtocolPersonRoleBase>, MutableInactivatable {
 
     /**
      * Comment for <code>serialVersionUID</code>

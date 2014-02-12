@@ -20,7 +20,7 @@ import edu.mit.irb.irbnamespace.NextScheduleDateDocument.NextScheduleDate;
 import edu.mit.irb.irbnamespace.RenewalReminderDocument;
 import edu.mit.irb.irbnamespace.RenewalReminderDocument.RenewalReminder;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.print.CommitteeXmlStream;
@@ -40,9 +40,9 @@ public class RenewalReminderStream extends RenewalReminderStreamBase {
     private CommitteeXmlStream committeeXmlStream;
 
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
+     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Protocol protocol = (Protocol)printableBusinessObject;
         RenewalReminderDocument renewalReminderDocument = RenewalReminderDocument.Factory.newInstance() ;
         RenewalReminder renewalReminder = RenewalReminder.Factory.newInstance() ;

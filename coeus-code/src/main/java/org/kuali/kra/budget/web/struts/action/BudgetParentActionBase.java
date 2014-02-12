@@ -15,18 +15,13 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetCommonService;
-import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
-import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.kra.budget.core.*;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -37,7 +32,7 @@ import java.util.List;
 /**
  * This class contains methods common to ProposalDevelopment and Budget actions.
  */
-public class BudgetParentActionBase extends KraTransactionalDocumentActionBase {
+public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
     
 
     protected static final String COPY_BUDGET_PERIOD_QUESTION = "copyBudgetQuestion";

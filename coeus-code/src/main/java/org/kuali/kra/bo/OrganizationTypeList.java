@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,7 +24,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ORGANIZATION_TYPE_LIST")
-public class OrganizationTypeList extends KraPersistableBusinessObjectBase {
+public class OrganizationTypeList extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "ORGANIZATION_TYPE_CODE")

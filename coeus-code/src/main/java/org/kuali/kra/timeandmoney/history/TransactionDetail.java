@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.timeandmoney.history;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public class TransactionDetail extends KraPersistableBusinessObjectBase {
+public class TransactionDetail extends KcPersistableBusinessObjectBase {
 
     private Long transactionDetailId;
 

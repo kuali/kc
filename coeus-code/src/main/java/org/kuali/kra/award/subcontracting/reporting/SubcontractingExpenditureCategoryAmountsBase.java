@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.subcontracting.reporting;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public abstract class SubcontractingExpenditureCategoryAmountsBase extends KraPersistableBusinessObjectBase {
+public abstract class SubcontractingExpenditureCategoryAmountsBase extends KcPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

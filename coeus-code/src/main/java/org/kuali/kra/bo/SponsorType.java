@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,7 +24,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SPONSOR_TYPE")
-public class SponsorType extends KraPersistableBusinessObjectBase {
+public class SponsorType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "SPONSOR_TYPE_CODE")

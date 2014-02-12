@@ -19,10 +19,10 @@ package org.kuali.kra.coi;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.DisclosurePerson;
 import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
@@ -53,7 +53,7 @@ import java.util.*;
  * 
  * This class is the main bo class of Coi disclosure
  */
-public class CoiDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<CoiDisclosure>, Permissionable { 
+public class CoiDisclosure extends KcPersistableBusinessObjectBase implements SequenceOwner<CoiDisclosure>, Permissionable {
     
 
     /**
@@ -122,7 +122,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     //private transient List<CoiDisclEventProject> coiDisclEventProjects; 
     private transient DateTimeService dateTimeService;
     private CoiDisclosureAttachmentFilter newAttachmentFilter; 
-    private KraPersistableBusinessObjectBase eventBo; 
+    private KcPersistableBusinessObjectBase eventBo;
 
     // transient for award header label
     private transient String reporterCreated;
@@ -545,7 +545,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     
-    protected void updateUserFields(KraPersistableBusinessObjectBase bo) {
+    protected void updateUserFields(KcPersistableBusinessObjectBase bo) {
         bo.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         bo.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
     }
@@ -722,11 +722,11 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return "coiDisclosureNumber";
     }
 
-    public KraPersistableBusinessObjectBase getEventBo() {
+    public KcPersistableBusinessObjectBase getEventBo() {
         return eventBo;
     }
 
-    public void setEventBo(KraPersistableBusinessObjectBase eventBo) {
+    public void setEventBo(KcPersistableBusinessObjectBase eventBo) {
         this.eventBo = eventBo;
     }
 
@@ -984,6 +984,16 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     
     public boolean isDisclosureSaved() {
         return coiDisclosureId != null;
+    }
+
+    /**
+     *
+     * This is ahelper method to get author person name
+     * @return
+     */
+    public String getAuthorPersonName() {
+        KcPerson person = this.getKcPersonService().getKcPersonByUserName(getUpdateUser());
+        return ObjectUtils.isNull(person) ? "Person not found" : person.getFullName();
     }
 
 }

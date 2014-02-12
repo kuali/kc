@@ -15,16 +15,9 @@
  */
 package org.kuali.kra.coi.print;
 
-import org.kuali.kra.printing.schema.ApprovedDisclosureDocument;
-import org.kuali.kra.printing.schema.ApprovedDisclosureDocument.ApprovedDisclosure;
-import org.kuali.kra.printing.schema.CoiDisclosureDetailsDocument.CoiDisclosureDetails;
-import org.kuali.kra.printing.schema.DisclosureDocumentsDocument.DisclosureDocuments;
-import org.kuali.kra.printing.schema.DisclosureNotesDocument.DisclosureNotes;
-import org.kuali.kra.printing.schema.DisclosureProjectsDocument.DisclosureProjects;
-import org.kuali.kra.printing.schema.PersonDocument;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -32,6 +25,13 @@ import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.schema.ApprovedDisclosureDocument;
+import org.kuali.kra.printing.schema.ApprovedDisclosureDocument.ApprovedDisclosure;
+import org.kuali.kra.printing.schema.CoiDisclosureDetailsDocument.CoiDisclosureDetails;
+import org.kuali.kra.printing.schema.DisclosureDocumentsDocument.DisclosureDocuments;
+import org.kuali.kra.printing.schema.DisclosureNotesDocument.DisclosureNotes;
+import org.kuali.kra.printing.schema.DisclosureProjectsDocument.DisclosureProjects;
+import org.kuali.kra.printing.schema.PersonDocument;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -57,7 +57,7 @@ public class CoiCertificationXmlStream implements XmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
     	CoiDisclosure disclosure=(CoiDisclosure)printableBusinessObject;
         ApprovedDisclosureDocument approvedDisclosureDoc = ApprovedDisclosureDocument.Factory.newInstance(); 
         try {
@@ -82,7 +82,7 @@ public class CoiCertificationXmlStream implements XmlStream {
      */
     @SuppressWarnings("unchecked")
     
-    public ApprovedDisclosure getDisclosureData(KraPersistableBusinessObjectBase printableBusinessObject,
+    public ApprovedDisclosure getDisclosureData(KcPersistableBusinessObjectBase printableBusinessObject,
     	    Map<String, Object> htData) throws PrintingException{
     	    CoiDisclosure disclosure=(CoiDisclosure)printableBusinessObject;
     	    ApprovedDisclosure approvedDisclosure=ApprovedDisclosure.Factory.newInstance();

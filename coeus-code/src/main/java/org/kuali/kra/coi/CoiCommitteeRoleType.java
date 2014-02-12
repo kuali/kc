@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
@@ -23,7 +23,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class CoiCommitteeRoleType extends KraPersistableBusinessObjectBase { 
+public class CoiCommitteeRoleType extends KcPersistableBusinessObjectBase {
     private String roleTypeCode; 
     private String description; 
     

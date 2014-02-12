@@ -18,9 +18,9 @@ package org.kuali.kra.common.committee.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -51,7 +51,7 @@ import java.util.Map;
  * they are associated with.
  */
 @SuppressWarnings("serial")
-public abstract class CommitteeFormBase extends KraTransactionalDocumentFormBase {
+public abstract class CommitteeFormBase extends KcTransactionalDocumentFormBase {
 
     private CommitteeHelperBase committeeHelper;
     
@@ -142,7 +142,7 @@ public abstract class CommitteeFormBase extends KraTransactionalDocumentFormBase
     }
 
     /**
-     * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
@@ -184,7 +184,7 @@ public abstract class CommitteeFormBase extends KraTransactionalDocumentFormBase
     }
     
     /**
-     * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#setSaveDocumentControl(org.kuali.core.document.authorization.DocumentActionFlags, java.util.Map)
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase#setSaveDocumentControl(org.kuali.core.document.authorization.DocumentActionFlags, java.util.Map)
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -193,7 +193,7 @@ public abstract class CommitteeFormBase extends KraTransactionalDocumentFormBase
     }
     
     /**
-     * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#getLockRegion()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase#getLockRegion()
      */
     @Override
     protected String getLockRegion() {

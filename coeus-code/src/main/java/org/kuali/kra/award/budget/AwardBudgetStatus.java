@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.budget;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class AwardBudgetStatus extends KraPersistableBusinessObjectBase {
+public class AwardBudgetStatus extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

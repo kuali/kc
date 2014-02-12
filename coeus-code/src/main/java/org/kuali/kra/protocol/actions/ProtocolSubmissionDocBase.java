@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol.actions;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 @SuppressWarnings("serial")
-public abstract class ProtocolSubmissionDocBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolSubmissionDocBase extends KcPersistableBusinessObjectBase {
 
     private Long submissionDocId;
 

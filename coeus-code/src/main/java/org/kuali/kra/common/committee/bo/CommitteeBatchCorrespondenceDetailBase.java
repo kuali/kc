@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 
@@ -23,7 +23,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
  * 
  * This class implements the CommitteeBatchCorrespondenceDetailBase business object.
  */
-public abstract class CommitteeBatchCorrespondenceDetailBase extends KraPersistableBusinessObjectBase {
+public abstract class CommitteeBatchCorrespondenceDetailBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

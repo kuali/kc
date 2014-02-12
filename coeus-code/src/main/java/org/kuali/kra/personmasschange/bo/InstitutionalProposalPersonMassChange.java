@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.personmasschange.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Defines the fields for an Institutional Proposal Person Mass Change.
  */
-public class InstitutionalProposalPersonMassChange extends KraPersistableBusinessObjectBase {
+public class InstitutionalProposalPersonMassChange extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -8946117068743211033L;
     

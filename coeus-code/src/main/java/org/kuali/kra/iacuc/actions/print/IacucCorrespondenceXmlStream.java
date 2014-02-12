@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.actions.print;
 import edu.mit.coeus.xml.iacuc.CorrespondenceDocument;
 import edu.mit.coeus.xml.iacuc.CorrespondenceType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStreamBase;
@@ -32,9 +32,9 @@ public class IacucCorrespondenceXmlStream extends CorrespondenceXmlStreamBase {
     
     private ProtocolXmlStreamBase protocolXmlStream;
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
+     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         IacucProtocol protocol = (IacucProtocol) printableBusinessObject;
         ProtocolSubmissionBase protocolSubmission = protocol.getProtocolSubmission();
         String scheduleId = null;

@@ -18,9 +18,9 @@ package org.kuali.kra.personmasschange.document;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PersonMassChangeDocument extends ResearchDocumentBase implements Serializable {
+public class PersonMassChangeDocument extends KcTransactionalDocumentBase implements Serializable {
 
     public static final String DOCUMENT_TYPE_CODE = "PMC";
     
@@ -59,7 +59,7 @@ public class PersonMassChangeDocument extends ResearchDocumentBase implements Se
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.document.ResearchDocumentBase#getDocumentTypeCode()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getDocumentTypeCode()
      */
     @Override
     public String getDocumentTypeCode() {

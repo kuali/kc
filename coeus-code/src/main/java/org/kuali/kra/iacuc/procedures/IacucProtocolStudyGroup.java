@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 
-public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase { 
+import java.util.ArrayList;
+import java.util.List;
+
+public class IacucProtocolStudyGroup extends KcPersistableBusinessObjectBase {
     
 
     private static final long serialVersionUID = 1L;

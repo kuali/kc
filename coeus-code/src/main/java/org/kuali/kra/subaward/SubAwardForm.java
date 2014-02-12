@@ -17,6 +17,8 @@ package org.kuali.kra.subaward;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -34,9 +36,7 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.document.authorization.SubAwardTask;
 import org.kuali.kra.subaward.notification.SubAwardNotificationContext;
 import org.kuali.kra.subaward.service.SubAwardService;
-import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -50,8 +50,8 @@ import java.util.Map;
 /**
  * This class represents the SubAward Form Struts class....
  */
-public class SubAwardForm extends KraTransactionalDocumentFormBase
-implements PermissionsForm, Auditable, CustomDataDocumentForm {
+public class SubAwardForm extends KcTransactionalDocumentFormBase
+implements PermissionsForm, AuditableForm, CustomDataDocumentForm {
 
     private static final long serialVersionUID = -1452575757578523254L;
 

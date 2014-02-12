@@ -15,14 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
 
 /**
  * Class representation of the Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
@@ -33,7 +30,7 @@ import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
  */
 @Entity
 @Table(name = "INV_CREDIT_TYPE")
-public class InvestigatorCreditType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
+public class InvestigatorCreditType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 2881039955568764530L;
 

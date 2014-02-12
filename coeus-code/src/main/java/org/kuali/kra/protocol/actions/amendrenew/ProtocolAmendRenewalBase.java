@@ -16,15 +16,15 @@
 package org.kuali.kra.protocol.actions.amendrenew;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.ProtocolBase;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ProtocolAmendRenewalBase extends KraPersistableBusinessObjectBase implements SequenceAssociate<ProtocolBase> {
+public abstract class ProtocolAmendRenewalBase extends KcPersistableBusinessObjectBase implements SequenceAssociate<ProtocolBase> {
 
     private static final long serialVersionUID = 1317253368511551232L;
 

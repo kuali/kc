@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class BudgetPrintForm extends KraPersistableBusinessObjectBase {
+public class BudgetPrintForm extends KcPersistableBusinessObjectBase {
 
     private String budgetReportId;
 

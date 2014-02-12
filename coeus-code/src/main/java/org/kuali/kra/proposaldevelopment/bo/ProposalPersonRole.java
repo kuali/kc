@@ -15,13 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import javax.persistence.*;
 
 /**
  * Represents the Proposal Person Role <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
@@ -33,7 +30,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 @Entity
 @Table(name = "EPS_PROP_PERSON_ROLE")
-public class ProposalPersonRole extends KraPersistableBusinessObjectBase implements ContactRole {
+public class ProposalPersonRole extends KcPersistableBusinessObjectBase implements ContactRole {
 
     public static final String PRINCIPAL_INVESTIGATOR = "PI";
 

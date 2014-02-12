@@ -14,9 +14,9 @@
  */
 package org.kuali.kra.budget.rates;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class RateClassBaseInclusion extends KraPersistableBusinessObjectBase { 
+public class RateClassBaseInclusion extends KcPersistableBusinessObjectBase {
     
 
     /**

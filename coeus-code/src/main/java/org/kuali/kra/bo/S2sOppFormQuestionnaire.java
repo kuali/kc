@@ -16,7 +16,9 @@
 package org.kuali.kra.bo;
 
 
-public class S2sOppFormQuestionnaire extends KraPersistableBusinessObjectBase {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+public class S2sOppFormQuestionnaire extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -2249378225351572499L;
 

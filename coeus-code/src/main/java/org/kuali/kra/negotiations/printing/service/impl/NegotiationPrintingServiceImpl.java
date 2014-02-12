@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.negotiations.printing.service.impl;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
@@ -70,7 +70,7 @@ public class NegotiationPrintingServiceImpl implements NegotiationPrintingServic
      * @throws PrintingException
      *             if any errors occur during report generation
      */
-    public AttachmentDataSource printNegotiationActivityReport(KraPersistableBusinessObjectBase negotiationDocument,
+    public AttachmentDataSource printNegotiationActivityReport(KcPersistableBusinessObjectBase negotiationDocument,
             NegotiationActivityPrintType negotiationReportType, Map<String, Object> reportParameters) throws PrintingException {                   
                 
         AttachmentDataSource source = null;

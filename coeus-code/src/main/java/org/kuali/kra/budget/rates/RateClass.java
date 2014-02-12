@@ -15,20 +15,13 @@
  */
 package org.kuali.kra.budget.rates;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.rates.RateClassType;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "RATE_CLASS")
-public class RateClass extends KraPersistableBusinessObjectBase {
+public class RateClass extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "RATE_CLASS_CODE")

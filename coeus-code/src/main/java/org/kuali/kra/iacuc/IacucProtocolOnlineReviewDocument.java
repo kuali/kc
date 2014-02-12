@@ -140,7 +140,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     }
     
     /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getAllRolePersons()
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {

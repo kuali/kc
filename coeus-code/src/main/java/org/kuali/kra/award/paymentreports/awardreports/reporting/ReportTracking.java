@@ -16,6 +16,7 @@
 package org.kuali.kra.award.paymentreports.awardreports.reporting;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.Distribution;
 import org.kuali.kra.award.paymentreports.*;
@@ -31,7 +32,7 @@ import java.sql.Timestamp;
  * 
  * This class...
  */
-public class ReportTracking extends KraPersistableBusinessObjectBase implements Comparable<ReportTracking> {
+public class ReportTracking extends KcPersistableBusinessObjectBase implements Comparable<ReportTracking> {
 
     /**
      * Comment for <code>serialVersionUID</code>

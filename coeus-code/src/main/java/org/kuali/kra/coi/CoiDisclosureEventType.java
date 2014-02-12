@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase implements MutableInactivatable { 
+public class CoiDisclosureEventType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
     
 
     /**

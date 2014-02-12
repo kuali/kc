@@ -17,11 +17,11 @@
 package org.kuali.kra.common.committee.document;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -42,7 +42,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
                                             CMT extends CommitteeBase<CMT, CD, CS>, 
                                             CS extends CommitteeScheduleBase<CS, CMT, ?, ?>> 
                         
-                                            extends ResearchDocumentBase implements Copyable, SessionDocument { 
+                                            extends KcTransactionalDocumentBase implements Copyable, SessionDocument {
 
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -78,7 +78,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     
 
     /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#initialize()
      */
     public void initialize() {
     }
@@ -145,7 +145,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     }
     
     /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getAllRolePersons()
      */
     protected List<RolePersons> getAllRolePersons() {
         return new ArrayList<RolePersons>();

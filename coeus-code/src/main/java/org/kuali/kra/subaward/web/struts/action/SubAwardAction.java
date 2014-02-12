@@ -18,6 +18,9 @@ package org.kuali.kra.subaward.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.controller.AuditActionHelper.ValidationState;
+import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
@@ -31,9 +34,6 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.notification.SubAwardNotificationContext;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
-import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -50,7 +50,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * This class is ActionClass for SubAward...
  */
-public class SubAwardAction extends KraTransactionalDocumentActionBase{
+public class SubAwardAction extends KcTransactionalDocumentActionBase {
 
     private transient SubAwardService subAwardService;
 
@@ -170,7 +170,7 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
    }
 
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#loadDocument(
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#loadDocument(
      * org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     protected void loadDocument(KualiDocumentFormBase kualiForm)
@@ -181,7 +181,7 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
     }
 
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase
      * #save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.bo.ScheduleStatus;
@@ -350,7 +350,7 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
      * @return
      */
     @Override
-    public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception {
+    public void downloadAttachment(KcPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception {
 
     	CommitteeScheduleAttachmentsBase committeScheduleAttachments = getNewCommitteeScheduleAttachmentsInstanceHook();
         byte[] data = null;

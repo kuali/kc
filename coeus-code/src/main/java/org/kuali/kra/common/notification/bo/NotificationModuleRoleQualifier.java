@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class allows a relationship between role names and role qualifiers to be defined.
  */
-public class NotificationModuleRoleQualifier extends KraPersistableBusinessObjectBase {
+public class NotificationModuleRoleQualifier extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 19728350917756271L;
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.questionnaire.print;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
@@ -46,7 +46,7 @@ public interface QuestionnairePrintingService {
      *             if any errors occur during report generation
      */
     AttachmentDataSource printQuestionnaire(
-            KraPersistableBusinessObjectBase printableBusinessObject,
+            KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) throws PrintingException;
 
     /**
@@ -68,7 +68,7 @@ public interface QuestionnairePrintingService {
      *             if any errors occur during report generation
      */
     AttachmentDataSource printQuestionnaireAnswer(
-            KraPersistableBusinessObjectBase printableBusinessObject,
+            KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) throws PrintingException;
     
     /**
@@ -78,7 +78,7 @@ public interface QuestionnairePrintingService {
      * @param questionnairesToPrints
      * @return
      */
-    List<Printable> getQuestionnairePrintable(KraPersistableBusinessObjectBase printableBusinessObject, 
+    List<Printable> getQuestionnairePrintable(KcPersistableBusinessObjectBase printableBusinessObject,
             List<QuestionnairePrintOption> questionnairesToPrints);
 
 }

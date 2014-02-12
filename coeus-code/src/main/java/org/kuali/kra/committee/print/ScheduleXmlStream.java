@@ -32,7 +32,11 @@ import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.Acti
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo.Checklists;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.*;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
@@ -66,7 +70,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     private String EXEMPT_ACTION_TYPE_CODE = "206";
     private String FOLLOW_UP_ACTION_CODE = "109";
 
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         CommitteeSchedule committeeSchedule = (CommitteeSchedule)printableBusinessObject;
 
         //CommitteeSchedule committeeSchedule = findCommitteeSchedule(committee,scheduleId);

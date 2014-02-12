@@ -17,9 +17,9 @@ package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -681,7 +681,7 @@ public abstract class NotesAttachmentsHelperBase {
      * Update the User and Timestamp for the business object.
      * @param bo the business object
      */
-    private void setUpdateFields(KraPersistableBusinessObjectBase bo) {
+    private void setUpdateFields(KcPersistableBusinessObjectBase bo) {
         bo.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         bo.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
     }

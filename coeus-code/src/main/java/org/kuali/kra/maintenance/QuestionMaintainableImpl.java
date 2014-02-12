@@ -16,7 +16,7 @@
 package org.kuali.kra.maintenance;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.question.Question;
@@ -52,7 +52,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     public void prepareForSave() {
         super.prepareForSave();
        
-        if ((businessObject != null) && (businessObject instanceof KraPersistableBusinessObjectBase)) {
+        if ((businessObject != null) && (businessObject instanceof KcPersistableBusinessObjectBase)) {
             // This is a solution to enable the lookreturn have a proper dropdown list
             if (businessObject instanceof Question) {
                 Question question = (Question)businessObject;

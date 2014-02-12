@@ -15,23 +15,21 @@
  */
 package org.kuali.kra.budget.versions;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.*;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "BUDGET_DOCUMENT")
-public class BudgetDocumentVersion extends KraPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion> {
+public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion> {
 
     private static final String BUDGET_COMPLETE = "1";
 

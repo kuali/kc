@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucProcedureCategoryCustomData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class IacucProtocolStudyCustomData extends KraPersistableBusinessObjectBase { 
+public class IacucProtocolStudyCustomData extends KcPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 1L;
 

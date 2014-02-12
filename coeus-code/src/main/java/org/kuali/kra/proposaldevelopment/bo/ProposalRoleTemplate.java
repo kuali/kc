@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
-public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
+public class ProposalRoleTemplate extends KcPersistableBusinessObjectBase {
 
     private Long id;
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
@@ -27,7 +27,7 @@ import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
  * a unique key on the underlying table.
  * 
  */
-public abstract class ValidProtocolActionActionBase extends KraPersistableBusinessObjectBase {
+public abstract class ValidProtocolActionActionBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

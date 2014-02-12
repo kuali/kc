@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.bo;
 
-public class PersonSignatureModule extends KraPersistableBusinessObjectBase {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+public class PersonSignatureModule extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -3728654769919846123L;
 

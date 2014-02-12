@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.committee.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public abstract class CommitteeSequenceAssociateBase extends KraPersistableBusinessObjectBase implements SequenceAssociate<CommitteeBase<?, ?, ?>> {
+public abstract class CommitteeSequenceAssociateBase extends KcPersistableBusinessObjectBase implements SequenceAssociate<CommitteeBase<?, ?, ?>> {
 
     private static final long serialVersionUID = -9040705064557493297L;
 

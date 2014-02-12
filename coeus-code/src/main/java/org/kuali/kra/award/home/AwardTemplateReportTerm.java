@@ -17,18 +17,18 @@ package org.kuali.kra.award.home;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.GenericAwardReportTerm;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.springframework.util.AutoPopulatingList;
 
 import java.sql.Date;
 import java.util.List;
 
-public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase implements GenericAwardReportTerm {
+public class AwardTemplateReportTerm extends KcPersistableBusinessObjectBase implements GenericAwardReportTerm {
 
     /**
      * Comment for <code>serialVersionUID</code>

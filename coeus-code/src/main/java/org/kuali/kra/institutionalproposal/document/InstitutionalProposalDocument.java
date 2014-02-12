@@ -15,13 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.document;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
@@ -36,11 +34,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONE
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +50,7 @@ import java.util.List;
  */
 @NAMESPACE(namespace=InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class InstitutionalProposalDocument extends ResearchDocumentBase {
+public class InstitutionalProposalDocument extends KcTransactionalDocumentBase {
     private static final Log LOG = LogFactory.getLog(InstitutionalProposalDocument.class);
 
     /**
@@ -116,7 +111,7 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
     }
 
     /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getDocumentTypeCode()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getDocumentTypeCode()
      */
     @Override
     public String getDocumentTypeCode() {

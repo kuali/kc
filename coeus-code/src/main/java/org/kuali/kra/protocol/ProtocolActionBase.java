@@ -21,6 +21,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
@@ -39,9 +42,6 @@ import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
-import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.kra.web.struts.action.NonCancellingRecallQuestion;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
@@ -72,7 +72,7 @@ import java.util.Map;
  * Action class corresponds to one tab (web page).  The derived Action class handles
  * all user requests for that particular tab (web page).
  */
-public abstract class ProtocolActionBase extends KraTransactionalDocumentActionBase {
+public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBase {
 
     /** {@inheritDoc} */
     @Override

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.kuali.kra.authorization.KcWorkflowDocumentAuthorizer;
+import org.kuali.coeus.sys.framework.auth.KcWorkflowDocumentAuthorizerBase;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.irb.Protocol;
 
@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProtocolWorkflowDocumentAuthorizer extends KcWorkflowDocumentAuthorizer {
+public class ProtocolWorkflowDocumentAuthorizer extends KcWorkflowDocumentAuthorizerBase {
 
     @Override
     protected Permissionable getPermissionable(String documentId) {

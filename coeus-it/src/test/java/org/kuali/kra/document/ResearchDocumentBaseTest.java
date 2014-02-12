@@ -18,6 +18,7 @@ package org.kuali.kra.document;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -27,6 +28,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Timestamp;
 import java.util.Date;
+
 import static org.junit.Assert.*;
 /**
  * This class tests ResearchDocumentBase.
@@ -44,7 +46,7 @@ public class ResearchDocumentBaseTest extends KcIntegrationTestBase {
     }
 
     @Test public void testPrepareForSaveQuickstart() throws Exception {
-        ResearchDocumentBase researchDocumentBase = (ResearchDocumentBase) KraServiceLocator.getService(DocumentService.class).getNewDocument(ProposalDevelopmentDocument.class);
+        KcTransactionalDocumentBase researchDocumentBase = (KcTransactionalDocumentBase) KraServiceLocator.getService(DocumentService.class).getNewDocument(ProposalDevelopmentDocument.class);
         assertNull(researchDocumentBase.getUpdateTimestamp());
         assertNull(researchDocumentBase.getUpdateUser());
         researchDocumentBase.prepareForSave();
@@ -62,7 +64,7 @@ public class ResearchDocumentBaseTest extends KcIntegrationTestBase {
     @Test public void testPrepareForSaveJtester() throws Exception {
         GlobalVariables.setUserSession(new UserSession("jtester"));
 
-        ResearchDocumentBase researchDocumentBase = (ResearchDocumentBase) KraServiceLocator.getService(DocumentService.class).getNewDocument(ProposalDevelopmentDocument.class);
+        KcTransactionalDocumentBase researchDocumentBase = (KcTransactionalDocumentBase) KraServiceLocator.getService(DocumentService.class).getNewDocument(ProposalDevelopmentDocument.class);
         assertNull(researchDocumentBase.getUpdateTimestamp());
         assertNull(researchDocumentBase.getUpdateUser());
         researchDocumentBase.prepareForSave();

@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * Business Object for narratives added to a proposal. Narratives are the same as Proposal Attachments and vice-versa.
@@ -30,7 +31,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 @Entity
 @Table(name = "NARRATIVE_TYPE")
-public class NarrativeType extends KraPersistableBusinessObjectBase {
+public class NarrativeType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "NARRATIVE_TYPE_CODE")

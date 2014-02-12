@@ -21,8 +21,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcAttachment;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -50,7 +50,7 @@ import java.util.List;
 @Entity
 @Table(name = "NARRATIVE")
 @IdClass(Narrative.NarrativeId.class)
-public class Narrative extends KraPersistableBusinessObjectBase implements HierarchyMaintainable, KcAttachment {
+public class Narrative extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, KcAttachment {
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")

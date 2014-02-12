@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -25,7 +26,7 @@ import java.sql.Date;
  * 
  * This is BO class for person training maintenance.
  */
-public class PersonTraining extends KraPersistableBusinessObjectBase implements MutableInactivatable {
+public class PersonTraining extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer personTrainingId;
 

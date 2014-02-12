@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.budget.core;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BudgetCategoryMap extends KraPersistableBusinessObjectBase {
+public class BudgetCategoryMap extends KcPersistableBusinessObjectBase {
 
     private String mappingName;
 

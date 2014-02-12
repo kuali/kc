@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.subawardReporting.printing.service.impl;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -50,7 +50,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
 
 
     @Override
-    public AttachmentDataSource printSubAwardReport(KraPersistableBusinessObjectBase awardDocument,
+    public AttachmentDataSource printSubAwardReport(KcPersistableBusinessObjectBase awardDocument,
             SubAwardPrintType subAwardPrintType, Map<String, Object> reportParameters) throws PrintingException {
         AttachmentDataSource source = null;
         AbstractPrint printable = null;         

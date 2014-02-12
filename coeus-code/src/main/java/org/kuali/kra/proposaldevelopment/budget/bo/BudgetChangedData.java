@@ -15,27 +15,19 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
-import java.io.Serializable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "BUDGET_CHANGED_DATA")
 @IdClass(BudgetChangedData.BudgetChangedDataId.class)
-public class BudgetChangedData extends KraPersistableBusinessObjectBase {
+public class BudgetChangedData extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "CHANGE_NUMBER")

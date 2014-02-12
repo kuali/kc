@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.negotiations.printing.xmlstream;
 
-import org.kuali.kra.printing.schema.*;
-import org.kuali.kra.printing.schema.NegotiationsDocument.Negotiations;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.NegotiationsDocument.Negotiations;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -103,7 +102,7 @@ public class NegotiationActivityXmlStream implements XmlStream {
    
     /**
      * This method generates XML for Negotiation Activity Report. It uses data passed in
-     * {@link ResearchDocumentBase} for populating the XML nodes. The XML once
+     * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XML once
      * generated is returned as {@link XmlObject}
      * 
      * @param printableBusinessObject
@@ -112,7 +111,7 @@ public class NegotiationActivityXmlStream implements XmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject,
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) {
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>(); 
         NegotiationsDocument negotiationsDocument = NegotiationsDocument.Factory.newInstance();
@@ -158,7 +157,7 @@ public class NegotiationActivityXmlStream implements XmlStream {
             negotiationDataType.setStartDate(getDateTimeService().getCalendar(negotiation.getNegotiationStartDate())); 
         }
         if(negotiation.getNegotiationStatus() != null){
-            StatusType statusType = StatusType.Factory.newInstance();       
+            StatusType statusType = StatusType.Factory.newInstance();
             statusType.setStatusDesc(negotiation.getNegotiationStatus().getDescription());
             negotiationDataType.setStatus(statusType);       
         }
@@ -171,7 +170,7 @@ public class NegotiationActivityXmlStream implements XmlStream {
         if(negotiationAssociationType != null 
                 && negotiationAssociationType.getCode().equals(PROP_LOG)){            
         negotiationDataType.setProposalNumber(negotiation.getAssociatedNegotiable().getAssociatedDocumentId());        
-        ProposalTypes proposalTypes = ProposalTypes.Factory.newInstance();    
+        ProposalTypes proposalTypes = ProposalTypes.Factory.newInstance();
         proposalTypes.setProposalTypeDesc(getProposalTypeDescription
                 (Integer.parseInt(negotiation.getAssociatedNegotiable().getNegotiableProposalTypeCode())));
         negotiationDataType.setProposalTypes(proposalTypes);

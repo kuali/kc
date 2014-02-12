@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.budget.rates;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 import java.sql.Date;
 
-public class TrainingStipendRate extends KraPersistableBusinessObjectBase {
+public class TrainingStipendRate extends KcPersistableBusinessObjectBase {
 
     private Long rateId;
 

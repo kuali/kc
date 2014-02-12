@@ -16,11 +16,11 @@
 package org.kuali.kra.protocol;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
@@ -53,7 +53,7 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 import java.util.*;
 
-public abstract class ProtocolDocumentBase extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext {
+public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase implements Copyable, SessionDocument, KrmsRulesContext {
 
     private static final String AMENDMENT_KEY = "A";
     private static final String RENEWAL_KEY = "R";
@@ -87,7 +87,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
          
     /**
      * 
-     * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#initialize()
      */
     public void initialize() {
         super.initialize();
@@ -161,7 +161,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
 
     
     /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
+     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getAllRolePersons()
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {

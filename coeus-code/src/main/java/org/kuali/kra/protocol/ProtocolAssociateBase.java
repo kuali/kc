@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
@@ -26,7 +26,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * Much of this class is duplicated with ProtocolAssociateBase but there is no
  * way around that due to the limitations in rice, ojb, etc.
  */
-public abstract class ProtocolAssociateBase extends KraPersistableBusinessObjectBase implements SequenceAssociate<ProtocolBase> {
+public abstract class ProtocolAssociateBase extends KcPersistableBusinessObjectBase implements SequenceAssociate<ProtocolBase> {
 
     private static final long serialVersionUID = -4180835808867997880L;
 

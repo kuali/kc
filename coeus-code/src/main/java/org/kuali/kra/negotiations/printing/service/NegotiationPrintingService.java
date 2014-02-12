@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.printing.service;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -46,6 +46,6 @@ public interface NegotiationPrintingService {
 	 *             if any errors occur during report generation
 	 */
 	public AttachmentDataSource printNegotiationActivityReport(
-			KraPersistableBusinessObjectBase negotiationDocument, NegotiationActivityPrintType negotiationReportType,
+			KcPersistableBusinessObjectBase negotiationDocument, NegotiationActivityPrintType negotiationReportType,
 			Map<String, Object> reportParameters) throws PrintingException;
 }

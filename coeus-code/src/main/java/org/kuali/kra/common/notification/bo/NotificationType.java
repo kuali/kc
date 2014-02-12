@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.notification.bo;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.springframework.util.AutoPopulatingList;
 
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Defines the template for Notifications.
  */
-public class NotificationType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
+public class NotificationType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 1777340179839083316L;
     

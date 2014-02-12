@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 import java.io.Serializable;
 import java.util.List;
@@ -54,7 +54,7 @@ public class SpecialApprovalBean implements Serializable {
      * @param collection
      * @param deletedIndex
      */
-    protected void removeCollectionItem(List<? extends KraPersistableBusinessObjectBase> collection, int deletedIndex) {
+    protected void removeCollectionItem(List<? extends KcPersistableBusinessObjectBase> collection, int deletedIndex) {
         if(deletedIndex >= 0 && deletedIndex < collection.size()) {
             collection.remove(deletedIndex);
         }

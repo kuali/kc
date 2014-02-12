@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 import java.sql.Date;
 import java.util.Calendar;
 
-public class SentReportNotification extends KraPersistableBusinessObjectBase {
+public class SentReportNotification extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 3646683642938736073L;
     

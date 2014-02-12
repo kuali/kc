@@ -16,13 +16,14 @@
 package org.kuali.kra.bo;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 
 /**
  * 
  * This class for fetching watermark object from database.
  */
-public class Watermark extends KraPersistableBusinessObjectBase implements PersistableAttachment {
+public class Watermark extends KcPersistableBusinessObjectBase implements PersistableAttachment {
 
     private static final long serialVersionUID = 7376543184312622270L;
 

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class the bo class of mail type.
  */
-public class MailType extends KraPersistableBusinessObjectBase {
+public class MailType extends KcPersistableBusinessObjectBase {
 
     private String mailType;
 

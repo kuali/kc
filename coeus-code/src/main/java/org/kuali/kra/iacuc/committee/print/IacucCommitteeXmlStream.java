@@ -19,10 +19,9 @@ import edu.mit.coeus.xml.iacuc.*;
 import edu.mit.coeus.xml.iacuc.CommitteeType;
 import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.*;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
@@ -33,7 +32,7 @@ import java.util.*;
 /**
  * This class generates XML that confirms with the XSD related to 
  * committee reports. The data for XML is derived from
- * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  */
 public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
 
@@ -41,7 +40,7 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
     private IacucPrintXmlUtilService printXmlUtilService;
     /**
      * This method generates XML committee report. It uses data passed in
-     * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
+     * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl once
      * generated is returned as {@link XmlObject}
      * 
      * @param printableBusinessObject
@@ -50,7 +49,7 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         CommitteeBase committee = (CommitteeBase)printableBusinessObject;
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
        CommitteeDocument committeeDocumentType = CommitteeDocument.Factory.newInstance();

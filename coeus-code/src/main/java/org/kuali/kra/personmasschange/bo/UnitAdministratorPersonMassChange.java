@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.personmasschange.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * Defines the fields for a Unit Administrator Person Mass Change.
  */
-public class UnitAdministratorPersonMassChange extends KraPersistableBusinessObjectBase {
+public class UnitAdministratorPersonMassChange extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -5284508183458878623L;
     

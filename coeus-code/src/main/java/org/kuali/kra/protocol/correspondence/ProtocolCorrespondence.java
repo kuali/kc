@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.correspondence;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
@@ -27,7 +27,7 @@ import java.sql.Timestamp;
  * 
  * This class manages the attributes needed to maintain and protocol correspondence.
  */
-public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
+public class ProtocolCorrespondence extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 8032222937155468412L;
 

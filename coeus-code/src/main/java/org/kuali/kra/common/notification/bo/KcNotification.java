@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 /**
  * Defines a document-specific instance of a Notification Type.
  */
-public class KcNotification extends KraPersistableBusinessObjectBase {
+public class KcNotification extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 8649080269418978865L;
 
@@ -127,7 +127,7 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
         return (getUpdateTimestamp() == null ? "" : dateFormat.format(getUpdateTimestamp()));
     }
 
-    public void persistOwningObject(KraPersistableBusinessObjectBase object) {
+    public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         KraServiceLocator.getService(BusinessObjectService.class).save(object);
     }
 

@@ -15,30 +15,22 @@
  */
 package org.kuali.kra.common.specialreview.bo;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.SpecialReviewType;
+
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
-import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewExemption;
 
 /**
  * Defines the base class for the Special Review business object for all modules.
  * @param <T> SpecialReviewExemption
  */
 @MappedSuperclass
-public abstract class SpecialReview<T extends SpecialReviewExemption> extends KraPersistableBusinessObjectBase {
+public abstract class SpecialReview<T extends SpecialReviewExemption> extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -2168706171397009621L;
 

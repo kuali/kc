@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.subawardReporting.printing.service;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
@@ -46,6 +46,6 @@ public interface SubAwardPrintingService {
 	 *             if any errors occur during report generation
 	 */
 	public AttachmentDataSource printSubAwardReport(
-			KraPersistableBusinessObjectBase awardDocument, SubAwardPrintType subAwardPrintType,
+			KcPersistableBusinessObjectBase awardDocument, SubAwardPrintType subAwardPrintType,
 			Map<String, Object> reportParameters) throws PrintingException;
 }

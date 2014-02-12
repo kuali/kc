@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -26,7 +27,6 @@ import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.lookup.LookupResultsService;
@@ -51,7 +51,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * Action class corresponds to one tab (web page).  The derived Action classes handle
  * the user requests for a particular tab (web page).
  */
-public abstract class CommitteeActionBase extends KraTransactionalDocumentActionBase {
+public abstract class CommitteeActionBase extends KcTransactionalDocumentActionBase {
     
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeActionBase.class);
@@ -101,7 +101,7 @@ public abstract class CommitteeActionBase extends KraTransactionalDocumentAction
 
     /**
      * 
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#close(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#close(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

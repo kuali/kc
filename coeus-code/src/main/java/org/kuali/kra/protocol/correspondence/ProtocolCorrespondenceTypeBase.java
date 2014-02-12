@@ -16,14 +16,14 @@
 package org.kuali.kra.protocol.correspondence;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class ProtocolCorrespondenceTypeBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolCorrespondenceTypeBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -4725522827463252054L;
     public static final String APPROVAL_LETTER = "1";

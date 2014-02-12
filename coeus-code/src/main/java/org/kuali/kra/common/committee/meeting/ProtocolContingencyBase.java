@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is standard protocol review comment.
  */
-public abstract class ProtocolContingencyBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolContingencyBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 9043529163603762324L;
 

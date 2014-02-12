@@ -17,6 +17,8 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -37,9 +39,7 @@ import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -63,7 +63,7 @@ import java.util.Map;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase implements PermissionsForm, Auditable, QuestionableFormInterface,
+public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase implements PermissionsForm, AuditableForm, QuestionableFormInterface,
                                                                                         CustomDataDocumentForm {
     
     private static final long serialVersionUID = 4646326030098259702L;

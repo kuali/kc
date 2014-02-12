@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * This class represents the ProtocolBase Attachment Status.
  */
-public abstract class ProtocolAttachmentStatusBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAttachmentStatusBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2053606476193782286L;
 

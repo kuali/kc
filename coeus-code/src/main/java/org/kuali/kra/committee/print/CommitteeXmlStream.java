@@ -25,13 +25,12 @@ import edu.mit.irb.irbnamespace.ResearchAreaDocument.ResearchArea;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 
@@ -41,7 +40,7 @@ import java.util.*;
 /**
  * This class generates XML that confirms with the XSD related to 
  * committee reports. The data for XML is derived from
- * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
+ * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  */
 public class CommitteeXmlStream extends PrintBaseXmlStream {
 
@@ -49,7 +48,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
     private IrbPrintXmlUtilService irbPrintXmlUtilService;
     /**
      * This method generates XML committee report. It uses data passed in
-     * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
+     * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl once
      * generated is returned as {@link XmlObject}
      * 
      * @param printableBusinessObject
@@ -58,7 +57,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         org.kuali.kra.committee.bo.Committee committee = (org.kuali.kra.committee.bo.Committee)printableBusinessObject;
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         edu.mit.irb.irbnamespace.CommitteeDocument committeeDocumentType = edu.mit.irb.irbnamespace.CommitteeDocument.Factory.newInstance();

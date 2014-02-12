@@ -15,23 +15,19 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "NARRATIVE_USER_RIGHTS")
 @IdClass(NarrativeUserRights.NarrativeUserRightsId.class)
-public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
+public class NarrativeUserRights extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "MODULE_NUMBER")

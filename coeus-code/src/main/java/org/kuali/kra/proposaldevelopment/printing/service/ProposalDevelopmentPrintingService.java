@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.printing.service;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.printing.PrintingException;
@@ -56,7 +56,7 @@ public interface ProposalDevelopmentPrintingService {
 	 *             if any errors occur during report generation
 	 */
 	AttachmentDataSource printProposalDevelopmentReport(
-			KraPersistableBusinessObjectBase printableBusinessObject, String reportName,
+			KcPersistableBusinessObjectBase printableBusinessObject, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException;
 
     /**
