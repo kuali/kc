@@ -24,34 +24,32 @@
                     http://www.springframework.org/schema/util
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <bean id="PropDev-NotesPage" parent="PropDev-NotesPage-parentBean"/>
-    <bean id="PropDev-NotesPage-parentBean" parent="Uif-DocumentPage">
+    <bean id="PropDev-QuestionnairePage" parent="PropDev-QuestionnairePage-parentBean"/>
+    <bean id="PropDev-QuestionnairePage-parentBean" parent="Uif-DocumentPage">
         <property name="items">
             <list>
-                <ref bean="PropDev-NotesSection"/>
+                <bean parent="PropDev-QuestionnairePage-Section" p:order="10"/>
             </list>
         </property>
+        <property name="header">
+            <bean parent="Uif-PageHeader"/>
+        </property>
         <property name="footer">
-        	<bean parent="Uif-FooterBase">
-        		<property name="items"><list>
-        			<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveNotes" p:actionLabel="Save"/>
-        			<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveNotes" p:actionLabel="Save and continue..."
-        				p:navigateToPageId="PropDev-UnderDevelopmentPage"/>
-        		</list></property>
-        	</bean>
+            <null/>
         </property>
     </bean>
 		
-    <bean id="PropDev-NotesSection" parent="PropDev-NotesSection-parentBean"/>
-    <bean id="PropDev-NotesSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
-        <property name="header.headerText" value="Notes"/>
-        <property name="instructionalText" value="Add notes to this proposal"/>
+    <bean id="PropDev-QuestionnairePage-Section" parent="PropDev-QuestionnairePage-Section-parentBean"/>
+    <bean id="PropDev-QuestionnairePage-Section-parentBean" abstract="true" parent="Uif-VerticalBoxSection" 
+    p:header.headerText="Questionnaire">
         <property name="items">
             <list>
-							<bean parent="Uif-DocumentNotesSection"/>
+							<bean parent="PropDev-QuestionnairePage-Collection" p:order="10"/>
 						</list>
 				</property>
-    		<property name="fieldBindingObjectPath" value="document.developmentProposal"/>
     </bean>		
+		
+	<bean id="PropDev-QuestionnairePage-Collection" parent="PropDev-QuestionnairePage-Collection-parentBean"/>
+    <bean id="PropDev-QuestionnairePage-Collection-parentBean" abstract="true" parent="Questionnaire-Collection"/>
 		
 </beans>

@@ -50,26 +50,22 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/AbstractsPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/InternalAttachmentsPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/NotesPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/PersonnelAttachmentsPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalAttachmentsPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalCommon.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalCompliancePage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalDetailsPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalDevelopmentDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalDocumentView.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalInitiatePage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalInitiateView.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalOpportunityPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalOpportunitySearchPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalOrganizationLocationsPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalOrganizationLocationsSection.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalPersonnelPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/ProposalS2SPage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/QuestionnairePage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/proposal/S2sOpportunityLookup.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalAbstractsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalInternalAttachmentsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalNotesPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalPersonnelAttachmentsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalAttachmentsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalCommon.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalCompliancePage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalDetailsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalDocumentView.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalInitiatePage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalInitiateView.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalOpportunitySearchPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalOrganizationLocationsPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalPersonnelPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalQuestionnairePage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/S2sOpportunityLookup.xml</value>
             </list>
        </property>     
     </bean>
