@@ -46,7 +46,7 @@
 		parent="Uif-ListGroup" p:layoutManager.additionalCssClasses="nav,pull-right">
 		<property name="items">
 			<list>
-				<bean parent="Kc-Header-ActionList" p:toggleText="Action list">
+				<bean parent="Kc-Header-Actionlist" p:toggleText="Action list">
 					<property name="wrapperCssClasses">
 						<list merge="true">
 							<value>pull-right</value>
@@ -372,13 +372,8 @@
 		</property>
 	</bean>
 
-<<<<<<< HEAD
-	<bean id="Kc-Header-ActionList" parent="Kc-Header-ActionList-parentBean" />
-	<bean id="Kc-Header-ActionList-parentBean" abstract="true"
-=======
 	<bean id="Kc-Header-Actionlist" parent="Kc-Header-Actionlist-parentBean" />
 	<bean id="Kc-Header-Actionlist-parentBean" abstract="true"
->>>>>>> cc0890e430fcdfde2ca5f16499a795674c57134e
 		parent="Uif-DropdownToggleMenu">
 		<property name="menuItems">
 			<list>
