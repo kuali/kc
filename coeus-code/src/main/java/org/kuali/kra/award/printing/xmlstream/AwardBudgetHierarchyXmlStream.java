@@ -17,6 +17,7 @@ package org.kuali.kra.award.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintType;
@@ -26,7 +27,6 @@ import org.kuali.kra.printing.schema.AwardNoticeDocument;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
 import org.kuali.kra.printing.schema.AwardType;
 import org.kuali.kra.printing.schema.AwardType.AwardAmountInfo;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
@@ -177,7 +177,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 
     private List<AmountInfoType> recurseTree(AwardHierarchy branchNode,List<AmountInfoType> amountInfoTypes) {
 
-        Map<String, Object> criteria = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"parentAwardNumber", "active"}, new Object[]{branchNode.getAwardNumber(), Boolean.TRUE});
+        Map<String, Object> criteria = CollectionUtils.zipMap(new String[]{"parentAwardNumber", "active"}, new Object[]{branchNode.getAwardNumber(), Boolean.TRUE});
         Collection c = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, criteria, AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, true);
         branchNode.setChildren(new ArrayList<AwardHierarchy>(c));
         if(branchNode.hasChildren()) {

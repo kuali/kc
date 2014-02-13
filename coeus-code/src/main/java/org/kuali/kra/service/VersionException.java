@@ -18,7 +18,7 @@ package org.kuali.kra.service;
 /**
  * This exception will be thrown when an attempted versioning fails
  */
-public class VersionException extends Exception {
+public class VersionException extends RuntimeException {
     private static final long serialVersionUID = 4329253003064449628L;
 
     public VersionException() {

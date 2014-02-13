@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.notification.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.framework.role.RoleEbo;
 import org.kuali.rice.krad.service.KeyValuesService;

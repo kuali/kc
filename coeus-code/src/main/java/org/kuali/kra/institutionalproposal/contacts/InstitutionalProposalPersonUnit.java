@@ -23,12 +23,12 @@ import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -323,7 +323,7 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
     @SuppressWarnings("unchecked")
     private void lazilyLoadUnit() {
         if (StringUtils.isNotEmpty(unitNumber) && unit == null) {
-            Collection c = getBusinessObjectService().findMatching(Unit.class, ServiceHelper.getInstance().buildCriteriaMap("unitNumber", unitNumber));
+            Collection c = getBusinessObjectService().findMatching(Unit.class, Collections.singletonMap("unitNumber", unitNumber));
             if (c.size() > 0) {
                 unit = (Unit) c.iterator().next();
             }

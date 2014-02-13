@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.core.proxy.ProxyHelper;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.document.AwardDocument;
@@ -41,7 +42,6 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
@@ -533,7 +533,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     }
 
     Map<String, Object> getDocumentDescriptionCriteriaMap() {
-        return ServiceHelper.getInstance().buildCriteriaMap(DOCUMENT_DESCRIPTION_FIELD_NAME, AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);
+        return Collections.<String, Object>singletonMap(DOCUMENT_DESCRIPTION_FIELD_NAME, AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);
     }
 
     protected void addNewAwardToPlaceholderDocument(AwardDocument doc, AwardHierarchy node) {
@@ -544,7 +544,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     }
 
     protected Map<String, Object> getAwardHierarchyCriteriaMap(String awardNumber) {
-        return ServiceHelper.getInstance().buildCriteriaMap(new String[]{AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, "active"}, new Object[]{awardNumber, Boolean.TRUE});
+        return CollectionUtils.zipMap(new String[]{AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, "active"}, new Object[]{awardNumber, Boolean.TRUE});
     }
 
     protected void restoreOriginalAwardPropertiesAfterCopy(Award award, String originalAwardNumber, Integer originalSequenceNumber) {
@@ -577,12 +577,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         award.setSequenceNumber(0);
         return versioningService.createNewVersion(award);
     }
-    
-    /**
-     * 
-     * @throws WorkflowException 
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#populateAwardHierarchyNodes(java.util.Map, java.util.Map)
-     */
+
     public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber) {
         AwardHierarchyNode awardHierarchyNode;
         String tmpAwardNumber = null;
@@ -651,12 +646,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         Award returnVal = awardList.get(awardList.size()-1);
         return returnVal;
     }
-    
-    /**
-     * 
-     * @throws WorkflowException 
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#populateAwardHierarchyNodes(java.util.Map, java.util.Map)
-     */
+
     public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber, TimeAndMoneyDocument timeAndMoneyDocument) {
         AwardHierarchyNode awardHierarchyNode;
         String tmpAwardNumber = null;

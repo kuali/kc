@@ -16,9 +16,9 @@
 package org.kuali.kra.common.committee.lookup.keyvalue;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;

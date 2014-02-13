@@ -16,11 +16,11 @@
 package org.kuali.kra.award.lookup.keyvalue;
 
 import org.drools.core.util.StringUtils;
+import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
+import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.document.MaintenanceDocument;

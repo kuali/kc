@@ -18,7 +18,7 @@ package org.kuali.kra.common.notification.exception;
 /**
  * This exception is thrown if the given role id is not known to the given context.
  */
-public class UnknownRoleException extends Exception {
+public class UnknownRoleException extends RuntimeException {
 
     private static final long serialVersionUID = -1925770520412550327L;
     

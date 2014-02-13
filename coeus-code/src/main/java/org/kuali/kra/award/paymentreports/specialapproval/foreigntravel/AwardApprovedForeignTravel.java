@@ -22,12 +22,12 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -421,7 +421,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate implements Compar
         if (personId != null) {
             contact = getKcPersonService().getKcPersonByPersonId(this.personId);
         } else if (rolodexId != null) {
-            Map map = ServiceHelper.getInstance().buildCriteriaMap("rolodexId", rolodexId);
+            Map map = Collections.singletonMap("rolodexId", rolodexId);
             contact = (Contactable) getBusinessObjectService().findMatching(NonOrganizationalRolodex.class, map).iterator().next();
         } else {
             contact = null;

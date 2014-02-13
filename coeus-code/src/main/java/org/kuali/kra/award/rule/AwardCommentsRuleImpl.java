@@ -16,6 +16,8 @@
 package org.kuali.kra.award.rule;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
@@ -24,8 +26,6 @@ import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.kra.service.ServiceHelper;
 
 import java.util.Collection;
 
@@ -88,7 +88,7 @@ public class AwardCommentsRuleImpl extends KcTransactionalDocumentRuleBase imple
         //lookup the ValidBasisMethodPayment object associated with the award.  If none is found for the basis and method we do not 
         //we do not do the check for the correct value in the invoice comment here as an error will be thrown in another business
         //rule regarding that case.
-        Collection<ValidBasisMethodPayment> results = getBusinessObjectService().findMatching( ValidBasisMethodPayment.class, ServiceHelper.getInstance().buildCriteriaMap( VALID_BASIS_METHOD_PAYMENT_FINDER_FIELDS, new Object[]{award.getBasisOfPaymentCode(),award.getMethodOfPaymentCode()}));
+        Collection<ValidBasisMethodPayment> results = getBusinessObjectService().findMatching( ValidBasisMethodPayment.class, CollectionUtils.zipMap(VALID_BASIS_METHOD_PAYMENT_FINDER_FIELDS, new Object[]{award.getBasisOfPaymentCode(), award.getMethodOfPaymentCode()}));
         if( results.size() == 1 ) {
             ValidBasisMethodPayment vbpay = results.iterator().next();
             InvInstructionsIndicatorConstants indicator = vbpay.getInvInstructionsIndicatorConstant(); 
