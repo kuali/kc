@@ -105,6 +105,23 @@
   <bean id="BudgetDocument-versionNumber" parent="BudgetDocument-versionNumber-parentBean"/>
   <bean id="BudgetDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 
+
   <bean id="BudgetDocument-workflowProperties" parent="BudgetDocument-workflowProperties-parentBean"/>
-  <bean id="BudgetDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties"/>
+  <bean id="BudgetDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+ 			  <bean parent="WorkflowProperty" p:path="budgets.budgetId"/>
+ 			  <bean parent="WorkflowProperty" p:path="currentAward.budgetStatus"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
 </beans>
