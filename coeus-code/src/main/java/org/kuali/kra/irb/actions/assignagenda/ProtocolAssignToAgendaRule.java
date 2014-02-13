@@ -16,21 +16,21 @@
 package org.kuali.kra.irb.actions.assignagenda;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.kra.infrastructure.KeyConstants;
 
 /**
  * Validate the assignment of a protocol to a agenda.
  */
-public class ProtocolAssignToAgendaRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<ProtocolAssignToAgendaEvent> {
+public class ProtocolAssignToAgendaRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ProtocolAssignToAgendaEvent> {
 
     private static final String COMMITTEE_ID_FIELD = "committeeId";
     private static final String ACTION_DATE_FIELD = "actionDate";
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(ProtocolAssignToAgendaEvent event) {
         boolean isValid = true;

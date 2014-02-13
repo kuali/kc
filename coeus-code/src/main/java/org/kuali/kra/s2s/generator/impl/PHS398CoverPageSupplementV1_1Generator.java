@@ -24,7 +24,7 @@ import gov.grants.apply.forms.phs398CoverPageSupplementV11.PHS398CoverPageSupple
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
@@ -54,7 +54,7 @@ public class PHS398CoverPageSupplementV1_1Generator extends
 	 * Constructs a PHS398CoverPageSupplementV1_1Generator.java.
 	 */
 	public PHS398CoverPageSupplementV1_1Generator() {
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
 	}
 
 	/**

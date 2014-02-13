@@ -16,13 +16,13 @@
 package org.kuali.kra.subaward.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
@@ -296,7 +296,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 */
     public void setRequisitionerUserName(String requisitionerUserName) {
         if (requisitionerUserName != null) {
-            KcPerson requisitioner = KraServiceLocator.
+            KcPerson requisitioner = KcServiceLocator.
             getService(KcPersonService.class).getKcPersonByUserName(
             		requisitionerUserName);
             if (requisitioner != null) {
@@ -310,7 +310,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     
     public KcPerson getRequisitioner() {
         if (requisitionerId != null) {
-            return KraServiceLocator.getService(
+            return KcServiceLocator.getService(
                     KcPersonService.class).getKcPersonByPersonId(requisitionerId);
         } else {
             return null;
@@ -416,7 +416,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * @return Returns the OrganizationId.
 	 */
 	public String getOrganizationId() {
-        OrganizationService organizationService = KraServiceLocator.
+        OrganizationService organizationService = KcServiceLocator.
        getService(OrganizationService.class);
         this.organization = organizationService.getOrganization(organizationId);
         return organizationId;
@@ -581,7 +581,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 */
 	public String getRequisitionerUnit() {
         if (this.requisitionerUnit != null) {
-            UnitService unitService = KraServiceLocator.
+            UnitService unitService = KcServiceLocator.
             getService(UnitService.class);
             this.unit = unitService.getUnit(requisitionerUnit);
         }
@@ -681,7 +681,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 */
 	public Integer getSiteInvestigator() {
         if (siteInvestigator != null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.
+            BusinessObjectService businessObjectService = KcServiceLocator.
             getService(BusinessObjectService.class);
             this.rolodex = (Rolodex) businessObjectService.
             findByPrimaryKey(Rolodex.class,
@@ -698,7 +698,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 */
     public void setSiteInvestigator(Integer siteInvestigator) {
         if (siteInvestigator != null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.
+            BusinessObjectService businessObjectService = KcServiceLocator.
             getService(BusinessObjectService.class);
             this.rolodex = (NonOrganizationalRolodex) businessObjectService.
             findByPrimaryKey(NonOrganizationalRolodex.class,
@@ -817,7 +817,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	    Map<String, Object> values = new HashMap<String, Object>();
 	    values.put("subAwardCode", this.getSubAwardCode());
 		return (List<SubAwardAmountReleased>) 
-		    KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
+		    KcServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
 	}
 
 	/**.

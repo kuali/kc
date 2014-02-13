@@ -16,9 +16,9 @@
 package org.kuali.kra.award.lookup.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -77,7 +77,7 @@ public class ContactsValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
      * @return
      */
     protected KeyValuesService getKeyValuesService(){
-        return KraServiceLocator.getService(KeyValuesService.class);
+        return KcServiceLocator.getService(KeyValuesService.class);
     }
    
 }

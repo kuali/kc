@@ -16,8 +16,8 @@
 package org.kuali.kra.budget.lookup.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -30,7 +30,7 @@ import java.util.Map;
 public class BudgetModularIDCRateTypeValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+        KeyValueFinderService keyValueFinderService= (KeyValueFinderService) KcServiceLocator.getService("keyValueFinderService");
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("rateClassType", "O");
         List<KeyValue> keyValueList = keyValueFinderService.getKeyValues(RateClass.class, "description", "description", queryMap);

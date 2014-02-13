@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -63,7 +63,7 @@ public class SaveProtocolFundingSourceLinkEvent extends KcDocumentEventBaseExten
     }
 
     @Override
-    public BusinessRuleInterface<SaveProtocolFundingSourceLinkEvent> getRule() {
+    public KcBusinessRule<SaveProtocolFundingSourceLinkEvent> getRule() {
         return new SaveProtocolFundingSourceLinkRule();
     }
     

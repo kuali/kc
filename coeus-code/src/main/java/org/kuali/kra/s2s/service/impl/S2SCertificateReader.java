@@ -17,8 +17,8 @@ package org.kuali.kra.s2s.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
@@ -72,7 +72,7 @@ public class S2SCertificateReader {
     }
 
     private static S2SUtilService getS2SUtilService() {
-        return KraServiceLocator.getService(S2SUtilService.class);
+        return KcServiceLocator.getService(S2SUtilService.class);
     }
 
     public KeyStore getTrustStore() throws S2SException{

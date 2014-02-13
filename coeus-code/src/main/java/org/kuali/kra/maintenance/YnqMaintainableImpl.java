@@ -16,10 +16,10 @@
 package org.kuali.kra.maintenance;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanation;
 import org.kuali.kra.bo.YnqExplanationType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -84,7 +84,7 @@ public class YnqMaintainableImpl extends KraMaintainableImpl {
     }
 
     private List<YnqExplanationType> getYnqExplanationTypes() {
-         List<YnqExplanationType> ynqExplanationTypes = (KraServiceLocator.getService(YnqService.class).getYnqExplanationTypes());
+         List<YnqExplanationType> ynqExplanationTypes = (KcServiceLocator.getService(YnqService.class).getYnqExplanationTypes());
          return ynqExplanationTypes;
      }
 

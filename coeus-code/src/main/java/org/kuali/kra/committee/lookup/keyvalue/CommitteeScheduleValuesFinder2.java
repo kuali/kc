@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -46,7 +46,7 @@ public class CommitteeScheduleValuesFinder2 extends FormViewAwareUifKeyValuesFin
      * @return the Committee Service
      */
     private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
+        return KcServiceLocator.getService(CommitteeService.class);
     }
 
     /**

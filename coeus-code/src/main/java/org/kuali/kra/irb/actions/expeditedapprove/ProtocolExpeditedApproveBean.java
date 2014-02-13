@@ -16,8 +16,8 @@
 package org.kuali.kra.irb.actions.expeditedapprove;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
@@ -109,13 +109,13 @@ public class ProtocolExpeditedApproveBean extends ProtocolApproveBean {
     
     private ProtocolAssignToAgendaService getProtocolAssigntoAgendaService() {
         if (this.agendaService == null){
-            this.agendaService = KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
+            this.agendaService = KcServiceLocator.getService(ProtocolAssignToAgendaService.class);
         }
         return this.agendaService;
     }
 
     private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
-        return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
+        return KcServiceLocator.getService(ProtocolAssignCmtSchedService.class);
     }
     
 

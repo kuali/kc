@@ -19,8 +19,8 @@ package org.kuali.kra.krms.service.impl;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -71,7 +71,7 @@ public abstract class KcKrmsFactBuilderServiceHelper implements KcKrmsFactBuilde
      * @param factTermNameSpace
      */
     public void addObjectMembersAsFacts(Facts.Builder factsBuilder, Object factsObject,String contextId, String factTermNS) {
-        TermRepositoryService termRepositoryService = KraServiceLocator.getService("termRepositoryService");
+        TermRepositoryService termRepositoryService = KcServiceLocator.getService("termRepositoryService");
         List<TermSpecificationDefinition> termSpecs=(List<TermSpecificationDefinition>) termRepositoryService.findAllTermSpecificationsByContextId(contextId);
         for (TermSpecificationDefinition termSpecificationDefinition : termSpecs) {
             

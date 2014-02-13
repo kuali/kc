@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.krms;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -77,7 +77,7 @@ public class QuestionResolver implements TermResolver<Object> {
     }
     
     protected List<AnswerHeader> getQuestionnaireAnswers(String moduleCode, String moduleItemKey) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", moduleCode);
         fieldValues.put("moduleItemKey", moduleItemKey);

@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.committee.service.CommitteeBatchCorrespondenceService;
@@ -24,7 +25,6 @@ import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
 import org.kuali.kra.common.committee.service.impl.CommitteeBatchCorrespondenceServiceImplBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -151,7 +151,7 @@ public class CommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorre
     }
     
     protected CommitteePrintingService getCommitteePrintingService() {
-        return KraServiceLocator.getService(CommitteePrintingService.class);
+        return KcServiceLocator.getService(CommitteePrintingService.class);
     }
     
     /**

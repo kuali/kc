@@ -21,13 +21,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -453,7 +453,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * This method is to get Watermark Service. 
      */
     private WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);  
+        return  KcServiceLocator.getService(WatermarkService.class);
     }
     
     /**
@@ -461,7 +461,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * 
      */
     private IacucProtocolPrintingService getProtocolPrintingService() {
-        return KraServiceLocator.getService(IacucProtocolPrintingService.class);
+        return KcServiceLocator.getService(IacucProtocolPrintingService.class);
     }
     
     /**
@@ -469,6 +469,6 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * This method is to get ProtocolBase Attachment Service.
      */    
     private ProtocolAttachmentService getProtocolAttachmentService() {
-        return KraServiceLocator.getService("iacucProtocolAttachmentService");
+        return KcServiceLocator.getService("iacucProtocolAttachmentService");
     }    
 }

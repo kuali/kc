@@ -17,16 +17,16 @@ package org.kuali.kra.iacuc.threers;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Date;
 import java.util.List;
 
-public class AddAlternateSearchRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<AddAlternateSearchEvent> {
+public class AddAlternateSearchRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<AddAlternateSearchEvent> {
 
     private static final String ERROR_PATH_PREFIX = "iacucAlternateSearchHelper.newAlternateSearch.";
     private static final String DD_ENTRY_NAME = "IacucAlternateSearch";

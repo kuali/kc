@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * When amendment sections are modified, this event is generated.
@@ -53,6 +53,6 @@ public abstract class ModifyAmendmentSectionsEventBase extends KcDocumentEventBa
     }
 
     @Override
-    public abstract BusinessRuleInterface getRule();
+    public abstract KcBusinessRule getRule();
 
 }

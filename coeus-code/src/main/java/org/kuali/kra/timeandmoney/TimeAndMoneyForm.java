@@ -17,6 +17,7 @@ package org.kuali.kra.timeandmoney;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.document.AwardDocument;
@@ -24,7 +25,6 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
@@ -193,11 +193,11 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
     
     public AwardVersionService getAwardVersionService() {
-        return KraServiceLocator.getService(AwardVersionService.class);
+        return KcServiceLocator.getService(AwardVersionService.class);
     }
     /**
      * Gets the transactionBean attribute. 
@@ -269,7 +269,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
      * @return
      */
     private AwardHierarchyUIService getAwardHierarchyUIService() {
-        return KraServiceLocator.getService(AwardHierarchyUIService.class);
+        return KcServiceLocator.getService(AwardHierarchyUIService.class);
     }
 
     /**
@@ -658,7 +658,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -680,7 +680,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     }
     
     protected KcWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KcWorkflowService.class);
+        return KcServiceLocator.getService(KcWorkflowService.class);
     }
     
     @SuppressWarnings("unchecked")
@@ -692,7 +692,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
         String rootAwardNumber = getTimeAndMoneyDocument().getRootAwardNumber();
         fieldValues.put("rootAwardNumber", rootAwardNumber);
         //DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
 
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
             (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
@@ -717,7 +717,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     
     protected TimeAndMoneyDocument getLastFinalTandMDocument(List<TimeAndMoneyDocument> timeAndMoneyDocuments) throws WorkflowException {
         TimeAndMoneyDocument returnVal = null;
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         while(timeAndMoneyDocuments.size() > 0) {
             TimeAndMoneyDocument docWithWorkFlowData = 
                 (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());

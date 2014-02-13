@@ -23,8 +23,8 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
@@ -40,6 +40,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 /**
  * Test the ProtocolWithdrawService implementation.
@@ -60,15 +61,15 @@ public class ProtocolWithdrawServiceTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
 
         service = new ProtocolWithdrawServiceImpl();
-        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setProtocolActionService(KcServiceLocator.getService(ProtocolActionService.class));
         service.setProtocolOnlineReviewService(getMockOnlineReviewService());
         service.setBusinessObjectService(getMockBusinessObjectService());
-        service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
-        service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
+        service.setDocumentService(KcServiceLocator.getService(DocumentService.class));
+        service.setProtocolVersionService(KcServiceLocator.getService(ProtocolVersionService.class));
         service.setProtocolAssignToAgendaService(getMockProtocolAssignToAgendaService());
         service.setProtocolActionCorrespondenceGenerationService(getMockActionCorrespondenceGenerationService());
         
-        protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
+        protocolSubmitActionService = KcServiceLocator.getService(ProtocolSubmitActionService.class);
     }
 
     @After

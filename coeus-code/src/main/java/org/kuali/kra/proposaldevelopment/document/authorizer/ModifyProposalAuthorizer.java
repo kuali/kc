@@ -16,10 +16,10 @@
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -55,7 +55,7 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
             // we will indicate that the user does not have permission to do that. 
             
             if (unitNumber != null) {
-                UnitAuthorizationService auth = KraServiceLocator.getService(UnitAuthorizationService.class);
+                UnitAuthorizationService auth = KcServiceLocator.getService(UnitAuthorizationService.class);
                 hasPermission = auth.hasPermission(userId, unitNumber, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
             }
         } else {
@@ -65,7 +65,7 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              */
             WorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
 
-            boolean hasBeenRejected=KraServiceLocator.getService(KcDocumentRejectionService.class).isDocumentOnInitialNode(doc);
+            boolean hasBeenRejected= KcServiceLocator.getService(KcDocumentRejectionService.class).isDocumentOnInitialNode(doc);
             hasPermission = !doc.isViewOnly() &&
                             hasProposalPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL) &&
                             (!kraWorkflowService.isInWorkflow(doc) || hasBeenRejected) &&

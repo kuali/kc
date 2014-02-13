@@ -16,10 +16,10 @@
 package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
@@ -134,7 +134,7 @@ public class AwardUnitContact extends AwardContact {
      * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
+        return (BusinessObjectService) KcServiceLocator.getService("businessObjectService");
     }
     
     /**

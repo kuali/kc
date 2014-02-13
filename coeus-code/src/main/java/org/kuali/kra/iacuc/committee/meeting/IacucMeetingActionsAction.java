@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.committee.meeting;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.*;
 import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
@@ -29,7 +30,6 @@ import org.kuali.kra.iacuc.committee.print.service.IacucScheduleCorrespondencePr
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -77,17 +77,17 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
 
     @Override
     protected CommonMeetingService getMeetingService() {
-        return KraServiceLocator.getService(IacucMeetingService.class);
+        return KcServiceLocator.getService(IacucMeetingService.class);
     }
 
     @Override
     protected ReviewCommentsService<?> getReviewerCommentsService() {
-        return KraServiceLocator.getService(IacucReviewCommentsService.class);
+        return KcServiceLocator.getService(IacucReviewCommentsService.class);
     }
 
     @Override
     protected CommitteePrintingServiceBase getCommitteePrintingService() {
-        return KraServiceLocator.getService(IacucCommitteePrintingService.class);
+        return KcServiceLocator.getService(IacucCommitteePrintingService.class);
     }
 
     public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -103,7 +103,7 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
                     protocolCorrespondence.setCorrespondence(dataSource.getContent());
                     protocolCorrespondence.setFinalFlag(false);
                     protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-                    protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class)
+                    protocolCorrespondence.setCreateTimestamp(KcServiceLocator.getService(DateTimeService.class)
                             .getCurrentTimestamp());
                 }
                 meetingHelper.getRegeneratedCorrespondences().add(protocolCorrespondence);
@@ -120,12 +120,12 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
     }
 
     private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-        return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
+        return KcServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
     }
 
     @Override
     protected CorrespondencePrintingService getCorrespondencePrintingService() {
-        return KraServiceLocator.getService(IacucScheduleCorrespondencePrint.class);
+        return KcServiceLocator.getService(IacucScheduleCorrespondencePrint.class);
     }
     
 }

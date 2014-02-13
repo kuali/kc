@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitContactType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitService;
@@ -80,11 +80,11 @@ public class InstitutionalProposalUnitContactsBean extends InstitutionalProposal
     
     
     public UnitService getUnitService() {
-        return (UnitService) KraServiceLocator.getService(UnitService.class);
+        return (UnitService) KcServiceLocator.getService(UnitService.class);
     }
     
     public KcPersonService getKcPersonService() {
-        return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
+        return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }
 
     /**

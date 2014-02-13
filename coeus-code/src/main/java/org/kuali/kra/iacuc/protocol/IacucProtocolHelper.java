@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
@@ -28,7 +29,6 @@ import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -53,14 +53,14 @@ public class IacucProtocolHelper extends ProtocolHelperBase {
     @Override
     // implementation of hook method
     protected IacucProtocolPersonnelService getProtocolPersonnelService() {
-        return KraServiceLocator.getService(IacucProtocolPersonnelService.class);
+        return KcServiceLocator.getService(IacucProtocolPersonnelService.class);
     }
 
 
     @Override
     // implementation of hook method
     protected IacucProtocolNumberService getProtocolNumberService() {
-        return KraServiceLocator.getService(IacucProtocolNumberService.class);
+        return KcServiceLocator.getService(IacucProtocolNumberService.class);
     }
 
 

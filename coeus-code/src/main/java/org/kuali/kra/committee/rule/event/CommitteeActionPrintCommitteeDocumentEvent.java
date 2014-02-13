@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.committee.rules.CommitteeActionPrintCommitteeDocumentRule;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionsEventBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActionsEventBase<CommitteeActionPrintCommitteeDocumentRule> {
@@ -43,7 +43,7 @@ public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActions
 
     @SuppressWarnings("unchecked")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new CommitteeActionPrintCommitteeDocumentRule();
     }
 

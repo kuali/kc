@@ -1,11 +1,11 @@
 package org.kuali.kra.common.printing;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -100,7 +100,7 @@ public class CurrentReportBean extends ReportBean {
         this.awardAmount = award.calculateObligatedDistributedAmountTotal();
         this.projectStartDate = award.getAwardEffectiveDate();
         this.projectEndDate = award.findLatestFinalExpirationDate();
-        parameterService = KraServiceLocator.getService(ParameterService.class);
+        parameterService = KcServiceLocator.getService(ParameterService.class);
         String directIndirectEnabledValue = parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
 
         for(AwardAmountInfo awardAmountInfo:award.getAwardAmountInfos()){

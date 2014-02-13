@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolSpeciesStudyGroup;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class IacucProtocolPerson extends ProtocolPersonBase {
@@ -79,7 +79,7 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
     }
 
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
-        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+        return (IacucProtocolProcedureService) KcServiceLocator.getService("iacucProtocolProcedureService");
     }
 
     public List<IacucProtocolSpeciesStudyGroup> getProcedureDetails() {

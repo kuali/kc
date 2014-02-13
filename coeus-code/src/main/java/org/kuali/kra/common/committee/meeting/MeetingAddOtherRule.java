@@ -16,16 +16,16 @@
 package org.kuali.kra.common.committee.meeting;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.kra.infrastructure.KeyConstants;
 
 /**
  * 
  * This class implements the business rule for adding present other attendant.
  */
-public class MeetingAddOtherRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<MeetingAddOtherEvent> {
+public class MeetingAddOtherRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<MeetingAddOtherEvent> {
 
     private static final String NEWOTHERPRESENT_PERSONNAME = "meetingHelper.newOtherPresentBean.attendance.personName";
     private ErrorReporter errorReporter;

@@ -37,12 +37,12 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -1127,6 +1127,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                 "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1", "PHS_Fellowship_Supplemental_1_1-V1.1");
     }
     private ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
-        return KraServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
+        return KcServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
     }
 }

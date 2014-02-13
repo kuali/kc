@@ -16,11 +16,11 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -125,7 +125,7 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
         boolean valid = true;
         ErrorReporter errorReporter = new ErrorReporter();
         Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getDataObject();
-        RolodexService rolodexService = KraServiceLocator.getService(RolodexService.class);
+        RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
         
         
         

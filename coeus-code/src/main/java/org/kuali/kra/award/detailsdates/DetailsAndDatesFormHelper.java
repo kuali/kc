@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.detailsdates;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -110,11 +110,11 @@ public class DetailsAndDatesFormHelper implements Serializable {
     }
     
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
     
     protected KualiRuleService getKualiRuleService() {
-        return KraServiceLocator.getService(KualiRuleService.class);
+        return KcServiceLocator.getService(KualiRuleService.class);
     }
     
 }

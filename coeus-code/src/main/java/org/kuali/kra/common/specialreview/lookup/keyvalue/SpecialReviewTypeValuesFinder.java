@@ -16,10 +16,10 @@
 package org.kuali.kra.common.specialreview.lookup.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.SpecialReviewUsage;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -109,7 +109,7 @@ public abstract class SpecialReviewTypeValuesFinder extends UifKeyValuesFinderBa
     
     public KeyValuesService getKeyValuesService() {
         if (keyValuesService == null) {
-            keyValuesService = (KeyValuesService) KraServiceLocator.getService(KeyValuesService.class);
+            keyValuesService = (KeyValuesService) KcServiceLocator.getService(KeyValuesService.class);
         }
         return keyValuesService;
     }
@@ -120,7 +120,7 @@ public abstract class SpecialReviewTypeValuesFinder extends UifKeyValuesFinderBa
     
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }
@@ -131,7 +131,7 @@ public abstract class SpecialReviewTypeValuesFinder extends UifKeyValuesFinderBa
     
     public IdentityService getIdentityService() {
         if (identityManagementService == null) {
-            identityManagementService = KraServiceLocator.getService(IdentityService.class);
+            identityManagementService = KcServiceLocator.getService(IdentityService.class);
         }
         return identityManagementService;
     }

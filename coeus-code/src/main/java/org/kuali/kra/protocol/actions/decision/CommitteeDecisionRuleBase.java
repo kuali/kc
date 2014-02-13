@@ -17,17 +17,17 @@ package org.kuali.kra.protocol.actions.decision;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceServiceBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public abstract class CommitteeDecisionRuleBase<CD extends CommitteeDecision<?>>
     
     protected final CommitteeScheduleAttendanceServiceBase getAttendanceService() {
         if (attendanceService == null) {
-            attendanceService = KraServiceLocator.getService(getCommitteeScheduleAttendanceServiceClassHook());
+            attendanceService = KcServiceLocator.getService(getCommitteeScheduleAttendanceServiceClassHook());
         }
         return attendanceService;
     }

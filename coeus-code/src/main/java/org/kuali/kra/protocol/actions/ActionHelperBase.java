@@ -19,6 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -28,7 +29,6 @@ import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
@@ -455,7 +455,7 @@ public abstract class ActionHelperBase implements Serializable {
         
         
         protected ReviewCommentsService getReviewCommentsService() {
-            return KraServiceLocator.getService(getReviewCommentsServiceClassHook());
+            return KcServiceLocator.getService(getReviewCommentsServiceClassHook());
         }   
         
         protected abstract Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook();  
@@ -925,7 +925,7 @@ public abstract class ActionHelperBase implements Serializable {
     @SuppressWarnings("rawtypes")
     private CommitteeScheduleServiceBase getCommitteeScheduleService() {
         if (committeeScheduleService == null) {
-            committeeScheduleService = KraServiceLocator.getService(getCommitteeScheduleServiceClassHook());        
+            committeeScheduleService = KcServiceLocator.getService(getCommitteeScheduleServiceClassHook());
         }
         return committeeScheduleService;
     }
@@ -1183,7 +1183,7 @@ public abstract class ActionHelperBase implements Serializable {
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
         if (this.taskAuthorizationService == null) {
-            this.taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);        
+            this.taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         }
         return this.taskAuthorizationService;
     }
@@ -1852,7 +1852,7 @@ public abstract class ActionHelperBase implements Serializable {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -1905,14 +1905,14 @@ public abstract class ActionHelperBase implements Serializable {
     
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }
     
     public FollowupActionService<?> getFollowupActionService() {
         if (followupActionService == null) {
-            followupActionService = KraServiceLocator.getService(getFollowupActionServiceClassHook());
+            followupActionService = KcServiceLocator.getService(getFollowupActionServiceClassHook());
         }
         return followupActionService;
     }
@@ -1929,7 +1929,7 @@ public abstract class ActionHelperBase implements Serializable {
     
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         
         return this.kcPersonService;
@@ -2140,7 +2140,7 @@ public abstract class ActionHelperBase implements Serializable {
 
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         if (questionnaireAnswerService == null) {
-            questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+            questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         } 
         return questionnaireAnswerService;
     }
@@ -2522,7 +2522,7 @@ public abstract class ActionHelperBase implements Serializable {
 
     protected KcAuthorizationService getKraAuthorizationService() {
         if (this.kraAuthorizationService == null) {
-            this.kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+            this.kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         }
         
         return this.kraAuthorizationService;
@@ -2652,7 +2652,7 @@ public abstract class ActionHelperBase implements Serializable {
     }    
 
     protected CommitteeIdByUnitValuesFinderService<?> getCommitteeIdByUnitValuesFinderService() {
-        return KraServiceLocator.getService(getCommitteeIdByUnitValuesFinderServiceClassHook());
+        return KcServiceLocator.getService(getCommitteeIdByUnitValuesFinderServiceClassHook());
     }
     
     protected abstract Class<? extends CommitteeIdByUnitValuesFinderService<?>> getCommitteeIdByUnitValuesFinderServiceClassHook();
@@ -2666,7 +2666,7 @@ public abstract class ActionHelperBase implements Serializable {
     }    
 
     private ProtocolCorrespondenceAuthorizationService getProtocolCorrespondenceAuthorizationService() {
-        return KraServiceLocator.getService(getProtocolCorrespondenceAuthorizationServiceClassHook());
+        return KcServiceLocator.getService(getProtocolCorrespondenceAuthorizationServiceClassHook());
     }
     
     protected abstract Class<? extends ProtocolCorrespondenceAuthorizationService> getProtocolCorrespondenceAuthorizationServiceClassHook();

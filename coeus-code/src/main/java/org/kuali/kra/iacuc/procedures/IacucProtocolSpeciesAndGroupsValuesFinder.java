@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -63,6 +63,6 @@ public class IacucProtocolSpeciesAndGroupsValuesFinder extends FormViewAwareUifK
     
     
     protected KeyValuesService getKeyValuesService() {
-        return (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        return (KeyValuesService) KcServiceLocator.getService("keyValuesService");
     }
 }

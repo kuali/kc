@@ -16,10 +16,10 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.lookup.keyvalue.KCStateValuesFinder;
@@ -92,7 +92,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     public String getProposalPersonDivisionName(ProposalPerson proposalPerson){
         String personDivisionName = null;
         if(proposalPerson != null ) {
-            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            UnitService unitService = KcServiceLocator.getService(UnitService.class);
             List<Unit> units = unitService.getUnitHierarchyForUnit(proposalPerson.getHomeUnit());
             if(units.size() > UNIT_HEIRARCHY_NODE){
                 Unit unit=units.get(UNIT_HEIRARCHY_NODE);

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.notification.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.AddNotificationRecipientRule;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class AddNotificationRecipientEvent extends KcDocumentEventBaseExtension 
     }
 
     @Override
-    public BusinessRuleInterface<AddNotificationRecipientEvent> getRule() {
+    public KcBusinessRule<AddNotificationRecipientEvent> getRule() {
         return new AddNotificationRecipientRule();
     }
 

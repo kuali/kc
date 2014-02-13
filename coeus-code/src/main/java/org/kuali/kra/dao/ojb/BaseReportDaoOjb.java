@@ -1,7 +1,7 @@
 package org.kuali.kra.dao.ojb;
 
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -35,7 +35,7 @@ public class BaseReportDaoOjb extends PlatformAwareDaoBaseOjb implements OjbColl
     }
 
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     private WorkflowDocument loadWorkflowDocument(DocumentBase document) throws WorkflowException {
@@ -45,6 +45,6 @@ public class BaseReportDaoOjb extends PlatformAwareDaoBaseOjb implements OjbColl
     }
 
     private DocumentService getDocumentService() {
-        return KraServiceLocator.getService(DocumentService.class);
+        return KcServiceLocator.getService(DocumentService.class);
     }
 }

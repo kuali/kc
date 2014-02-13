@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 import org.kuali.kra.service.ResearchAreasServiceBase;
 import org.kuali.kra.web.struts.form.ResearchAreasFormBase;
@@ -194,7 +194,7 @@ public abstract class ResearchAreasActionBase extends KualiAction {
     }
     
     protected TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
 
     protected abstract ResearchAreasServiceBase getResearchAreasService();

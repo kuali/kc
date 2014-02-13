@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.committee.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public abstract class CommitteeScheduleEventBase<Z extends BusinessRuleInterface> extends KcDocumentEventBaseExtension {
+public abstract class CommitteeScheduleEventBase<Z extends KcBusinessRule> extends KcDocumentEventBaseExtension {
     
     /**
      * Enum helps identify type of error to respond.

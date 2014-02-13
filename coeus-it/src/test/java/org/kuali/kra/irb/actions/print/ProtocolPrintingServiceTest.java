@@ -16,10 +16,11 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.util.PrintingServiceTestBase;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertTrue;
 public class ProtocolPrintingServiceTest extends PrintingServiceTestBase {
     private ProtocolPrintingService protocolPrintingService;
 
@@ -38,7 +39,7 @@ public class ProtocolPrintingServiceTest extends PrintingServiceTestBase {
 
     private ProtocolPrintingService getPrintingService() {
         if (protocolPrintingService == null) {
-            protocolPrintingService = KraServiceLocator.getService(ProtocolPrintingService.class);
+            protocolPrintingService = KcServiceLocator.getService(ProtocolPrintingService.class);
         }
         return protocolPrintingService;
     }

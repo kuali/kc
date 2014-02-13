@@ -19,12 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.*;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.notification.FundingSourceNotificationRenderer;
@@ -122,7 +122,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocumentBase protocolDocument,
             Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
-            ProtocolResearchAreaService service = KraServiceLocator.getService(ProtocolResearchAreaService.class);
+            ProtocolResearchAreaService service = KcServiceLocator.getService(ProtocolResearchAreaService.class);
             service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchAreaBase>) selectedBOs);
             // finally do validation and error reporting for inactive research areas
             (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules((ProtocolDocument) protocolDocument);
@@ -217,7 +217,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
             
             ProtocolReference ref = new ProtocolReference(bean, (Protocol) protocolForm.getProtocolDocument().getProtocol(), type);
             
-            ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
+            ProtocolReferenceService service = KcServiceLocator.getService(ProtocolReferenceService.class);
 
             service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), ref);
             
@@ -335,7 +335,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return ProtocolPersonnelService
      */
     private ProtocolParticipantService getProtocolParticipantService() {
-        return (ProtocolParticipantService) KraServiceLocator.getService("protocolParticipantTypeService");
+        return (ProtocolParticipantService) KcServiceLocator.getService("protocolParticipantTypeService");
     }
 
     /**
@@ -344,7 +344,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return ProtocolLocationService
      */
     private ProtocolLocationService getProtocolLocationService() {
-        return (ProtocolLocationService) KraServiceLocator.getService("protocolLocationService");
+        return (ProtocolLocationService) KcServiceLocator.getService("protocolLocationService");
     }
 
     /**
@@ -516,7 +516,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return ProtocolFundingSourceService
      */
     private ProtocolFundingSourceService getProtocolFundingSourceService() {
-        return (ProtocolFundingSourceService) KraServiceLocator.getService(ProtocolFundingSourceService.class);
+        return (ProtocolFundingSourceService) KcServiceLocator.getService(ProtocolFundingSourceService.class);
     }
 
 
@@ -526,7 +526,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return ProtocolProposalDevelopmentDocumentService
      */
     private ProtocolProposalDevelopmentDocumentService getProtocolProposalDevelopmentDocumentService() {
-        return (ProtocolProposalDevelopmentDocumentService) KraServiceLocator.getService(ProtocolProposalDevelopmentDocumentService.class);
+        return (ProtocolProposalDevelopmentDocumentService) KcServiceLocator.getService(ProtocolProposalDevelopmentDocumentService.class);
     }
 
     /**
@@ -662,6 +662,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
     
     
     private KcNotificationService getKcNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
+        return KcServiceLocator.getService(KcNotificationService.class);
     }
 }

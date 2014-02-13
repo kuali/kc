@@ -24,8 +24,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -42,6 +42,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 public class ProtocolGenericActionsServiceTest extends KcIntegrationTestBase {
 
@@ -59,10 +60,10 @@ public class ProtocolGenericActionsServiceTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
 
         service = new ProtocolGenericActionServiceImpl();
-        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
-        service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
+        service.setProtocolActionService(KcServiceLocator.getService(ProtocolActionService.class));
+        service.setDocumentService(KcServiceLocator.getService(DocumentService.class));
         service.setProtocolOnlineReviewService(getMockProtocolOnlineReviewService());
-        service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
+        service.setProtocolVersionService(KcServiceLocator.getService(ProtocolVersionService.class));
     }
 
     @After
@@ -259,9 +260,9 @@ public class ProtocolGenericActionsServiceTest extends KcIntegrationTestBase {
     public void testDisapprove() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        ProtocolSubmitActionService protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
+        ProtocolSubmitActionService protocolSubmitActionService = KcServiceLocator.getService(ProtocolSubmitActionService.class);
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockProtocolSubmitAction());
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         documentService.routeDocument(protocolDocument.getProtocol().getProtocolDocument(), "Initial Document Route", new ArrayList<AdHocRouteRecipient>());
         
         ProtocolGenericActionBean actionBean = getMockProtocolGenericActionBean();

@@ -15,16 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.web.krad;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -34,6 +28,11 @@ import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceImpl {
 
@@ -91,7 +90,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public NarrativeService getNarrativeService() {
         if (narrativeService == null) {
-            narrativeService = KraServiceLocator.getService(NarrativeService.class);
+            narrativeService = KcServiceLocator.getService(NarrativeService.class);
         }
         return narrativeService;
     }
@@ -102,7 +101,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public LegacyDataAdapter getLegacyDataAdapter() {
         if (legacyDataAdapter == null) {
-            legacyDataAdapter = KraServiceLocator.getService(LegacyDataAdapter.class);
+            legacyDataAdapter = KcServiceLocator.getService(LegacyDataAdapter.class);
         }
         return legacyDataAdapter;
     }
@@ -113,7 +112,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public LookupService getLookupService() {
         if (lookupService == null) {
-            lookupService = KraServiceLocator.getService(LookupService.class);
+            lookupService = KcServiceLocator.getService(LookupService.class);
         }
         return lookupService;
     }

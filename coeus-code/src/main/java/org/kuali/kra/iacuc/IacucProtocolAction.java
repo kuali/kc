@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionRequestService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -31,7 +32,6 @@ import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.procedures.IacucProcedureNavigation;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolActionBase;
@@ -158,7 +158,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
       IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
       IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
       IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.IACUC_PROTOCOL_CREATED, "Created", renderer);
-      KcNotificationService notificationService = KraServiceLocator.getService(KcNotificationService.class);
+      KcNotificationService notificationService = KcServiceLocator.getService(KcNotificationService.class);
       notificationService.sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
     }
     
@@ -169,7 +169,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
      */
     @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+        return (ProtocolPersonnelService) KcServiceLocator.getService("iacucProtocolPersonnelService");
     }
     
     protected ProtocolNotificationContextBase getProtocolInitialSaveNotificationContextHook(ProtocolBase protocol) {
@@ -183,11 +183,11 @@ public class IacucProtocolAction extends ProtocolActionBase {
      */
     @Override
     protected ProtocolPersonTrainingService getProtocolPersonTrainingService() {
-        return (ProtocolPersonTrainingService)KraServiceLocator.getService("iacucProtocolPersonTrainingService");
+        return (ProtocolPersonTrainingService) KcServiceLocator.getService("iacucProtocolPersonTrainingService");
     }     
 
     protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+        return KcServiceLocator.getService(IacucProtocolOnlineReviewService.class);
     }
 
 
@@ -212,7 +212,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
     }
 
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
-        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+        return (IacucProtocolProcedureService) KcServiceLocator.getService("iacucProtocolProcedureService");
     }
 
     protected String getProtocolNotificationEditorHook() {
@@ -224,7 +224,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
     }
     
     protected IacucProtocolActionRequestService getProtocolActionRequestService() {
-        return KraServiceLocator.getService(IacucProtocolActionRequestService.class);
+        return KcServiceLocator.getService(IacucProtocolActionRequestService.class);
     }
     
     @Override

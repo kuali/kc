@@ -40,11 +40,11 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.GenericPrintable;
 import org.kuali.kra.printing.service.PrintingService;
@@ -1328,7 +1328,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             GenericPrintable printable = new GenericPrintable();
             printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
             printable.setStreamMap(streamMap);
-            PrintingService printingService = KraServiceLocator
+            PrintingService printingService = KcServiceLocator
                     .getService(PrintingService.class);
             try {
                 AttachmentDataSource printData = printingService
@@ -1386,7 +1386,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             GenericPrintable printable = new GenericPrintable();
             printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
             printable.setStreamMap(streamMap);
-            PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
+            PrintingService printingService= KcServiceLocator.getService(PrintingService.class);
             try {
                 AttachmentDataSource printData = printingService.print(printable);
                 String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";
@@ -1767,7 +1767,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     private KeyPersonCompensationDataType getCompensation(KeyPersonInfo keyPerson, int budgetPeriod) {
 
         KeyPersonCompensationDataType keyPersonCompensation = KeyPersonCompensationDataType.Factory.newInstance();
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         BudgetDecimal baseSalaryByPeriod; 
         if (keyPerson != null) {
             if (keyPerson.getAcademicMonths() != null) {

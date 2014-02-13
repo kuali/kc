@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service.impl;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -42,7 +42,7 @@ public class ProposalLogPiDerivedRoleTypeServiceImpl extends DerivedRoleTypeServ
     
     @Override
     public List<RoleMembership> getRoleMembersFromDerivedRole( String namespaceCode, String roleName, Map<String,String> qualification ) {
-        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService docService = KcServiceLocator.getService(DocumentService.class);
         List<RoleMembership> roleMembers = new ArrayList<RoleMembership>();
         try {
             MaintenanceDocument doc = (MaintenanceDocument) docService.getByDocumentHeaderId(qualification.get("documentNumber"));

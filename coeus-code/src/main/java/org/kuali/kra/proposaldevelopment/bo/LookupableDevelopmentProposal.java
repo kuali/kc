@@ -17,10 +17,10 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
@@ -147,7 +147,7 @@ public class LookupableDevelopmentProposal extends KcPersistableBusinessObjectBa
 
     public ProposalType getProposalType() {
         if (proposalType == null && proposalTypeCode != null) {
-            proposalType = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(ProposalType.class, proposalTypeCode);
+            proposalType = KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(ProposalType.class, proposalTypeCode);
         }
         return proposalType;
     }

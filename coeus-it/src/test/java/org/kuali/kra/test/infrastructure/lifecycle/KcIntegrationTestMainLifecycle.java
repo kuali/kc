@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.test.infrastructure.lifecycle;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.ApplicationServerLifecycle;
 import org.kuali.kra.test.infrastructure.TestHarnessServiceLocator;
 import org.kuali.rice.core.api.config.property.Config;
@@ -125,7 +125,7 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
 
     private PlatformTransactionManager getTransactionManager() {
         if (transactionManager == null) {
-            transactionManager = (PlatformTransactionManager) KraServiceLocator.getService(DEFAULT_TRANSACTION_MANAGER_NAME);
+            transactionManager = (PlatformTransactionManager) KcServiceLocator.getService(DEFAULT_TRANSACTION_MANAGER_NAME);
         }
         return transactionManager;
     }

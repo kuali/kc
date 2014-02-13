@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import javax.persistence.*;
@@ -165,7 +165,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
      */
     public List<S2sAppAttachments> getS2sAppAttachmentList() {
         if ((s2sAppAttachmentList == null || s2sAppAttachmentList.isEmpty()) && StringUtils.isNotBlank(proposalNumber)) {
-            s2sAppAttachmentList = (List<S2sAppAttachments>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+            s2sAppAttachmentList = (List<S2sAppAttachments>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(
                     S2sAppAttachments.class, Collections.singletonMap("proposalNumber", proposalNumber));
         }
 

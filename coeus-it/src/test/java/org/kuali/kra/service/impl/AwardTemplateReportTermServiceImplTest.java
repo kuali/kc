@@ -18,21 +18,23 @@ package org.kuali.kra.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.service.AwardTemplateReportTermService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 public class AwardTemplateReportTermServiceImplTest extends KcIntegrationTestBase {
 
     private AwardTemplateReportTermService awardTemplateReportTermService = null;
     
     @Before
     public void setUp() throws Exception {
-        awardTemplateReportTermService = KraServiceLocator.getService(AwardTemplateReportTermService.class);
+        awardTemplateReportTermService = KcServiceLocator.getService(AwardTemplateReportTermService.class);
     }
 
     @After

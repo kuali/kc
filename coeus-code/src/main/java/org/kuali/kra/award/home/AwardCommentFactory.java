@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Collection;
@@ -122,7 +122,7 @@ public class AwardCommentFactory {
      * @return
      */
     protected BusinessObjectService getKraBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
+        return (BusinessObjectService) KcServiceLocator.getService("businessObjectService");
     }
     
     

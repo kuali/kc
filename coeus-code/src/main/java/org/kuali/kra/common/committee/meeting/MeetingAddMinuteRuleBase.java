@@ -16,9 +16,9 @@
 package org.kuali.kra.common.committee.meeting;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.HashMap;
@@ -29,7 +29,7 @@ import java.util.Map;
  * 
  * This class implements the business when adding committee schedule minute.
  */
-public abstract class MeetingAddMinuteRuleBase extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<MeetingAddMinuteEventBase> {
+public abstract class MeetingAddMinuteRuleBase extends KcTransactionalDocumentRuleBase implements KcBusinessRule<MeetingAddMinuteEventBase> {
 
     private static final String NEW_COMM_SCHD_MINUTE = "meetingHelper.newCommitteeScheduleMinute";
     private static final String DOT = ".";

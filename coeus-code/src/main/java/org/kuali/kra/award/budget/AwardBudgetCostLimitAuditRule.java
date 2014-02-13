@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.budget;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
@@ -24,7 +25,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.document.Document;
@@ -174,7 +174,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
 
     protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }
@@ -185,7 +185,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
 
     protected AwardBudgetCalculationService getAwardBudgetCalculationService() {
         if (awardBudgetCalculationService == null) {
-            awardBudgetCalculationService = KraServiceLocator.getService(AwardBudgetCalculationService.class);
+            awardBudgetCalculationService = KcServiceLocator.getService(AwardBudgetCalculationService.class);
         }
         return awardBudgetCalculationService;
     }
@@ -196,7 +196,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
 
     protected AwardBudgetService getAwardBudgetService() {
         if (awardBudgetService == null) {
-            awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
+            awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         }
         return awardBudgetService;
     }

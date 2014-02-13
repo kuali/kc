@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.kra.institutionalproposal.ProposalComment;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
@@ -192,7 +192,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }
@@ -419,11 +419,11 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     }
 
     BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
-        return KraServiceLocator.getService(InstitutionalProposalVersioningService.class);
+        return KcServiceLocator.getService(InstitutionalProposalVersioningService.class);
     }
 
     /**

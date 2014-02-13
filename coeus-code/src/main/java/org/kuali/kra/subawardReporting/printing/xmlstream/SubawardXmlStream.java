@@ -17,13 +17,13 @@ package org.kuali.kra.subawardReporting.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmountsInDateRange;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.schema.NameAndAddressTypeDocument.NameAndAddressType;
 import org.kuali.kra.printing.schema.SubcontractReportPageType;
 import org.kuali.kra.printing.schema.SubcontractReportPageType.VendorType;
@@ -303,7 +303,7 @@ public class SubawardXmlStream implements XmlStream {
         List<UnitAdministrator> unitAdministratorList = (List<UnitAdministrator>) businessObjectService.findMatching(
                 UnitAdministrator.class, unitAdministratorMap);
         for (UnitAdministrator unitAdministrator : unitAdministratorList) {
-            KcPerson person = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(
+            KcPerson person = KcServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(
                     unitAdministrator.getPersonId());
             administeringOfficial.setName(person.getFullName());
             administeringOfficial.setPhoneNumber(person.getPhoneNumber());

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -57,7 +57,7 @@ public class MeetingDeleteOtherEvent extends MeetingEventBase<MeetingDeleteOther
     
     @SuppressWarnings("unchecked")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new MeetingDeleteOtherRule();
     }
     

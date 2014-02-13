@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
@@ -26,7 +27,6 @@ import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -230,7 +230,7 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
      
     @SuppressWarnings("unused")
     private KcNotificationService getKcNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
+        return KcServiceLocator.getService(KcNotificationService.class);
     }    
     
     /**

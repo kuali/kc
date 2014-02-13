@@ -17,11 +17,11 @@ package org.kuali.kra.iacuc.onlinereview;
 
 import org.apache.commons.logging.Log;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.onlinereview.authorization.IacucProtocolOnlineReviewTask;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewFormBase;
 import org.kuali.kra.service.KcAuthorizationService;
@@ -78,7 +78,7 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewFormBase
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
         
-        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService tas = KcServiceLocator.getService(TaskAuthorizationService.class);
                
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new IacucProtocolOnlineReviewTask("rejectIacucProtocolOnlineReview",doc))
                 && doc.getDocumentHeader().getWorkflowDocument().isEnroute()
@@ -92,7 +92,7 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewFormBase
     
     
     public boolean getAdminFieldsEditable() {
-        return KraServiceLocator.getService(KcAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(),
+        return KcServiceLocator.getService(KcAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(),
                                     getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(), PermissionConstants.MAINTAIN_IACUC_ONLINE_REVIEWS);
     }
 

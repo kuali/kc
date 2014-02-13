@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 public class AddManualProjectEvent extends KcDocumentEventBaseExtension {
     
@@ -43,7 +43,7 @@ public class AddManualProjectEvent extends KcDocumentEventBaseExtension {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddManualProjectRule();
     }
 

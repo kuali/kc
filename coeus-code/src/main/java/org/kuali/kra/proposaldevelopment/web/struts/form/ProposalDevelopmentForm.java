@@ -23,6 +23,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.*;
@@ -30,7 +31,10 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
-import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.proposaldevelopment.bo.*;
@@ -85,8 +89,8 @@ import org.springframework.util.AutoPopulatingList;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
 
 
@@ -220,7 +224,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -597,7 +601,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
 
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     @SuppressWarnings("unchecked")
@@ -899,7 +903,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * @return
      */
     public Collection<Role> getKimProposalRoles() {
-        ProposalRoleService proposalRoleService = KraServiceLocator.getService(ProposalRoleService.class);
+        ProposalRoleService proposalRoleService = KcServiceLocator.getService(ProposalRoleService.class);
         List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
         
         return proposalRoles;
@@ -929,7 +933,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         
         return this.kcPersonService;
@@ -942,7 +946,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * @param roleName the name of role to query for persons assigned to that role
      */
     private void addPersons(List<ProposalUserRoles> propUserRolesList, String roleName) {
-        KcAuthorizationService proposalAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService proposalAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
         ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         
         List<KcPerson> persons = proposalAuthService.getPersonsInRole(doc, roleName);
@@ -993,7 +997,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         // Query the database to find the name of the unit.
             
-        UnitService unitService = KraServiceLocator.getService(UnitService.class);
+        UnitService unitService = KcServiceLocator.getService(UnitService.class);
         Unit unit = unitService.getUnit(person.getOrganizationIdentifier());
         if (unit != null) {
             proposalUserRoles.setUnitName(unit.getUnitName());
@@ -1144,7 +1148,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
         
-        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService tas = KcServiceLocator.getService(TaskAuthorizationService.class);
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor",doc ))) {       
             if ( isCanSubmitToSponsor() ) {
@@ -1227,11 +1231,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public boolean isSubmissionStatusReadOnly() {
         boolean result = true;
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KcAuthorizationService proposalAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService proposalAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
         boolean canModify = proposalAuthService.hasPermission(userId, this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
         if (canModify) { result = false; }
         
-        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         if(kraAuthorizationService.hasRole(userId, RoleConstants.KC_ADMIN_NAMESPACE, RoleConstants.OSP_ADMINISTRATOR)) {
             result =  false;
         }
@@ -1446,7 +1450,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     public boolean isInWorkflow() {
-        return KraServiceLocator.getService(KcWorkflowService.class).isInWorkflow(this.getDocument());
+        return KcServiceLocator.getService(KcWorkflowService.class).isInWorkflow(this.getDocument());
     }
     
     /**
@@ -1588,7 +1592,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     
     public boolean isGrantsGovEnabled() {
-        return KraServiceLocator.getService(ProposalDevelopmentService.class).isGrantsGovEnabledForProposal(getProposalDevelopmentDocument().getDevelopmentProposal());
+        return KcServiceLocator.getService(ProposalDevelopmentService.class).isGrantsGovEnabledForProposal(getProposalDevelopmentDocument().getDevelopmentProposal());
     }
 
     /**
@@ -1786,7 +1790,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     private boolean isAuthorizedToCreateProposal() {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
 
@@ -2015,7 +2019,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     protected PermissionService getKimPermissionService() {
-        return KraServiceLocator.getService("kimPermissionService");
+        return KcServiceLocator.getService("kimPermissionService");
     }
 
     public String getNarrativeStatusesChangeKey() {

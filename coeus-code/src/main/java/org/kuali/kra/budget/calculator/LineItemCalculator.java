@@ -17,6 +17,7 @@ package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
@@ -24,7 +25,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 
 import java.math.BigDecimal;
@@ -48,7 +48,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         this.bli = bli;
         this.budget = budget;
         dateTimeService = getDateTimeService();
-        budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class); 
+        budgetCalculationService = KcServiceLocator.getService(BudgetCalculationService.class);
     }
 
     private boolean isDocumentOhRateSameAsFormOhRate() {

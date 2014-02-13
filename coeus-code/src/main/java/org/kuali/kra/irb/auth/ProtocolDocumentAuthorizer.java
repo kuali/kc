@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -134,7 +134,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
      */
     private boolean canCreateProtocol(Person user) {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     
@@ -147,7 +147,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
      */
     private boolean canExecuteProtocolTask(String userId, ProtocolDocument doc, String taskName) {
         ProtocolTask task = new ProtocolTask(taskName, (Protocol) doc.getProtocol());       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     

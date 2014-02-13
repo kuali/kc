@@ -15,28 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.web.krad;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.criteria.QueryResults;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.krad.lookup.Lookupable;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.service.impl.LookupCriteriaGenerator;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +33,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.List;
 
 @Controller
 public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentControllerBase {
@@ -122,7 +114,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
     protected LookupableHelperService getKcPersonLookupableHelperService() {
         if (kcPersonLookupableHelperService == null) {
-            kcPersonLookupableHelperService = KraServiceLocator.getService("kcPersonLookupableHelperService");
+            kcPersonLookupableHelperService = KcServiceLocator.getService("kcPersonLookupableHelperService");
         }
         return kcPersonLookupableHelperService;
     }

@@ -16,10 +16,10 @@
 package org.kuali.kra.award.contacts;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -175,7 +175,7 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
      * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     /**

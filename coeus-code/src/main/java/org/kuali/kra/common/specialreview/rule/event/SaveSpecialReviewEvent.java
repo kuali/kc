@@ -16,12 +16,12 @@
 package org.kuali.kra.common.specialreview.rule.event;
 
 import org.apache.commons.collections.ListUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.SaveSpecialReviewRule;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -86,7 +86,7 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
     }
 
     @Override
-    public BusinessRuleInterface<SaveSpecialReviewEvent<T>> getRule() {
+    public KcBusinessRule<SaveSpecialReviewEvent<T>> getRule() {
         return new SaveSpecialReviewRule<T>();
     }
     

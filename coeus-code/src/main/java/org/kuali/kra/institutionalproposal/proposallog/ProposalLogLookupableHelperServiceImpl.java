@@ -16,8 +16,8 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kew.api.KEWPropertyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -246,9 +246,9 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
             String instPropDocName = "InstitutionalProposalDocument";
             // get the authorization
             DocumentAuthorizer documentAuthorizer = 
-                KraServiceLocator.getService(DocumentDictionaryService.class).getDocumentAuthorizer(instPropDocName);
+                KcServiceLocator.getService(DocumentDictionaryService.class).getDocumentAuthorizer(instPropDocName);
             DocumentPresentationController documentPresentationController =
-                KraServiceLocator.getService(DocumentDictionaryService.class).getDocumentPresentationController(instPropDocName);
+                KcServiceLocator.getService(DocumentDictionaryService.class).getDocumentPresentationController(instPropDocName);
             // make sure this person is authorized to initiate
             LOG.debug("calling canInitiate from getNewDocument()");
             if (!documentPresentationController.canInitiate(instPropDocName) ||
@@ -274,7 +274,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     }
     
     protected KcPersonService getKcPersonService() {
-        return KraServiceLocator.getService(KcPersonService.class);
+        return KcServiceLocator.getService(KcPersonService.class);
     }
     
         }

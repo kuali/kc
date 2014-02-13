@@ -16,23 +16,23 @@
 package org.kuali.kra.common.committee.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDayEvent;
 import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
-public class CommitteeScheduleDayRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleDayEvent> {
+public class CommitteeScheduleDayRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<CommitteeScheduleDayEvent> {
     
     public static final String SCHEDULEDATA_MONTHLY_DAY = "committeeHelper.scheduleData.monthlySchedule.day";
 
     public static final String SCHEDULEDATA_YEARLY_DAY = "committeeHelper.scheduleData.yearlySchedule.day";
     
     /**
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(CommitteeScheduleDayEvent event) {
         boolean rulePassed = true;

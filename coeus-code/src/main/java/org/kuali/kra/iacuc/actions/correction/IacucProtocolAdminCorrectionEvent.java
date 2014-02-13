@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.actions.correction;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.correction.ProtocolAdminCorrectionEventBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 public class IacucProtocolAdminCorrectionEvent extends ProtocolAdminCorrectionEventBase {
 
@@ -27,7 +27,7 @@ public class IacucProtocolAdminCorrectionEvent extends ProtocolAdminCorrectionEv
     }
 
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new IacucProtocolAdminCorrectionRule();
     }
 

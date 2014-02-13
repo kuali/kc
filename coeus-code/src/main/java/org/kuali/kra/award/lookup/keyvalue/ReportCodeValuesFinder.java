@@ -16,9 +16,9 @@
 package org.kuali.kra.award.lookup.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -88,7 +88,7 @@ public class ReportCodeValuesFinder extends UifKeyValuesFinderBase {
     protected KeyValuesService getKeyValuesService(){
         if(keyValuesService == null){
             keyValuesService = 
-                (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+                (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         }
         return keyValuesService;
     }

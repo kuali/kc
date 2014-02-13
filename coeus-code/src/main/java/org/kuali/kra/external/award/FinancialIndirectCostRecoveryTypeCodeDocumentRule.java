@@ -17,9 +17,9 @@ package org.kuali.kra.external.award;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -123,7 +123,7 @@ public class FinancialIndirectCostRecoveryTypeCodeDocumentRule extends KcMainten
 
     protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

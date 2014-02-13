@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
@@ -65,7 +65,7 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
 
     private ProtocolAssignToAgendaService getProtocolAssigntoAgendaService() {
         if (this.agendaService == null){
-            this.agendaService = KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
+            this.agendaService = KcServiceLocator.getService(ProtocolAssignToAgendaService.class);
         }
         return this.agendaService;
     }

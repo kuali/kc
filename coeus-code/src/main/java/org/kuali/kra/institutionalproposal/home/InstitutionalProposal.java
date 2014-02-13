@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.home;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.AwardType;
@@ -28,7 +29,6 @@ import org.kuali.kra.bo.*;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
@@ -1469,7 +1469,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         // This method links the institutional proposal with the merged proposal log
         if (proposalId != null && proposalNumber != null)
         {
-            KraServiceLocator.getService(ProposalLogService.class).updateMergedInstProposal(proposalId, proposalNumber);
+            KcServiceLocator.getService(ProposalLogService.class).updateMergedInstProposal(proposalId, proposalNumber);
         }
     }
 
@@ -1578,11 +1578,11 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     public UnitService getUnitService() {
-        return (UnitService) KraServiceLocator.getService(UnitService.class);
+        return (UnitService) KcServiceLocator.getService(UnitService.class);
     }
 
     protected BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
+        return (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     private void updateFundingStatus() {
@@ -1823,7 +1823,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     
     public FiscalYearMonthService getFiscalYearMonthService() {
         if (this.fiscalYearMonthService == null) {
-            this.fiscalYearMonthService = KraServiceLocator.getService(FiscalYearMonthService.class);
+            this.fiscalYearMonthService = KcServiceLocator.getService(FiscalYearMonthService.class);
         }
         return this.fiscalYearMonthService;
     }
@@ -1852,7 +1852,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

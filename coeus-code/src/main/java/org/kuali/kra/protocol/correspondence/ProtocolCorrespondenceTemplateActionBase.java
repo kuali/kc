@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -313,7 +313,7 @@ public abstract class ProtocolCorrespondenceTemplateActionBase extends KualiDocu
      * @return ProtocolCorrespondenceTemplateService
      */
     private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {        
-        return KraServiceLocator.getService(getProtocolCorrespondenceTemplateServiceClassHook());
+        return KcServiceLocator.getService(getProtocolCorrespondenceTemplateServiceClassHook());
     }
     
     protected abstract Class<? extends ProtocolCorrespondenceTemplateService> getProtocolCorrespondenceTemplateServiceClassHook();
@@ -474,7 +474,7 @@ public abstract class ProtocolCorrespondenceTemplateActionBase extends KualiDocu
     }
     
     private ProtocolCorrespondenceTemplateAuthorizationService getProtocolCorrespondenceTemplateAuthorizationService() {
-        return KraServiceLocator.getService(getProtocolCorrespondenceTemplateAuthorizationServiceClassHook());
+        return KcServiceLocator.getService(getProtocolCorrespondenceTemplateAuthorizationServiceClassHook());
     }
 
     protected abstract Class<? extends ProtocolCorrespondenceTemplateAuthorizationService> getProtocolCorrespondenceTemplateAuthorizationServiceClassHook();

@@ -20,6 +20,7 @@ import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -44,7 +45,6 @@ import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
@@ -227,7 +227,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
                 getPrintXmlUtilService().setPersonXml(rolodex, personType);
 
             } else {
-                KcPerson kcPerson = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(protocolReviewer.getPersonId()); 
+                KcPerson kcPerson = KcServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(protocolReviewer.getPersonId());
                 getPrintXmlUtilService().setPersonXml(kcPerson, personType);
             }
         }
@@ -449,7 +449,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             }
             protocolActionsType.setComments(protocolAction.getComments());
             if (protocolAction.getActionDate() != null) {
-                protocolActionsType.setActionDate(KraServiceLocator.getService(DateTimeService.class).getCalendar(protocolAction.getActionDate()));
+                protocolActionsType.setActionDate(KcServiceLocator.getService(DateTimeService.class).getCalendar(protocolAction.getActionDate()));
             }
             protocolActionsTypeList.add(protocolActionsType);
         }
@@ -824,7 +824,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

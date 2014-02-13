@@ -16,8 +16,8 @@
 package org.kuali.kra.common.committee.lookup.keyvalue;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -49,7 +49,7 @@ public abstract class CommitteeIdValuesFinderBase extends UifKeyValuesFinderBase
     
     public BusinessObjectService getBusinessObjectService() {
         if(null == this.businessObjectService) {
-            this.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
+            this.setBusinessObjectService(KcServiceLocator.getService(BusinessObjectService.class));
         }
         return this.businessObjectService;
     }

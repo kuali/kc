@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.medusa.MedusaNode;
 import org.kuali.kra.medusa.service.MedusaService;
@@ -35,7 +35,7 @@ public class MedusaAjaxAction extends KualiDocumentActionBase {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MedusaForm medusaForm = (MedusaForm)form;
-        MedusaService medusaService = KraServiceLocator.getService(MedusaService.class);
+        MedusaService medusaService = KcServiceLocator.getService(MedusaService.class);
         medusaForm.getMedusaBean().setCurrentNode(medusaService.getMedusaNode(medusaForm.getMedusaBean().getModuleName(), medusaForm.getMedusaBean().getModuleIdentifier()));
         
         return super.execute(mapping, medusaForm, request, response);
@@ -45,7 +45,7 @@ public class MedusaAjaxAction extends KualiDocumentActionBase {
         MedusaForm medusaForm = (MedusaForm)form;
         medusaForm.setCommand("displayDocSearchView");
         
-        MedusaService medusaService = KraServiceLocator.getService(MedusaService.class);
+        MedusaService medusaService = KcServiceLocator.getService(MedusaService.class);
         MedusaNode node = medusaService.getMedusaNode(medusaForm.getMedusaBean().getModuleName(), medusaForm.getMedusaBean().getModuleIdentifier());
         
         if (StringUtils.equals(node.getType(), "IP")) {

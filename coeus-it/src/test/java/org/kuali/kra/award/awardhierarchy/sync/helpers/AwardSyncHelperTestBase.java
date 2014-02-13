@@ -18,9 +18,9 @@ package org.kuali.kra.award.awardhierarchy.sync.helpers;
 
 import org.junit.After;
 import org.junit.Before;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncHelpersService;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 public abstract class AwardSyncHelperTestBase extends KcIntegrationTestBase {
@@ -36,7 +36,7 @@ public abstract class AwardSyncHelperTestBase extends KcIntegrationTestBase {
     
     @Before
     public void setUp() throws Exception {
-        awardSyncHelpersService = KraServiceLocator.getService(AwardSyncHelpersService.class);
+        awardSyncHelpersService = KcServiceLocator.getService(AwardSyncHelpersService.class);
         awardSyncHelper = awardSyncHelpersService.getSyncHelper(className);
         award = new Award();
     }

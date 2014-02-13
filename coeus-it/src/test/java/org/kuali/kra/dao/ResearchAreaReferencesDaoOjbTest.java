@@ -18,6 +18,7 @@ package org.kuali.kra.dao;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -26,7 +27,6 @@ import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.committee.test.CommitteeFactory;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ResearchArea;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
@@ -40,7 +40,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class ResearchAreaReferencesDaoOjbTest extends KcIntegrationTestBase {
     
     private BusinessObjectService businessObjectService;
@@ -52,11 +54,11 @@ public class ResearchAreaReferencesDaoOjbTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        this.committeeService = KraServiceLocator.getService(CommitteeService.class);
-        this.protocolResearchAreaService = KraServiceLocator.getService(ProtocolResearchAreaService.class);
-        this.committeeMembershipService = KraServiceLocator.getService(CommitteeMembershipService.class);
-        this.raDao = KraServiceLocator.getService(ResearchAreaReferencesDao.class);
+        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        this.committeeService = KcServiceLocator.getService(CommitteeService.class);
+        this.protocolResearchAreaService = KcServiceLocator.getService(ProtocolResearchAreaService.class);
+        this.committeeMembershipService = KcServiceLocator.getService(CommitteeMembershipService.class);
+        this.raDao = KcServiceLocator.getService(ResearchAreaReferencesDao.class);
     }
     
     @After 

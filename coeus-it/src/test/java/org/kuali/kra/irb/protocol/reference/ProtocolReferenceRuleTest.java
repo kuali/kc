@@ -18,17 +18,17 @@ package org.kuali.kra.irb.protocol.reference;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
+
 import static org.junit.Assert.*;
 public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
 
@@ -41,7 +41,7 @@ public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
     public void setUp() throws Exception {
         super.setUp();
         rule = new ProtocolReferenceRule();
-        bos = KraServiceLocator.getService(BusinessObjectService.class);
+        bos = KcServiceLocator.getService(BusinessObjectService.class);
         protocolReferenceList = (List)bos.findAll(ProtocolReferenceType.class);
     }
 

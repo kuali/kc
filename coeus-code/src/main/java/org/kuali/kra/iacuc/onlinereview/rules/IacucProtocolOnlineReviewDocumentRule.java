@@ -16,24 +16,24 @@
 package org.kuali.kra.iacuc.onlinereview.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.protocol.onlinereview.event.*;
 import org.kuali.kra.protocol.onlinereview.rules.*;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRuleBase
 implements AddOnlineReviewCommentRule,
-        SaveProtocolOnlineReviewRule, BusinessRuleInterface, RouteProtocolOnlineReviewRule, DisapproveOnlineReviewCommentRule,
+        SaveProtocolOnlineReviewRule, KcBusinessRule, RouteProtocolOnlineReviewRule, DisapproveOnlineReviewCommentRule,
         RejectOnlineReviewCommentRule, DeleteOnlineReviewRule {
 
     private static final String ONLINE_REVIEW_COMMENTS_ERROR_PATH = "onlineReviewsActionHelper.reviewCommentsBeans[%s]";
@@ -123,7 +123,7 @@ implements AddOnlineReviewCommentRule,
     public boolean processRouteProtocolOnlineReview(RouteProtocolOnlineReviewEvent event) {
 
         boolean valid = true;
-        KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
+        KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
         valid &= ruleService.applyRules(new SaveProtocolOnlineReviewEvent(event.getProtocolOnlineReviewDocument(), event
                 .getMinutes(), event.getOnlineReviewIndex()));
         GlobalVariables.getMessageMap().clearErrorPath();

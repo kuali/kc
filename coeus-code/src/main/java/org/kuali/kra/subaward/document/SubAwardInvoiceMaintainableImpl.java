@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.subaward.document;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -35,7 +35,7 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
     private transient DictionaryValidationService dictionaryValidationService;
     
     public SubAwardInvoiceMaintainableImpl() {
-        dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+        dateTimeService = KcServiceLocator.getService(DateTimeService.class);
         dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
     }
     
@@ -73,7 +73,7 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
 
     protected DateTimeService getDateTimeService() {
         if (dateTimeService == null) {
-            dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
         }
         return dateTimeService;
     }

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.contacts;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -153,7 +153,7 @@ public abstract class AwardContactsBean implements Serializable {
      */
     protected BusinessObjectService getBusinessObjectService() {
         if(businessObjectService == null) {
-            businessObjectService = (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class); 
+            businessObjectService = (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }
@@ -164,7 +164,7 @@ public abstract class AwardContactsBean implements Serializable {
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         
         return this.kcPersonService;

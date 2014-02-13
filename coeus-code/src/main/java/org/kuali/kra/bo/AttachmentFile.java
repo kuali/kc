@@ -16,8 +16,8 @@
 package org.kuali.kra.bo;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SeparateAssociate;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
 
 import java.io.IOException;
@@ -226,7 +226,7 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
     }
 
     public String getIconPath() {
-        return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
+        return KcServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
     }
 
     public Long getId() {

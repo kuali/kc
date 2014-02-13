@@ -20,11 +20,11 @@ import gov.grants.apply.forms.sf424ShortV10.SF424ShortDocument.SF424Short;
 import gov.grants.apply.system.globalLibraryV20.ApplicantTypeCodeDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationType;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -56,7 +56,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
     private static final int OFFICE_PHONE_MAX_LENGTH = 25;
     private static final int EMAIL_ADDRESS_MAX_LENGTH = 60;
     private static final int FAX_NUMBER_MAX_LENGTH = 25;
-    private BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+    private BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
 
     /**
      * 

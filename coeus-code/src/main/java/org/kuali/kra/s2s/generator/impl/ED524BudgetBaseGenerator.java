@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
@@ -23,7 +24,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -93,8 +93,8 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
      * Constructs a ED524BudgetBaseGenerator.java.
      */
     public ED524BudgetBaseGenerator() {
-        s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-        s2sBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
+        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+        s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
 
         budgetCategoryMapListWithoutFilter = s2sBudgetCalculatorService.getBudgetCategoryMapList(new ArrayList<String>(),
                 new ArrayList<String>());

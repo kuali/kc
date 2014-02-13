@@ -18,19 +18,19 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
 import org.kuali.kra.proposaldevelopment.rule.BudgetDataOverrideRule;
 import org.kuali.kra.proposaldevelopment.rule.event.BudgetDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -60,7 +60,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
         boolean valid = true;
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KNSServiceLocator.getDataDictionaryService();
         String overriddenValue = budgetOverriddenData.getChangedValue();
-        KcPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KcPersistenceStructureService.class);
+        KcPersistenceStructureService kraPersistenceStructureService = KcServiceLocator.getService(KcPersistenceStructureService.class);
         Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(BudgetVersionOverview.class);
         String overriddenName = dataDictionaryService.getAttributeErrorLabel(Budget.class, columnToAttributesMap.get(budgetOverriddenData.getColumnName()));
         Boolean isRequiredField = dataDictionaryService.isAttributeRequired(Budget.class, columnToAttributesMap.get(budgetOverriddenData.getColumnName()));
@@ -100,7 +100,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
      */
     
     private boolean validateAttributeFormat(BudgetChangedData budgetOverriddenData, DataDictionaryService dataDictionaryService) {
-        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        ProposalDevelopmentService proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
         DateTimeService dateTimeService = CoreApiServiceLocator.getDateTimeService();
 
         String overriddenValue = budgetOverriddenData.getChangedValue();
@@ -157,7 +157,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
         
       
         
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> documentMap = new HashMap<String, String>();
         documentMap.put("proposalNumber", budgetOverriddenData.getProposalNumber());
         DevelopmentProposal developmentProposal = boService.findByPrimaryKey(DevelopmentProposal.class, documentMap);

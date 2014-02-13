@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.protocol;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -125,11 +125,11 @@ public class ProtocolHelper extends ProtocolHelperBase {
     }
     
     protected ProtocolNumberService getProtocolNumberService() {
-        return KraServiceLocator.getService(ProtocolNumberService.class);
+        return KcServiceLocator.getService(ProtocolNumberService.class);
     }
     
     public ProtocolPersonnelService getProtocolPersonnelService() {
-        ProtocolPersonnelService theService = KraServiceLocator.getService(ProtocolPersonnelService.class);
+        ProtocolPersonnelService theService = KcServiceLocator.getService(ProtocolPersonnelService.class);
         return theService;
     }
         

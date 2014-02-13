@@ -16,9 +16,9 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.KcAuthorizationService;
@@ -56,7 +56,7 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
      */
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {
-        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         return kraAuthorizationService.getPersonsInRole(getProtocol(), roleName);
     }
 

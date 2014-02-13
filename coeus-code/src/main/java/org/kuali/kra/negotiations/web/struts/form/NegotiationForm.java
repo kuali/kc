@@ -17,9 +17,9 @@ package org.kuali.kra.negotiations.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.customdata.CustomDataHelper;
@@ -129,11 +129,11 @@ public class NegotiationForm extends KcTransactionalDocumentFormBase implements 
     }
     
     public BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
     
     public NegotiationService getNegotiationService() {
-        return KraServiceLocator.getService(NegotiationService.class);
+        return KcServiceLocator.getService(NegotiationService.class);
     }
     
     private boolean isAssocitationType(String typeCode) {

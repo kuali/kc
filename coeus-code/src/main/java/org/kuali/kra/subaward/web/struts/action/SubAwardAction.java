@@ -21,11 +21,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -70,7 +70,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         SubAwardForm subAwardForm = (SubAwardForm) form;
         if (subAwardForm.getSubAward() != null) {
             SubAward subAward = 
-                KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAward());
+                KcServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAward());
         }
         
         ActionForward actionForward = super.
@@ -98,8 +98,8 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         SubAwardDocument subAwardDocument =
         (SubAwardDocument) subAwardForm.getDocument();
         subAwardForm.initializeFormOrDocumentBasedOnCommand();
-        SubAward subAward = KraServiceLocator.getService(
-        SubAwardService.class).getAmountInfo(subAwardDocument.getSubAward());
+        SubAward subAward = KcServiceLocator.getService(
+                SubAwardService.class).getAmountInfo(subAwardDocument.getSubAward());
         subAwardForm.getSubAwardDocument().setSubAward(subAward);
         return forward;
     }
@@ -328,7 +328,7 @@ ActionForm form, HttpServletRequest request, HttpServletResponse response) {
  * @return
  */
 protected VersionHistoryService getVersionHistoryService() {
-    return KraServiceLocator.getService(VersionHistoryService.class);
+    return KcServiceLocator.getService(VersionHistoryService.class);
 }
 
 /**.
@@ -339,7 +339,7 @@ protected VersionHistoryService getVersionHistoryService() {
 */
 public SubAwardService getSubAwardService() {
     if (subAwardService == null) {
-        subAwardService = KraServiceLocator.getService(SubAwardService.class);
+        subAwardService = KcServiceLocator.getService(SubAwardService.class);
     }
     return subAwardService;
 }
@@ -461,7 +461,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
    * @return true if success; false if there was a validation error
    */
   protected final boolean applyRules(KualiDocumentEvent event) {
-      return KraServiceLocator.getService(KualiRuleService.class).applyRules(event);
+      return KcServiceLocator.getService(KualiRuleService.class).applyRules(event);
   }
 
   public ActionForward sendNotification(ActionMapping mapping, SubAwardForm subAwardForm, 
@@ -478,7 +478,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
   }
 
   protected KcNotificationService getNotificationService() {
-      return KraServiceLocator.getService(KcNotificationService.class);
+      return KcServiceLocator.getService(KcNotificationService.class);
   }
 
 }

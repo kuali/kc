@@ -18,10 +18,10 @@ package org.kuali.kra.negotiations.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -29,6 +29,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static org.junit.Assert.*;
 public class NegotiationServiceImplTest extends KcIntegrationTestBase {
     
@@ -37,8 +38,8 @@ public class NegotiationServiceImplTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        negotiationService = KraServiceLocator.getService(NegotiationService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        negotiationService = KcServiceLocator.getService(NegotiationService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     @After

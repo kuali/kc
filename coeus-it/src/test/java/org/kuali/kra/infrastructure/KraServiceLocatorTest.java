@@ -17,6 +17,7 @@ package org.kuali.kra.infrastructure;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.criteria.Predicate;
@@ -34,9 +35,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.*;
 import static org.kuali.kra.infrastructure.Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.rice.coreservice.framework.parameter.ParameterConstants.DOCUMENT_COMPONENT;
-import static org.junit.Assert.*;
 /**
  * This class tests the KraServiceLocator
  */ 
@@ -50,14 +51,14 @@ public class KraServiceLocatorTest extends KcIntegrationTestBase {
     }
     
     @Test public void testGetDataDictionaryService() throws Exception {
-        DataDictionaryService dataDictionaryService = (DataDictionaryService)KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KcServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         assertNotNull(dataDictionaryService);
 
         assertEquals("ProposalDevelopmentDocument", dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getDocumentTypeName());
     }
 
     @Test public void testGetDateTimeService() throws Exception {
-        DateTimeService dateTimeService = (DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME);
+        DateTimeService dateTimeService = (DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME);
         assertNotNull(dateTimeService);
         Date currentDate = dateTimeService.getCurrentDate();
         Date currentDate2 = new Date(System.currentTimeMillis());
@@ -67,7 +68,7 @@ public class KraServiceLocatorTest extends KcIntegrationTestBase {
     }
 
     @Test public void testBusinessObjectDaoService() throws Exception {
-        BusinessObjectDao businessObjectDao = (BusinessObjectDao)KraServiceLocator.getService(Constants.BUSINESS_OBJECT_DAO_NAME);
+        BusinessObjectDao businessObjectDao = (BusinessObjectDao) KcServiceLocator.getService(Constants.BUSINESS_OBJECT_DAO_NAME);
         assertNotNull(businessObjectDao);
 
         Collection carrierTypes = businessObjectDao.findAll(MailType.class);

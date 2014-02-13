@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.timeandmoney.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardDateRulesHelper;
 import org.kuali.kra.award.home.Award;
@@ -22,8 +24,6 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -131,11 +131,11 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends KcTransactionalDocumentRu
     
     
     private AwardAmountInfoService getAwardAmountInfoService() {
-        return KraServiceLocator.getService(AwardAmountInfoService.class);
+        return KcServiceLocator.getService(AwardAmountInfoService.class);
     }
     
     public AwardVersionService getAwardVersionService() {
-        return KraServiceLocator.getService(AwardVersionService.class);
+        return KcServiceLocator.getService(AwardVersionService.class);
     }
     
     public boolean enforceAwardStartDatePopulated(Award award) {
@@ -149,7 +149,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends KcTransactionalDocumentRu
 
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

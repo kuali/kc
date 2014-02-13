@@ -16,16 +16,16 @@
 package org.kuali.kra.institutionalproposal.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 
 /**
  * 
  * This class implements the business rule for adding institutional proposal note.
  */
-public class InstitutionalProposalNoteAddRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<InstitutionalProposalNoteAddEvent> {
+public class InstitutionalProposalNoteAddRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<InstitutionalProposalNoteAddEvent> {
 
     private ErrorReporter errorReporter;
 

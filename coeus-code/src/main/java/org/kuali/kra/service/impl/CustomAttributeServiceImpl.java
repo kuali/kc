@@ -17,12 +17,12 @@ package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -139,7 +139,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
             Collections.sort(lookupReturns);
         }
         else {
-            BusinessObjectDictionaryService businessDictionaryService = (BusinessObjectDictionaryService) KraServiceLocator
+            BusinessObjectDictionaryService businessDictionaryService = (BusinessObjectDictionaryService) KcServiceLocator
                     .getService(Constants.BUSINESS_OBJECT_DICTIONARY_SERVICE_NAME);
             lookupReturns = businessDictionaryService.getLookupFieldNames(Class.forName(lookupClass));
         }
@@ -151,7 +151,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         List lookupFieldNames = getLookupReturns(lookupClass);
         String attributeNames="";
         for (Object attributeName : lookupFieldNames) {
-            attributeNames += "," + attributeName +";"+ (ARGVALUELOOKUPE_CLASS.equals(lookupClass) ? attributeName : KraServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,attributeName.toString()));
+            attributeNames += "," + attributeName +";"+ (ARGVALUELOOKUPE_CLASS.equals(lookupClass) ? attributeName : KcServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,attributeName.toString()));
         }
         return attributeNames;
     }

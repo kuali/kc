@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.*;
@@ -65,7 +65,7 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
                 // Assign the PI the AGGREGATOR role if PI has a personId.
                 if (newPrincipalInvestigator.getPersonId() != null) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
-                    KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+                    KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
                     kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
                 } else {

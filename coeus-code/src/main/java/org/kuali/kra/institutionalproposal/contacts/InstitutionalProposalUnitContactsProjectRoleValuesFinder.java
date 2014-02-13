@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -32,7 +32,7 @@ public class InstitutionalProposalUnitContactsProjectRoleValuesFinder extends Ui
 
     @Override
     public List<KeyValue> getKeyValues() {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         Collection<UnitAdministratorType> types = (Collection<UnitAdministratorType>) boService.findAll(UnitAdministratorType.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (UnitAdministratorType aType: types) {

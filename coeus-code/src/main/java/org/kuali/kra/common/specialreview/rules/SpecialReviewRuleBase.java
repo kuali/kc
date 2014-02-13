@@ -17,6 +17,8 @@ package org.kuali.kra.common.specialreview.rules;
 
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
@@ -29,10 +31,8 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.CollectionUtils;
 
@@ -343,7 +343,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     
     public ProtocolFinderDao getProtocolFinderDao() {
         if (protocolFinderDao == null) {
-            protocolFinderDao = KraServiceLocator.getService(ProtocolFinderDao.class);
+            protocolFinderDao = KcServiceLocator.getService(ProtocolFinderDao.class);
         }
         return protocolFinderDao;
     }
@@ -354,7 +354,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
 
     public IacucProtocolFinderDao getIacucProtocolFinderDao() {
         if (iacucProtocolFinderDao == null) {
-            iacucProtocolFinderDao = KraServiceLocator.getService(IacucProtocolFinderDao.class);
+            iacucProtocolFinderDao = KcServiceLocator.getService(IacucProtocolFinderDao.class);
         }
         return iacucProtocolFinderDao;
     }

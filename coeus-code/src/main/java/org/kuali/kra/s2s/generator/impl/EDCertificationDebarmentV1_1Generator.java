@@ -19,8 +19,8 @@ import gov.grants.apply.forms.edCertificationDebarmentV11.CertificationDebarment
 import gov.grants.apply.forms.edCertificationDebarmentV11.CertificationDebarmentDocument.CertificationDebarment;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -43,7 +43,7 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
      * Constructs a EDCertificationDebarmentV1_1Generator.java.
      */
     public EDCertificationDebarmentV1_1Generator() {
-        s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
     }
 
     /**

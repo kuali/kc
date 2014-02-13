@@ -18,8 +18,8 @@ package org.kuali.kra.proposaldevelopment.specialreview;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentSpecialReviewService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -89,7 +89,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
 
     private String getUserIdentifier() {
@@ -118,7 +118,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     public ProposalDevelopmentSpecialReviewService getProposalDevelopmentSpecialReviewService() {
         if (proposalDevelopmentSpecialReviewService == null) {
-            proposalDevelopmentSpecialReviewService = KraServiceLocator.getService(ProposalDevelopmentSpecialReviewService.class);
+            proposalDevelopmentSpecialReviewService = KcServiceLocator.getService(ProposalDevelopmentSpecialReviewService.class);
         }
         return proposalDevelopmentSpecialReviewService;
     }

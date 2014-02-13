@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -299,11 +299,11 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
     }
     
     private BatchCorrespondenceDetailService getBatchCorrespondenceDetailService() {
-        return (BatchCorrespondenceDetailService) KraServiceLocator.getService(BatchCorrespondenceDetailService.class);
+        return (BatchCorrespondenceDetailService) KcServiceLocator.getService(BatchCorrespondenceDetailService.class);
     }
 
     private BatchCorrespondenceDetailAuthorizationService getBatchCorrespondenceDetailAuthorizationService() {
-        return KraServiceLocator.getService(BatchCorrespondenceDetailAuthorizationService.class);
+        return KcServiceLocator.getService(BatchCorrespondenceDetailAuthorizationService.class);
     }
 
 }
