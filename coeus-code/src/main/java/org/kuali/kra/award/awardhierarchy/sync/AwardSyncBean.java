@@ -17,11 +17,11 @@ package org.kuali.kra.award.awardhierarchy.sync;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -90,7 +90,7 @@ public class AwardSyncBean implements Serializable {
     
     public List<AwardHierarchy> getHierarchyList() {
         AwardHierarchy awardHierarchy = 
-            KraServiceLocator.getService(AwardHierarchyService.class).loadAwardHierarchyBranch(awardForm.getAwardDocument().getAward().getAwardNumber());
+            KcServiceLocator.getService(AwardHierarchyService.class).loadAwardHierarchyBranch(awardForm.getAwardDocument().getAward().getAwardNumber());
         List<AwardHierarchy> listOrder = new ArrayList<AwardHierarchy>();
         if (awardHierarchy != null) {
             for (AwardHierarchy hierarchy : awardHierarchy.getChildren()) {

@@ -16,12 +16,12 @@
 package org.kuali.kra.rules;
 
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateTerm;
 import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -57,7 +57,7 @@ public class SponsorTemplateTermsExistenceRule extends KcMaintenanceDocumentRule
         AwardTemplate awardTemplate = (AwardTemplate) maintenanceDocument.getNewMaintainableObject().getDataObject();
         List<AwardTemplateTerm> aList = awardTemplate.getAwardSponsorTerms();
 
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Collection<SponsorTermType> types = businessObjectService.findAll(SponsorTermType.class);
         ArrayList currentTypeCodes = new ArrayList();
         for(AwardTemplateTerm aTerm : aList) {

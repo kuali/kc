@@ -14,6 +14,7 @@ import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocume
 import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetYearDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
@@ -27,7 +28,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.TrainingStipendRate;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -101,10 +101,10 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     /** Creates a new instance of PHS398TrainingBudgetV1_0Generator */
     public PHS398TrainingBudgetV1_0Generator() {
-        s2sBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
-        dateTimeService = KraServiceLocator.getService(DateTimeService.class);
-        parameterService = KraServiceLocator.getService(ParameterService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
+        dateTimeService = KcServiceLocator.getService(DateTimeService.class);
+        parameterService = KcServiceLocator.getService(ParameterService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
@@ -1030,7 +1030,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     }
 
     private ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
-        return KraServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
+        return KcServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
     }
 
     private Answer getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {

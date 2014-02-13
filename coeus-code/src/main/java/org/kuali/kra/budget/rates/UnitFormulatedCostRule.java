@@ -17,9 +17,9 @@ package org.kuali.kra.budget.rates;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -54,7 +54,7 @@ public class UnitFormulatedCostRule extends KcMaintenanceDocumentRuleBase {
         boolean valid = true;
         UnitFormulatedCost newCost = (UnitFormulatedCost) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("formulatedTypeCode", newCost.getFormulatedTypeCode());
         values.put("unitNumber", newCost.getUnitNumber());

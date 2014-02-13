@@ -18,6 +18,7 @@ package org.kuali.coeus.sys.framework.model;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.SimpleBooleanSplitNodeAware;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -27,7 +28,6 @@ import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -87,7 +87,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
         if (updateUser.length() > 60) {
             updateUser = updateUser.substring(0, 60);
         }
-        setUpdateTimestamp((KraServiceLocator.getService(DateTimeService.class)).getCurrentTimestamp());
+        setUpdateTimestamp((KcServiceLocator.getService(DateTimeService.class)).getCurrentTimestamp());
         setUpdateUser(updateUser);
         //CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
         //customAttributeService.saveCustomAttributeValues(this);
@@ -146,7 +146,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     }
 
     public void updateDocumentDescriptions(List<BudgetDocumentVersion> budgetVersionOverviews) {
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         for (BudgetDocumentVersion budgetDocumentVersion : budgetVersionOverviews) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             if (budgetVersion.isDescriptionUpdatable() && !StringUtils.isBlank(budgetVersion.getDocumentDescription())) {
@@ -161,7 +161,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
      */
     public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
         if (customAttributeDocuments == null) {
-            CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
+            CustomAttributeService customAttributeService = KcServiceLocator.getService(CustomAttributeService.class);
             customAttributeDocuments = customAttributeService.getDefaultCustomAttributeDocuments(getDocumentTypeCode(), getDocumentCustomData());
         }
         return customAttributeDocuments;

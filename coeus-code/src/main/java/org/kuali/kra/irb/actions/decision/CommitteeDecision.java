@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
@@ -112,14 +112,14 @@ public class CommitteeDecision extends ProtocolActionBean implements org.kuali.k
     private List<CommitteeMembershipBase> getCommitteeMemberships() {
         String committeeId = getProtocol().getProtocolSubmission().getCommittee().getCommitteeId();
         String scheduleId = getProtocol().getProtocolSubmission().getScheduleId();
-        List<CommitteeMembershipBase> committeeMemberships = KraServiceLocator.getService(CommitteeService.class).getAvailableMembers(committeeId, scheduleId);
+        List<CommitteeMembershipBase> committeeMemberships = KcServiceLocator.getService(CommitteeService.class).getAvailableMembers(committeeId, scheduleId);
         return committeeMemberships;
     }
     
     private void initializeAbstainees(ProtocolSubmission submission) {
         Map<String, Long> absenteeLookFields = getLookUpFields(getProtocol().getProtocolId(), submission.getSubmissionId());
         
-        Collection<ProtocolVoteAbstainee> protocolVoteAbstainees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteAbstainee.class, absenteeLookFields);
+        Collection<ProtocolVoteAbstainee> protocolVoteAbstainees = KcServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteAbstainee.class, absenteeLookFields);
         
         List<CommitteeMembershipBase> committeeMemberships = getCommitteeMemberships();
         
@@ -139,7 +139,7 @@ public class CommitteeDecision extends ProtocolActionBean implements org.kuali.k
     private void initializeRecused(ProtocolSubmission submission) {
         Map<String, Long> absenteeLookFields = getLookUpFields(getProtocol().getProtocolId(), submission.getSubmissionId());
         
-        Collection<ProtocolVoteRecused> protocolVoteRecused = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteRecused.class, absenteeLookFields);
+        Collection<ProtocolVoteRecused> protocolVoteRecused = KcServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteRecused.class, absenteeLookFields);
         
         List<CommitteeMembershipBase> committeeMemberships = getCommitteeMemberships();
         

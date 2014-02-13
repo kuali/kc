@@ -18,11 +18,11 @@ package org.kuali.kra.coi.notesandattachments.attachments;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.PersonFinIntDisclosureAssociate;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -288,7 +288,7 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     public void prePersist() {
         super.prePersist();
         if (getAttachmentFile() != null) {
-            KraServiceLocator.getService(BusinessObjectService.class).save(getAttachmentFile());
+            KcServiceLocator.getService(BusinessObjectService.class).save(getAttachmentFile());
             getAttachmentFile().refreshReferenceObject("id");   
             setFileId(getAttachmentFile().getId());
         }

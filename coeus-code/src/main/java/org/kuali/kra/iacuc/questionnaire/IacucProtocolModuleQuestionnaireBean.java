@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.questionnaire;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -56,7 +56,7 @@ public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestion
             Map<String, Object> values = new HashMap<String, Object>();
             values.put("protocolNumber", getModuleItemKey());
             values.put("sequenceNumber", getModuleSubItemKey());
-            List<IacucProtocol> protocols = (List<IacucProtocol>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocol.class, values);
+            List<IacucProtocol> protocols = (List<IacucProtocol>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocol.class, values);
             if (protocols != null && !protocols.isEmpty()) {
                 return protocols.get(0).getIacucProtocolDocument();
             } else {

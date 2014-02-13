@@ -16,47 +16,38 @@
 package org.kuali.kra.s2s.phs398coverpagesupplement;
 
 
-
-
-import gov.grants.apply.forms.phs398CoverPageSupplement20V20.PHS398CoverPageSupplement20Document.PHS398CoverPageSupplement20;
-import gov.grants.apply.forms.phs398CoverPageSupplement20V20.PHS398CoverPageSupplement20Document.PHS398CoverPageSupplement20.IncomeBudgetPeriod;
 import gov.grants.apply.forms.phs398CoverPageSupplement20V20.PHS398CoverPageSupplement20Document;
+import gov.grants.apply.forms.phs398CoverPageSupplement20V20.PHS398CoverPageSupplement20Document.PHS398CoverPageSupplement20;
 import gov.grants.apply.forms.phs398CoverPageSupplement20V20.PHS398CoverPageSupplement20Document.PHS398CoverPageSupplement20.ClinicalTrial;
+import gov.grants.apply.forms.phs398CoverPageSupplement20V20.PHS398CoverPageSupplement20Document.PHS398CoverPageSupplement20.IncomeBudgetPeriod;
 import gov.grants.apply.forms.phs398CoverPageSupplement20V20.PHS398CoverPageSupplement20Document.PHS398CoverPageSupplement20.PDPI;
 import gov.grants.apply.forms.phs398CoverPageSupplement20V20.PHS398CoverPageSupplement20Document.PHS398CoverPageSupplement20.StemCells;
 import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementBaseGenerator;
+import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
+import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
-import org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_3Generator;
-import org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementBaseGenerator;
-import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
-import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Class for generating the XML object for grants.gov
@@ -98,7 +89,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 		PHS398CoverPageSupplement20 coverPageSupplement = PHS398CoverPageSupplement20.Factory
 				.newInstance();
 		answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
-	    s2sBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
+	    s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
 		coverPageSupplement.setFormVersion(S2SConstants.FORMVERSION_2_0);
 		coverPageSupplement.setPDPI(getPDPI());
 		coverPageSupplement.setClinicalTrial(getClinicalTrial());
@@ -227,7 +218,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
             coverPageSupplement.setIsChangeOfPDPI(YesNoDataType.Y_YES);
             if (explanation != null) {
-                BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+                BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
                 Rolodex rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class, explanation); 
                 HumanNameDataType formerPDName = globLibV20Generator
                         .getHumanNameDataType(rolodex);

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -45,7 +45,7 @@ public class MinuteEntryTypeValuesFinder extends UifKeyValuesFinderBase {
     }
 
     private List<MinuteEntryType> getMinuteEntryTypes() {
-        List<MinuteEntryType> entryTypes = (List<MinuteEntryType>) KraServiceLocator.getService(BusinessObjectService.class)
+        List<MinuteEntryType> entryTypes = (List<MinuteEntryType>) KcServiceLocator.getService(BusinessObjectService.class)
                 .findAll(MinuteEntryType.class);
         Collections.sort(entryTypes);
         return entryTypes;

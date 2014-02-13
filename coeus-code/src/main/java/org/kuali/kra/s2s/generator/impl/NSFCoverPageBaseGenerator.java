@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -63,9 +63,9 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	 * Constructs a NSFCoverPageBaseGenerator.java.
 	 */
 	public NSFCoverPageBaseGenerator() {
-		dateTimeService = KraServiceLocator.getService(DateTimeService.class);
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-		businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+		dateTimeService = KcServiceLocator.getService(DateTimeService.class);
+		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+		businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
 	}
 
 	/**

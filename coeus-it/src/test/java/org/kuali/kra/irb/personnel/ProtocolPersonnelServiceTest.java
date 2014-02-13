@@ -18,8 +18,8 @@ package org.kuali.kra.irb.personnel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
@@ -34,6 +34,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.Assert.*;
 public class ProtocolPersonnelServiceTest extends KcIntegrationTestBase {
     protected static final String CO_INVESTIGATOR_PERSON_ID = "10000000003";
@@ -55,8 +56,8 @@ public class ProtocolPersonnelServiceTest extends KcIntegrationTestBase {
         protocolPersonTrainingService = buildPersonTrainingService(); 
         //protocolPersonnelService  = new ProtocolPersonnelServiceImpl();
         
-        protocolPersonnelService = (ProtocolPersonnelServiceImpl)KraServiceLocator.getService(ProtocolPersonnelService.class);
-        service = KraServiceLocator.getService(ProtocolPersonnelService.class);
+        protocolPersonnelService = (ProtocolPersonnelServiceImpl) KcServiceLocator.getService(ProtocolPersonnelService.class);
+        service = KcServiceLocator.getService(ProtocolPersonnelService.class);
         
         protocolPersonnelService.setProtocolPersonTrainingService(protocolPersonTrainingService);
         //service = new ProtocolPersonnelServiceImpl();

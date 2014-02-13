@@ -18,18 +18,20 @@ package org.kuali.kra.budget.personnel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonAppointment;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;
 import java.util.Calendar;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class BudgetPersonServiceTest extends KcIntegrationTestBase {
 
     protected final static String testAppointmentPersonId = "10000000033";
@@ -44,8 +46,8 @@ public class BudgetPersonServiceTest extends KcIntegrationTestBase {
     @SuppressWarnings("serial")
     @Before
     public void setUp() throws Exception {
-        kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-        budgetPersonService = (BudgetPersonServiceImpl) KraServiceLocator.getService(BudgetPersonService.class);
+        kcPersonService = KcServiceLocator.getService(KcPersonService.class);
+        budgetPersonService = (BudgetPersonServiceImpl) KcServiceLocator.getService(BudgetPersonService.class);
         budget = new Budget() {
             int nextVal = 1;
             public Integer getHackedDocumentNextValue(String documentComponentIdKey) {

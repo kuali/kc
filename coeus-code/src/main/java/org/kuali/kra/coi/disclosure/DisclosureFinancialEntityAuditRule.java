@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -196,13 +196,13 @@ public class DisclosureFinancialEntityAuditRule extends KcTransactionalDocumentR
 
 
     private CoiDisclosureService getCoiDisclosureService() {
-        return KraServiceLocator.getService(CoiDisclosureService.class);
+        return KcServiceLocator.getService(CoiDisclosureService.class);
     }
     
     private boolean isEventExcludedFE(String eventTypeCode) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("eventTypeCode", eventTypeCode);
-        CoiDisclosureEventType CoiDisclosureEventType =  KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
+        CoiDisclosureEventType CoiDisclosureEventType =  KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
         return CoiDisclosureEventType.isExcludeFinancialEntities();        
     }
 }

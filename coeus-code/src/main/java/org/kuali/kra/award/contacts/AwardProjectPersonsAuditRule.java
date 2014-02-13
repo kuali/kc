@@ -17,12 +17,12 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -213,7 +213,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
 
     public ParameterService getParameterService() {
         if (parameterService == null) {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
     }
@@ -224,7 +224,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
 
     public AwardService getAwardService() {
         if (awardService == null) {
-            awardService = KraServiceLocator.getService(AwardService.class);
+            awardService = KcServiceLocator.getService(AwardService.class);
         }
         return awardService;
     }
@@ -235,7 +235,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
 
     public InstitutionalProposalService getInstitutionalProposalService() {
         if (institutionalProposalService == null) {
-            institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+            institutionalProposalService = KcServiceLocator.getService(InstitutionalProposalService.class);
         }
         return institutionalProposalService;
     }

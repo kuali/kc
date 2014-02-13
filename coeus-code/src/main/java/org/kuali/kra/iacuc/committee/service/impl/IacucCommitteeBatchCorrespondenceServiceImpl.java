@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.committee.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
 import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
@@ -34,7 +35,6 @@ import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.iacuc.notification.IacucBatchCorrespondenceNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
@@ -179,7 +179,7 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
 
     @Override
     protected CommitteePrintingServiceBase getCommitteePrintingService() {
-        return KraServiceLocator.getService(IacucCommitteePrintingService.class);
+        return KcServiceLocator.getService(IacucCommitteePrintingService.class);
     }
 
 }

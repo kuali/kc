@@ -17,9 +17,9 @@ package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Watermark;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -111,7 +111,7 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KcMaintenanceDo
             final Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("statusCode", watermarkStatusCode);
             pkMap.put("groupName", watermarkGroupName);
-            final int watermarkMatchingCount = KraServiceLocator.getService(BusinessObjectService.class).countMatching(
+            final int watermarkMatchingCount = KcServiceLocator.getService(BusinessObjectService.class).countMatching(
                     Watermark.class, pkMap);
 
             if (watermarkMatchingCount > 0) {

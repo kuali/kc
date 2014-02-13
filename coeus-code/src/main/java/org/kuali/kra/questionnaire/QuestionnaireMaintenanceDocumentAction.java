@@ -20,10 +20,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -400,7 +400,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         Questionnaire oldQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                 .getOldMaintainableObject().getDataObject();
         versionQuestionnaire(questionnaire, oldQuestionnaire);
-        Long questionnaireRefId = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber(
+        Long questionnaireRefId = KcServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber(
                 "SEQ_QUESTIONNAIRE_REF_ID", questionnaire.getClass()); 
         questionnaire.setQuestionnaireRefIdFromLong(questionnaireRefId);
         // inherit from previous version when start editing
@@ -480,7 +480,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 fieldValues);
         Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
                 .getBusinessObject();
-        KraServiceLocator.getService(QuestionnaireService.class).copyQuestionnaire(oldQuestionnaire, questionnaire);
+        KcServiceLocator.getService(QuestionnaireService.class).copyQuestionnaire(oldQuestionnaire, questionnaire);
         questionnaire.setSequenceNumber(1); // just in case
     }
 
@@ -677,11 +677,11 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     }
     
     private QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
-        return KraServiceLocator.getService(QuestionnaireAuthorizationService.class);
+        return KcServiceLocator.getService(QuestionnaireAuthorizationService.class);
     }
     
     private QuestionnairePrintingService getQuestionnairePrintingService() {
-        return KraServiceLocator.getService(QuestionnairePrintingService.class);
+        return KcServiceLocator.getService(QuestionnairePrintingService.class);
     }
 
     @Override

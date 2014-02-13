@@ -18,7 +18,7 @@ package org.kuali.kra.irb;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -26,7 +26,9 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 public class ProtocolFinderDaoOjbTest extends KcIntegrationTestBase {
     
     private static final String PROTOCOL_NUMBER = "0906000003";
@@ -36,7 +38,7 @@ public class ProtocolFinderDaoOjbTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() throws Exception {
-        protocolFinder = KraServiceLocator.getService(ProtocolFinderDao.class);
+        protocolFinder = KcServiceLocator.getService(ProtocolFinderDao.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 

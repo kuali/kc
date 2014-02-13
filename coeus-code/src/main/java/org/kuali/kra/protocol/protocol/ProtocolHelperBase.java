@@ -17,11 +17,11 @@ package org.kuali.kra.protocol.protocol;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -111,21 +111,21 @@ public abstract class ProtocolHelperBase implements Serializable {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
  
     protected RolodexService getRolodexService() {
         if (this.rolodexService == null) {
-            this.rolodexService = KraServiceLocator.getService(RolodexService.class);        
+            this.rolodexService = KcServiceLocator.getService(RolodexService.class);
         }
         return this.rolodexService;
     }
     
     protected ProtocolFundingSourceService getProtocolFundingSourceService() {
         if (this.protocolFundingSourceService == null) {
-            this.protocolFundingSourceService = KraServiceLocator.getService(getProtocolFundingSourceServiceClassHook()); 
+            this.protocolFundingSourceService = KcServiceLocator.getService(getProtocolFundingSourceServiceClassHook());
         }
         return this.protocolFundingSourceService;
     }
@@ -135,7 +135,7 @@ public abstract class ProtocolHelperBase implements Serializable {
     
     protected SpecialReviewService getSpecialReviewService() {
         if (this.specialReviewService == null) {
-            this.specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            this.specialReviewService = KcServiceLocator.getService(SpecialReviewService.class);
         }
         return this.specialReviewService;
     }
@@ -340,7 +340,7 @@ public abstract class ProtocolHelperBase implements Serializable {
     }
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
 
     protected String getUserIdentifier() {
@@ -520,7 +520,7 @@ public abstract class ProtocolHelperBase implements Serializable {
  
     private KcPersonService getPersonService() {
         if(personService == null) {
-            personService = KraServiceLocator.getService(KcPersonService.class);
+            personService = KcServiceLocator.getService(KcPersonService.class);
         }
         return personService;
     }
@@ -645,7 +645,7 @@ public abstract class ProtocolHelperBase implements Serializable {
     }
     
     private UnitService getUnitService() {
-        return KraServiceLocator.getService(UnitService.class);
+        return KcServiceLocator.getService(UnitService.class);
     }
 
     public ProtocolLocationBase getNewProtocolLocation() {
@@ -729,7 +729,7 @@ public abstract class ProtocolHelperBase implements Serializable {
      * @return RoleService reference
      */
     protected RoleService getRoleService() {
-        return KraServiceLocator.getService(RoleService.class);
+        return KcServiceLocator.getService(RoleService.class);
     }
 
     public List<ProtocolFundingSourceBase> getNewProtocolFundingSources() {

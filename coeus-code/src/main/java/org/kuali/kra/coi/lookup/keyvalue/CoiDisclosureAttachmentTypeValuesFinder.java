@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.coi.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiAttachmentType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -51,7 +51,7 @@ public class CoiDisclosureAttachmentTypeValuesFinder extends UifKeyValuesFinderB
      */
     public KeyValuesService getKeyValuesService() {
         if (keyValuesService == null) {
-            keyValuesService = KraServiceLocator.getService(KeyValuesService.class);
+            keyValuesService = KcServiceLocator.getService(KeyValuesService.class);
         }
         return keyValuesService;
     }

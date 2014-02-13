@@ -18,11 +18,11 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
@@ -56,9 +56,9 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
         if (proposalNumber != null && !proposalNumber.equals("")) {
             Map<String, String> primaryKeys = new HashMap<String, String>();
             primaryKeys.put("proposalNumber", proposalNumber);
-            proposal = (DevelopmentProposal) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(DevelopmentProposal.class, primaryKeys);
+            proposal = (DevelopmentProposal) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(DevelopmentProposal.class, primaryKeys);
             if (proposal != null) {
-                KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
+                KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
             }
         }
         pdForm.setProposalToSummarize(proposal);
@@ -86,13 +86,13 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
         if (budgetId != null) {
             Map<String, Long> primaryKeys = new HashMap<String, Long>();
             primaryKeys.put("budgetId", budgetId);
-            budget = (Budget) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ProposalDevelopmentBudgetExt.class, primaryKeys);
+            budget = (Budget) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ProposalDevelopmentBudgetExt.class, primaryKeys);
             if (budget != null) {
-                KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(budget);
+                KcServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(budget);
 
                 if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
                     DevelopmentProposal proposal = (DevelopmentProposal)budget.getBudgetDocument().getParentDocument().getBudgetParent();
-                    KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
+                    KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
                     budget.setBudgetStatus(proposal.getBudgetStatus());
                 }
                 else {
@@ -111,7 +111,7 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
 
     public ProposalHierarchyService getProposalHierarchyService() {
         if (proposalHierarchyService == null) {
-            proposalHierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+            proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
         }
         return proposalHierarchyService;
     }

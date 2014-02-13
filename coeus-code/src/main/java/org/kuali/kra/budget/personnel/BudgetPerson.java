@@ -17,13 +17,13 @@ package org.kuali.kra.budget.personnel;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.DateSortable;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -82,7 +82,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
    
 
     public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         List<BudgetPersonSalaryDetails> salaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
         if(this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {            
             HashMap budgetMap = new HashMap();
@@ -254,7 +254,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }
@@ -390,7 +390,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     private void getJobTitleFromJobCode() {
         if (StringUtils.isNotBlank(getJobCode()) && 
                 (this.jobCodeRef == null || !StringUtils.isNotBlank(this.jobCodeRef.getJobTitle())) ) { 
-            JobCodeService jcService = KraServiceLocator.getService(JobCodeService.class);
+            JobCodeService jcService = KcServiceLocator.getService(JobCodeService.class);
             this.jobCodeRef = jcService.findJobCodeRef(getJobCode());
         }
     }

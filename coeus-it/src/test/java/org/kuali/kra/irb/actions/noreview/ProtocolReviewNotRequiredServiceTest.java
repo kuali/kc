@@ -23,7 +23,7 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
@@ -32,7 +32,8 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 /**
  * This class...
  */
@@ -53,7 +54,7 @@ public class ProtocolReviewNotRequiredServiceTest extends KcIntegrationTestBase 
     public void setUp() throws Exception {
 
         service = new ProtocolReviewNotRequiredServiceImpl();
-        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setProtocolActionService(KcServiceLocator.getService(ProtocolActionService.class));
         service.setBusinessObjectService(getMockBusinessObjectService());
     }
 

@@ -16,12 +16,13 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetParentDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -30,7 +31,6 @@ import org.kuali.kra.proposaldevelopment.rule.*;
 import org.kuali.kra.proposaldevelopment.rule.event.*;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -52,7 +52,7 @@ import java.util.List;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, BusinessRuleInterface, SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule, DocumentAuditRule {
+public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule, KcBusinessRule, SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule, DocumentAuditRule {
 
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class); 
@@ -108,7 +108,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     
     private boolean proccessValidateSponsor(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         if (!this.getSponsorService().validateSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getSponsor())) {
             valid = false;
             //this.reportError("document.developmentProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
@@ -213,7 +213,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         boolean valid = true;
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         
         /*
         proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("sponsor");
@@ -240,7 +240,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             }
         }
         
-        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        ProposalDevelopmentService proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber())) {
             if (proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument) == null) {
                 valid = false;
@@ -316,7 +316,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         boolean valid = true;
         String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())
                 && !(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber().matches(regExpr))
                 && GlobalVariables.getMessageMap().getMessages("document.developmentProposalList[0].cfdaNumber") == null) {
@@ -326,7 +326,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             valid = false;
          }
  
-        SponsorService sponsorService = KraServiceLocator.getService(SponsorService.class);
+        SponsorService sponsorService = KcServiceLocator.getService(SponsorService.class);
          String sponsorCode = proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode();
    
          if (sponsorCode != null)
@@ -414,7 +414,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         
         // audit check for budgetversion with final status
         try {
-            retval &= KraServiceLocator.getService(BudgetService.class).validateBudgetAuditRule((ProposalDevelopmentDocument)document);
+            retval &= KcServiceLocator.getService(BudgetService.class).validateBudgetAuditRule((ProposalDevelopmentDocument)document);
         } catch (Exception ex) {
             // TODO : should log it here
             throw new RuntimeException("Validate Budget Audit rules encountered exception", ex);
@@ -541,7 +541,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     }
     
     private SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        return KcServiceLocator.getService(SponsorService.class);
     }
 
 }

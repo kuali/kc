@@ -18,9 +18,9 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
@@ -30,11 +30,11 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static org.junit.Assert.*;
 /**
  * 
@@ -57,7 +57,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     public void setUp() throws Exception {
         super.setUp();
         rule = new ProposalDevelopmentInstituteAttachmentRule();
-        bos = KraServiceLocator.getService(BusinessObjectService.class);
+        bos = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String,String> qMap = new HashMap<String,String>();
         qMap.put(SYSTEM_GENERATED, NO);
         qMap.put(NARRATIVE_TYPE_GROUP, Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE);

@@ -23,17 +23,15 @@ import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 /**
  * This class tests the EDAbstractV1_0Generator
  */

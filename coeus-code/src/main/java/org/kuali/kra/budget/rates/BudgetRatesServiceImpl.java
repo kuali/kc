@@ -18,6 +18,7 @@ package org.kuali.kra.budget.rates;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
@@ -34,7 +35,6 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -194,7 +194,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         
-        if (budget.isRateSynced() || !KraServiceLocator.getService(BudgetService.class).
+        if (budget.isRateSynced() || !KcServiceLocator.getService(BudgetService.class).
                 checkActivityTypeChange(getBudgetParentDocument(budget), budget)) {
             if(budgetParent.getActivityType()!= null){
                 return budgetParent.getActivityType().getDescription().concat(SPACE);
@@ -212,7 +212,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
             if (activityTypeCode != null) {
                 Map pkMap = new HashMap();
                 pkMap.put("activityTypeCode",activityTypeCode);
-                ActivityType activityType = (ActivityType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ActivityType.class, pkMap);
+                ActivityType activityType = (ActivityType) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ActivityType.class, pkMap);
                 if (activityType == null) {
                     return "";
                 } else {

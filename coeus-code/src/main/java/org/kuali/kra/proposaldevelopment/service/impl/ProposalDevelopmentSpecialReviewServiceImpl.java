@@ -15,16 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentService;
-import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewService;
@@ -65,7 +64,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
 
                     prepareProtocolLinkViewFields(specialReview);
-                    KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
+                    KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
                     if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
                             document.getDevelopmentProposal().getPropSpecialReviews(), isIrbLinkingEnabled()))) {
                         document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
@@ -88,7 +87,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
         
                     prepareProtocolLinkViewFields(specialReview);
-                    KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
+                    KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
                     if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
                             document.getDevelopmentProposal().getPropSpecialReviews(), isIacucLinkingEnabled()))) {
                         document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);

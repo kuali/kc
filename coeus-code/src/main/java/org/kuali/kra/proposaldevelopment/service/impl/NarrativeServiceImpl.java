@@ -18,9 +18,9 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -332,7 +332,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      */
     public DateTimeService getDateTimeService() {
         if(dateTimeService==null){
-            dateTimeService = (DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME);
+            dateTimeService = (DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME);
         }
         return dateTimeService;
     }
@@ -468,7 +468,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @return
      */
     protected KcAuthorizationService getKraAuthorizationService(){
-        return KraServiceLocator.getService(KcAuthorizationService.class);
+        return KcServiceLocator.getService(KcAuthorizationService.class);
     }
 
     public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {

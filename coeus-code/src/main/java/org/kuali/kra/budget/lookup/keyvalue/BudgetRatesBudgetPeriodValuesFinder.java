@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.BudgetRatesService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -29,7 +29,7 @@ public class BudgetRatesBudgetPeriodValuesFinder  extends UifKeyValuesFinderBase
 
     @Override
     public List<KeyValue> getKeyValues() {
-        BudgetRatesService budgetRatesService = KraServiceLocator.getService(BudgetRatesService.class);
+        BudgetRatesService budgetRatesService = KcServiceLocator.getService(BudgetRatesService.class);
         List<BudgetPeriod> budgetPeriods = budgetRatesService.getBudgetPeriods();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "View All"));

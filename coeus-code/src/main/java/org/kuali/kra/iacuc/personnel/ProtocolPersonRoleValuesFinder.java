@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMappingBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -78,7 +78,7 @@ public class ProtocolPersonRoleValuesFinder extends UifKeyValuesFinderBase {
      * @return ProtocolPersonnelService
      */
     private ProtocolPersonnelService getProtocolPersonnelService() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+        return (ProtocolPersonnelService) KcServiceLocator.getService("iacucProtocolPersonnelService");
     }
 
     public String getSourceRoleId() {

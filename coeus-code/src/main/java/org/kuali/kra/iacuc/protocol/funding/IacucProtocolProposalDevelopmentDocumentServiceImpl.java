@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.protocol.funding;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.protocol.funding.impl.ProtocolProposalDevelopmentDocumentServiceImplBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
@@ -41,7 +41,7 @@ public class IacucProtocolProposalDevelopmentDocumentServiceImpl extends Protoco
     {
         if ( parameterService ==null)
         {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         String parameter= parameterService.getParameterValueAsString(IacucProtocolDocument.class, IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS);
         return parameter;

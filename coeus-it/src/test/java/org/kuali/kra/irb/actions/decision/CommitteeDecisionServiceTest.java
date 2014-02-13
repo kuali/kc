@@ -23,11 +23,11 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -43,7 +43,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.ArrayList;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 public class CommitteeDecisionServiceTest extends KcIntegrationTestBase {
     
     private static final Integer YES_COUNT = 2;
@@ -65,13 +67,13 @@ public class CommitteeDecisionServiceTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
 
         service = new CommitteeDecisionServiceImpl();
-        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
-        service.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
+        service.setProtocolActionService(KcServiceLocator.getService(ProtocolActionService.class));
+        service.setBusinessObjectService(KcServiceLocator.getService(BusinessObjectService.class));
         service.setCommitteeService(getMockCommitteeService());
         service.setDocumentService(getMockDocumentService());
         
-        protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        protocolAssignCmtSchedService = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
+        protocolSubmitActionService = KcServiceLocator.getService(ProtocolSubmitActionService.class);
+        protocolAssignCmtSchedService = KcServiceLocator.getService(ProtocolAssignCmtSchedService.class);
     }
 
     @After

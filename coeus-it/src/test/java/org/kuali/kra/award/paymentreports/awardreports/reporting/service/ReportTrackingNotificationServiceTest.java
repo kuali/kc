@@ -18,13 +18,13 @@ package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardFixtureFactory;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.AwardServiceImpl;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -33,7 +33,9 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
  /*
  >>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotificationsPreviouslySent 	2 ms	1
 >>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotificationsPreviouslySent 	6 ms	1
@@ -54,9 +56,9 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
 
      @Before
     public void setUp() throws Exception {
-        service = (ReportTrackingNotificationServiceImpl) KraServiceLocator.getService(ReportTrackingNotificationService.class);
-        boService = KraServiceLocator.getService(BusinessObjectService.class);
-        documentService = KraServiceLocator.getService(DocumentService.class);
+        service = (ReportTrackingNotificationServiceImpl) KcServiceLocator.getService(ReportTrackingNotificationService.class);
+        boService = KcServiceLocator.getService(BusinessObjectService.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
         AwardDocument awardDoc = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
         award = AwardFixtureFactory.createAwardFixture();
         awardDoc.setAward(award);

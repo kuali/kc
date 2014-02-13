@@ -17,12 +17,14 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.decision.*;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
@@ -39,8 +41,6 @@ import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRuleBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRuleBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.document.Document;
@@ -60,7 +60,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
                                                                                 AddProtocolLocationRule,
                                                                                 AddProtocolAttachmentPersonnelRule, 
                                                                                 AddProtocolUnitRule,
-                                                                                BusinessRuleInterface,                                                                                 
+        KcBusinessRule,
                                                                                 ExecuteProtocolSubmitActionRule,
                                                                                 ExecuteCommitteeDecisionRule<CD>,                                                                                
                                                                                 ExecuteCommitteeDecisionAbstainerRule<CD>, 
@@ -254,7 +254,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     
     /**
      * 
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
@@ -320,6 +320,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
 
     
     private UnitService getUnitService() {
-        return KraServiceLocator.getService(UnitService.class);
+        return KcServiceLocator.getService(UnitService.class);
     }
 }

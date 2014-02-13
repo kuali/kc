@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.commitments;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -418,8 +418,8 @@ public class AwardFandaRate extends AwardAssociate {
      * @return Returns the fandaRateType.
      */
     public RateType getFandaRateType() {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        ParameterService parameterService = KcServiceLocator.getService(ParameterService.class);
         String rateClassCode = parameterService.getParameterValueAsString(AwardBudgetDocument.class, Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE);
         Map<String, String> qMap = new HashMap<String, String>();
         qMap.put("rateClassCode", rateClassCode);

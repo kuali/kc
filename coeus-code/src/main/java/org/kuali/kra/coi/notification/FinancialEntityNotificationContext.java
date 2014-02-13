@@ -16,13 +16,13 @@
 package org.kuali.kra.coi.notification;
 
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.util.EmailAttachment;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public class FinancialEntityNotificationContext extends NotificationContextBase 
         this.entityNumber = disclosure.getEntityNumber();
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
+        setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
     }
     
     /**
@@ -98,7 +98,7 @@ public class FinancialEntityNotificationContext extends NotificationContextBase 
  
     public KcNotificationRoleQualifierService getNotificationRoleQualifierService() {
         if (super.getNotificationRoleQualifierService() == null) {
-            setNotificationRoleQualifierService(KraServiceLocator.getService(CoiNotificationRoleQualifierService.class));
+            setNotificationRoleQualifierService(KcServiceLocator.getService(CoiNotificationRoleQualifierService.class));
         }
         return super.getNotificationRoleQualifierService();
     }

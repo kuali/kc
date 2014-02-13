@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.home.approvedsubawards;
 
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -136,7 +136,7 @@ public class AwardApprovedSubawardRuleImpl extends KcTransactionalDocumentRuleBa
      * @return
      */
     private boolean validateOrganizationExists(String organizationName) {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put("organizationName", organizationName);
         

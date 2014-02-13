@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.iacuc;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Lookupable helper service used for person id lookup
@@ -72,7 +72,7 @@ public class IacucPersonTrainingLookupableHelperServiceImpl extends KualiLookupa
     }
     
     public KcPersonService getKcPersonService() {
-        return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
+        return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }
 
     @Override

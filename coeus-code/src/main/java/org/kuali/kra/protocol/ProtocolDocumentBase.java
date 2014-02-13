@@ -17,11 +17,11 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -96,7 +96,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
         ResearchAreaBase ra = (ResearchAreaBase) this.getBusinessObjectService().findByPrimaryKey(getResearchAreaBoClassHook(), primaryKeys);
         Collection<ResearchAreaBase> selectedBOs = new ArrayList<ResearchAreaBase>();
         selectedBOs.add(ra);
-        KraServiceLocator.getService(getProtocolResearchAreaServiceClassHook()).addProtocolResearchArea(this.getProtocol(), selectedBOs);
+        KcServiceLocator.getService(getProtocolResearchAreaServiceClassHook()).addProtocolResearchArea(this.getProtocol(), selectedBOs);
     }
 
     protected abstract Class<? extends ProtocolResearchAreaService> getProtocolResearchAreaServiceClassHook();
@@ -166,7 +166,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     @Override
     protected List<RolePersons> getAllRolePersons() {
         KcAuthorizationService kraAuthService =
-               (KcAuthorizationService) KraServiceLocator.getService(KcAuthorizationService.class);
+               (KcAuthorizationService) KcServiceLocator.getService(KcAuthorizationService.class);
         return kraAuthService.getAllRolePersons(getProtocol());
     }
     
@@ -192,13 +192,13 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
             // after merge is done, then reset to the original usersession person.  
             // this is workaround for async.  There will be rice enhancement to resolve this issue.
             try {
-                DocumentRouteHeaderValue document = KraServiceLocator.getService(RouteHeaderService.class).getRouteHeader(
+                DocumentRouteHeaderValue document = KcServiceLocator.getService(RouteHeaderService.class).getRouteHeader(
                         this.getDocumentHeader().getWorkflowDocument().getDocumentId());
                 String principalId = document.getActionsTaken().get(document.getActionsTaken().size() - 1).getPrincipalId();
                 String asyncPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
                 String asyncPrincipalName = GlobalVariables.getUserSession().getPrincipalName();
                 if (!principalId.equals(asyncPrincipalId)) {
-                    KcPerson person = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(principalId);
+                    KcPerson person = KcServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(principalId);
                     GlobalVariables.setUserSession(new UserSession(person.getUserName()));                    
                 }
                 
@@ -272,15 +272,15 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     }
     
     protected RouteHeaderService getRouteHeaderService() {
-        return KraServiceLocator.getService(RouteHeaderService.class);
+        return KcServiceLocator.getService(RouteHeaderService.class);
     }
     
     protected KcNotificationService getNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
+        return KcServiceLocator.getService(KcNotificationService.class);
     }
     
     protected ProtocolGenericActionService getProtocolGenericActionService() {
-        return KraServiceLocator.getService(getProtocolGenericActionServiceClassHook());
+        return KcServiceLocator.getService(getProtocolGenericActionServiceClassHook());
     }
     
     protected abstract Class<? extends ProtocolGenericActionService> getProtocolGenericActionServiceClassHook();
@@ -305,7 +305,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
 
     
     protected ProtocolActionService getProtocolActionService() {
-        return KraServiceLocator.getService(getProtocolActionServiceClassHook());
+        return KcServiceLocator.getService(getProtocolActionServiceClassHook());
     }
     
     protected abstract Class<? extends ProtocolActionService> getProtocolActionServiceClassHook();
@@ -327,11 +327,11 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     }
 
     protected DocumentService getDocumentService() {
-        return KraServiceLocator.getService(DocumentService.class);
+        return KcServiceLocator.getService(DocumentService.class);
     }
     
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     
@@ -456,7 +456,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * Add default organization.
      */
     private void initializeProtocolLocation() {
-        KraServiceLocator.getService(getProtocolLocationServiceClassHook()).addDefaultProtocolLocation(this.getProtocol());
+        KcServiceLocator.getService(getProtocolLocationServiceClassHook()).addDefaultProtocolLocation(this.getProtocol());
     }
     
     protected abstract Class<? extends ProtocolLocationService> getProtocolLocationServiceClassHook();
@@ -497,7 +497,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
         Map<String, String> keyMap = new HashMap<String, String>(); 
         keyMap.put("protocolNumber", getProtocol().getAmendedProtocolNumber());
         keyMap.put("active", "Y");
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);        
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         List<ProtocolBase> protocols = (List<ProtocolBase>) boService.findMatchingOrderBy(getProtocolBOClassHook(), keyMap, "sequenceNumber", false);
         return (protocols.size() == 0) ? null : protocols.get(0).getProtocolDocument().getDocumentNumber();    
     }

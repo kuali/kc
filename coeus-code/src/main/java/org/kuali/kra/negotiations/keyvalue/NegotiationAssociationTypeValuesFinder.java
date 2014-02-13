@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.keyvalue;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -55,7 +55,7 @@ public class NegotiationAssociationTypeValuesFinder extends UifKeyValuesFinderBa
 
     protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

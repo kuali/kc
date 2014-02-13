@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetCategoryType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -43,7 +43,7 @@ public class BudgetCategoryTypeValuesFinder extends UifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection budgetCategoryTypes = keyValuesService.findAllOrderBy(BudgetCategoryType.class,"sortId",true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         

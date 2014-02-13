@@ -17,7 +17,7 @@ package org.kuali.kra.institutionalproposal;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity;
 import org.kuali.kra.service.VersionException;
@@ -55,7 +55,7 @@ public class IntellectualPropertyReviewVersioningTest extends KcIntegrationTestB
     
     private VersioningService getVersioningService() {
         if (versioningService == null) {
-            versioningService = KraServiceLocator.getService(VersioningService.class);
+            versioningService = KcServiceLocator.getService(VersioningService.class);
         }
         return versioningService;
     }

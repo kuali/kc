@@ -19,9 +19,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture;
@@ -29,7 +29,7 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
     
     private ProposalDevelopmentService proposalDevelopmentService;
@@ -38,8 +38,8 @@ public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
-        budgetService = KraServiceLocator.getService(BudgetService.class);
+        proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        budgetService = KcServiceLocator.getService(BudgetService.class);
         document = ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT.getDocument();
         document.getDevelopmentProposal().setPrimeSponsorCode("000120");
         document.getDevelopmentProposal().setSponsorCode("000120");

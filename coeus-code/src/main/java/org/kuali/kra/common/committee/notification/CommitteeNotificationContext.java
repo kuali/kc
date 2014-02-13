@@ -16,6 +16,7 @@
 package org.kuali.kra.common.committee.notification;
 
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -25,7 +26,6 @@ import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.util.EmailAttachment;
 import org.springframework.util.CollectionUtils;
 
@@ -58,8 +58,8 @@ public class CommitteeNotificationContext extends NotificationContextBase {
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
-        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
+        setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
+        setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
         CommonCommitteeNotificationRoleQualifierService committeeNotificationRoleQualifierService = getCommitteeNotificationRoleQualifierService();
         setNotificationRoleQualifierService(committeeNotificationRoleQualifierService);
         committeeNotificationRoleQualifierService.setCommitteeSchedule(this.committeeSchedule);
@@ -125,6 +125,6 @@ public class CommitteeNotificationContext extends NotificationContextBase {
  
     public CommonCommitteeNotificationRoleQualifierService getCommitteeNotificationRoleQualifierService() {
         // return KraServiceLocator.getService(CommonCommitteeNotificationRoleQualifierServiceImpl.COMMON_COMMITTEE_NOTIFICATION_ROLE_QUALIFER_SERVICE_SPRING_NAME);
-        return KraServiceLocator.getService(CommonCommitteeNotificationRoleQualifierService.class);
+        return KcServiceLocator.getService(CommonCommitteeNotificationRoleQualifierService.class);
     }
 }

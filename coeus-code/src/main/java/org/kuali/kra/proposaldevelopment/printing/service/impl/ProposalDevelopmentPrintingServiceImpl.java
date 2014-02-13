@@ -17,12 +17,12 @@ package org.kuali.kra.proposaldevelopment.printing.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.SponsorForms;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -234,7 +234,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
             AnswerHeader header = helper.getAnswerHeaders().get(0);            
             reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());
             reportParameters.put("template", header.getQuestionnaire().getTemplate());            
-            AbstractPrint printable = KraServiceLocator.getService(QuestionnairePrint.class);
+            AbstractPrint printable = KcServiceLocator.getService(QuestionnairePrint.class);
             if (printable != null) {
                 printable.setPrintableBusinessObject(person);
                 printable.setReportParameters(reportParameters);

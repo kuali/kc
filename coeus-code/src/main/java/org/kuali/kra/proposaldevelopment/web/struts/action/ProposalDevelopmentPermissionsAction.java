@@ -20,9 +20,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalRoleState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
@@ -49,8 +49,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 /**
@@ -148,7 +148,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             
             // Add the person to the narratives.
             
-            NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
+            NarrativeService narrativeService = KcServiceLocator.getService(NarrativeService.class);
             narrativeService.addPerson(proposalUser.getUsername(), doc, proposalUser.getRoleName());
         }
         
@@ -213,7 +213,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             
             // Remove the user from all of the Narratives.
             
-            NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
+            NarrativeService narrativeService = KcServiceLocator.getService(NarrativeService.class);
             narrativeService.deletePerson(getPersonService().getPersonByPrincipalName(proposalUserRoles.getUsername()).getPrincipalId(), doc); 
         }
         
@@ -303,7 +303,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
        
         ActionForward actionForward = null;
         
-        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
@@ -355,7 +355,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             // permissions regarding narratives, his/her narrative rights may need to
             // be down-graded.
             
-            NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
+            NarrativeService narrativeService = KcServiceLocator.getService(NarrativeService.class);
             narrativeService.readjustRights(getPersonService().getPersonByPrincipalName(proposalUserRoles.getUsername()).getPrincipalId(), doc, roleNames); 
        
             // If Javascript was enabled, we can simply cause the pop-up window to close.
@@ -471,7 +471,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
 
     protected ProposalDevelopmentPermissionsService getProposalDevelopmentPermissionsService() {
         if (proposalDevelopmentPermissionsService == null) {
-            proposalDevelopmentPermissionsService = KraServiceLocator.getService(ProposalDevelopmentPermissionsService.class);
+            proposalDevelopmentPermissionsService = KcServiceLocator.getService(ProposalDevelopmentPermissionsService.class);
         }
         return proposalDevelopmentPermissionsService;
     }

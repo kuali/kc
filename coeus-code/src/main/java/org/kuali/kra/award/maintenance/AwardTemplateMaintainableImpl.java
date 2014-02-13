@@ -17,6 +17,8 @@
 package org.kuali.kra.award.maintenance;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateReportTerm;
 import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
@@ -26,9 +28,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -193,7 +193,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     }
     
     public String rolodexNameAndOrganization(Integer rolodexId) {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Rolodex aRolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class, rolodexId);
         String rolocesNameAndOrganization = "";
         if ( aRolodex != null ) {
@@ -224,7 +224,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
                                         awardTemplate.getAwardMethodOfPayment().getDescription()});
     }
     private boolean isValid(String basisOfPaymentCode, String methodOfPaymentCode) {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> validBasisOfPaymentsParams = new HashMap<String, String>();
         validBasisOfPaymentsParams.put("basisOfPaymentCode", basisOfPaymentCode);
         validBasisOfPaymentsParams.put("methodOfPaymentCode", methodOfPaymentCode);

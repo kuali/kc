@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
@@ -24,7 +25,6 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -74,11 +74,11 @@ public class AwardSyncAuditRule implements DocumentAuditRule {
     }
     
     protected AwardHierarchyService getAwardHierarchyService() {
-        return KraServiceLocator.getService(AwardHierarchyService.class);
+        return KcServiceLocator.getService(AwardHierarchyService.class);
     }
     
     protected VersionHistoryService getVersionHistoryService() {
-        return KraServiceLocator.getService(VersionHistoryService.class);
+        return KcServiceLocator.getService(VersionHistoryService.class);
     }
     
     /**

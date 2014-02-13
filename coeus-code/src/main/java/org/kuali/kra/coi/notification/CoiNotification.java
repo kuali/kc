@@ -16,9 +16,9 @@
 package org.kuali.kra.coi.notification;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 // class used to satisfy java bean convention
@@ -34,8 +34,8 @@ public class CoiNotification extends KcNotification {
         if (object instanceof CoiDisclosure) {
             CoiDisclosure disclosure = (CoiDisclosure)object;
             disclosure.addNotification(this);
-            KraServiceLocator.getService(BusinessObjectService.class).save(disclosure);
-            KraServiceLocator.getService(BusinessObjectService.class).save(this);
+            KcServiceLocator.getService(BusinessObjectService.class).save(disclosure);
+            KcServiceLocator.getService(BusinessObjectService.class).save(this);
         } else {
             //TODO how to persist notification for FE
         }

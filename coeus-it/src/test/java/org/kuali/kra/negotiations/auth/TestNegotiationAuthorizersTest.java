@@ -21,8 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
@@ -51,13 +51,13 @@ public class TestNegotiationAuthorizersTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        quickstart = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("quickstart");
-        jtester = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("jtester");
-        woods = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("woods");
-        ospAdmin = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("borst");
-        negotiator = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("oblood");
+        taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        quickstart = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("quickstart");
+        jtester = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("jtester");
+        woods = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("woods");
+        ospAdmin = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("borst");
+        negotiator = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("oblood");
     }
 
     @After

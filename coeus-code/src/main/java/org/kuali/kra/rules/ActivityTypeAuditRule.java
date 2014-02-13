@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -22,7 +23,6 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -65,7 +65,7 @@ public class ActivityTypeAuditRule  implements DocumentAuditRule{
     private boolean isActivityTypeChanged(BudgetDocument budgetDocument) {
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         boolean syncRate = false;
-        Collection<BudgetRate> allBudgetRates = KraServiceLocator.getService(BudgetService.class).getSavedBudgetRates(budgetDocument.getBudget());
+        Collection<BudgetRate> allBudgetRates = KcServiceLocator.getService(BudgetService.class).getSavedBudgetRates(budgetDocument.getBudget());
         syncRate = getBudgetService().checkActivityTypeChange(allBudgetRates,
                                     parentDocument.getBudgetParent().getActivityTypeCode());
 //        
@@ -81,7 +81,7 @@ public class ActivityTypeAuditRule  implements DocumentAuditRule{
     }
 
     private BudgetService getBudgetService() {
-        return KraServiceLocator.getService(BudgetService.class);
+        return KcServiceLocator.getService(BudgetService.class);
     }
 
 

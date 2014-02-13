@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRuleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 
@@ -23,7 +23,7 @@ public class IacucProtocolPersonnelAuditRule extends ProtocolPersonnelAuditRuleB
 
     @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+        return (ProtocolPersonnelService) KcServiceLocator.getService("iacucProtocolPersonnelService");
     }
     
 }

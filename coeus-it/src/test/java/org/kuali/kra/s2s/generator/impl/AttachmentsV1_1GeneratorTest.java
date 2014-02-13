@@ -20,11 +20,11 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 /**
  * This class tests the AttachmentsV1_1GeneratorTest
  */

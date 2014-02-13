@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.coi.DisclosureReporterUnit;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class SaveDisclosureReporterUnitEvent  extends KcDocumentEventBaseExtensi
  
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new SaveDisclosureReporterUnitRule();
     }
 

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.meeting.*;
@@ -24,7 +25,6 @@ import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 
 public class IacucMeetingManagementAction extends MeetingManagementActionBase {
@@ -56,12 +56,12 @@ public class IacucMeetingManagementAction extends MeetingManagementActionBase {
 
     @Override
     protected CommonMeetingService getMeetingService() {
-        return KraServiceLocator.getService(IacucMeetingService.class);
+        return KcServiceLocator.getService(IacucMeetingService.class);
     }
 
     @Override
     protected ReviewCommentsService<?> getReviewerCommentsService() {
-        return KraServiceLocator.getService(IacucReviewCommentsService.class);
+        return KcServiceLocator.getService(IacucReviewCommentsService.class);
     }
 
     @Override

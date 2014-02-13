@@ -20,13 +20,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.validator.Resources;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -296,7 +296,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
 
     private ActionForward getReturnToCommitteeForward(MeetingFormBase form) throws WorkflowException {
         assert form != null : "the form is null";
-        final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        final DocumentService docService = KcServiceLocator.getService(DocumentService.class);
         final String docNumber = form.getMeetingHelper().getCommitteeSchedule().getParentCommittee().getCommitteeDocument().getDocumentNumber();
         
         final CommitteeDocumentBase pdDoc = (CommitteeDocumentBase) docService.getByDocumentHeaderId(docNumber);
@@ -313,7 +313,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
     
 
     protected String buildForwardUrl(String routeHeaderId) {
-        DocHandlerService researchDocumentService = KraServiceLocator.getService(DocHandlerService.class);
+        DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
 //        forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {
@@ -350,7 +350,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         if (applyRules(new MeetingAddAttachmentsEvent(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
         CommitteeScheduleBase committeSchedule= meetingHelper.getCommitteeSchedule();
         CommitteeScheduleAttachmentsBase  committeScheduleAttachment= meetingHelper.getNewCommitteeScheduleAttachments();
-        DateTimeService dateTimeService = ( KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME));
+        DateTimeService dateTimeService = ( KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME));
         dateTimeService.getCurrentTimestamp();
         committeScheduleAttachment.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
         committeScheduleAttachment.setNewUpdateTimestamp(dateTimeService.getCurrentTimestamp());
@@ -393,7 +393,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         CommitteeScheduleAttachmentsBase  committeScheduleAttachment= meetingHelper.getCommitteeSchedule().getCommitteeScheduleAttachments().get(lineNumber);
         if(committeScheduleAttachment.getDocument()!=null){
-            KraServiceLocator.getService(getCommitteeScheduleServiceClassHook()).downloadAttachment(committeScheduleAttachment,response);
+            KcServiceLocator.getService(getCommitteeScheduleServiceClassHook()).downloadAttachment(committeScheduleAttachment,response);
         }
         return null;
     }

@@ -17,7 +17,7 @@ package org.kuali.kra.questionnaire;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -179,7 +179,7 @@ public abstract class QuestionnaireHelperBase implements Serializable {
 
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         if (questionnaireAnswerService == null) {
-            questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+            questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         }
         return questionnaireAnswerService;
     }
@@ -189,7 +189,7 @@ public abstract class QuestionnaireHelperBase implements Serializable {
     }
     
     protected TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
 
     protected String getUserIdentifier() {

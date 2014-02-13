@@ -17,13 +17,13 @@ package org.kuali.kra.coi.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.schema.ApprovedDisclosureDocument;
 import org.kuali.kra.printing.schema.ApprovedDisclosureDocument.ApprovedDisclosure;
@@ -108,7 +108,7 @@ public class CoiCertificationXmlStream implements XmlStream {
     	    private void setPersonDetails(ApprovedDisclosure approvedDisclosure, CoiDisclosure disclosure){
     	     List<org.kuali.kra.printing.schema.PersonDocument.Person> personDocList = new ArrayList<org.kuali.kra.printing.schema.PersonDocument.Person>();
     	     org.kuali.kra.printing.schema.PersonDocument.Person person = org.kuali.kra.printing.schema.PersonDocument.Person.Factory.newInstance();
-    	    KcPerson reporter= KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(disclosure.getPersonId());
+    	    KcPerson reporter= KcServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(disclosure.getPersonId());
     	        person.setFullName(reporter.getFullName());
     	        person.setAddress1(reporter.getAddressLine1()+""+reporter.getAddressLine2()+""+reporter.getAddressLine3());
     	        person.setDirDept(reporter.getDirectoryDepartment());

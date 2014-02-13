@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -47,7 +47,7 @@ public class NewIacucProtocolPersonRoleValuesFinder extends UifKeyValuesFinderBa
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = KraServiceLocator.getService(KeyValuesService.class);
+        KeyValuesService keyValuesService = KcServiceLocator.getService(KeyValuesService.class);
         Collection<IacucProtocolPersonRole> protocolPersonRoles = keyValuesService.findAllOrderBy(IacucProtocolPersonRole.class,"description",true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));

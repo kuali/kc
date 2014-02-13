@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.core.CostElement;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Date;
@@ -313,7 +313,7 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
     }
 
     public boolean isValidToApplyInRate() {
-        return KraServiceLocator.getService(BudgetService.class).ValidInflationCeRate(this);
+        return KcServiceLocator.getService(BudgetService.class).ValidInflationCeRate(this);
     }
 
     public void setValidToApplyInRate(boolean validToApplyInRate) {

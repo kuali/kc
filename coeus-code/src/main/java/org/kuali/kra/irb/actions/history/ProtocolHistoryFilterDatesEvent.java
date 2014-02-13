@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.history;
 
 
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
@@ -56,7 +56,7 @@ public class ProtocolHistoryFilterDatesEvent extends KcDocumentEventBaseExtensio
      */
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new ProtocolHistoryFilterDatesRule();
     }
 

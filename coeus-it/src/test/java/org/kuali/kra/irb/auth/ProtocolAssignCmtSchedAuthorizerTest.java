@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -56,7 +56,7 @@ public class ProtocolAssignCmtSchedAuthorizerTest extends ProtocolAuthorizerTest
     @Override
     protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
         ProtocolAssignCmtSchedAuthorizer authorizer = new ProtocolAssignCmtSchedAuthorizer();
-        authorizer.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        authorizer.setProtocolActionService(KcServiceLocator.getService(ProtocolActionService.class));
         authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO, hasPermission));
         authorizer.setKraWorkflowService(buildKraWorkflowService(protocolDocument, isInWorkflow));
         return authorizer;

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.onlinereview.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.irb.onlinereview.rules.AddOnlineReviewAttachmentRule;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * 
@@ -57,7 +57,7 @@ public class AddProtocolOnlineReviewAttachmentEvent extends KcDocumentEventBaseE
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddOnlineReviewAttachmentRule();
     }
 }

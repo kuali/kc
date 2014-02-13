@@ -19,13 +19,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularService;
@@ -35,8 +35,8 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 public class BudgetModularBudgetAction extends BudgetAction {
@@ -118,7 +118,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
 
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_SYNC_BUDGET_MODULAR.equals(question)) {
-            BudgetModularService budgetModularService = KraServiceLocator.getService(BudgetModularService.class);
+            BudgetModularService budgetModularService = KcServiceLocator.getService(BudgetModularService.class);
             BudgetForm budgetForm = (BudgetForm) form;
             Budget budget = budgetForm.getBudgetDocument().getBudget();        
             budgetModularService.synchModularBudget(budget);
@@ -134,7 +134,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
     
     private void generateModularPeriod(BudgetForm budgetForm) {
         Budget budget = budgetForm.getBudgetDocument().getBudget();        
-        BudgetModularService budgetModularService = KraServiceLocator.getService(BudgetModularService.class);
+        BudgetModularService budgetModularService = KcServiceLocator.getService(BudgetModularService.class);
         if (budgetForm.getModularSelectedPeriod().equals(0)) {
             budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budget));
             return;

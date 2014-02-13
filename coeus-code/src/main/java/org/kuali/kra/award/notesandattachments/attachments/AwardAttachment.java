@@ -16,10 +16,10 @@
 package org.kuali.kra.award.notesandattachments.attachments;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -313,7 +313,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
      * @return
      */
     public String getUpdateUserName() {
-        Person updateUser = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getUpdateUser());
+        Person updateUser = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getUpdateUser());
         return updateUser != null ? updateUser.getName() : this.getUpdateUser();
     }
 
@@ -344,7 +344,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
             Map<String, Object> values = new HashMap<String, Object>();
             values.put("fileId", getFileId());
             List<AwardAttachment> otherAttachmentVersions = 
-                (List<AwardAttachment>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(AwardAttachment.class, values);
+                (List<AwardAttachment>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(AwardAttachment.class, values);
             if (otherAttachmentVersions.size() > 1) {
                 setFile(null);
                 setFileId(null);

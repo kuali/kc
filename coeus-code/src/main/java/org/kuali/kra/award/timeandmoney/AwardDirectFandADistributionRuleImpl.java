@@ -17,10 +17,10 @@ package org.kuali.kra.award.timeandmoney;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.drools.core.util.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.timeandmoney.service.AwardFnaDistributionService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -290,7 +290,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     protected AwardFnaDistributionService getAwardFnaDistributionService() {
         if (awardFnaDistributionService == null) {
-            awardFnaDistributionService = KraServiceLocator.getService(AwardFnaDistributionService.class);
+            awardFnaDistributionService = KcServiceLocator.getService(AwardFnaDistributionService.class);
         }
         return awardFnaDistributionService;
     }
@@ -440,7 +440,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     }
     
     public AwardAmountInfoService getAwardAmountInfoService() {
-        awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        awardAmountInfoService = KcServiceLocator.getService(AwardAmountInfoService.class);
         return awardAmountInfoService;
     }
 

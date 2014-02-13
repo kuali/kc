@@ -17,6 +17,7 @@ package org.kuali.kra.budget.personnel;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
@@ -25,7 +26,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -51,12 +51,12 @@ public class BudgetPersonnelRule {
     
     /**
      * Creates a new BudgetPersonnelRule setting the required services using the
-     * {@link KraServiceLocator KraServiceLocator}.
+     * {@link org.kuali.coeus.sys.framework.service.KcServiceLocator KraServiceLocator}.
      */
     public BudgetPersonnelRule() {
-        this(KraServiceLocator.getService(BusinessObjectService.class),
-            KraServiceLocator.getService(ParameterService.class),
-            KraServiceLocator.getService(BudgetService.class));
+        this(KcServiceLocator.getService(BusinessObjectService.class),
+            KcServiceLocator.getService(ParameterService.class),
+            KcServiceLocator.getService(BudgetService.class));
     }
     
     /**

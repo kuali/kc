@@ -19,6 +19,7 @@ package org.kuali.kra.s2s.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
@@ -27,7 +28,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -289,7 +289,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public Map<String, String> getEOStateReview(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> stateReview = new HashMap<String, String>();
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(pdDoc.getDevelopmentProposal());
-        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        QuestionnaireAnswerService questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         List<AnswerHeader> answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
         for (Answer answers : answerHeaders.get(0).getAnswers()) {
             if (answers.getQuestion().getQuestionId() != null
@@ -710,7 +710,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     protected static CountryService getCountryService() {
-        return KraServiceLocator.getService(CountryService.class);
+        return KcServiceLocator.getService(CountryService.class);
     }
 
     /**
@@ -728,7 +728,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     protected static StateService getStateService() {
-        return KraServiceLocator.getService(StateService.class);
+        return KcServiceLocator.getService(StateService.class);
     }
 
     /**
@@ -846,7 +846,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         DevelopmentProposal proposal = pdDoc.getDevelopmentProposal();
         ProposalPerson person = proposal.getPrincipalInvestigator();
         ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(proposal, person);
-        List<AnswerHeader> headers = KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
+        List<AnswerHeader> headers = KcServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
         for (AnswerHeader answerHeader : headers) {
             questionnaireAnswers.addAll(answerHeader.getAnswers());
         }

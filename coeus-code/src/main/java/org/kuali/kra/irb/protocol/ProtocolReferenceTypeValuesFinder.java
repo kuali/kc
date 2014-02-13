@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.protocol;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceType;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.protocol.protocol.ProtocolReferenceTypeValuesFinderBase;
@@ -45,7 +45,7 @@ public class ProtocolReferenceTypeValuesFinder extends ProtocolReferenceTypeValu
      */
     @SuppressWarnings("rawtypes")
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection protocolReferenceTypes = keyValuesService.findAllOrderBy(ProtocolReferenceType.class,
                 "protocolReferenceTypeCode", true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

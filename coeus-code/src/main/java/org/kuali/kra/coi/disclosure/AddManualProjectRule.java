@@ -17,12 +17,12 @@ package org.kuali.kra.coi.disclosure;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddManualProjectRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<AddManualProjectEvent>  {
+public class AddManualProjectRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<AddManualProjectEvent> {
 
     private static final String DISCLOSURE_EVENT_TYPE = "disclosureEventType";
     
@@ -42,7 +42,7 @@ public class AddManualProjectRule extends KcTransactionalDocumentRuleBase implem
         boolean valid = true;
         CoiDisclProject coiDisclProject = event.getCoiDisclProject();
         GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
 
         String eventTypeId = coiDisclProject.getDisclosureEventType();
         

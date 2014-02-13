@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 public abstract class CreateContinuationEventBase extends KcDocumentEventBaseExtension {
 
@@ -42,6 +42,6 @@ public abstract class CreateContinuationEventBase extends KcDocumentEventBaseExt
         return continuationSummary;
     }
 
-    public abstract BusinessRuleInterface getRule();
+    public abstract KcBusinessRule getRule();
 
 }

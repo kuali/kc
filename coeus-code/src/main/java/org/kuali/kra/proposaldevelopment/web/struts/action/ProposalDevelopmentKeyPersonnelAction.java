@@ -16,17 +16,15 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.KcPersonExtendedAttributes;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
@@ -37,8 +35,6 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentYnqAuditRule;
-import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -53,8 +49,8 @@ import java.util.*;
 
 import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.*;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.*;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 /**
@@ -316,7 +312,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
     
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
     /**
@@ -411,7 +407,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         else {
             ProposalPerson parentPi = null;
             if (proposal.isChild()) {
-                parentPi = KraServiceLocator.getService(ProposalHierarchyService.class).getParentDocument(document).getDevelopmentProposal().getPrincipalInvestigator();
+                parentPi = KcServiceLocator.getService(ProposalHierarchyService.class).getParentDocument(document).getDevelopmentProposal().getPrincipalInvestigator();
             }
             int index = 0;
             for (Iterator<ProposalPerson> person_it = proposal.getProposalPersons().iterator(); person_it.hasNext(); index++) {
@@ -647,7 +643,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
-        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+        ProposalDevelopmentPrintingService printService = KcServiceLocator.getService(ProposalDevelopmentPrintingService.class);
         Map<String,Object> reportParameters = new HashMap<String,Object>();
         reportParameters.put(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_PERSON, selectedPerson);
         AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(document.getDevelopmentProposal(), 
@@ -776,7 +772,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }   
     
     protected QuestionnairePrintingService getQuestionnairePrintingService() {
-        return KraServiceLocator.getService(QuestionnairePrintingService.class);
+        return KcServiceLocator.getService(QuestionnairePrintingService.class);
     }
     
     public ActionForward updateAnswerToNewVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,

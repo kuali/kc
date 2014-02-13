@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.amendrenew;
 
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
@@ -36,7 +36,8 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 public class ProtocolMergeTest extends KcIntegrationTestBase {
     
     private static final long DAY = 86400000L;
@@ -200,7 +201,7 @@ public class ProtocolMergeTest extends KcIntegrationTestBase {
     @Test
     public void testOrganizationsMerge() {
         Protocol protocol = createProtocol();
-        KraServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(protocol);
+        KcServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(protocol);
         Protocol amendment = createAmendment(ProtocolModule.PROTOCOL_ORGANIZATIONS);
         
         ProtocolLocation loc = createLocation(ROLODEX_ID_1);
@@ -331,7 +332,7 @@ public class ProtocolMergeTest extends KcIntegrationTestBase {
      */
     private Protocol createAmendment(String moduleTypeCode) {
         final Protocol protocol = new Protocol();
-        KraServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(protocol);
+        KcServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(protocol);
         protocol.setProtocolId(2L);
         protocol.setProtocolNumber("0906000001A001");
         addModule(protocol, moduleTypeCode);

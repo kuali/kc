@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
@@ -35,7 +36,6 @@ import org.kuali.kra.iacuc.protocol.reference.*;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -103,7 +103,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocumentBase protocolDocument,
             Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(IacucResearchArea.class)) {
-            IacucProtocolResearchAreaService service = KraServiceLocator.getService("iacucProtocolResearchAreaService");
+            IacucProtocolResearchAreaService service = KcServiceLocator.getService("iacucProtocolResearchAreaService");
             service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchAreaBase>) selectedBOs);
             // finally do validation and error reporting for inactive research areas
             (new IacucProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolDocument);
@@ -126,7 +126,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
             
             IacucProtocolReference ref = new IacucProtocolReference(iacucProtocolReferenceBean, iacucProtocolDoc.getIacucProtocol(), type);
             
-            IacucProtocolReferenceService service = KraServiceLocator.getService(IacucProtocolReferenceService.class);
+            IacucProtocolReferenceService service = KcServiceLocator.getService(IacucProtocolReferenceService.class);
 
             service.addProtocolReference(iacucProtocolDoc.getIacucProtocol(), ref);
             
@@ -247,7 +247,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      * @return ProtocolLocationService
      */
     private IacucProtocolLocationService getProtocolLocationService() {
-        return KraServiceLocator.getService("iacucProtocolLocationService");
+        return KcServiceLocator.getService("iacucProtocolLocationService");
     }
 
 
@@ -429,7 +429,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      * @return ProtocolFundingSourceService
      */
     private IacucProtocolFundingSourceService getProtocolFundingSourceService() {
-        return KraServiceLocator.getService(IacucProtocolFundingSourceService.class);
+        return KcServiceLocator.getService(IacucProtocolFundingSourceService.class);
     }
 
     /**
@@ -438,7 +438,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      * @return ProtocolProposalDevelopmentDocumentService
      */
     private IacucProtocolProposalDevelopmentDocumentService getProtocolProposalDevelopmentDocumentService() {
-        return KraServiceLocator.getService(IacucProtocolProposalDevelopmentDocumentService.class);
+        return KcServiceLocator.getService(IacucProtocolProposalDevelopmentDocumentService.class);
     }
 
     /**
@@ -590,6 +590,6 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     }
 
     private KcNotificationService getKcNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
+        return KcServiceLocator.getService(KcNotificationService.class);
     }
 }

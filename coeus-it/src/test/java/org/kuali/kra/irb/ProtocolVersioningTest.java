@@ -18,10 +18,10 @@ package org.kuali.kra.irb;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SeparateAssociate;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -189,8 +189,8 @@ public class ProtocolVersioningTest extends KcIntegrationTestBase {
     }
     
     private void locateServices() {
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        versioningService = KraServiceLocator.getService(VersioningService.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
+        versioningService = KcServiceLocator.getService(VersioningService.class);
     }
     
     /**

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.procedures.rule;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * This class hooks Rule to Event in KNS
@@ -36,7 +36,7 @@ public class AddProcedureLocationEvent extends KcDocumentEventBaseExtension {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddProcedureLocationRule();
     }
 

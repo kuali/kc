@@ -18,7 +18,7 @@ package org.kuali.kra.irb.auth;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -53,8 +53,8 @@ public class GenericProtocolAuthorizerTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         auth = new GenericProtocolAuthorizer();
-        kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
-        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
+        kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+        protocolActionService = KcServiceLocator.getService(ProtocolActionService.class);
         auth.setKraAuthorizationService(kraAuthorizationService);
         auth.setProtocolActionService(protocolActionService);
     }

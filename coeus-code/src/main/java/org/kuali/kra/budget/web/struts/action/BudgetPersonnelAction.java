@@ -21,6 +21,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
@@ -36,7 +37,6 @@ import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
@@ -97,7 +97,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("budgetId", budget.getBudgetId());
         primaryKeys.put("budgetPeriod", budgetForm.getViewBudgetPeriod().toString());
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         List<BudgetPeriod> budgetPeriods = (List<BudgetPeriod>) businessObjectService.findMatching(BudgetPeriod.class, primaryKeys);
         BudgetPeriod budgetPeriod = null;
         if(CollectionUtils.isNotEmpty(budgetPeriods)) {
@@ -162,7 +162,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             primaryKeys.put("budgetId", budget.getBudgetId());
             primaryKeys.put("budgetPeriod", budgetForm.getViewBudgetPeriod().toString());
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
+            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
             List<BudgetPeriod> budgetPeriods = (List<BudgetPeriod>) businessObjectService.findMatching(BudgetPeriod.class, primaryKeys);
             BudgetPeriod budgetPeriod = null;
             if(CollectionUtils.isNotEmpty(budgetPeriods)) {
@@ -277,7 +277,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         }
         
         if(!errorFound){
-            BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+            BudgetPersonnelBudgetService budgetPersonnelBudgetService = KcServiceLocator.getService(BudgetPersonnelBudgetService.class);
             budgetPersonnelBudgetService.addBudgetPersonnelDetails(budgetForm.getBudgetDocument(), budgetPeriod, newBudgetLineItem, newBudgetPersonnelDetails);
             updatePersonnelBudgetRate(newBudgetLineItem);
             budgetForm.setNewBudgetPersonnelDetails(newBudgetLineItem.getNewBudgetPersonnelLineItem());
@@ -290,7 +290,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         Budget budget = budgetDocument.getBudget();
         int selectedBudgetPeriodIndex = budgetForm.getViewBudgetPeriod()-1;
         int selectedBudgetLineItemIndex = getSelectedLine(request); 
-        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KcServiceLocator.getService(BudgetPersonnelBudgetService.class);
         budgetPersonnelBudgetService.deleteBudgetPersonnelDetails(budget, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, getSelectedPersonnel(request));
         
         HashMap uniqueBudgetPersonnelCount = new HashMap();
@@ -353,7 +353,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         
         if(!errorFound){
             updatePersonnelBudgetRate(selectedBudgetLineItem);
-            BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+            BudgetPersonnelBudgetService budgetPersonnelBudgetService = KcServiceLocator.getService(BudgetPersonnelBudgetService.class);
             budgetPersonnelBudgetService.calculateBudgetPersonnelBudget(budget, selectedBudgetLineItem, budgetPersonnelDetails, selectedPersonnelIndex);
             
             recalculateBudgetPeriod(budgetForm,budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
@@ -449,11 +449,11 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             @SuppressWarnings("unchecked")
             Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(budgetForm.getLookupResultsBOClassName());
             
-            Collection<BusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+            Collection<BusinessObject> rawValues = KcServiceLocator.getService(LookupResultsService.class)
                 .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
                         GlobalVariables.getUserSession().getPerson().getPrincipalId());
             
-            BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
+            BudgetPersonService budgetPersonService = KcServiceLocator.getService(BudgetPersonService.class);
             if (lookupResultsBOClass.isAssignableFrom(KcPerson.class)) {
                 for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                     KcPerson person = (KcPerson) iter.next();
@@ -510,7 +510,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         
         BudgetPersonnelRule personnelRule = new BudgetPersonnelRule();
         if (personnelRule.processCheckBaseSalaryFormat(budgetDocument) && personnelRule.processCheckForJobCodeChange(budgetDocument, budgetForm.getViewBudgetPeriod())) {
-            BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
+            BudgetPersonService budgetPersonService = KcServiceLocator.getService(BudgetPersonService.class);
             budgetPersonService.populateBudgetPersonDefaultDataIfEmpty(budget);
             
             if(budgetPersonnelDetailsCheck(budgetDocument) && new BudgetPersonnelExpenseRule().processSaveCheckDuplicateBudgetPersonnel(budgetDocument)) {
@@ -669,7 +669,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
-        KraServiceLocator.getService(BudgetPersonService.class).synchBudgetPersonsToProposal(budget);
+        KcServiceLocator.getService(BudgetPersonService.class).synchBudgetPersonsToProposal(budget);
         reconcilePersonnelRoles(budgetDocument);
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -710,7 +710,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     }
 
     private BudgetPersonnelBudgetService getBudgetPersonnelBudgetService() {
-        return KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+        return KcServiceLocator.getService(BudgetPersonnelBudgetService.class);
     }
     
         public ActionForward personnelRates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -898,10 +898,10 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     
     public ActionForward calculatePersonSalaryDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm)form;       
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
-        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);        
+        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KcServiceLocator.getService(BudgetPersonnelBudgetService.class);
         budgetPersonSalaryDetails =  budgetPersonnelBudgetService.calculatePersonSalary(budget, getSelectedLine(request));        
         budgetForm.getBudgetDocument().getBudget().getBudgetPerson(getSelectedLine(request)).setBudgetPersonSalaryDetails(budgetPersonSalaryDetails);
         budgetForm.setViewDivFlag(true);
@@ -913,7 +913,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         
         final int  zero = 0;
         int listIndex = zero;   
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class); 
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         BudgetForm budgetForm = (BudgetForm)form;                  
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = budget.getBudgetPerson(getSelectedLine(request)).getBudgetPersonSalaryDetails();

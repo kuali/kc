@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
@@ -33,7 +34,6 @@ import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -89,7 +89,7 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetLineItem newBudgetLineItem = budgetForm.getNewBudgetLineItems().get(budgetCategoryTypeIndex);        
         Budget budget = budgetDocument.getBudget();
         
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         
         if(budgetForm.getViewBudgetPeriod() == null || StringUtils.equalsIgnoreCase(budgetForm.getViewBudgetPeriod().toString(), "0")){
             GlobalVariables.getMessageMap().putError("viewBudgetPeriod", KeyConstants.ERROR_BUDGET_PERIOD_NOT_SELECTED);
@@ -113,7 +113,7 @@ public class BudgetExpensesAction extends BudgetAction {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             primaryKeys.put("budgetId", budget.getBudgetId());
             primaryKeys.put("budgetPeriod", budgetForm.getViewBudgetPeriod().toString());
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
+            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
             List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();//(List<BudgetPeriod>) businessObjectService.findMatching(BudgetPeriod.class, primaryKeys);
             BudgetPeriod budgetPeriod = null;
             for (BudgetPeriod tempBudgetPeriod : budgetPeriods) {
@@ -253,7 +253,7 @@ public class BudgetExpensesAction extends BudgetAction {
         int sltdBudgetLineItem = getLineToDelete(request);
         BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
         BudgetLineItem budgetLineItem = budgetPeriod.getBudgetLineItems().get(sltdBudgetLineItem);     
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         
         if (new BudgetExpenseRule().processCheckExistBudgetPersonnelDetailsBusinessRules(budgetForm.getBudgetDocument(), 
                     budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().get(getLineToDelete(request)), getLineToDelete(request))) {
@@ -317,7 +317,7 @@ public class BudgetExpensesAction extends BudgetAction {
     public ActionForward viewPersonnelSalaries(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm)form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
+        BudgetPrintService budgetPrintService = KcServiceLocator.getService(BudgetPrintService.class);
         try{
             AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget, BudgetPrintType.BUDGET_SALARY_REPORT.getBudgetPrintType());
             streamToResponse(dataStream,response);

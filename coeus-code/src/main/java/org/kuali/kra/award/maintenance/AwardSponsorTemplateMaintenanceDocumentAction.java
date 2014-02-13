@@ -20,10 +20,10 @@ import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.WebUtils;
@@ -112,6 +112,6 @@ public class AwardSponsorTemplateMaintenanceDocumentAction extends KualiMaintena
     }
 
     private AwardPrintingService getAwardPrntingService() {
-        return KraServiceLocator.getService(AwardPrintingService.class);
+        return KcServiceLocator.getService(AwardPrintingService.class);
     }
 }

@@ -23,7 +23,7 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -36,7 +36,9 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 /**
  * 
  * This class is to test abandonservice
@@ -57,7 +59,7 @@ public class ProtocolAbandonServiceTest  extends KcIntegrationTestBase {
     public void setUp() throws Exception {
 
         service = new ProtocolAbandonServiceImpl();
-        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setProtocolActionService(KcServiceLocator.getService(ProtocolActionService.class));
         service.setDocumentService(getMockDocumentService());        
     }
 

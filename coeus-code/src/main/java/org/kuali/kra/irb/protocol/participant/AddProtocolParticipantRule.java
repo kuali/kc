@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 
 /**
  * This interface addresses the adds rule for adding a new <code>ProtocolParticipant</code>.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class AddProtocolParticipantRule extends ProtocolParticipantRuleBase implements BusinessRuleInterface<AddProtocolParticipantEvent> {
+public class AddProtocolParticipantRule extends ProtocolParticipantRuleBase implements KcBusinessRule<AddProtocolParticipantEvent> {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(AddProtocolParticipantEvent event) {
         return processAddProtocolParticipantEvent(event);

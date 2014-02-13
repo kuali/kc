@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi.certification;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 // TODO: Note, this is a stub class that must be filled out to allow print.
 public class CertifyDisclosureEvent  extends KcDocumentEventBaseExtension {
@@ -41,7 +41,7 @@ public class CertifyDisclosureEvent  extends KcDocumentEventBaseExtension {
      
     @SuppressWarnings("rawtypes")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new CertifyDisclosureRule();
     }
 

@@ -21,10 +21,10 @@ import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Docume
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -319,7 +319,7 @@ public class RROtherProjectInfoV1_3Generator extends
 			setHumanSubjectIRBReviewIndicator(proposalSpecialReview,
 					humanSubjectsSupplement);
 		}
-		Boolean paramValue= KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+		Boolean paramValue= KcServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
 		 if(paramValue){
 			if (proposalSpecialReview.getSpecialReviewExemptions() != null && !proposalSpecialReview.getSpecialReviewExemptions().isEmpty()) {
 				humanSubjectsSupplement.setExemptFedReg(YesNoDataType.Y_YES);				
@@ -375,7 +375,7 @@ public class RROtherProjectInfoV1_3Generator extends
 										.getApprovalDate()));
 			}
 		}
-		if (KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, 
+		if (KcServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC,
 		        Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER)) {
 		    if (proposalSpecialReview.getApprovalDate() == null) {
 		        vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.Y_YES);

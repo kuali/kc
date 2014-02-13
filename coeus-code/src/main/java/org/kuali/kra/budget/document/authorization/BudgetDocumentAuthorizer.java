@@ -18,10 +18,10 @@ package org.kuali.kra.budget.document.authorization;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -136,7 +136,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      */
     private boolean canExecuteParentDocumentTask(String userId, BudgetParentDocument doc, String taskName) {
         Task task = doc.getParentAuthZTask(taskName);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
 
@@ -154,7 +154,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         reloadParentIfNoWorkflow(budgetDocument);
         String taskGroupName = getTaskGroupName();
         Task task = createNewBudgetTask(taskGroupName,taskName, budgetDocument);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class); 
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
@@ -261,7 +261,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         if (workflowDocument == null) {
             try {
                 parentDoc = 
-                    (BudgetParentDocument) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(parentDoc.getDocumentNumber());
+                    (BudgetParentDocument) KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(parentDoc.getDocumentNumber());
                 if (parentDoc != null) {
                     budgetDocument.setParentDocument(parentDoc);
                 }

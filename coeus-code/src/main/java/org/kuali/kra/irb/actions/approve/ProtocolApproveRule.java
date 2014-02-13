@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.kra.infrastructure.KeyConstants;
 
 /**
  * Encapsulates the rules for approving a Protocol.
  */
-public class ProtocolApproveRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<ProtocolApproveEvent> {
+public class ProtocolApproveRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ProtocolApproveEvent> {
     
     private static final String APPROVAL_DATE_FIELD = "approvalDate";
     private static final String EXPIRATION_DATE_FIELD = "expirationDate";
@@ -30,7 +30,7 @@ public class ProtocolApproveRule extends KcTransactionalDocumentRuleBase impleme
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(ProtocolApproveEvent event) {
         boolean isValid = true;

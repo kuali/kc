@@ -21,6 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
@@ -62,7 +63,6 @@ import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.external.award.web.AccountCreationPresentationHelper;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.VersionHistoryService;
@@ -914,14 +914,14 @@ public class AwardForm extends BudgetVersionFormBase
      */
     private AwardHierarchyUIService getAwardHierarchyUIService() {
         if (awardHierarchyUIService == null) {
-            awardHierarchyUIService = KraServiceLocator.getService(AwardHierarchyUIService.class);
+            awardHierarchyUIService = KcServiceLocator.getService(AwardHierarchyUIService.class);
         }
         return awardHierarchyUIService;
     }
     
     private ReportTrackingService getReportTrackingService() {
         if (reportTrackingService == null) {
-            reportTrackingService = KraServiceLocator.getService(ReportTrackingService.class);
+            reportTrackingService = KcServiceLocator.getService(ReportTrackingService.class);
         }
         return reportTrackingService;
     }
@@ -1283,7 +1283,7 @@ public class AwardForm extends BudgetVersionFormBase
     }
     
     protected VersionHistoryService getVersionHistoryService() {
-        return KraServiceLocator.getService(VersionHistoryService.class);
+        return KcServiceLocator.getService(VersionHistoryService.class);
     }
 
     public String getCurrentAwardNumber() {
@@ -1331,7 +1331,7 @@ public class AwardForm extends BudgetVersionFormBase
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

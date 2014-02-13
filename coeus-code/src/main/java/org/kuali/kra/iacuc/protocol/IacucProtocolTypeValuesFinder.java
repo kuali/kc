@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -44,7 +44,7 @@ public class IacucProtocolTypeValuesFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection protocolTypes = keyValuesService.findAllOrderBy(IacucProtocolType.class,"description",true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();   
         for (Iterator iter = protocolTypes.iterator(); iter.hasNext();) {

@@ -19,9 +19,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.AwardFandaRateService;
 import org.kuali.kra.award.commitments.AwardFandaRateServiceImpl;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class AwardFandaRateServiceImplTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        awardFandaRateService = (AwardFandaRateServiceImpl) KraServiceLocator.getService(AwardFandaRateService.class);
+        awardFandaRateService = (AwardFandaRateServiceImpl) KcServiceLocator.getService(AwardFandaRateService.class);
     }
 
     @After

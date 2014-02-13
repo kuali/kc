@@ -17,11 +17,11 @@ package org.kuali.kra.award.rule;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardBasisOfPayment;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -61,7 +61,7 @@ public class ValidAwardBasisPaymentMaintenanceDocumentRule extends KcMaintenance
             final Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("awardTypeCode", awardType.getAwardTypeCode().toString());
             pkMap.put("basisOfPaymentCode", basisOfPayment.getBasisOfPaymentCode());
-            final int matchingCount = KraServiceLocator.getService(BusinessObjectService.class).countMatching(ValidAwardBasisPayment.class, pkMap);
+            final int matchingCount = KcServiceLocator.getService(BusinessObjectService.class).countMatching(ValidAwardBasisPayment.class, pkMap);
             
             if (matchingCount > 0 ) {
                 final MessageMap errorMap = GlobalVariables.getMessageMap();

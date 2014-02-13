@@ -17,11 +17,11 @@ package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -92,7 +92,7 @@ public class KeywordsServiceImpl implements KeywordsService {
                     Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService()
                     .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getPrincipalId());
                     if (lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
-                        KeywordsService keywordsService = KraServiceLocator.getService(KeywordsService.class);//move this to separate method and give protected access
+                        KeywordsService keywordsService = KcServiceLocator.getService(KeywordsService.class);//move this to separate method and give protected access
                         for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                             ScienceKeyword scienceKeyword = (ScienceKeyword) iter.next();
                             keywordsService.addKeyword(document, scienceKeyword);

@@ -17,8 +17,8 @@ package org.kuali.kra.institutionalproposal;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ScienceKeyword;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -123,7 +123,7 @@ public class InstitutionalProposalVersioningTest extends KcIntegrationTestBase {
     
     private VersioningService getVersioningService() {
         if (versioningService == null) {
-            versioningService = KraServiceLocator.getService(VersioningService.class);
+            versioningService = KcServiceLocator.getService(VersioningService.class);
         }
         return versioningService;
     }

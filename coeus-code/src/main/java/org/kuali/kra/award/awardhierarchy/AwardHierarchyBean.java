@@ -17,9 +17,9 @@ package org.kuali.kra.award.awardhierarchy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -313,7 +313,7 @@ public class AwardHierarchyBean implements Serializable {
 
     AwardHierarchyService getAwardHierarchyService() {
         if(awardHierarchyService == null) {
-            awardHierarchyService = KraServiceLocator.getService(AwardHierarchyService.class);
+            awardHierarchyService = KcServiceLocator.getService(AwardHierarchyService.class);
         }
         return awardHierarchyService;
     }

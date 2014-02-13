@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.rice.krad.document.Document;
@@ -37,7 +37,7 @@ public class AnswerProposalQuestionnaireAuthorizer extends ProposalAuthorizer {
      */
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        boolean hasBeenRejected=KraServiceLocator.getService(KcDocumentRejectionService.class).isDocumentOnInitialNode(doc);
+        boolean hasBeenRejected= KcServiceLocator.getService(KcDocumentRejectionService.class).isDocumentOnInitialNode(doc);
         return !task.getDocument().isViewOnly()
                 && !isPessimisticLocked(task.getDocument())
                 && (!kraWorkflowService.isInWorkflow(task.getDocument()) || hasBeenRejected);

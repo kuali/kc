@@ -16,9 +16,9 @@
 package org.kuali.kra.protocol.actions.correction;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * The event that occurs when the ProtocolBase Administrator assigns reviewers to a protocol.
@@ -64,6 +64,6 @@ public abstract class ProtocolAdminCorrectionEventBase extends KcDocumentEventBa
         return actionBean;
     }
 
-    public abstract BusinessRuleInterface getRule();
+    public abstract KcBusinessRule getRule();
 
 }

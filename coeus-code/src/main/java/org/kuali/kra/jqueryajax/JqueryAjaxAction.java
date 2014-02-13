@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.CoiDispositionStatus;
@@ -29,7 +30,6 @@ import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionAjaxService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.protocol.actions.ProtocolActionAjaxService;
 import org.kuali.kra.service.UnitService;
@@ -165,7 +165,7 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
     }
     
     private UnitService getUnitService() {
-        return KraServiceLocator.getService(UnitService.class);
+        return KcServiceLocator.getService(UnitService.class);
     }
     
     public ActionForward getProtocolReviewers(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -192,7 +192,7 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
     }
 
     public ProtocolActionAjaxService getProtocolAjaxService() {
-        return KraServiceLocator.getService(IacucProtocolActionAjaxService.class);
+        return KcServiceLocator.getService(IacucProtocolActionAjaxService.class);
     }
     /**
      * Get and return the template description for ajax queries.
@@ -238,19 +238,19 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
     }
 
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
     
     protected CoiDisclosureService getCoiDisclosureService() {
         if (coiDisclosureService == null) {
-            coiDisclosureService = KraServiceLocator.getService(CoiDisclosureService.class);
+            coiDisclosureService = KcServiceLocator.getService(CoiDisclosureService.class);
         }
         return coiDisclosureService;
     }
     
     protected NotificationRoleSubQualifierFinders getNotificationRoleSubQualifierFinders() {
         if (notificationRoleSubQualifierFinders == null) {
-            notificationRoleSubQualifierFinders = KraServiceLocator.getService(NotificationRoleSubQualifierFinders.class);
+            notificationRoleSubQualifierFinders = KcServiceLocator.getService(NotificationRoleSubQualifierFinders.class);
         }
         return notificationRoleSubQualifierFinders;
     }

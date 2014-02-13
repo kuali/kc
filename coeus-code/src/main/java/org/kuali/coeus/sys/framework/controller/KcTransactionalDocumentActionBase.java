@@ -29,6 +29,7 @@ import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.WebAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -41,7 +42,6 @@ import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.committee.web.struts.form.IacucCommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -271,7 +271,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
      * @return String
      */
     protected String buildForwardUrl(String routeHeaderId) {
-        DocHandlerService researchDocumentService = KraServiceLocator.getService(DocHandlerService.class);
+        DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
         forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {
@@ -313,7 +313,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
      * @throws AuthorizationException
      */
     private boolean isTaskAuthorized(String methodName, ActionForm form, HttpServletRequest request) {
-        WebAuthorizationService webAuthorizationService = KraServiceLocator.getService(WebAuthorizationService.class);
+        WebAuthorizationService webAuthorizationService = KcServiceLocator.getService(WebAuthorizationService.class);
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         ((KcTransactionalDocumentFormBase) form).setActionName(getClass().getSimpleName());
         boolean isAuthorized = webAuthorizationService.isAuthorized(userId, this.getClass(), methodName, form, request);
@@ -332,7 +332,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
     protected boolean isAuthorized(Task task) {
         String currentUser = GlobalVariables.getUserSession().getPrincipalId();
         
-        TaskAuthorizationService authorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService authorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         boolean isAuthorized = authorizationService.isAuthorized(currentUser, task);
         if (!isAuthorized) {
             LOG.error("User not authorized to perform " + task.getTaskName());
@@ -774,7 +774,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         kualiDocumentFormBase.setDocument(doc);
         WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
         kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentTypeName());
-        String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getDocumentId()).getDocumentContent();
+        String content = KcServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getDocumentId()).getDocumentContent();
         if (doc instanceof CommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
             Committee committee = (Committee)populateCommitteeFromXmlDocumentContents(content);
             ((CommitteeDocument)doc).getCommitteeList().add(committee);
@@ -807,7 +807,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         kualiDocumentFormBase.setDocument(doc);
         WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
         kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentTypeName());
-        String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getDocumentId()).getDocumentContent();
+        String content = KcServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getDocumentId()).getDocumentContent();
         if (doc instanceof CommonCommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
             IacucCommittee committee = (IacucCommittee)populateIacucCommitteeFromXmlDocumentContents(content);
             ((CommonCommitteeDocument)doc).getCommitteeList().add(committee);
@@ -1034,7 +1034,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
     }
 
     private DocumentService getKraDocumentService() {
-        return (DocumentService) KraServiceLocator.getService("kraDocumentService"); 
+        return (DocumentService) KcServiceLocator.getService("kraDocumentService");
     }
 
     @Override

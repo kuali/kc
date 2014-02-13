@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.committee.print.service.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrintBase;
 import org.kuali.kra.iacuc.committee.print.*;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -105,7 +105,7 @@ public class IacucCommitteePrintingServiceImpl extends PrintingServiceImpl imple
          * For some reason, spring doesn't always properly set scheduleTemplatePrint, so this correct that condition.
          */
         if (scheduleTemplatePrint == null) {
-            scheduleTemplatePrint = KraServiceLocator.getService(IacucScheduleTemplatePrint.class);
+            scheduleTemplatePrint = KcServiceLocator.getService(IacucScheduleTemplatePrint.class);
         }
         return scheduleTemplatePrint;
     }

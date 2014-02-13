@@ -23,11 +23,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardServiceImpl;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import static org.junit.Assert.*;
 
 public class AwardHierarchyServiceImplTest extends KcIntegrationTestBase {
@@ -70,10 +71,10 @@ public class AwardHierarchyServiceImplTest extends KcIntegrationTestBase {
 
         service = new AwardHierarchyServiceImpl();
         service.setAwardNumberService(getMockAwardNumberService());
-        service.setLegacyDataAdapter(KraServiceLocator.getService(LegacyDataAdapter.class));
+        service.setLegacyDataAdapter(KcServiceLocator.getService(LegacyDataAdapter.class));
         service.setDocumentService(KRADServiceLocatorWeb.getDocumentService());
-        service.setVersioningService(KraServiceLocator.getService(VersioningService.class));
-        service.setVersionHistoryService(KraServiceLocator.getService(VersionHistoryService.class));
+        service.setVersioningService(KcServiceLocator.getService(VersioningService.class));
+        service.setVersionHistoryService(KcServiceLocator.getService(VersionHistoryService.class));
         service.setAwardService(new AwardServiceMock());
          
         awardList = new ArrayList<Award>();
@@ -338,7 +339,7 @@ public class AwardHierarchyServiceImplTest extends KcIntegrationTestBase {
     }
     
     private VersionHistoryService getVersionHistoryService() {
-        return KraServiceLocator.getService(VersionHistoryService.class);
+        return KcServiceLocator.getService(VersionHistoryService.class);
     }
     
     private class AwardServiceMock extends AwardServiceImpl {

@@ -24,10 +24,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
@@ -375,7 +375,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
                 @SuppressWarnings("unchecked")
                 Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(protocolForm.getLookupResultsBOClassName());
                 String userName = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-                LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
+                LookupResultsService service = KcServiceLocator.getService(LookupResultsService.class);
                 Collection<BusinessObject> selectedBOs
                     = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
                 
@@ -461,7 +461,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
      */
     @Override
     protected KualiRuleService getKualiRuleService() {
-        return KraServiceLocator.getService(KualiRuleService.class);
+        return KcServiceLocator.getService(KualiRuleService.class);
     }
     
     /**
@@ -487,11 +487,11 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
     }
     
     protected KcAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KcAuthorizationService.class);
+        return KcServiceLocator.getService(KcAuthorizationService.class);
     }
     
     protected UnitAclLoadService getUnitAclLoadService() {
-        return KraServiceLocator.getService(UnitAclLoadService.class);
+        return KcServiceLocator.getService(UnitAclLoadService.class);
     }
 
     /**
@@ -507,7 +507,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
     protected abstract ProtocolPersonTrainingService getProtocolPersonTrainingService(); 
 
     protected QuestionnairePrintingService getQuestionnairePrintingService() {
-        return KraServiceLocator.getService(QuestionnairePrintingService.class);
+        return KcServiceLocator.getService(QuestionnairePrintingService.class);
     }
     
     // this method was added during IACUC refactoring solely to allow this method to be visible to a service to deal with
@@ -517,7 +517,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
     }
     
     protected List<String> getUnitRulesMessages(ProtocolDocumentBase protocolDoc) {
-        KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
+        KrmsRulesExecutionService rulesService = KcServiceLocator.getService(KrmsRulesExecutionService.class);
         return rulesService.processUnitValidations(protocolDoc.getProtocol().getLeadUnitNumber(), protocolDoc);
     }
     
@@ -773,6 +773,6 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
     }
 
     protected KcNotificationService getNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
+        return KcServiceLocator.getService(KcNotificationService.class);
     }
 }

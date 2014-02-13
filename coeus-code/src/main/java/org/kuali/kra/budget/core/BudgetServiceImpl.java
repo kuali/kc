@@ -18,6 +18,7 @@ package org.kuali.kra.budget.core;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -43,7 +44,6 @@ import org.kuali.kra.budget.versions.*;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -60,11 +60,7 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
-import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -190,7 +186,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     
     @Override
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion) {
-        LegacyDataAdapter boService = KraServiceLocator.getService(LegacyDataAdapter.class);
+        LegacyDataAdapter boService = KcServiceLocator.getService(LegacyDataAdapter.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", budgetVersion.getDocumentNumber());
         DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
@@ -564,9 +560,9 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     @SuppressWarnings("unchecked")
     protected boolean applyAuditRuleForBudgetDocument(BudgetVersionOverview budgetVersion) throws Exception {
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument<T> budgetDocument = (BudgetDocument<T>) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
-        return KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetDocument));
+        return KcServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetDocument));
 
     }
     
@@ -815,7 +811,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
     @Override
     public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo person ) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         final Integer listIndex = 0;
         BudgetDecimal baseSalaryByPeriod = null;
         HashMap budgetPersonInPeriodsSalaryMap = new HashMap();
@@ -836,7 +832,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     @Override
     public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId ){
         String baseSalary = "";
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class); 
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         HashMap budgetPersonInPeriodsSalaryMap = new HashMap();
         budgetPersonInPeriodsSalaryMap.put("personSequenceNumber", personSequenceNumber);
         budgetPersonInPeriodsSalaryMap.put("budgetId", budgetId);

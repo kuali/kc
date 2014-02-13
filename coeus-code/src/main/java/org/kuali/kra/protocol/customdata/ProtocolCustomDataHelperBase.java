@@ -16,10 +16,10 @@
 package org.kuali.kra.protocol.customdata;
 
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -90,7 +90,7 @@ public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData>
     
     protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }
@@ -103,7 +103,7 @@ public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData>
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
         if (taskAuthorizationService == null) {
-            taskAuthorizationService =  KraServiceLocator.getService(TaskAuthorizationService.class);
+            taskAuthorizationService =  KcServiceLocator.getService(TaskAuthorizationService.class);
         }
         return taskAuthorizationService;
     }

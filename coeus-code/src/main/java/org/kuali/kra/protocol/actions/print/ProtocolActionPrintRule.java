@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.kra.infrastructure.KeyConstants;
 
-public class ProtocolActionPrintRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<ProtocolActionPrintEvent> {
+public class ProtocolActionPrintRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ProtocolActionPrintEvent> {
     private static final String PROTOCOL_PRINT_TYPE_FIELD = "actionHelper.reportType";
 
     public boolean processRules(ProtocolActionPrintEvent event) {

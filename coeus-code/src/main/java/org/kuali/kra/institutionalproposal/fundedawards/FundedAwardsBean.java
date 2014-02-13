@@ -17,10 +17,10 @@ package org.kuali.kra.institutionalproposal.fundedawards;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
@@ -103,7 +103,7 @@ public class FundedAwardsBean implements Serializable {
      */
     private Set<String> getLinkedPendingAwards(InstitutionalProposal institutionalProposal, String[] awardsToUnlock) {
         Set<String> linkedPendingAwards = new HashSet<String>();
-        VersionHistoryService versionHistoryService = KraServiceLocator.getService(VersionHistoryService.class);
+        VersionHistoryService versionHistoryService = KcServiceLocator.getService(VersionHistoryService.class);
         for (String index : awardsToUnlock) {
             AwardFundingProposal fundingProposal = institutionalProposal.getAwardFundingProposals().get(Integer.parseInt(index));
             VersionHistory pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, 

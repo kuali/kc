@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.auth;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
@@ -44,7 +44,7 @@ public class CreateProposalDevelopmentIacucProtocolAuthorizer extends IacucProto
     private boolean canCreateProposal()
     {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         boolean canCreateProposal = taskAuthenticationService.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
         return canCreateProposal;
     }

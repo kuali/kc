@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.committee.test;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -36,7 +36,7 @@ public class CommitteeFactory {
     protected static final String DEFAULT_REVIEW_TYPE_CODE = "1"; // FULL
   
     public static CommitteeDocument createCommitteeDocument(String committeeId) throws WorkflowException {
-        DocumentService documentService = KraServiceLocator.getService("kraDocumentService");//KRADServiceLocatorWeb.getDocumentService();
+        DocumentService documentService = KcServiceLocator.getService("kraDocumentService");//KRADServiceLocatorWeb.getDocumentService();
         CommitteeDocument committeeDocument = (CommitteeDocument) documentService.getNewDocument("CommitteeDocument");
         setRequiredFields(committeeDocument, committeeId);
         documentService.saveDocument(committeeDocument);
