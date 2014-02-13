@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.committee.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rules.DeleteCommitteeMemberRuleBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -61,7 +61,7 @@ public abstract class DeleteCommitteeMemberEventBase extends CommitteeMemberEven
 
     @SuppressWarnings("unchecked")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return getNewDeleteCommitteeMemberRuleInstanceHook();
     }
 

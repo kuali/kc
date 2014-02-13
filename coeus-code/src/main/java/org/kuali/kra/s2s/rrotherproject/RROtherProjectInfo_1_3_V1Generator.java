@@ -17,32 +17,16 @@ package org.kuali.kra.s2s.rrotherproject;
 
 import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document;
 import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.AbstractAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.BibliographyAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.EnvironmentalImpact;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.EquipmentAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.FacilitiesAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.HumanSubjectsSupplement;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.InternationalActivities;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.OtherAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.ProjectNarrativeAttachments;
-import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.VertebrateAnimalsSupplement;
+import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.*;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
-
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
@@ -50,11 +34,13 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.impl.RROtherProjectInfoBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -341,7 +327,7 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 			setHumanSubjectIRBReviewIndicator(proposalSpecialReview,
 					humanSubjectsSupplement);
 		}
-		Boolean paramValue= KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+		Boolean paramValue= KcServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
 		 if(paramValue){
 			if (proposalSpecialReview.getSpecialReviewExemptions() != null && !proposalSpecialReview.getSpecialReviewExemptions().isEmpty()) {
 				humanSubjectsSupplement.setExemptFedReg(YesNoDataType.Y_YES);				
@@ -397,7 +383,7 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 										.getApprovalDate()));
 			}
 		}
-		if (KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, 
+		if (KcServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC,
 		        Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER)) {
 		    if (proposalSpecialReview.getApprovalDate() == null) {
 		        vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.Y_YES);

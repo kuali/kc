@@ -17,11 +17,14 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.decision.*;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
@@ -38,11 +41,10 @@ import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRuleBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRuleBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 import java.util.List;
 
@@ -52,17 +54,18 @@ import java.util.List;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? extends CommitteePersonBase>>
-                                                                    extends ResearchDocumentRuleBase   
+                                                                    extends KcTransactionalDocumentRuleBase
                                                                     implements                                                                  
                                                                                 AddProtocolReferenceRule, 
                                                                                 AddProtocolLocationRule,
                                                                                 AddProtocolAttachmentPersonnelRule, 
                                                                                 AddProtocolUnitRule,
-                                                                                BusinessRuleInterface,                                                                                 
+        KcBusinessRule,
                                                                                 ExecuteProtocolSubmitActionRule,
                                                                                 ExecuteCommitteeDecisionRule<CD>,                                                                                
                                                                                 ExecuteCommitteeDecisionAbstainerRule<CD>, 
-                                                                                ExecuteCommitteeDecisionRecuserRule<CD>
+                                                                                ExecuteCommitteeDecisionRecuserRule<CD>,
+        DocumentAuditRule
                                                                                                     {
 
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
@@ -143,7 +146,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     @Override
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;  
-        retval &= super.processRunAuditBusinessRules(document);      
+        retval &= new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
         retval &= getNewProtocolFundingSourceAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocumentBase) document);         
         retval &= getNewProtocolResearchAreaAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocumentBase) document);
         retval &= getNewProtocolPersonnelAuditRuleInstanceHook().processRunAuditBusinessRules(document);
@@ -206,7 +209,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
         return processRules(getSaveProtocolPersonnelEventHook(document));
     }
     
-    protected abstract KraDocumentEventBaseExtension getSaveProtocolPersonnelEventHook(ProtocolDocumentBase document);
+    protected abstract KcDocumentEventBaseExtension getSaveProtocolPersonnelEventHook(ProtocolDocumentBase document);
 
     public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEventBase addProtocolReferenceEvent) {
         return getNewProtocolReferenceRuleInstanceHook().processAddProtocolReferenceBusinessRules(addProtocolReferenceEvent);        
@@ -251,9 +254,9 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     
     /**
      * 
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
-    public boolean processRules(KraDocumentEventBaseExtension event) {
+    public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
@@ -317,6 +320,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
 
     
     private UnitService getUnitService() {
-        return KraServiceLocator.getService(UnitService.class);
+        return KcServiceLocator.getService(UnitService.class);
     }
 }

@@ -20,7 +20,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -33,7 +33,7 @@ import java.util.List;
 
 import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 
-public class ProposalDevelopmentYnqAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public class ProposalDevelopmentYnqAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
    
     
     private static final String PROPOSAL_QUESTIONS_KEY="document.developmentProposalList[0].proposalYnq[%d].%s";

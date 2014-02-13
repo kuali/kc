@@ -16,10 +16,10 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.IacucOrganizationCorrespondent;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationCorrespondent;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.OrganizationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -66,7 +66,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @SuppressWarnings("unchecked")
     public List<OrganizationCorrespondent> retrieveOrganizationCorrespondentsByOrganizationId(String organizationId) {
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(ORGANIZATION_ID, organizationId);
         List<OrganizationCorrespondent> organizationCorrespondents = 
@@ -79,7 +79,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @SuppressWarnings("unchecked")
     public List<IacucOrganizationCorrespondent> retrieveIacucOrganizationCorrespondentsByOrganizationId(String organizationId) {
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(ORGANIZATION_ID, organizationId);
         List<IacucOrganizationCorrespondent> organizationCorrespondents = 

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.notification.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.AddNotificationRecipientRule;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Represents the event for adding a Notification Type Recipient.
  */
-public class AddNotificationRecipientEvent extends KraDocumentEventBaseExtension {
+public class AddNotificationRecipientEvent extends KcDocumentEventBaseExtension {
     
     private static final String NEW_NOTIFICATION_RECIPIENT_FIELD = "notificationHelper.newNotificationRecipient.";
     
@@ -65,7 +65,7 @@ public class AddNotificationRecipientEvent extends KraDocumentEventBaseExtension
     }
 
     @Override
-    public BusinessRuleInterface<AddNotificationRecipientEvent> getRule() {
+    public KcBusinessRule<AddNotificationRecipientEvent> getRule() {
         return new AddNotificationRecipientRule();
     }
 

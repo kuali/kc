@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ojb.broker.core.proxy.ProxyHelper;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.document.AwardDocument;
@@ -38,26 +41,29 @@ import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.service.impl.ObjectCopyUtils;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -711,7 +717,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     }
     
     public AwardVersionService getAwardVersionService() {
-        awardVersionService = KraServiceLocator.getService(AwardVersionService.class);
+        awardVersionService = KcServiceLocator.getService(AwardVersionService.class);
         return awardVersionService;
     }
     
@@ -822,5 +828,50 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
         this.legacyDataAdapter = legacyDataAdapter;
     }
-    
+
+    public static class ObjectCopyUtils {
+
+        public static final int MAX_DEPTH_FOR_PROXY_MATERILIZATION = 3;
+
+        public static void prepareObjectForDeepCopy(PersistableBusinessObject bo) {
+            try {
+                materializeAllProxies(bo);
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+        }
+
+        private static void materializeAllProxies(PersistableBusinessObject bo) throws Exception {
+            ObjectUtils.materializeSubObjectsToDepth(bo, MAX_DEPTH_FOR_PROXY_MATERILIZATION);
+            ObjectCopyUtils.materializeUpdateableCollections(bo);
+        }
+
+        public static void materializeUpdateableCollections(Object bo) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+            ObjectCopyUtils.materializeUpdateableCollections(bo, MAX_DEPTH_FOR_PROXY_MATERILIZATION);
+        }
+
+        public static void materializeUpdateableCollections(Object bo, int depth) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+            if (depth == 0 || ObjectUtils.isNull(bo)) {
+                return;
+            }
+
+            if (depth < 0 || depth > MAX_DEPTH_FOR_PROXY_MATERILIZATION) {
+                throw new IllegalArgumentException("The depth passed in was out of bounds.  Only values between 0 and 3, inclusively, are allowed.");
+            }
+
+            PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(bo.getClass());
+            for (int i = 0; i < propertyDescriptors.length; i++) {
+                if (KNSServiceLocator.getPersistenceStructureService().hasCollection(bo.getClass(), propertyDescriptors[i].getName()) && KNSServiceLocator.getPersistenceStructureService().isCollectionUpdatable(bo.getClass(), propertyDescriptors[i].getName())) {
+                    Collection<PersistableBusinessObject> updateableCollection = (Collection<PersistableBusinessObject>) ObjectUtils.getPropertyValue(bo, propertyDescriptors[i].getName());
+                    if ((updateableCollection != null) && ProxyHelper.isCollectionProxy(updateableCollection)) {
+                        ObjectUtils.materializeObjects(updateableCollection);
+                        for(PersistableBusinessObject elementBo : updateableCollection) {
+                            materializeUpdateableCollections(elementBo, depth-1);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

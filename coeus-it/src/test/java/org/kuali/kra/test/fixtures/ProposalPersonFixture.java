@@ -21,8 +21,8 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.*;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Fixtures used as <code>{@link ProposalPerson}</code> instances for tests. This is NOT test data. Test data is loaded by scripts. These are 

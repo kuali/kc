@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.committee.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 import java.sql.Date;
 
-public class CommitteeScheduleFilterDatesRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeScheduleFilterEvent>{
+public class CommitteeScheduleFilterDatesRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<CommitteeScheduleFilterEvent> {
     
     public static final String SCHEDULEDATE_FILTERSTARTDATE = "committeeHelper.scheduleData.filterStartDate";
     

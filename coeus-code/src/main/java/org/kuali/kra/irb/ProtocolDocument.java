@@ -19,12 +19,12 @@ package org.kuali.kra.irb;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -273,11 +273,11 @@ public class ProtocolDocument extends ProtocolDocumentBase {
 
 
     private ProtocolVersionService getProtocolVersionService() {
-        return KraServiceLocator.getService(ProtocolVersionService.class);
+        return KcServiceLocator.getService(ProtocolVersionService.class);
     }
 
     private ProtocolFinderDao getProtocolFinder() {
-        return KraServiceLocator.getService(ProtocolFinderDao.class);
+        return KcServiceLocator.getService(ProtocolFinderDao.class);
     }
 
     private ProtocolActionBase getLastApprovalAction() {
@@ -361,7 +361,7 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     }
 
     public void addFacts(Builder factsBuilder) {
-        KcKrmsFactBuilderServiceHelper fbService = KraServiceLocator.getService("irbProtocolFactBuilderService");
+        KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("irbProtocolFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
 

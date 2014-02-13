@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 
 /**
  * 
  * This class is and event class when save FE
  */
-public class SaveFinancialEntityEvent  extends KraDocumentEventBaseExtension {
+public class SaveFinancialEntityEvent  extends KcDocumentEventBaseExtension {
     
     private String propertyName;
     private PersonFinIntDisclosure personFinIntDisclosure;
@@ -46,7 +46,7 @@ public class SaveFinancialEntityEvent  extends KraDocumentEventBaseExtension {
     
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new SaveFinancialEntityRule();
     }
 

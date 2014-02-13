@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -35,7 +36,6 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -48,8 +48,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 public class BudgetSummaryAction extends BudgetAction {
@@ -81,7 +81,7 @@ public class BudgetSummaryAction extends BudgetAction {
 
 
     private BudgetRatesService getBudgetRatesService() {
-        return KraServiceLocator.getService(BudgetRatesService.class);
+        return KcServiceLocator.getService(BudgetRatesService.class);
     }
 
 
@@ -122,7 +122,7 @@ public class BudgetSummaryAction extends BudgetAction {
                 // update campus flag if budget level flag is changed
                 if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                         || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                    KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                    KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                             budget.getOnOffCampusFlag());
                 }
                 if (budget.getFinalVersionFlag()) {
@@ -153,7 +153,7 @@ public class BudgetSummaryAction extends BudgetAction {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
@@ -182,7 +182,7 @@ public class BudgetSummaryAction extends BudgetAction {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
@@ -316,7 +316,7 @@ public class BudgetSummaryAction extends BudgetAction {
         if (rulePassed) {
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
             }
             /* calculate first period - only period 1 exists at this point */
@@ -346,7 +346,7 @@ public class BudgetSummaryAction extends BudgetAction {
         else {
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
             }
             /* calculate all periods */
@@ -376,7 +376,7 @@ public class BudgetSummaryAction extends BudgetAction {
         if (CONFIRM_RECALCULATE_BUDGET_KEY.equals(question)) {
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
             }
             /* calculate all periods */
@@ -445,7 +445,7 @@ public class BudgetSummaryAction extends BudgetAction {
         // set version number for saving
         Map<String, Long> budgetPeriodMap = new HashMap<String, Long>();
         budgetPeriodMap.put("budgetId", budget.getBudgetId());
-        Collection<BudgetPeriod> existBudgetPeriods = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+        Collection<BudgetPeriod> existBudgetPeriods = KcServiceLocator.getService(BusinessObjectService.class).findMatching(
                 BudgetPeriod.class, budgetPeriodMap);
         for (BudgetPeriod budgetPeriod : existBudgetPeriods) {
             for (BudgetPeriod newBudgetPeriod : budget.getBudgetPeriods()) {

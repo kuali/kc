@@ -16,6 +16,8 @@
 package org.kuali.kra.timeandmoney;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
@@ -26,8 +28,6 @@ import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleImpl;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
@@ -51,7 +51,7 @@ import java.util.Map.Entry;
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implements TransactionRule, AwardDirectFandADistributionRule {
+public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase implements TransactionRule, AwardDirectFandADistributionRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "award";
@@ -225,13 +225,13 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     
     public ReportTrackingService getReportTrackingService() {
         if (reportTrackingService == null) {
-            reportTrackingService = KraServiceLocator.getService(ReportTrackingService.class);
+            reportTrackingService = KcServiceLocator.getService(ReportTrackingService.class);
         }
         return reportTrackingService;
     }
     
     public AwardVersionService getAwardVersionService() {
-        return KraServiceLocator.getService(AwardVersionService.class);
+        return KcServiceLocator.getService(AwardVersionService.class);
     }
     
 }

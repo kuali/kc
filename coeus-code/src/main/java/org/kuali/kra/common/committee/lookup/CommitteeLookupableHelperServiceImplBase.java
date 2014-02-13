@@ -17,12 +17,12 @@ package org.kuali.kra.common.committee.lookup;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.service.KcAuthorizationService;
@@ -217,10 +217,10 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         for (CD commDoc : documents) {
             if (!committeeIds.contains(commDoc.getCommitteeId())) {
                 try {
-                    CD workflowCommitteeDoc = (CD) KraServiceLocator
+                    CD workflowCommitteeDoc = (CD) KcServiceLocator
                             .getService(DocumentService.class).getByDocumentHeaderId(commDoc.getDocumentNumber());
                     // Get XML of workflow document
-                    String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
+                    String content = KcServiceLocator.getService(RouteHeaderService.class).getContent(
                             workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
 
                     // Create committee from XML and add to the document
@@ -398,7 +398,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     }
 
     protected KcAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KcAuthorizationService.class);
+        return KcServiceLocator.getService(KcAuthorizationService.class);
     }
     
     /*

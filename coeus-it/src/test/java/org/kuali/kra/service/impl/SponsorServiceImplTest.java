@@ -18,13 +18,15 @@ package org.kuali.kra.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 /**
  * This class tests KraPersistableBusinessObjectBase.
  */
@@ -72,7 +74,7 @@ public class SponsorServiceImplTest extends KcIntegrationTestBase {
         };
     }
     private SponsorService getRegularSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class); 
+        return KcServiceLocator.getService(SponsorService.class);
     }
 
 

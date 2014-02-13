@@ -20,9 +20,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.maintenance.QuestionMaintainableImpl;
 import org.kuali.kra.service.VersionException;
@@ -102,7 +102,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
     private void specialHandlingOfQuestion(QuestionMaintenanceForm questionMaintenanceForm, HttpServletRequest request) throws VersionException {
         MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) questionMaintenanceForm.getDocument();
 
-        boolean readOnly = !KraServiceLocator.getService(QuestionAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
+        boolean readOnly = !KcServiceLocator.getService(QuestionAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
                 || ObjectUtils.equals(request.getParameter("readOnly"), "true");
                 
         if (StringUtils.equals(questionMaintenanceForm.getMethodToCall(), "edit")) {
@@ -132,7 +132,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         Question versionedQuestion = (Question) versioningService.createNewVersion(approvedQuestion);
 
         // Generate new questionRefId
-        Long newQuestionRefId = KraServiceLocator.getService(SequenceAccessorService.class)
+        Long newQuestionRefId = KcServiceLocator.getService(SequenceAccessorService.class)
                 .getNextAvailableSequenceNumber("SEQ_QUESTION_ID", versionedQuestion.getClass());
 
         // Set old question to new questionRefId (needed so Rice doesn't complain that the key changed between the old
@@ -151,7 +151,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
     }
     
     private QuestionService getQuestionService() {
-        return (QuestionService) KraServiceLocator.getService(QuestionService.class);
+        return (QuestionService) KcServiceLocator.getService(QuestionService.class);
     }
 
     /**
@@ -177,7 +177,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward;
         
-        QuestionService questionService = KraServiceLocator.getService(QuestionService.class);
+        QuestionService questionService = KcServiceLocator.getService(QuestionService.class);
         QuestionMaintenanceForm questionMaintenanceForm = (QuestionMaintenanceForm) form;
         
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);

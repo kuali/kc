@@ -16,11 +16,11 @@
 package org.kuali.kra.timeandmoney.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.controller.DocHandlerService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.timeandmoney.AwardAmountInfoHistory;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
 import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
@@ -420,7 +420,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     }
         
     public AwardVersionService getAwardVersionService() {
-        awardVersionService = KraServiceLocator.getService(AwardVersionService.class);
+        awardVersionService = KcServiceLocator.getService(AwardVersionService.class);
         return awardVersionService;
     }
 //    public Award getWorkingAwardVersion(String goToAwardNumber) {
@@ -586,7 +586,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
      * @return String
      */
     protected String buildForwardUrl(String documentNumber) {
-        ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
+        DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(documentNumber);
         forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {

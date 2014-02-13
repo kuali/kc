@@ -30,7 +30,7 @@
     		<value>UserPreferencesFilter</value>
    	</util:list>
     
-    <bean id="kcCoreConfigurer" class="org.kuali.kra.common.config.KcConfigurer">
+    <bean id="kcCoreConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
     	<property name="moduleName" value="kc.core"/>
     	<property name="moduleTitle" value="KC Core"/>
     	<property name="dispatchServletName" value="kc-krad"/>
@@ -49,7 +49,7 @@
     	</list></property>
     </bean>
     
-<bean id="kcProposalDevelopmentConfigurer" class="org.kuali.kra.common.config.KcConfigurer">
+<bean id="kcProposalDevelopmentConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
 	<property name="moduleName" value="kc.pd"/>
 	<property name="moduleTitle" value="KC Proposal Development"/>
 	<property name="dispatchServletName" value="kc-pd-krad"/>

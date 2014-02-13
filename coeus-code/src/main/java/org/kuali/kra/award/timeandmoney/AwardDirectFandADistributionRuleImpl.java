@@ -17,10 +17,10 @@ package org.kuali.kra.award.timeandmoney;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.drools.core.util.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.service.AwardFnaDistributionService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * This class contains all rule methods for actions on Award Direct F and A Distribution tab.
  */
-public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBase implements AwardDirectFandADistributionRule{
+public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumentRuleBase implements AwardDirectFandADistributionRule{
 
     private static final String NEW_AWARD_DIRECT_FNA_DISTRIBUTION = "newAwardDirectFandADistribution";
     private static final String START_DATE_REQUIRED = ".startDateRequired";
@@ -290,7 +290,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     
     protected AwardFnaDistributionService getAwardFnaDistributionService() {
         if (awardFnaDistributionService == null) {
-            awardFnaDistributionService = KraServiceLocator.getService(AwardFnaDistributionService.class);
+            awardFnaDistributionService = KcServiceLocator.getService(AwardFnaDistributionService.class);
         }
         return awardFnaDistributionService;
     }
@@ -440,7 +440,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     }
     
     public AwardAmountInfoService getAwardAmountInfoService() {
-        awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        awardAmountInfoService = KcServiceLocator.getService(AwardAmountInfoService.class);
         return awardAmountInfoService;
     }
 

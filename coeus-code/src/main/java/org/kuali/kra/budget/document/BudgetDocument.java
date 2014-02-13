@@ -17,6 +17,7 @@ package org.kuali.kra.budget.document;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.DocumentCustomData;
@@ -26,7 +27,6 @@ import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -103,7 +103,7 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
         //workaround till then
         /*****BEGIN BLOCK *****/
         if(propNextValue==1){
-            BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String, Object> pkMap = new HashMap<String,Object>();
             pkMap.put("documentKey", getBudget().getBudgetId());
             pkMap.put("propertyName", propertyName);

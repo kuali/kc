@@ -16,25 +16,20 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -43,16 +38,16 @@ import java.util.Map.Entry;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 
 
 /**
  * Rules that invoke audit mode for KeyPersonnel
  */
-public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelAuditRule.class);
     
     /**
@@ -75,7 +70,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         int  personCount = 0;
         for (ProposalPerson person : pd.getDevelopmentProposal().getProposalPersons()) {
             retval &= validateInvestigator(person);
-            if (KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pd.getDevelopmentProposal())) {
+            if (KcServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pd.getDevelopmentProposal())) {
                 if (person.isMultiplePi() || person.getRole().getProposalPersonRoleId().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                     retval &= validateEraCommonUserName(person, personCount);
                 }

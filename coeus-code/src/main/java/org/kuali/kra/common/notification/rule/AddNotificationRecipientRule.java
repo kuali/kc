@@ -16,11 +16,11 @@
 package org.kuali.kra.common.notification.rule;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Runs the rule processing for adding a Notification Type Recipient.
  */
-public class AddNotificationRecipientRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddNotificationRecipientEvent> {
+public class AddNotificationRecipientRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<AddNotificationRecipientEvent> {
 
     private static final String FULL_NAME_FIELD = "fullName";
     

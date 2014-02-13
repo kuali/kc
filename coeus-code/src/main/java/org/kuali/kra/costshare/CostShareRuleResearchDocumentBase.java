@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.costshare;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.kra.budget.document.BudgetParentDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.AuditError;
 
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
  * 
  * This class extends ResearchDocumentRuleBase as an abstract and implents validation functions for cost share stuff.
  */
-public abstract class CostShareRuleResearchDocumentBase extends ResearchDocumentRuleBase {
+public abstract class CostShareRuleResearchDocumentBase extends BudgetParentDocumentRule {
     
     private CostShareService costShareService;
     
@@ -100,7 +100,7 @@ public abstract class CostShareRuleResearchDocumentBase extends ResearchDocument
     
     protected CostShareService getCostShareService() {
         if (costShareService == null) {
-            costShareService = KraServiceLocator.getService(CostShareService.class);
+            costShareService = KcServiceLocator.getService(CostShareService.class);
         }
         return costShareService;
     }

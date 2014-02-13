@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.document;
 
+import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter;
-import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -41,11 +41,11 @@ public class BudgetColumnsToAlterMaintainableImpl  extends KraMaintainableImpl {
         super.prepareForSave();
         BudgetColumnsToAlter budgetCol = (BudgetColumnsToAlter)businessObject;
         
-        KraPersistenceStructureService persistenceStructureService = 
-            KraServiceLocator.getService(KraPersistenceStructureService.class);
+        KcPersistenceStructureService persistenceStructureService =
+            KcServiceLocator.getService(KcPersistenceStructureService.class);
         Map<String, String> columnToAttrMap = persistenceStructureService.getDBColumnToObjectAttributeMap(Budget.class);
         
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         AttributeDefinition attrDefinition = dataDictionaryService.getDataDictionary().
             getBusinessObjectEntry(Budget.class.getName()).
             getAttributeDefinition(columnToAttrMap.get(budgetCol.getColumnName()));

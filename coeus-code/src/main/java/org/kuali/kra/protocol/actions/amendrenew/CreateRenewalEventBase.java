@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * Rule Event for creating renewal without amendment.
  * This class...
  */
 @SuppressWarnings("unchecked")
-public abstract class CreateRenewalEventBase extends KraDocumentEventBaseExtension {
+public abstract class CreateRenewalEventBase extends KcDocumentEventBaseExtension {
 
     private String renewalSummary;
     private String propertyName;
@@ -47,7 +47,7 @@ public abstract class CreateRenewalEventBase extends KraDocumentEventBaseExtensi
         return renewalSummary;
     }
 
-    public abstract BusinessRuleInterface getRule();
+    public abstract KcBusinessRule getRule();
 
 }
 

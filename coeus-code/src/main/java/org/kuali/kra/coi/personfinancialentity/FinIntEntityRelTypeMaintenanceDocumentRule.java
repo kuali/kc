@@ -16,9 +16,9 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -30,7 +30,7 @@ import java.util.Map;
  * 
  * This class implements the business rule for entity relation type code
  */
-public class FinIntEntityRelTypeMaintenanceDocumentRule  extends KraMaintenanceDocumentRuleBase {
+public class FinIntEntityRelTypeMaintenanceDocumentRule  extends KcMaintenanceDocumentRuleBase {
 
     private static final String REL_TYPE_SORT_ID_FIELD_NAME = "sortId";
     private static final String DESCRIPTION_FIELD_NAME = "description";
@@ -110,7 +110,7 @@ public class FinIntEntityRelTypeMaintenanceDocumentRule  extends KraMaintenanceD
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

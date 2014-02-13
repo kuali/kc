@@ -16,11 +16,11 @@
 package org.kuali.kra.irb.actions.decision;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class CommitteeDecisionRecuserEvent extends KraDocumentEventBase {
+public class CommitteeDecisionRecuserEvent extends KcDocumentEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeDecisionRecuserEvent.class);
     private CommitteeDecision actionBean;

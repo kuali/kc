@@ -20,9 +20,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -50,7 +50,7 @@ public class InstitutionalProposalUnitContactsProjectRoleValuesFinderTest extend
     @Test
     public final void testGetKeyValues() {
         List<KeyValue> roleKeys = ipucProjectRoleValuesFinder.getKeyValues();
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         
         for(KeyValue KeyValue:roleKeys){
             Assert.assertNotNull(KeyValue.getKey());

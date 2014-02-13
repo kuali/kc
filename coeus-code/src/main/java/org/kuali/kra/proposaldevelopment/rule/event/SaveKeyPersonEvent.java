@@ -18,10 +18,10 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.SaveKeyPersonRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $
  */
-public class SaveKeyPersonEvent extends KraDocumentEventBase {
+public class SaveKeyPersonEvent extends KcDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(SaveKeyPersonEvent.class);
 
@@ -41,7 +41,7 @@ public class SaveKeyPersonEvent extends KraDocumentEventBase {
      * 
      * @param errorPathPrefix
      * @param document
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#KcDocumentEventBase(String, String, Document)
      */
     public SaveKeyPersonEvent(String errorPathPrefix, ProposalDevelopmentDocument document) {
         super("Saving personnel on document " + getDocumentId(document), errorPathPrefix, document);

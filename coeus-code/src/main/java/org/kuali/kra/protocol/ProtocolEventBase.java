@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.protocol;
 
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
 /**
  * 
  * This class
  */
-public abstract class ProtocolEventBase<Z extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
+public abstract class ProtocolEventBase<Z extends KcBusinessRule> extends KcDocumentEventBaseExtension {
 
     /**
      * Enum helps identify type of error to respond.

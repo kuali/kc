@@ -16,12 +16,12 @@
 package org.kuali.kra.award.commitments;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * This class processes Benefits Rates Business Rules
  */
-public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase implements AwardBenefitsRatesRule {
+public class AwardBenefitsRatesRuleImpl extends KcTransactionalDocumentRuleBase implements AwardBenefitsRatesRule {
 
     private static final String ON_CAMPUS_RATE = "onCampusRate";
     private static final String OFF_CAMPUS_RATE = "offCampusRate";
@@ -43,7 +43,7 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
     
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -151,7 +151,7 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
     BusinessObjectService getKraBusinessObjectService() {
         if(businessObjectService == null){
             businessObjectService = 
-                (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
+                (BusinessObjectService) KcServiceLocator.getService("businessObjectService");
         }
         return businessObjectService;
     }

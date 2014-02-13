@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class MeetingAddAttachmentsRule  extends ResearchDocumentRuleBase implements BusinessRuleInterface<MeetingAddAttachmentsEvent>{
+public class MeetingAddAttachmentsRule  extends KcTransactionalDocumentRuleBase implements KcBusinessRule<MeetingAddAttachmentsEvent> {
 
     String propertyPrefix ="meetingHelper.newCommitteeScheduleAttachments" ;
     private static final String ATTACHMENTS_ID = ".attachmentsTypeCode";

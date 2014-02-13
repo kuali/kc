@@ -19,6 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.controller.DocHandlerService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
@@ -45,7 +47,6 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
@@ -54,7 +55,6 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
-import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -367,16 +367,16 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
      * @return
      */
     protected VersionHistoryService getVersionHistoryService() {
-        return KraServiceLocator.getService(VersionHistoryService.class);
+        return KcServiceLocator.getService(VersionHistoryService.class);
     }
     
     protected AwardSyncService getAwardSyncService() {
-        return KraServiceLocator.getService(AwardSyncService.class);
+        return KcServiceLocator.getService(AwardSyncService.class);
     }
 
      public List getBudgetDocumentVersions() {
         if (budgetDocumentVersions == null || budgetDocumentVersions.isEmpty()) {
-            budgetDocumentVersions = KraServiceLocator.getService(AwardBudgetService.class).getAllBudgetsForAward(this);
+            budgetDocumentVersions = KcServiceLocator.getService(AwardBudgetService.class).getAllBudgetsForAward(this);
         }
         return budgetDocumentVersions;
     }
@@ -548,11 +548,11 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     }
     
     protected PermissionService getPermissionService() {
-        return KraServiceLocator.getService(PermissionService.class);
+        return KcServiceLocator.getService(PermissionService.class);
     }
     
     protected InstitutionalProposalService getInstitutionalProposalService() {
-        return KraServiceLocator.getService(InstitutionalProposalService.class);
+        return KcServiceLocator.getService(InstitutionalProposalService.class);
     }
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public AwardBudgetVersionOverviewExt getBudgetVersionOverview() {
@@ -589,7 +589,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             proposalsToUpdate.add(awardFundingProposal.getProposal().getProposalNumber());
         }
         //remove any funding proposals for this award
-        KraServiceLocator.getService(BusinessObjectService.class).delete(getAward().getFundingProposals());
+        KcServiceLocator.getService(BusinessObjectService.class).delete(getAward().getFundingProposals());
         getAward().getFundingProposals().clear();
         
         getInstitutionalProposalService().defundInstitutionalProposals(proposalsToUpdate, 
@@ -621,7 +621,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
              */
             if (getDocumentHeader().getWorkflowDocument().isFinal() 
                     || getDocumentHeader().getWorkflowDocument().isProcessed()
-                    || KraServiceLocator.getService(KcWorkflowService.class).hasPendingApprovalRequests(getDocumentHeader().getWorkflowDocument())) {
+                    || KcServiceLocator.getService(KcWorkflowService.class).hasPendingApprovalRequests(getDocumentHeader().getWorkflowDocument())) {
                 isComplete = true;
             } else if (!getAward().getSyncChanges().isEmpty() && getAward().getSyncStatuses().size() > 1) {
                 //if we are doing a sync(sync changes is not empty) and we have a sync status for an award
@@ -649,7 +649,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
     public AwardService getAwardService() {
         if (awardService == null) {
-            awardService = KraServiceLocator.getService(AwardService.class);
+            awardService = KcServiceLocator.getService(AwardService.class);
         }
         return awardService;
     }
@@ -664,7 +664,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     }
     
     public void addFacts(Facts.Builder factsBuilder) {
-        KcKrmsFactBuilderService fbService = KraServiceLocator.getService("awardFactBuilderService");
+        KcKrmsFactBuilderService fbService = KcServiceLocator.getService("awardFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
 
@@ -678,7 +678,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     }
     
     public String buildForwardUrl() {
-        ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
+        DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(getDocumentNumber());
         forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {

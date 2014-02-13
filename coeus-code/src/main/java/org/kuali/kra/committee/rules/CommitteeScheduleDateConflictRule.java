@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.committee.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.coeus.sys.framework.util.DateUtils;
 
 import java.sql.Date;
 import java.util.LinkedHashSet;
@@ -29,7 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleDateConflictEvent> {
+public class CommitteeScheduleDateConflictRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<CommitteeScheduleDateConflictEvent> {
     
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleDateConflictRule.class);
@@ -40,7 +40,7 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
     
 
     /**
-     * @see org.kuali.kra.committee.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBase)
+     * @see org.kuali.kra.committee.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBase)
      */
     public boolean processRules(CommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         

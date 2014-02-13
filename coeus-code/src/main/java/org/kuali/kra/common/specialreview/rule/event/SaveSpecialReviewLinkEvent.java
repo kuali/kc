@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.common.specialreview.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.SaveSpecialReviewLinkRule;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import java.util.List;
  * Represents the event for saving the Special Review links to the Protocol Funding Sources.
  * @param <T> The subclass of Special Review
  */
-public class SaveSpecialReviewLinkEvent<T extends SpecialReview<? extends SpecialReviewExemption>> extends KraDocumentEventBaseExtension {
+public class SaveSpecialReviewLinkEvent<T extends SpecialReview<? extends SpecialReviewExemption>> extends KcDocumentEventBaseExtension {
     
     private List<T> specialReviews;
     
@@ -74,7 +74,7 @@ public class SaveSpecialReviewLinkEvent<T extends SpecialReview<? extends Specia
     }
 
     @Override
-    public BusinessRuleInterface<SaveSpecialReviewLinkEvent<T>> getRule() {
+    public KcBusinessRule<SaveSpecialReviewLinkEvent<T>> getRule() {
         return new SaveSpecialReviewLinkRule<T>();
     }
     

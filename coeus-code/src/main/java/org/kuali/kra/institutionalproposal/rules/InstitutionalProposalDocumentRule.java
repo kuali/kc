@@ -16,10 +16,13 @@
 package org.kuali.kra.institutionalproposal.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonAuditRule;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonSaveRuleEvent;
@@ -29,9 +32,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -46,7 +47,7 @@ import java.util.Map;
 /**
  * This class...
  */
-public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase implements BusinessRuleInterface {
+public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String INSTITUTIONAL_PROPOSAL_ERROR_PATH = "institutionalProposalList[0]";
@@ -137,7 +138,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         
-        retval &= super.processRunAuditBusinessRules(document);
+        retval &= new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
         retval &= new InstitutionalProposalPersonAuditRule().processRunAuditBusinessRules(document);
         retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
         retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
@@ -193,7 +194,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         String ipAccountNumber = institutionalProposal.getCurrentAccountNumber();
         String awardNumber = institutionalProposal.getCurrentAwardNumber();
         if (!StringUtils.isEmpty(awardNumber) && !StringUtils.isEmpty(ipAccountNumber)) {
-            BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("awardNumber", awardNumber);
             Collection awardCol = boService.findMatching(Award.class, fieldValues);
@@ -255,7 +256,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         return valid;
     }
 
-    public boolean processRules(KraDocumentEventBaseExtension event) {
+    public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
@@ -276,6 +277,6 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     }
     
     private SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        return KcServiceLocator.getService(SponsorService.class);
     }
 }

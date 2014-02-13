@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
@@ -30,7 +31,6 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -128,7 +128,7 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      */
     protected void copyBudget(BudgetParentDocument budgetParentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
     throws WorkflowException {
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         Budget budget = budgetDocToCopy.getBudget();
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
@@ -160,7 +160,7 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
     
     @Override
     protected PessimisticLockService getPessimisticLockService() {
-        return KraServiceLocator.getService(ProposalLockService.class);
+        return KcServiceLocator.getService(ProposalLockService.class);
     }
     
     @Override

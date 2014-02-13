@@ -19,16 +19,18 @@ package org.kuali.kra.award.awardhierarchy.sync.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncDescendantValues;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardStatus;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class AwardSyncSelectorServiceTest extends KcIntegrationTestBase {
 
     protected static final String otherSponsorCode = "000500";
@@ -41,7 +43,7 @@ public class AwardSyncSelectorServiceTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() throws Exception {
-        awardSyncSelectorService = KraServiceLocator.getService(AwardSyncSelectorService.class);
+        awardSyncSelectorService = KcServiceLocator.getService(AwardSyncSelectorService.class);
         award = new Award();
         activeStatus = new AwardStatus();
         activeStatus.setStatusCode("1");

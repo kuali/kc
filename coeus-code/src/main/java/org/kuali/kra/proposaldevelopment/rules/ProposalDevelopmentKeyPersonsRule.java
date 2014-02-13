@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
@@ -28,7 +29,6 @@ import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -41,10 +41,10 @@ import java.util.List;
 import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Implementation of business rules required for the Key Persons Page of the 
@@ -54,7 +54,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * @author $Author: cdenne $
  * @version $Revision: 1.46 $
  */
-public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
+public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
 
@@ -62,7 +62,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     private KcPersonService kcPersonService;
     
     /**
-     * @see ResearchDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
+     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {

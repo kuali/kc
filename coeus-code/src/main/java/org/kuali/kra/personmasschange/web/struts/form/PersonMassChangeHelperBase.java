@@ -16,9 +16,9 @@
 package org.kuali.kra.personmasschange.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
@@ -68,7 +68,7 @@ public class PersonMassChangeHelperBase implements Serializable {
     
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
-            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return kcPersonService;
     }
@@ -79,7 +79,7 @@ public class PersonMassChangeHelperBase implements Serializable {
 
     public RolodexService getRolodexService() {
         if (rolodexService == null) {
-            rolodexService = KraServiceLocator.getService(RolodexService.class);
+            rolodexService = KcServiceLocator.getService(RolodexService.class);
         }
         return rolodexService;
     }

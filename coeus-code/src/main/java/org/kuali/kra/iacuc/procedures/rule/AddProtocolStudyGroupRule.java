@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.iacuc.procedures.rule;
 
-import java.util.List;
-
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class AddProtocolStudyGroupRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddProtocolStudyGroupEvent>{
+import java.util.List;
+
+public class AddProtocolStudyGroupRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<AddProtocolStudyGroupEvent> {
 
     private static final String PROCEDURE_BEAN_PATH = "iacucProtocolStudyGroupBeans";
     

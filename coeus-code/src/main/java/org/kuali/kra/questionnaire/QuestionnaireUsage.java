@@ -17,10 +17,10 @@ package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -181,7 +181,7 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
             fieldValues.put("moduleCode", Integer.valueOf(moduleItemCode));
             fieldValues.put("subModuleCode", Integer.valueOf(moduleSubItemCode));
             List<CoeusSubModule> subModules = 
-                    (List<CoeusSubModule>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(CoeusSubModule.class, fieldValues);
+                    (List<CoeusSubModule>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(CoeusSubModule.class, fieldValues);
             if (subModules != null && !subModules.isEmpty()) {
                 coeusSubModule = subModules.get(0);
             }

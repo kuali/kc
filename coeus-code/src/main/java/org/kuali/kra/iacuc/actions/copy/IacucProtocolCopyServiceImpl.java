@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.copy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -33,12 +30,15 @@ import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionService;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.copy.ProtocolCopyServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<IacucProtocolDocument> implements IacucProtocolCopyService{
 
@@ -181,7 +181,7 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Ia
     
     @Override
     protected IacucProtocolNumberService getProtocolNumberServiceHook() {
-        return (IacucProtocolNumberService)KraServiceLocator.getService("iacucProtocolNumberService");
+        return (IacucProtocolNumberService) KcServiceLocator.getService("iacucProtocolNumberService");
     }
     
     @Override

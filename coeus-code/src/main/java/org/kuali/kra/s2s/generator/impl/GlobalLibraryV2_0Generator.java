@@ -21,9 +21,9 @@ import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 import org.apache.commons.lang.WordUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -37,7 +37,7 @@ public class GlobalLibraryV2_0Generator {
 	private S2SUtilService s2sUtilService;
 
 	public GlobalLibraryV2_0Generator() {
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
 	}
 
 	/**

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
 /**
@@ -48,6 +48,6 @@ public abstract class RRKeyPersonExpandedBaseGenerator extends
 	 * Constructs a RRKeyPersonExpandedBaseGenerator.java.
 	 */
 	public RRKeyPersonExpandedBaseGenerator() {
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
 	}
 }

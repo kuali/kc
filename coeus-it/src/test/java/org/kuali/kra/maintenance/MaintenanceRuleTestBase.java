@@ -17,7 +17,7 @@ package org.kuali.kra.maintenance;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -31,7 +31,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 /**
  *  Base class for testing <code>{@link MaintenanceDocument}</code> instances
  */
@@ -170,7 +172,7 @@ public abstract class MaintenanceRuleTestBase extends KcIntegrationTestBase {
      * @return MaintenanceDocumentDictionaryService
      */
     protected MaintenanceDocumentDictionaryService getMaintenanceDocumentDictionaryService() {
-        return KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class);
+        return KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class);
     }
     
     /**

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.request;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * This event is generated whenever a user makes a request to 
@@ -25,7 +25,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
  * or request data analysis.
  */
 @SuppressWarnings("unchecked")
-public class IacucProtocolRequestEvent<T extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
+public class IacucProtocolRequestEvent<T extends KcBusinessRule> extends KcDocumentEventBaseExtension {
 
     private IacucProtocolRequestBean requestBean;
     private String propertyKey;
@@ -49,7 +49,7 @@ public class IacucProtocolRequestEvent<T extends BusinessRuleInterface> extends 
     }
 
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new IacucProtocolRequestRule();
     }
 }

@@ -16,10 +16,10 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
@@ -126,7 +126,7 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements org.kual
 
 
     public CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
+        return KcServiceLocator.getService(CommitteeService.class);
     }
 
     public String getSubmissionTypeCode() {
@@ -284,7 +284,7 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements org.kual
     }
 
     private CheckListService getCheckListService() {
-        return KraServiceLocator.getService(CheckListService.class);
+        return KcServiceLocator.getService(CheckListService.class);
     }
 
     public boolean getJavascriptEnabled() {

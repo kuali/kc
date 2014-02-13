@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.coi.DisclosureReporterUnit;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 import java.util.List;
 
-public class AddDisclosureReporterUnitEvent  extends KraDocumentEventBaseExtension {
+public class AddDisclosureReporterUnitEvent  extends KcDocumentEventBaseExtension {
     
     private String propertyName;
     private DisclosureReporterUnit disclosureReporterUnit;
@@ -48,7 +48,7 @@ public class AddDisclosureReporterUnitEvent  extends KraDocumentEventBaseExtensi
  
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddDisclosureReporterUnitRule();
     }
 

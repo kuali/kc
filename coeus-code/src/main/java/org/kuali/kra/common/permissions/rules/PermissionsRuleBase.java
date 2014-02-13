@@ -16,6 +16,8 @@
 package org.kuali.kra.common.permissions.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.permissions.bo.PermissionsRoleState;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
@@ -24,8 +26,6 @@ import org.kuali.kra.common.permissions.web.bean.Role;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.document.Document;
 
@@ -37,7 +37,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public abstract class PermissionsRuleBase extends ResearchDocumentRuleBase implements PermissionsRule {
+public abstract class PermissionsRuleBase extends KcTransactionalDocumentRuleBase implements PermissionsRule {
     
     private static final String USERNAME_FIELD_NAME = "userName";
     private transient KcPersonService kcPersonService;
@@ -187,7 +187,7 @@ public abstract class PermissionsRuleBase extends ResearchDocumentRuleBase imple
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         
         return this.kcPersonService;

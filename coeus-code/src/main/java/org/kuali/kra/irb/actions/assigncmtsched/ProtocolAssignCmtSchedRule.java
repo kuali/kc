@@ -20,13 +20,13 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validate the assignment of a protocol to a committee.
  */
-public class ProtocolAssignCmtSchedRule extends ResearchDocumentRuleBase implements ExecuteProtocolAssignCmtSchedRule {
+public class ProtocolAssignCmtSchedRule extends KcTransactionalDocumentRuleBase implements ExecuteProtocolAssignCmtSchedRule {
    
     /**
      * Verify that a committee has been selected.

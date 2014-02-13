@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.timeandmoney.service.impl;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyVersionService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionService {
 
@@ -43,7 +43,7 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
         TimeAndMoneyDocument result = null;
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("rootAwardNumber", rootAwardNumber);
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
 
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
             (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, criteria);
@@ -64,7 +64,7 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
 
     private TimeAndMoneyDocument getLastNonCanceledTandMDocument(List<TimeAndMoneyDocument> timeAndMoneyDocuments) throws WorkflowException {
         TimeAndMoneyDocument returnVal = null;
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         while(timeAndMoneyDocuments.size() > 0) {
             TimeAndMoneyDocument docWithWorkFlowData = 
                 (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());

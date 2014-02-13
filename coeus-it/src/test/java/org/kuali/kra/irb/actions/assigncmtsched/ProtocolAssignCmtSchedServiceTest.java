@@ -19,12 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.test.CommitteeFactory;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
@@ -40,7 +40,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 /**
  * Test the ProtocolDeleteService implementation.
  */
@@ -53,8 +55,8 @@ public class ProtocolAssignCmtSchedServiceTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        protocolAssignCmtSchedService = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        protocolAssignCmtSchedService = KcServiceLocator.getService(ProtocolAssignCmtSchedService.class);
         committeeDocument = createCommittee("666");
     }
 

@@ -16,13 +16,13 @@
 package org.kuali.kra.iacuc.actions.modifysubmission;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -243,7 +243,7 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
     }
     
     private CommitteeServiceBase getCommitteeService() {
-        return KraServiceLocator.getService(IacucCommitteeService.class);
+        return KcServiceLocator.getService(IacucCommitteeService.class);
     }
   
 }

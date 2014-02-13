@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ProposalDevelopmentModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     
@@ -54,7 +53,7 @@ public class ProposalDevelopmentModuleQuestionnaireBean extends ModuleQuestionna
     }
     
     protected KrmsRulesContext loadKrmsRulesContext(String proposalNumber) {
-        DevelopmentProposal proposal = KraServiceLocator.getService(DataObjectService.class).find(DevelopmentProposal.class, proposalNumber);
+        DevelopmentProposal proposal = KcServiceLocator.getService(DataObjectService.class).find(DevelopmentProposal.class, proposalNumber);
         return proposal.getKrmsRulesContext();
     }
 

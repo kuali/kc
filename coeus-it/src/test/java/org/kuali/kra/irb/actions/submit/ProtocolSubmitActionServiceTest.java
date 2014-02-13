@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -27,7 +28,6 @@ import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.test.CommitteeFactory;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static org.junit.Assert.*;
 /**
  * Test the ProtocolSubmitActionService implementation.
@@ -83,11 +84,11 @@ public class ProtocolSubmitActionServiceTest extends KcIntegrationTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         GlobalVariables.setMessageMap(new MessageMap());
         KNSGlobalVariables.setAuditErrorMap(new HashMap());
-        protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        rolodexService = KraServiceLocator.getService(RolodexService.class);
-        documentService = KraServiceLocator.getService("kraDocumentService");
-        identityManagementService = KraServiceLocator.getService(IdentityService.class);
+        protocolSubmitActionService = KcServiceLocator.getService(ProtocolSubmitActionService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        rolodexService = KcServiceLocator.getService(RolodexService.class);
+        documentService = KcServiceLocator.getService("kraDocumentService");
+        identityManagementService = KcServiceLocator.getService(IdentityService.class);
         defaultReviewers = getDefaultReviewers();
         
     }

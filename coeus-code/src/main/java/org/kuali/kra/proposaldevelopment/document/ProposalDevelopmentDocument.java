@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.document;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.DocumentCustomData;
@@ -26,7 +27,10 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
@@ -163,7 +167,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         }
         if (!isProposalDeleted()) {
             DevelopmentProposal bp = this.getDevelopmentProposal();
-            ProposalHierarchyService hierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+            ProposalHierarchyService hierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
             LOG.info(String.format("Route status change for document %s - proposal number %s is moving from %s to %s", bp.getProposalDocument().getDocumentHeader().getDocumentNumber(), bp.getProposalNumber(), oldStatus, newStatus));
             if (bp.isParent()) {
                 try {
@@ -178,7 +182,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                     throw new RuntimeException(String.format("ProposalHierarchyException thrown while updating app doc status for document %s", getDocumentNumber()));
                 }
             }
-            bp.setProposalStateTypeCode(KraServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode(this, true, false));
+            bp.setProposalStateTypeCode(KcServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode(this, true, false));
         }
     }
 
@@ -193,8 +197,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
             LOG.debug(String.format("Action taken on document %s: event code %s, action taken is %s", getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()));
         }
         if (!isProposalDeleted()) {
-            ProposalHierarchyService hService = KraServiceLocator.getService(ProposalHierarchyService.class);
-            KcDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KcDocumentRejectionService.class);
+            ProposalHierarchyService hService = KcServiceLocator.getService(ProposalHierarchyService.class);
+            KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
             if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode())) {
                 try {
                     if (documentRejectionService.isDocumentOnInitialNode(this)) {
@@ -215,10 +219,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 }
             }
             String pCode = getDevelopmentProposal().getProposalStateTypeCode();
-            getDevelopmentProposal().setProposalStateTypeCode(KraServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode(this, false, documentRejectionService.isDocumentOnInitialNode(this)));
+            getDevelopmentProposal().setProposalStateTypeCode(KcServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode(this, false, documentRejectionService.isDocumentOnInitialNode(this)));
             if (!StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode())) {
                 getDevelopmentProposal().refresh();
-                KraServiceLocator.getService(BusinessObjectService.class).save(getDevelopmentProposal());
+                KcServiceLocator.getService(BusinessObjectService.class).save(getDevelopmentProposal());
             }
             if (getDevelopmentProposal().isChild() && StringUtils.equals(KewApiConstants.ACTION_TAKEN_CANCELED_CD, actionTaken.getActionTaken().getCode())) {
                 try {
@@ -228,7 +232,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 }
             }
             if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {
-                InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+                InstitutionalProposalService institutionalProposalService = KcServiceLocator.getService(InstitutionalProposalService.class);
                 String proposalNumber = institutionalProposalService.createInstitutionalProposal(this.getDevelopmentProposal(), this.getFinalBudgetForThisProposal());
                 this.setInstitutionalProposalNumber(proposalNumber);
             }
@@ -249,11 +253,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     protected ParameterService getParameterService() {
-        return KraServiceLocator.getService(ParameterService.class);
+        return KcServiceLocator.getService(ParameterService.class);
     }
 
     protected DateTimeService getDateTimeService() {
-        return KraServiceLocator.getService(DateTimeService.class);
+        return KcServiceLocator.getService(DateTimeService.class);
     }
 
     public Budget getFinalBudgetForThisProposal() {
@@ -301,7 +305,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         super.prepareForSave();
         if (!isProposalDeleted()) {
             getDevelopmentProposal().updateS2sOpportunity();
-            KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
+            KcServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
             if (getBudgetDocumentVersions() != null) {
                 updateDocumentDescriptions(getBudgetDocumentVersions());
             }
@@ -312,7 +316,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         if (!isProposalDeleted()) {
-            KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this.getDevelopmentProposal());
+            KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this.getDevelopmentProposal());
             getDevelopmentProposal().updateProposalChangeHistory();
         }
     }
@@ -396,12 +400,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     @Override
     public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
-        KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
+        KcServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
     }
 
     @Override
     public void processAfterRetrieveForBudget(BudgetDocument budgetDocument) {
-        KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatusByProposalDocumentNumber(budgetDocument.getParentDocumentKey());
+        KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatusByProposalDocumentNumber(budgetDocument.getParentDocumentKey());
     }
 
     @Override
@@ -528,7 +532,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     public void refreshBudgetDocumentVersions() {
-        final List<BudgetDocumentVersion> v = KraServiceLocator.getService(DataObjectService.class).findMatching(BudgetDocumentVersion.class,
+        final List<BudgetDocumentVersion> v = KcServiceLocator.getService(DataObjectService.class).findMatching(BudgetDocumentVersion.class,
                 QueryByCriteria.Builder.andAttributes(Collections.singletonMap("parentDocumentKey",documentNumber)).build()).getResults();
         budgetDocumentVersions = v;
     }
@@ -539,7 +543,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     public void addFacts(Facts.Builder factsBuilder) {
-        KcKrmsFactBuilderServiceHelper fbService = KraServiceLocator.getService("proposalDevelopmentFactBuilderService");
+        KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("proposalDevelopmentFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
 

@@ -16,12 +16,12 @@
 package org.kuali.kra.iacuc;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
@@ -145,7 +145,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     @Override
     protected List<RolePersons> getAllRolePersons() {
         KcAuthorizationService kraAuthService =
-               (KcAuthorizationService) KraServiceLocator.getService(KcAuthorizationService.class);
+               (KcAuthorizationService) KcServiceLocator.getService(KcAuthorizationService.class);
         return new ArrayList<RolePersons>();
     }
     
@@ -181,7 +181,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     }
     
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     @Override
@@ -242,7 +242,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     }
     
     private DocumentService getDocumentService() {
-        return KraServiceLocator.getService(DocumentService.class);
+        return KcServiceLocator.getService(DocumentService.class);
     }
     
     private String getURLParamValue(String url, String paramName) {

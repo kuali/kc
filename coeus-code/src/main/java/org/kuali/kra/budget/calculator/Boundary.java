@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 
 import java.util.Calendar;
@@ -44,7 +44,7 @@ public class Boundary {
     }
     
     protected void init() {
-        dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+        dateTimeService = KcServiceLocator.getService(DateTimeService.class);
     }
 
 /**

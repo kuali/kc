@@ -17,16 +17,16 @@ package org.kuali.kra.budget.versions;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 import static org.apache.commons.lang.StringUtils.substringAfterLast;
 import static org.kuali.kra.infrastructure.Constants.EMPTY_STRING;
 
-public class AddBudgetVersionEvent extends KraDocumentEventBase {
+public class AddBudgetVersionEvent extends KcDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(AddBudgetVersionEvent.class);
 

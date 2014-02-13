@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.committee.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rules.CommitteeScheduleStartAndEndDateRule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class CommitteeScheduleStartAndEndDateEvent extends CommitteeScheduleEven
 
     @SuppressWarnings("unchecked")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new CommitteeScheduleStartAndEndDateRule();
     }
 }

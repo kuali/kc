@@ -18,12 +18,12 @@ package org.kuali.kra.coi.actions;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -59,13 +59,13 @@ public class DisclosureActionHelper implements Serializable {
     public DisclosureActionHelper(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
         newCoiUserRole = new CoiUserRole();
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        parameterService = KraServiceLocator.getService(ParameterService.class);
-        taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        coiDisclosureActionService = KraServiceLocator.getService(CoiDisclosureActionService.class);
-        coiDisclosureService = KraServiceLocator.getService(CoiDisclosureService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        parameterService = KcServiceLocator.getService(ParameterService.class);
+        taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        coiDisclosureActionService = KcServiceLocator.getService(CoiDisclosureActionService.class);
+        coiDisclosureService = KcServiceLocator.getService(CoiDisclosureService.class);
         submitDisclosureAction = new SubmitDisclosureAction(this);
-        kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        kcPersonService = KcServiceLocator.getService(KcPersonService.class);
     }
 
     public void prepareView() {

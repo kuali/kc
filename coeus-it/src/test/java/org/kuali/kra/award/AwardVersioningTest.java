@@ -19,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -30,7 +31,6 @@ import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -44,6 +44,7 @@ import org.kuali.rice.krad.util.MessageMap;
 
 import java.sql.Date;
 import java.util.*;
+
 import static org.junit.Assert.*;
 /**
  * This class 
@@ -275,9 +276,9 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
     }
 
     private void locateServices() {
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        bos = KraServiceLocator.getService(BusinessObjectService.class);
-        versioningService = KraServiceLocator.getService(VersioningService.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
+        bos = KcServiceLocator.getService(BusinessObjectService.class);
+        versioningService = KcServiceLocator.getService(VersioningService.class);
     }
 
     /**

@@ -16,8 +16,8 @@
 package org.kuali.kra.bo;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -96,7 +96,7 @@ public class SponsorSpecialMaintainableImpl extends KraMaintainableImpl {
 
     protected ParameterService getParameterService() {
         if (parameterService == null) {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
     }
@@ -107,7 +107,7 @@ public class SponsorSpecialMaintainableImpl extends KraMaintainableImpl {
 
     protected SequenceAccessorService getSequenceAccessorService() {
         if(sequenceAccessorService == null) {
-            sequenceAccessorService = KraServiceLocator.getService(SequenceAccessorService.class);
+            sequenceAccessorService = KcServiceLocator.getService(SequenceAccessorService.class);
         }
         return sequenceAccessorService;
     }

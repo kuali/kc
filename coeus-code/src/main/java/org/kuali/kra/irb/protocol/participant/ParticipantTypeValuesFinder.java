@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
@@ -63,7 +63,7 @@ public class ParticipantTypeValuesFinder extends FormViewAwareUifKeyValuesFinder
     public List<KeyValue> getKeyValues() {
         ProtocolDocument doc = (ProtocolDocument) getDocument();
         KeyValuesService keyValuesService = 
-            (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+            (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection<ParticipantType> participantTypes = keyValuesService.findAll(ParticipantType.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));

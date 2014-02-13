@@ -16,16 +16,16 @@
 package org.kuali.kra.irb.actions.assignreviewers;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerType;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * Validate the assignment of a protocol to some reviewers.
  */
-public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implements ExecuteProtocolAssignReviewersRule {
+public class ProtocolAssignReviewersRule extends KcTransactionalDocumentRuleBase implements ExecuteProtocolAssignReviewersRule {
    
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     
@@ -130,7 +130,7 @@ public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implem
      */
     private boolean existsUnique(Class<? extends BusinessObject> boType, String propertyName, String keyField) {
         if (keyField != null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String,String> fieldValues = new HashMap<String,String>();
             fieldValues.put(propertyName, keyField);
             if (businessObjectService.countMatching(boType, fieldValues) == 1) {
@@ -146,7 +146,7 @@ public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implem
 
     private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
         if (protocolOnlineReviewService == null) {
-            protocolOnlineReviewService = KraServiceLocator.getService(ProtocolOnlineReviewService.class);
+            protocolOnlineReviewService = KcServiceLocator.getService(ProtocolOnlineReviewService.class);
         }
         return protocolOnlineReviewService;
     }

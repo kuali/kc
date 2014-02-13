@@ -15,20 +15,10 @@
  */
 package org.kuali.kra.s2s.sf424r;
 
-import gov.grants.apply.forms.rrSF42420V20.AORInfoType;
-import gov.grants.apply.forms.rrSF42420V20.ApplicationTypeCodeDataType;
-import gov.grants.apply.forms.rrSF42420V20.OrganizationContactPersonDataType;
-import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document;
-import gov.grants.apply.forms.rrSF42420V20.RevisionTypeCodeDataType;
-import gov.grants.apply.forms.rrSF42420V20.StateReviewCodeTypeDataType;
-import gov.grants.apply.forms.rrSF42420V20.SubmissionTypeDataType;
+import gov.grants.apply.forms.rrSF42420V20.*;
 import gov.grants.apply.forms.rrSF42420V20.ApplicationTypeCodeDataType.Enum;
 import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document.RRSF42420;
-import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document.RRSF42420.ApplicantInfo;
-import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document.RRSF42420.ApplicantType;
-import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document.RRSF42420.ApplicationType;
-import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document.RRSF42420.EstimatedProjectFunding;
-import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document.RRSF42420.StateReview;
+import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document.RRSF42420.*;
 import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document.RRSF42420.ApplicantInfo.ContactPersonInfo;
 import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document.RRSF42420.ApplicantType.SmallBusinessOrganizationType;
 import gov.grants.apply.forms.rrSF42420V20.RRSF42420Document.RRSF42420.ApplicantType.SmallBusinessOrganizationType.IsSociallyEconomicallyDisadvantaged;
@@ -39,24 +29,11 @@ import gov.grants.apply.system.globalLibraryV20.ApplicantTypeCodeDataType;
 import gov.grants.apply.system.globalLibraryV20.OrganizationDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.ArgValueLookup;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Sponsor;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
@@ -64,20 +41,13 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -85,6 +55,9 @@ import org.kuali.kra.s2s.generator.impl.RRSF424BaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Class for generating the XML object for grants.gov RRSF424V1_0. Form is
@@ -429,7 +402,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	    if (answer !=null && answer.equals(YesNoDataType.Y_YES)) {
 	        String answerExplanation = getAnswer(ANSWER_111);
 	        if (answerExplanation != null) {
-	            Collection<ArgValueLookup> argDescription = KraServiceLocator.getService(BusinessObjectService.class).findAll(ArgValueLookup.class);
+	            Collection<ArgValueLookup> argDescription = KcServiceLocator.getService(BusinessObjectService.class).findAll(ArgValueLookup.class);
 	            if (argDescription != null) {
 	                for (ArgValueLookup argValue : argDescription) {
 	                    if (argValue.getValue().equals(answerExplanation)) {
@@ -567,7 +540,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 
 	private void setDepartmentName(OrganizationContactPersonDataType PDPI,ProposalPerson PI) {
 	    if(PI.getHomeUnit() != null) {
-	        KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+	        KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
 	        KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
 	        String departmentName =  kcPersons.getOrganizationIdentifier();
 	        PDPI.setDepartmentName(departmentName);
@@ -956,7 +929,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
     private String getGGTrackingID() {
 
         String grantsGovTrackingId = null;
-        InstitutionalProposalService institutionalProposalService = KraServiceLocator
+        InstitutionalProposalService institutionalProposalService = KcServiceLocator
                 .getService(InstitutionalProposalService.class);
         if (institutionalProposalService.getInstitutionalProposal(pdDoc.getDevelopmentProposal().getProposalNumber()) != null) {
             grantsGovTrackingId = s2sUtilService.getGgTrackingIdFromProposal(institutionalProposalService

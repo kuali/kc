@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.personmasschange.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.rule.PerformPersonMassChangeRule;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
-public class PerformPersonMassChangeEvent extends KraDocumentEventBaseExtension {
+public class PerformPersonMassChangeEvent extends KcDocumentEventBaseExtension {
     
     private PersonMassChange personMassChange;
 
@@ -41,7 +41,7 @@ public class PerformPersonMassChangeEvent extends KraDocumentEventBaseExtension 
     }
 
     @Override
-    public BusinessRuleInterface<PerformPersonMassChangeEvent> getRule() {
+    public KcBusinessRule<PerformPersonMassChangeEvent> getRule() {
         return new PerformPersonMassChangeRule();
     }
 

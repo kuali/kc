@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.actions.amendrenew.CreateAmendmentEventBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
-import org.kuali.kra.rule.BusinessRuleInterface;
 
 public class CreateIacucAmendmentEvent extends CreateAmendmentEventBase {
 
@@ -27,7 +27,7 @@ public class CreateIacucAmendmentEvent extends CreateAmendmentEventBase {
     }
 
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new CreateIacucAmendmentRule();
     }
 

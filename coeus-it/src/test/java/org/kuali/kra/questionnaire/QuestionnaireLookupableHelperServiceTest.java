@@ -20,12 +20,8 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.junit.*;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -40,7 +36,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestBase {
 
     private QuestionnaireLookupableHelperServiceImpl questionnaireLookupableHelperServiceImpl;
@@ -51,7 +49,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
     public void setUp() throws Exception {
         questionnaireLookupableHelperServiceImpl = new QuestionnaireLookupableHelperServiceImpl();
         questionnaireLookupableHelperServiceImpl.setBusinessObjectClass(Questionnaire.class);
-        documentService = KraServiceLocator.getService(DocumentService.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
    }
 
@@ -71,13 +69,13 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
     @Test
     @Ignore //KCINFR-981
     public void testGetSearchResults() throws Exception {
-        MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
+        MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
         documentService.routeDocument(maintDocument, null, null);
         
         // 2nd document
-        maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
+        maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 2"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test2", "desc 2"));
         documentService.routeDocument(maintDocument, null, null);
@@ -123,7 +121,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
             one(questionnaireAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
             will(returnValue(true));
         }});
-        MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
+        MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
         documentService.routeDocument(maintDocument,null,null);
@@ -156,7 +154,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
             one(questionnaireAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
             will(returnValue(true));
         }});
-        MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
+        MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
         documentService.routeDocument(maintDocument,null,null);
@@ -191,7 +189,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
             will(returnValue(false));
         }});
   
-        MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
+        MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
         documentService.routeDocument(maintDocument,null,null);

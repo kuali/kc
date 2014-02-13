@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.personnel;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.personnel.AddProtocolPersonnelEventBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
  * Represents the event to add a ProtocolPersonnel.
@@ -37,7 +37,7 @@ public class AddProtocolPersonnelEvent extends AddProtocolPersonnelEventBase {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddProtocolPersonnelRule();
     }
 

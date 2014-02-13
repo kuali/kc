@@ -16,12 +16,12 @@
 package org.kuali.kra.budget.nonpersonnel;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -29,7 +29,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ValidCeRateTypeMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class ValidCeRateTypeMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
     /**
      * Constructs a ValidCeRateTypeMaintenanceDocumentRule.java.
@@ -74,7 +74,7 @@ public class ValidCeRateTypeMaintenanceDocumentRule extends KraMaintenanceDocume
             Map pkMap = new HashMap();
             pkMap.put("rateClassCode", validCeRateType.getRateClassCode());
             pkMap.put("rateTypeCode", validCeRateType.getRateTypeCode());
-            RateType rateType = (RateType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(RateType.class, pkMap);
+            RateType rateType = (RateType) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(RateType.class, pkMap);
             if (rateType == null ) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
                         new String[] { validCeRateType.getRateClassCode(), validCeRateType.getRateTypeCode() });

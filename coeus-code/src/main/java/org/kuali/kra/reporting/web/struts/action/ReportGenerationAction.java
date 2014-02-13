@@ -21,15 +21,15 @@ import org.apache.struts.action.ActionMapping;
 import org.eclipse.birt.report.engine.api.*;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.reporting.BirtHelper;
 import org.kuali.kra.reporting.bo.BirtParameterBean;
 import org.kuali.kra.reporting.bo.CustReportDetails;
 import org.kuali.kra.reporting.service.BirtReportService;
 import org.kuali.kra.reporting.web.struts.form.ReportGenerationForm;
-import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -62,7 +62,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         ReportGenerationForm reportGenerationForm = (ReportGenerationForm) form;
         ArrayList<BirtParameterBean> parameterList = new ArrayList<BirtParameterBean>();       
         if (request.getParameter("reportId") != null) {
-            parameterList = KraServiceLocator.getService(BirtReportService.class).getInputParametersFromTemplateFile(
+            parameterList = KcServiceLocator.getService(BirtReportService.class).getInputParametersFromTemplateFile(
                     request.getParameter("reportId"));
             reportGenerationForm.setReportParameterList(parameterList);
             reportGenerationForm.setReportId(request.getParameter("reportId"));
@@ -98,7 +98,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         boolean isValid = Boolean.TRUE;
 
         ReportGenerationForm reportGenerationForm = (ReportGenerationForm) form;
-        reportDesignInputStream = KraServiceLocator.getService(BirtReportService.class).getReportDesignFileStream(reportId);
+        reportDesignInputStream = KcServiceLocator.getService(BirtReportService.class).getReportDesignFileStream(reportId);
         iReportRunnableDesign = BirtHelper.getEngine().openReportDesign(reportDesignInputStream);
         designHandle = (ReportDesignHandle) iReportRunnableDesign.getDesignHandle();
         designHandle.getDataSources().add(BirtHelper.getDataSourceHandle());
@@ -106,8 +106,8 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         iReportRunnableDesign.setDesignHandle(designHandle);
         IRunAndRenderTask reportTask = BirtHelper.getEngine().createRunAndRenderTask(iReportRunnableDesign);
         HashMap parameters = new HashMap();
-        parameterList = KraServiceLocator.getService(BirtReportService.class).getInputParametersFromTemplateFile(reportId);
-        CustReportDetails reportDetails = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(
+        parameterList = KcServiceLocator.getService(BirtReportService.class).getInputParametersFromTemplateFile(reportId);
+        CustReportDetails reportDetails = KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(
                 CustReportDetails.class, reportId);
         reportGenerationForm.setReportParameterList(parameterList);
         reportGenerationForm.setReportId(reportId);
@@ -116,7 +116,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         for (BirtParameterBean parameterBean : parameterList) {
             if (parameterBean.getDataType() == Constants.DATE_TIME_TYPE) {
                 try {
-                      Date inputDate = KraServiceLocator.getService(DateTimeService.class).convertToDateTime( request.getParameter("reportParameterList[" + birtCounter + "].inputParameterText"));
+                      Date inputDate = KcServiceLocator.getService(DateTimeService.class).convertToDateTime( request.getParameter("reportParameterList[" + birtCounter + "].inputParameterText"));
                       parameters.put(parameterBean.getName(), inputDate);
                 } catch (Exception exception) {
                     (new ErrorReporter()).reportError("reportParameterList[0].inputParameterText",
@@ -179,6 +179,6 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
     }
     
     public BirtReportService getBirtReportService() {
-        return KraServiceLocator.getService(BirtReportService.class);
+        return KcServiceLocator.getService(BirtReportService.class);
     }
 }

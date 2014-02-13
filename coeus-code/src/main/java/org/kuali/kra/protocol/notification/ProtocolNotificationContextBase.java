@@ -16,12 +16,12 @@
 package org.kuali.kra.protocol.notification;
 
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.util.EmailAttachment;
@@ -70,7 +70,7 @@ public abstract class ProtocolNotificationContextBase extends NotificationContex
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
-        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
+        setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
     }
     
     /**

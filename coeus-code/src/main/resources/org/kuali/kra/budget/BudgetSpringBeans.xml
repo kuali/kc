@@ -129,9 +129,6 @@
 		<property name="budgetVersionRule">
 			<ref bean="budgetVersionRule"/>
 		</property>
-		<property name="deepCopyPostProcessor">
-			<ref bean="deepCopyPostProcessor"/>
-		</property>
 		<property name="budgetSummaryService">
 			<ref bean="budgetSummaryService"/>
 		</property>

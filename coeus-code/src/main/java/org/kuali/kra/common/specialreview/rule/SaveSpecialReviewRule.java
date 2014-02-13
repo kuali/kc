@@ -15,22 +15,22 @@
  */
 package org.kuali.kra.common.specialreview.rule;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rules.SpecialReviewRuleBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
  * Runs the rule processing for saving the Special Reviews.
  * @param <T> The subclass of SpecialReview
  */
 public class SaveSpecialReviewRule<T extends SpecialReview<? extends SpecialReviewExemption>> extends SpecialReviewRuleBase<T> 
-    implements BusinessRuleInterface<SaveSpecialReviewEvent<T>> {
+    implements KcBusinessRule<SaveSpecialReviewEvent<T>> {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(SaveSpecialReviewEvent<T> event) {
         return processSaveSpecialReviewEvent(event);

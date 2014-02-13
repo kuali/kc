@@ -18,6 +18,7 @@ package org.kuali.kra.award.awardhierarchy.sync.service;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.award.AwardDocumentRule;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -33,7 +34,6 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -754,7 +754,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      * @param runnables
      */
     protected void saveInTransaction(final Object object) {
-        TransactionTemplate template = new TransactionTemplate((PlatformTransactionManager) KraServiceLocator.getService("transactionManager"));
+        TransactionTemplate template = new TransactionTemplate((PlatformTransactionManager) KcServiceLocator.getService("transactionManager"));
         template.setPropagationBehavior(Propagation.REQUIRES_NEW.value());
         template.execute(new TransactionCallback() {
             @SuppressWarnings("unchecked")
@@ -780,7 +780,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
             public void run() {
                 GlobalVariables.setUserSession(session);
                 TransactionTemplate template = 
-                    new TransactionTemplate((PlatformTransactionManager) KraServiceLocator.getService("transactionManager"));
+                    new TransactionTemplate((PlatformTransactionManager) KcServiceLocator.getService("transactionManager"));
                 template.setPropagationBehavior(Propagation.REQUIRES_NEW.value());
                 template.execute(new TransactionCallback() {
                     public Object doInTransaction(TransactionStatus status) {
@@ -877,7 +877,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         @Override
         public synchronized void run() {
             try {
-                TransactionTemplate template = new TransactionTemplate((PlatformTransactionManager) KraServiceLocator.getService("transactionManager"));
+                TransactionTemplate template = new TransactionTemplate((PlatformTransactionManager) KcServiceLocator.getService("transactionManager"));
                 template.setPropagationBehavior(Propagation.REQUIRES_NEW.value());
                 template.execute(new TransactionCallback() {
                     public Object doInTransaction(TransactionStatus status) {

@@ -40,9 +40,9 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -1168,7 +1168,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 
 		KeyPersonCompensationDataType compensation = KeyPersonCompensationDataType.Factory
 				.newInstance();
-		BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+		BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         BudgetDecimal baseSalaryByPeriod; 
 		if (keyPerson != null) {
 			compensation.setAcademicMonths(keyPerson.getAcademicMonths()

@@ -20,16 +20,17 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
-import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Map;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertTrue;
 public class ProposalColumnsToAlterMaintainableImplTest extends KcIntegrationTestBase {
 
     private ProposalColumnsToAlterMaintainableImpl columnsToAlterMaintainable;
@@ -37,8 +38,8 @@ public class ProposalColumnsToAlterMaintainableImplTest extends KcIntegrationTes
     
     @Before
     public void setUp() throws Exception {
-        KraPersistenceStructureService persistenceStructureService = 
-            KraServiceLocator.getService(KraPersistenceStructureService.class);
+        KcPersistenceStructureService persistenceStructureService =
+            KcServiceLocator.getService(KcPersistenceStructureService.class);
         columnToAttrMap = persistenceStructureService.getDBColumnToObjectAttributeMap(DevelopmentProposal.class);
         
         columnsToAlterMaintainable = new ProposalColumnsToAlterMaintainableImpl();

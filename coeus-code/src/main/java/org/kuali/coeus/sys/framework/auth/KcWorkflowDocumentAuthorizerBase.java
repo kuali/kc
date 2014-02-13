@@ -18,8 +18,8 @@ package org.kuali.coeus.sys.framework.auth;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
@@ -104,7 +104,7 @@ public abstract class KcWorkflowDocumentAuthorizerBase extends KimDocumentTypeAu
 
     public DocumentService getDocumentService() {
         if (documentService == null) {
-            documentService = KraServiceLocator.getService(DocumentService.class);
+            documentService = KcServiceLocator.getService(DocumentService.class);
         }
         return documentService;
     }
@@ -115,7 +115,7 @@ public abstract class KcWorkflowDocumentAuthorizerBase extends KimDocumentTypeAu
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -64,9 +64,9 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
      * Constructs a RRFedNonFedBudgetBaseGenerator.java.
      */
     public RRFedNonFedBudgetBaseGenerator() {
-        s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-        s2sBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
-        budgetService = KraServiceLocator.getService(BudgetService.class);
+        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+        s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
+        budgetService = KcServiceLocator.getService(BudgetService.class);
     }
     
     /**
@@ -141,7 +141,7 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
      * @return the documentService
      */
     public DocumentService getDocumentService() {
-        return KraServiceLocator.getService(DocumentService.class);
+        return KcServiceLocator.getService(DocumentService.class);
     }
 
     /**

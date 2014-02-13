@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad;
-import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -38,7 +38,7 @@ public class InstitutionalProposalNoteAddEvent  extends InstitutionalProposalNot
     
     @SuppressWarnings("unchecked")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new InstitutionalProposalNoteAddRule();
     }
 

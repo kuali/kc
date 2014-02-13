@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KcPerson;
@@ -38,7 +39,6 @@ import org.kuali.kra.iacuc.species.IacucProtocolSpeciesHelper;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionHelper;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearchHelper;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
@@ -297,7 +297,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
 
     
    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-       return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+       return KcServiceLocator.getService(IacucProtocolOnlineReviewService.class);
    }
 
   
@@ -340,7 +340,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
     }
 
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
-        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+        return (IacucProtocolProcedureService) KcServiceLocator.getService("iacucProtocolProcedureService");
     }
 
     public boolean isReinitializeModifySubmissionFields() {

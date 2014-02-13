@@ -16,12 +16,13 @@
 package org.kuali.kra.rule.event;
 
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.CustomDataRule;
-import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.Map;
 /**
  * Encapsulates a validation event for a Custom Attribute add action.
  */
-public class SaveCustomDataEvent extends KraDocumentEventBaseExtension {
+public class SaveCustomDataEvent extends KcDocumentEventBaseExtension {
 
     private boolean validateRequiredFields = false;
     private List<? extends DocumentCustomData> customDataList;
@@ -63,7 +64,7 @@ public class SaveCustomDataEvent extends KraDocumentEventBaseExtension {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new CustomDataRule();
     }
 

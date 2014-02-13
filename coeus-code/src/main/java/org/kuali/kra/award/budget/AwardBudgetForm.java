@@ -17,6 +17,7 @@ package org.kuali.kra.award.budget;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
@@ -27,7 +28,6 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -94,7 +94,7 @@ public class AwardBudgetForm extends BudgetForm {
         String krImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         
-        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService tas = KcServiceLocator.getService(TaskAuthorizationService.class);
         if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.TOGGLE_AWARD_BUDGET_STATUS, doc))) {
             String toggleAwardStatusButtonImage = buildExtraButtonSourceURI("buttonsmall_toggleBudgetStatus.gif");
             addExtraButton("methodToCall.toggleAwardBudgetStatus", toggleAwardStatusButtonImage, "Toggle Budget Status");

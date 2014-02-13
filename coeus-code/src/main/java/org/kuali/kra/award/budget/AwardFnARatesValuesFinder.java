@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.budget;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -30,8 +30,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class AwardFnARatesValuesFinder extends UifKeyValuesFinderBase {
-    KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-    ParameterService parameterService = (ParameterService)KraServiceLocator.getService(ParameterService.class);
+    KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
+    ParameterService parameterService = (ParameterService) KcServiceLocator.getService(ParameterService.class);
     /**
      * Constructs the list of Budget Periods.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique

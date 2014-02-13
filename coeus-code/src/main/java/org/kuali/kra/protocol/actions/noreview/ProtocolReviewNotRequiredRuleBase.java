@@ -17,13 +17,13 @@ package org.kuali.kra.protocol.actions.noreview;
 
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class managed the business rules of marking a protocol as not required.
  */
-public abstract class ProtocolReviewNotRequiredRuleBase extends ResearchDocumentRuleBase implements ExecuteProtocolReviewNotRequiredRule {
+public abstract class ProtocolReviewNotRequiredRuleBase extends KcTransactionalDocumentRuleBase implements ExecuteProtocolReviewNotRequiredRule {
 
     /**
      * @see org.kuali.kra.irb.actions.noreview.ExecuteProtocolReviewNotRequiredRule#processReviewNotRequiredRule(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean)

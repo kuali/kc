@@ -22,6 +22,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -36,7 +38,10 @@ import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -50,7 +55,10 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.service.*;
+import org.kuali.kra.service.KcAuthorizationService;
+import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.service.UnitService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -79,7 +87,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private BusinessObjectService businessObjectService;
     private DataObjectService dataObjectService;
     private UnitAuthorizationService unitAuthService;
-    private KraPersistenceStructureService kraPersistenceStructureService;
+    private KcPersistenceStructureService kraPersistenceStructureService;
     private BudgetService budgetService;
     private ParameterService parameterService;
     private DocumentService documentService;
@@ -402,11 +410,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return ip;
     }
 
-    public KraPersistenceStructureService getKraPersistenceStructureService() {
+    public KcPersistenceStructureService getKraPersistenceStructureService() {
         return kraPersistenceStructureService;
     }
 
-    public void setKraPersistenceStructureService(KraPersistenceStructureService kraPersistenceStructureService) {
+    public void setKraPersistenceStructureService(KcPersistenceStructureService kraPersistenceStructureService) {
         this.kraPersistenceStructureService = kraPersistenceStructureService;
     }
 
@@ -662,7 +670,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         if(getRoleService().principalHasRole(principalId, roleIds, qualifications)){
             return true;
         }
-        KcAuthorizationService proposalAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService proposalAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
         List<KcPerson> persons = proposalAuthService.getPersonsInRole(document, RoleConstants.AGGREGATOR);
         for (KcPerson person : persons) {
             if(GlobalVariables.getUserSession().getPrincipalName().equals(person.getUserName())){
@@ -871,7 +879,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     protected ProposalDevelopmentDocument getProposalDoc(String pdDocumentNumber) throws Exception {
         ProposalDevelopmentDocument newCopy;
-        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService docService = KcServiceLocator.getService(DocumentService.class);
         newCopy = (ProposalDevelopmentDocument)docService.getByDocumentHeaderId(pdDocumentNumber);        
         return newCopy;
     }
@@ -891,8 +899,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      */
     public List<String> constructColumnsToAlterLookupMTCs(String proposalNumber) {
         Map<String,Object> filterMap = new HashMap<String,Object>();
-        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
-        Collection<ProposalColumnsToAlter> proposalColumnsToAlterCollection = (KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProposalColumnsToAlter.class, filterMap));
+        ProposalDevelopmentService proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        Collection<ProposalColumnsToAlter> proposalColumnsToAlterCollection = (KcServiceLocator.getService(BusinessObjectService.class).findMatching(ProposalColumnsToAlter.class, filterMap));
         
         List<String> mtcReturn = new ArrayList<String>();
         

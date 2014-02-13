@@ -21,6 +21,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -40,7 +41,6 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -53,8 +53,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 public class BudgetParametersAction extends BudgetAction {
@@ -89,7 +89,7 @@ public class BudgetParametersAction extends BudgetAction {
 
 
     private BudgetRatesService getBudgetRatesService() {
-        return KraServiceLocator.getService(BudgetRatesService.class);
+        return KcServiceLocator.getService(BudgetRatesService.class);
     }
 
 
@@ -127,7 +127,7 @@ public class BudgetParametersAction extends BudgetAction {
                 // update campus flag if budget level flag is changed
                 if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                    KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                    KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                                                                                                    budget.getOnOffCampusFlag());
                 }
                 boolean valid = true;
@@ -170,7 +170,7 @@ public class BudgetParametersAction extends BudgetAction {
     }
 
     private boolean isValidToComplete(BudgetParentDocument document) throws Exception {
-        boolean valid = KraServiceLocator.getService(BudgetService.class).validateBudgetAuditRuleBeforeSaveBudgetVersion(document);
+        boolean valid = KcServiceLocator.getService(BudgetService.class).validateBudgetAuditRuleBeforeSaveBudgetVersion(document);
 
         if (!valid) {
             GlobalVariables.getMessageMap().putError("document.budgetDocumentVersion[" + 0 + "].budgetVersionOverview.budgetStatus",
@@ -187,7 +187,7 @@ public class BudgetParametersAction extends BudgetAction {
     private boolean isRateTypeChanged(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
-        BudgetDocument originalBudgetDocument = (BudgetDocument)KraServiceLocator.getService(BusinessObjectService.class).retrieve(budgetDocument);
+        BudgetDocument originalBudgetDocument = (BudgetDocument) KcServiceLocator.getService(BusinessObjectService.class).retrieve(budgetDocument);
         Budget originalBudget = originalBudgetDocument.getBudget();
         
         return (!StringUtils.equalsIgnoreCase(originalBudget.getOhRateClassCode(), budget.getOhRateClassCode())
@@ -204,7 +204,7 @@ public class BudgetParametersAction extends BudgetAction {
         // the rate type was changed after a validation error occured. We might want to consider getting rid of
         // ohRateClassCodePrevValue urRateClassCodePrevValue altogether in favor of using the BusinessObjectService
         // as below.
-        BudgetDocument originalBudgetDocument = (BudgetDocument)KraServiceLocator.getService(BusinessObjectService.class).retrieve(budgetDocument);
+        BudgetDocument originalBudgetDocument = (BudgetDocument) KcServiceLocator.getService(BusinessObjectService.class).retrieve(budgetDocument);
         budgetForm.setOhRateClassCodePrevValue(originalBudgetDocument.getBudget().getOhRateClassCode());
         budgetForm.setUrRateClassCodePrevValue(originalBudgetDocument.getBudget().getUrRateClassCode());
         
@@ -219,7 +219,7 @@ public class BudgetParametersAction extends BudgetAction {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                 || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                                                                                                budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
@@ -237,7 +237,7 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         if (isRateTypeChanged(budgetForm)) {
-            BudgetDocument originalBudgetDocument = (BudgetDocument) KraServiceLocator.getService(BusinessObjectService.class)
+            BudgetDocument originalBudgetDocument = (BudgetDocument) KcServiceLocator.getService(BusinessObjectService.class)
                     .retrieve(budgetDocument);
             budgetForm.setOhRateClassCodePrevValue(originalBudgetDocument.getBudget().getOhRateClassCode());
             budgetForm.setUrRateClassCodePrevValue(originalBudgetDocument.getBudget().getUrRateClassCode());
@@ -254,7 +254,7 @@ public class BudgetParametersAction extends BudgetAction {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
@@ -404,7 +404,7 @@ public class BudgetParametersAction extends BudgetAction {
         
         if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                 || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-            KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+            KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                     budget.getOnOffCampusFlag());
         }
         /* calculate first period - only period 1 exists at this point */
@@ -434,7 +434,7 @@ public class BudgetParametersAction extends BudgetAction {
         else {
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
             }
             /* calculate all periods */
@@ -464,7 +464,7 @@ public class BudgetParametersAction extends BudgetAction {
         if (CONFIRM_RECALCULATE_BUDGET_KEY.equals(question)) {
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
+                KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
             }
             /* calculate all periods */
@@ -534,7 +534,7 @@ public class BudgetParametersAction extends BudgetAction {
         // set version number for saving
         Map<String, Long> budgetPeriodMap = new HashMap<String, Long>();
         budgetPeriodMap.put("budgetId", budget.getBudgetId());
-        Collection<BudgetPeriod> existBudgetPeriods = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+        Collection<BudgetPeriod> existBudgetPeriods = KcServiceLocator.getService(BusinessObjectService.class).findMatching(
                 BudgetPeriod.class, budgetPeriodMap);
         for (BudgetPeriod budgetPeriod : existBudgetPeriods) {
             for (BudgetPeriod newBudgetPeriod : budget.getBudgetPeriods()) {
@@ -737,7 +737,7 @@ public class BudgetParametersAction extends BudgetAction {
             @SuppressWarnings("unchecked")
             Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(budgetForm.getLookupResultsBOClassName());
             
-            Collection<BusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+            Collection<BusinessObject> rawValues = KcServiceLocator.getService(LookupResultsService.class)
                 .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
                         GlobalVariables.getUserSession().getPerson().getPrincipalId());
             
@@ -751,7 +751,7 @@ public class BudgetParametersAction extends BudgetAction {
     }
     
     private AwardBudgetService getAwardBudgetService() {
-        return KraServiceLocator.getService(AwardBudgetService.class);
+        return KcServiceLocator.getService(AwardBudgetService.class);
     }    
 
     

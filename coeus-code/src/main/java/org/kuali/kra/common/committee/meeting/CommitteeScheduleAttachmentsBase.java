@@ -21,10 +21,10 @@ package org.kuali.kra.common.committee.meeting;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -142,7 +142,7 @@ public abstract class CommitteeScheduleAttachmentsBase extends KcPersistableBusi
         this.attachmentsTypeCode = attachmentsTypeCode;
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("attachmentsTypeCode", attachmentsTypeCode);
-        AttachmentsEntryType attachmentsEntryType =  KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(AttachmentsEntryType.class, fieldValues);
+        AttachmentsEntryType attachmentsEntryType =  KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(AttachmentsEntryType.class, fieldValues);
         if(attachmentsEntryType!=null){
             this.attachmentsEntryType = attachmentsEntryType;
             if(this.attachmentsEntryType !=null)
@@ -361,7 +361,7 @@ public abstract class CommitteeScheduleAttachmentsBase extends KcPersistableBusi
 
     @Override
     public String getIconPath() {
-        return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
+        return KcServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
     }
 
 }

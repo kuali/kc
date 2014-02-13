@@ -16,11 +16,11 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -32,13 +32,13 @@ import java.util.Map;
  * 
  * This class is rule for save FE
  */
-public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveFinancialEntityEvent> {
+public class SaveFinancialEntityRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<SaveFinancialEntityEvent> {
     
     private static final String SPONSOR_CODE = "sponsorCode";
     private SponsorService sponsorService;
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(SaveFinancialEntityEvent event) {
         boolean isValid = checkValidSponsor(event);
@@ -112,7 +112,7 @@ public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements
 
     public SponsorService getSponsorService() {
         if (sponsorService == null) {
-            sponsorService = KraServiceLocator.getService(SponsorService.class);
+            sponsorService = KcServiceLocator.getService(SponsorService.class);
         }
         return sponsorService;
     }

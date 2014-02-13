@@ -26,10 +26,10 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Validates Credit Splits on a <code>{@link ProposalPerson}</code> and/or <code>{@link ProposalPersonUnit}</code> by

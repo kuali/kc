@@ -21,8 +21,8 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -35,7 +35,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Timestamp;
 import java.util.*;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
 
 
@@ -57,7 +59,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
 
         businessObjectService = context.mock(BusinessObjectService.class);
         protocolActionService.setBusinessObjectService(businessObjectService);
-        protocolActionService.setFollowupActionService(KraServiceLocator.getService(FollowupActionService.class));
+        protocolActionService.setFollowupActionService(KcServiceLocator.getService(FollowupActionService.class));
 
         dao = context.mock(ProtocolDao.class);
         protocolActionService.setProtocolDao(dao);

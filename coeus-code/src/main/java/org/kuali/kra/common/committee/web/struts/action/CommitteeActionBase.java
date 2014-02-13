@@ -20,12 +20,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.Map;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 /**
  * The CommitteeActionBase is the base class for all CommitteeBase actions.  Each derived
@@ -136,7 +136,7 @@ public abstract class CommitteeActionBase extends KcTransactionalDocumentActionB
 
                 Class lookupResultsBOClass = Class.forName(committeeForm.getLookupResultsBOClassName());
                 String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-                LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
+                LookupResultsService service = KcServiceLocator.getService(LookupResultsService.class);
                 Collection<PersistableBusinessObject> selectedBOs = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, principalId);
 
                 processMultipleLookupResults(committeeForm, lookupResultsBOClass, selectedBOs);

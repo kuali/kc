@@ -16,20 +16,20 @@
 package org.kuali.kra.protocol.actions.reviewcomments;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
  * This class implements the business rule when adding new review attachment.  ie, validate description and file are entered.
  */
-public class ProtocolAddReviewAttachmentRule<E extends ProtocolAddReviewAttachmentEventBase<?>> extends ResearchDocumentRuleBase implements BusinessRuleInterface<E> {
+public class ProtocolAddReviewAttachmentRule<E extends ProtocolAddReviewAttachmentEventBase<?>> extends KcTransactionalDocumentRuleBase implements KcBusinessRule<E> {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(E event) {
         boolean isValid = true;

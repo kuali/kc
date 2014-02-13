@@ -21,9 +21,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.bo.PropPerDocType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
 
 import javax.persistence.*;
@@ -239,7 +239,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     }
 
     public String getIconPath() {
-        return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
+        return KcServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
     }
 
     public int getPositionNumber() {

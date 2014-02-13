@@ -16,13 +16,13 @@
 package org.kuali.kra.personmasschange.rule;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.*;
 import org.kuali.kra.personmasschange.rule.event.PerformPersonMassChangeEvent;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<PerformPersonMassChangeEvent> {
+public class PerformPersonMassChangeRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<PerformPersonMassChangeEvent> {
     
     private static final String REPLACEE_FULL_NAME_FIELD = "document.personMassChange.replaceeFullName";
     private static final String REPLACER_FULL_NAME_FIELD = "document.personMassChange.replacerFullName";
@@ -88,7 +88,7 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(PerformPersonMassChangeEvent event) {
         return processPerformMassChangeEvent(event);

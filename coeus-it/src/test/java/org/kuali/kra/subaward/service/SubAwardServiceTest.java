@@ -19,16 +19,17 @@ import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 public class SubAwardServiceTest extends KcIntegrationTestBase {
     SubAwardService subAwardService;
     @Before
     public void setUp() throws Exception {
-        subAwardService = KraServiceLocator.getService(SubAwardService.class);
+        subAwardService = KcServiceLocator.getService(SubAwardService.class);
     }
 
     @After

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.actions.genericactions;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * Encapsulates the event that the user performs a generic action.
  */
-public abstract class ProtocolGenericActionEventBase extends KraDocumentEventBaseExtension {
+public abstract class ProtocolGenericActionEventBase extends KcDocumentEventBaseExtension {
     
     private ProtocolGenericActionBean protocolGenericActionBean;
 

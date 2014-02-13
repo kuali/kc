@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.correspondence;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -32,7 +32,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
 import java.util.Map;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertTrue;
 public class ProtocolActionCorrespondenceGenerationServiceTest extends KcIntegrationTestBase {
     
     ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
@@ -41,8 +42,8 @@ public class ProtocolActionCorrespondenceGenerationServiceTest extends KcIntegra
 
     @Before
     public void setUp() throws Exception {
-        protocolActionCorrespondenceGenerationService = KraServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
-        businessObjectService  = KraServiceLocator.getService(BusinessObjectService.class);
+        protocolActionCorrespondenceGenerationService = KcServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
+        businessObjectService  = KcServiceLocator.getService(BusinessObjectService.class);
         protocol = ProtocolFactory.createProtocolDocument().getProtocol();
         createActionHistory();
     }

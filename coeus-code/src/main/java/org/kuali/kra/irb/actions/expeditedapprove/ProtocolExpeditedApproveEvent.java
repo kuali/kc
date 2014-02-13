@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.actions.expeditedapprove;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveEvent;
-import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
  * Encapsulates the event that the IRB Administrator approves a protocol.
@@ -35,7 +35,7 @@ public class ProtocolExpeditedApproveEvent extends ProtocolApproveEvent {
     
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new ProtocolExpeditedApproveRule();
     }
     

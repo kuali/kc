@@ -16,10 +16,10 @@
 package org.kuali.kra.common.committee.meeting;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
@@ -400,7 +400,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         if(primaryKey != null) {
             HashMap<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("commScheduleMinutesId", primaryKey.toString());
-            retVal = (CSM) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
+            retVal = (CSM) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
         }
         return retVal;
     }
@@ -619,7 +619,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

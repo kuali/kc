@@ -15,12 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.form;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
@@ -38,11 +34,15 @@ import org.kuali.kra.iacuc.committee.document.authorization.IacucCommitteeSchedu
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class IacucCommitteeHelper extends CommitteeHelperBase {
 
@@ -93,7 +93,7 @@ public class IacucCommitteeHelper extends CommitteeHelperBase {
         List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
         Map<String, Object> values = new HashMap<String, Object>();
         List<IacucProtocolCorrespondenceType> correspondenceTypes = (List<IacucProtocolCorrespondenceType>)
-                KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolCorrespondenceType.class,values);
+                KcServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolCorrespondenceType.class,values);
         for(IacucProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
             if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.COMMITTEE.getCode())) {
                 CorrespondencePrintOption printOption = new CorrespondencePrintOption();

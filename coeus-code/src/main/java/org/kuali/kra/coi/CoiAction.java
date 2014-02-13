@@ -20,6 +20,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.actions.CoiDisclosureActionService;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.CoiGroupedMasterDisclosureBean;
@@ -29,9 +31,7 @@ import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
@@ -96,7 +96,7 @@ public abstract class CoiAction extends KcTransactionalDocumentActionBase {
 
 
     protected CoiDisclosureService getCoiDisclosureService() {
-        return KraServiceLocator.getService(CoiDisclosureService.class);
+        return KcServiceLocator.getService(CoiDisclosureService.class);
     }
 
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -105,10 +105,10 @@ public abstract class CoiAction extends KcTransactionalDocumentActionBase {
     }
     
     protected CoiDisclosureActionService getCoiDisclosureActionService() {
-        return KraServiceLocator.getService(CoiDisclosureActionService.class);
+        return KcServiceLocator.getService(CoiDisclosureActionService.class);
     }
 
-    protected boolean checkRule(KraDocumentEventBaseExtension event) {
+    protected boolean checkRule(KcDocumentEventBaseExtension event) {
         return event.getRule().processRules(event);
     }
 
@@ -132,7 +132,7 @@ public abstract class CoiAction extends KcTransactionalDocumentActionBase {
     }
 
     protected KcNotificationService getNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
+        return KcServiceLocator.getService(KcNotificationService.class);
     }
     
     /**
@@ -146,7 +146,7 @@ public abstract class CoiAction extends KcTransactionalDocumentActionBase {
     }
     
     protected List<String> getUnitRulesMessages(CoiDisclosureDocument coiDisclosureDoc) {
-        KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
+        KrmsRulesExecutionService rulesService = KcServiceLocator.getService(KrmsRulesExecutionService.class);
         return rulesService.processUnitValidations(coiDisclosureDoc.getCoiDisclosure().getLeadUnitNumber(), coiDisclosureDoc);
     }
     

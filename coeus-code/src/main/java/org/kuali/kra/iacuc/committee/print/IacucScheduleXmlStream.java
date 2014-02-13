@@ -21,6 +21,7 @@ import edu.mit.coeus.xml.iacuc.ScheduleType.OtherBusiness;
 import edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
@@ -34,7 +35,6 @@ import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -91,7 +91,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         
         //For some reason Spring isn't always populating this service.  SIGH!
         if (getPrintXmlUtilService() == null) {
-            printXmlUtilService = KraServiceLocator.getService(IacucPrintXmlUtilService.class);
+            printXmlUtilService = KcServiceLocator.getService(IacucPrintXmlUtilService.class);
         }
         
         getPrintXmlUtilService().setMinutes(committeeSchedule, schedule);

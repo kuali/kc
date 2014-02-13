@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.coi.actions;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiUserRole;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * 
  * This class represents the event fired when a coi reviewer is added to 
  * a disclosure.
  */
-public class AddCoiReviewerEvent extends KraDocumentEventBaseExtension {
+public class AddCoiReviewerEvent extends KcDocumentEventBaseExtension {
 
     private String propertyName;
     private CoiDisclosure coiDisclosure;
@@ -41,7 +41,7 @@ public class AddCoiReviewerEvent extends KraDocumentEventBaseExtension {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddCoiReviewerRule();
     }
 

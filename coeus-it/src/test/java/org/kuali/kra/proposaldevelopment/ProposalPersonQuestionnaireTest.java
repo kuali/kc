@@ -20,9 +20,9 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -46,6 +46,7 @@ import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
 import java.util.List;
+
 import static org.junit.Assert.*;
 public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
     
@@ -67,11 +68,11 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        dataObjectService = KraServiceLocator.getService(DataObjectService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
+        proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
         proposal = getDocument().getDevelopmentProposal();//throw this one away
         proposal = getDocument().getDevelopmentProposal();
         form = new ProposalDevelopmentForm();
@@ -104,7 +105,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         document = (ProposalDevelopmentDocument) documentService.saveDocument(document);
         
         if (document.getDevelopmentProposal().getProposalPersons().isEmpty()) {
-            KcPerson person = KraServiceLocator.getService(KcPersonService.class).getKcPersonByUserName("quickstart");
+            KcPerson person = KcServiceLocator.getService(KcPersonService.class).getKcPersonByUserName("quickstart");
             ProposalPerson pp = new ProposalPerson();
             pp.setPersonId(person.getPersonId());
             pp.setDevelopmentProposal(document.getDevelopmentProposal());

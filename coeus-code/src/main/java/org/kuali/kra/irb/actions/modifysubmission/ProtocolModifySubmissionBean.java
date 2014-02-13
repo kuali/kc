@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.submit.*;
@@ -155,6 +155,6 @@ public class ProtocolModifySubmissionBean extends ProtocolActionBean implements 
     }
     
     private CheckListService getCheckListService() {
-        return KraServiceLocator.getService(CheckListService.class);
+        return KcServiceLocator.getService(CheckListService.class);
     }
 }

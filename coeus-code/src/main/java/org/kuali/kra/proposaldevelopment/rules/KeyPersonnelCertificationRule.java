@@ -15,18 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -34,7 +28,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -44,7 +37,14 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class KeyPersonnelCertificationRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE;
+
+public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
 
     public static final String KEY_PERSONNEL_AUDIT_CLUSTER_KEY = "keyPersonnelAuditErrors";
 
@@ -164,7 +164,7 @@ public class KeyPersonnelCertificationRule extends ResearchDocumentRuleBase impl
         boolean retval = true;
         
         ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(investigator.getDevelopmentProposal(), investigator);
-        List<AnswerHeader> headers = KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
+        List<AnswerHeader> headers = KcServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
         
         for (AnswerHeader head : headers) {
             retval &= head.getCompleted();

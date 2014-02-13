@@ -16,13 +16,13 @@
 package org.kuali.kra.institutionalproposal.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * This class...
  */
-public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocumentRuleBase implements
+public class InstitutionalProposalSponsorAndProgramRuleImpl extends KcTransactionalDocumentRuleBase implements
         InstitutionalProposalSponsorAndProgramRule {
 
 
@@ -89,7 +89,7 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocu
         if(!(sponsorCode == null)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("sponsorCode", sponsorCode);
-            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);       
+            BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
             List<Sponsor> sponsors = (List<Sponsor>)businessObjectService.findMatching(Sponsor.class, fieldValues);
             if(sponsors.size() == 0) {
                 this.reportError("document.institutionalProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
@@ -106,7 +106,7 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocu
         if (!(primeSponsorId == null)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("sponsorCode", primeSponsorId);
-            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);       
+            BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
             List<Sponsor> sponsors = (List<Sponsor>)businessObjectService.findMatching(Sponsor.class, fieldValues);
             if(sponsors.size() == 0) {
                 this.reportError("document.institutionalProposal.primeSponsorCode", KeyConstants.ERROR_INVALID_PRIME_SPONSOR_CODE);
@@ -120,7 +120,7 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocu
     private boolean validateCfdaNumber(InstitutionalProposal institutionalProposal) {
         boolean valid = true;
         String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         if (StringUtils.isNotBlank(institutionalProposal.getCfdaNumber())
                 && !(institutionalProposal.getCfdaNumber().matches(regExpr))
                 && GlobalVariables.getMessageMap().getMessages("document.institutionalProposalList[0].cfdaNumber") == null) {

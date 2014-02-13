@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class SaveDisclosureReporterUnitRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveDisclosureReporterUnitEvent> {
+public class SaveDisclosureReporterUnitRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<SaveDisclosureReporterUnitEvent> {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(SaveDisclosureReporterUnitEvent event) {
         boolean isValid = true;

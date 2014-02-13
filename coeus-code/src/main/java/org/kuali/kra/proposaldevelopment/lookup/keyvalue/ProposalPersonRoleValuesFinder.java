@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -32,8 +32,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.*;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 public class ProposalPersonRoleValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
@@ -48,7 +48,7 @@ public class ProposalPersonRoleValuesFinder extends FormViewAwareUifKeyValuesFin
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

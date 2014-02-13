@@ -16,8 +16,8 @@
 package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcPostProcessor;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionTaken;
@@ -68,7 +68,7 @@ public class QuestionnairePostProcessor extends KcPostProcessor {
     }
 
     private RouteHeaderService getRouteHeaderService() {
-        return KraServiceLocator.getService(RouteHeaderService.class);
+        return KcServiceLocator.getService(RouteHeaderService.class);
     }
 
 }

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * Encapsulates the event that the IRB Administrator approves a protocol.
  */
-public class ProtocolApproveEvent extends KraDocumentEventBaseExtension {
+public class ProtocolApproveEvent extends KcDocumentEventBaseExtension {
         
     private ProtocolApproveBean protocolApproveBean;
     
@@ -43,7 +43,7 @@ public class ProtocolApproveEvent extends KraDocumentEventBaseExtension {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new ProtocolApproveRule();
     }
     

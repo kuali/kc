@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.coi;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KcRulesEngineExecuter;
 import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
@@ -44,7 +44,7 @@ public class CoiDisclosureRulesEngineExecutorImpl  extends KcRulesEngineExecuter
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap("Unit Number", unitNumber));
 
-        KcKrmsFactBuilderService fbService = KraServiceLocator.getService("coiDisclosureFactBuilderService");
+        KcKrmsFactBuilderService fbService = KcServiceLocator.getService("coiDisclosureFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, docContent);
         EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);

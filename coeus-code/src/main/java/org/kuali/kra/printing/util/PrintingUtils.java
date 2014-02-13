@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.printing.util;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.coi.print.CoiDisclosureType;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
@@ -87,7 +87,7 @@ public class PrintingUtils {
 	 * @see org.kuali.kra.s2s.service.S2SUtilService#getParameterValue(java.lang.String)
 	 */
 	public static String getParameterValue(String parameter) {
-		ParameterService parameterService = KraServiceLocator
+		ParameterService parameterService = KcServiceLocator
 				.getService(ParameterService.class);
 		return parameterService.getParameterValueAsString(
 				ProposalDevelopmentDocument.class, parameter);
@@ -101,7 +101,7 @@ public class PrintingUtils {
 	 * @return
 	 */
     public static String getParameterValue(Class clazz, String parameter) {
-        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
+        ParameterService parameterService = KcServiceLocator.getService(ParameterService.class);
         return parameterService.getParameterValueAsString(clazz, parameter);
     }
 
@@ -121,11 +121,11 @@ public class PrintingUtils {
     }
 
     private static CountryService getCountryService() {
-        return KraServiceLocator.getService(CountryService.class);
+        return KcServiceLocator.getService(CountryService.class);
     }
     
 	private static StateService getStateService() {
-        return KraServiceLocator.getService(StateService.class);
+        return KcServiceLocator.getService(StateService.class);
     }
 
 	/**
@@ -262,7 +262,7 @@ public class PrintingUtils {
 	 */
 	public static Country getCountryFromCode(String countryCode,
 			BusinessObjectService businessObjectService) {
-	    CountryService countryService = KraServiceLocator.getService(CountryService.class);
+	    CountryService countryService = KcServiceLocator.getService(CountryService.class);
 	    Country country = countryService.getCountryByAlternateCode(countryCode);
 		return country;
 	}

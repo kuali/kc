@@ -15,12 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
@@ -30,13 +26,17 @@ import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.authorization.IacucCommitteeScheduleTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class IacucMeetingHelper extends MeetingHelperBase {
 
@@ -96,7 +96,7 @@ public class IacucMeetingHelper extends MeetingHelperBase {
         List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
         Map<String, Object> values = new HashMap<String, Object>();
         List<IacucProtocolCorrespondenceType> correspondenceTypes = (List<IacucProtocolCorrespondenceType>)
-                KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolCorrespondenceType.class,values);
+                KcServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolCorrespondenceType.class,values);
         for(IacucProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
             if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.SCHEDULE.getCode())) {
                 CorrespondencePrintOption printOption = new CorrespondencePrintOption();

@@ -19,13 +19,18 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
@@ -83,7 +88,6 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorization
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -419,7 +423,7 @@ public class ActionHelper extends ActionHelperBase {
 
     protected ProtocolAmendRenewService getProtocolAmendRenewServiceHook() {
         if (this.protocolAmendRenewService == null) {
-            this.protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);        
+            this.protocolAmendRenewService = KcServiceLocator.getService(ProtocolAmendRenewService.class);
         }
         return (ProtocolAmendRenewService) this.protocolAmendRenewService;
     }
@@ -554,14 +558,14 @@ public class ActionHelper extends ActionHelperBase {
     
     protected ProtocolVersionService getProtocolVersionService() {
         if (this.protocolVersionService == null) {
-            this.protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);        
+            this.protocolVersionService = KcServiceLocator.getService(ProtocolVersionService.class);
         }
         return (ProtocolVersionService) this.protocolVersionService;
     }
     
     private ProtocolSubmitActionService getProtocolSubmitActionService() {
         if (protocolSubmitActionService == null) {
-            protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
+            protocolSubmitActionService = KcServiceLocator.getService(ProtocolSubmitActionService.class);
         }
         return protocolSubmitActionService;
     }
@@ -655,10 +659,10 @@ public class ActionHelper extends ActionHelperBase {
     public static boolean hasAssignCmtSchedPermission(String userId, String protocolNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolNumber", protocolNumber);
-        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
         Protocol protocol = ((List<Protocol>) bos.findMatching(Protocol.class, fieldValues)).get(0);
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROPOSAL, protocol);
-        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);        
+        TaskAuthorizationService tas = KcServiceLocator.getService(TaskAuthorizationService.class);
         return tas.isAuthorized(userId, task);
     }
     
@@ -1197,7 +1201,7 @@ public class ActionHelper extends ActionHelperBase {
     }
     
     protected CommitteeDecisionService getCommitteeDecisionService() {
-        return KraServiceLocator.getService("protocolCommitteeDecisionService");
+        return KcServiceLocator.getService("protocolCommitteeDecisionService");
     }
     
     public int getTotalSubmissions() {
@@ -1654,7 +1658,7 @@ public class ActionHelper extends ActionHelperBase {
 
     @Override
     protected ProtocolQuestionnairePrintingService getProtocolQuestionnairePrintingServiceHook() {
-        return KraServiceLocator.getService(ProtocolQuestionnairePrintingService.class);
+        return KcServiceLocator.getService(ProtocolQuestionnairePrintingService.class);
     }
 
     @Override
@@ -1724,7 +1728,7 @@ public class ActionHelper extends ActionHelperBase {
         List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
         Map<String, Object> values = new HashMap<String, Object>();
         List<ProtocolCorrespondenceType> correspondenceTypes = (List<ProtocolCorrespondenceType>)
-                KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolCorrespondenceType.class,values);
+                KcServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolCorrespondenceType.class,values);
         for(ProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
             if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.PROTOCOL.getCode())) {
                 CorrespondencePrintOption printOption = new CorrespondencePrintOption();

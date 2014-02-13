@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.personnel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Rules that invoke audit mode for KeyPersonnel
  */
-public abstract class ProtocolPersonnelAuditRuleBase extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public abstract class ProtocolPersonnelAuditRuleBase extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
     private List<AuditError> auditErrors;
     private static final String PERSONNEL_AUDIT_ERRORS = "personnelAuditErrors";
     

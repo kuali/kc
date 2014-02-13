@@ -16,8 +16,8 @@
 package org.kuali.kra.bo.versioning;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -126,7 +126,7 @@ public class VersionHistory extends KcPersistableBusinessObjectBase {
     public SequenceOwner<? extends SequenceOwner<?>> getSequenceOwner() {
         if (sequenceOwner == null) {
             try {
-                KraServiceLocator.getService(VersionHistoryService.class)
+                KcServiceLocator.getService(VersionHistoryService.class)
                     .loadSequenceOwner((Class<? extends SequenceOwner>) Class.forName(this.getSequenceOwnerClassName()), this);
             }
             catch (ClassNotFoundException e) {

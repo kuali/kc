@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.procedures.rule;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
-public class AddProtocolStudyGroupEvent extends KraDocumentEventBaseExtension {
+public class AddProtocolStudyGroupEvent extends KcDocumentEventBaseExtension {
 
     private IacucProtocolStudyGroupBean procedureBean;
     private Integer procedureBeanIndex;
@@ -34,7 +34,7 @@ public class AddProtocolStudyGroupEvent extends KraDocumentEventBaseExtension {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddProtocolStudyGroupRule();
     }
 

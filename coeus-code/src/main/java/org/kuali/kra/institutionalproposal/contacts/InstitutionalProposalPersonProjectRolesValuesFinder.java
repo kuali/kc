@@ -17,8 +17,8 @@ package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -66,7 +66,7 @@ public class InstitutionalProposalPersonProjectRolesValuesFinder extends Institu
 
     protected KeyPersonnelService getKeyPersonnelService() {
         if(keyPersonnelService == null) {
-            keyPersonnelService = KraServiceLocator.getService(KeyPersonnelService.class);
+            keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
         }
         return keyPersonnelService; 
     }

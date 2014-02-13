@@ -51,7 +51,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 

@@ -17,16 +17,16 @@ package org.kuali.kra.award;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardSponsorTerm;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * AwardSponsorTermRuleEvent class for rule processing.
  */
-public class AwardSponsorTermRuleEvent extends KraDocumentEventBase {
+public class AwardSponsorTermRuleEvent extends KcDocumentEventBase {
     
     private static final Log LOG = LogFactory.getLog(AwardCostShareRuleEvent.class);
     private AwardSponsorTerm awardSponsorTerm;
@@ -77,7 +77,7 @@ public class AwardSponsorTermRuleEvent extends KraDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

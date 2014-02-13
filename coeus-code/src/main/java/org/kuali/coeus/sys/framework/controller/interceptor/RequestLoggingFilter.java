@@ -19,7 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.MDC;
 import org.kuali.coeus.sys.framework.sensitive.SensitiveFieldMatcher;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -177,7 +177,7 @@ public class RequestLoggingFilter implements Filter {
         
         StringBuilder retval = new StringBuilder();
 
-        final SensitiveFieldMatcher matcher = KraServiceLocator.getService("sensitiveFieldPatternMatcher");
+        final SensitiveFieldMatcher matcher = KcServiceLocator.getService("sensitiveFieldPatternMatcher");
 
         for (Enumeration<String> parameterNames = request.getParameterNames(); parameterNames.hasMoreElements();) {
             

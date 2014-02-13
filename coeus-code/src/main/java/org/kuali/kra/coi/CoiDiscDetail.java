@@ -17,9 +17,9 @@ package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
 public class CoiDiscDetail extends KcPersistableBusinessObjectBase implements Comparable<CoiDiscDetail> {
@@ -73,7 +73,7 @@ public class CoiDiscDetail extends KcPersistableBusinessObjectBase implements Co
         this.setEntityNumber(personFinIntDisclosure.getEntityNumber());
         this.setEntitySequenceNumber(personFinIntDisclosure.getSequenceNumber());
         // TODO : not sure about disclosuredetailnumber & expirationdate
-        Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISC_DETAILS_ID", getClass());
+        Long nextNumber = KcServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISC_DETAILS_ID", getClass());
         this.setCoiDiscDetailNumber(nextNumber.intValue());
 
     } 

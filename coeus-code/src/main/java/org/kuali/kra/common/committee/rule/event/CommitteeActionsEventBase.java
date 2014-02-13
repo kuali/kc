@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.common.committee.rule.event;
 
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
 @SuppressWarnings("unchecked")
-public abstract class CommitteeActionsEventBase <Z extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
+public abstract class CommitteeActionsEventBase <Z extends KcBusinessRule> extends KcDocumentEventBaseExtension {
 
     protected CommitteeActionsEventBase(String description, String errorPathPrefix, Document document) {
         super(description, errorPathPrefix, document);

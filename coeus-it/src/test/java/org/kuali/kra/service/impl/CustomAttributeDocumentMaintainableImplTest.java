@@ -18,10 +18,10 @@ package org.kuali.kra.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -29,7 +29,9 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Collection;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 public class CustomAttributeDocumentMaintainableImplTest extends KcIntegrationTestBase {
     
     Collection<CoeusModule> modules;
@@ -40,7 +42,7 @@ public class CustomAttributeDocumentMaintainableImplTest extends KcIntegrationTe
 
     @Before
     public void setUp() throws Exception {
-        modules = KraServiceLocator.getService(BusinessObjectService.class).findAll(CoeusModule.class);
+        modules = KcServiceLocator.getService(BusinessObjectService.class).findAll(CoeusModule.class);
         maintainable = new CustomAttributeDocumentMaintainableImpl();
     }
 

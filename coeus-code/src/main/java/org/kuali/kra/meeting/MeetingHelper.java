@@ -15,12 +15,8 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
@@ -29,7 +25,6 @@ import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.common.committee.meeting.*;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
@@ -37,6 +32,11 @@ import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MeetingHelper extends MeetingHelperBase {
 
@@ -99,7 +99,7 @@ public class MeetingHelper extends MeetingHelperBase {
         List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
         Map<String, Object> values = new HashMap<String, Object>();
         List<ProtocolCorrespondenceType> correspondenceTypes = (List<ProtocolCorrespondenceType>)
-                KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolCorrespondenceType.class,values);
+                KcServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolCorrespondenceType.class,values);
         for(ProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
             if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.SCHEDULE.getCode())) {
                 CorrespondencePrintOption printOption = new CorrespondencePrintOption();

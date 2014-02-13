@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * This class...
  */
-public class InstitutionalProposalRuleImpl extends ResearchDocumentRuleBase implements InstitutionalProposalRule {
+public class InstitutionalProposalRuleImpl extends KcTransactionalDocumentRuleBase implements InstitutionalProposalRule {
 
     /**
      * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalRule#processInstitutionalProposalRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalRuleEvent)
@@ -52,7 +52,7 @@ public class InstitutionalProposalRuleImpl extends ResearchDocumentRuleBase impl
         if(!(currentAwardNumber == null)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("awardNumber", currentAwardNumber);
-            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);       
+            BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
             List<Award> sponsors = (List<Award>)businessObjectService.findMatching(Award.class, fieldValues);
             if(sponsors.size() == 0) {
                 this.reportError("document.institutionalProposalList[0].currentAwardNumber", KeyConstants.ERROR_INVALID_AWARD_ID);

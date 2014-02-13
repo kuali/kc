@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.negotiations.notifications;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.util.EmailAttachment;
 
@@ -37,12 +37,12 @@ public class NegotiationCloseNotificationContext extends NotificationContextBase
     private List<EmailAttachment> emailAttachments;
     
     public NegotiationCloseNotificationContext(NegotiationDocument negotiationDocument) {
-        super(KraServiceLocator.getService(NegotiationNotificationRenderer.class));
+        super(KcServiceLocator.getService(NegotiationNotificationRenderer.class));
         ((NegotiationNotificationRenderer) getRenderer()).setNegotiation(negotiationDocument.getNegotiation());
         this.negotiationDocument = negotiationDocument;
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
-        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(NegotiationNotificationRoleQualifierService.class));
+        setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
+        setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
+        setNotificationRoleQualifierService(KcServiceLocator.getService(NegotiationNotificationRoleQualifierService.class));
     
         ((NegotiationNotificationRoleQualifierService) getNotificationRoleQualifierService()).setNegotiation(negotiationDocument.getNegotiation());
     }

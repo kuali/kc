@@ -16,9 +16,9 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -30,7 +30,7 @@ import java.util.Map;
  * 
  * This class implements business rule for data group maintenance
  */
-public class FinEntitiesDataGroupMaintenanceDocumentRule  extends KraMaintenanceDocumentRuleBase {
+public class FinEntitiesDataGroupMaintenanceDocumentRule  extends KcMaintenanceDocumentRuleBase {
 
     private static final String GROUP_SORT_ID_FIELD_NAME = "dataGroupSortId";
     private static final String GROUP_NAME_FIELD_NAME = "dataGroupName";
@@ -113,7 +113,7 @@ public class FinEntitiesDataGroupMaintenanceDocumentRule  extends KraMaintenance
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

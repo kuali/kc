@@ -20,13 +20,14 @@ import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDa
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.service.CitizenshipTypeService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import static org.junit.Assert.*;
 public class CitizenshipTypeTest extends KcIntegrationTestBase {
     
@@ -39,8 +40,8 @@ public class CitizenshipTypeTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        citizenshipService = KraServiceLocator.getService(CitizenshipTypeService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        citizenshipService = KcServiceLocator.getService(CitizenshipTypeService.class);
     }
 
     @After

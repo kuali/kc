@@ -17,13 +17,13 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.Sponsorable;
@@ -338,7 +338,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     public String getInvestigatorRoleDescription() {
-        return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
+        return KcServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
 
     public boolean isOptInUnitStatus() {

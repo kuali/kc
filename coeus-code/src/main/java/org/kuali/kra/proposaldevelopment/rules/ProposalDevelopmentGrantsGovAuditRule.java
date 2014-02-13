@@ -18,9 +18,9 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SService;
@@ -43,7 +43,7 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -89,10 +89,10 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         return valid;
     }
     private SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        return KcServiceLocator.getService(SponsorService.class);
     }
     private S2SService getS2sValidatorService() {
-        return KraServiceLocator.getService(S2SService.class);
+        return KcServiceLocator.getService(S2SService.class);
     }
    
 }

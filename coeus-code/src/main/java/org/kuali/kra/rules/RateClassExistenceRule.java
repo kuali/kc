@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -22,7 +23,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RateClassExistenceRule extends KraMaintenanceDocumentRuleBase {
+public class RateClassExistenceRule extends KcMaintenanceDocumentRuleBase {
     
     /**
      * Constructs a RateClassExistenceRule.java.

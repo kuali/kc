@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -39,7 +40,6 @@ import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.external.award.AwardAccountValidationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -464,7 +464,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         reportParameters.put(AwardPrintParameters.SIGNATURE_REQUIRED
                 .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
                 .getRequireSignature());
-        AwardPrintingService awardPrintService = KraServiceLocator
+        AwardPrintingService awardPrintService = KcServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 awardForm.getAwardDocument().getAward(),AwardPrintType.AWARD_NOTICE_REPORT,reportParameters);
@@ -487,7 +487,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         reportParameters.put(AwardPrintParameters.TRANSACTION_ID_INDEX
                 .getAwardPrintParameter(), awardForm
                 .getAwardPrintChangeReport().getAmountInfoIndex());
-        AwardPrintingService awardPrintService = KraServiceLocator
+        AwardPrintingService awardPrintService = KcServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 awardForm.getAwardDocument().getAward(), AwardPrintType.AWARD_DELTA_REPORT,
@@ -500,7 +500,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward printHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        AwardPrintingService awardPrintService = KraServiceLocator
+        AwardPrintingService awardPrintService = KcServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 awardForm.getAwardDocument().getAward(),
@@ -531,7 +531,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward printTimeMoneyHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        AwardPrintingService awardPrintService = KraServiceLocator
+        AwardPrintingService awardPrintService = KcServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 awardForm.getAwardDocument().getAward(),
@@ -553,7 +553,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 .getAwardTimeAndMoneyTransactionReport().getAwardVersion());
         reportParameters.put(AwardPrintParameters.TRANSACTION_ID_INDEX
                 .getAwardPrintParameter(), awardForm.getAwardTimeAndMoneyTransactionReport().getAmountInfoIndex());
-        AwardPrintingService awardPrintService = KraServiceLocator
+        AwardPrintingService awardPrintService = KcServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 awardForm.getAwardDocument().getAward(),
@@ -563,7 +563,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     }
 
     public AwardNumberService getAwardNumberService(){
-        return KraServiceLocator.getService(AwardNumberService.class);
+        return KcServiceLocator.getService(AwardNumberService.class);
     }
 
     protected String getAwardNumber(HttpServletRequest request) {
@@ -757,11 +757,11 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     }
     
     protected AccountCreationClient getAccountCreationClient() {
-        return KraServiceLocator.getService("accountCreationClient");
+        return KcServiceLocator.getService("accountCreationClient");
     }
    
     protected AwardAccountValidationService getAwardAccountValidationService() {
-        return KraServiceLocator.getService("awardAccountValidationService");
+        return KcServiceLocator.getService("awardAccountValidationService");
     }
     
     @Override
@@ -840,11 +840,11 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     }
     
     protected InstitutionalProposalService getInstitutionalProposalService() {
-        return KraServiceLocator.getService(InstitutionalProposalService.class);
+        return KcServiceLocator.getService(InstitutionalProposalService.class);
     }
     
     protected VersionHistoryService getVersionHistoryService() {
-        return KraServiceLocator.getService(VersionHistoryService.class);
+        return KcServiceLocator.getService(VersionHistoryService.class);
     }
     
     /**

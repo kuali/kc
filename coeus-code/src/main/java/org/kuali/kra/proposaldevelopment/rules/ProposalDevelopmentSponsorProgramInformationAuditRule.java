@@ -16,11 +16,11 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -184,14 +184,14 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     } 
     
     protected ProposalDevelopmentService getProposalDevelopmentService() {
         if (this.proposalDevelopmentService == null) {
-            this.proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+            this.proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
         }
         return this.proposalDevelopmentService;
     }
@@ -206,7 +206,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
 
     public BusinessObjectService getBusinessObjectService() {
         if (this.businessObjectService == null) {
-            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
+            this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return this.businessObjectService;
     }

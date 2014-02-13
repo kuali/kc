@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.committee.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.common.committee.rules.CommitteeActionFilterBatchCorrespondenceHistoryRule;
-import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.sql.Date;
@@ -52,7 +52,7 @@ public class CommitteeActionFilterBatchCorrespondenceHistoryEvent extends Commit
 
     @SuppressWarnings("unchecked")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new CommitteeActionFilterBatchCorrespondenceHistoryRule();
     }
 

@@ -18,10 +18,9 @@ package org.kuali.kra.questionnaire.print;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.printing.Printable;
@@ -41,7 +40,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
     private QuestionnairePrintingService questionnairePrintingService;
     private Mockery context = new JUnit4Mockery();
@@ -74,7 +75,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
      * @throws WorkflowException
      */
     private String createQuestionnaireMaintDocument() throws WorkflowException {
-        MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
+        MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
         documentService.routeDocument(maintDocument,null,null);
@@ -195,7 +196,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
 
     private QuestionnairePrintingService getPrintingService() {
         if (questionnairePrintingService == null) {
-            questionnairePrintingService = KraServiceLocator
+            questionnairePrintingService = KcServiceLocator
                     .getService(QuestionnairePrintingService.class);
         }
         return questionnairePrintingService;

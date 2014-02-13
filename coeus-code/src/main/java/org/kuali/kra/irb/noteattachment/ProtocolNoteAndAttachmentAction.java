@@ -21,11 +21,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
@@ -457,7 +457,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      * 
      */
     private ProtocolPrintingService getProtocolPrintingService() {
-        return KraServiceLocator.getService(ProtocolPrintingService.class);
+        return KcServiceLocator.getService(ProtocolPrintingService.class);
     }
     
     /**
@@ -465,13 +465,13 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      * This method is to get Protocol Attachment Service.
      */    
     private ProtocolAttachmentService getProtocolAttachmentService() {
-        return KraServiceLocator.getService(ProtocolAttachmentService.class);
+        return KcServiceLocator.getService(ProtocolAttachmentService.class);
     }
     
     /**
      * This method is to get Watermark Service. 
      */
     private WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);  
+        return  KcServiceLocator.getService(WatermarkService.class);
     }
 }

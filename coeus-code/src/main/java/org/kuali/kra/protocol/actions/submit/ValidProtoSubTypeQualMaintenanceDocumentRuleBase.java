@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -30,7 +30,7 @@ import java.util.Map;
  * 
  * This class is the maintenance document rule for valid submission/type qualifier table.
  */
-public abstract class ValidProtoSubTypeQualMaintenanceDocumentRuleBase extends KraMaintenanceDocumentRuleBase {
+public abstract class ValidProtoSubTypeQualMaintenanceDocumentRuleBase extends KcMaintenanceDocumentRuleBase {
 
     private Long oldTypeId = null;
     /**

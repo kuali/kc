@@ -19,6 +19,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.*;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
@@ -29,11 +34,7 @@ import org.kuali.kra.common.committee.rule.event.*;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -41,6 +42,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -57,7 +59,7 @@ import java.util.List;
  * another class within this package.
  */
 @SuppressWarnings("unchecked")
-public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase implements BusinessRuleInterface, AddCommitteeMembershipRule, AddCommitteeMembershipRoleRule {
+public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentRuleBase implements KcBusinessRule, AddCommitteeMembershipRule, AddCommitteeMembershipRoleRule, DocumentAuditRule {
     
     private static final String PROPERTY_NAME_TERM_START_DATE = "document.committeeList[0].committeeMemberships[%1$s].termStartDate";
     private static final String PROPERTY_NAME_TERM_END_DATE = "document.committeeList[0].committeeMemberships[%1$s].termEndDate";
@@ -192,16 +194,16 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
     
     private List<CommitteeDocumentBase> getCommitteesDocumentsFromWorkflow(String docNumber) throws WorkflowException {
 
-        List<CommitteeDocumentBase> documents = (List<CommitteeDocumentBase>) KraServiceLocator.getService(BusinessObjectService.class).findAll(getCommitteeDocumentBOClassHook());
+        List<CommitteeDocumentBase> documents = (List<CommitteeDocumentBase>) KcServiceLocator.getService(BusinessObjectService.class).findAll(getCommitteeDocumentBOClassHook());
         List<CommitteeDocumentBase> result = new ArrayList<CommitteeDocumentBase>();
         for (CommitteeDocumentBase commDoc : documents) {
             // documents that have not been approved
             if ((commDoc.getCommitteeList() == null || commDoc.getCommitteeList().size() == 0) && StringUtils.isBlank(commDoc.getCommitteeId()) && !StringUtils.equals(commDoc.getDocumentNumber(), docNumber)) {
                 // Need this step to retrieve workflow document
     
-                CommitteeDocumentBase workflowCommitteeDoc = (CommitteeDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(commDoc.getDocumentNumber());
+                CommitteeDocumentBase workflowCommitteeDoc = (CommitteeDocumentBase) KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(commDoc.getDocumentNumber());
                 // Get XML of workflow document
-                String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
+                String content = KcServiceLocator.getService(RouteHeaderService.class).getContent(
                         workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
     
                 // Create committee from XML and add to the document
@@ -233,7 +235,7 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
         }
         */
         List<String> result = new ArrayList<String>();
-        List<CommitteeDocumentBase> committeeDocss = (List<CommitteeDocumentBase>) KraServiceLocator.getService(BusinessObjectService.class).findAll(getCommitteeDocumentBOClassHook());
+        List<CommitteeDocumentBase> committeeDocss = (List<CommitteeDocumentBase>) KcServiceLocator.getService(BusinessObjectService.class).findAll(getCommitteeDocumentBOClassHook());
         for (CommitteeDocumentBase committeeDoc : committeeDocss) {
             if (StringUtils.isNotBlank(committeeDoc.getCommitteeId()) && !result.contains(committeeDoc.getCommitteeId())
                     && StringUtils.isNotBlank(committeeDoc.getDocStatusCode()) && !committeeDoc.getDocStatusCode().equals(KewApiConstants.ROUTE_HEADER_CANCEL_CD)
@@ -309,7 +311,7 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
         
         String homeUnitNumber = document.getCommittee().getHomeUnitNumber();
         if (!StringUtils.isBlank(homeUnitNumber)) {
-            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            UnitService unitService = KcServiceLocator.getService(UnitService.class);
             Unit homeUnit = unitService.getUnit(homeUnitNumber);
             if (homeUnit == null) {
                 valid = false;
@@ -617,15 +619,9 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
         return !inactiveFound;
     }
 
-    /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
-        boolean retval = true;
-        
-        retval &= super.processRunAuditBusinessRules(document);
-        
-        return retval;
+        return new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
     }
     
     /**
@@ -643,9 +639,9 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
     }
 
     /**
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
-    public boolean processRules(KraDocumentEventBaseExtension event) {
+    public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;

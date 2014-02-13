@@ -15,17 +15,16 @@
  */
 package org.kuali.kra.common.committee.rules;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEventBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 import java.util.List;
 
@@ -33,13 +32,13 @@ import java.util.List;
  * 
  * This class implements rule for deleting committee schedule.
  */
-public abstract class DeleteCommitteeScheduleRuleBase  extends ResearchDocumentRuleBase implements  BusinessRuleInterface<DeleteCommitteeScheduleEventBase> {
+public abstract class DeleteCommitteeScheduleRuleBase  extends KcTransactionalDocumentRuleBase implements KcBusinessRule<DeleteCommitteeScheduleEventBase> {
     
     private static final String ID = "document.committeeList[0].committeeSchedules[";
    
     /**
      * If committee schedule has protocol submitted or has meeting data, then it can not be deleted.
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(DeleteCommitteeScheduleEventBase deleteCommitteeScheduleEvent) {
 
@@ -74,7 +73,7 @@ public abstract class DeleteCommitteeScheduleRuleBase  extends ResearchDocumentR
     }
 
     private CommitteeServiceBase getCommitteeService() {
-        return KraServiceLocator.getService(getCommitteeServiceClassHook());
+        return KcServiceLocator.getService(getCommitteeServiceClassHook());
     }
     
     protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();

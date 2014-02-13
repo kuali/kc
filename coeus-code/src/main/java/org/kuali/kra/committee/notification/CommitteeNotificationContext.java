@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.notification;
 
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -25,7 +26,6 @@ import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.util.EmailAttachment;
 import org.springframework.util.CollectionUtils;
 
@@ -59,9 +59,9 @@ public class CommitteeNotificationContext extends NotificationContextBase {
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
-        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(CommitteeNotificationRoleQualifierService.class));
+        setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
+        setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
+        setNotificationRoleQualifierService(KcServiceLocator.getService(CommitteeNotificationRoleQualifierService.class));
         ((CommitteeNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCommitteeSchedule(this.committeeSchedule);
         ((CommitteeNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCommittee(this.committee);
     }

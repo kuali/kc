@@ -20,10 +20,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.*;
@@ -176,7 +176,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
-        KeywordsService keywordsService = KraServiceLocator.getService(KeywordsService.class);
+        KeywordsService keywordsService = KcServiceLocator.getService(KeywordsService.class);
         keywordsService.deleteKeyword(institutionalProposalDocument.getInstitutionalProposal()); 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -232,7 +232,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
      */
     @SuppressWarnings("unchecked")
     protected KeywordsService getKeywordService(){
-        return KraServiceLocator.getService(KeywordsService.class);
+        return KcServiceLocator.getService(KeywordsService.class);
     }
 
     /**
@@ -342,7 +342,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     }   
     
     private NegotiationService getNegotationService() {
-        return KraServiceLocator.getService(NegotiationService.class);
+        return KcServiceLocator.getService(NegotiationService.class);
     }
 
     private ProposalLog retrieveProposalLog(String proposalNumber) {
@@ -370,7 +370,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     
     public InstitutionalProposalService getInstitutionalProposalService() {
         if (institutionalProposalService == null) {
-            institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+            institutionalProposalService = KcServiceLocator.getService(InstitutionalProposalService.class);
         }
         return institutionalProposalService;
     }
@@ -430,20 +430,20 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     }
     
     protected VersioningService getVersioningService() {
-        return KraServiceLocator.getService(VersioningService.class);
+        return KcServiceLocator.getService(VersioningService.class);
     }
     
     protected InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
-        return KraServiceLocator.getService(InstitutionalProposalVersioningService.class);
+        return KcServiceLocator.getService(InstitutionalProposalVersioningService.class);
     }
     
     protected ProposalLogService getProposalLogService() {
-        return KraServiceLocator.getService(ProposalLogService.class);
+        return KcServiceLocator.getService(ProposalLogService.class);
     }
     
     public InstitutionalProposalNoteAttachmentService getInstitutionalProposalNoteAttachmentService() {
         if (institutionalProposalNoteAttachmentService == null) {
-            institutionalProposalNoteAttachmentService = KraServiceLocator.getService(InstitutionalProposalNoteAttachmentService.class);
+            institutionalProposalNoteAttachmentService = KcServiceLocator.getService(InstitutionalProposalNoteAttachmentService.class);
         }
         return institutionalProposalNoteAttachmentService;
     }
@@ -454,17 +454,17 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
      */
     protected KcAttachmentService getKcAttachmentService() {
         if(this.kcAttachmentService == null) {
-            this.kcAttachmentService = KraServiceLocator.getService(KcAttachmentService.class);
+            this.kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
         }
         return this.kcAttachmentService;
     }
     /**
      * Gets the parameter service.
-     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#getParameterService()
+     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#getParameterService()
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null ) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);             
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

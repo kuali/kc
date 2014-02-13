@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.timeandmoney;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -147,7 +147,7 @@ public class AwardDirectFandADistributionBean implements Serializable{
     }
     
     public AwardAmountInfoService getAwardAmountInfoService() {
-        awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        awardAmountInfoService = KcServiceLocator.getService(AwardAmountInfoService.class);
         return awardAmountInfoService;
     }
     
@@ -203,6 +203,6 @@ public class AwardDirectFandADistributionBean implements Serializable{
      * @return
      */
     protected KualiRuleService getKualiRuleService() {
-        return KraServiceLocator.getService(KualiRuleService.class);
+        return KcServiceLocator.getService(KualiRuleService.class);
     }
 }

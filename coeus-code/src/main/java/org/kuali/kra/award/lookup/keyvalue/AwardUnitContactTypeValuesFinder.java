@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.UnitAdministratorType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -29,7 +29,7 @@ public class AwardUnitContactTypeValuesFinder extends UifKeyValuesFinderBase {
     private BusinessObjectService businessObjectService;
     
     public AwardUnitContactTypeValuesFinder() {
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     @Override

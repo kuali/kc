@@ -18,11 +18,11 @@ package org.kuali.kra.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateTerm;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.bo.SponsorTermType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -33,7 +33,9 @@ import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.Collection;
 import java.util.Map;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class SponsorTemplateTermsExistenceRuleTest extends KcIntegrationTestBase {
     MaintenanceDocument sponsorTemplateDoc;
     SponsorTemplateTermsExistenceRule rule;
@@ -42,7 +44,7 @@ public class SponsorTemplateTermsExistenceRuleTest extends KcIntegrationTestBase
 
     @Before
     public void setUp() throws Exception {
-        docService = KraServiceLocator.getService(DocumentService.class);
+        docService = KcServiceLocator.getService(DocumentService.class);
         sponsorTemplateDoc = (MaintenanceDocumentBase)docService.getNewDocument(MaintenanceDocumentBase.class);
         rule = new SponsorTemplateTermsExistenceRule();
         awardTemplate = new AwardTemplate();
@@ -64,7 +66,7 @@ public class SponsorTemplateTermsExistenceRuleTest extends KcIntegrationTestBase
         
         assertFalse(rule.processCustomRouteDocumentBusinessRules(sponsorTemplateDoc));
         
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Collection<SponsorTermType> types = businessObjectService.findAll(SponsorTermType.class);
         Collection<SponsorTerm> terms;
         Map map;

@@ -16,14 +16,14 @@
  */
 package org.kuali.coeus.sys.framework.view;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator;
 
 public class KcResourceDelegatingSpringCreator extends GlobalResourceDelegatingSpringCreator {
 	
 	@Override
 	public Object getInstance() throws InstantiationException {
-		Object bean = KraServiceLocator.getService(this.getBeanName());
+		Object bean = KcServiceLocator.getService(this.getBeanName());
 		if (bean == null) {
 			bean = super.getInstance();
 			if (bean == null) {

@@ -24,7 +24,7 @@ import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.ServiceHelper;
 
 import java.util.Collection;
@@ -33,7 +33,7 @@ import java.util.Collection;
 /**
  * This class implements rules for checking Award comments entered in text boxes.
  */
-public class AwardCommentsRuleImpl extends ResearchDocumentRuleBase implements AwardCommentsRule {
+public class AwardCommentsRuleImpl extends KcTransactionalDocumentRuleBase implements AwardCommentsRule {
     private static final Integer MAX_COMMENT_LENGTH = 5000;
     private static String[] VALID_BASIS_METHOD_PAYMENT_FINDER_FIELDS = new String[] {"basisOfPaymentCode","methodOfPaymentCode"}; 
    

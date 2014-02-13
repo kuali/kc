@@ -15,19 +15,21 @@
  */
 package org.kuali.kra.coi;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.coi.disclosure.DisclosureFinancialEntityAuditRule;
 import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireAuditRule;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
  * 
  * This class is the rule class for coidisclosuredocument
  */
-public class CoiDisclosureDocumentRule extends ResearchDocumentRuleBase implements BusinessRuleInterface {
+public class CoiDisclosureDocumentRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule, DocumentAuditRule {
 
 
     @Override
@@ -58,9 +60,9 @@ public class CoiDisclosureDocumentRule extends ResearchDocumentRuleBase implemen
 
     /**
      * 
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
-    public boolean processRules(KraDocumentEventBaseExtension event) {
+    public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
@@ -70,7 +72,7 @@ public class CoiDisclosureDocumentRule extends ResearchDocumentRuleBase implemen
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         
-        retval &= super.processRunAuditBusinessRules(document);
+        retval &= new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
         retval &= new DisclosureFinancialEntityAuditRule().processRunAuditBusinessRules((CoiDisclosureDocument) document);
         retval &= new DisclosureQuestionnaireAuditRule().processRunAuditBusinessRules((CoiDisclosureDocument) document);
         return retval;

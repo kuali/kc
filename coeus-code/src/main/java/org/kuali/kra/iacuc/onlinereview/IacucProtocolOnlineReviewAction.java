@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.AttachmentFile;
@@ -39,7 +40,6 @@ import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.iacuc.notification.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -188,7 +188,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     }
 
     private ReviewCommentsService getReviewCommentsService() {
-        return KraServiceLocator.getService(IacucReviewCommentsService.class);
+        return KcServiceLocator.getService(IacucReviewCommentsService.class);
     }
 
     public ActionForward deleteOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -409,7 +409,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "saveOnlineReview");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         ProtocolOnlineReviewDocumentBase prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewCommentsBeanBase reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
@@ -526,7 +526,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
 
 
     private KcWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KcWorkflowService.class);
+        return KcServiceLocator.getService(KcWorkflowService.class);
     }
 
     private void setOnlineReviewCommentFinalFlags(ProtocolOnlineReviewBase onlineReview, boolean flagValue) {

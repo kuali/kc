@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * Overrides the custom save and approve methods of the maintenance document processing to check uniqueness constraints.
  */
-public class IacucPersonTrainingMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class IacucPersonTrainingMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
 
     private static final String PERSON_TRAINING_FIELD_NAME = "personTrainingId";
     
@@ -98,7 +98,7 @@ public class IacucPersonTrainingMaintenanceDocumentRule extends KraMaintenanceDo
     
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

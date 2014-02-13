@@ -18,6 +18,7 @@ package org.kuali.kra.budget.core;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -41,7 +42,6 @@ import org.kuali.kra.budget.rates.*;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
@@ -56,7 +56,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.*;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 /**
  * This class represent Budget BO
@@ -178,7 +178,7 @@ public class Budget extends BudgetVersionOverview {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -1671,7 +1671,7 @@ public class Budget extends BudgetVersionOverview {
     }
     
     protected ProposalBudgetNumberOfMonthsService getProposalBudgetNumberOfMonthsService() {
-        return KraServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
+        return KcServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
     }
 }
 

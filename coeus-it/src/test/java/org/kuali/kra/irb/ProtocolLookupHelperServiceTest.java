@@ -22,8 +22,8 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -187,9 +187,9 @@ public class ProtocolLookupHelperServiceTest extends KcIntegrationTestBase {
     public void testGetSearchResults() throws Exception {
         String newProtocolNumber = "123456132";
         Protocol prot = ProtocolFactory.createProtocolDocument(newProtocolNumber).getProtocol();
-        KraServiceLocator.getService(BusinessObjectService.class).save(prot);
+        KcServiceLocator.getService(BusinessObjectService.class).save(prot);
         
-        final ProtocolDao protocolDao = KraServiceLocator.getService(ProtocolDao.class);
+        final ProtocolDao protocolDao = KcServiceLocator.getService(ProtocolDao.class);
         protocolLookupableHelperServiceImpl.setProtocolDao(protocolDao);        
         Map<String, String> searchStuff = new HashMap<String, String>();
         searchStuff.put("protocolNumber", newProtocolNumber);

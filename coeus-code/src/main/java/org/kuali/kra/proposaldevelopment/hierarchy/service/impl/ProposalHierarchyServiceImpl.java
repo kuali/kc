@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
@@ -26,6 +27,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.core.CostElement;
+import org.kuali.kra.budget.deepcopy.DeepCopyPostProcessor;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
@@ -37,7 +39,6 @@ import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.*;
@@ -56,7 +57,6 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -814,7 +814,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
                         ObjectUtils.materializeUpdateableCollections(childLineItem);
-                        parentLineItem = (BudgetLineItem) (KraServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(childLineItem));
+                        parentLineItem = (BudgetLineItem) (KcServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(childLineItem));
                         lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         
                         parentLineItem.setHierarchyProposalNumber(childProposalNumber);
@@ -1049,8 +1049,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         KualiForm oldForm = KNSGlobalVariables.getKualiForm();
         KNSGlobalVariables.setKualiForm(null);
-        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(hierarchyBudget);
-        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(hierarchyBudget);
+        KcServiceLocator.getService(BudgetCalculationService.class).calculateBudget(hierarchyBudget);
+        KcServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(hierarchyBudget);
         KNSGlobalVariables.setKualiForm(oldForm);
         try {
             documentService.saveDocument(hierarchyBudgetDocument);
@@ -1299,7 +1299,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         businessObjectService.deleteMatching(BudgetCostShare.class, fieldValues);
         businessObjectService.deleteMatching(BudgetUnrecoveredFandA.class, fieldValues);
 
-        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KcServiceLocator.getService(BudgetPersonnelBudgetService.class);
         List<BudgetPeriod> periods = parentBudget.getBudgetPeriods();
         List<BudgetLineItem> lineItems;
         List<BudgetPersonnelDetails> personnelDetailsList;
@@ -1479,8 +1479,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected int computeHierarchyHashCode(Budget budget) {
         int prime = 31;
         int result = 1;
-        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudget(budget);
-        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(budget);
+        KcServiceLocator.getService(BudgetCalculationService.class).calculateBudget(budget);
+        KcServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(budget);
         result = prime * result + budget.getBudgetSummaryTotals().hashCode();
         return result;
     }    

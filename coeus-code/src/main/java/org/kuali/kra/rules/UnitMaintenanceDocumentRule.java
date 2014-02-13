@@ -15,16 +15,17 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
 
-public class UnitMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class UnitMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
      
     /**
@@ -63,7 +64,7 @@ public class UnitMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase 
         Unit unit=(Unit)maintenanceDocument.getNewMaintainableObject().getDataObject();
         String unitNumber=unit.getUnitNumber();
         String parentUnitNumber=unit.getParentUnitNumber();
-        List<Unit> allSubUnits = KraServiceLocator.getService(UnitService.class).getAllSubUnits(unitNumber); 
+        List<Unit> allSubUnits = KcServiceLocator.getService(UnitService.class).getAllSubUnits(unitNumber);
         for (Unit subunits : allSubUnits) {  
             if(subunits.getUnitNumber().equals(parentUnitNumber)){
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.parentUnitNumber", KeyConstants.MOVE_UNIT_OWN_DESCENDANTS,

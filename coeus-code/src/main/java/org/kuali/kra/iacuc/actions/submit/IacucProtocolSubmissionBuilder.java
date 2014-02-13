@@ -19,6 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
@@ -26,7 +27,6 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionDoc;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -96,7 +96,7 @@ public class IacucProtocolSubmissionBuilder {
     }
     
     private IacucProtocolFinderDao getProtocolFinderDao() {
-        return KraServiceLocator.getService(IacucProtocolFinderDao.class);    
+        return KcServiceLocator.getService(IacucProtocolFinderDao.class);
     }
     
     private void setValuesFromOldSubmission(IacucProtocolSubmission newSubmission, IacucProtocolSubmission oldSubmission) {
@@ -262,11 +262,11 @@ public class IacucProtocolSubmissionBuilder {
     }
     
     private CommitteeServiceBase getCommitteeService() {
-        return KraServiceLocator.getService(IacucCommitteeService.class);
+        return KcServiceLocator.getService(IacucCommitteeService.class);
     }
     
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     public List<ProtocolActionAttachment> getActionAttachments() {

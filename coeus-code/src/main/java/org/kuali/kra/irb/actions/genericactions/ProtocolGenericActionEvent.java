@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.actions.genericactions;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionEventBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
  * Encapsulates the event that the user performs a generic action.
@@ -32,7 +32,7 @@ public class ProtocolGenericActionEvent extends ProtocolGenericActionEventBase {
     
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new ProtocolGenericActionRule();
     }
 

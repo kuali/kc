@@ -16,16 +16,16 @@
 package org.kuali.kra.protocol.actions.amendrenew;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
  * Business rule for modifying  amendment sections.  The user is required to enter a summary.
  * For protocol amendments they must select at least one module which will be modified in the amendment.
  */
 @SuppressWarnings("unchecked")
-public abstract class ModifyAmendmentSectionsRuleBase extends ResearchDocumentRuleBase implements BusinessRuleInterface<ModifyAmendmentSectionsEventBase> {
+public abstract class ModifyAmendmentSectionsRuleBase extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ModifyAmendmentSectionsEventBase> {
 
     public boolean processRules(ModifyAmendmentSectionsEventBase event) {
         

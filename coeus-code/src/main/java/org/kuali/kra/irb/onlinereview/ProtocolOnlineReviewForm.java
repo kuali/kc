@@ -17,9 +17,9 @@ package org.kuali.kra.irb.onlinereview;
 
 import org.apache.commons.logging.Log;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.authorization.ProtocolOnlineReviewTask;
@@ -73,7 +73,7 @@ public class ProtocolOnlineReviewForm extends ProtocolOnlineReviewFormBase {
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
         
-        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService tas = KcServiceLocator.getService(TaskAuthorizationService.class);
                
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProtocolOnlineReviewTask("rejectProtocolOnlineReview",doc))
                 && doc.getDocumentHeader().getWorkflowDocument().isEnroute()
@@ -87,7 +87,7 @@ public class ProtocolOnlineReviewForm extends ProtocolOnlineReviewFormBase {
 
     @Override
     public boolean getAdminFieldsEditable() {
-        return KraServiceLocator.getService(KcAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
+        return KcServiceLocator.getService(KcAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
     }
 
     @Override

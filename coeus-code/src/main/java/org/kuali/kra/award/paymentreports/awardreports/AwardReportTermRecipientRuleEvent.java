@@ -17,15 +17,15 @@ package org.kuali.kra.award.paymentreports.awardreports;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This the AwardPaymentScheduleRuleEvent
  */
-public class AwardReportTermRecipientRuleEvent extends KraDocumentEventBase {
+public class AwardReportTermRecipientRuleEvent extends KcDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(AwardReportTermRecipientRuleEvent.class);
     
     private Award award;
@@ -68,7 +68,7 @@ public class AwardReportTermRecipientRuleEvent extends KraDocumentEventBase {
     }   
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

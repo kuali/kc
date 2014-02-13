@@ -20,12 +20,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -105,7 +105,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     private boolean canExecuteIacucProtocolTask(String userId, IacucProtocolDocument doc, String taskName) {
         // TODO : to be implemented later
         IacucProtocolTask task = new IacucProtocolTask(taskName, doc.getIacucProtocol());       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
 
@@ -132,7 +132,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
      */
     private boolean canCreateProtocolOnlineReview(Person user) {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_IACUC_PROTOCOL_ONLINEREVIEW);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     
@@ -145,7 +145,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
      */
     private boolean canExecuteProtocolOnlineReviewTask(String userId, IacucProtocolOnlineReviewDocument doc, String taskName) {
         IacucProtocolOnlineReviewTask task = new IacucProtocolOnlineReviewTask(taskName, doc.getProtocolOnlineReview());       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
@@ -217,7 +217,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
 
     public IacucCommitteeScheduleService getCommitteeScheduleService() {
         if (committeeScheduleService == null) {
-            committeeScheduleService = KraServiceLocator.getService(IacucCommitteeScheduleService.class);
+            committeeScheduleService = KcServiceLocator.getService(IacucCommitteeScheduleService.class);
         }
         return committeeScheduleService;
     }

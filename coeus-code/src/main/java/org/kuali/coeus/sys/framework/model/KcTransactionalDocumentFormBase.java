@@ -16,14 +16,14 @@
 package org.kuali.coeus.sys.framework.model;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
-import org.kuali.kra.rules.SoftError;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
@@ -275,7 +275,7 @@ public abstract class KcTransactionalDocumentFormBase extends KualiTransactional
     }
 
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     /**

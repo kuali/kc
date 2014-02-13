@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * The event that occurs when the IRB Administrator assigns a protocol to an agenda.
  */
-public class ProtocolAssignToAgendaEvent extends KraDocumentEventBaseExtension {
+public class ProtocolAssignToAgendaEvent extends KcDocumentEventBaseExtension {
 
     private ProtocolAssignToAgendaBean protocolAssignToAgendaBean;
     
@@ -44,7 +44,7 @@ public class ProtocolAssignToAgendaEvent extends KraDocumentEventBaseExtension {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new ProtocolAssignToAgendaRule();
     }
     

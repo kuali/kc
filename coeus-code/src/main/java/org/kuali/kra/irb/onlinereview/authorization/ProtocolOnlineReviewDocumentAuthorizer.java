@@ -18,8 +18,8 @@ package org.kuali.kra.irb.onlinereview.authorization;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
@@ -78,7 +78,7 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
      */
     private boolean canCreateProtocolOnlineReview(Person user) {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL_ONLINEREVIEW);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     
@@ -91,7 +91,7 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
      */
     private boolean canExecuteProtocolOnlineReviewTask(String userId, ProtocolOnlineReviewDocument doc, String taskName) {
         ProtocolOnlineReviewTask task = new ProtocolOnlineReviewTask(taskName, (ProtocolOnlineReview)doc.getProtocolOnlineReview());       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
@@ -153,7 +153,7 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
     
     private KcWorkflowService getKraWorkflowService() {
         if (kraWorkflowService==null) {
-            kraWorkflowService = KraServiceLocator.getService(KcWorkflowService.class);
+            kraWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
         }
         return kraWorkflowService;
     }
