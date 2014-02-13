@@ -67,9 +67,11 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     @Override
     public void generateReportTrackingAndSave(Award award, boolean forceReportRegeneration) throws ParseException {
         if ((forceReportRegeneration || autoRegenerateReports(award)) && award.getPrincipalInvestigator() != null) {
+            
             List<AwardReportTerm> awardReportTermItems = award.getAwardReportTermItems();
             List<ReportTracking> reportsToSave = new ArrayList<ReportTracking>();
             List<ReportTracking> reportsToDelete = new ArrayList<ReportTracking>();
+            
             for (AwardReportTerm awardTerm : awardReportTermItems) {
                 List<java.util.Date> dates = new ArrayList<java.util.Date>();
                
@@ -99,7 +101,9 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                 }
                 
                 runDateCalcuations(dates, award, awardTerm, reportsToSave);
-                
+
+                deleteExtraReports(dates, award, awardTerm, reportsToDelete);
+
                 Collections.sort(awardTerm.getReportTrackings());
             }
             this.getBusinessObjectService().delete(reportsToDelete);
@@ -124,6 +128,36 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         }
     }
     
+    /**
+     * This method deletes any reports that are outside the dates currently in the award. For example, when the projectEndDate for 
+     * an award is moved to an earlier date, this method removes the extra report tracking entries for those dates that
+     * are no longer part of the project start - end dates.
+     * @param dates
+     * @param award
+     * @param awardTerm
+     * @param reportsToDelete
+     */
+    protected void deleteExtraReports(List<java.util.Date> dates, Award award, AwardReportTerm awardTerm,
+            List<ReportTracking> reportsToDelete) {
+        HashMap<java.util.Date, String> dateMap= new HashMap<java.util.Date, String>();
+        for (java.util.Date date : dates) {
+            dateMap.put(date, null);
+        }
+        
+        List<ReportTracking> reportTrackings = awardTerm.getReportTrackings();
+        List<ReportTracking> reportTrackingsClean = new ArrayList<ReportTracking>();
+
+        for (ReportTracking reportTracking : reportTrackings) {
+            if (reportTracking.getDueDate() != null && !dateMap.containsKey(reportTracking.getDueDate()) ) {
+                reportsToDelete.add(reportTracking);
+            } else {
+                reportTrackingsClean.add(reportTracking);
+            }
+        }
+        awardTerm.setReportTrackings(reportTrackingsClean);
+    }
+
+
     /**
      * 
      * This method...
@@ -151,6 +185,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
             }
         }
     }
+
     
     /**
      * 
