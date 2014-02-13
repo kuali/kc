@@ -16,6 +16,7 @@
 package org.kuali.kra.timeandmoney.web.struts.action;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,6 +39,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
@@ -597,14 +599,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward;
-        //Must reset to current view before we save.  single node hierarchy will 
-//        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
-//        timeAndMoneyForm.setCurrentOrPendingView(ACTIVE_VIEW);
-//        refreshView(mapping, timeAndMoneyForm, request, response);
         save(mapping, form, request, response);
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         actionForward = super.route(mapping, form, request, response);  
+        // save report tracking items
+        saveReportTrackingItems(timeAndMoneyForm);
         
         String routeHeaderId = timeAndMoneyForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE, "TimeAndMoneyDocument");
@@ -614,7 +614,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         return routeToHoldingPage(basicForward, actionForward, holdingPageForward, returnLocation);
     }
     
-    
+    protected void saveReportTrackingItems(TimeAndMoneyForm timeAndMoneyForm) throws ParseException {
+        TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
+        Award award = timeAndMoneyDocument.getAward();
+        getReportTrackingService().generateReportTrackingAndSave(award, true);
+    }
         
     /**
      * override to call save before we blanket approve.
@@ -626,10 +630,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         ActionForward actionForward;
         save(mapping, form, request, response);
         actionForward = super.blanketApprove(mapping, form, request, response);      
-        //return actionForward;
         
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        saveReportTrackingItems(timeAndMoneyForm);
+
         String routeHeaderId = timeAndMoneyForm.getDocument().getDocumentNumber();
+        
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE, "TimeAndMoneyDocument");
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
@@ -1212,6 +1218,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
 
     public void setTimeAndMoneyVersionService(TimeAndMoneyVersionService timeAndMoneyVersionService) {
         this.timeAndMoneyVersionService = timeAndMoneyVersionService;
+    }
+    
+    public ReportTrackingService getReportTrackingService() {
+        return KraServiceLocator.getService(ReportTrackingService.class);
     }
 
 }
