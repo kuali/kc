@@ -23,17 +23,17 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 public class AwardHierarchyBeanTest {
@@ -99,11 +99,11 @@ public class AwardHierarchyBeanTest {
         final LegacyDataAdapter service = context.mock(LegacyDataAdapter.class);
 
         context.checking(new Expectations() {{
-            Map<String, Object> fieldValues = ServiceHelper.getInstance().buildCriteriaMap("documentDescription", AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);
+            Map<String, Object> fieldValues = Collections.<String,Object>singletonMap("documentDescription", AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);
             one(service).findMatching(DocumentHeader.class, fieldValues);
             will(returnValue(new ArrayList<DocumentHeader>()));
-            
-            Map<String, Object> primaryKeys = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"awardNumber", "active"}, new Object[]{ROOT_AWARD_NUMBER, Boolean.TRUE});
+
+            Map<String, Object> primaryKeys = CollectionUtils.zipMap(new String[]{"awardNumber", "active"}, new Object[]{ROOT_AWARD_NUMBER, Boolean.TRUE});
             allowing(service).findByPrimaryKey(AwardHierarchy.class, primaryKeys);
             will(returnValue(null));
         }});

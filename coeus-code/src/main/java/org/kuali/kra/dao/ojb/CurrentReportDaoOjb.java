@@ -1,13 +1,13 @@
 package org.kuali.kra.dao.ojb;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.dao.CurrentReportDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -50,8 +50,8 @@ public class CurrentReportDaoOjb extends BaseReportDaoOjb implements CurrentRepo
 
     private void lazyLoadAward(AwardPerson awardPerson) {
         if(awardPerson.getAward() == null) {
-            Map searchParms = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"awardNumber", "sequenceNumber"},
-                                                                           new Object[]{awardPerson.getAwardNumber(), awardPerson.getSequenceNumber()});
+            Map searchParms = CollectionUtils.zipMap(new String[]{"awardNumber", "sequenceNumber"},
+                    new Object[]{awardPerson.getAwardNumber(), awardPerson.getSequenceNumber()});
             Award award = (Award) getBusinessObjectService().findMatching(Award.class, searchParms).iterator().next();
             awardPerson.setAward(award);
         }

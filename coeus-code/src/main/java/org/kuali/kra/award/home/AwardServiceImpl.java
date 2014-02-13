@@ -21,7 +21,6 @@ import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
@@ -49,8 +48,8 @@ public class AwardServiceImpl implements AwardService {
      */
     @SuppressWarnings("unchecked")
     public List<Award> findAwardsForAwardNumber(String awardNumber) {
-        List<Award> results = new ArrayList<Award>(businessObjectService.findMatchingOrderBy(Award.class, 
-                                                                ServiceHelper.getInstance().buildCriteriaMap(AWARD_NUMBER, awardNumber),
+        List<Award> results = new ArrayList<Award>(businessObjectService.findMatchingOrderBy(Award.class,
+                Collections.singletonMap(AWARD_NUMBER, awardNumber),
                                                                 SEQUENCE_NUMBER,
                                                                 true));
         return results;
@@ -59,13 +58,13 @@ public class AwardServiceImpl implements AwardService {
     /** {@inheritDoc} */
     public Award getAward(Long awardId) {
         return awardId != null ? (Award) businessObjectService.findByPrimaryKey(Award.class, 
-                                        ServiceHelper.getInstance().buildCriteriaMap(AWARD_ID, awardId)) : null;
+                                        Collections.singletonMap(AWARD_ID, awardId)) : null;
     }
     
     /** {@inheritDoc} */
     public Award getAward(String awardId) {
-        return awardId != null ? (Award) businessObjectService.findByPrimaryKey(Award.class, 
-                                        ServiceHelper.getInstance().buildCriteriaMap(AWARD_ID, awardId)) : null;
+        return awardId != null ? (Award) businessObjectService.findByPrimaryKey(Award.class,
+                Collections.singletonMap(AWARD_ID, awardId)) : null;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

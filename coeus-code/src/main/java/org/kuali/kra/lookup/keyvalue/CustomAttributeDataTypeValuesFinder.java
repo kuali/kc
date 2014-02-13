@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;

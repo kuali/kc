@@ -17,10 +17,10 @@ package org.kuali.kra.service.impl;
 
 import org.kuali.kra.bo.MessageOfTheDay;
 import org.kuali.kra.service.MessageOfTheDayService;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MessageOfTheDayServiceImpl implements MessageOfTheDayService {
@@ -36,7 +36,7 @@ public class MessageOfTheDayServiceImpl implements MessageOfTheDayService {
     @SuppressWarnings("unchecked")
     public List<MessageOfTheDay> getMessagesOfTheDay() {
         List<MessageOfTheDay> results = new ArrayList<MessageOfTheDay>( businessObjectService.findMatchingOrderBy(MessageOfTheDay.class,
-                ServiceHelper.getInstance().buildCriteriaMap(ACTIVE, "Y"),
+                Collections.singletonMap(ACTIVE, "Y"),
                 DISPLAY_ORDER, 
                 true ));
         

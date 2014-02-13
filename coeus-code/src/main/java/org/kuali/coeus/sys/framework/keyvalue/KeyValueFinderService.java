@@ -13,27 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup.keyvalue;
+package org.kuali.coeus.sys.framework.keyvalue;
 
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
 public interface KeyValueFinderService{
-    public List<KeyValue> getKeyValues(Class keyValClass,String codePropName,String valPropName);
+    List<KeyValue> getKeyValues(Class<? extends BusinessObject> keyValClass, String codePropName, String valPropName);
 
     /**
-     * 
+     *
      * This method is to get key values pair by providing additional query map as retrieving criteria.
-     * @param keyValClass
-     * @param codePropName
-     * @param valPropName
-     * @param queryMap
-     * @return
      */
-    public List<KeyValue> getKeyValues(Class keyValClass, String codePropName, String valPropName, Map queryMap);
+    List<KeyValue> getKeyValues(Class<? extends BusinessObject> keyValClass, String codePropName, String valPropName, Map<String, ?> queryMap);
 }

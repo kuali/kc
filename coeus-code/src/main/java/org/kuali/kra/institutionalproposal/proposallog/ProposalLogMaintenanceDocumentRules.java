@@ -16,11 +16,11 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -134,9 +134,8 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
             
         }
         if (proposalLog.getDeadlineTime() != null) {
-            TimeFormatter formatter = new TimeFormatter();
-            
-            String deadLineTime = (String) formatter.convertToObject(proposalLog.getDeadlineTime());
+
+            String deadLineTime = DateUtils.formatFrom12Or24Str(proposalLog.getDeadlineTime());
             if (!deadLineTime.equalsIgnoreCase(Constants.INVALID_TIME)) {
                 proposalLog.setDeadlineTime(deadLineTime);
             } else {

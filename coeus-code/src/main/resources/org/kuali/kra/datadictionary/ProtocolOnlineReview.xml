@@ -291,7 +291,7 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:businessObjectClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus"
 				p:includeKeyInLabel="false" p:keyAttribute="statusCode"
 				p:labelAttribute="description" />

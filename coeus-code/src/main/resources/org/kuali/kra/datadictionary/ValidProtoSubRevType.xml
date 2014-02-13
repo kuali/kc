@@ -75,7 +75,7 @@
         <property name="control" >
 			<bean parent="SelectControlDefinition"
             	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false"
             	p:keyAttribute="submissionTypeCode"
             	p:labelAttribute="description" />
@@ -97,7 +97,7 @@
         <property name="control" >
             <bean parent="SelectControlDefinition"
             	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewType"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false"
             	p:keyAttribute="reviewTypeCode"
             	p:labelAttribute="description" />

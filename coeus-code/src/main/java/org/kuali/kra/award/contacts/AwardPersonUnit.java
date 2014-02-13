@@ -24,7 +24,6 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
@@ -320,7 +319,7 @@ public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements 
 
     private void lazilyLoadUnit() {
         if (StringUtils.isNotEmpty(unitNumber) && unit == null) {
-            Collection c = getBusinessObjectService().findMatching(Unit.class, ServiceHelper.getInstance().buildCriteriaMap("unitNumber", unitNumber));
+            Collection c = getBusinessObjectService().findMatching(Unit.class, Collections.singletonMap("unitNumber", unitNumber));
             if (c.size() > 0) {
                 unit = (Unit) c.iterator().next();
             }

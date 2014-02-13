@@ -45,7 +45,6 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -292,14 +291,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             throw new InstitutionalProposalCreationException(VERSION_EXCEPTION_MESSAGE, ve);
         }
     }
-    
-    /**
-     * 
-     * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#getProposalForProposalNumber(java.lang.String)
-     */
+
     public List<InstitutionalProposal> getProposalsForProposalNumber(String proposalNumber) {
-        List<InstitutionalProposal> results = new ArrayList<InstitutionalProposal>(businessObjectService.findMatchingOrderBy(InstitutionalProposal.class, 
-                                                                ServiceHelper.getInstance().buildCriteriaMap(PROPOSAL_NUMBER, proposalNumber),
+        List<InstitutionalProposal> results = new ArrayList<InstitutionalProposal>(businessObjectService.findMatchingOrderBy(InstitutionalProposal.class,
+                Collections.singletonMap(PROPOSAL_NUMBER, proposalNumber),
                                                                 SEQUENCE_NUMBER,
                                                                 true));
         return results;    
@@ -313,7 +308,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         List<InstitutionalProposal> proposals = getProposalsForProposalNumber(proposalNumber);
         for (InstitutionalProposal curProposal : proposals) {
             List<ProposalAdminDetails> details = new ArrayList<ProposalAdminDetails>(businessObjectService.findMatching(ProposalAdminDetails.class,
-                    ServiceHelper.getInstance().buildCriteriaMap("instProposalId", curProposal.getProposalId())));
+                    Collections.singletonMap("instProposalId", curProposal.getProposalId())));
             for (ProposalAdminDetails detail : details) {
                 result.add(detail.getDevelopmentProposal());
             }
