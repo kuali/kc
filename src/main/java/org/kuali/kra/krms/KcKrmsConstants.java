@@ -84,9 +84,12 @@ public final class KcKrmsConstants {
 
     }
 
-    public static final class Budget {
-        public static final String BUDGET_CONTEXT = "KC Budget Context";
-    }    
+    public static final class PropDevBudget {
+        public static final String BUDGET_CONTEXT = "KC Proposal Budget Context";
+        public static final String BUDGET = "Budget";
+        public static final String BUDGET_CONTEXT_ID = "KC-BUDGET-CONTEXT";
+    }  
+    
     public static final class Award {
         public static final String AWARD_CONTEXT_ID = "KC-AWARD-CONTEXT";
 
@@ -95,6 +98,12 @@ public final class KcKrmsConstants {
         public static final String AWARD_CONTEXT = "KC Award Context";
         
     }
+
+    public static final class AwardBudget {
+        public static final String BUDGET_CONTEXT = "KC Award Budget Context";
+        public static final String BUDGET = "AwardBudgetExt";
+        public static final String BUDGET_CONTEXT_ID = "KC-AWARD-BUDGET-CONTEXT";
+    }  
     
     public static final class IrbProtocol {
         
@@ -134,6 +143,19 @@ public final class KcKrmsConstants {
         public static final String COI_DISCLOSURE = "CoiDisclosure";
         public static final String COI_DISCLOSURE_CONTEXT_ID = "KC-COIDISCLOSURE-CONTEXT";
         
+    }
+
+    public static final class InstitutionalProposal {
+        public static final String INSTITUTIONAL_PROPOSAL_CONTEXT = "KC Institutional Proposal Context";
+        public static final String INSTITUTIONAL_PROPOSAL = "InstitutionalProposal";
+        public static final String INSTITUTIONAL_PROPOSAL_CONTEXT_ID = "KC-IP-CONTEXT";
+        
+    }
+
+    public static final class SubAward {
+        public static final String SUBAWARD_CONTEXT = "KC Subaward Context";
+        public static final String SUBAWARD = "SubAward";
+        public static final String SUBAWARD_CONTEXT_ID = "KC-SUBAWARD-CONTEXT";
     }
 
 }

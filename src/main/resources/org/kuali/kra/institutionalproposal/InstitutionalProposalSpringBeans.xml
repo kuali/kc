@@ -270,4 +270,8 @@
         <property name="institutionalProposalPersonService" ref="institutionalProposalPersonService" />
     </bean>
 
+	<bean id="institutionalProposalFactBuilderService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalFactBuilderServiceImpl">
+		  <property name="documentService" ref="documentService" />
+	</bean>
+
 </beans>

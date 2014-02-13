@@ -15,7 +15,8 @@
 			<routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" />
+					<start name="Initiated" nextNode="PeopleFlows"/>
+					<requests name="PeopleFlows" />
 				</routePath>
 			</routePaths>
 			<routeNodes>
@@ -24,6 +25,10 @@
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
 				</start>
+	            <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kra.subaward.service.impl.SubAwardRulesEngineExecutorImpl"/>
+                </requests>
 			</routeNodes>
 			<parent>KC</parent>
 		</documentType>
