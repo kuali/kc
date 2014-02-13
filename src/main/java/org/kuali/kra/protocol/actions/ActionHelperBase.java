@@ -2744,7 +2744,7 @@ public abstract class ActionHelperBase implements Serializable {
             try {
                 ProtocolDocumentBase protocolDoc = (ProtocolDocumentBase)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
                 Date docDate = new Date(protocolDoc.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
-                createDate = new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(docDate);
+                createDate = new SimpleDateFormat("MM/dd/yyyy").format(docDate);
             } catch (Exception e) {
                 createDate = "";
             }
