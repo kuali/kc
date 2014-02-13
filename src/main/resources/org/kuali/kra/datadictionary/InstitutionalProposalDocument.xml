@@ -119,13 +119,13 @@
           <property name="workflowProperties">
             <list>
               <bean parent="WorkflowProperty" p:path="documentHeader"/>
-              <bean parent="WorkflowProperty" p:path="institutionalProposal.proposalId"/>
-              <bean parent="WorkflowProperty" p:path="institutionalProposal.proposalNumber"/>
-              <bean parent="WorkflowProperty" p:path="institutionalProposal.currentAccountNumber"/>
-              <bean parent="WorkflowProperty" p:path="institutionalProposal.principalInvestigator.contact.fullName"/>
-              <bean parent="WorkflowProperty" p:path="institutionalProposal.title"/>
-              <bean parent="WorkflowProperty" p:path="institutionalProposal.sponsor.sponsorCode"/>
-			  <bean parent="WorkflowProperty" p:path="institutionalProposal.leadUnit.unitNumber"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposalList.proposalId"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposalList.proposalNumber"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposalList.currentAccountNumber"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposalList.unitNumber"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposalList.title"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposalList.sponsor.sponsorCode"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposalList.principalInvestigator.contact.fullName"/>
 			 </list>
           </property>
         </bean>

@@ -15,6 +15,14 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -27,6 +35,7 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalLockService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -48,12 +57,6 @@ import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * This class...
  */
@@ -68,9 +71,14 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         
         if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally((InstitutionalProposalForm) form);
+        }
+        
+        if (institutionalProposalForm.isAuditActivated()){
+            institutionalProposalForm.setUnitRulesMessages(getUnitRulesMessages(institutionalProposalForm.getInstitutionalProposalDocument()));
         }
         
         return actionForward;
@@ -425,4 +433,9 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
         this.notificationService = notificationService;
     }    
     
+    protected List<String> getUnitRulesMessages(InstitutionalProposalDocument ipDoc) {
+        KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
+        return rulesService.processUnitValidations(ipDoc.getLeadUnitNumber(), ipDoc);
+    }
+
 }

@@ -230,4 +230,8 @@
 		p:localServiceName="subAwardRequisitionerDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 	
+	<bean id="subAwardFactBuilderService" class="org.kuali.kra.subaward.service.impl.SubAwardFactBuilderServiceImpl">
+		  <property name="documentService" ref="documentService" />
+	</bean>
+	
 </beans>	

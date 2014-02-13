@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.budget.document;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.document.AwardDocument;
@@ -26,7 +31,11 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -38,16 +47,12 @@ import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_BUDGET)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase implements Copyable, SessionDocument,Permissionable,BudgetDocumentTypeChecker  {
+public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase 
+implements Copyable, SessionDocument,Permissionable,BudgetDocumentTypeChecker, KrmsRulesContext  {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -340,5 +345,19 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
     @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return new ArrayList();
+    }
+    @Override
+    public void populateContextQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_BUDGET);
+        qualifiers.put("name", KcKrmsConstants.PropDevBudget.BUDGET_CONTEXT);
+    }
+    @Override
+    public void addFacts(Builder factsBuilder) {
+        KcKrmsFactBuilderServiceHelper fbService = KraServiceLocator.getService("propDevBudgetFactBuilderService");
+        fbService.addFacts(factsBuilder, this);
+    }
+    @Override
+    public void populateAgendaQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
     }    
 }
