@@ -5,11 +5,8 @@
     <div class="innerTab-container" align="left">
 	    <h3>
    			<span class="subhead-left">Amendments/Renewals</span>
-   			<span class="subhead-right">
-   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolHistoryHelp" altText="Help"/>
-			</span>
 		</h3>
-        <table id="historyTable" class="tab" cellpadding="0" cellspacing="0" summary="">
+        <table id="amendHistoryTable" class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
                 <tr>
 	                <th>Type</th>
