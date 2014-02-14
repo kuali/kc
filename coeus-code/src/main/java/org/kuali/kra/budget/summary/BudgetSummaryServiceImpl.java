@@ -31,7 +31,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
-import org.kuali.kra.service.DeepCopyPostProcessor;
+import org.kuali.kra.budget.deepcopy.DeepCopyPostProcessor;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

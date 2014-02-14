@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
-public abstract class CreateContinuationEventBase extends KraDocumentEventBaseExtension {
+public abstract class CreateContinuationEventBase extends KcDocumentEventBaseExtension {
 
     private String continuationSummary;
     private String propertyName;

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
-public class AddManualProjectEvent extends KraDocumentEventBaseExtension {
+public class AddManualProjectEvent extends KcDocumentEventBaseExtension {
     
     private String propertyName;
     private CoiDisclProject coiDisclProject;

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Encapsulates a validation event for a Protocol Risk Level add action.
  */
-public class ProtocolAddRiskLevelEvent extends KraDocumentEventBaseExtension {
+public class ProtocolAddRiskLevelEvent extends KcDocumentEventBaseExtension {
     
     private String propertyName;
     private ProtocolRiskLevel riskLevel;

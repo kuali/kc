@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.personnel;
 
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
-import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 
 public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmount {
 

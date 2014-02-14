@@ -18,11 +18,11 @@ package org.kuali.kra.coi.notesandattachments;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.coi.personfinancialentity.AddFinancialEntityAttachmentEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class FinancialEntityAttachmentRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddFinancialEntityAttachmentEvent> {
+public class FinancialEntityAttachmentRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<AddFinancialEntityAttachmentEvent> {
 
     public boolean validPrimitiveFields(FinancialEntityAttachment newFinancialEntityAttachment) {
         Long oldFileId = newFinancialEntityAttachment.getFileId();

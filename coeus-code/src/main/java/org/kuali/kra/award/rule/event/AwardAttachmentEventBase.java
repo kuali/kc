@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.rule.AddAwardAttachmentRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 
-public class AwardAttachmentEventBase extends KraDocumentEventBase implements AwardAttachmentEvent  {
+public class AwardAttachmentEventBase extends KcDocumentEventBase implements AwardAttachmentEvent  {
 
     private AwardAttachment attachment;
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory

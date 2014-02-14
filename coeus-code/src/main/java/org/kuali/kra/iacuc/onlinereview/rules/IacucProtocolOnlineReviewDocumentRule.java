@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.onlinereview.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -24,14 +25,13 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.protocol.onlinereview.event.*;
 import org.kuali.kra.protocol.onlinereview.rules.*;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class IacucProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase 
+public class IacucProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRuleBase
 implements AddOnlineReviewCommentRule,
         SaveProtocolOnlineReviewRule, BusinessRuleInterface, RouteProtocolOnlineReviewRule, DisapproveOnlineReviewCommentRule,
         RejectOnlineReviewCommentRule, DeleteOnlineReviewRule {
@@ -158,7 +158,7 @@ implements AddOnlineReviewCommentRule,
         return valid;
     }
 
-    public boolean processRules(KraDocumentEventBaseExtension event) {
+    public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;

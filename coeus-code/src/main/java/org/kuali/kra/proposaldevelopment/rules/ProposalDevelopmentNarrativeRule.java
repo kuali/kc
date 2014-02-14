@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.*;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
@@ -27,11 +28,14 @@ import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
+import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -52,7 +56,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * @author kualidev@oncourse.iu.edu
  * @version 1.0
  */
-public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule, NewNarrativeUserRightsRule { 
+public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule, NewNarrativeUserRightsRule {
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
     private static final String DOCUMENT_NARRATIVES = "document.narratives";
     private static final String PROPOSAL = "Proposal";
@@ -65,7 +69,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     private transient PersonService personService;
     private transient ParameterService parameterService;
     private transient KcAttachmentService  kcAttachmentService;
-    
+    private DictionaryValidationService dictionaryValidationService;
     /**
      * This method is used to validate narratives and institute proposal attachments before adding.
      * It checks whether the narratives are duplicated for those of which have allowMultiple flag set as false.
@@ -351,7 +355,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     }
     /**
      * Gets the parameter service.
-     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#getParameterService()
+     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#getParameterService()
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null ) {
@@ -378,5 +382,24 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         }
         
         return this.personService;
-    }    
+    }
+
+    /**
+     * Does the given user have the given permission for the proposal?
+     * @param userId the user's username
+     * @param doc the Permissionable
+     * @param permissionName the name of the permission
+     * @return true if user has permission; otherwise false
+     */
+   protected boolean hasPermission(String userId, Permissionable doc, String permissionName) {
+        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+        return kraAuthorizationService.hasPermission(userId, doc, permissionName);
+    }
+
+    protected DictionaryValidationService getKnsDictionaryValidationService() {
+        if (this.dictionaryValidationService == null) {
+            this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
+        }
+        return this.dictionaryValidationService;
+    }
 }

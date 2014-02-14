@@ -24,15 +24,15 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.List;
 
 /**
  * Runs the rule processing for saving a ProtocolBase Funding Source.
  */
-public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveProtocolFundingSourceLinkEvent> {
+public class SaveProtocolFundingSourceLinkRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<SaveProtocolFundingSourceLinkEvent> {
 
     private static final String FUNDING_SOURCE_NUMBER = "fundingSourceNumber";
     
@@ -42,7 +42,7 @@ public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase 
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(SaveProtocolFundingSourceLinkEvent event) {
         boolean rulePassed = true;

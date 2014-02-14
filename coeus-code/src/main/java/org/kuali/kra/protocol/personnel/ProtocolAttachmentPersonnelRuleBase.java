@@ -22,13 +22,13 @@ import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeBase;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.io.IOException;
 
 
-public abstract class ProtocolAttachmentPersonnelRuleBase extends ResearchDocumentRuleBase implements AddProtocolAttachmentPersonnelRule {
+public abstract class ProtocolAttachmentPersonnelRuleBase extends KcTransactionalDocumentRuleBase implements AddProtocolAttachmentPersonnelRule {
 
     protected static final String PROPERTY_NAME_NEW_ATTACHMENT_TYPE = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].typeCode";
     protected static final String PROPERTY_NAME_NEW_ATTACHMENT_DESCRIPTION = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].description";

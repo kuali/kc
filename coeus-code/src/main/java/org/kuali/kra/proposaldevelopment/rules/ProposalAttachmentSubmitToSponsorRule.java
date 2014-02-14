@@ -22,19 +22,21 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
-public class ProposalAttachmentSubmitToSponsorRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public class ProposalAttachmentSubmitToSponsorRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
 
     public static final String ATTACHMENTS_AUDIT_CLUSTER_KEY = "proposalAttachmentsAuditWarnings";
 
@@ -42,7 +44,9 @@ public class ProposalAttachmentSubmitToSponsorRule extends ResearchDocumentRuleB
     private static final String AUDIT_PARAMETER_VALUE_NO = "N";
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAttachmentsAuditRule.class);
-    
+
+    private ParameterService parameterService;
+
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocument) document).getDevelopmentProposal();
@@ -99,6 +103,13 @@ public class ProposalAttachmentSubmitToSponsorRule extends ResearchDocumentRuleB
                 }
         
         return auditErrors;
-            }
+    }
+
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
+    }
 
 }

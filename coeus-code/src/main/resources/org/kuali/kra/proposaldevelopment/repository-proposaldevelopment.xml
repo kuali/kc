@@ -134,7 +134,7 @@
         <collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview" 
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
-            <query-customizer class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+            <query-customizer class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
                 <attribute attribute-name="hiddenInHierarchy" attribute-value="N" />
             </query-customizer>
         </collection-descriptor>
@@ -149,7 +149,7 @@
         </collection-descriptor>
         <collection-descriptor name="propScienceKeywords" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber" />
-            <query-customizer class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+            <query-customizer class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
                 <attribute attribute-name="hiddenInHierarchy" attribute-value="N" />
             </query-customizer>
         </collection-descriptor>
@@ -157,7 +157,7 @@
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="ordinalPosition" sort="ASC" />
             <inverse-foreignkey field-ref="proposalNumber"/>
-            <query-customizer class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+            <query-customizer class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
                 <attribute attribute-name="hiddenInHierarchy" attribute-value="N" />
             </query-customizer>
         </collection-descriptor>
@@ -167,7 +167,7 @@
             <query-customizer class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">
                 <attribute attribute-name="narrativeType.narrativeTypeGroup" attribute-value="proposalNarrativeTypeGroup" />
             </query-customizer>
-            <query-customizer class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+            <query-customizer class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
                 <attribute attribute-name="hiddenInHierarchy" attribute-value="N" />
             </query-customizer>
         </collection-descriptor>

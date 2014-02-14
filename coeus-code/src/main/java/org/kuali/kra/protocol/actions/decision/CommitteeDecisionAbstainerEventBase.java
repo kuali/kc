@@ -17,15 +17,15 @@ package org.kuali.kra.protocol.actions.decision;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * 
  * This class...
  */
-public abstract class CommitteeDecisionAbstainerEventBase<CD extends CommitteeDecision<?>> extends KraDocumentEventBase {
+public abstract class CommitteeDecisionAbstainerEventBase<CD extends CommitteeDecision<?>> extends KcDocumentEventBase {
     
     private CD actionBean;
     

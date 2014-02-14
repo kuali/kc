@@ -16,8 +16,8 @@
 package org.kuali.kra.irb.actions.history;
 
 
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.Date;
@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * Encapsulates the history filter event on the Protocol Actions panel.
  */
-public class ProtocolHistoryFilterDatesEvent extends KraDocumentEventBaseExtension {
+public class ProtocolHistoryFilterDatesEvent extends KcDocumentEventBaseExtension {
     
     private Date startDate;
     private Date endDate;
@@ -52,7 +52,7 @@ public class ProtocolHistoryFilterDatesEvent extends KraDocumentEventBaseExtensi
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.event.KraDocumentEventBaseExtension#getRule()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension#getRule()
      */
     @Override
     @SuppressWarnings("unchecked")

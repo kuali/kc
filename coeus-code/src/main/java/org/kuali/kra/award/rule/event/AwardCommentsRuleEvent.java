@@ -17,12 +17,12 @@ package org.kuali.kra.award.rule.event;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AwardCommentsRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class AwardCommentsRuleEvent extends KraDocumentEventBase {
+public class AwardCommentsRuleEvent extends KcDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(AwardCommentsRuleEvent.class);
 
     public AwardCommentsRuleEvent(String errorPathPrefix, AwardDocument awardDocument) {

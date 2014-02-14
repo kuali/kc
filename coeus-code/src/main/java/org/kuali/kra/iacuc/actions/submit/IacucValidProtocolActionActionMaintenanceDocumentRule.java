@@ -16,8 +16,8 @@
 package org.kuali.kra.iacuc.actions.submit;
 
 import org.drools.core.util.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -26,7 +26,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This class is the maintenance document rule for valid submission/review type table.
  */
-public class IacucValidProtocolActionActionMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class IacucValidProtocolActionActionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
     /**
      * 

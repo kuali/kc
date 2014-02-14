@@ -16,15 +16,15 @@
 package org.kuali.kra.protocol.actions.reviewcomments;
 
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Encapsulates a validation event for a Reviewer Comment add action.
  */
-public abstract class ProtocolAddReviewCommentEventBase extends KraDocumentEventBaseExtension {
+public abstract class ProtocolAddReviewCommentEventBase extends KcDocumentEventBaseExtension {
     
     private String propertyName;
     private CommitteeScheduleMinuteBase reviewComment;

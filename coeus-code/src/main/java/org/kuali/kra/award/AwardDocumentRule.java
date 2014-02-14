@@ -16,6 +16,7 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.award.commitments.*;
 import org.kuali.kra.award.contacts.*;
 import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
@@ -58,14 +59,16 @@ import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -88,7 +91,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CO
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardPaymentScheduleRule, 
+public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implements AwardPaymentScheduleRule,
                                                                             AwardApprovedEquipmentRule, 
                                                                             AwardApprovedForeignTravelRule, 
                                                                             AddFandaRateRule,
@@ -113,7 +116,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     
     private List<AuditError> auditErrors;
     private List<AuditError> auditWarnings;
-    
+    private ParameterService parameterService;
     public AwardDocumentRule() {
         auditErrors = new ArrayList<AuditError>();
         auditWarnings = new ArrayList<AuditError>();
@@ -474,7 +477,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         
-        retval &= super.processRunAuditBusinessRules(document);
+        retval &= new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardReportAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardTermsAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardPaymentAndInvoicesAuditRule().processRunAuditBusinessRules(document);
@@ -705,9 +708,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
 
 
     /**
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
-    public boolean processRules(KraDocumentEventBaseExtension event) {
+    public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
@@ -743,5 +746,12 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         if (auditWarnings.size() > 0) {
             KNSGlobalVariables.getAuditErrorMap().put("homePageAuditWarnings", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditWarnings, Constants.AUDIT_WARNINGS));            
         }
+    }
+
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
     }
 }

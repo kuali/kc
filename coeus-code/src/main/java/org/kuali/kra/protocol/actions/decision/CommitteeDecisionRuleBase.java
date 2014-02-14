@@ -27,7 +27,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ import java.util.List;
  * 
  * This class runs the rules needed for committee decision recording.
  */
-public abstract class CommitteeDecisionRuleBase<CD extends CommitteeDecision<?>> extends ResearchDocumentRuleBase implements ExecuteCommitteeDecisionRule<CD> {
+public abstract class CommitteeDecisionRuleBase<CD extends CommitteeDecision<?>> extends KcTransactionalDocumentRuleBase implements ExecuteCommitteeDecisionRule<CD> {
     
     private static final String DOT = ".";
     private static final String MOTION_FIELD = "motionTypeCode";

@@ -25,7 +25,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerType;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * Validate the assignment of a protocol to some reviewers.
  */
-public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implements ExecuteProtocolAssignReviewersRule {
+public class ProtocolAssignReviewersRule extends KcTransactionalDocumentRuleBase implements ExecuteProtocolAssignReviewersRule {
    
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     

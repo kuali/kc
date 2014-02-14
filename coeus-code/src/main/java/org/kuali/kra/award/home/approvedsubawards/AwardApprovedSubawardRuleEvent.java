@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.home.approvedsubawards;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 import java.util.Collections;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * This class...
  */
-public class AwardApprovedSubawardRuleEvent extends KraDocumentEventBase {
+public class AwardApprovedSubawardRuleEvent extends KcDocumentEventBase {
     
     private AwardApprovedSubaward awardApprovedSubaward;
     private List<AwardApprovedSubaward> awardApprovedSubawards;
@@ -103,7 +103,7 @@ public class AwardApprovedSubawardRuleEvent extends KraDocumentEventBase {
 
     
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

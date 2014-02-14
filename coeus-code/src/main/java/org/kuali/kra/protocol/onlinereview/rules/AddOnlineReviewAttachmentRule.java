@@ -18,19 +18,19 @@ package org.kuali.kra.protocol.onlinereview.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewAttachmentEvent;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
  * This class implements validation rule when adding new OLR review attachment.
  */
-public class AddOnlineReviewAttachmentRule  extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddProtocolOnlineReviewAttachmentEvent> {
+public class AddOnlineReviewAttachmentRule  extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<AddProtocolOnlineReviewAttachmentEvent> {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(AddProtocolOnlineReviewAttachmentEvent event) {
         boolean isValid = true;

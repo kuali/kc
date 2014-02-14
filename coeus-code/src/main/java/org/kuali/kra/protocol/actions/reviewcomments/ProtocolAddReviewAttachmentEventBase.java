@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * 
  * This class is validate the new review attachment when 'add' is clicked
  */
-public abstract class ProtocolAddReviewAttachmentEventBase<PRA extends ProtocolReviewAttachmentBase> extends KraDocumentEventBaseExtension {
+public abstract class ProtocolAddReviewAttachmentEventBase<PRA extends ProtocolReviewAttachmentBase> extends KcDocumentEventBaseExtension {
     
     // TODO : technically, this can be refactored to share with ProtocolAddReviewCommentEventBase/rule
     // Since, we are waiting for KRMS, so probably just live with this for now.

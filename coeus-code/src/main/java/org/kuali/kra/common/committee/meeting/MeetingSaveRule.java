@@ -20,9 +20,9 @@ import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.rules.CommitteeScheduleTimeRule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import java.util.List;
  * 
  * This class implements business rule when saving committee schedule.
  */
-public class MeetingSaveRule  extends ResearchDocumentRuleBase implements BusinessRuleInterface<MeetingSaveEvent> {
+public class MeetingSaveRule  extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<MeetingSaveEvent> {
     
     private static final String MSG1 = "hh:mm";
 
@@ -49,7 +49,7 @@ public class MeetingSaveRule  extends ResearchDocumentRuleBase implements Busine
     private ErrorReporter errorReporter;
     
     /**
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(MeetingSaveEvent event) {
         boolean rulePassed = true;

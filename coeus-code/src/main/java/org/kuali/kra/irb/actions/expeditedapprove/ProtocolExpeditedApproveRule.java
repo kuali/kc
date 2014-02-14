@@ -29,7 +29,7 @@ public class ProtocolExpeditedApproveRule extends ProtocolApproveRule {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(ProtocolApproveEvent event) {
         boolean isValid = super.processRules(event);

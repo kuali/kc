@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.personnel;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelRuleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Runs the rule processing for saving a <code>ProtocolPerson</code>.
@@ -28,7 +28,7 @@ public class SaveIacucProtocolPersonnelRule extends ProtocolPersonnelRuleBase im
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(SaveIacucProtocolPersonnelEvent event) {
         return processSaveProtocolPersonnelEvent(event);

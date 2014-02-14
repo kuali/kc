@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.threers;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 import java.util.List;
 
-public class AddAlternateSearchEvent extends KraDocumentEventBaseExtension {
+public class AddAlternateSearchEvent extends KcDocumentEventBaseExtension {
 
     private IacucAlternateSearch alternateSearch;
     private List<String> selectedDatabases;

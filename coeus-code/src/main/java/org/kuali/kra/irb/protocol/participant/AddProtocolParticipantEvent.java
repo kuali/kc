@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class AddProtocolParticipantEvent extends KraDocumentEventBaseExtension {
+public class AddProtocolParticipantEvent extends KcDocumentEventBaseExtension {
     
     private static final String NEW_PROTOCOL_PARTICIPANT_FIELD = "protocolHelper.newProtocolParticipant";
     

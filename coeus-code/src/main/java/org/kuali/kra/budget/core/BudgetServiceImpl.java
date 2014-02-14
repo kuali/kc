@@ -48,7 +48,6 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
-import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.web.format.FormatException;
@@ -86,7 +85,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     private BudgetRatesService<T> budgetRatesService;
     private PessimisticLockService pessimisticLockService;
     private BudgetVersionRule budgetVersionRule;
-    private DeepCopyPostProcessor deepCopyPostProcessor;
     private BudgetSummaryService budgetSummaryService;
     private FiscalYearMonthService fiscalYearMonthService;    
 
@@ -753,22 +751,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      */
     public void setBudgetRatesService(BudgetRatesService<T> budgetRatesService) {
         this.budgetRatesService = budgetRatesService;
-    }
-
-    /**
-     * Sets the deepCopyPostProcessor attribute value.
-     * @param deepCopyPostProcessor The deepCopyPostProcessor to set.
-     */
-    public void setDeepCopyPostProcessor(DeepCopyPostProcessor deepCopyPostProcessor) {
-        this.deepCopyPostProcessor = deepCopyPostProcessor;
-    }
-
-    /**
-     * Gets the deepCopyPostProcessor attribute. 
-     * @return Returns the deepCopyPostProcessor.
-     */
-    public DeepCopyPostProcessor getDeepCopyPostProcessor() {
-        return deepCopyPostProcessor;
     }
 
     /**

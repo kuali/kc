@@ -17,11 +17,11 @@ package org.kuali.kra.budget.rates;
 
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
-public class BudgetRateAuditRule  extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public class BudgetRateAuditRule  extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
     private static final String BUDGET_RATE_AUDIT_WARNING_KEY = "budgetRateAuditWarnings";
 
     /**

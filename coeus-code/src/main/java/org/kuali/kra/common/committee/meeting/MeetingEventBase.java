@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -24,7 +24,7 @@ import org.kuali.rice.krad.document.Document;
  * This class is the event base class for all meeting event.
  */
 @SuppressWarnings("unchecked")
-public abstract class MeetingEventBase<Z extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
+public abstract class MeetingEventBase<Z extends BusinessRuleInterface> extends KcDocumentEventBaseExtension {
     
     /**
      * Enum helps identify type of error to respond.

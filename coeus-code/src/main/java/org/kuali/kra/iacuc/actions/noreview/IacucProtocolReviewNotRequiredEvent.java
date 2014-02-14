@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.iacuc.actions.noreview;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.noreview.ExecuteProtocolReviewNotRequiredRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class...
  */
-public class IacucProtocolReviewNotRequiredEvent extends KraDocumentEventBase {
+public class IacucProtocolReviewNotRequiredEvent extends KcDocumentEventBase {
     
     private IacucProtocolReviewNotRequiredBean actionBean;
     

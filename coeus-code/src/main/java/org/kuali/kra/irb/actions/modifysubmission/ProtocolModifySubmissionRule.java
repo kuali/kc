@@ -20,7 +20,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.submit.*;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -34,7 +34,7 @@ import java.util.Map;
  * 
  * This class maintains the rules for modifying a protocol submission.
  */
-public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase implements ExecuteProtocolModifySubmissionRule {
+public class ProtocolModifySubmissionRule extends KcTransactionalDocumentRuleBase implements ExecuteProtocolModifySubmissionRule {
     
     /**
      * 

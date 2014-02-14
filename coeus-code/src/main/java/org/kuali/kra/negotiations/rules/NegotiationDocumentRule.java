@@ -16,14 +16,14 @@
 package org.kuali.kra.negotiations.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Document;
@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This class handles the business rules for the Negotiation Object.
  */
-public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
+public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
     
     private static final String NEGOTIATION_ERROR_PATH = "document.negotiationList[0]";
     private static final String END_DATE_PROPERTY = "negotiationEndDate";
@@ -81,9 +81,9 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
     }
     
     /**
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
-    public boolean processRules(KraDocumentEventBaseExtension event) {
+    public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;

@@ -16,15 +16,15 @@
 package org.kuali.kra.irb.actions.assigncmtsched;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * The event that occurs when the IRB Administrator assigns a protocol
  * to a committee/schedule.
  */
-public class ProtocolAssignCmtSchedEvent extends KraDocumentEventBase {
+public class ProtocolAssignCmtSchedEvent extends KcDocumentEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolAssignCmtSchedEvent.class);
     

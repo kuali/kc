@@ -21,7 +21,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * This class...
  */
-public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocumentRuleBase implements
+public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransactionalDocumentRuleBase implements
         InstitutionalProposalUnrecoveredFandARule {
     
 

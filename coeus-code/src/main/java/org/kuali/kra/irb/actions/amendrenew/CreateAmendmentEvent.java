@@ -17,7 +17,7 @@ package org.kuali.kra.irb.actions.amendrenew;
 
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.actions.amendrenew.CreateAmendmentEventBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * When an amendment is created, this event is generated.

@@ -17,15 +17,15 @@ package org.kuali.kra.iacuc.procedures.rule;
 
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class adds rule for adding new <code>ProcedureLocation</code> object
  */
-public class AddProcedureLocationRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddProcedureLocationEvent> { 
+public class AddProcedureLocationRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<AddProcedureLocationEvent> {
     private static final String NEW_PROCEDURE_LOCATION_PATH = "newIacucProtocolStudyGroupLocation";
     
     @Override

@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.irb.onlinereview.event;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.irb.onlinereview.rules.AddOnlineReviewAttachmentRule;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * 
  * This class implements the add OLR review attachment event for new attachment validation.
  */
-public class AddProtocolOnlineReviewAttachmentEvent extends KraDocumentEventBaseExtension {
+public class AddProtocolOnlineReviewAttachmentEvent extends KcDocumentEventBaseExtension {
     
     private String propertyName;
     private ProtocolReviewAttachment reviewAttachment;

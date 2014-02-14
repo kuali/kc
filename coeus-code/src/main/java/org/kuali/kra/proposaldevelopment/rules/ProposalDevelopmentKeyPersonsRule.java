@@ -28,7 +28,7 @@ import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -54,7 +54,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * @author $Author: cdenne $
  * @version $Revision: 1.46 $
  */
-public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
+public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
 
@@ -62,7 +62,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     private KcPersonService kcPersonService;
     
     /**
-     * @see ResearchDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
+     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {

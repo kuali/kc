@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.dao;
 
-import org.kuali.kra.dao.KraQueryCustomizerDefaultImpl;
+import org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl;
 
-public class ProposalQueryCustomizer extends KraQueryCustomizerDefaultImpl {
+public class ProposalQueryCustomizer extends KcQueryCustomizerDefaultImpl {
     public void addAttribute(String name, String value) {
         super.addProposalSystemAttribute(name, value);
     }

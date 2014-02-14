@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import java.util.List;
  * 
  * This class is for the rule event of 'manage review attachment'
  */
-public abstract class ProtocolManageReviewAttachmentEventBase<PRA extends ProtocolReviewAttachmentBase> extends KraDocumentEventBaseExtension {
+public abstract class ProtocolManageReviewAttachmentEventBase<PRA extends ProtocolReviewAttachmentBase> extends KcDocumentEventBaseExtension {
     
     private String propertyName;
     private List<PRA> reviewAttachments;

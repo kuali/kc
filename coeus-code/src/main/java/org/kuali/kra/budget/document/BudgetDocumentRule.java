@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.budget.modular.SyncModularBudgetRule;
 import org.kuali.kra.rules.ActivityTypeAuditRule;
+import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -415,7 +416,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         
-        retval &= super.processRunAuditBusinessRules(document);
+        retval &= new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
 
         retval &= new BudgetPeriodAuditRule().processRunAuditBusinessRules(document);
         

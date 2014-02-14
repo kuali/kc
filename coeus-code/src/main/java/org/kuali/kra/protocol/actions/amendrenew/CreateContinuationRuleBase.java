@@ -17,10 +17,10 @@ package org.kuali.kra.protocol.actions.amendrenew;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
-public abstract class CreateContinuationRuleBase extends ResearchDocumentRuleBase implements BusinessRuleInterface<CreateContinuationEventBase> {
+public abstract class CreateContinuationRuleBase extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<CreateContinuationEventBase> {
 
     public boolean processRules(CreateContinuationEventBase event) {
         

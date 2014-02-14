@@ -21,6 +21,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
@@ -34,7 +35,6 @@ import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
-import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.ken.util.NotificationConstants;
@@ -242,7 +242,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
      * @return String
      */
     protected String buildForwardUrl(String routeHeaderId) {
-        ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
+        DocHandlerService researchDocumentService = KraServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
         //forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {

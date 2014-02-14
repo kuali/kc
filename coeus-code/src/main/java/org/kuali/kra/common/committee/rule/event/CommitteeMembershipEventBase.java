@@ -18,10 +18,10 @@ package org.kuali.kra.common.committee.rule.event;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
  * 
@@ -29,7 +29,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public abstract class CommitteeMembershipEventBase extends KraDocumentEventBase 
+public abstract class CommitteeMembershipEventBase extends KcDocumentEventBase
                                                    implements CommitteeMembershipEvent {
     private static final Log LOG = LogFactory.getLog(CommitteeMembershipEventBase.class);
     

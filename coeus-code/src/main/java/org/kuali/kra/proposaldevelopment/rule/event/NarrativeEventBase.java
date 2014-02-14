@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
  * <code>{@link ProposalDevelopmentDocument}</code>
  * 
  */
-public abstract class NarrativeEventBase extends KraDocumentEventBase implements NarrativeEvent {
+public abstract class NarrativeEventBase extends KcDocumentEventBase implements NarrativeEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(NarrativeEventBase.class);
 

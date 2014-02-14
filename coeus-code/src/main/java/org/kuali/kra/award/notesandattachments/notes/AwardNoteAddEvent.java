@@ -16,7 +16,7 @@
 package org.kuali.kra.award.notesandattachments.notes;
 
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 /**

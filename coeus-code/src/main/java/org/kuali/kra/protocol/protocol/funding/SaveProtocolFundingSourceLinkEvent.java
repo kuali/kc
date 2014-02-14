@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Represents the event for saving a ProtocolBase Funding Source.
  */
-public class SaveProtocolFundingSourceLinkEvent extends KraDocumentEventBaseExtension {
+public class SaveProtocolFundingSourceLinkEvent extends KcDocumentEventBaseExtension {
     
     private List<ProtocolFundingSourceBase> protocolFundingSources;
     

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -28,7 +28,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CoiDispositionStatusDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class CoiDispositionStatusDocumentRule extends KcMaintenanceDocumentRuleBase {
     private BusinessObjectService businessObjectService;
 
     /**

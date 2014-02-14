@@ -21,8 +21,8 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
 
 import java.util.HashMap;
@@ -34,7 +34,7 @@ import java.util.Map;
  * This class provides business logic for adding a protocol funding source to a protocol. 
  * Also it uses newer paradigm for KC Event/Rule creation for reduced Interface implementation in the ProtocolDocumentRuleBase.
  */
-public abstract class ProtocolFundingSourceRuleBase extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddProtocolFundingSourceEventBase>{
+public abstract class ProtocolFundingSourceRuleBase extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<AddProtocolFundingSourceEventBase>{
     
     private ProtocolFundingSourceService protocolFundingSourceService;
         
@@ -61,7 +61,7 @@ public abstract class ProtocolFundingSourceRuleBase extends ResearchDocumentRule
     /**
      * This is the standard methodName to process rule from the BusinessRuleInterface.
      * 
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(AddProtocolFundingSourceEventBase addProtocolFundingSourceEvent) {
         return processAddProtocolFundingSourceBusinessRules(addProtocolFundingSourceEvent);

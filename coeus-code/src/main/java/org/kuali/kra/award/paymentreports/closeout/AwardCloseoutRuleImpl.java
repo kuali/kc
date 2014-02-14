@@ -16,7 +16,7 @@
 package org.kuali.kra.award.paymentreports.closeout;
 
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * The AwardCloseoutRuleImpl
  */
-public class AwardCloseoutRuleImpl extends ResearchDocumentRuleBase implements AwardCloseoutRule {
+public class AwardCloseoutRuleImpl extends KcTransactionalDocumentRuleBase implements AwardCloseoutRule {
         
     private static final String CLOSEOUT_REPORT_NAME_PROPERTY = "closeoutReportName";
     private static final String REPORT_NAME_ERROR_PARM = "Final Report (Final Report)";
