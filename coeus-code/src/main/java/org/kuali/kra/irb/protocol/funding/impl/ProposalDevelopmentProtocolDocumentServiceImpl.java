@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.irb.protocol.funding.impl;
 
-import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -152,7 +151,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl
 
     protected ProtocolFundingSourceService getProtocolFundingSourceService() {
         if (protocolFundingSourceService == null) {
-            protocolFundingSourceService = KraServiceLocator.getService(ProtocolFundingSourceService.class);
+            protocolFundingSourceService = KcServiceLocator.getService(ProtocolFundingSourceService.class);
         }
         return protocolFundingSourceService;
     }

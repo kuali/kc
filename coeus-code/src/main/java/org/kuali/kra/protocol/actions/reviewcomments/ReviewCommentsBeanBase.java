@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public abstract class ReviewCommentsBeanBase  implements Serializable {
     }
     
     private ReviewCommentsService getReviewCommentsService() {
-        return KraServiceLocator.getService(getReviewCommentsServiceClassHook());
+        return KcServiceLocator.getService(getReviewCommentsServiceClassHook());
     }
 
     protected abstract Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook();

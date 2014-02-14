@@ -17,10 +17,10 @@ package org.kuali.kra.proposaldevelopment.questionnaire;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -148,7 +148,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
         }
         if (!document.getDocumentHeader().hasWorkflowDocument()) {
             try {
-                document = (ProposalDevelopmentDocument) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber());
+                document = (ProposalDevelopmentDocument) KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber());
             }
             catch (WorkflowException e) {
             }         
@@ -181,7 +181,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
 
     protected QuestionnaireService getQuestionnaireService() {
         if (questionnaireService == null) {
-            questionnaireService = KraServiceLocator.getService(QuestionnaireService.class);
+            questionnaireService = KcServiceLocator.getService(QuestionnaireService.class);
         }
         return questionnaireService;
     }
@@ -193,7 +193,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     
     protected ParameterService getParameterService() {
         if(parameterService == null) {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
     }

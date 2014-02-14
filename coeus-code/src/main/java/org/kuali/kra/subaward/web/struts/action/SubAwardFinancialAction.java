@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
@@ -63,7 +63,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
             getSubAward(), amountInfo);
             subAwardForm.setNewSubAwardAmountInfo(new SubAwardAmountInfo());
         }
-        KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
+        KcServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
      }
     /**.

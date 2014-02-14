@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.sys.framework.workflow;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
 import org.kuali.rice.krad.service.PostProcessorService;
@@ -28,7 +28,7 @@ public class KcPostProcessor extends KualiPostProcessor {
     
     @Override
     public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
-        return ((PostProcessorService) KraServiceLocator.getService("kcPostProcessorService")).doRouteStatusChange(statusChangeEvent);
+        return ((PostProcessorService) KcServiceLocator.getService("kcPostProcessorService")).doRouteStatusChange(statusChangeEvent);
     }
 
 }

@@ -16,11 +16,11 @@
 package org.kuali.kra.protocol.onlinereview;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.KcPersonService;
@@ -332,7 +332,7 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
 
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

@@ -19,12 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.test.CommitteeFactory;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static org.junit.Assert.*;
 /**
  * Test the ProtocolDeleteService implementation.
@@ -66,12 +67,12 @@ public class ProtocolAssignToAgendaServiceTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        protocolAssignToAgendaService = KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
-        protocolAssignToAgendaServiceImpl = (ProtocolAssignToAgendaServiceImpl)KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        legacyDataAdapter = KraServiceLocator.getService(LegacyDataAdapter.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
+        protocolActionService = KcServiceLocator.getService(ProtocolActionService.class);
+        protocolAssignToAgendaService = KcServiceLocator.getService(ProtocolAssignToAgendaService.class);
+        protocolAssignToAgendaServiceImpl = (ProtocolAssignToAgendaServiceImpl) KcServiceLocator.getService(ProtocolAssignToAgendaService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        legacyDataAdapter = KcServiceLocator.getService(LegacyDataAdapter.class);
     }
 
     @After

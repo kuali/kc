@@ -25,9 +25,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.Collection;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERSON_EDITABLE_FIELD_EXISTS;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Business rules class for the <code>{@link PersonEditableFieldMaintenanceDocument}</code>. When a <code>{@link PersonEditableField}</code> BO is created,

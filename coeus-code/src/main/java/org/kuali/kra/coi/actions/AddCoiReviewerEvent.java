@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi.actions;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiUserRole;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * 
@@ -41,7 +41,7 @@ public class AddCoiReviewerEvent extends KcDocumentEventBaseExtension {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddCoiReviewerRule();
     }
 

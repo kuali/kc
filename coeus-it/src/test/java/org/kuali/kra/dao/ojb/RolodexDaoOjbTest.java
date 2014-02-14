@@ -16,8 +16,6 @@
 package org.kuali.kra.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
@@ -26,8 +24,9 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import static org.junit.Assert.*;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 /**
  * Test the Data Access Object implementation for <code>{@link Rolodex}</code> business objects
  * 

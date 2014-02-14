@@ -16,15 +16,15 @@
 package org.kuali.kra.protocol.actions.amendrenew;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.kra.infrastructure.KeyConstants;
 
 /**
  * 
  * This class checks the summary for 'create renewal without amendment' is not empty
  */
-public abstract class CreateRenewalRuleBase extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<CreateRenewalEventBase> {
+public abstract class CreateRenewalRuleBase extends KcTransactionalDocumentRuleBase implements KcBusinessRule<CreateRenewalEventBase> {
 
     public boolean processRules(CreateRenewalEventBase event) {
         

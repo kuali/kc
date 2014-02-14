@@ -38,8 +38,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import static org.junit.Assert.*;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 /**
  * This is the base class for all generator Junit test classes.
  */

@@ -25,6 +25,7 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -32,7 +33,6 @@ import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.test.CommitteeFactory;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -50,6 +50,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
+
 import static org.junit.Assert.*;
 // import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 
@@ -78,12 +79,12 @@ public class ProtocolRequestServiceTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
 
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
 
         service = new ProtocolRequestServiceImpl();
         service.setBusinessObjectService(businessObjectService);
-        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
-        service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
+        service.setProtocolActionService(KcServiceLocator.getService(ProtocolActionService.class));
+        service.setDocumentService(KcServiceLocator.getService(DocumentService.class));
     }
 
     @After

@@ -16,13 +16,13 @@
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.SpecialApprovalBean;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -115,7 +115,7 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         
         return this.kcPersonService;

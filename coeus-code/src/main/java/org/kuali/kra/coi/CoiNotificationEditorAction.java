@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
@@ -26,7 +27,6 @@ import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEven
 import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -129,7 +129,7 @@ public class CoiNotificationEditorAction extends CoiAction {
     }
 
     private KcNotificationService getKcNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
+        return KcServiceLocator.getService(KcNotificationService.class);
     }
 
     /**

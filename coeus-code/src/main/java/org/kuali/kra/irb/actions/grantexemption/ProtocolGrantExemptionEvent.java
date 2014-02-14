@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.actions.grantexemption;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Encapsulates the event that the IRB Administrator grants an exemption on a protocol.
@@ -43,7 +43,7 @@ public class ProtocolGrantExemptionEvent extends KcDocumentEventBaseExtension {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new ProtocolGrantExemptionRule();
     }
     

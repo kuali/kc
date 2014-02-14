@@ -17,12 +17,12 @@ package org.kuali.kra.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.IacucUnitCorrespondent;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitCorrespondent;
 import org.kuali.kra.dao.UnitLookupDao;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -269,7 +269,7 @@ public class UnitServiceImpl implements UnitService {
     
     @SuppressWarnings("unchecked")
     public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber) {
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(UNIT_NUMBER, unitNumber);
         List<UnitAdministrator> unitAdministrators = 
@@ -305,7 +305,7 @@ public class UnitServiceImpl implements UnitService {
      */
     @SuppressWarnings("unchecked")
     public List<UnitCorrespondent> retrieveUnitCorrespondentsByUnitNumber(String unitNumber) {
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(UNIT_NUMBER, unitNumber);
         List<UnitCorrespondent> unitCorrespondents = 
@@ -318,7 +318,7 @@ public class UnitServiceImpl implements UnitService {
      */
     @SuppressWarnings("unchecked")
     public List<IacucUnitCorrespondent> retrieveIacucUnitCorrespondentsByUnitNumber(String unitNumber) {
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(UNIT_NUMBER, unitNumber);
         List<IacucUnitCorrespondent> unitCorrespondents = 

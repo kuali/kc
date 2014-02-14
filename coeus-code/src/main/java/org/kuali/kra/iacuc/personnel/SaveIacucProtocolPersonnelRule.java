@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelRuleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Runs the rule processing for saving a <code>ProtocolPerson</code>.
  */
-public class SaveIacucProtocolPersonnelRule extends ProtocolPersonnelRuleBase implements BusinessRuleInterface<SaveIacucProtocolPersonnelEvent> {
+public class SaveIacucProtocolPersonnelRule extends ProtocolPersonnelRuleBase implements KcBusinessRule<SaveIacucProtocolPersonnelEvent> {
 
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(SaveIacucProtocolPersonnelEvent event) {
         return processSaveProtocolPersonnelEvent(event);
@@ -36,7 +36,7 @@ public class SaveIacucProtocolPersonnelRule extends ProtocolPersonnelRuleBase im
 
     @Override
     public ProtocolPersonnelService getProtocolPersonnelServiceHook() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+        return (ProtocolPersonnelService) KcServiceLocator.getService("iacucProtocolPersonnelService");
     }
     
 }

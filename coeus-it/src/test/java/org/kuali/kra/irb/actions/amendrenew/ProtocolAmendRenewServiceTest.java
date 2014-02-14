@@ -24,8 +24,8 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.dao.KraLookupDao;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
@@ -41,7 +41,9 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 /**
  * Test the ProtocolAmendRenewService implementation.
  */
@@ -60,12 +62,12 @@ public class ProtocolAmendRenewServiceTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
 
         service = new ProtocolAmendRenewServiceImpl();
-        service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
-        service.setProtocolCopyService(KraServiceLocator.getService(ProtocolCopyService.class));
-        service.setKraLookupDao(KraServiceLocator.getService(KraLookupDao.class));
-        service.setProtocolFinderDao(KraServiceLocator.getService(ProtocolFinderDao.class));
-        service.setQuestionnaireAnswerService(KraServiceLocator.getService(QuestionnaireAnswerService.class));
-        service.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
+        service.setDocumentService(KcServiceLocator.getService(DocumentService.class));
+        service.setProtocolCopyService(KcServiceLocator.getService(ProtocolCopyService.class));
+        service.setKraLookupDao(KcServiceLocator.getService(KraLookupDao.class));
+        service.setProtocolFinderDao(KcServiceLocator.getService(ProtocolFinderDao.class));
+        service.setQuestionnaireAnswerService(KcServiceLocator.getService(QuestionnaireAnswerService.class));
+        service.setBusinessObjectService(KcServiceLocator.getService(BusinessObjectService.class));
     }
 
     @After

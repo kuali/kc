@@ -17,11 +17,11 @@ package org.kuali.kra.common.committee.meeting;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
@@ -392,7 +392,7 @@ public abstract class MeetingHelperBase implements Serializable {
     }
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
 
     /**
@@ -519,7 +519,7 @@ public abstract class MeetingHelperBase implements Serializable {
     
     protected KcAuthorizationService getKraAuthorizationService() {
         if (this.kraAuthorizationService == null) {
-            this.kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+            this.kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         }
         
         return this.kraAuthorizationService;

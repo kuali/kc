@@ -15,25 +15,21 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.IacucProtocolAction;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
-import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.iacuc.*;
 import org.kuali.kra.iacuc.infrastructure.IacucConstants;
 import org.kuali.kra.iacuc.procedures.rule.AddProcedureLocationEvent;
 import org.kuali.kra.iacuc.procedures.rule.AddProtocolStudyGroupEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class IacucProtocolProceduresAction extends IacucProtocolAction {
 
@@ -228,7 +224,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     }
     
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
-        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+        return (IacucProtocolProcedureService) KcServiceLocator.getService("iacucProtocolProcedureService");
     }
 
     protected IacucProtocolStudyGroup getSelectedStudyGroup(HttpServletRequest request, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean) {

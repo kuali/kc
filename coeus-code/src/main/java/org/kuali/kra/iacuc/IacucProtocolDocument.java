@@ -19,6 +19,7 @@ package org.kuali.kra.iacuc;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
@@ -35,7 +36,6 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -189,7 +189,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
 
     @Override
     public void addFacts(Builder factsBuilder) {
-        KcKrmsFactBuilderService fbService = KraServiceLocator.getService("iacucProtocolFactBuilderService");
+        KcKrmsFactBuilderService fbService = KcServiceLocator.getService("iacucProtocolFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
 
@@ -218,12 +218,12 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
 
 
     protected ProtocolFinderDao getProtocolFinderDaoHook() {
-        return KraServiceLocator.getService(IacucProtocolFinderDao.class);
+        return KcServiceLocator.getService(IacucProtocolFinderDao.class);
     }
 
 
     protected ProtocolVersionService getProtocolVersionServiceHook() {
-        return KraServiceLocator.getService(IacucProtocolVersionService.class);
+        return KcServiceLocator.getService(IacucProtocolVersionService.class);
     }
 
 

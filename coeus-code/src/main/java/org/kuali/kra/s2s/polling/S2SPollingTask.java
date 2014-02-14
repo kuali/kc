@@ -15,9 +15,11 @@
  */
 package org.kuali.kra.s2s.polling;
 
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse.ApplicationInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -29,9 +31,6 @@ import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.MailService;
-
-import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
-import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse.ApplicationInfo;
 
 import javax.mail.MessagingException;
 import java.sql.Timestamp;
@@ -362,7 +361,7 @@ public class S2SPollingTask {
      * @throws Exception
      */
     private void sendMail(HashMap<String, Vector<SubmissionData>> htMails) throws InvalidAddressException , MessagingException {
-        MailService mailService = KraServiceLocator.getService(MailService.class); 
+        MailService mailService = KcServiceLocator.getService(MailService.class);
         if (htMails.isEmpty()) {
             return;
         }

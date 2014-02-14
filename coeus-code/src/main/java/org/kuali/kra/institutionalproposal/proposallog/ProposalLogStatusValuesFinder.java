@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -51,7 +51,7 @@ public class ProposalLogStatusValuesFinder extends FormViewAwareUifKeyValuesFind
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> retval = new ArrayList<KeyValue>(); 
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection<ProposalLogStatus> statuses = keyValuesService.findAll(ProposalLogStatus.class);
         Set<String> validStatuses = new HashSet<String>();
         Object form = getFormOrView();

@@ -19,6 +19,7 @@ package org.kuali.kra.award.awardhierarchy.sync.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
@@ -27,7 +28,6 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import static org.junit.Assert.*;
@@ -41,7 +41,7 @@ public class AwardSyncCreationServiceTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() throws Exception {
-        awardSyncCreationService = KraServiceLocator.getService(AwardSyncCreationService.class);
+        awardSyncCreationService = KcServiceLocator.getService(AwardSyncCreationService.class);
         award = new Award();
         person = new AwardPerson();
         person.setPersonId("10000000001");

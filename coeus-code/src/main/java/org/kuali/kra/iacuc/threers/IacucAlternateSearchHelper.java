@@ -16,10 +16,10 @@
 package org.kuali.kra.iacuc.threers;
 
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -73,7 +73,7 @@ public class IacucAlternateSearchHelper implements Serializable {
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
 
 }

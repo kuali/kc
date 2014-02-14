@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -41,7 +41,7 @@ class KeywordsDataFeedCommand extends ProposalDataFeedCommandBase {
             if(!proposal.getProposalNumber().equals(InstitutionalProposal.PROPOSAL_NUMBER_TEST_DEFAULT_STRING)){
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put(InstitutionalProposal.PROPOSAL_NUMBER_PROPERTY_STRING, proposal.getProposalNumber());
-            results = KraServiceLocator.getService(BusinessObjectService.class).findMatching(InstitutionalProposalScienceKeyword.class, criteria);
+            results = KcServiceLocator.getService(BusinessObjectService.class).findMatching(InstitutionalProposalScienceKeyword.class, criteria);
             }else{
                 results=proposal.getInstitutionalProposalScienceKeywords();    
             }

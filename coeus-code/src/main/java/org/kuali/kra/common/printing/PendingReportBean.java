@@ -1,7 +1,7 @@
 package org.kuali.kra.common.printing;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -98,7 +98,7 @@ public class PendingReportBean extends ReportBean {
         this.totalEffort = ipPerson.getTotalEffort();
         
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
-        parameterService = KraServiceLocator.getService(ParameterService.class);
+        parameterService = KcServiceLocator.getService(ParameterService.class);
         String customGroupName = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
       
         for(InstitutionalProposalCustomData custData:proposal.getInstitutionalProposalCustomDataList()){

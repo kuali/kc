@@ -17,6 +17,7 @@ package org.kuali.kra.budget.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -37,7 +38,6 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.costshare.CostShareFunctions;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
@@ -926,7 +926,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     
     @Override
     public String getProjectPeriodLabel() {
-        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        String label = KcServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;
     }
     
@@ -991,7 +991,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     protected ProposalHierarchyService getProposalHierarchyService() {
         if (proposalHierarchyService == null) {
-            proposalHierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+            proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
         }
         return proposalHierarchyService;
     }

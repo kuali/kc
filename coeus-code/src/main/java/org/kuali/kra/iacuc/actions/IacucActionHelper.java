@@ -18,6 +18,8 @@ package org.kuali.kra.iacuc.actions;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
@@ -67,7 +69,10 @@ import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.questionnaire.IacucSubmissionQuestionnaireHelper;
 import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
-import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.*;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
@@ -105,7 +110,6 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -400,10 +404,10 @@ public class IacucActionHelper extends ActionHelperBase {
     public static boolean hasAssignCmtSchedPermission(String userId, String protocolNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolNumber", protocolNumber);
-        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
         IacucProtocol protocol = ((List<IacucProtocol>) bos.findMatching(IacucProtocol.class, fieldValues)).get(0);
         IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL, protocol);
-        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);        
+        TaskAuthorizationService tas = KcServiceLocator.getService(TaskAuthorizationService.class);
         return tas.isAuthorized(userId, task);
     }
 
@@ -636,7 +640,7 @@ public class IacucActionHelper extends ActionHelperBase {
     }
     
     public ProtocolOnlineReviewService getOnlineReviewService() {
-        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+        return KcServiceLocator.getService(IacucProtocolOnlineReviewService.class);
     }
     
     public List<String> getReviewRecommendations() {
@@ -780,7 +784,7 @@ public class IacucActionHelper extends ActionHelperBase {
     @Override
     protected ProtocolVersionService getProtocolVersionService() {
         if (this.protocolVersionService == null) {
-            this.protocolVersionService = KraServiceLocator.getService(IacucProtocolVersionService.class);        
+            this.protocolVersionService = KcServiceLocator.getService(IacucProtocolVersionService.class);
         }
         return this.protocolVersionService;
     }
@@ -1023,7 +1027,7 @@ public class IacucActionHelper extends ActionHelperBase {
 
     @Override
     protected CommitteeDecisionService<? extends CommitteeDecision<? extends CommitteePersonBase>> getCommitteeDecisionService() {
-        return KraServiceLocator.getService(IacucCommitteeDecisionService.class);
+        return KcServiceLocator.getService(IacucCommitteeDecisionService.class);
     }
 
     @Override
@@ -1032,7 +1036,7 @@ public class IacucActionHelper extends ActionHelperBase {
     }
     
     private IacucProtocolSubmitActionService getProtocolSubmitActionService() {
-        return KraServiceLocator.getService(IacucProtocolSubmitActionService.class);
+        return KcServiceLocator.getService(IacucProtocolSubmitActionService.class);
     }
 
     @Override
@@ -1156,7 +1160,7 @@ public class IacucActionHelper extends ActionHelperBase {
 
     @Override
     protected ProtocolAmendRenewService getProtocolAmendRenewServiceHook() {
-        return KraServiceLocator.getService(IacucProtocolAmendRenewService.class);        
+        return KcServiceLocator.getService(IacucProtocolAmendRenewService.class);
     }
 
     @Override
@@ -1409,7 +1413,7 @@ public class IacucActionHelper extends ActionHelperBase {
 
     @Override
     protected ProtocolQuestionnairePrintingService getProtocolQuestionnairePrintingServiceHook() {
-        return KraServiceLocator.getService(IacucProtocolQuestionnairePrintingService.class);
+        return KcServiceLocator.getService(IacucProtocolQuestionnairePrintingService.class);
     }
 
 
@@ -1625,7 +1629,7 @@ public class IacucActionHelper extends ActionHelperBase {
         List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
         Map<String, Object> values = new HashMap<String, Object>();
         List<IacucProtocolCorrespondenceType> correspondenceTypes = (List<IacucProtocolCorrespondenceType>)
-                KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolCorrespondenceType.class,values);
+                KcServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolCorrespondenceType.class,values);
         for(IacucProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
             if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.PROTOCOL.getCode())) {
                 CorrespondencePrintOption printOption = new CorrespondencePrintOption();

@@ -18,21 +18,23 @@ package org.kuali.kra.common.notification;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 public class KcNotificationModuleRoleServiceTest extends KcIntegrationTestBase {
 
     protected KcNotificationModuleRoleService kcNotificationModuleRoleService;
     
     @Before
     public void setUp() throws Exception {
-        kcNotificationModuleRoleService = KraServiceLocator.getService(KcNotificationModuleRoleService.class);
+        kcNotificationModuleRoleService = KcServiceLocator.getService(KcNotificationModuleRoleService.class);
     }
 
     @After

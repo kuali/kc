@@ -16,9 +16,14 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.NarrativeRight;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
@@ -28,7 +33,6 @@ import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
@@ -45,8 +49,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 
 /**
@@ -349,7 +353,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      */
     protected KcAttachmentService getKcAttachmentService() {
         if(this.kcAttachmentService == null) {
-            this.kcAttachmentService = KraServiceLocator.getService(KcAttachmentService.class);
+            this.kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
         }
         return this.kcAttachmentService;
     }
@@ -359,7 +363,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null ) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);             
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -370,7 +374,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         
         return this.kcPersonService;
@@ -378,7 +382,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     
     protected PersonService getPersonService() {
         if (this.personService == null) {
-            this.personService = KraServiceLocator.getService(PersonService.class);
+            this.personService = KcServiceLocator.getService(PersonService.class);
         }
         
         return this.personService;
@@ -392,7 +396,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      * @return true if user has permission; otherwise false
      */
    protected boolean hasPermission(String userId, Permissionable doc, String permissionName) {
-        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         return kraAuthorizationService.hasPermission(userId, doc, permissionName);
     }
 

@@ -19,12 +19,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
@@ -575,14 +575,14 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
      * @return Returns the workflowDocumentService.
      */
     public WorkflowDocumentService getWorkflowDocumentService() {
-        return KraServiceLocator.getService(WorkflowDocumentService.class);
+        return KcServiceLocator.getService(WorkflowDocumentService.class);
     }
     /**
      * Gets the workflowDocumentService attribute. 
      * @return Returns the workflowDocumentService.
      */
     public KcWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KcWorkflowService.class);
+        return KcServiceLocator.getService(KcWorkflowService.class);
     }
     /**
      * Gets the personService attribute. 

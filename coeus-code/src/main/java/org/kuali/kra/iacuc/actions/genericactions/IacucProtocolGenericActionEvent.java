@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.genericactions;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionEventBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 public class IacucProtocolGenericActionEvent extends ProtocolGenericActionEventBase {
 
@@ -28,7 +28,7 @@ public class IacucProtocolGenericActionEvent extends ProtocolGenericActionEventB
     
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new IacucProtocolGenericActionRule();
     }
 }

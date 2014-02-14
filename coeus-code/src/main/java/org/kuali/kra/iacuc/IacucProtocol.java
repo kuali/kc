@@ -15,16 +15,9 @@
  */
 package org.kuali.kra.iacuc;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
@@ -37,27 +30,16 @@ import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentFilter;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
-import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
-import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
-import org.kuali.kra.iacuc.procedures.IacucProtocolSpeciesStudyGroup;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
+import org.kuali.kra.iacuc.procedures.*;
 import org.kuali.kra.iacuc.protocol.IacucProtocolProjectType;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
-import org.kuali.kra.iacuc.summary.IacucAlternateSearchSummary;
-import org.kuali.kra.iacuc.summary.IacucProcedureSummary;
-import org.kuali.kra.iacuc.summary.IacucProtocolExceptionSummary;
-import org.kuali.kra.iacuc.summary.IacucProtocolSpeciesSummary;
-import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
-import org.kuali.kra.iacuc.summary.IacucThreeRsSummary;
+import org.kuali.kra.iacuc.summary.*;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.krms.KrmsRulesContext;
@@ -74,6 +56,9 @@ import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * 
@@ -270,7 +255,7 @@ public class IacucProtocol extends ProtocolBase {
     @Override
     // implementation of hook method
     protected IacucProtocolPersonnelService getProtocolPersonnelService() {
-        return (IacucProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+        return (IacucProtocolPersonnelService) KcServiceLocator.getService("iacucProtocolPersonnelService");
     }
 
 
@@ -702,7 +687,7 @@ public class IacucProtocol extends ProtocolBase {
     }
     
     protected IacucProtocolCopyService getProtocolCopyService() {
-        return (IacucProtocolCopyService)KraServiceLocator.getService("iacucProtocolCopyService");
+        return (IacucProtocolCopyService) KcServiceLocator.getService("iacucProtocolCopyService");
     }
 
     public boolean isContinuation() {
@@ -752,7 +737,7 @@ public class IacucProtocol extends ProtocolBase {
     }
 
     protected IacucProtocolProcedureService getProtocolProcedureService() {
-        return KraServiceLocator.getService(IacucProtocolProcedureService.class);
+        return KcServiceLocator.getService(IacucProtocolProcedureService.class);
     }
 
     @Override

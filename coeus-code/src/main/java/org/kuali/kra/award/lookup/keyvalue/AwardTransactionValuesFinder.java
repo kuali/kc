@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.lookup.AwardTransactionLookupService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -37,7 +37,7 @@ public class AwardTransactionValuesFinder extends FormViewAwareUifKeyValuesFinde
     private AwardTransactionLookupService transactionLookupService;
     
     public AwardTransactionValuesFinder() {
-        transactionLookupService = KraServiceLocator.getService(AwardTransactionLookupService.class);
+        transactionLookupService = KcServiceLocator.getService(AwardTransactionLookupService.class);
     }
     
     /**

@@ -19,6 +19,7 @@ import edu.mit.coeus.xml.iacuc.*;
 import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -30,7 +31,6 @@ import org.kuali.kra.iacuc.committee.print.IacucScheduleXmlStream;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStreamBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -139,11 +139,11 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
             boolean isNonEmployee = protocolReviewer.getNonEmployeeFlag();
             if (isNonEmployee) {
                 ProtocolPersonRolodexBase rolodex = getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolPersonRolodex.class, protocolReviewer.getRolodexId());
-                KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonXml(rolodex, personType);
+                KcServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonXml(rolodex, personType);
 
             } else {
                 KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(protocolReviewer.getPersonId()); 
-                KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonXml(kcPerson, personType);
+                KcServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonXml(kcPerson, personType);
             }
         }
         submissionDetail.setSubmissionComments(submissionInfoBean.getComments());
@@ -173,8 +173,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         if (submissionInfoBean.getYesVoteCount() != null) {
             submissionDetail.setYesVote(BigInteger.valueOf(submissionInfoBean.getYesVoteCount()));
         }
-        KraServiceLocator.getService(IacucPrintXmlUtilService.class).setProtocolSubmissionAction(submissionInfoBean, submissionDetail);
-        KraServiceLocator.getService(IacucPrintXmlUtilService.class).setSubmissionCheckListinfo(submissionInfoBean, submissionDetail);
+        KcServiceLocator.getService(IacucPrintXmlUtilService.class).setProtocolSubmissionAction(submissionInfoBean, submissionDetail);
+        KcServiceLocator.getService(IacucPrintXmlUtilService.class).setSubmissionCheckListinfo(submissionInfoBean, submissionDetail);
         submission.setCurrentSubmissionFlag(currentFlag);
         setMinutes(submissionInfoBean, submission);
     }
@@ -308,7 +308,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
                             toArray(new edu.mit.coeus.xml.iacuc.InvestigatorType.Unit[0]));
                      
                 }
-                KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, investigator.addNewPerson());
+                KcServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, investigator.addNewPerson());
             } else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_STUDY_PERSONNEL)) {
                 KeyStudyPersonType keyStudyPerson = protocolType.addNewKeyStudyPerson();
                 if (protocolPerson.getAffiliationType() != null) {
@@ -320,13 +320,13 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
                 } else if (protocolPerson.getPerson() != null) {
                     keyStudyPerson.setRole(protocolPerson.getPerson().getDirectoryTitle());
                 }
-                KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, keyStudyPerson.addNewPerson());
+                KcServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, keyStudyPerson.addNewPerson());
             } else if (protocolPerson.getProtocolPersonRoleId().equals(IacucProtocolPersonRole.ROLE_CORRESPONDENTS)
                   || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
                 CorrespondentType correspondent = protocolType.addNewCorrespondent();
                 correspondent.setTypeOfCorrespondent(protocolPerson.getProtocolPersonRole().getDescription());
                 correspondent.setCorrespondentTypeDesc(protocolPerson.getProtocolPersonRole().getDescription());
-                KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
+                KcServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
             }
         }
 

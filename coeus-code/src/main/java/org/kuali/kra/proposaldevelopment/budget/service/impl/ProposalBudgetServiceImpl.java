@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.service.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -26,7 +27,6 @@ import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
@@ -81,7 +81,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         budget.setRateClassTypesReloaded(true);
 
         budgetDocument = saveBudgetDocument(budgetDocument);
-        KraServiceLocator.getService(DataObjectService.class).flush(BudgetDocumentVersion.class);
+        KcServiceLocator.getService(DataObjectService.class).flush(BudgetDocumentVersion.class);
         parentDocument.refreshBudgetDocumentVersions();
         return budgetDocument;
     }

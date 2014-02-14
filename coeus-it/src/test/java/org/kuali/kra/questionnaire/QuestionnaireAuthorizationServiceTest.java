@@ -15,23 +15,24 @@
  */
 package org.kuali.kra.questionnaire;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class QuestionnaireAuthorizationServiceTest extends KcIntegrationTestBase {
 
     @Test
     public void permissionModifyQuestionnaireTest() {
  
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        assertTrue(KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE));
+        assertTrue(KcServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE));
         GlobalVariables.setUserSession(new UserSession("jtester"));
-        assertFalse(KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE));
+        assertFalse(KcServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE));
 
     }
     
@@ -39,9 +40,9 @@ public class QuestionnaireAuthorizationServiceTest extends KcIntegrationTestBase
     public void permissionViewQuestionnaireTest() {
  
         GlobalVariables.setUserSession(new UserSession("jtester"));
-        assertTrue(KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE));
+        assertTrue(KcServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE));
         GlobalVariables.setUserSession(new UserSession("woods"));
-        assertFalse(KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE));
+        assertFalse(KcServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE));
 
     }
     

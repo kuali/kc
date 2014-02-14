@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -34,7 +34,7 @@ import java.util.List;
  * @author KRADEV team
  */
 public class BudgetPeriodValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+    KeyValueFinderService keyValueFinderService= (KeyValueFinderService) KcServiceLocator.getService("keyValueFinderService");
     
     /**
      * Constructs the list of Budget Periods.  Each entry

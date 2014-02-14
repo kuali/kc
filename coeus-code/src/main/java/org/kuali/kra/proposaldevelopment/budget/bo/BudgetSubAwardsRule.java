@@ -18,9 +18,9 @@ package org.kuali.kra.proposaldevelopment.budget.bo;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -132,12 +132,12 @@ public class BudgetSubAwardsRule {
     
     private BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }
 
     public KcAttachmentService getKcAttachmentService() {
-        return KraServiceLocator.getService(KcAttachmentService.class);
+        return KcServiceLocator.getService(KcAttachmentService.class);
     } 
 }

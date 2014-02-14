@@ -18,16 +18,17 @@ package org.kuali.kra.lookup;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.dao.RolodexDao;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 /**
  * Tests the {@link NonOrganizationalLookupableHelperServiceImpl}.
  */
@@ -39,7 +40,7 @@ public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends KcI
     public void setUp() throws Exception {
         nonOrganizationalRolodexLookupableHelperServiceImpl = new NonOrganizationalRolodexLookupableHelperServiceImpl();
         nonOrganizationalRolodexLookupableHelperServiceImpl.setBusinessObjectClass(NonOrganizationalRolodex.class);
-        nonOrganizationalRolodexLookupableHelperServiceImpl.setRolodexDao(KraServiceLocator.getService(RolodexDao.class));
+        nonOrganizationalRolodexLookupableHelperServiceImpl.setRolodexDao(KcServiceLocator.getService(RolodexDao.class));
     }
 
     @After

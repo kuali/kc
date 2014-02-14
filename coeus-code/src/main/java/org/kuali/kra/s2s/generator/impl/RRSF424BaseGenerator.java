@@ -15,11 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SponsorHierarchy;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -27,6 +24,9 @@ import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This abstract class has methods that are common to all the versions of RRSF424 form.
@@ -64,8 +64,8 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
      * Constructs a RRSF424BaseGenerator.java.
      */
     public RRSF424BaseGenerator() {
-        s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-        s2sBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
+        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+        s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
     }
 
     /**
@@ -108,7 +108,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         valueMap.put("sponsorCode", sponsorable.getSponsorCode());
         valueMap.put("hierarchyName", sponsorHierarchy);
         valueMap.put("level1", level1);
-        int matchingHierarchies = KraServiceLocator.getService(BusinessObjectService.class)
+        int matchingHierarchies = KcServiceLocator.getService(BusinessObjectService.class)
                 .countMatching(SponsorHierarchy.class, valueMap);
         
         return matchingHierarchies > 0;

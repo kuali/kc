@@ -26,10 +26,10 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -80,10 +80,10 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	 * Constructs a NASASeniorKeyPersonSupplementalDataSheetV1_0Generator.java.
 	 */
 	public NASASeniorKeyPersonSupplementalDataSheetV1_0Generator() {
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-		s2sBudgetCalculatorService = KraServiceLocator
+		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+		s2sBudgetCalculatorService = KcServiceLocator
 				.getService(S2SBudgetCalculatorService.class);
-		businessObjectService = KraServiceLocator
+		businessObjectService = KcServiceLocator
 				.getService(BusinessObjectService.class);
 	}
 

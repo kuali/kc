@@ -16,7 +16,7 @@
 package org.kuali.kra.reporting.authorization;
 
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.document.Document;
@@ -60,7 +60,7 @@ public class CustReportRightDocumentAuthorizer extends MaintenanceDocumentAuthor
      */
     public UnitAuthorizationService getUnitAuthorizationService() {
         if (unitAuthorizationService == null) {
-            unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class);
+            unitAuthorizationService = KcServiceLocator.getService(UnitAuthorizationService.class);
         }
         return unitAuthorizationService;
     }

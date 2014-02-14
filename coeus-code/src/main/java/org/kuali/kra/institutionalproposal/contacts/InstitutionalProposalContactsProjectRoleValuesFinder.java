@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -43,7 +43,7 @@ public abstract class InstitutionalProposalContactsProjectRoleValuesFinder exten
      * @return
      */
     protected KeyValuesService getKeyValuesService() {
-        return (KeyValuesService) KraServiceLocator.getService(KEY_VALUES_SERVICE_NAME);
+        return (KeyValuesService) KcServiceLocator.getService(KEY_VALUES_SERVICE_NAME);
     }
 
     protected abstract Class<? extends ContactRole> getRoleType();

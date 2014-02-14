@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -37,6 +37,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import static org.junit.Assert.*;
 public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
     
@@ -51,14 +52,14 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
     
     @Before
     public void setup() throws Exception {
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
         authorizer = new TimeAndMoneyDocumentAuthorizer();
-        quickstart = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("quickstart");
-        borst = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("borst");
-        irbAdmin = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("irbAdmin");
-        iacucAdmin = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("iacucAdmin");
+        quickstart = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("quickstart");
+        borst = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("borst");
+        irbAdmin = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("irbAdmin");
+        iacucAdmin = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("iacucAdmin");
         addIrbAdminToAGroupWithTimeAndMoneyPerm();
         addIacucAdminToTimeAndMoneyRole();
     }
@@ -76,10 +77,10 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
     }
     
     private void addIrbAdminToAGroupWithTimeAndMoneyPerm() {
-        RoleService rs = KraServiceLocator.getService(RoleService.class);
+        RoleService rs = KcServiceLocator.getService(RoleService.class);
         Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
         
-        GroupService gs = KraServiceLocator.getService(GroupService.class);
+        GroupService gs = KcServiceLocator.getService(GroupService.class);
         gs.createGroup(Group.Builder.create("KC-T", "TimeAndMoneyTestGroup", "21").build());
         
         /**
@@ -119,7 +120,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
     }
     
     private void addIacucAdminToTimeAndMoneyRole() {
-        RoleService rs = KraServiceLocator.getService(RoleService.class);
+        RoleService rs = KcServiceLocator.getService(RoleService.class);
         Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
         
         //GroupService gs = KraServiceLocator.getService(GroupService.class);
@@ -165,9 +166,9 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
     
     @Test
     public void verifyRoleStuff() {
-        RoleService rs = KraServiceLocator.getService(RoleService.class);
+        RoleService rs = KcServiceLocator.getService(RoleService.class);
         Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
-        GroupService gs = KraServiceLocator.getService(GroupService.class);
+        GroupService gs = KcServiceLocator.getService(GroupService.class);
         Group timeAndMoneyTestGroup = gs.getGroupByNamespaceCodeAndName("KC-T", "TimeAndMoneyTestGroup");
         
         Map fieldValues = new HashMap();
@@ -228,7 +229,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
     
     @Test
     public void testQuickStartPerm() {
-        RoleService rs = KraServiceLocator.getService(RoleService.class);
+        RoleService rs = KcServiceLocator.getService(RoleService.class);
         Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
         
         Map fieldValues = new HashMap();

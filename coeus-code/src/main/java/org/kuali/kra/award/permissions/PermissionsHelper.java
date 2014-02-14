@@ -16,6 +16,7 @@
 package org.kuali.kra.award.permissions;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardTask;
@@ -24,7 +25,6 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.AwardTaskNames;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KcAuthorizationService;
 
@@ -120,7 +120,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {
-        KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
         return kraAuthService.getPersonsInRole(getAward(), roleName);
     }
 

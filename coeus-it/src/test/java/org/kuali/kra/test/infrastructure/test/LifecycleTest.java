@@ -1,7 +1,7 @@
 package org.kuali.kra.test.infrastructure.test;
 
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.kra.test.infrastructure.lifecycle.KcIntegrationTestBaseLifecycle;
 import org.kuali.rice.core.api.config.property.Config;
@@ -11,8 +11,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.kuali.kra.test.infrastructure.lifecycle.KcIntegrationTestBaseLifecycle.*;
 import static org.junit.Assert.*;
+import static org.kuali.kra.test.infrastructure.lifecycle.KcIntegrationTestBaseLifecycle.*;
 public class LifecycleTest extends KcIntegrationTestBase {
     
 	@Test
@@ -24,7 +24,7 @@ public class LifecycleTest extends KcIntegrationTestBase {
 
 	@Test
 	public void testContext() {
-        assertThat("Context not loaded", KraServiceLocator.getAppContext(), is(not(nullValue())));
+        assertThat("Context not loaded", KcServiceLocator.getAppContext(), is(not(nullValue())));
 	}
     
     @Test

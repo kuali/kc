@@ -13,6 +13,7 @@ import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.TravelCosts
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
@@ -27,7 +28,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -248,7 +248,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * @return
      */
     private SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        return KcServiceLocator.getService(SponsorService.class);
     }
 
     /*

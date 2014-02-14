@@ -28,8 +28,8 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -142,7 +142,7 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                 profile.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
             }
             if(PI.getHomeUnit() != null) {
-                KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+                KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
                 KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
                 String departmentName =  kcPersons.getOrganizationIdentifier();
                 profile.setDepartmentName(departmentName);
@@ -224,7 +224,7 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                 profileKeyPerson.setEmail(keyPerson.getEmailAddress());
                 profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());               
                 if(keyPerson.getHomeUnit() != null) {
-                    KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+                    KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
                     KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(keyPerson.getPersonId());
                     String departmentName =  kcPersons.getOrganizationIdentifier();
                     profileKeyPerson.setDepartmentName(departmentName);
@@ -242,7 +242,7 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                     profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
                 }
                 if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
-                    if(KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){
+                    if(KcServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){
                         if (keyPerson.isMultiplePi()) {
                             profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
                         } else {

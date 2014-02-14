@@ -21,12 +21,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -369,7 +369,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
                
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the Other Role To Viewer the AGGREGATOR role.
-                    KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+                    KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_VIEWER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }
@@ -399,7 +399,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
     
     private ProtocolAttachmentService getProtocolAttachmentService() {
         if (protocolAttachmentService == null) {
-            protocolAttachmentService = KraServiceLocator.getService("iacucProtocolAttachmentService");
+            protocolAttachmentService = KcServiceLocator.getService("iacucProtocolAttachmentService");
         }
         return protocolAttachmentService;
     }

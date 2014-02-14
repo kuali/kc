@@ -16,10 +16,10 @@
 package org.kuali.kra.coi.questionnaire;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -64,7 +64,7 @@ public class DisclosureModuleQuestionnaireBean extends ModuleQuestionnaireBean {
             return coiDisclosure.getCoiDisclosureDocument();
         } else {
             if (StringUtils.isNotBlank(getModuleItemKey())) {
-                return KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(CoiDisclosure.class, Long.valueOf(getModuleItemKey())).getCoiDisclosureDocument();
+                return KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(CoiDisclosure.class, Long.valueOf(getModuleItemKey())).getCoiDisclosureDocument();
             } else {
                 return null;
             }

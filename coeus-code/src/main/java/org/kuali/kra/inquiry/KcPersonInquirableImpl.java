@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.inquiry;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -47,7 +47,7 @@ public class KcPersonInquirableImpl extends KualiInquirableImpl {
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

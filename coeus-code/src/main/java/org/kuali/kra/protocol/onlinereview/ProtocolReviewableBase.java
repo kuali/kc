@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.onlinereview;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -85,6 +85,6 @@ public abstract class ProtocolReviewableBase<CS extends CommitteeScheduleBase<CS
     
     
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 }

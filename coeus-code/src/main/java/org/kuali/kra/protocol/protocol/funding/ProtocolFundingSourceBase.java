@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.protocol.funding;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 /**
@@ -119,7 +119,7 @@ public abstract class ProtocolFundingSourceBase extends ProtocolAssociateBase {
     }
 
     protected ProtocolFundingSourceService getProtocolFundingSourceService() {
-        return KraServiceLocator.getService(getProtocolFundingSourceServiceClassHook());
+        return KcServiceLocator.getService(getProtocolFundingSourceServiceClassHook());
     }
 
     protected abstract Class<? extends ProtocolFundingSourceService> getProtocolFundingSourceServiceClassHook();

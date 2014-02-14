@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.coi.notesandattachments.FinancialEntityAttachmentRule;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * 
@@ -40,7 +40,7 @@ public class AddFinancialEntityAttachmentEvent  extends KcDocumentEventBaseExten
     
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new FinancialEntityAttachmentRule();
     }
 

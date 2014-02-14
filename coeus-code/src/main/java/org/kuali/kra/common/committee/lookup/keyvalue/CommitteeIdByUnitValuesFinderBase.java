@@ -18,9 +18,9 @@ package org.kuali.kra.common.committee.lookup.keyvalue;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.service.UnitService;
@@ -153,7 +153,7 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
     
     private BusinessObjectService getBusinessObjectService() {
         if(this.businessObjectService == null) {
-            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return this.businessObjectService;
     }
@@ -183,7 +183,7 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
 
     protected UnitAuthorizationService getUnitAuthorizationService() {
         if(this.unitAuthorizationService == null) {
-            this.unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class); 
+            this.unitAuthorizationService = KcServiceLocator.getService(UnitAuthorizationService.class);
         }
         return this.unitAuthorizationService;
     }
@@ -257,7 +257,7 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
   
     protected UnitService getUnitService() { 
         if(this.unitService == null) {
-            this.unitService = KraServiceLocator.getService(UnitService.class);
+            this.unitService = KcServiceLocator.getService(UnitService.class);
         }
         return this.unitService;
     }

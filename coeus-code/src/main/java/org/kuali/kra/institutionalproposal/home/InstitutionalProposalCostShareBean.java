@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.costshare.CostShareFunctions;
 import org.kuali.kra.costshare.CostShareService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRuleEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRuleImpl;
@@ -117,7 +117,7 @@ public class InstitutionalProposalCostShareBean implements Serializable, CostSha
     
     @Override
     public String getProjectPeriodLabel() {
-        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        String label = KcServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;
     }
 }

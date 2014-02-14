@@ -18,6 +18,7 @@ package org.kuali.kra.award.home;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardTemplateSyncScope;
@@ -56,7 +57,6 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
@@ -459,20 +459,20 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * @return Returns the awardAmountInfoService.
      */
     public AwardAmountInfoService getAwardAmountInfoService() {
-        awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        awardAmountInfoService = KcServiceLocator.getService(AwardAmountInfoService.class);
         return awardAmountInfoService;
     }
 
     public AwardHierarchyService getAwardHierarchyService() {
         if (awardHierarchyService == null) {
-            awardHierarchyService = KraServiceLocator.getService(AwardHierarchyService.class);
+            awardHierarchyService = KcServiceLocator.getService(AwardHierarchyService.class);
         }
         return awardHierarchyService;
     }
 
     public TimeAndMoneyHistoryService getTimeAndMoneyHistoryService() {
         if (timeAndMoneyHistoryService == null) {
-            timeAndMoneyHistoryService = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
+            timeAndMoneyHistoryService = KcServiceLocator.getService(TimeAndMoneyHistoryService.class);
         }
         return timeAndMoneyHistoryService;
     }
@@ -2528,7 +2528,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public List<String> getRoleNames() {
         List<String> roles = new ArrayList<String>();
 
-        SystemAuthorizationService systemAuthorizationService = KraServiceLocator.getService("systemAuthorizationService");
+        SystemAuthorizationService systemAuthorizationService = KcServiceLocator.getService("systemAuthorizationService");
         List<Role> roleBOs = systemAuthorizationService.getRoles(Constants.MODULE_NAMESPACE_AWARD);
         for(Role role : roleBOs) {
             roles.add(role.getName());
@@ -2900,7 +2900,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return afp;
     }
     private InstitutionalProposalService getInstitutionalProposalService() {
-        return KraServiceLocator.getService(InstitutionalProposalService.class);
+        return KcServiceLocator.getService(InstitutionalProposalService.class);
     }
 
 
@@ -3080,7 +3080,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     public String getHierarchyStatus() {
@@ -3206,7 +3206,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public void initCentralAdminContacts() {
         centralAdminContacts = new ArrayList<AwardUnitContact>();
         List<UnitAdministrator> unitAdministrators = 
-            KraServiceLocator.getService(UnitService.class).retrieveUnitAdministratorsByUnitNumber(getUnitNumber());
+            KcServiceLocator.getService(UnitService.class).retrieveUnitAdministratorsByUnitNumber(getUnitNumber());
         for (UnitAdministrator unitAdministrator : unitAdministrators) {
             if(unitAdministrator.getUnitAdministratorType().getDefaultGroupFlag().equals(DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS)) {
                 KcPerson person = getKcPersonService().getKcPersonByPersonId(unitAdministrator.getPersonId());
@@ -3547,7 +3547,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public List<Award> getAwardVersions() {
         Map<String, String> fieldValues = new HashMap<String,String>();
         fieldValues.put("awardNumber", getAwardNumber());
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
         List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, fieldValues, "sequenceNumber", true);   
         return awards;
     }
@@ -3603,7 +3603,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

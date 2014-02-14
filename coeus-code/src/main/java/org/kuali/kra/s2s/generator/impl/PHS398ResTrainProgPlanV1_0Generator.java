@@ -23,8 +23,8 @@ import gov.grants.apply.forms.phs398ResearchTrainingProgramPlanV10.PHS398Researc
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -245,7 +245,7 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
-        return KraServiceLocator.getService(ParameterService.class);
+        return KcServiceLocator.getService(ParameterService.class);
     }
 
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {

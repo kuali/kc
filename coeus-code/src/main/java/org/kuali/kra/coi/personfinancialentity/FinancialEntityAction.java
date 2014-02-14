@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
@@ -33,7 +34,6 @@ import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.service.SponsorService;
@@ -195,18 +195,18 @@ public class FinancialEntityAction extends KualiAction {
     }
 
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     protected FinancialEntityService getFinancialEntityService() {
-        return KraServiceLocator.getService(FinancialEntityService.class);
+        return KcServiceLocator.getService(FinancialEntityService.class);
     }
     protected CoiDisclosureService getCoiDisclosureService() {
-        return KraServiceLocator.getService(CoiDisclosureService.class);
+        return KcServiceLocator.getService(CoiDisclosureService.class);
     }
 
     protected SequenceAccessorService getSequenceAccessorService() {
-        return KraServiceLocator.getService(SequenceAccessorService.class);
+        return KcServiceLocator.getService(SequenceAccessorService.class);
     }
 
     /*
@@ -252,7 +252,7 @@ public class FinancialEntityAction extends KualiAction {
             isEdit = true;
         }
         if (StringUtils.isNotBlank(refreshCaller) && StringUtils.isNotBlank(sponsorCode)) {
-            Sponsor sponsor = KraServiceLocator.getService(SponsorService.class).getSponsor(sponsorCode);
+            Sponsor sponsor = KcServiceLocator.getService(SponsorService.class).getSponsor(sponsorCode);
             if (sponsor != null) {
                 if (sponsor.getRolodex() == null) {
                     sponsor.refreshReferenceObject("rolodex");
@@ -285,7 +285,7 @@ public class FinancialEntityAction extends KualiAction {
     protected String buildForwardUrl(String routeHeaderId) {
         // TODO : this is a copy from KraTransactionalDocumentActionBase.
         // investigate if it can be shared
-        DocHandlerService researchDocumentService = KraServiceLocator.getService(DocHandlerService.class);
+        DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
  //       forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {
@@ -334,11 +334,11 @@ public class FinancialEntityAction extends KualiAction {
     }
 
     protected CoiPrintingService getCoiPrintingService() {
-        return  KraServiceLocator.getService(CoiPrintingService.class);  
+        return  KcServiceLocator.getService(CoiPrintingService.class);
     }
     
     protected WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);  
+        return  KcServiceLocator.getService(WatermarkService.class);
     }
 
     protected static String getValidHeaderString(String s) {
@@ -446,7 +446,7 @@ public class FinancialEntityAction extends KualiAction {
     
     public KcNotificationService getKcNotificationService() {
         if (kcNotificationService == null) {
-            kcNotificationService = KraServiceLocator.getService(KcNotificationService.class);
+            kcNotificationService = KcServiceLocator.getService(KcNotificationService.class);
         }
         return kcNotificationService;
     }

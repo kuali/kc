@@ -20,7 +20,7 @@ import org.apache.struts.upload.FormFile;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
@@ -30,14 +30,15 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Collection;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertTrue;
 public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcIntegrationTestBase {
     
     ProtocolActionTypeToCorrespondenceTemplateService service;
     @Before
     public void setUp() throws Exception {
-        service = KraServiceLocator.getService(ProtocolActionTypeToCorrespondenceTemplateService.class);
-        Collection<ProtocolCorrespondenceType> protocolCorrespondenceTypes = KraServiceLocator.getService(BusinessObjectService.class).findAll(ProtocolCorrespondenceType.class);
+        service = KcServiceLocator.getService(ProtocolActionTypeToCorrespondenceTemplateService.class);
+        Collection<ProtocolCorrespondenceType> protocolCorrespondenceTypes = KcServiceLocator.getService(BusinessObjectService.class).findAll(ProtocolCorrespondenceType.class);
         for (ProtocolCorrespondenceType type : protocolCorrespondenceTypes) {
             if ("Protocol Submission Report #1".equals(type.getDescription())) {
                 ProtocolCorrespondenceTemplate template = new ProtocolCorrespondenceTemplate();
@@ -45,16 +46,16 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcInt
                 template.setProtoCorrespTypeCode(type.getProtoCorrespTypeCode());
                 FormFile file = new FormFileMock();
                 template.setTemplateFile(file);
-                KraServiceLocator.getService(ProtocolCorrespondenceTemplateService.class).addDefaultProtocolCorrespondenceTemplate(type, template);
-                KraServiceLocator.getService(BusinessObjectService.class).save(template);
+                KcServiceLocator.getService(ProtocolCorrespondenceTemplateService.class).addDefaultProtocolCorrespondenceTemplate(type, template);
+                KcServiceLocator.getService(BusinessObjectService.class).save(template);
             } else if ("Protocol Submission Report #2".equals(type.getDescription())) {
                 ProtocolCorrespondenceTemplate template = new ProtocolCorrespondenceTemplate();
                 template.setFileName("test2.xml");
                 template.setProtoCorrespTypeCode(type.getProtoCorrespTypeCode());
                 FormFile file = new FormFileMock();
                 template.setTemplateFile(file);
-                KraServiceLocator.getService(ProtocolCorrespondenceTemplateService.class).addDefaultProtocolCorrespondenceTemplate(type, template);
-                KraServiceLocator.getService(BusinessObjectService.class).save(template);               
+                KcServiceLocator.getService(ProtocolCorrespondenceTemplateService.class).addDefaultProtocolCorrespondenceTemplate(type, template);
+                KcServiceLocator.getService(BusinessObjectService.class).save(template);
             }
         }
     }

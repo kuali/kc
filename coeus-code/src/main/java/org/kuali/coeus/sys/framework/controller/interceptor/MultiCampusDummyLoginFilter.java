@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.sys.framework.controller.interceptor;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.MultiCampusIdentityService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
@@ -44,7 +44,7 @@ public class MultiCampusDummyLoginFilter implements Filter {
     private boolean showPassword = false;
     private List<CampusContract> campuses;
     public void init(FilterConfig config) throws ServletException {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         
         loginPath = config.getInitParameter("loginPath");
         showPassword = new Boolean(config.getInitParameter("showPassword"));
@@ -63,7 +63,7 @@ public class MultiCampusDummyLoginFilter implements Filter {
             }
             if (session == null) {
                 IdentityService auth = KimApiServiceLocator.getIdentityService();
-                MultiCampusIdentityService multiCampusAuth = KraServiceLocator.getService(MultiCampusIdentityService.class);
+                MultiCampusIdentityService multiCampusAuth = KcServiceLocator.getService(MultiCampusIdentityService.class);
                 request.setAttribute("showPasswordField", showPassword);
                 request.setAttribute("campuses", campuses);
                 final String user = request.getParameter("__login_user");

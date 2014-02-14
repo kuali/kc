@@ -18,7 +18,7 @@ package org.kuali.kra.reporting.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.reporting.bo.BirtParameterBean;
 import org.kuali.kra.reporting.bo.CustReportDetails;
 import org.kuali.kra.reporting.service.BirtReportService;
@@ -27,7 +27,8 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertTrue;
 public class BirtReportServiceImplTest extends KcIntegrationTestBase {
     
     private BirtReportService birtReportService;
@@ -37,7 +38,7 @@ public class BirtReportServiceImplTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() throws Exception {
-        birtReportService = KraServiceLocator.getService(BirtReportService.class);
+        birtReportService = KcServiceLocator.getService(BirtReportService.class);
     }
     
     @After

@@ -16,9 +16,9 @@
 package org.kuali.kra.budget.versions;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
@@ -129,7 +129,7 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
      * @return
      */
     public Budget findBudget() {
-        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService docService = KcServiceLocator.getService(DocumentService.class);
         try {
             BudgetDocument budgetDoc = (BudgetDocument) docService.getByDocumentHeaderId(getDocumentNumber());
             return budgetDoc.getBudget();

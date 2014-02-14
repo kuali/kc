@@ -16,10 +16,10 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -91,7 +91,7 @@ public class FinancialEntityHelper implements Serializable {
         newRolodexId = -1;
         prevSponsorCode = Constants.EMPTY_STRING;
         prevNewSponsorCode = Constants.EMPTY_STRING;
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         this.form = form;
     }
     
@@ -165,7 +165,7 @@ public class FinancialEntityHelper implements Serializable {
     }
     
     private FinancialEntityService getFinancialEntityService() {
-        return KraServiceLocator.getService(FinancialEntityService.class);
+        return KcServiceLocator.getService(FinancialEntityService.class);
     }
 
     public void setVersions(PersonFinIntDisclosure personFinIntDisclosure) {

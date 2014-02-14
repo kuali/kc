@@ -24,7 +24,8 @@ import org.kuali.rice.krad.data.DataObjectService;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 /**
  * 
  * This class is used to test RRKeypersonExpandedV1_2 form

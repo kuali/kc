@@ -16,7 +16,7 @@
 package org.kuali.kra.common.notification.bo;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -79,7 +79,7 @@ public class NotificationTypeMaintainableImpl extends KraMaintainableImpl {
     
     public SequenceAccessorService getSequenceAccessorService() {
         if (sequenceAccessorService == null) {
-            sequenceAccessorService = KraServiceLocator.getService(SequenceAccessorService.class);
+            sequenceAccessorService = KcServiceLocator.getService(SequenceAccessorService.class);
         }
         return sequenceAccessorService;
     }

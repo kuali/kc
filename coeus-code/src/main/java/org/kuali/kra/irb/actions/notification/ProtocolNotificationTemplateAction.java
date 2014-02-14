@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -246,7 +246,7 @@ public class ProtocolNotificationTemplateAction extends KualiDocumentActionBase 
     }
 
     private ProtocolNotificationTemplateAuthorizationService getProtocolNotificationTemplateAuthorizationService() {
-        return KraServiceLocator.getService(ProtocolNotificationTemplateAuthorizationService.class);
+        return KcServiceLocator.getService(ProtocolNotificationTemplateAuthorizationService.class);
     }
 
 }

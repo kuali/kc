@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -47,7 +47,7 @@ public class AlterProposalDataAuthorizer extends ProposalAuthorizer {
        
         //check to see if the parent is enroute, if so deny the edit attempt.
         if( doc.getDevelopmentProposal().isChild() ) {
-            ProposalHierarchyService hService = KraServiceLocator.getService( ProposalHierarchyService.class);
+            ProposalHierarchyService hService = KcServiceLocator.getService(ProposalHierarchyService.class);
             try {
                 if( hService.getParentWorkflowDocument(doc).isEnroute() )
                     ret = false;

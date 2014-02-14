@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
@@ -38,7 +38,7 @@ public class CountryCodeValuesFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-            CountryService countryService = KraServiceLocator.getService(CountryService.class);
+            CountryService countryService = KcServiceLocator.getService(CountryService.class);
             List<Country> countries = countryService.findAllCountries();
             Country defaultCountry = countryService.getCountry(getDefaultCountryCode());;
             List<KeyValue> keyValues = new ArrayList<KeyValue>();

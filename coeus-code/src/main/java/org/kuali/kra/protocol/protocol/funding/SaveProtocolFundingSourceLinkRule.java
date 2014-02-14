@@ -16,23 +16,23 @@
 package org.kuali.kra.protocol.protocol.funding;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.List;
 
 /**
  * Runs the rule processing for saving a ProtocolBase Funding Source.
  */
-public class SaveProtocolFundingSourceLinkRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<SaveProtocolFundingSourceLinkEvent> {
+public class SaveProtocolFundingSourceLinkRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<SaveProtocolFundingSourceLinkEvent> {
 
     private static final String FUNDING_SOURCE_NUMBER = "fundingSourceNumber";
     
@@ -42,7 +42,7 @@ public class SaveProtocolFundingSourceLinkRule extends KcTransactionalDocumentRu
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(SaveProtocolFundingSourceLinkEvent event) {
         boolean rulePassed = true;
@@ -106,7 +106,7 @@ public class SaveProtocolFundingSourceLinkRule extends KcTransactionalDocumentRu
     
     private SpecialReviewService getSpecialReviewService() {
         if (specialReviewService == null) {
-            specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            specialReviewService = KcServiceLocator.getService(SpecialReviewService.class);
         }
         return specialReviewService;
     }
@@ -117,7 +117,7 @@ public class SaveProtocolFundingSourceLinkRule extends KcTransactionalDocumentRu
     
     public AwardService getAwardService() {
         if (awardService == null) {
-            awardService = KraServiceLocator.getService(AwardService.class);
+            awardService = KcServiceLocator.getService(AwardService.class);
         }
         return awardService;
     }
@@ -128,7 +128,7 @@ public class SaveProtocolFundingSourceLinkRule extends KcTransactionalDocumentRu
     
     public InstitutionalProposalService getInstitutionalProposalService() {
         if (institutionalProposalService == null) {
-            institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+            institutionalProposalService = KcServiceLocator.getService(InstitutionalProposalService.class);
         }
         return institutionalProposalService;
     }

@@ -18,13 +18,15 @@ package org.kuali.kra.test;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
 
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class StateServiceTest extends KcIntegrationTestBase {
     private StateService stateService;
@@ -33,7 +35,7 @@ public class StateServiceTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() throws Exception {
-        stateService = KraServiceLocator.getService(StateService.class);
+        stateService = KcServiceLocator.getService(StateService.class);
     }
     @After
     public void tearDown() throws Exception {

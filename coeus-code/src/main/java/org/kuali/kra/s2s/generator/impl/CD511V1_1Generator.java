@@ -18,7 +18,7 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.cd511V11.CD511Document;
 import gov.grants.apply.forms.cd511V11.CD511Document.CD511;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -42,7 +42,7 @@ public class CD511V1_1Generator extends S2SBaseFormGenerator {
      * Constructs a CD511V1_1Generator.java.
      */
     public CD511V1_1Generator() {
-        s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
     }
 
     /**

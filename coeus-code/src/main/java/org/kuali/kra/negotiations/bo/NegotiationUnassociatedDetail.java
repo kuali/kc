@@ -16,9 +16,9 @@
 package org.kuali.kra.negotiations.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
@@ -304,7 +304,7 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
     }
     
     protected RolodexService getRolodexService() {
-            return KraServiceLocator.getService(RolodexService.class);        
+            return KcServiceLocator.getService(RolodexService.class);
     }
     
     public KcPerson getContactAdmin() {
@@ -501,7 +501,7 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

@@ -20,9 +20,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Watermark;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRendererBase;
@@ -49,7 +49,7 @@ public abstract class ProtocolPrintWatermarkBase implements Watermarkable {
 
 
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
 

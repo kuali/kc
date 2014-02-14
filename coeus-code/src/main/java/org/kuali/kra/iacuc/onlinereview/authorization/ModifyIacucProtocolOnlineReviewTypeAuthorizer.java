@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.onlinereview.authorization;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -36,7 +36,7 @@ public class ModifyIacucProtocolOnlineReviewTypeAuthorizer extends IacucProtocol
         IacucProtocolOnlineReview protocolOnlineReview = (IacucProtocolOnlineReview) task.getProtocolOnlineReview();
         ProtocolOnlineReviewDocumentBase protocolDoc = null;
         try {
-            protocolDoc = (ProtocolOnlineReviewDocumentBase)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
+            protocolDoc = (ProtocolOnlineReviewDocumentBase) KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
         
             if ( protocolOnlineReview.getProtocolOnlineReviewId() != null
                     && !protocolOnlineReview.getProtocolOnlineReviewDocument().isViewOnly()) { 

@@ -16,9 +16,9 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonSignature;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -72,7 +72,7 @@ public class PersonSignatureLookupableHelperServiceImpl extends KualiLookupableH
     }
     
     public KcPersonService getKcPersonService() {
-        return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
+        return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }
 
     @Override

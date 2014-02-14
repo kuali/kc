@@ -19,9 +19,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.printing.service.NegotiationPrintingService;
@@ -104,7 +104,7 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
     
     protected NegotiationService getNegotiationService() {
         if (negotiationService == null) {
-            negotiationService = KraServiceLocator.getService(NegotiationService.class);
+            negotiationService = KcServiceLocator.getService(NegotiationService.class);
         }
         return negotiationService;
     }
@@ -115,7 +115,7 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
     
     public SequenceAccessorService getSequenceAccessorService() {
         if (sequenceAccessorService == null) {
-            sequenceAccessorService = KraServiceLocator.getService(SequenceAccessorService.class);
+            sequenceAccessorService = KcServiceLocator.getService(SequenceAccessorService.class);
         }
         return sequenceAccessorService;
     }
@@ -126,7 +126,7 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
     
     public NegotiationPrintingService getNegotiationPrintingService() {
         if (negotiationPrintingService == null) {
-            negotiationPrintingService = KraServiceLocator.getService(NegotiationPrintingService.class);
+            negotiationPrintingService = KcServiceLocator.getService(NegotiationPrintingService.class);
         }
         return negotiationPrintingService;
     }
@@ -137,7 +137,7 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
     
     protected KcNotificationService getNotificationService() {
         if (notificationService == null) {
-            notificationService = KraServiceLocator.getService(KcNotificationService.class);
+            notificationService = KcServiceLocator.getService(KcNotificationService.class);
         }
         return notificationService;
     }
@@ -148,7 +148,7 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
     
     protected KualiRuleService getKualiRuleService() {
         if (kualiRuleService == null) {
-            kualiRuleService = KraServiceLocator.getService(KualiRuleService.class);
+            kualiRuleService = KcServiceLocator.getService(KualiRuleService.class);
         }
         return kualiRuleService;
     }

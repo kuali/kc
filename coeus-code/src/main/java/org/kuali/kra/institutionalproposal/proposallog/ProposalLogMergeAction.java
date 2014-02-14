@@ -18,7 +18,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -54,7 +54,7 @@ public class ProposalLogMergeAction extends KualiAction {
     }
     
     protected ProposalLogService getProposalLogService() {
-        return KraServiceLocator.getService(ProposalLogService.class);
+        return KcServiceLocator.getService(ProposalLogService.class);
     }
     
     protected ConfigurationService getKualiConfigurationService() {

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.commitments;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -205,7 +205,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
+        return (BusinessObjectService) KcServiceLocator.getService("businessObjectService");
     }
 
     /**

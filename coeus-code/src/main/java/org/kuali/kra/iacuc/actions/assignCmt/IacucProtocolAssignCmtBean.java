@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.assignCmt;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 
 import java.io.Serializable;
@@ -59,6 +59,6 @@ public class IacucProtocolAssignCmtBean extends  IacucProtocolActionBean impleme
     }
    
     protected IacucProtocolAssignCmtService getAssignCmtService() {
-        return KraServiceLocator.getService(IacucProtocolAssignCmtService.class);
+        return KcServiceLocator.getService(IacucProtocolAssignCmtService.class);
     }
 }

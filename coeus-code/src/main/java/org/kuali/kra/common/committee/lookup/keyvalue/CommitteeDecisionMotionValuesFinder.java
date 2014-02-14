@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.committee.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -59,7 +59,7 @@ public class CommitteeDecisionMotionValuesFinder extends FormViewAwareUifKeyValu
      */
     public KeyValuesService getKeyValuesService() {
         if (this.keyValuesService == null) {
-            this.keyValuesService = KraServiceLocator.getService(KeyValuesService.class);
+            this.keyValuesService = KcServiceLocator.getService(KeyValuesService.class);
         }
         return this.keyValuesService;
     }

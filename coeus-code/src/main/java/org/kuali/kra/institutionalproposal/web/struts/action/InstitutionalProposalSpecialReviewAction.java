@@ -20,6 +20,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
@@ -27,7 +28,6 @@ import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationContext;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
@@ -292,7 +292,7 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     
     public SpecialReviewService getSpecialReviewService() {
         if (specialReviewService == null) {
-            specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            specialReviewService = KcServiceLocator.getService(SpecialReviewService.class);
         }
         return specialReviewService;
     }

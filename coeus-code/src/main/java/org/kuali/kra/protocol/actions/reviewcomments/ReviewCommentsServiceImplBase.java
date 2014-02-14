@@ -18,6 +18,7 @@ package org.kuali.kra.protocol.actions.reviewcomments;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
@@ -26,7 +27,6 @@ import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -367,7 +367,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     }
 
     private boolean isAdministrator(String principalId) {
-        RoleService roleService = KraServiceLocator.getService(RoleService.class);
+        RoleService roleService = KcServiceLocator.getService(RoleService.class);
         Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE,
                getAdministratorRoleHook(), null);
         return ids.contains(principalId);
@@ -435,7 +435,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
                     doUpdate = true;
                     // we update the user name only if certain important fields have changed
                     if (reviewComment.isUpdateUserToBeRecorded(pristineInstance)) {                            
-                        KcPerson kcPerson = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                        KcPerson kcPerson = KcServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                         reviewComment.setUpdateUserFullName(kcPerson.getFullName());
                     }
                 }

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Rule Event for creating renewal without amendment.
@@ -47,7 +47,7 @@ public abstract class CreateRenewalEventBase extends KcDocumentEventBaseExtensio
         return renewalSummary;
     }
 
-    public abstract BusinessRuleInterface getRule();
+    public abstract KcBusinessRule getRule();
 
 }
 

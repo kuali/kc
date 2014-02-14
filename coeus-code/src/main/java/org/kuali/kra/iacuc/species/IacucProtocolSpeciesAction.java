@@ -18,13 +18,13 @@ package org.kuali.kra.iacuc.species;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -98,7 +98,7 @@ public class IacucProtocolSpeciesAction extends IacucProtocolAction{
     }
 
     protected IacucProtocolSpeciesService getIacucProtocolSpeciesService() {
-        return (IacucProtocolSpeciesService)KraServiceLocator.getService("iacucProtocolSpeciesService");
+        return (IacucProtocolSpeciesService) KcServiceLocator.getService("iacucProtocolSpeciesService");
     }
     
 }

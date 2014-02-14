@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CustomAttributeDocValue;
@@ -25,7 +26,6 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.permissions.web.bean.AssignedRole;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -162,7 +162,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
           protocolSummary.setSchoolInfo(schoolInfoType);
     }
     private String getProposalParameterValue(String param) {
-        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
+        ParameterService parameterService = KcServiceLocator.getService(ParameterService.class);
         return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, param);
     }
 
@@ -241,7 +241,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
             primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
             primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
 
-            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
             if (customAttributeDocValue != null) {
                 customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
             }
@@ -314,8 +314,8 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
     }
     private void setProtocolNotes(ProtocolSummary protocolSummary, Protocol protocol) {
         List<ProtocolNotepad> protocolNotes = (List) protocol.getNotepads();
-        boolean isProtocolPerson = KraServiceLocator.getService(ProtocolActionService.class).isProtocolPersonnel(protocol);
-        boolean hasPermission = KraServiceLocator.getService(ProtocolNotificationTemplateAuthorizationService.class).hasPermission(
+        boolean isProtocolPerson = KcServiceLocator.getService(ProtocolActionService.class).isProtocolPersonnel(protocol);
+        boolean hasPermission = KcServiceLocator.getService(ProtocolNotificationTemplateAuthorizationService.class).hasPermission(
                 PermissionConstants.VIEW_RESTRICTED_NOTES);
         for (ProtocolNotepad protocolNotepad : protocolNotes) {
             boolean restrictedView = protocolNotepad.getRestrictedView();
@@ -676,7 +676,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
     public SponsorService getSponsorService() {
         if (sponsorService == null) {
-            sponsorService = KraServiceLocator.getService(SponsorService.class);
+            sponsorService = KcServiceLocator.getService(SponsorService.class);
         }
         return sponsorService;
     }
@@ -687,7 +687,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
     public UnitService getUnitService() {
         if (unitService == null) {
-            unitService = KraServiceLocator.getService(UnitService.class);
+            unitService = KcServiceLocator.getService(UnitService.class);
         }
         return unitService;
     }
@@ -698,7 +698,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }
@@ -709,7 +709,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
     public InstitutionalProposalService getInstitutionalProposalService() {
         if (institutionalProposalService == null) {
-            institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+            institutionalProposalService = KcServiceLocator.getService(InstitutionalProposalService.class);
         }
         return institutionalProposalService;
     }
@@ -720,7 +720,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
  
     public AwardService getAwardService() {
         if (awardService == null) {
-            awardService = KraServiceLocator.getService(AwardService.class);
+            awardService = KcServiceLocator.getService(AwardService.class);
         }
         return awardService;
     }

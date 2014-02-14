@@ -1,10 +1,11 @@
 package org.kuali.kra.test.infrastructure.test;
 
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ScienceKeyword;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
 import static org.junit.Assert.*;
 public class DbTransactionTest extends KcIntegrationTestBase {
     private static final String KEYWORD_1 = "TK1";
@@ -21,7 +22,7 @@ public class DbTransactionTest extends KcIntegrationTestBase {
     }
     
     public void rollbackTest(String newMessage, String oldMessage) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         ScienceKeyword newKeyword = new ScienceKeyword();
         newKeyword.setScienceKeywordCode(newMessage);
         newKeyword.setDescription(newMessage);

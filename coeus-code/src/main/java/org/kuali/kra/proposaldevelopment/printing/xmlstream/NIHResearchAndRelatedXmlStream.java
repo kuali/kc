@@ -50,6 +50,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlToken;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.ContactRole;
@@ -68,7 +69,6 @@ import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
@@ -585,7 +585,7 @@ AbstractResearchAndRelatedStream {
     }
 
     private String getMajorSubDivision(String leadUnit) {
-        UnitService unitService = KraServiceLocator.getService(UnitService.class);
+        UnitService unitService = KcServiceLocator.getService(UnitService.class);
         List<Unit> units = unitService.getAllSubUnits("000001");
         for (Unit unit : units) {
             if(unit.getUnitNumber().equals(leadUnit)){

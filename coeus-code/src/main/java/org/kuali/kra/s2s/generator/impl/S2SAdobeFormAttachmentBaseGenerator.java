@@ -16,10 +16,10 @@
 package org.kuali.kra.s2s.generator.impl;
 
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -166,7 +166,7 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
      */
     protected static KcAttachmentService getKcAttachmentService() {
         if (kcAttachmentService == null) {
-            kcAttachmentService = KraServiceLocator.getService(KcAttachmentService.class);
+            kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
         }
         return kcAttachmentService;
     }
@@ -255,7 +255,7 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
 

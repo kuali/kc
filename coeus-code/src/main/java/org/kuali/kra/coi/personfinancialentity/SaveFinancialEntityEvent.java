@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 
 /**
@@ -46,7 +46,7 @@ public class SaveFinancialEntityEvent  extends KcDocumentEventBaseExtension {
     
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new SaveFinancialEntityRule();
     }
 

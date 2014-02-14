@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.protocol.actions.genericactions;
 
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.kra.infrastructure.KeyConstants;
 
 /**
  * Encapsulates the rules for performing a generic action.
  */
-public abstract class ProtocolGenericActionRuleBase<E extends ProtocolGenericActionEventBase> extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<E> {
+public abstract class ProtocolGenericActionRuleBase<E extends ProtocolGenericActionEventBase> extends KcTransactionalDocumentRuleBase implements KcBusinessRule<E> {
     
     private static final String ACTION_DATE_FIELD = "actionDate";
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(E event) {
         boolean isValid = true;

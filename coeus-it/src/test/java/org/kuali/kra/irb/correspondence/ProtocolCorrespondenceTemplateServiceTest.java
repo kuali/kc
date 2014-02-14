@@ -24,7 +24,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -97,7 +97,7 @@ public class ProtocolCorrespondenceTemplateServiceTest extends KcIntegrationTest
      * @return ProtocolCorrespondenceTemplateService
      */
     private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
-        return (ProtocolCorrespondenceTemplateService) KraServiceLocator.getService("protocolCorrespondenceTemplateService");
+        return (ProtocolCorrespondenceTemplateService) KcServiceLocator.getService("protocolCorrespondenceTemplateService");
     }
 
     private void simulateValidMockedFileBehavior() throws IOException {

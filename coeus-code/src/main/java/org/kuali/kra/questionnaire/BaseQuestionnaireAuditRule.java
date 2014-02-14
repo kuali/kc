@@ -16,13 +16,13 @@
 package org.kuali.kra.questionnaire;
 
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -106,7 +106,7 @@ public abstract class BaseQuestionnaireAuditRule<T extends KcTransactionalDocume
     }
   
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
 }

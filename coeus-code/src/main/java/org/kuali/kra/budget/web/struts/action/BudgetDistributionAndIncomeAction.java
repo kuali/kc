@@ -20,20 +20,20 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.*;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.KualiRuleService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 public class BudgetDistributionAndIncomeAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetDistributionAndIncomeAction.class);
@@ -46,7 +46,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      */
     public BudgetDistributionAndIncomeAction() {
         super();
-        bdiService = KraServiceLocator.getService(BudgetDistributionAndIncomeService.class);
+        bdiService = KcServiceLocator.getService(BudgetDistributionAndIncomeService.class);
     }
 
     /**

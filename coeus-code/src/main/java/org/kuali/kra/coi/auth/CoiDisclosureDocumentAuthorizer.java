@@ -18,8 +18,8 @@ package org.kuali.kra.coi.auth;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -77,7 +77,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
     
     protected boolean canApprove(String userId, CoiDisclosureDocument doc, String taskName) {
         CoiDisclosureTask task = new CoiDisclosureTask(taskName, doc.getCoiDisclosure());       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
@@ -106,7 +106,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     private boolean canCreateCoiDisclosure(Person user) {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_COI_DISCLOSURE);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     
@@ -119,7 +119,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     private boolean canExecuteCoiDisclosureTask(String userId, CoiDisclosureDocument doc, String taskName) {
         CoiDisclosureTask task = new CoiDisclosureTask(taskName, doc.getCoiDisclosure());       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     

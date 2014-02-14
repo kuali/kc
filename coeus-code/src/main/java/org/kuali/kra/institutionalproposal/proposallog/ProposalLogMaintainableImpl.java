@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.service.FiscalYearMonthService;
@@ -142,21 +142,21 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     
     private FiscalYearMonthService getFiscalYearMonthService() {
         if (this.fiscalYearMonthService == null) {
-            fiscalYearMonthService = KraServiceLocator.getService(FiscalYearMonthService.class);
+            fiscalYearMonthService = KcServiceLocator.getService(FiscalYearMonthService.class);
         }
         return this.fiscalYearMonthService;
     }
     
     private DateTimeService getDateTimeService() {
         if (this.dateTimeService == null) {
-            dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
         }
         return this.dateTimeService;
     }
 
     protected InstitutionalProposalService getInstitutionalProposalService() {
         if (institutionalProposalService == null) {
-            institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+            institutionalProposalService = KcServiceLocator.getService(InstitutionalProposalService.class);
         }
         return institutionalProposalService;
     }

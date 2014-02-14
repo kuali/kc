@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.coi.certification;
 
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 //TODO: Note, this is a stub class that must be filled out to allow print and submission of disclosure certification.
 
-public class CertifyDisclosureRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<CertifyDisclosureEvent> {
+public class CertifyDisclosureRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<CertifyDisclosureEvent> {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(CertifyDisclosureEvent event) {
         boolean isValid = true;

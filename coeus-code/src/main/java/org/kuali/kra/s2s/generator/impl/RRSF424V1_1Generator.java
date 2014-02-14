@@ -30,6 +30,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
@@ -38,7 +39,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -434,7 +434,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         if (answer != null && answer.equals(YesNoDataType.Y_YES)) {
             String answerExplanation = getAnswer(ANSWER_111);
             if (answerExplanation != null) {
-                Collection<ArgValueLookup> argDescription = KraServiceLocator.getService(BusinessObjectService.class).findAll(ArgValueLookup.class);
+                Collection<ArgValueLookup> argDescription = KcServiceLocator.getService(BusinessObjectService.class).findAll(ArgValueLookup.class);
                 if (argDescription != null) {
                     for (ArgValueLookup argValue : argDescription) {
                         if (argValue.getValue().equals(answerExplanation)) {
@@ -536,7 +536,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 					}
 				}
 				if(PI.getHomeUnit() != null) {
-                    KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+                    KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
                     KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
                     String departmentName =  kcPersons.getOrganizationIdentifier();
                     PDPI.setDepartmentName(departmentName);

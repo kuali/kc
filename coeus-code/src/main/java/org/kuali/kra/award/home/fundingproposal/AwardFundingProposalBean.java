@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -182,11 +182,11 @@ public class AwardFundingProposalBean implements Serializable {
      * @return
      */
     BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
+        return (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);
     }
     
     AwardService getAwardService() {
-        return (AwardService) KraServiceLocator.getService(AwardService.class);
+        return (AwardService) KcServiceLocator.getService(AwardService.class);
     }
     
     private void createNewFundingProposal() {
@@ -397,10 +397,10 @@ public class AwardFundingProposalBean implements Serializable {
     }
     
     protected InstitutionalProposalService getInstitutionalProposalService() {
-        return KraServiceLocator.getService(InstitutionalProposalService.class);
+        return KcServiceLocator.getService(InstitutionalProposalService.class);
     }
     
     protected PermissionService getPermissionService() {
-        return KraServiceLocator.getService(PermissionService.class);
+        return KcServiceLocator.getService(PermissionService.class);
     }    
 }

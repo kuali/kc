@@ -16,9 +16,9 @@
 package org.kuali.kra.coi.auth;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -88,7 +88,7 @@ public class MaintainCoiDisclosureNotesAuthorizer extends CoiDisclosureAuthorize
     }
 
     protected PermissionService getPermissionService() {
-        return KraServiceLocator.getService(PermissionService.class);
+        return KcServiceLocator.getService(PermissionService.class);
     }
 
     private Map<String, String> getQualificationMap(CoiDisclosure coiDisclosure) {

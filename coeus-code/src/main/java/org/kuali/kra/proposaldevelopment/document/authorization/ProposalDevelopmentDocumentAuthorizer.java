@@ -18,10 +18,10 @@ package org.kuali.kra.proposaldevelopment.document.authorization;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
@@ -208,7 +208,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             }
         }
         
-        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         
         int i = 0;
         boolean canReplace = taskAuthorizationService.isAuthorized(userId, new ProposalTask(TaskName.REPLACE_PERSONNEL_ATTACHMENT, doc));
@@ -245,7 +245,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
      */
     private boolean canExecuteProposalTask(String userId, ProposalDevelopmentDocument doc, String taskName) {
         ProposalTask task = new ProposalTask(taskName, doc);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
@@ -269,7 +269,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
      */
     private boolean canCreateProposal(Person user) {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     

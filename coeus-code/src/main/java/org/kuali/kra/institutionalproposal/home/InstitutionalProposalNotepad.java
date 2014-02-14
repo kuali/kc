@@ -16,9 +16,9 @@
 package org.kuali.kra.institutionalproposal.home;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -160,7 +160,7 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     @Override
     @SuppressWarnings("unchecked")
     protected void postPersist() {
-        NoteService noteService = KraServiceLocator.getService(NoteService.class);
+        NoteService noteService = KcServiceLocator.getService(NoteService.class);
         for (Note note : getAttachments()) {
             if (StringUtils.isBlank(note.getRemoteObjectIdentifier())) {
                 note.setRemoteObjectIdentifier(this.getObjectId());
@@ -172,19 +172,19 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
         //maintaining the link to this object.
         if (!getAttachments().isEmpty() && (getNoteId() == null || getNoteId() != getAttachments().get(0).getNoteIdentifier())) {
             setNoteId(getAttachments().get(0).getNoteIdentifier());
-            KraServiceLocator.getService(BusinessObjectService.class).save(this);
+            KcServiceLocator.getService(BusinessObjectService.class).save(this);
         }
     }
 
     public List<Note> getAttachments() {
         if (attachments.isEmpty() && getNoteId() != null) {
-            Note note = KraServiceLocator.getService(NoteService.class).getNoteByNoteId(getNoteId());
+            Note note = KcServiceLocator.getService(NoteService.class).getNoteByNoteId(getNoteId());
             if (note != null) {
                 attachments.add(note);
             }
         }
         if (attachments.isEmpty() && StringUtils.isNotEmpty(getObjectId())) {
-            attachments = KraServiceLocator.getService(NoteService.class).getByRemoteObjectId(getObjectId());
+            attachments = KcServiceLocator.getService(NoteService.class).getByRemoteObjectId(getObjectId());
             //if we didn't have a valid note id, but we have an attachment, set the note id here.
             if (!attachments.isEmpty()) {
                 setNoteId(attachments.get(0).getNoteIdentifier());
@@ -210,7 +210,7 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     }
 
     public String getCreateUserName() {
-        Person tempUser = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getCreateUser());
+        Person tempUser = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getCreateUser());
         return tempUser != null ? tempUser.getName() : this.getCreateUser();
     }
     

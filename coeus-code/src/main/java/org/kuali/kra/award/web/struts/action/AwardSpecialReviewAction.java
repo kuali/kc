@@ -20,6 +20,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -32,7 +33,6 @@ import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -300,7 +300,7 @@ public class AwardSpecialReviewAction extends AwardAction {
     
     public SpecialReviewService getSpecialReviewService() {
         if (specialReviewService == null) {
-            specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            specialReviewService = KcServiceLocator.getService(SpecialReviewService.class);
         }
         return specialReviewService;
     }

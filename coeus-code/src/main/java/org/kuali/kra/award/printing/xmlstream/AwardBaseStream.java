@@ -15,25 +15,9 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import org.kuali.kra.printing.schema.*;
-import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
-import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.AODetails;
-import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
-import org.kuali.kra.printing.schema.AwardType.*;
-import org.kuali.kra.printing.schema.AwardType.AwardCloseOutDeadlines.CloseOutDeadlines;
-import org.kuali.kra.printing.schema.AwardType.AwardContacts.ContactDetails;
-import org.kuali.kra.printing.schema.AwardType.AwardCostSharing.CostSharingItem;
-import org.kuali.kra.printing.schema.AwardType.AwardDetails.OtherHeaderDetails;
-import org.kuali.kra.printing.schema.AwardType.AwardFundingProposals.FundingProposal;
-import org.kuali.kra.printing.schema.AwardType.AwardIndirectCosts.IndirectCostSharingItem;
-import org.kuali.kra.printing.schema.AwardType.AwardPaymentSchedules.PaymentSchedule;
-import org.kuali.kra.printing.schema.AwardType.AwardSpecialItems.Equipment;
-import org.kuali.kra.printing.schema.AwardType.AwardSpecialItems.ForeignTravel;
-import org.kuali.kra.printing.schema.AwardType.AwardSpecialItems.Subcontract;
-import org.kuali.kra.printing.schema.AwardType.AwardTransferringSponsors.TransferringSponsor;
-import org.kuali.kra.printing.schema.SpecialReviewType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -59,7 +43,23 @@ import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.costshare.CostShareService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.AODetails;
+import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
+import org.kuali.kra.printing.schema.AwardType.*;
+import org.kuali.kra.printing.schema.AwardType.AwardCloseOutDeadlines.CloseOutDeadlines;
+import org.kuali.kra.printing.schema.AwardType.AwardContacts.ContactDetails;
+import org.kuali.kra.printing.schema.AwardType.AwardCostSharing.CostSharingItem;
+import org.kuali.kra.printing.schema.AwardType.AwardDetails.OtherHeaderDetails;
+import org.kuali.kra.printing.schema.AwardType.AwardFundingProposals.FundingProposal;
+import org.kuali.kra.printing.schema.AwardType.AwardIndirectCosts.IndirectCostSharingItem;
+import org.kuali.kra.printing.schema.AwardType.AwardPaymentSchedules.PaymentSchedule;
+import org.kuali.kra.printing.schema.AwardType.AwardSpecialItems.Equipment;
+import org.kuali.kra.printing.schema.AwardType.AwardSpecialItems.ForeignTravel;
+import org.kuali.kra.printing.schema.AwardType.AwardSpecialItems.Subcontract;
+import org.kuali.kra.printing.schema.AwardType.AwardTransferringSponsors.TransferringSponsor;
+import org.kuali.kra.printing.schema.SpecialReviewType;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
@@ -1150,7 +1150,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	}
 	
 	private String getProjectPeriodFieldDescription() {
-	    String retVal =  KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+	    String retVal =  KcServiceLocator.getService(CostShareService.class).getCostShareLabel();
 	    return retVal;
 	}
 	

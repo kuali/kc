@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * 
@@ -58,7 +58,7 @@ public abstract class ProtocolAddReviewAttachmentEventBase<PRA extends ProtocolR
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return getNewProtocolAddReviewAttachmentRuleInstancehook();
     }
 

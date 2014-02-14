@@ -20,8 +20,8 @@ import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.reporting.bo.BirtParameterBean;
 import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
 
@@ -116,7 +116,7 @@ public class BirtHelper {
     
     public static XAPoolDataSource getXAPoolDataSource() {
         if (xAPoolDataSource == null) {
-            xAPoolDataSource =  KraServiceLocator.getService("dataSourceXAPool");
+            xAPoolDataSource =  KcServiceLocator.getService("dataSourceXAPool");
         }
         return xAPoolDataSource;
     }

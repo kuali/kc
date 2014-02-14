@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.notification;
 
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.common.notification.NotificationContextBase;
@@ -24,7 +25,6 @@ import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.util.EmailAttachment;
 import org.springframework.util.CollectionUtils;
 
@@ -57,9 +57,9 @@ public class CoiNotificationContext extends NotificationContextBase {
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
-        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(CoiNotificationRoleQualifierService.class));
+        setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
+        setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
+        setNotificationRoleQualifierService(KcServiceLocator.getService(CoiNotificationRoleQualifierService.class));
         ((CoiNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCoiDisclosure(coiDisclosure);
     }
     

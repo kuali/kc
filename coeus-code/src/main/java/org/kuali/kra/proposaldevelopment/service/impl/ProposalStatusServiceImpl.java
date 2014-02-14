@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -69,7 +69,7 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
      * @return ProposalStatus
      */
     protected ProposalBudgetStatus getProposalStatus(String proposalNumber) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put(Constants.PROPOSAL_NUMBER, proposalNumber);
         ProposalBudgetStatus proposalStatus = (ProposalBudgetStatus) boService.findByPrimaryKey(ProposalBudgetStatus.class, keyMap);

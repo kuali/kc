@@ -17,13 +17,13 @@ package org.kuali.kra.award.document.authorization;
 
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -262,7 +262,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             //User cannot cancel if there are FINAL child awards and if this document is the first version 
             //which could possibly happen after an AH is copied
             AwardDocument awardDocument = (AwardDocument) document;
-            AwardHierarchyService awardHierarchyService = KraServiceLocator.getService(AwardHierarchyService.class);
+            AwardHierarchyService awardHierarchyService = KcServiceLocator.getService(AwardHierarchyService.class);
             Award currentAward = awardDocument.getAward();
             Map<String, AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
             Map<String, AwardHierarchy> awardHierarchyItems = awardHierarchyService.getAwardHierarchy(awardDocument.getAward().getAwardNumber(), new ArrayList<String>());
@@ -306,7 +306,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     @Override
     public boolean canBlanketApprove(Document document, Person user) {
         boolean canBA = false;
-        PermissionService permService = KraServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
+        PermissionService permService = KcServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
         canBA = 
                 (!(isFinal(document)||isProcessed (document))&&
                         permService.hasPermission (user.getPrincipalId(), "KC-AWARD", "Blanket Approve AwardDocument"));
@@ -364,7 +364,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public AwardHierarchyService getAwardHierarchyService() {
         if (awardHierarchyService == null) {
             awardHierarchyService = 
-                    KraServiceLocator.getService(AwardHierarchyService.class);
+                    KcServiceLocator.getService(AwardHierarchyService.class);
         }
         return awardHierarchyService;
     }
@@ -381,7 +381,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     @Override
     public boolean canRoute(Document document, Person user) {
         boolean canRoute = false;
-        PermissionService permService = KraServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
+        PermissionService permService = KcServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
         canRoute = 
                 (!(isFinal(document)||isProcessed (document))&&
                         permService.hasPermission (user.getPrincipalId(), "KC-AWARD", "Submit Award"));

@@ -16,8 +16,8 @@
 package org.kuali.kra.irb.notification;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
@@ -46,7 +46,7 @@ public class IRBProtocolNotification extends ProtocolNotification {
         Protocol protocol = (Protocol)object;
         this.setOwningDocumentIdFk(protocol.getLastProtocolAction().getProtocolActionId());
         protocol.getLastProtocolAction().addNotification(this);
-        KraServiceLocator.getService(BusinessObjectService.class).save(this);
+        KcServiceLocator.getService(BusinessObjectService.class).save(this);
     }
 
     public static IRBProtocolNotification copy(KcNotification notification) {

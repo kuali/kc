@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.common.notification.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.SendNotificationRule;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class SendNotificationEvent extends KcDocumentEventBaseExtension {
     }
 
     @Override
-    public BusinessRuleInterface<SendNotificationEvent> getRule() {
+    public KcBusinessRule<SendNotificationEvent> getRule() {
         return new SendNotificationRule();
     }
 
