@@ -30,6 +30,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class KcConfigurer extends ModuleConfigurer {
@@ -43,7 +44,7 @@ public class KcConfigurer extends ModuleConfigurer {
 
     public KcConfigurer() {
         super();
-        setValidRunModes(Arrays.asList(RunMode.LOCAL, RunMode.THIN));
+        setValidRunModes(Collections.singletonList(RunMode.LOCAL));
     }
 
     public KcConfigurer(String moduleName, String moduleTitle) {
